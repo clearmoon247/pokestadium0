@@ -1,0 +1,1 @@
+8545069640e109ba1d044f0961e0f95af250d93f94e157dd9db242ad5c7cb339  docs/pragma-inventory.json

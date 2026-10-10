@@ -1,0 +1,12 @@
+test_generated_c_syntax_in_both_modes (__main__.InventoryTests.test_generated_c_syntax_in_both_modes) ... ok
+test_global_symbol_names_are_unique (__main__.InventoryTests.test_global_symbol_names_are_unique) ... ok
+test_no_owners_for_resource_only_images (__main__.InventoryTests.test_no_owners_for_resource_only_images) ... ok
+test_owner_ranges_and_listing_bytes_match_private_input (__main__.InventoryTests.test_owner_ranges_and_listing_bytes_match_private_input) ... ok
+test_source_inventory_and_guards (__main__.InventoryTests.test_source_inventory_and_guards) ... ok
+test_unresolved_transfers_do_not_block_owners (__main__.InventoryTests.test_unresolved_transfers_do_not_block_owners) ... ok
+test_reference_conditional_direction (__main__.TemplateTests.test_reference_conditional_direction) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.086s
+
+OK

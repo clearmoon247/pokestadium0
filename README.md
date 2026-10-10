@@ -24,11 +24,17 @@ ROM build or toolchain bootstrap is implemented yet. `make rom`, `make extract`,
   sites remain unresolved. The refined maps supersede the initial inventories.
 - [Runtime capture watchlist](docs/sections/refined/runtime-watchlist.csv):
   unresolved-site registers and link-time addresses, not assumed runtime PCs.
+- [Conditional pragma scaffold](docs/pragma-bootstrap.md): 5,444 first-pass
+  assembly owners in 188 C files, with local assembly regeneration and
+  `NON_MATCHING` TODO slots.
 
 The isolated analysis dependencies are pinned in `requirements-mapping.txt`.
-The reports include reproduction commands and evidence from 28 passing tests.
-No `/src` pragma inventory, Stadium 1/2 library match, or rebuilt-ROM identity
-is claimed. All generated binary extraction output remains local and ignored.
+The reports include reproduction commands and evidence from 28 mapping/flow
+tests plus seven pragma-scaffold tests, all passing in the tested environment.
+The pragma inventory is a first-pass assembly-owner scaffold, not recovered
+original function/translation-unit boundaries or matching C. No Stadium 1/2
+library match or rebuilt-ROM identity is claimed. Generated assembly and binary
+extraction output remain local and ignored.
 
 It targets the following ROM:
 
