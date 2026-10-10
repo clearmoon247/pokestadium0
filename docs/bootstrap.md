@@ -16,7 +16,9 @@ The following must be resolved before a real build can be claimed. None are veri
 
 - **ROM identity** — place a verified Japanese Stadium Zero `baserom.z64` and record
   its MD5 in `baseroms/jp/checksum.md5` (do not commit the ROM or retail assets).
-  Validate the input ROM against the recorded MD5 before extracting.
+  Validate the input ROM’s identity before extraction. Once building is
+  implemented, compare the rebuilt ROM byte-for-byte against that verified
+  input. Input checksum validation alone does not verify a build.
 - **Compiler/flags** — confirm the original IDO version and per-file flags for Stadium
   Zero; do not assume Stadium 1 US settings apply.
 - **Segment layout** — populate `yamls/jp/header.yaml` and `yamls/jp/rom.yaml` from a
