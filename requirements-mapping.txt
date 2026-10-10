@@ -1,0 +1,7 @@
+# Isolated binary-mapping tools, not a confirmed production compiler toolchain.
+rabbitizer==1.16.2
+crunch64==0.6.2
+splat64==0.50.1
+spimdisasm==1.42.4
+n64img==0.3.3
+pygfxd==1.0.5

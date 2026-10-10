@@ -1,0 +1,29 @@
+test_all_image_partitions_are_exact (__main__.InputBackedTests.test_all_image_partitions_are_exact) ... ok
+test_code_and_noncode_inventory (__main__.InputBackedTests.test_code_and_noncode_inventory) ... ok
+test_instruction_relocations_are_covered (__main__.InputBackedTests.test_instruction_relocations_are_covered) ... ok
+test_data_pointer_is_not_code_seed (__main__.SyntheticTests.test_data_pointer_is_not_code_seed) ... ok
+test_delay_relocation_does_not_fall_into_data (__main__.SyntheticTests.test_delay_relocation_does_not_fall_into_data) ... ok
+test_header_nops_are_not_code (__main__.SyntheticTests.test_header_nops_are_not_code) ... ok
+test_leaf_stack_entry (__main__.SyntheticTests.test_leaf_stack_entry) ... ok
+test_valid_texture_words_are_not_code (__main__.SyntheticTests.test_valid_texture_words_are_not_code) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.102s
+
+OK
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.093s
+
+OK
+{
+  "image_count": 259,
+  "instruction_bytes": 849076,
+  "images_with_rejected_paths": 0,
+  "images_with_indirect_jumps": 13,
+  "images_with_cpu_code_evidence": 187,
+  "images_without_cpu_code_evidence": 72,
+  "candidate_text_envelope_bytes": 925560
+}
+d6fc35e111d6251e3c0747b7350b24b7a4ec9826fc6652db9a8d01abe34da4ae  docs/sections/fragment-sections.json
+a07daa6796162a2f6f3595069ed0f96eb1dcd3e744936de97dcd99d72244628b  docs/sections/fragment-sections.csv

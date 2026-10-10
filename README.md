@@ -5,11 +5,30 @@ This is a **Team Hippodrome original** project; the layout and conventions follo
 [pret](https://pret.github.io/)'s decompilation style, but pret is not involved with
 this recompilation.
 
-**Status: bootstrap scaffold.** No ROM build, ROM extraction, or toolchain
-bootstrap is implemented yet. `make rom`, `make extract`, `make setup`,
+**Status: mapping and static-analysis bootstrap; not a buildable decomp.**
+Resident/fragment storage mapping, evidence-labelled executable sections, and
+indirect-flow analysis are implemented as standalone Python tools. No production
+ROM build or toolchain bootstrap is implemented yet. `make rom`, `make extract`, `make setup`,
 `make diff-init`, and `make init` all fail with a clear error by design. See
 [docs/bootstrap.md](docs/bootstrap.md) for the open bootstrap gates and
 [COVERAGE.md](COVERAGE.md) for the (unmeasured) coverage state.
+
+## Completed analysis
+
+- [Resident and fragment mappings](docs/mappings/README.md): input hashes,
+  resident layout, compression/restoration rules, and 259 fragment images.
+- [Initial executable-section map](docs/sections/stadium-zero-fragment-executable-sections.md):
+  evidence spans and explicitly inferred text envelopes.
+- [Latest indirect-flow and gap validation](docs/sections/refined/flow-and-gap-validation.md):
+  217 static target sets across 288 recovered indirect sites; 71 runtime-dependent
+  sites remain unresolved. The refined maps supersede the initial inventories.
+- [Runtime capture watchlist](docs/sections/refined/runtime-watchlist.csv):
+  unresolved-site registers and link-time addresses, not assumed runtime PCs.
+
+The isolated analysis dependencies are pinned in `requirements-mapping.txt`.
+The reports include reproduction commands and evidence from 28 passing tests.
+No `/src` pragma inventory, Stadium 1/2 library match, or rebuilt-ROM identity
+is claimed. All generated binary extraction output remains local and ignored.
 
 It targets the following ROM:
 

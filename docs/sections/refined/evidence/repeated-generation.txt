@@ -1,0 +1,19 @@
+{
+  "image_count": 259,
+  "transfer_status_counts": {
+    "resolved_static_bounded_table": 192,
+    "resolved_inspected_register_protocol": 20,
+    "runtime_target_unresolved": 20,
+    "resolved_inspected_masked_table": 5,
+    "known_initializer_candidates_runtime_unresolved": 51
+  },
+  "gap_bytes": {
+    "validated_by_new_flow": 64708,
+    "remaining_instruction_candidate": 10472,
+    "remaining_zero_unproven": 1304
+  },
+  "instruction_evidence_bytes": 913784,
+  "rejected_paths": 0,
+  "cross_fragment_entry_seeds": 2,
+  "remaining_gap_structural_failures": 0
+}

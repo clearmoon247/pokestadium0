@@ -1,0 +1,292 @@
+{
+  "edges": [
+    {
+      "source_image": 1,
+      "source_offset": "0x28",
+      "target_vram": "0x82154c54",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x30",
+      "target_vram": "0x82155040",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x38",
+      "target_vram": "0x82155c80",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x40",
+      "target_vram": "0x82156288",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x48",
+      "target_vram": "0x82156334",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x50",
+      "target_vram": "0x821563e0",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x58",
+      "target_vram": "0x821568fc",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x60",
+      "target_vram": "0x82156d34",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x68",
+      "target_vram": "0x82156e0c",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x70",
+      "target_vram": "0x821574d0",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x78",
+      "target_vram": "0x82157680",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x80",
+      "target_vram": "0x82157830",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x88",
+      "target_vram": "0x82157f74",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x90",
+      "target_vram": "0x82158094",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xa0",
+      "target_vram": "0x8215cc48",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xa8",
+      "target_vram": "0x821597b8",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xb0",
+      "target_vram": "0x821597c4",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xc0",
+      "target_vram": "0x82159ad4",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xc8",
+      "target_vram": "0x82159d28",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xd0",
+      "target_vram": "0x82159e00",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xe8",
+      "target_vram": "0x8215a8b0",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0xf0",
+      "target_vram": "0x8215aabc",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x110",
+      "target_vram": "0x8215b510",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x120",
+      "target_vram": "0x8215c110",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x128",
+      "target_vram": "0x8215d144",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x130",
+      "target_vram": "0x8215de4c",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x138",
+      "target_vram": "0x8215ebfc",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x140",
+      "target_vram": "0x8215afa4",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x148",
+      "target_vram": "0x8215b060",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x150",
+      "target_vram": "0x82153b98",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x158",
+      "target_vram": "0x8215379c",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    },
+    {
+      "source_image": 1,
+      "source_offset": "0x160",
+      "target_vram": "0x82158878",
+      "candidate_images": [
+        12
+      ],
+      "status": "unique_image_slot"
+    }
+  ]
+}

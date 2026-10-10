@@ -1,0 +1,13 @@
+test_all_image_partitions_are_exact (__main__.InputBackedTests.test_all_image_partitions_are_exact) ... ok
+test_code_and_noncode_inventory (__main__.InputBackedTests.test_code_and_noncode_inventory) ... ok
+test_instruction_relocations_are_covered (__main__.InputBackedTests.test_instruction_relocations_are_covered) ... ok
+test_data_pointer_is_not_code_seed (__main__.SyntheticTests.test_data_pointer_is_not_code_seed) ... ok
+test_delay_relocation_does_not_fall_into_data (__main__.SyntheticTests.test_delay_relocation_does_not_fall_into_data) ... ok
+test_header_nops_are_not_code (__main__.SyntheticTests.test_header_nops_are_not_code) ... ok
+test_leaf_stack_entry (__main__.SyntheticTests.test_leaf_stack_entry) ... ok
+test_valid_texture_words_are_not_code (__main__.SyntheticTests.test_valid_texture_words_are_not_code) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 4.915s
+
+OK

@@ -6,13 +6,19 @@ decompilation conventions; pret is not involved with this recompilation.
 
 ## Status
 
-This is a bootstrap. `make rom`, `make extract`, `make setup`, `make diff-init`,
+This is a mapping/static-analysis bootstrap. Standalone tools now record the
+input hashes, resident and fragment storage layout, candidate executable sections,
+and inspected indirect-flow target sets. See [the mapping notes](mappings/README.md)
+and [the latest flow report](sections/refined/flow-and-gap-validation.md).
+
+`make rom`, `make extract`, `make setup`, `make diff-init`,
 and `make init` are intentionally unsupported and fail with a clear error. Do not
 treat the current source tree as producing a buildable ROM.
 
 ## Open bootstrap gates
 
-The following must be resolved before a real build can be claimed. None are verified yet.
+The following production-build gates remain open. The standalone mapping and
+extraction checks do not establish a production build or independent dump identity.
 
 - **ROM identity** — place a verified Japanese Stadium Zero `baserom.z64` and record
   its MD5 in `baseroms/jp/checksum.md5` (do not commit the ROM or retail assets).

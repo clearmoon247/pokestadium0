@@ -30,3 +30,6 @@ tools/vtxdis
 tools/permuter
 tools/n64
 .DS_Store
+
+# Local binary-analysis scratch and rejected exploratory splits.
+.analysis/
