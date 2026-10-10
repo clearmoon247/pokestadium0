@@ -16,11 +16,16 @@ The following must be resolved before a real build can be claimed. None are veri
 
 - **ROM identity** — place a verified Japanese Stadium Zero `baserom.z64` and record
   its MD5 in `baseroms/jp/checksum.md5` (do not commit the ROM or retail assets).
+  Validate the input ROM against the recorded MD5 before extracting.
 - **Compiler/flags** — confirm the original IDO version and per-file flags for Stadium
   Zero; do not assume Stadium 1 US settings apply.
 - **Segment layout** — populate `yamls/jp/header.yaml` and `yamls/jp/rom.yaml` from a
   real split. `make extract` will remain unsupported until these exist.
-- **Link order** — once split, seed `linker_scripts/jp/` and verify against the retail
-  linker map.
-- **Verification** — a green `make init` plus MD5 match is the bootstrap milestone; a
-  full-ROM byte-identity build is a separate, later gate.
+- **Link order** — once split, seed `linker_scripts/jp/` and verify against a
+  verified segment/link layout.
+- **Verification gates, in order** —
+  1. Validate the input ROM identity.
+  2. Establish repeatable extraction.
+  3. Verify rebuilt-ROM byte identity (the input MD5 is not a separate weaker milestone
+     than full-ROM identity; it is one step in the chain).
+  `requirements.txt` is provisional until the toolchain is confirmed.

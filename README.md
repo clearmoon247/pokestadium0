@@ -20,28 +20,33 @@ commit the rom (or any dump of retail assets) to this repository.
 
 # Prerequisites
 
-Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
+The prerequisites and workflow below are **planned, not implemented** — this is a
+bootstrap scaffold, and `requirements.txt` is provisional until the Stadium Zero
+toolchain is confirmed.
 
-```bash
+Under Debian / Ubuntu, the eventual build is expected to need the standard
+MIPS cross-compiler toolchain, Python 3, and a virtual environment. Install
+suggested packages with:
+
+```powershell
 sudo apt update
 sudo apt install make git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv
 ```
 
-**Please also ensure that the Python version installed is >3.7.**
+Python packages will be pinned in `requirements.txt` once the toolchain is
+confirmed. In the meantime it lists only the provisional set of extraction
+tools:
 
-The build process has a few python packages required that are located in `requirements.txt`.
-
-To install them simply run in a terminal:
-
-```bash
+```powershell
 python3 -m pip install -r requirements.txt
 ```
 
-# To use
+# To use (planned workflow — not implemented)
 
-1. Place the Japanese Pokémon Stadium Zero rom into the repository's `/baseroms/jp/` folder as `baserom.z64`.
+1. Place the Japanese Pokémon Stadium Zero rom into the repository's `/baseroms/jp/`
+   folder as `baserom.z64`.
 2. Set up tools and extract the rom: `make init`
 3. Re-assemble the rom: `make`
 
-These commands are currently stubs and will fail until the bootstrap gates in
-[docs/bootstrap.md](docs/bootstrap.md) are resolved.
+These commands are currently stubs and will fail with a clear bootstrap error until
+the gates in [docs/bootstrap.md](docs/bootstrap.md) are resolved.

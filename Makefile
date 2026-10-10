@@ -87,6 +87,8 @@ endif
 .SILENT:
 .SECONDARY:
 
+# requirements.txt is provisional until the Stadium Zero toolchain is confirmed.
+
 define unsupported_build
 	@echo "ERROR: Stadium Zero build and extraction are not yet bootstrapped."
 	@echo "Place baserom.z64 in baseroms/jp/, populate yamls/jp/rom.yaml, and"
@@ -113,9 +115,7 @@ venv:
 	$(V)$(PYTHON) -m pip install -U -r requirements.txt
 
 setup:
-	@$(PRINT) "Setting up tools...\n"
-	@echo "NOTE: IDO 7.1 / asm-processor / splat tooling are pending per docs/bootstrap.md."
-	@exit 1
+	$(call unsupported_build)
 
 extract:
 	$(call unsupported_build)
@@ -123,11 +123,11 @@ extract:
 diff-init:
 	$(call unsupported_build)
 
-init: distclean
-	$(MAKE) venv
-	$(MAKE) setup
-	$(MAKE) extract
-	$(MAKE) diff-init
+init:
+	$(call unsupported_build)
+
+# The venv target is the only supported target; it is separate from init
+# because requirements.txt is provisional until the toolchain is confirmed.
 
 $(ROM):
 	$(call unsupported_build)
