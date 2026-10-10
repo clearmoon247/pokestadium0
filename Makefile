@@ -18,7 +18,6 @@ ifeq ($(OS),Windows_NT)
   MAKE = make
   VENV_BIN_DIR = Scripts
   PYTHON = $(VENV)/$(VENV_BIN_DIR)/python.exe
-  N_THREADS ?= 1
 else
   UNAME_S := $(shell uname -s)
   ifneq ($(filter MINGW% MSYS% CYGWIN%,$(UNAME_S)),)
@@ -26,7 +25,6 @@ else
     MAKE = make
     VENV_BIN_DIR = Scripts
     PYTHON = $(VENV)/$(VENV_BIN_DIR)/python.exe
-    N_THREADS ?= 1
   endif
   ifeq ($(UNAME_S),Linux)
     DETECTED_OS = linux
@@ -51,8 +49,6 @@ VENV ?= .venv
 # Python interpreter
 PYTHON ?= $(VENV)/$(VENV_BIN_DIR)/python3
 
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
-
 PRINT = printf
 
 TARGET  := pokestadium0
@@ -64,9 +60,6 @@ BASEROM     := $(BASEROM_DIR)/baserom.z64
 
 BUILD_DIR := build
 ROM       := $(BUILD_DIR)/$(TARGET)-$(VERSION).z64
-ELF       := $(ROM:.z64=.elf)
-MAP       := $(ROM:.z64=.map)
-LDSCRIPT  := $(ROM:.z64=.ld)
 
 #### Setup ####
 
@@ -83,30 +76,26 @@ ifeq ($(NON_MATCHING),1)
   COMPARE := 0
 endif
 
-CPPFLAGS += -fno-dollars-in-identifiers -P
-
-#### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-$(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Please install or build MIPS binutils, commonly mips-linux-gnu. (or set MIPS_BINUTILS_PREFIX if your MIPS binutils install uses another prefix))
-endif
-
-AS              := $(MIPS_BINUTILS_PREFIX)as
-LD              := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY         := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
-NM              := $(MIPS_BINUTILS_PREFIX)nm
-
-SPLAT           := $(PYTHON) -m splat split
-SPLAT_YAML      := $(TARGET)-$(VERSION).yaml
-
-#### Files ####
-
-$(shell mkdir -p asm/$(VERSION) assets/$(VERSION) linker_scripts/$(VERSION)/auto)
-
 #### Main Targets ####
 
+# All build and extraction targets are currently unsupported stubs.
+# They fail loudly rather than silently claiming to have run.
+.NOTPARALLEL:
+
+.PHONY: all rom clean distclean venv setup extract diff-init init
+.DEFAULT_GOAL := rom
+.SILENT:
+.SECONDARY:
+
+define unsupported_build
+	@echo "ERROR: Stadium Zero build and extraction are not yet bootstrapped."
+	@echo "Place baserom.z64 in baseroms/jp/, populate yamls/jp/rom.yaml, and"
+	@echo "verify the IDO toolchain per docs/bootstrap.md."
+	@exit 1
+endef
+
 rom: $(ROM)
-	@$(PRINT) "Building ROM...\n"
+	$(call unsupported_build)
 
 clean:
 	@$(PRINT) "Cleaning ROM build files...\n"
@@ -115,7 +104,6 @@ clean:
 distclean: clean
 	@$(PRINT) "Performing full source distribution clean...\n"
 	$(V)$(RM) -r $(BUILD_DIR) asm/ assets/ .splat/
-	$(V)$(RM) -r linker_scripts/$(VERSION)/auto $(LDSCRIPT)
 
 venv:
 	@$(PRINT) "Testing venv and setting up python requirements...\n"
@@ -126,19 +114,14 @@ venv:
 
 setup:
 	@$(PRINT) "Setting up tools...\n"
-	# TODO: vendor IDO 7.1 / asm-processor / splat tooling once verified for Stadium Zero.
+	@echo "NOTE: IDO 7.1 / asm-processor / splat tooling are pending per docs/bootstrap.md."
+	@exit 1
 
 extract:
-	@$(PRINT) "Running ROM extraction...\n"
-	$(V)test -f $(BASEROM) || (echo "ERROR: $(BASEROM) not found. Place the JP Stadium Zero rom in $(BASEROM_DIR) as baserom.z64."; exit 1)
-	$(V)$(RM) -r asm/$(VERSION) assets/$(VERSION)
-	$(V)$(CAT) yamls/$(VERSION)/header.yaml yamls/$(VERSION)/rom.yaml > $(SPLAT_YAML) 2>/dev/null || (echo "ERROR: yamls/$(VERSION)/rom.yaml is not yet populated. Extract/split layout is a pending bootstrap task."; exit 1)
-	$(V)$(SPLAT) $(SPLAT_YAML)
+	$(call unsupported_build)
 
-diff-init: rom
-	$(RM) -r expected/
-	mkdir -p expected/
-	cp -r $(BUILD_DIR) expected/$(BUILD_DIR)
+diff-init:
+	$(call unsupported_build)
 
 init: distclean
 	$(MAKE) venv
@@ -146,17 +129,5 @@ init: distclean
 	$(MAKE) extract
 	$(MAKE) diff-init
 
-.PHONY: all rom clean distclean venv setup extract diff-init init
-.DEFAULT_GOAL := rom
-# Prevent removing intermediate files
-.SECONDARY:
-
-#### Various Recipes ####
-
-# TODO: wire ROM link once Stadium Zero segment layout, IDO toolchain and
-# link order are confirmed against the target ROM. Until then `make rom`
-# intentionally fails here rather than silently building a donor game.
 $(ROM):
-	@echo "ERROR: Stadium Zero link step is not yet bootstrapped."
-	@echo "Run 'make init' after placing baserom.z64 and populating yamls/jp/rom.yaml."
-	@exit 1
+	$(call unsupported_build)

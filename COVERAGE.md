@@ -3,8 +3,9 @@
 # pokestadium0 decompilation coverage
 
 <!-- AUTO_COVERAGE:START -->
-- Functions with C implementations: **0 / 0 (0%)**
-- Remaining decompilable `GLOBAL_ASM` owners: **0**
+- Function inventory: **not measured** — Stadium Zero split pending
+- Functions with C implementations: **not measured** (split pending)
+- Remaining decompilable `GLOBAL_ASM` owners: **not measured** (split pending)
 <!-- AUTO_COVERAGE:END -->
 
 This repository is a bootstrap: the Stadium Zero ROM identity, segment layout, and

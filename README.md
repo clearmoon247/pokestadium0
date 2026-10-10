@@ -5,6 +5,12 @@ This is a **Team Hippodrome original** project; the layout and conventions follo
 [pret](https://pret.github.io/)'s decompilation style, but pret is not involved with
 this recompilation.
 
+**Status: bootstrap scaffold.** No ROM build, ROM extraction, or toolchain
+bootstrap is implemented yet. `make rom`, `make extract`, `make setup`,
+`make diff-init`, and `make init` all fail with a clear error by design. See
+[docs/bootstrap.md](docs/bootstrap.md) for the open bootstrap gates and
+[COVERAGE.md](COVERAGE.md) for the (unmeasured) coverage state.
+
 It targets the following ROM:
 
 * pokestadium0-jp.z64
@@ -37,4 +43,5 @@ python3 -m pip install -r requirements.txt
 2. Set up tools and extract the rom: `make init`
 3. Re-assemble the rom: `make`
 
-See [COVERAGE.md](COVERAGE.md) for current decompilation progress.
+These commands are currently stubs and will fail until the bootstrap gates in
+[docs/bootstrap.md](docs/bootstrap.md) are resolved.
