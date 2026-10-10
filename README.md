@@ -27,14 +27,23 @@ ROM build or toolchain bootstrap is implemented yet. `make rom`, `make extract`,
 - [Conditional pragma scaffold](docs/pragma-bootstrap.md): 5,444 first-pass
   assembly owners in 188 C files, with local assembly regeneration and
   `NON_MATCHING` TODO slots.
+- [Stadium 1/2 library overlap](docs/library-overlap/README.md): scoped exact-byte
+  and address-masked comparisons with pinned donor revisions.
+- [First library compiler test](docs/library-overlap/compiler-test/README.md):
+  nine function bodies reproduced exactly using the Stadium 1 donor's production
+  IDO 5.3 library recipe, with donor-ROM and Zero-ROM controls.
+- [Review-only library candidates](candidates/libraries/batch1/README.md):
+  four byte-identical donor translation units for those nine verified functions.
+  The existing pragmas remain unchanged pending build/layout integration.
 
 The isolated analysis dependencies are pinned in `requirements-mapping.txt`.
 The reports include reproduction commands and evidence from 28 mapping/flow
 tests plus seven pragma-scaffold tests, all passing in the tested environment.
 The pragma inventory is a first-pass assembly-owner scaffold, not recovered
-original function/translation-unit boundaries or matching C. No Stadium 1/2
-library match or rebuilt-ROM identity is claimed. Generated assembly and binary
-extraction output remain local and ignored.
+original function/translation-unit boundaries or landed matching C. The library
+experiment verifies nine raw function bodies, not Zero's original compiler
+identity or a rebuilt-ROM baseline. Generated assembly and binary extraction
+output remain local and ignored.
 
 It targets the following ROM:
 
