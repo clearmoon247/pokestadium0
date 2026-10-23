@@ -5,8 +5,8 @@ A WIP decompilation of the Japanese-only original Pokémon Stadium
 conventions; pret is not involved.
 
 The fixed-layout production build now reproduces the complete 16 MiB ROM
-byte-for-byte. It compiles **248 unmodified m2c functions**, assembles the
-remaining **5,196 known code owners**, links the resident image and all 259
+byte-for-byte. It compiles **448 unmodified m2c functions**, assembles the
+remaining **4,996 known code owners**, links the resident image and all 259
 fragments, and reconstructs their original storage. Original function boundaries,
 translation units, and compiler settings remain under investigation.
 
@@ -37,6 +37,7 @@ Do not commit ROMs or extracted retail assets.
 - [Coverage](COVERAGE.md): first-pass owner counts and bytes, tied to a ROM gate.
 - [Initial 100 m2c functions](docs/m2c-easiest-100.md): eight-byte empty returns.
 - [Next 200 m2c attempts](docs/m2c-next-200.md): 148 matches and 52 misses.
+- [Next 500 m2c attempts](docs/m2c-next-500.md): 200 matches and 300 misses.
 - [Production receipt](docs/production-build-receipt.json): complete-ROM identity.
 - [Resident and fragment mappings](docs/mappings/README.md): storage and restoration.
 - [Executable sections and flow](docs/sections/refined/flow-and-gap-validation.md):

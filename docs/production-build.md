@@ -2,7 +2,7 @@
 
 `make rom` builds a byte-identical Stadium Zero JP ROM from compiled C,
 assembled instructions, extracted opaque assets, and retained storage metadata.
-The default build uses 248 unmodified m2c functions and 5,196 assembly owners.
+The default build uses 448 unmodified m2c functions and 4,996 assembly owners.
 It links the resident image and all 259 fragment images independently, preserving
 the fragments that share link addresses. The verified output is 16,777,216 bytes:
 

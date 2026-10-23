@@ -17,9 +17,10 @@ Of the 148 matches, 101 matched directly in objects and 47 matched after
 resolving their address relocations through GNU ld. The 52 misses remain
 candidates; their production owners continue to use assembly.
 
-The 148 new matches join the initial 100 in `config/jp/matching.json`. The
-production build compiles all 248, assembles the remaining 5,196 owners, links
-260 images, reconstructs storage, and passes the full-ROM comparison. See
+The 148 new matches joined the initial 100 in `config/jp/matching.json`. At that
+stage, the production build compiled all 248, assembled 5,196 owners, linked
+260 images, reconstructed storage, and passed the full-ROM comparison. Current
+totals include subsequent batches and are recorded in `COVERAGE.md`. See
 [the production build](production-build.md) and its committed receipt. These
 counts describe the current conservative assembly-owner inventory, not
 confirmed original function boundaries or translation units.

@@ -175,7 +175,7 @@ def main():
                   m2c_macros_sha256=sha((ROOT / 'tools/m2c/m2c_macros.h').read_bytes()),
                   selection=f'ranks {args.start + 1}-{args.start + args.count} sorted by (size, empty-return first, assembly path); no C edits',
                   generated=len(results), instruction_words_identical=sum(r['instruction_words_identical'] for r in results),
-                  full_rom_gate='NOT RUN: production ROM build not implemented', results=results)
+                  full_rom_gate='NOT RUN: standalone function checks only', results=results)
     report_name = 'm2c-easiest-100' if args.start == 0 and args.count == 100 else batch
     (ROOT / f'docs/pragma-evidence/{report_name}.json').write_text(json.dumps(report, indent=2) + '\n')
     print(f'{len(results)} m2c candidates; {report["instruction_words_identical"]} function-byte matches; full ROM gate NOT RUN')

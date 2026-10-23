@@ -9,7 +9,7 @@ functions, not 100 substantial game routines.
 **Historical standalone result: full-ROM acceptance was NOT RUN.** Stadium Zero's production build and linker
 were unimplemented at that point. This experiment does not confirm the original compiler,
 function boundaries, translation units, or a rebuilt ROM. These candidates were subsequently included in the [production build](production-build.md),
-which now passes the full-ROM gate with 248 C owners and records them in
+which subsequently passed the full-ROM gate. Current accepted totals are in
 `COVERAGE.md`. The limitations above describe what the original standalone
 function checks established.
 

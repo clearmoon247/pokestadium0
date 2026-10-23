@@ -1,0 +1,5 @@
+M2C_UNK func_8213CAFC(M2C_UNK);                     /* extern */
+
+void func_8213CBDC(void) {
+    func_8213CAFC(0x40);
+}

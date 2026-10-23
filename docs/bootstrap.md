@@ -9,7 +9,7 @@ Completed gates:
 - Verified input SHA-256 before extraction.
 - Repeatable resident/fragment extraction and conservative owner inventory.
 - GNU assembly and image-specific linking of all 5,444 code owners.
-- IDO compilation of 248 unmodified m2c functions in the default build.
+- IDO compilation of 448 unmodified m2c functions in the default build.
 - Reconstruction of compressed fragments from linked bytes and storage metadata.
 - Complete rebuilt-ROM identity with comparison enabled by default.
 - A changed-C negative control fails comparison; a clean restored build passes.
