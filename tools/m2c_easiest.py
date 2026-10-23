@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate exactly 100 smallest owners with m2c; check unmodified C bytes.
+"""Generate a bounded batch of smallest owners with m2c; check unmodified C bytes.
 
 Compiler checks are function-only evidence, never production ROM acceptance.
 Run extraction first. No C variants, hand corrections, or other decompilers.
@@ -67,9 +67,33 @@ def function_bytes(path, name):
     raise ValueError('function symbol not found: ' + name)
 
 
+def link_function(obj, row, prefix):
+    undefined = run([prefix + 'nm', '-u', str(obj)]).decode().splitlines()
+    script = ['SECTIONS {', f'.text {row["link_start"]} : {{ *(.text) }}',
+              '/DISCARD/ : { *(*) }', '}']
+    for line in undefined:
+        if not line.strip():
+            continue
+        symbol = line.split()[-1]
+        match = re.fullmatch(r'(?:func_|D_(?:(?:FLT|DBL|STR)_)?|jtbl_|\.L)([0-9A-F]{8})(?:_\d+)?', symbol)
+        if not match:
+            raise ValueError('unknown symbol address: ' + symbol)
+        script.append(f'PROVIDE({symbol} = 0x{match[1]});')
+    script_path = obj.with_suffix('.ld')
+    script_path.write_text('\n'.join(script) + '\n')
+    linked = obj.with_suffix('.elf')
+    command = [prefix + 'ld', '-T', str(script_path.relative_to(ROOT)), '-o', str(linked.relative_to(ROOT)), str(obj.relative_to(ROOT))]
+    run(command)
+    return function_bytes(linked, row['name']), command, script_path.read_text()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--cc', type=Path, required=True, help='stock IDO 5.3 cc')
+    parser.add_argument('--start', type=int, default=0)
+    parser.add_argument('--count', type=int, default=100)
+    parser.add_argument('--link', action='store_true', help='resolve symbolic relocations before comparing')
+    parser.add_argument('--prefix', default='mips-linux-gnu-')
     args = parser.parse_args()
     cc = args.cc.resolve()
     inventory = json.loads((ROOT / 'docs/pragma-inventory.json').read_text())
@@ -79,10 +103,15 @@ def main():
         empty = words == ['03E00008', '00000000']
         return row['size'], not empty, row['assembly']
 
-    rows = sorted(inventory['owners'], key=difficulty)[:100]
-    scratch = ROOT / '.analysis/m2c-easiest'
+    if args.start < 0 or args.count < 1:
+        parser.error('start must be nonnegative and count positive')
+    rows = sorted(inventory['owners'], key=difficulty)[args.start:args.start + args.count]
+    if len(rows) != args.count:
+        parser.error('batch extends beyond inventory')
+    batch = 'm2c-easiest' if args.start == 0 else f'm2c-batch-{args.start + 1}-{args.start + args.count}'
+    scratch = ROOT / '.analysis' / batch
     scratch.mkdir(parents=True, exist_ok=True)
-    candidates = ROOT / 'candidates/m2c-easiest'
+    candidates = ROOT / 'candidates' / batch
     candidates.mkdir(parents=True, exist_ok=True)
     results = []
     for row in rows:
@@ -102,16 +131,41 @@ def main():
         unit.write_bytes(TYPES.encode() + candidate)
         obj = unit.with_suffix('.o')
         compile_command = [str(cc), *FLAGS, '-I.', str(unit.relative_to(ROOT)), '-o', str(obj.relative_to(ROOT))]
-        run(compile_command)
-        actual = function_bytes(obj, row['name'])
-        exact = actual == target
-        results.append(dict(name=row['name'], source=row['source'], assembly=row['assembly'],
+        result = dict(name=row['name'], source=row['source'], assembly=row['assembly'],
                             size=row['size'], candidate=str(candidate_path.relative_to(ROOT)), candidate_sha256=sha(candidate),
                             assembly_sha256=row['assembly_sha256'], target_sha256=sha(target),
-                            compiled_sha256=sha(actual), instruction_words_identical=exact,
-                            m2c_command=command[1:], compile_command=compile_command[1:]))
-        if not exact:
-            raise ValueError('function bytes differ: ' + row['name'])
+                            instruction_words_identical=False,
+                            m2c_command=command[1:], compile_command=compile_command[1:])
+        try:
+            run(compile_command)
+        except RuntimeError as error:
+            result.update(status='compile_error', diagnostic=str(error))
+        else:
+            try:
+                actual = function_bytes(obj, row['name'])
+            except ValueError as error:
+                result.update(status='object_check_error', diagnostic=str(error))
+                if args.link and str(error) == 'function has unresolved relocation':
+                    try:
+                        actual, link_command, link_script = link_function(obj, row, args.prefix)
+                    except (ValueError, RuntimeError) as link_error:
+                        result.update(status='link_error', diagnostic=str(link_error))
+                    else:
+                        exact = actual == target
+                        result.update(compiled_sha256=sha(actual), compiled_size=len(actual),
+                                      instruction_words_identical=exact,
+                                      status='exact' if exact else 'byte_mismatch',
+                                      comparison_layer='linked_function', link_command=link_command,
+                                      link_script=link_script)
+                        result.pop('diagnostic', None)
+            else:
+                exact = actual == target
+                result.update(compiled_sha256=sha(actual), compiled_size=len(actual),
+                              instruction_words_identical=exact,
+                              status='exact' if exact else 'byte_mismatch')
+        results.append(result)
+        if len(results) % 25 == 0:
+            print(f'{len(results)}/{len(rows)} checked; {sum(r["instruction_words_identical"] for r in results)} exact', flush=True)
     report = dict(input_sha256=inventory['input_sha256'],
                   m2c_commit=run(['git', '-C', 'tools/m2c', 'rev-parse', 'HEAD']).decode().strip(),
                   compiler_sha256=sha(cc.read_bytes()), compiler_flags=FLAGS,
@@ -119,11 +173,12 @@ def main():
                                              for p in sorted(cc.parent.iterdir()) if p.is_file()},
                   compile_prefix=TYPES,
                   m2c_macros_sha256=sha((ROOT / 'tools/m2c/m2c_macros.h').read_bytes()),
-                  selection='first 100 sorted by (size, empty-return first, assembly path); no C edits',
-                  generated=100, instruction_words_identical=sum(r['instruction_words_identical'] for r in results),
+                  selection=f'ranks {args.start + 1}-{args.start + args.count} sorted by (size, empty-return first, assembly path); no C edits',
+                  generated=len(results), instruction_words_identical=sum(r['instruction_words_identical'] for r in results),
                   full_rom_gate='NOT RUN: production ROM build not implemented', results=results)
-    (ROOT / 'docs/pragma-evidence/m2c-easiest-100.json').write_text(json.dumps(report, indent=2) + '\n')
-    print('100 m2c candidates; 100 function-byte matches; full ROM gate NOT RUN')
+    report_name = 'm2c-easiest-100' if args.start == 0 and args.count == 100 else batch
+    (ROOT / f'docs/pragma-evidence/{report_name}.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(f'{len(results)} m2c candidates; {report["instruction_words_identical"]} function-byte matches; full ROM gate NOT RUN')
 
 
 if __name__ == '__main__':
