@@ -43,6 +43,12 @@ It targets the following ROM:
 Note: To use this repository, you must already have a rom for the game. Do not
 commit the rom (or any dump of retail assets) to this repository.
 
+# Local m2c experiment
+
+[The first 100 m2c candidates](docs/m2c-easiest-100.md) have exact individual
+function-byte checks under IDO 5.3. They are eight-byte empty returns, saved
+without manual C edits. Production ROM acceptance remains pending.
+
 # Prerequisites
 
 The prerequisites and workflow below are **planned, not implemented** — this is a

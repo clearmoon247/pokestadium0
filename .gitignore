@@ -29,7 +29,13 @@ ctx.c.m2c
 tools/vtxdis
 tools/permuter
 tools/n64
+tools/m2c
 .DS_Store
+
+# Local mapping-only splat output.
+include/macro.inc
+undefined_funcs_auto.txt
+undefined_syms_auto.txt
 
 # Local binary-analysis scratch and rejected exploratory splits.
 .analysis/
