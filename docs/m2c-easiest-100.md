@@ -6,11 +6,12 @@ compiler and `-O2 -mips2 -G 0 -non_shared -Xcpluscomm -nostdinc
 -Wab,-r4300_mul`. All 100 are empty returns. These are deliberately the easiest
 functions, not 100 substantial game routines.
 
-**Full-ROM acceptance: NOT RUN.** Stadium Zero's production build and linker
-remain unimplemented. This experiment does not confirm the original compiler,
-function boundaries, translation units, or a rebuilt ROM. The default source
-continues to use assembly; these candidates have not been promoted to matching
-production C or counted in `COVERAGE.md`.
+**Historical standalone result: full-ROM acceptance was NOT RUN.** Stadium Zero's production build and linker
+were unimplemented at that point. This experiment does not confirm the original compiler,
+function boundaries, translation units, or a rebuilt ROM. These candidates were subsequently included in the [production build](production-build.md),
+which now passes the full-ROM gate with 248 C owners and records them in
+`COVERAGE.md`. The limitations above describe what the original standalone
+function checks established.
 
 Only m2c produced the C. Its output was saved verbatim, with no hand corrections,
 context hints, source variants, or permuter. Extraction used this repository's

@@ -2,15 +2,20 @@
 
 # pokestadium0 decompilation coverage
 
-<!-- AUTO_COVERAGE:START -->
-- Function inventory: **not measured** — Stadium Zero split pending
-- Functions with C implementations: **not measured** (split pending)
-- Remaining decompilable `GLOBAL_ASM` owners: **not measured** (split pending)
-<!-- AUTO_COVERAGE:END -->
+- C owners passing the full-ROM gate: **248/5,444 (4.6%)**
+- Remaining assembly owners: **5,196**
+- C owner bytes: **2,564/1,303,636 (0.20%)**
+- Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
 
-This repository is a bootstrap: the Stadium Zero ROM identity, segment layout, and
-compiler/toolchain confirmation are still pending. Do not transfer verification from
-Stadium 1 or Stadium 2 to Stadium Zero without per-target evidence.
+Counts use the conservative first-pass assembly-owner inventory, not confirmed
+original functions or translation units. The initial 100 are eight-byte empty
+returns. Data, microcode, opaque ranges, and resource-only images are excluded
+from the owner-byte denominator. Coverage applies to the explicit production C
+registry and the committed validation receipt; original compiler settings remain
+under investigation beyond the measured candidates.
 
-Regenerate with:
-`python3 ci/update_coverage.py`
+See [the production build](docs/production-build.md),
+[matching registry](config/jp/matching.json), and
+[validation receipt](docs/production-build-receipt.json).
+
+Regenerate with `make coverage` after updating the verified receipt.

@@ -1,133 +1,56 @@
-# Pokémon Stadium Zero (JP) — Team Hippodrome
-# Follows pret's decompilation conventions; pret is not involved with this recomp.
-
-# Build options can be changed by modifying the makefile or by building with 'make SETTING=value'.
-# It is also possible to override the settings in Defaults in a file called .make_options as 'SETTING=value'.
-
+# Stadium Zero JP: fixed-layout C/assembly ROM build.
 -include .make_options
-
-MAKEFLAGS += --no-builtin-rules
-
-# Ensure the build fails if a piped command fails
-SHELL = /bin/bash
-.SHELLFLAGS = -o pipefail -c
-
-# OS Detection
-ifeq ($(OS),Windows_NT)
-  DETECTED_OS = windows
-  MAKE = make
-  VENV_BIN_DIR = Scripts
-  PYTHON = $(VENV)/$(VENV_BIN_DIR)/python.exe
-else
-  UNAME_S := $(shell uname -s)
-  ifneq ($(filter MINGW% MSYS% CYGWIN%,$(UNAME_S)),)
-    DETECTED_OS = windows
-    MAKE = make
-    VENV_BIN_DIR = Scripts
-    PYTHON = $(VENV)/$(VENV_BIN_DIR)/python.exe
-  endif
-  ifeq ($(UNAME_S),Linux)
-    DETECTED_OS = linux
-    MAKE = make
-    VENV_BIN_DIR = bin
-  endif
-  ifeq ($(UNAME_S),Darwin)
-    DETECTED_OS = macos
-    MAKE = gmake
-    VENV_BIN_DIR = bin
-  endif
-endif
-
-#### Defaults ####
-# Target game version. Currently only the following version is supported:
-#   jp   N64 JP (default, Stadium Zero is Japan-only)
 VERSION ?= jp
-# If COMPARE is 1, check the output md5sum after building
 COMPARE ?= 1
-# Python virtual environment
 VENV ?= .venv
-# Python interpreter
-PYTHON ?= $(VENV)/$(VENV_BIN_DIR)/python3
-
-PRINT = printf
-
-TARGET  := pokestadium0
-
-BASEROM_DIR := baseroms/$(VERSION)
-BASEROM     := $(BASEROM_DIR)/baserom.z64
-
-### Output ###
-
-BUILD_DIR := build
-ROM       := $(BUILD_DIR)/$(TARGET)-$(VERSION).z64
-
-#### Setup ####
-
-BUILD_DEFINES ?=
-
+PYTHON ?= $(VENV)/bin/python
+IDO_CC ?= tools/ido5.3/cc
+MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+JOBS ?= 4
+ASM_ONLY ?= 0
 ifeq ($(VERSION),jp)
-  BUILD_DEFINES += -DVERSION_JP=1
 else
-$(error Invalid VERSION variable detected. Please use 'jp')
+$(error Only VERSION=jp is supported)
 endif
-
-ifeq ($(NON_MATCHING),1)
-  BUILD_DEFINES += -DNON_MATCHING -DAVOID_UB
-  COMPARE := 0
-endif
-
-#### Main Targets ####
-
-# All build and extraction targets are currently unsupported stubs.
-# They fail loudly rather than silently claiming to have run.
-.NOTPARALLEL:
-
-.PHONY: all rom clean distclean venv setup extract diff-init init
 .DEFAULT_GOAL := rom
-.SILENT:
-.SECONDARY:
-
-# requirements.txt is provisional until the Stadium Zero toolchain is confirmed.
-
-define unsupported_build
-	@echo "ERROR: Stadium Zero build and extraction are not yet bootstrapped."
-	@echo "Place baserom.z64 in baseroms/jp/, populate yamls/jp/rom.yaml, and"
-	@echo "verify the IDO toolchain per docs/bootstrap.md."
-	@exit 1
-endef
-
-rom: $(ROM)
-	$(call unsupported_build)
-
-clean:
-	@$(PRINT) "Cleaning ROM build files...\n"
-	$(V)$(RM) -r $(BUILD_DIR)
-
-distclean: clean
-	@$(PRINT) "Performing full source distribution clean...\n"
-	$(V)$(RM) -r $(BUILD_DIR) asm/ assets/ .splat/
+.NOTPARALLEL:
+.PHONY: all rom setup venv extract init diff-init test clean distclean coverage
+all: rom
 
 venv:
-	@$(PRINT) "Testing venv and setting up python requirements...\n"
-	$(V)test -d $(VENV) || python3 -m venv $(VENV)
-	$(V)$(PYTHON) -m ensurepip --upgrade
-	$(V)$(PYTHON) -m pip install -U pip
-	$(V)$(PYTHON) -m pip install -U -r requirements.txt
+	@test -x $(PYTHON) || python3 -m venv $(VENV)
+	$(PYTHON) -m pip install -r requirements.txt
 
-setup:
-	$(call unsupported_build)
+setup: venv
+	$(PYTHON) tools/setup_toolchain.py
+	@command -v $(MIPS_BINUTILS_PREFIX)as >/dev/null
+	@command -v $(MIPS_BINUTILS_PREFIX)ld >/dev/null
+	@command -v $(MIPS_BINUTILS_PREFIX)objcopy >/dev/null
+	@command -v $(MIPS_BINUTILS_PREFIX)nm >/dev/null
 
 extract:
-	$(call unsupported_build)
+	$(PYTHON) -m splat split yamls/jp/mapping.yaml
+	$(PYTHON) tools/generate_pragmas.py baseroms/jp/baserom.z64
+	$(PYTHON) tools/production.py extract
 
-diff-init:
-	$(call unsupported_build)
+init: setup extract
 
-init:
-	$(call unsupported_build)
+rom:
+	@test -f assets/production/manifest.json || { echo 'Run make init first'; exit 1; }
+	$(PYTHON) tools/production.py build --cc $(IDO_CC) --prefix $(MIPS_BINUTILS_PREFIX) --compare $(COMPARE) --jobs $(JOBS) $(if $(filter 1,$(ASM_ONLY)),--asm-only,)
 
-# The venv target is the only supported target; it is separate from init
-# because requirements.txt is provisional until the toolchain is confirmed.
+diff-init: rom
+	@echo 'Per-image ELF objects, generated linker scripts and maps: build/production/'
 
-$(ROM):
-	$(call unsupported_build)
+test:
+	$(PYTHON) tools/generate_pragmas.py baseroms/jp/baserom.z64 --check
+	$(PYTHON) -m unittest discover -s tools -p 'test_*.py'
+
+coverage:
+	$(PYTHON) ci/update_coverage.py
+
+clean:
+	rm -rf build
+
+distclean: clean
+	@echo 'Private extraction and toolchain preserved; remove explicitly if needed.'
