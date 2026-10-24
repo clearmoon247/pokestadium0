@@ -67,6 +67,13 @@ Do not commit ROMs or extracted retail assets.
   unresolved-site registers and link-time addresses, not assumed runtime PCs.
 - [Pragma scaffold](docs/pragma-bootstrap.md): 5,444 assembly owners. The
   production registry selects accepted C directly from candidate files.
+- [Stadium 1/2 library overlap](docs/library-overlap/README.md): scoped exact-byte
+  and address-masked comparisons with pinned donor revisions.
+- [First library compiler test](docs/library-overlap/compiler-test/README.md):
+  nine function bodies reproduced exactly using the Stadium 1 donor's production
+  IDO 5.3 library recipe, with donor-ROM and Zero-ROM controls.
+- [Review-only library candidates](candidates/libraries/batch1/README.md):
+  four byte-identical donor translation units for those nine verified functions.
 
 The inventory is a first-pass assembly-owner scaffold, not recovered original
 function or translation-unit boundaries. Runtime capture work remains paused.

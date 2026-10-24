@@ -1,0 +1,111 @@
+
+/home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/ldiv.o:     file format elf32-tradbigmips
+
+
+Disassembly of section .text:
+
+00000000 <lldiv>:
+   0:	27bdffd0 	addiu	sp,sp,-48
+   4:	afa40030 	sw	a0,48(sp)
+   8:	afbf0014 	sw	ra,20(sp)
+   c:	afa60038 	sw	a2,56(sp)
+  10:	afa7003c 	sw	a3,60(sp)
+  14:	00c02025 	or	a0,a2,zero
+  18:	00e02825 	or	a1,a3,zero
+  1c:	8fa70044 	lw	a3,68(sp)
+  20:	0c000000 	jal	0 <lldiv>
+			20: R_MIPS_26	__ll_div
+  24:	8fa60040 	lw	a2,64(sp)
+  28:	afa20020 	sw	v0,32(sp)
+  2c:	afa30024 	sw	v1,36(sp)
+  30:	8fa40040 	lw	a0,64(sp)
+  34:	8fa50044 	lw	a1,68(sp)
+  38:	00403025 	or	a2,v0,zero
+  3c:	0c000000 	jal	0 <lldiv>
+			3c: R_MIPS_26	__ll_mul
+  40:	00603825 	or	a3,v1,zero
+  44:	8fae0038 	lw	t6,56(sp)
+  48:	8faf003c 	lw	t7,60(sp)
+  4c:	8fa80020 	lw	t0,32(sp)
+  50:	01c2c023 	subu	t8,t6,v0
+  54:	01e3082b 	sltu	at,t7,v1
+  58:	0301c023 	subu	t8,t8,at
+  5c:	01e3c823 	subu	t9,t7,v1
+  60:	afb9002c 	sw	t9,44(sp)
+  64:	afb80028 	sw	t8,40(sp)
+  68:	1d000017 	bgtz	t0,c8 <lldiv+0xc8>
+  6c:	8fa90024 	lw	t1,36(sp)
+  70:	05000003 	bltz	t0,80 <lldiv+0x80>
+  74:	00000000 	sll	zero,zero,0x0
+  78:	10000014 	beq	zero,zero,cc <lldiv+0xcc>
+  7c:	27a80020 	addiu	t0,sp,32
+  80:	07020012 	bltzl	t8,cc <lldiv+0xcc>
+  84:	27a80020 	addiu	t0,sp,32
+  88:	1f000003 	bgtz	t8,98 <lldiv+0x98>
+  8c:	252b0001 	addiu	t3,t1,1
+  90:	5320000e 	beql	t9,zero,cc <lldiv+0xcc>
+  94:	27a80020 	addiu	t0,sp,32
+  98:	8fac0040 	lw	t4,64(sp)
+  9c:	8fad0044 	lw	t5,68(sp)
+  a0:	2d610001 	sltiu	at,t3,1
+  a4:	01015021 	addu	t2,t0,at
+  a8:	030c7023 	subu	t6,t8,t4
+  ac:	032d082b 	sltu	at,t9,t5
+  b0:	01c17023 	subu	t6,t6,at
+  b4:	032d7823 	subu	t7,t9,t5
+  b8:	afaa0020 	sw	t2,32(sp)
+  bc:	afab0024 	sw	t3,36(sp)
+  c0:	afaf002c 	sw	t7,44(sp)
+  c4:	afae0028 	sw	t6,40(sp)
+  c8:	27a80020 	addiu	t0,sp,32
+  cc:	8fa20030 	lw	v0,48(sp)
+  d0:	8d010000 	lw	at,0(t0)
+  d4:	ac410000 	sw	at,0(v0)
+  d8:	8d0b0004 	lw	t3,4(t0)
+  dc:	ac4b0004 	sw	t3,4(v0)
+  e0:	8d010008 	lw	at,8(t0)
+  e4:	ac410008 	sw	at,8(v0)
+  e8:	8d0b000c 	lw	t3,12(t0)
+  ec:	ac4b000c 	sw	t3,12(v0)
+  f0:	8fbf0014 	lw	ra,20(sp)
+  f4:	27bd0030 	addiu	sp,sp,48
+  f8:	03e00008 	jr	ra
+  fc:	00000000 	sll	zero,zero,0x0
+
+00000100 <ldiv>:
+ 100:	00a6001a 	div	zero,a1,a2
+ 104:	00001012 	mflo	v0
+ 108:	27bdfff8 	addiu	sp,sp,-8
+ 10c:	14c00002 	bne	a2,zero,118 <ldiv+0x18>
+ 110:	00000000 	sll	zero,zero,0x0
+ 114:	0007000d 	break	0x7
+ 118:	2401ffff 	addiu	at,zero,-1
+ 11c:	14c10004 	bne	a2,at,130 <ldiv+0x30>
+ 120:	3c018000 	lui	at,0x8000
+ 124:	14a10002 	bne	a1,at,130 <ldiv+0x30>
+ 128:	00000000 	sll	zero,zero,0x0
+ 12c:	0006000d 	break	0x6
+ 130:	00c20019 	multu	a2,v0
+ 134:	afa20000 	sw	v0,0(sp)
+ 138:	27af0000 	addiu	t7,sp,0
+ 13c:	00007012 	mflo	t6
+ 140:	00ae1823 	subu	v1,a1,t6
+ 144:	04410008 	bgez	v0,168 <ldiv+0x68>
+ 148:	afa30004 	sw	v1,4(sp)
+ 14c:	afa20000 	sw	v0,0(sp)
+ 150:	18600005 	blez	v1,168 <ldiv+0x68>
+ 154:	afa30004 	sw	v1,4(sp)
+ 158:	24420001 	addiu	v0,v0,1
+ 15c:	00661823 	subu	v1,v1,a2
+ 160:	afa30004 	sw	v1,4(sp)
+ 164:	afa20000 	sw	v0,0(sp)
+ 168:	8de10000 	lw	at,0(t7)
+ 16c:	00801025 	or	v0,a0,zero
+ 170:	ac810000 	sw	at,0(a0)
+ 174:	8de80004 	lw	t0,4(t7)
+ 178:	27bd0008 	addiu	sp,sp,8
+ 17c:	03e00008 	jr	ra
+ 180:	ac880004 	sw	t0,4(a0)
+ 184:	00000000 	sll	zero,zero,0x0
+ 188:	00000000 	sll	zero,zero,0x0
+ 18c:	00000000 	sll	zero,zero,0x0
