@@ -230,6 +230,8 @@ void draw_profiler_mode_1(void) {
     draw_reference_profiler_bars();
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 /*
  * Draw Profiler Mode 0. This mode renders bars over each other to make it
  * easier to see which processes take the longest.
@@ -305,6 +307,9 @@ void draw_profiler_mode_0(void) {
 
     draw_reference_profiler_bars();
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80008AF8.s")
+#endif
 
 // Draw the Profiler per frame.
 void draw_profiler(s32 profiler_mode) {
@@ -340,6 +345,8 @@ void draw_profiler(s32 profiler_mode) {
     }
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 /*
  * Print the CPU and RCP metrics to the screen, using a scale to approximate it to a scale near 0.0-1.0.
  * Based on the 770296 value documented earlier (it is close to a 60 FPS approximation), it may have been
@@ -357,6 +364,9 @@ void print_profiler_metrics(void) {
     HAL_Printf(240, 220, "RCP:%5.3f",
                ((profiler_2->gfxTimes[2] - profiler_2->gfxTimes[0])) * (1 / (float)UNK_FPS_60_APPROX_VALUE));
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800091BC.s")
+#endif
 
 // reset the profiler data to uninitialized 0s.
 void clear_profiler_data(void) {
@@ -365,6 +375,8 @@ void clear_profiler_data(void) {
     gProfiler.frameIdx2 = 1;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 // unused. seems to be intended to set a static OSTime and then get the last difference (in usec)
 // since the last set.
 u32 set_get_time_diff(enum SetGetTimeDiff state) {
@@ -382,3 +394,6 @@ u32 set_get_time_diff(enum SetGetTimeDiff state) {
     }
     return ret;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80009314.s")
+#endif

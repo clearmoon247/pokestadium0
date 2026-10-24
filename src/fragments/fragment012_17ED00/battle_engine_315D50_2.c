@@ -388,17 +388,405 @@ extern u8* sD_84386DEC[];
 extern u8* sBattleAnimMode9StartEffectLists[];
 extern u8* sMoveAnimEffectScripts[][5];
 
-void BattleAnim_Initialize(void);
+#include "m2c_macros.h"
 
-void BattleAnim_Reset(void);
+u8 BattleAnim_GetCurrentEffectList(void);
+void BattleAnim_SetQueuedResourceListId(u8 arg0);
+u8 BattleAnim_GetQueuedResourceListId(void);
+s16 BattleAnim_GetQueuedMoveId(void);
+void BattleAnim_QueueMoveEffectScript(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor);
+void BattleAnim_QueueMoveEffectEnd(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor);
+void BattleAnim_QueueChargingMoveEffectScript(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor);
+void BattleAnim_QueueEffectList3(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternative_anchor);
+void BattleAnim_QueueEffectList6(s32 move_id, ActivePokemon* owner);
+void BattleAnim_QueueEffectList5(s32 arg0, ActivePokemon* arg1);
+void BattleAnim_QueueEffectList6Alt(s32 arg0, ActivePokemon* arg1);
+void BattleAnim_StopOwnerCategoryParticles(u8 category, ActivePokemon* owner);
+void BattleAnim_RegisterAssetTable(arg1_func_80019420* arg0);
+void BattleAnim_ResetAssetTable(void);
+void BattleAnim_BuildResourceListForMove(s16 arg0);
+void BattleAnim_LoadMoveResourceList(BattleSessionTeams* battle_session_teams, s16 move_id);
+void BattleAnim_LoadModeResourceList(BattleSessionTeams* battle_session_teams, s16 mode);
+void BattleAnim_RegisterAllAssetTables(void);
+void BattleAnim_RegisterAssetTablesForSession(BattleSessionTeams* battle_session_teams);
+void BattleAnim_ResetDisplayContexts(void);
+Particle* BattleAnim_GetOwnerContextParticle(DisplayObject* arg0);
+DisplayObject* BattleAnim_AllocOwnerDisplayContext(Particle* arg0);
+void BattleAnim_FreeOwnerDisplayContext(DisplayObject* arg0);
+DisplayObject* BattleAnim_AllocParticleDisplayContext(Particle* arg0);
+void BattleAnim_FreeParticleDisplayContext(DisplayObject* arg0);
+void BattleAnim_InitModelWithAnim(DisplayObject* arg0, s16 arg1, s16 arg2);
+void BattleAnim_SetModelAnimFrame(DisplayObject* arg0, s16 arg1);
+void BattleAnim_InitModel(DisplayObject* arg0, s16 arg1);
+void BattleAnim_BindModelAnim(DisplayObject* arg0, s16 arg1);
+void BattleAnim_BindModelAnimReversed(DisplayObject* arg0, s16 arg1);
+s32 BattleAnim_IsModelAnimComplete(DisplayObject* arg0);
+void BattleAnim_UpdateEffectCallbacks(UNUSED CameraNode* arg0);
+void BattleAnim_DrawEffectCallbacks(UNUSED CameraNode* arg0);
 
-void BattleAnim_Initialize(void) {
-    BattleAnim_InitParticleSystem();
-    BattleAnim_Reset();
+void BattleAnim_SetQueuedEffectList(u8 effect_list_index);
+void BattleAnim_QueueMoveEffect(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor);
+
+u8 BattleAnim_GetCurrentEffectList(void) {
+    return sBattleAnimCurrentEffectList;
+}
+
+void BattleAnim_SetQueuedResourceListId(u8 arg0) {
+    sBattleAnimQueuedResourceListId = arg0;
+}
+
+u8 BattleAnim_GetQueuedResourceListId(void) {
+    return sBattleAnimQueuedResourceListId;
+}
+
+s16 BattleAnim_GetQueuedMoveId(void) {
+    return sBattleAnimQueuedMoveId;
+}
+
+M2C_UNK func_8213641C(M2C_UNK);                     /* extern */
+extern s32 D_8219A7CC;
+extern s32 D_8219A7D4;
+extern s32 D_8219A7D8;
+extern s16 D_8219A80C;
+extern s16 D_8219A80E;
+extern s32 D_8219A810;
+extern s32 D_8219A814;
+extern s32 D_8219A818;
+
+void func_82136478(s32 arg0, s32 arg1, s32 arg2, s16 arg3, s16 arg4) {
+    D_8219A7D8 = 1;
+    D_8219A7D4 = arg0;
+    D_8219A7CC = 0;
+    func_8213641C(0);
+    D_8219A80C = arg3;
+    D_8219A80E = arg4;
+    D_8219A810 = arg1;
+    D_8219A814 = arg1;
+    D_8219A818 = arg2;
+}
+
+void BattleAnim_QueueMoveEffectScript(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor) {
+    BattleAnim_QueueMoveEffect(move_id, user, user_fallback, default_anchor, alternate_anchor);
+}
+
+void BattleAnim_QueueMoveEffectEnd(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor) {
+    BattleAnim_QueueMoveEffect(move_id, user, user_fallback, default_anchor, alternate_anchor);
+    BattleAnim_SetQueuedEffectList(2);
+    gBattleAnimCurrentOwner = user_fallback;
+    sBattleAnimQueuedEffectListMode = BATTLE_ANIMATION_QUEUE_END;
+}
+
+void BattleAnim_QueueChargingMoveEffectScript(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternate_anchor) {
+    BattleAnim_QueueMoveEffect(move_id, user, user_fallback, default_anchor, alternate_anchor);
+    BattleAnim_SetQueuedEffectList(1);
+}
+
+void BattleAnim_QueueEffectList3(s32 move_id, ActivePokemon* user, ActivePokemon* user_fallback, s16 default_anchor, s16 alternative_anchor) {
+    BattleAnim_QueueMoveEffect(move_id, user, user_fallback, default_anchor, alternative_anchor);
+    BattleAnim_SetQueuedEffectList(3);
+}
+
+void BattleAnim_QueueEffectList6(s32 move_id, ActivePokemon* owner) {
+    sBattleAnimQueuedAlternatePending = 2;
+    sBattleAnimQueuedAlternateMoveId = move_id;
+    sBattleAnimQueuedAlternateList = 6;
+    gBattleAnimDefaultAnchor = 0xFF;
+    sBattleAnimAlternateAnchor = 0xFF;
+    gBattleAnimCurrentOwner = owner;
+    gBattleAnimSecondaryOwner = owner;
+    gBattleAnimTertiaryOwner = owner;
+}
+
+void BattleAnim_QueueEffectList5(s32 arg0, ActivePokemon* arg1) {
+    BattleAnim_QueueEffectList6(arg0, arg1);
+    sBattleAnimQueuedAlternatePending = 1;
+    sBattleAnimQueuedAlternateList = 5;
+}
+
+void BattleAnim_QueueEffectList6Alt(s32 arg0, ActivePokemon* arg1) {
+    BattleAnim_QueueEffectList6(arg0, arg1);
+}
+
+extern s32 D_8219A7FC;
+extern s32 D_8219A800;
+extern s32 D_8219A804;
+
+void func_8213668C(s32 arg0) {
+    D_8219A7FC = 1;
+    D_8219A804 = 9;
+    D_8219A800 = arg0;
+}
+
+M2C_UNK func_8213644C(u8);                          /* extern */
+extern s32 D_8219A7E8;
+extern s16 D_8219A80C;
+extern s32 D_8219A810;
+
+void func_821366B0(u8 arg0, s32 arg1) {
+    D_8219A7E8 = 1;
+    func_8213644C(arg0);
+    D_8219A810 = arg1;
+    if (arg0 == 3) {
+        D_8219A80C = 7;
+    }
+}
+
+void BattleAnim_StopOwnerCategoryParticles(u8 category, ActivePokemon* owner) {
+    BattleAnim_StopParticlesForOwnerCategory(category, owner);
+}
+
+M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+M2C_UNK func_8213C220(M2C_UNK, M2C_UNK);            /* extern */
+
+void func_8213672C(void) {
+    func_8213C220(0x80, 1);
+    func_8213B644(0, 0x20, 8);
+}
+
+M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+
+void func_82136760(void) {
+    func_8213B644(0, 0x20, 8);
+}
+
+void BattleAnim_RegisterAssetTable(arg1_func_80019420* arg0) {
+    if (arg0 != NULL) {
+        do {
+            if (arg0->unk_02 != 0) {
+                sBattleAnimAssetPointers[arg0->unk_02] = arg0->unk_04;
+                arg0++;
+            }
+        } while (arg0->unk_00 != 0);
+    }
+}
+
+void BattleAnim_ResetAssetTable(void) {
+    s32 i;
+
+    // clang-format off
+    for (i = 0; i < 256; i++) { sBattleAnimAssetPointers[i] = NULL; }
+    // clang-format on
+
+    BattleAnim_RegisterAssetTable(BattleAnim_LoadResourceTable(0));
+}
+
+void BattleAnim_BuildResourceListForMove(s16 arg0) {
+    s32 var_v0 = 0;
+    u8* temp_a1 = sMoveAnimEffectScripts[arg0][3];
+
+    while (*temp_a1 != 0x3F) {
+        sBattleAnimResourceList[var_v0] = *temp_a1;
+        temp_a1++;
+        var_v0++;
+    }
+
+    temp_a1 = sMoveAnimEffectScripts[arg0][4];
+    while (*temp_a1 != 0x3F) {
+        sBattleAnimResourceList[var_v0] = *temp_a1;
+        temp_a1++;
+        var_v0++;
+    }
+
+    sBattleAnimResourceList[var_v0] = -1;
+}
+
+void BattleAnim_LoadMoveResourceList(BattleSessionTeams* battle_session_teams, s16 move_id) {
+    if (move_id != 0xFF) {
+        BattleAnim_BuildResourceListForMove(move_id);
+        battle_session_teams->assetIsBusy |= 0x80;
+        battle_session_teams->unk_20 = sBattleAnimResourceList;
+        battle_session_teams->unk_24 = sBattleAnimResourceTablePointers;
+    }
+}
+
+void BattleAnim_LoadModeResourceList(BattleSessionTeams* battle_session_teams, s16 mode) {
+    s32 index = 0;
+    u8* var_v1 = sD_84386D44[mode][1];
+
+    while (*var_v1 != 0x3F) {
+        sBattleAnimResourceList[index] = *var_v1;
+        var_v1++;
+        index++;
+    }
+
+    sBattleAnimResourceList[index] = -1;
+    battle_session_teams->unk_20 = sBattleAnimResourceList;
+    battle_session_teams->assetIsBusy |= 0x80;
+    battle_session_teams->unk_24 = sBattleAnimResourceTablePointers;
+}
+
+void BattleAnim_RegisterAllAssetTables(void) {
+    s32 i = 0;
+    arg1_func_80019420* var_v0;
+    arg1_func_80019420** var_s1 = sBattleAnimResourceTablePointers;
+
+    while (*var_s1 != NULL) {
+        var_v0 = *var_s1;
+        if (i) {}
+        BattleAnim_RegisterAssetTable(var_v0);
+        var_s1++;
+        i++;
+    }
+}
+
+void BattleAnim_RegisterAssetTablesForSession(BattleSessionTeams* battle_session_teams) {
+    battle_session_teams->assetIsBusy &= ~0x10;
+    BattleAnim_RegisterAllAssetTables();
+}
+
+void BattleAnim_ResetDisplayContexts(void) {
+    s32 i;
+
+    for (i = 0; i < 16; i++) {
+        ModelRenderer_AttachDisplayObject(&sD_843903D0[i]);
+        sD_84391A50[i] = 0;
+    }
+
+    for (i = 0; i < 4; i++) {
+        ModelRenderer_AttachSecondaryDisplayObject(&sD_84391A90[i]);
+        sD_84392030[i] = 0;
+    }
+}
+
+Particle* BattleAnim_GetOwnerContextParticle(DisplayObject* arg0) {
+    return arg0->node.callbackArg;
+}
+
+DisplayObject* BattleAnim_AllocOwnerDisplayContext(Particle* arg0) {
+    s32 i;
+    s32 var_v0 = -1;
+    DisplayObject* temp_a0;
+
+    for (i = 0; i < 16; i++) {
+        if (sD_84391A50[i] == 0) {
+            var_v0 = i;
+            break;
+        }
+    }
+
+    if (var_v0 >= 0) {
+        temp_a0 = &sD_843903D0[var_v0];
+        sD_84391A50[var_v0] = 1;
+        temp_a0->node.callbackArg = arg0;
+    } else {
+        temp_a0 = NULL;
+    }
+    return temp_a0;
+}
+
+void BattleAnim_FreeOwnerDisplayContext(DisplayObject* arg0) {
+    s32 i;
+
+    for (i = 0; i < 16; i++) {
+        if (arg0 == &sD_843903D0[i]) {
+            break;
+        }
+    }
+
+    if (i != 16) {
+        sD_84391A50[i] = 0;
+        ModelRenderer_ClearDisplayObject(arg0);
+    }
+}
+
+DisplayObject* BattleAnim_AllocParticleDisplayContext(Particle* arg0) {
+    s32 i;
+    s32 var_a2 = -1;
+    DisplayObject* sp1C;
+
+    for (i = 0; i < 4; i++) {
+        if (sD_84392030[i] == 0) {
+            var_a2 = i;
+            break;
+        }
+    }
+
+    if (var_a2 >= 0) {
+        sp1C = &sD_84391A90[var_a2];
+        sD_84392030[var_a2] = 1;
+        Particle_SetFlags(arg0, 0x400);
+        sp1C->node.callbackArg = arg0;
+    } else {
+        sp1C = NULL;
+    }
+    return sp1C;
+}
+
+void BattleAnim_FreeParticleDisplayContext(DisplayObject* arg0) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (arg0 == &sD_84391A90[i]) {
+            break;
+        }
+    }
+
+    if (i != 4) {
+        sD_84392030[i] = 0;
+        ModelRenderer_ClearDisplayObject(arg0);
+    }
+}
+
+void BattleAnim_InitModelWithAnim(DisplayObject* arg0, s16 arg1, s16 arg2) {
+    Model_InitDisplayObject(arg0, 0, 0, sBattleAnimAssetPointers[arg1]);
+    ModelAnim_BindTransformCurve(arg0, 0, sBattleAnimAssetPointers[arg2], 0x10000);
+}
+
+void BattleAnim_SetModelAnimFrame(DisplayObject* arg0, s16 arg1) {
+    ModelAnim_SetFrame(arg0, arg1);
+}
+
+void BattleAnim_InitModel(DisplayObject* arg0, s16 arg1) {
+    Model_InitDisplayObject(arg0, 0, 0, sBattleAnimAssetPointers[arg1]);
+}
+
+void BattleAnim_BindModelAnim(DisplayObject* arg0, s16 arg1) {
+    ModelAnim_BindTransformCurve(arg0, 0, sBattleAnimAssetPointers[arg1], 0x10000);
+}
+
+void BattleAnim_BindModelAnimReversed(DisplayObject* arg0, s16 arg1) {
+    ModelAnim_BindTransformCurve(arg0, 0, sBattleAnimAssetPointers[arg1], -0x10000);
+    ModelAnim_SetFrame(arg0, arg0->transformAnim.data->endFrame - 1);
+}
+
+s32 BattleAnim_IsModelAnimComplete(DisplayObject* arg0) {
+    s32 ret = 0;
+
+    if (arg0->transformAnim.frameFixed == 0) {
+        ret = 1;
+    }
+    return ret;
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82137188; signature not recovered. */
+/* TODO: decompile func_82136E48; signature not recovered. */
 #else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82137188.s")
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82136E48.s")
+#endif
+
+void BattleAnim_UpdateEffectCallbacks(UNUSED CameraNode* arg0) {
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        if ((gBattleAnimEffectUpdateFuncs[i] != NULL) && (gBattleAnimEffectUpdateFuncs[i]() != 0)) {
+            gBattleAnimEffectUpdateFuncs[i] = NULL;
+            gBattleAnimEffectDrawFuncs[i] = 0;
+        }
+    }
+}
+
+void BattleAnim_DrawEffectCallbacks(UNUSED CameraNode* arg0) {
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        if (gBattleAnimEffectDrawFuncs[i] != NULL) {
+            gBattleAnimEffectDrawFuncs[i]();
+        }
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821370DC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821370DC.s")
 #endif

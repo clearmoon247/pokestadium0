@@ -80,6 +80,8 @@ void RibbonMesh_Configure(RibbonMesh* arg0, s32 arg1, s32 arg2, s32 arg3, s32 ar
     arg0->unk_044 = arg9;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void RibbonMesh_Spawn(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     RibbonMesh* ptr;
     RibbonMeshVertexState* ptr1;
@@ -232,6 +234,9 @@ void RibbonMesh_Spawn(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
         ptr3->unk_08 = ptr2->unk_08;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82171088.s")
+#endif
 
 void RibbonMesh_UpdateEnvAlpha(RibbonMesh* arg0) {
     s32 var_v0;
@@ -253,6 +258,8 @@ void RibbonMesh_UpdateEnvAlpha(RibbonMesh* arg0) {
     }
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 RibbonMesh_Update(RibbonMesh* arg0) {
     RibbonMeshVertexState* temp_s0;
     RibbonMeshVertexState* temp_s1;
@@ -404,6 +411,9 @@ s32 RibbonMesh_Update(RibbonMesh* arg0) {
     }
     return 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821717EC.s")
+#endif
 
 s32 RibbonMesh_UpdatePool(void) {
     s32 i;
@@ -448,6 +458,8 @@ Gfx* RibbonMesh_Draw(Gfx* arg0, RibbonMesh* arg1) {
     return arg0;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 Gfx* RibbonMesh_DrawPool(Gfx* arg0) {
     static Gfx D_84388E88[] = {
         gsDPPipeSync(),
@@ -529,7 +541,12 @@ Gfx* RibbonMesh_DrawPool(Gfx* arg0) {
 
     return arg0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821720B4.s")
+#endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void TerrainGrid_BuildCameraBounds(unk_D_843975E8* arg0, f32 arg1) {
     CameraNode* spB4 = BattleAnim_GetCameraContext();
     f32 spB0;
@@ -612,7 +629,12 @@ void TerrainGrid_BuildCameraBounds(unk_D_843975E8* arg0, f32 arg1) {
     arg0->unk_1C = sp58 * var_fs0;
     arg0->unk_20 = sp54 * var_fs0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82172470.s")
+#endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 /**
  * Samples the Surf water surface (sWaterHeightMap) at world position (x, z).
  *
@@ -755,7 +777,12 @@ f32 TerrainGrid_SampleHeightAndSlope(f32 x, f32 z, f32* rotation_x) {
     *rotation_x = angle_deg;
     return height;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821726F8.s")
+#endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 TerrainGrid_UpdateWaves(void) {
     s32 i;
     s32 j;
@@ -846,6 +873,9 @@ s32 TerrainGrid_UpdateWaves(void) {
 
     return 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82172AD0.s")
+#endif
 
 void TerrainGrid_Init(s32 arg0, s16 arg1, s16 arg2) {
     s32 i;
@@ -906,6 +936,8 @@ s32 TerrainGrid_Update(void) {
     return sp1C;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 Gfx* TerrainGrid_Draw(Gfx* arg0) {
     static Gfx D_84388F80[] = {
         gsDPPipeSync(),
@@ -1068,3 +1100,6 @@ Gfx* TerrainGrid_Draw(Gfx* arg0) {
 
     return arg0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82173418.s")
+#endif

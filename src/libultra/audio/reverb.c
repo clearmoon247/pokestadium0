@@ -39,11 +39,12 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004F658.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8004F8B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004F8B4.s")
-#endif
+s32 func_8004F8B4(s32 *arg0, s32 arg1, s32 arg2) {
+    if (arg1 == 1) {
+        *arg0 = arg2;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8004F8CC; signature not recovered. */

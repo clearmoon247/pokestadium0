@@ -1,10 +1,13 @@
 # Production ROM build
 
-`make rom` builds a byte-identical Stadium Zero JP ROM from compiled C,
-assembled instructions, extracted opaque assets, and retained storage metadata.
-The default build uses 551 unmodified m2c functions and 4,893 assembly owners.
-It links the resident image and all 259 fragment images independently, preserving
-the fragments that share link addresses. The verified output is 16,777,216 bytes:
+`make rom` builds a byte-identical Stadium Zero JP ROM from `src/`, extracted
+opaque assets, and retained storage metadata. Every file listed in
+`config/jp/sources.json` (all 543 files in `src/`) is compiled whole through
+asm-processor, so its C functions and its `GLOBAL_ASM` owners come out of one
+object. 2,657 of the 5,444 code owners are C; the other 2,787 are assembled
+from the extracted listings. The build links the resident image and all 259
+fragment images independently, preserving the fragments that share link
+addresses. The verified output is 16,777,216 bytes:
 
 ```text
 SHA-256 ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b
@@ -23,9 +26,10 @@ make coverage   # regenerate coverage from the verified receipt
 ```
 
 `make setup` downloads the official `decompals/ido-static-recomp` v1.2 IDO 5.3
-archive, verifies a pinned SHA-256, and installs it under ignored `tools/ido5.3`.
+and 7.1 archives, verifies pinned SHA-256s, and installs them under the ignored
+`tools/ido5.3` and `tools/ido7.1`.
 macOS and Linux x86-64/ARM64 archives are supported; native validation was on
-macOS ARM64. Override `IDO_CC`, `MIPS_BINUTILS_PREFIX`, `PYTHON`, or `JOBS` through
+macOS ARM64. Override `IDO_CC` (5.3), `IDO71_CC`, `MIPS_BINUTILS_PREFIX`, `PYTHON`, or `JOBS` through
 make variables or a local `.make_options`. Python dependencies are pinned by
 `requirements-mapping.txt`.
 
@@ -38,6 +42,34 @@ scripts, and maps live under `build/production/`. `make diff-init` builds these
 artifacts. `make clean` removes build output while preserving private extraction
 and tools; `make distclean` preserves them as well. `make rom ASM_ONLY=1` rebuilds
 all 5,444 owners from assembly as an independent baseline.
+
+## How `src/` files are built
+
+* Compiler flags are IDO 7.1 `-O2 -mips2 -G 0` with the Stadium 1 defines.
+  `tools/cflags_overrides.json` selects IDO 5.3 (libleo and the JPEG code)
+  or `-signed` (`hal_libc.c`) per file.
+* `GLOBAL_ASM` pragmas are pointed at normalized copies of the listings (the
+  same `canonical_assembly` used for assembly owners, so `move`, control
+  registers, division and 64-bit transfers keep their exact encodings).
+  asm-processor (`tools/asm-processor`, upstream plus one change that lets
+  `.set` toggles through) splices them into the object. Its prelude is
+  `tools/asm_prelude.inc`.
+* A file's object is placed at its first owner and must cover the file's owner
+  span. IDO pads `.text` to 16 bytes; that padding may be dropped only when it
+  is zero. When the last owner carries more padding than the object emits, the
+  remainder comes from the erased (zero) owner bytes, and the image comparison
+  checks it. An owner of another file inside a span is an error.
+* Only `.text` is linked. A C reference to the file's own `.rodata`, `.data` or
+  `.bss` fails the link (the section is discarded). Functions that need their
+  literals or statics are kept behind `#ifdef NON_MATCHING` until data is split.
+* Undefined symbols resolve, in order, to another object in the same image,
+  `linker_scripts/jp/symbol_addrs.txt`, or the address in an address-style name.
+
+`config/jp/matching.json` still selects single-function m2c candidates from
+`candidates/` for any owner whose file is not in `config/jp/sources.json`. With
+every file registered, it currently selects nothing. Seventeen of its candidates
+are not yet C in `src/` because their m2c declarations conflict with the
+file's headers.
 
 ## What the gate verifies
 
@@ -64,7 +96,8 @@ does not copy the original compressed code into the output.
 
 The default gate checks every linked image hash and the complete ROM hash.
 `build/production/receipt.json` records the result, compiler/binutils identity,
-registry hash, source hashes, and build-tool hashes. A build invalidates the
+registry hashes, source file hashes, one digest over all headers, and build-tool
+hashes. A build invalidates the
 previous receipt before compiling, so a failed run cannot leave a success receipt.
 The committed `docs/production-build-receipt.json` is the reviewed validation
 snapshot. A direct `cmp` also verified the final ROM against the supplied input.
@@ -72,15 +105,17 @@ snapshot. A direct `cmp` also verified the final ROM against the supplied input.
 A negative control replaced one accepted function with different m2c-generated
 C of the same function size. The compiler consumed it, the linked resident
 image changed, and the default comparison failed. Restoring the original C and
-building after `make clean` passed. This checks that C edits affect the actual
+building after `make clean` passed. The same control on the whole-file build
+(`return temp_v0 != NULL;` in the first function of `src/dma.c`) fails with
+`linked image bytes differ: resident`. This checks that C edits affect the actual
 output and that the build has no fallback to retail owner bytes.
 
 ## Current constraints
 
 This is a fixed-layout build. Owner sizes and image addresses are held constant;
-matching code changes can be promoted by adding their paths to
-`config/jp/matching.json` and passing the full ROM gate. Only that explicit
-registry selects C for production; failed candidates are excluded.
+a matching function is promoted by replacing its `GLOBAL_ASM` block in `src/`
+with C and passing the full ROM gate. Data, `.rodata`, microcode and other
+non-code ranges still come from the extracted assets.
 
 `COMPARE=0` permits nonidentical fixed-layout output, but an owner size change or
 an edit incompatible with the retained compression topology fails explicitly.

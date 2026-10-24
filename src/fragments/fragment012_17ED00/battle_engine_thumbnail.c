@@ -10,7 +10,6 @@
 
 #include "m2c_macros.h"
 
-void BattleThumbnail_SetFlagToUpdatePokemonThumbnail(CameraNode* camera);
 void BattleThumbnail_SetupOwnerCameraFraming(ActivePokemon* side1_pokemon, ActivePokemon* side2_pokemon);
 void BattleThumbnail_OwnerCameraLifecycleNop(void);
 void BattleThumbnail_TickOwnerCameraFraming(ActivePokemon* active_pokemon);
@@ -22,20 +21,6 @@ void BattleThumbnail_LoadOwnerCameraFramingConstants(ActivePokemon* active_pokem
 void BattleThumbnail_ApplyOwnerCameraFraming(ActivePokemon* active_pokemon);
 void BattleThumbnail_InitializeOwnerCameraFraming(CameraNode* side1_camera_node, ActivePokemon* side1_pokemon, CameraNode* side2_camera_node, ActivePokemon* side2_pokemon);
 void BattleThumbnail_TickBothOwnerSlideAnimations(ActivePokemon* side1_pokemon, ActivePokemon* side2_pokemon);
-
-/*
-    Sets flag to update the thumbnail.
-    Battle_RenderActivePokemonThumbnail in @src/fragments/battle_engine/battle_engine_main.c
-*/
-void BattleThumbnail_SetFlagToUpdatePokemonThumbnail(CameraNode* camera) {
-    camera->node.flags |= 0x10;
-}
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210720C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210720C.s")
-#endif
 
 /*
     Sets up the camera framing for both pokemons's thumbnails.

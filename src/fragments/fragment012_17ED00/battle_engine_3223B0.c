@@ -45,6 +45,8 @@ void BattleAnim_CallbackStartEffect6DefaultDescriptorBurstEmitter(Particle* arg0
 void BattleAnim_CallbackStartEffects2And15Descriptor08IndexedScaleDelayFade(Particle* arg0);
 void BattleAnim_CallbackEndEffect86Descriptor19ModePositionedAnimFade(Particle* arg0);
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackEndEffect16Descriptor45DelayedRotatingMotion_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
     s16 sp24 = Particle_FieldCF_GetS16_0C058(arg0);
@@ -60,6 +62,9 @@ void BattleAnim_CallbackEndEffect16Descriptor45DelayedRotatingMotion_InitParticl
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82149660.s")
+#endif
 
 M2C_UNK func_8213C938(s8 *);                      /* extern */
 M2C_UNK func_8213CB3C(s8 *);                      /* extern */
@@ -122,6 +127,8 @@ void BattleAnim_CallbackStartEffect48Descriptor45RisingSparkFade_InitParticle(Pa
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821499D4.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackStartEffects77And120Descriptor45DeceleratingSparkFade_InitParticle(Particle* arg0) {
     UNUSED s32 pad[3];
     s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -139,6 +146,9 @@ void BattleAnim_CallbackStartEffects77And120Descriptor45DeceleratingSparkFade_In
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82149ADC.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82149C20; signature not recovered. */
@@ -605,6 +615,8 @@ void BattleAnim_CallbackStartEffect6DefaultDescriptorBurstEmitter_InitParticle(P
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214ACAC.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackStartEffect47Descriptor4AAnimatedScaleFade_InitParticle(Particle* arg0) {
     UNUSED s32 pad[3];
     s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -623,6 +635,9 @@ void BattleAnim_CallbackStartEffect47Descriptor4AAnimatedScaleFade_InitParticle(
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214ADB8.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8214AF08; signature not recovered. */
@@ -667,6 +682,8 @@ void func_8214AF58(s8 *arg0) {
     }
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackStartEffects2And15Descriptor08IndexedScaleDelayFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
@@ -678,6 +695,9 @@ void BattleAnim_CallbackStartEffects2And15Descriptor08IndexedScaleDelayFade_Init
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214B044.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8214B0FC; signature not recovered. */

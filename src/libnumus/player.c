@@ -596,6 +596,8 @@ void func_80038880(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039D08.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 f32 Audio_ExpApproximation(f32 arg0) {
     f32 temp_fa1;
     f32 temp_fv1;
@@ -619,6 +621,9 @@ f32 Audio_ExpApproximation(f32 arg0) {
                       ((temp_fa1 * arg0) * 0.00133335581464283999) + ((temp_fa1 * temp_fv1) * 0.000154035303933816006));
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039E68.s")
+#endif
 
 void Audio_RelocateSoundBank(u8* arg0, s32 arg1) {
     UNUSED s32 pad;

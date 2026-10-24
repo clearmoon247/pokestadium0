@@ -4,12 +4,6 @@
 #include "global.h"
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_80056958; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80056958.s")
-#endif
-
-#ifdef NON_MATCHING
 /* TODO: decompile func_800569B0; signature not recovered. */
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800569B0.s")

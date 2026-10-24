@@ -2,37 +2,25 @@
 
 # pokestadium0 decompilation coverage
 
-## Per-function matching (`src/`)
-
 <!-- AUTO_COVERAGE:START -->
-- Assembly owners (first-pass function inventory): **5,444** covering **1,303,636** text bytes
-- Functions with matching C: **2,803 / 5,444 (51.5%)**, **422,012** bytes (32.4%)
-  - ported from the Stadium 1 decomp: **2,004**
-  - first-pass m2c output: **799**
-- Identified libultra functions (identical to ultralib 2.0I, kept as `GLOBAL_ASM`): **173**, **34,948** bytes
-- Remaining `GLOBAL_ASM` owners: **2,468** (plus the libultra owners above)
+- Code owners (first-pass function inventory): **5,444** covering **1,303,636** text bytes
+- Built from C in the full-ROM build: **2,657 / 5,444 (48.8%)**, **348,608** bytes (26.7%)
+  - ported from the Stadium 1 decomp: **1,857**
+  - m2c output: **800**
+- Matching C held behind `NON_MATCHING` until its file's data is placed: **147**
+- Identified libultra functions still built from assembly: **172**, **34,924** bytes
+- Remaining assembly owners: **2,787**
+- Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
 <!-- AUTO_COVERAGE:END -->
 
-"Matching C" is a per-function comparison against the retail ROM made by
-`tools/check_functions.py`; file-level data and `.rodata` layout of `src/` are
-unverified. See [docs/matching.md](docs/matching.md).
+`make rom` compiles every file in [config/jp/sources.json](config/jp/sources.json)
+and fails unless each linked image and the complete ROM are identical to the
+retail ROM; [the receipt](docs/production-build-receipt.json) records the last
+passing build. Counts use the conservative first-pass assembly-owner inventory,
+not confirmed original functions or translation units. Data, `.rodata`,
+microcode, opaque ranges and resource-only images are excluded from the
+owner-byte denominator and still come from the extracted ROM.
 
-## Full-ROM production build (`candidates/`)
-
-- C owners passing the full-ROM gate: **551/5,444 (10.1%)**
-- Remaining assembly owners: **4,893**
-- C owner bytes: **12,720/1,303,636 (0.98%)**
-- Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
-
-Counts use the conservative first-pass assembly-owner inventory, not confirmed
-original functions or translation units. The initial 100 are eight-byte empty
-returns. Data, microcode, opaque ranges, and resource-only images are excluded
-from the owner-byte denominator. Coverage applies to the explicit production C
-registry and the committed validation receipt; original compiler settings remain
-under investigation beyond the measured candidates.
-
-See [the production build](docs/production-build.md),
-[matching registry](config/jp/matching.json), and
-[validation receipt](docs/production-build-receipt.json).
-
-Regenerate with `make coverage` after updating the verified receipt.
+See [the production build](docs/production-build.md) and
+[docs/matching.md](docs/matching.md). Regenerate with `make coverage` after
+refreshing the receipt.

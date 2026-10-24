@@ -1,5 +1,5 @@
 /* Stadium Zero resident code. */
-/* C ported from the Stadium 1 decomp: src/gb_data.c. */
+/* C ported from the Stadium 1 decomp: src/gb_data.c, src/pokemon_stats.c. */
 
 #include "gb_data.h"
 #include "string.h"
@@ -19,6 +19,28 @@ extern unk_D_80072338 gMoveDisplayInfo[166];
 extern MoveData gMoveData[165];
 extern char* D_8006B570[84];
 
+#include "pokemon_stats.h"
+#include "gb_data.h"
+#include "save_data.h"
+#include "text_system.h"
+#include "gb_tower.h"
+#include "hal_libc.h"
+#include "util.h"
+extern u8 D_8006B8C4[0x420];
+typedef struct unk_func_800228F0_sp24 {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u16 unk_02;
+    /* 0x04 */ char unk_04[0x10];
+    /* 0x14 */ char unk_14[0x8];
+} unk_func_800228F0_sp24;
+extern u8 gDexToInternalIndex[];
+extern u8 gInternalIndexToDex[];
+extern u32 D_800AD330;
+extern u8 D_800AD334;
+extern u8 D_800AD335;
+extern GbSaveMainData D_800AD338;
+
 #include "m2c_macros.h"
 
 u16 GbData_ReadU16BE(u8* arg0);
@@ -37,11 +59,27 @@ u32 CalculateStatValue(s32 statId, s32 speciesId, u16 statModifier, u16 level, u
 void Pokemon_RecalcStats(BattleMon* arg0);
 u16 Pokemon_StatExpForTarget(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u16 arg4);
 u32 Pokemon_ExpForLevel(s32 arg0, u16 arg1);
+u16 Pokemon_LevelFromExp(s32 arg0, u32 arg1);
+void Pokemon_PrepareBattleMon(BattleMon* arg0);
+u8 Move_GetIdFromTableIndex(s32 tm_hm_index);
+u8 func_80020984(s32 arg0);
+u8 func_80020994(s32 arg0);
+void Deck_InitializeSaveBackend(DeckHandle* arg0);
+void Deck_InitializeBoxBackend(DeckHandle* arg0);
+DeckHandle* Deck_Open(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+DeckHandle* Deck_OpenAndSetName(s32 arg0, s32 arg1, s32 arg2, s32 arg3, char* arg4, u16 arg5);
+s32 Deck_CloseAndFlushBox(DeckHandle* arg0);
 
 char* Text_UntranscodeName(char* arg0, char* arg1);
 char* Text_CopyString(char* arg0, char* arg1);
 void Pokemon_FromGbRecord(BattleMon* arg0, GbPokemonRecord* arg1);
 void Pokemon_ToGbRecord(BattleMon* arg0, GbPokemonRecord* arg1);
+s32 Deck_WriteEntries(u8* arg0, s32 arg1, DeckHandle* arg2);
+s32 GbSave_HasPlayerNameMarker(u8* arg0);
+s32 Deck_GetCapacity(s32 arg0);
+s32 Deck_GetEntrySize(s32 arg0);
+s32 Deck_GetCount(s32 arg0, s32 arg1, s32 arg2);
+void Deck_DeleteEntry(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 u16 GbData_ReadU16BE(u8* arg0) {
     return (arg0[0] << 8) | arg0[1];
@@ -95,6 +133,8 @@ char* Text_CopySpeciesName(char* arg0, s32 arg1) {
     return arg0;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 char* Text_GetTmHmName(s32 arg0, char* arg1) {
     // "ひでんマシン%02d"
     static const char D_0007CCA0[] = { 164, 210, 164, 199, 164, 243, 165, 222, 165, 183,
@@ -115,10 +155,12 @@ char* Text_GetTmHmName(s32 arg0, char* arg1) {
 
     return arg1;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001FDC8.s")
+#endif
 
 s16 func_8001FAB0(s8 *);                          /* extern */
 s32 func_8001FAC8(s8 *);                          /* extern */
-s8 func_80020994(u8);                               /* extern */
 M2C_UNK func_80056690(s8 *, s8 *, M2C_UNK);     /* extern */
 
 void func_8001FE84(s8 *arg0, s8 *arg1) {
@@ -154,7 +196,6 @@ void Pokemon_FromGbRecordExt(BattleMon* arg0, GbPokemonRecordExt* arg1) {
 
 M2C_UNK func_8001FAE8(s8 *, u16);                 /* extern */
 M2C_UNK func_8001FAF8(s8 *, s32);                 /* extern */
-s8 func_80020984(u8);                               /* extern */
 M2C_UNK func_80056690(s8 *, s8 *, M2C_UNK);     /* extern */
 
 void func_8001FFE8(s8 *arg0, s8 *arg1) {
@@ -201,6 +242,8 @@ u16 StatExpSqrt(u16 square) {
 void func_80020188(void) {
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u16 GetPokemonDV(s32 statId, u16 dvBits) { //GetPokemonDV
     u16 dvValue;
 
@@ -231,7 +274,12 @@ u16 GetPokemonDV(s32 statId, u16 dvBits) { //GetPokemonDV
 
     return dvValue;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80020190.s")
+#endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 CalculateStatValue(s32 statId, s32 speciesId, u16 statModifier, u16 level, u16 dvBits) {
     u16 statValue;
     u16 baseStat;
@@ -275,6 +323,9 @@ u32 CalculateStatValue(s32 statId, s32 speciesId, u16 statModifier, u16 level, u
 
     return statValue;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80020234.s")
+#endif
 
 void Pokemon_RecalcStats(BattleMon* arg0) {
     arg0->unk_24 = Pokemon_LevelFromExp(arg0->unk_00.unk_00, arg0->unk_10);
@@ -299,6 +350,8 @@ u16 Pokemon_StatExpForTarget(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u16 arg4) {
     return i;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 Pokemon_ExpForLevel(s32 arg0, u16 arg1) {
     u32 sp4;
 
@@ -329,4 +382,162 @@ u32 Pokemon_ExpForLevel(s32 arg0, u16 arg1) {
     }
 
     return sp4;
+}
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002057C.s")
+#endif
+
+// The Japanese build compiles the functions from here through Deck_WriteEntries into the
+// gb_data object (gb_data.c includes this file with POKEMON_STATS_HEAD_ONLY defined); the
+// Japanese pokemon_stats object starts at GbSave_HasPlayerNameMarker.
+u16 Pokemon_LevelFromExp(s32 arg0, u32 arg1) {
+    s32 i;
+
+    for (i = 1; i < 100; i++) {
+        if (arg1 < Pokemon_ExpForLevel(arg0, i + 1)) {
+            break;
+        }
+    }
+
+    return i;
+}
+
+void Pokemon_PrepareBattleMon(BattleMon* arg0) {
+    s32 i;
+    s32 temp_a3;
+    s32 var_v0;
+    s32 idx;
+
+    Pokemon_RecalcStats(arg0);
+    arg0->statusCondition = 0;
+    arg0->hp = arg0->unk_26;
+
+    for (i = 0; i < 4; i++) {
+        if (arg0->unk_09[i] != 0) {
+            temp_a3 = (arg0->unk_20[i] >> 6) & 3;
+            var_v0 = gMoveData[arg0->unk_09[i] - 1].unk_05;
+
+            if (var_v0 >= 0x28) {
+                var_v0 = var_v0 + (temp_a3 * 7);
+            } else {
+                var_v0 = var_v0 + ((var_v0 / 5) * temp_a3);
+            }
+
+            arg0->unk_20[i] = (temp_a3 << 6) + var_v0;
+        }
+    }
+}
+
+u8 Move_GetIdFromTableIndex(s32 tm_hm_index) {
+    extern u8 D_8006B8C4[];
+
+    return D_8006B8C4[tm_hm_index];
+}
+
+u8 func_80020984(s32 arg0) {
+    extern u8 D_8006B8FB[];
+
+    return D_8006B8FB[arg0];
+}
+
+u8 func_80020994(s32 arg0) {
+    extern u8 D_8006B993[];
+
+    return D_8006B993[arg0];
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800209A4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800209A4.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800209B4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800209B4.s")
+#endif
+
+void Deck_InitializeSaveBackend(DeckHandle* arg0) {
+    if (arg0->unk_00 == 1) {
+        arg0->unk_04 |= 1;
+        Deck_SetSaveEntryCount(arg0->unk_01, arg0->unk_03, 0);
+    }
+
+    arg0->unk_05 = Deck_GetSaveRecordSize(arg0->unk_01);
+    arg0->unk_06 = Deck_GetSaveRecordCapacity(arg0->unk_01);
+    arg0->unk_08 = Deck_GetSaveEntryCount(arg0->unk_01, arg0->unk_03);
+
+    if (arg0->unk_00 == 2) {
+        arg0->unk_0A = arg0->unk_08;
+    } else {
+        arg0->unk_0A = 0;
+    }
+}
+
+void Deck_InitializeBoxBackend(DeckHandle* arg0) {
+    if (arg0->unk_00 == 1) {
+        arg0->unk_04 |= 1;
+        Deck_DeleteEntry(arg0->unk_01, arg0->unk_02, arg0->unk_03, 0);
+    }
+
+    arg0->unk_05 = Deck_GetEntrySize(arg0->unk_01);
+    arg0->unk_06 = Deck_GetCapacity(arg0->unk_01);
+    arg0->unk_08 = Deck_GetCount(arg0->unk_01, arg0->unk_02, arg0->unk_03);
+
+    if (arg0->unk_00 == 2) {
+        arg0->unk_0A = arg0->unk_08;
+    } else {
+        arg0->unk_0A = 0;
+    }
+}
+
+DeckHandle* Deck_Open(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    DeckHandle* sp1C;
+
+    sp1C = Util_Malloc(sizeof(DeckHandle));
+    if (sp1C != NULL) {
+        sp1C->unk_00 = arg3;
+        sp1C->unk_01 = arg0;
+        sp1C->unk_02 = arg1;
+        sp1C->unk_03 = arg2;
+        sp1C->unk_04 = 0;
+
+        switch (arg0 & 0xF0) {
+            case 16:
+                Deck_InitializeSaveBackend(sp1C);
+                break;
+
+            case 32:
+                Deck_InitializeBoxBackend(sp1C);
+                break;
+        }
+    }
+
+    return sp1C;
+}
+
+DeckHandle* Deck_OpenAndSetName(s32 arg0, s32 arg1, s32 arg2, s32 arg3, char* arg4, u16 arg5) {
+    DeckHandle* sp24;
+    DeckHandle* temp_v0;
+    DeckHandle* var_v1;
+
+    sp24 = Deck_Open(arg0, arg1, arg2, 1);
+    if ((sp24 != NULL) && (arg0 & 0xF0)) {
+        Deck_SetSaveEntryTrainerIdAndName(arg0, arg2, arg3, arg4, arg5);
+    }
+    return sp24;
+}
+
+s32 Deck_CloseAndFlushBox(DeckHandle* arg0) {
+    s32 sp1C = 0;
+
+    if ((arg0->unk_01 & 0x10) && (arg0->unk_04 & 1)) {
+        Save_InvalidateTypedRecord(arg0->unk_01, arg0->unk_03);
+        sp1C = 1;
+    }
+
+    Util_Free(arg0);
+
+    return sp1C;
 }

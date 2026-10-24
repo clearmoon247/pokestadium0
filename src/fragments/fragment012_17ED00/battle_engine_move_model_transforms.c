@@ -91,6 +91,8 @@ void BattleScene_ShowSecondaryModelsStaggeredFrame(ActivePokemon* active_pokemon
     }
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 void BattleScene_UpdateSecondaryModelTrailPosition(ActivePokemon* pokemon, s16 new_position) {
     s32 i;
     f32 distance;
@@ -108,6 +110,9 @@ void BattleScene_UpdateSecondaryModelTrailPosition(ActivePokemon* pokemon, s16 n
         BattleAnim_StepToS16(&pokemon->afterimages[i].displayObject.rotation.y, pokemon->displayObject.rotation.y, rate[i] * new_position);
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109AF4.s")
+#endif
 
 void BattleScene_ResetParticipantModelFlags(ActivePokemon* active_pokemon) {
     BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
@@ -463,6 +468,8 @@ void func_8210B150(s32 arg0, s8 *arg1) {
     M2C_FIELD(arg1, s32 *, 0x614) = (s32) (M2C_FIELD(arg1, s32 *, 0x614) + 1);
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon) {
     owner->displayObject.scale.x = Math_StepToF(owner->displayObject.scale.x, 0.0f, 0.05f, 0.05f);
     owner->displayObject.scale.y = Math_StepToF(owner->displayObject.scale.y, 0.0f, 0.05f, 0.05f);
@@ -472,6 +479,9 @@ void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* ani
         Vec3f_SetComponentsDuplicate(&owner->displayObject.scale, 0.001f, 0.001f, 0.001f);
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B164.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210B22C; signature not recovered. */

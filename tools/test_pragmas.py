@@ -30,7 +30,7 @@ class InventoryTests(unittest.TestCase):
         cls.inventory = json.loads((ROOT / "docs/pragma-inventory.json").read_text())
 
     def test_every_owner_has_one_source(self):
-        """Each owner is either one GLOBAL_ASM pragma or one verified C function."""
+        """Each owner is built from one GLOBAL_ASM pragma or one verified C function."""
         import csv
         pragmas = []
         for path in sorted((ROOT / "src").rglob("*.c")):
@@ -44,9 +44,12 @@ class InventoryTests(unittest.TestCase):
             self.assertIn(path, by_assembly)
         with (ROOT / "docs/function-matches.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        c_owners = {row["owner"] for row in rows if row["status"] in ("s1", "m2c")}
+        c_owners = {row["owner"] for row in rows if row["build"] == "c"}
         asm_owners = {by_assembly[path] for path in pragmas}
         self.assertFalse(c_owners & asm_owners)
+        # Matching C that still needs its file's data stays behind NON_MATCHING.
+        held = {row["owner"] for row in rows if row["status"] in ("s1", "m2c") and row["build"] != "c"}
+        self.assertLessEqual(held, asm_owners)
         self.assertEqual(c_owners | asm_owners,
                          {row["name"] for row in self.inventory["owners"]})
         for row in rows:
@@ -83,8 +86,8 @@ class InventoryTests(unittest.TestCase):
         rom_path = ROOT / "baseroms/jp/baserom.z64"
         if not rom_path.exists():
             self.skipTest("private input ROM unavailable")
-        if not (ROOT / "tools/ido/linux/7.1/cc").exists():
-            self.skipTest("IDO unavailable; run tools/get_ido.sh")
+        if not (ROOT / "tools/ido7.1/cc").exists():
+            self.skipTest("IDO unavailable; run make setup")
         result = subprocess.run([sys.executable, str(ROOT / "tools/check_functions.py")],
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout[-2000:] + result.stderr[-2000:])

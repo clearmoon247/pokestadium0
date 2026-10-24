@@ -404,6 +404,8 @@ void func_82126A1C(UNUSED CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126A24.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleScene_PhaseSendOutAfterFaint(CameraNode* arg0) {
     switch (sBattleScene.scene->unk_20) {
         case 0:
@@ -435,6 +437,9 @@ void BattleScene_PhaseSendOutAfterFaint(CameraNode* arg0) {
             break;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126C74.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82126D20; signature not recovered. */

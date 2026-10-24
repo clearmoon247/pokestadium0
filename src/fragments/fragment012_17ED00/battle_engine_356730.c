@@ -57,6 +57,8 @@ void DoubleTextureTrail_InitPool(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180408.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void DoubleTextureTrail_RotateVertexOffset(f32 arg0, Vec3f* arg1, f32 arg2) {
     UNUSED MtxF sp70;
     MtxF sp30;
@@ -65,6 +67,9 @@ void DoubleTextureTrail_RotateVertexOffset(f32 arg0, Vec3f* arg1, f32 arg2) {
     guRotateF(sp30.mf, (360.0f * arg0) / 6.2831855f, 1.0f, 0.0f, 0.0f);
     guMtxXFMF(sp30.mf, 0.0f, 0.0f, arg2, &arg1->x, &arg1->y, &arg1->z);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180794.s")
+#endif
 
 void DoubleTextureTrail_Update(DoubleTextureTrail* arg0) {
     unk_D_843C2C00_0B0* var_v0;
@@ -169,6 +174,8 @@ Gfx* DoubleTextureTrail_LoadTextures(Gfx* arg0, DoubleTextureTrail* arg1) {
     return arg0;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 Gfx* DoubleTextureTrail_DrawAll(Gfx* arg0) {
     s32 i;
     s32 j;
@@ -259,3 +266,6 @@ Gfx* DoubleTextureTrail_DrawAll(Gfx* arg0) {
 
     return arg0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82181250.s")
+#endif

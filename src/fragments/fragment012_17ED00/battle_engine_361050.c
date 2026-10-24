@@ -1,5 +1,5 @@
 /* Stadium Zero fragment012_17ED00. */
-/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_313250.c, src/fragments/battle_engine/battle_engine_313D60.c, src/fragments/battle_engine/battle_engine_361050.c, src/fragments/battle_engine/battle_engine_move_animation.c. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_313250.c, src/fragments/battle_engine/battle_engine_361050.c, src/fragments/battle_engine/battle_engine_move_animation.c. */
 
 #include "fragments/battle_engine/battle_engine.h"
 #include "math.h"
@@ -95,26 +95,11 @@ extern char** sBattleControllerDisconnectedMessage;
 #include "memory.h"
 #include "util.h"
 
-#include "fragments/battle_engine/battle_engine.h"
-#include "geo_node.h"
-#include "model_animation.h"
-#include "text_system.h"
-#include "audio_commands.h"
-#include "matrix.h"
-#include "memory.h"
-#include "util.h"
-extern unk_D_84390240 sBattleScene;
-extern s32 pad_D_84390280;
-extern s32 pad_D_84390290[4];
-
-#include "m2c_macros.h"
-
 u16 BattleAI_ApplyMoveEffectDamageOverride(BattleMonRuntime* arg0, BattleMonRuntime* arg1);
 void BattleAI_ClampDamageRatio(void);
 void BattleAI_PrepareDamageCalcState(BattleMonRuntime* arg0, BattleMonRuntime* arg1, u8 arg2);
 s32 BattleScene_FindU16InByteArray(u16 lookup_value, u8* array, s32 array_length);
 void BattleScene_IntroInitNop(void);
-void func_8210F4E0(void);
 
 u16 BattleAI_ApplyMoveEffectDamageOverride(BattleMonRuntime* arg0, BattleMonRuntime* arg1) {
     s32 var_v0;
@@ -291,45 +276,4 @@ void BattleScene_IntroInitNop(void) {
 /* TODO: decompile func_8210F3F0; signature not recovered. */
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F3F0.s")
-#endif
-
-void func_8210F4E0(void) {
-}
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F4E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F4E8.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F688; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F688.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F730; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F730.s")
-#endif
-
-s32 func_8210F3F0();                                /* extern */
-extern u16 D_82199F50;
-
-void func_8210F8E8(void) {
-    s32 temp_v0;
-
-    if ((s32) D_82199F50 >= 2) {
-        do {
-            temp_v0 = func_8210F3F0();
-        } while (temp_v0 < 0xD9);
-        D_82199F50 = (u16) ((s32) (D_82199F50 * temp_v0) / 255);
-    }
-}
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F954; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F954.s")
 #endif

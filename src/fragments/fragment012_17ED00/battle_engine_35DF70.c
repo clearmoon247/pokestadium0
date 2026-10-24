@@ -9,7 +9,6 @@ extern func_D_8438AE50 sMoveEffectHandlers[];
 
 #include "m2c_macros.h"
 
-void Battle_Effect_Explosion(void);
 void Battle_Effect_Bide(void);
 void Battle_Effect_Thrash(void);
 void Battle_Effect_MultiHit(void);
@@ -18,37 +17,6 @@ void Battle_Effect_Rage(void);
 void Battle_ExecuteMoveEffect(void);
 
 void Battle_RunMoveEffect(void);
-
-void Battle_Effect_Explosion(void) {
-    sBattleScene.scene->unk_48 = 0x1E;
-    sBattleUser->unk_0C = 0;
-    sBattleUser->unk_15 = 0;
-    sBattleUser->unk_4D &= ~0x80;
-}
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113CD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113CD0.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113FC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113FC8.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_821142B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821142B8.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211459C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211459C.s")
-#endif
 
 void Battle_Effect_Bide(void) {
     sBattleScene.scene->unk_48 = 0x1B;

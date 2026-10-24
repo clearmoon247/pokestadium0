@@ -282,6 +282,8 @@ u8 GbTower_SetPollMask(u8 arg0) {
     return temp_v0;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 // Polls one Game Boy pak per call, rotating through ports 0-3. The first
 // osGbpakGetStatus failure on a port enabled by GbTower_SetPollMask latches
 // D_800AB1F8 and calls Game_ShutdownAndLoadFragment(port, 1); the per-port
@@ -300,6 +302,9 @@ void GbTower_PollPakConnection(void) {
         D_800697D0 = (D_800697D0 + 1) & 3;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000C628.s")
+#endif
 
 // Checks every pak enabled by GbTower_SetPollMask in one call, using the same
 // failure handling as GbTower_PollPakConnection.

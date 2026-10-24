@@ -1,5 +1,5 @@
 /* Stadium Zero fragment000_80C00. */
-/* C ported from the Stadium 1 decomp: src/audio_sound_state.c, src/fragments/battle_engine/battle_engine_2FA4D0.c. */
+/* C ported from the Stadium 1 decomp: src/audio_sound_state.c, src/fragments/battle_engine/battle_engine_2FA4D0.c, src/fragments/battle_engine/battle_engine_317E70.c. */
 
 #include "fragments/battle_engine/battle_engine.h"
 #include "graphics_textures.h"
@@ -21,6 +21,13 @@
 #include "3D140.h"
 #include "audio_commands.h"
 
+#include "fragments/battle_engine/battle_engine.h"
+#include "geo_render.h"
+#include "model_renderer.h"
+#include "matrix.h"
+#include "fragments/particle_math/particle_math.h"
+#include "memory.h"
+
 #include "m2c_macros.h"
 
 void func_8110FC30(void);
@@ -28,6 +35,11 @@ void func_8110FC38(void);
 void func_8110FC40(void);
 void func_8110FE90(void);
 s32 Audio_CountCategorySounds(s32 arg0);
+void BattleAnim_ClearEffectStateFlag(void);
+void BattleAnim_EffectStartNop(void);
+void BattleAnim_DisableEffectSpawningAlias(void);
+
+void BattleAnim_DisableEffectSpawning(void);
 
 void func_8110FC30(void) {
 }
@@ -168,4 +180,15 @@ extern M2C_UNK D_811842A0;
 
 void func_81110128(s32 arg0, M2C_UNK arg1) {
     func_811098C0(&D_811842A0, arg0, arg1);
+}
+
+void BattleAnim_ClearEffectStateFlag(void) {
+    D_811842A0 = 0;
+}
+
+void BattleAnim_EffectStartNop(void) {
+}
+
+void BattleAnim_DisableEffectSpawningAlias(void) {
+    BattleAnim_DisableEffectSpawning();
 }

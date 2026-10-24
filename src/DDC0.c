@@ -20,7 +20,6 @@ typedef struct unk_D_800A8480 {
 extern s32 D_800AAE30;
 extern s32 D_800AAF3C;
 
-void func_8000A798(void);
 void Audio_ResetCurrentMusic(void);
 void Audio_PlayMusicIfChanged(s32 arg0);
 void Audio_StopMusic(s32 arg0);
@@ -28,9 +27,6 @@ s32 Audio_WaitForIdle(s32 arg0);
 void Audio_FadeOutForShutdown(void);
 void Audio_Disable(void);
 void Audio_Enable(void);
-
-void func_8000A798(void) {
-}
 
 void Audio_ResetCurrentMusic(void) {
     D_800AAF3C = -1;

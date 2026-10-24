@@ -1,5 +1,5 @@
 /* Stadium Zero resident code. */
-/* C ported from the Stadium 1 decomp: src/audio_commands.c. */
+/* C ported from the Stadium 1 decomp: src/audio_commands.c, src/audio_data.c. */
 
 #include "audio_commands.h"
 #include "audio_commands_category2.h"
@@ -30,10 +30,18 @@ extern u8 pad_D_800FC718[0x80];
 #define AUDIO_HEAP_SIZE 300000
 extern s32 pad_D_80077C80;
 
+#include "audio_data.h"
+#include "libnumus/player.h"
+#include "rom_device.h"
+#include "audio_cache.h"
+#include "audio_category_fade.h"
+#include "audio_commands.h"
+
 #include "m2c_macros.h"
 
 void Audio_RelocateOffsets(u32* arg0, u32 arg1, s32 arg2);
 void Audio_CreateFrameTaskWrapper(void* arg0);
+void Audio_ClearWaveDataLoaded(void);
 
 void Audio_RelocateOffsets(u32* arg0, u32 arg1, s32 arg2) {
     u32 i;
@@ -240,3 +248,7 @@ void func_80041914(s32 arg0, s32 arg1) {
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80044158.s")
 #endif
+
+void Audio_ClearWaveDataLoaded(void) {
+    D_80075C30 &= ~0x80000000;
+}

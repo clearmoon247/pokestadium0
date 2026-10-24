@@ -38,3 +38,9 @@
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004D7DC.s")
 #endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8004D96C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004D96C.s")
+#endif
