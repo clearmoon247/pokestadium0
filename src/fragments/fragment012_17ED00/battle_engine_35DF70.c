@@ -212,11 +212,14 @@ void func_82115B64(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821162C4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821163F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821163F8.s")
-#endif
+void Battle_RunMoveEffect(void) {
+    BattleMonRuntime* ptr = &sActivePokemon[sBattleScene.scene->unk_2C]->state.runtime;
+    s32 idx = ptr->moveCache.unk_01;
+
+    if (sMoveEffectHandlers[idx - 1] != NULL) {
+        sMoveEffectHandlers[idx - 1]();
+    }
+}
 
 void Battle_ExecuteMoveEffect(void) {
     Battle_RunMoveEffect();

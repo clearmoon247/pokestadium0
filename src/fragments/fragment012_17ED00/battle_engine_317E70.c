@@ -205,8 +205,41 @@ s32 Battle_CheckFaintAfterMove(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821132C8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113524; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113524.s")
-#endif
+void BeginBattleForEntity(ActivePokemon* arg0) {
+    ActivePokemonState* sp24;
+    ActivePokemonState* sp20;
+    BattleMonRuntime* ptr1;
+    BattleMonRuntime* ptr2;
+
+    ptr1 = &arg0->state.runtime;
+
+    sp24 = &sActivePokemon[0]->state;
+    sp20 = &sActivePokemon[1]->state;
+
+    ptr2 = &sActivePokemon[BattleScene_GetParticipantSideIndex(arg0) == 0]->state.runtime;
+
+    sp24->unk_2A = 0;
+    sp20->unk_2A = 0;
+    ptr1->unk_12 = 0xFFFF;
+    ptr2->unk_12 = 0xFFFF;
+
+    sConfused = 1;
+    sStatCanBeChangedFurther = 1;
+
+    sBattleScene.scene->unk_48 = 0;
+    sBattleScene.scene->unk_4C = 0;
+
+    sBattleUser = ptr1;
+    sBattleTarget = ptr2;
+
+    Battle_ResetEntityState(arg0);
+    Vec3f_SetComponentsDuplicate(&arg0->modelTransform.unk_00, 0.0f, 0.0f, 0.0f);
+    Vec3f_SetComponentsDuplicate(&arg0->modelTransform.rotation, 0.0f, 0.0f, 0.0f);
+    Battle_InitPokemonRuntimeState(arg0);
+
+    if (arg0 == sActivePokemon[0]) {
+        Battle_ResetTransientRuntimeState(0, 1);
+    } else {
+        Battle_ResetTransientRuntimeState(1, 0);
+    }
+}

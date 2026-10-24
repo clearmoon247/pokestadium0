@@ -190,11 +190,9 @@ void func_82107EA0(s8 *arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F18.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F3C.s")
-#endif
+ModelNodeView* Battle_GetLoadedModelNode(ActivePokemon* active_pokemon, s32 node_index) {
+    return active_pokemon->sessionTeams->loadedModel->unk_00[2]->unk_00[node_index];
+}
 
 s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
     return M2C_FIELD(M2C_FIELD(arg0, s8 **, 0x85C), s16 *, 2);
@@ -271,11 +269,15 @@ void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, Thumbna
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108648.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821087C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821087C4.s")
-#endif
+void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
+    if (active_pokemon->state.flags & ACTIVE_SLEEP) {
+        BattleAnim_TrySetModelEventTrackFromRow(active_pokemon, 0xAF, 2);
+    } else {
+        active_pokemon->state.unk_36 = 0;
+        ModelAnim_SetEventFrame(&active_pokemon->displayObject, 0);
+        ModelAnim_SetEventTrack(&active_pokemon->displayObject, -1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210881C; signature not recovered. */

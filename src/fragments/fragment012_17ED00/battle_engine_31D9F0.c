@@ -57,11 +57,23 @@ void func_82116D28(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821170D0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211724C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211724C.s")
-#endif
+void BattleHud_DrawSpeciesNameLabelAuto(ActivePokemon* arg0, TeamRoster* arg1, s16 arg2, s16 arg3, s32 arg4, u16 arg5, s32 arg6) {
+    ActivePokemonState* ptr = &arg0->state;
+    s32 var_t0 = 0;
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (ptr->moveSlotIllegality[i] == 1) {
+            var_t0 = 1;
+        }
+    }
+
+    if (arg6 == 0) {
+        BattleHud_DrawSpeciesNameLabel(arg2, arg3, arg4, &arg1->unk_008, var_t0);
+    } else {
+        BattleHud_DrawSpeciesNameLabelBlink(arg2, arg3, arg4, &arg1->unk_008, arg5, var_t0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821172F0; signature not recovered. */

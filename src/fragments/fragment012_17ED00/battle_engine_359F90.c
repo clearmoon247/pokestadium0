@@ -99,11 +99,22 @@ void ComputeAllPokemonStats(BattleMon* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821102F0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821107F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821107F0.s")
-#endif
+void Battle_DecrementPP(s32 arg0) {
+    BattleMonRuntime* temp_v0;
+    ActivePokemonState* temp_a1;
+    BattleMon* temp_a2;
+
+    temp_v0 = &sActivePokemon[arg0]->state.runtime;
+    temp_a1 = &sActivePokemon[arg0]->state;
+    temp_a2 = &sActivePokemon[arg0]->teamRoster->pokemonPicked[temp_a1->rosterIndex];
+
+    if ((temp_v0->usedMove != 0xA5) && !(temp_v0->unk_4C & 7) && !(temp_v0->unk_4D & 0x40)) {
+        temp_v0->unk_32[temp_a1->unk_0C]--;
+        if (!(temp_v0->unk_4E & 8)) {
+            temp_a2->unk_20[temp_a1->unk_0C] -= 1;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82110890; signature not recovered. */
@@ -146,17 +157,27 @@ void func_82110984(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110B44.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110B6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110B6C.s")
-#endif
+void ApplyParalysisSpeedCut(ActivePokemon* arg0) {
+    BattleMonRuntime* temp_v0 = &arg0->state.runtime;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110BA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110BA4.s")
-#endif
+    if (arg0->state.runtime.unk_15 & 0x40) {
+        temp_v0->speed >>= 2;
+        if (temp_v0->speed == 0) {
+            temp_v0->speed = 1;
+        }
+    }
+}
+
+void ApplyBurnAttackCut(ActivePokemon* arg0) {
+    BattleMonRuntime* temp_v0 = &arg0->state.runtime;
+
+    if (arg0->state.runtime.unk_15 & 0x10) {
+        temp_v0->unk_2A >>= 1;
+        if (temp_v0->unk_2A == 0) {
+            temp_v0->unk_2A = 1;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82110BDC; signature not recovered. */

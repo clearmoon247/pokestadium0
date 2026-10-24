@@ -109,11 +109,39 @@ void func_8210F8E8(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F954; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F954.s")
-#endif
+u16 Battle_DetermineMoveOrder(ActivePokemon* pokemon, ActivePokemon* other_pokemon) {
+    BattleMonRuntime* runtime = &pokemon->state.runtime;
+    BattleMonRuntime* other_runtime = &other_pokemon->state.runtime;
+
+    if (runtime->usedMove == QUICK_ATTACK) {
+        if (other_runtime->usedMove != QUICK_ATTACK) {
+            return 0;
+        }
+    } else if (other_runtime->usedMove == QUICK_ATTACK) {
+        return 1;
+    }
+
+    if (runtime->usedMove == COUNTER) {
+        if (other_runtime->usedMove != COUNTER) {
+            return 1;
+        }
+    } else if (other_runtime->usedMove == COUNTER) {
+        return 0;
+    }
+
+    if (other_runtime->speed < runtime->speed) {
+        return 0;
+    }
+
+    if (runtime->speed < other_runtime->speed) {
+        return 1;
+    }
+
+    if (Battle_Random() < 0x80) {
+        return 0;
+    }
+    return 1;
+}
 
 s32 IsByteInArray(u8 lookup, u8* array, s32 array_length) {
     while (array_length--) {
