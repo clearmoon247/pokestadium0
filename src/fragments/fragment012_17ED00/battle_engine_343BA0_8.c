@@ -118,8 +118,6 @@ void BattleAnim_StartEffect11Trail50Alt_Init(void) {
     Trail50EffectAlt_Init();
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 BattleAnim_StartEffect11Trail50Alt_Update(void) {
     UNUSED s32 pad[1];
     Vec3f sp60;
@@ -146,9 +144,6 @@ s32 BattleAnim_StartEffect11Trail50Alt_Update(void) {
     Trail50EffectAlt_IsComplete();
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EDB4.s")
-#endif
 
 void BattleAnim_StartEffect11Trail50Alt_Draw(void) {
     gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -162,8 +157,6 @@ void BattleAnim_StartEffect57Trail50_Init(void) {
     Trail50Effect_Init();
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 BattleAnim_StartEffect57Trail50_Update(void) {
     UNUSED s32 pad[1];
     Vec3f sp60;
@@ -190,9 +183,6 @@ s32 BattleAnim_StartEffect57Trail50_Update(void) {
     Trail50Effect_IsComplete();
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EFB4.s")
-#endif
 
 void BattleAnim_StartEffect57Trail50_Draw(void) {
     gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -365,7 +355,21 @@ void BattleAnim_StartEffect67OwnerAnchoredFourStream_Draw(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8216FA40; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_StartEffect78Radial20_EmitVariantA(void) {
+    f32 sp5C;
+    f32 sp58;
+    f32 sp54;
+    f32 sp50;
+    f32 sp4C;
+    f32 sp48;
+
+    BattleAnim_CalcVectorAtToDm(&sp5C, &sp58, &sp54, &sp50, &sp4C, &sp48);
+    sp50 *= 6.0f;
+    sp4C *= 6.0f;
+    sp48 *= 6.0f;
+    Radial20_VariantA(sp5C, sp58, sp54, sp50, sp4C, sp48, 9, 0xFF, 0xFF, 0xFF, 0xB4, 0.3f, 2.0f, 20.0f, 0x3C);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216FA40.s")
 #endif

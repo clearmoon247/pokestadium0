@@ -260,11 +260,16 @@ void BattleAnim_EndEffect32Radial20_Draw(void) {
     gDisplayListHead = Strip400_Draw(gDisplayListHead);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216EA20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EA20.s")
-#endif
+void BattleAnim_EndEffect32Radial20_Init(void) {
+    Vec3f sp34;
+    f32 sp30;
+
+    BattleAnim_ResetSharedEffectMatrix();
+    BattleAnim_EffectSecondaryOwnerBonePosition(&sp34);
+    sp30 = BattleAnim_EffectTertiaryOwnerModelScale();
+    BattleAnim_ResetSharedEffectMatrix();
+    Radial20_Init(sp34.x, sp34.y, sp34.z, sp30, 0xFF, 0xFF, 0x40, 0xFF, 0xFF, 0x40);
+}
 
 s32 BattleAnim_EndEffect33Radial20_Update(void) {
     return Radial20_Update();

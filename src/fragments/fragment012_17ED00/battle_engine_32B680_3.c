@@ -499,11 +499,28 @@ void ParticleEffect_AllocateGfxAndDraw(s32 arg0, arg1_func_84344CE8* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82153BE0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82153C50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82153C50.s")
-#endif
+void BattleAnim_CallbackMove86EndDescriptor24(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupMove86EndDescriptor24(arg0);
+            break;
+
+        case 2:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 3:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x40);
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+
+    Particle_Field1C_Approach_0B98C(arg0, 0.0f, 0.1f);
+    Particle_AddVelocityXZFromRotationYViaImpulse(arg0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82153D00; signature not recovered. */
@@ -812,11 +829,38 @@ void func_82155084(void) {
     func_8213B560(0x14, &func_82144750, &D_8218E580, 0x50, 1, 0, 0, 0x33, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215510C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215510C.s")
-#endif
+void BattleAnim_InitEffect65Overlay(Particle* arg0) {
+    s16 sp26;
+    u16 sp24;
+    u16 sp22;
+
+    sp26 = BattleAnim_GetQueuedMoveId();
+    sp24 = 0x17;
+    sp22 = 0x8;
+    Particle_FieldCA_SetU8_0BECC(arg0, 7);
+    Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+    Particle_SetPosition(arg0, 160.0f, 120.0f, 0.0f);
+
+    switch (sp26) {
+        case 0x4E:
+        case 0x93:
+            break;
+
+        case 0x4D:
+            sp24 = 0x3B;
+            sp22 = 0;
+            break;
+
+        case 0x4F:
+            sp24 = 0x33;
+            break;
+    }
+
+    ParticleGfx_RecolorPrim(arg0, sp24);
+    ParticleGfx_RecolorEnv(arg0, sp22);
+    Particle_SetPrimAlpha(arg0, 0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 void BattleAnim_CallbackStartEffect65Descriptors31And32FadeIn(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -1728,11 +1772,13 @@ void BattleAnim_StartEffect64ModelAnimWait(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xA, 0, 0x23, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82157C60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82157C60.s")
-#endif
+void ParticleEffect_RegisterMultipleHandlers(void) {
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xA, 0, 0x24, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(8, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xA, 1, 0x24, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x10, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xA, 2, 0x24, 0);
+    BattleAnim_SpawnOwnerModelTintPulseDetach(0x5F, 0, 0x8, 0, 0xFF, 8);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x5F, 8, 0xC, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, &gBattleAnimParticleDescriptors[0x42], 0, 8, 9, 0, 0x17, 6);
+}
 
 void BattleAnim_CallbackStartEffect10Model60AlphaFadeIn_InitParticle(Particle* arg0) {
     arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);
@@ -2784,11 +2830,29 @@ s16 BattleAnim_GetMoveKeyedModelVariantIndex(void) {
     return sp1E;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215AB74; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215AB74.s")
-#endif
+s16 BattleAnim_GetMoveKeyedTintRampParam(void) {
+    s16 sp1E;
+
+    switch (BattleAnim_GetQueuedMoveId()) {
+        case 0x7C:
+            sp1E = 0x10;
+            break;
+
+        case 0x33:
+            sp1E = 0x29;
+            break;
+
+        case 0x5C:
+            sp1E = 0x3B;
+            break;
+
+        case 0x7A:
+            sp1E = 0x36;
+            break;
+    }
+
+    return sp1E;
+}
 
 s16 BattleAnim_GetMoveKeyedTrailVariantParam(void) {
     s16 sp1E;
@@ -2882,11 +2946,23 @@ void BattleAnim_StartEffect39Descriptor26ModelAnimWaitSequence(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xA, 0, 0x26, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215B164; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215B164.s")
-#endif
+void ParticleEffect_SimpleBurstScript(void) {
+    UNUSED s16 pad;
+    s16 sp34;
+
+    switch (BattleAnim_GetQueuedMoveId()) {
+        case 0x59:
+            sp34 = 0xE;
+            break;
+
+        case 0x5A:
+            sp34 = 0;
+            break;
+    }
+
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, sp34);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xA, 0, 0x26, 0);
+}
 
 void BattleAnim_EndEffect58ModelAnimAndDescriptorSequence(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(6, BattleAnim_CallbackInitModelAnim, &gDefaultParticleDescriptor, 0, 1, 0xA, 0, 4, 2);
@@ -3332,11 +3408,24 @@ void ParticleEffect_PaletteMultiBurstNoCleanupNoTintFade(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0x20, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 9, 2, 0xD, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215C614; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215C614.s")
-#endif
+void ParticleEffect_PaletteScriptBurst(void) {
+    switch (BattleAnim_GetQueuedMoveId()) {
+        case 0x8D:
+            BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, 6);
+            BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimMode2Update, &gDefaultParticleDescriptor, 0x80, 1, 0xC, 0xD, 0x1A, 0x20);
+            break;
+
+        case 0x47:
+            BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, 0x37);
+            BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimMode2Update, &gDefaultParticleDescriptor, 0x80, 1, 0xC, 0xB, 0x1A, 0x20);
+            break;
+
+        case 0x48:
+            BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, 0x1F);
+            BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimMode2Update, &gDefaultParticleDescriptor, 0x80, 1, 0xC, 0xC, 0x1A, 0x20);
+            break;
+    }
+}
 
 void ParticleEffect_PaletteBurstVariant4Model8D(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffects95To97EndEffects62And63ModelFadeIn, &gDefaultParticleDescriptor, 0, 1, 0xC, 4, 0, 0);

@@ -919,11 +919,23 @@ void BattleAnim_CallbackEndEffect68Descriptor54FlickerExpandingFade(Particle* ar
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214B690; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214B690.s")
-#endif
+void BattleAnim_CallbackEndEffect69Descriptor54ExpandingHoldFade_InitParticle(Particle* arg0) {
+    UNUSED s16 pad;
+    s16 sp24;
+
+    Particle_FieldCF_GetS16_0C058(arg0);
+    sp24 = Particle_FieldAC_GetS16_0C038(arg0);
+    Particle_Field1C_SetScaled_0B938(arg0, 2.0f);
+    Particle_Field38_AddXZFromField94YOffset180_08F38(arg0, 10.0f);
+    ParticleGfx_RecolorPrim(arg0, 0x8);
+    ParticleGfx_RecolorEnvFromPaletteSetA(arg0, sp24 % 6);
+    Particle_SetTextureFrame(arg0, 1);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp24 * 2);
+    Particle_Field94_AddZ_0A5B0(arg0, (sp24 << 0x10) / 10);
+    Particle_Field9A_SetZ_0A3EC(arg0, ParticleMath_RandomSignedOffsetBySign(0x800, 0x400));
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 void BattleAnim_CallbackEndEffect69Descriptor54ExpandingHoldFade(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -1077,11 +1089,31 @@ void func_8214BB94(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214BC58; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214BC58.s")
-#endif
+void BattleAnim_CallbackSharedDescriptor19RecolorAnimatedFade_InitParticle(Particle* arg0) {
+    UNUSED s32 pad;
+
+    switch (Particle_FieldCF_GetS16_0C058(arg0)) {
+        case 0:
+            ParticleGfx_RecolorPrim(arg0, 0x8);
+            ParticleGfx_RecolorEnvFromPaletteSetA(arg0, ParticleMath_RandomRange(6));
+            break;
+
+        case 1:
+            ParticleGfx_RecolorPrimFromPaletteSetB(arg0, ParticleMath_RandomRange(6));
+            ParticleGfx_RecolorEnvFromPaletteSetB(arg0, ParticleMath_RandomRange(6));
+            break;
+
+        case 2:
+            ParticleGfx_RecolorPrimEnvFromPaletteSetB(arg0, ParticleMath_RandomRange(6));
+            break;
+    }
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.8f);
+    Particle_Field38_AddXZFromField94Y_08ED0(arg0, 5.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 3.0f);
+    Particle_Field94_AddVec_0A52C(arg0, ParticleMath_RandomRange(0x10000), ParticleMath_RandomRange(0x10000), 0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 s16 func_8213C484();                                /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */

@@ -44,11 +44,15 @@ void BattleAnim_DrawParticleNoop(UNUSED Particle* arg0, UNUSED CameraNode* arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821092E4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210942C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210942C.s")
-#endif
+void BattleScene_HideParticipantSecondaryModels(ActivePokemon* active_pokemon) {
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->afterimages[i].displayObject.scale, 1.0f, 1.0f, 1.0f);
+        active_pokemon->afterimages[i].displayObject.node.flags &= ~1;
+        active_pokemon->afterimages[i].minimized = 0;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821094C0; signature not recovered. */
@@ -468,8 +472,6 @@ void func_8210B150(s32 arg0, s8 *arg1) {
     M2C_FIELD(arg1, s32 *, 0x614) = (s32) (M2C_FIELD(arg1, s32 *, 0x614) + 1);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon) {
     owner->displayObject.scale.x = Math_StepToF(owner->displayObject.scale.x, 0.0f, 0.05f, 0.05f);
     owner->displayObject.scale.y = Math_StepToF(owner->displayObject.scale.y, 0.0f, 0.05f, 0.05f);
@@ -479,9 +481,6 @@ void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* ani
         Vec3f_SetComponentsDuplicate(&owner->displayObject.scale, 0.001f, 0.001f, 0.001f);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B164.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210B22C; signature not recovered. */

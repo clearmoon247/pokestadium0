@@ -69,10 +69,7 @@
     ".rodata": "0x82196AF0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_328F10.c": {
-    ".rodata": {
-      "address": "0x82196B20",
-      "size": "0x3C"
-    }
+    ".rodata": "0x82196B20"
   },
   "src/fragments/fragment012_17ED00/battle_engine_32A640.c": {
     ".rodata": "0x82196BA0"
@@ -87,6 +84,12 @@
     ".rodata": {
       "address": "0x82197520",
       "size": "0x2C"
+    }
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_343BA0_8.c": {
+    ".rodata": {
+      "address": "0x8219792C",
+      "size": "0x8"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_34A420.c": {
@@ -125,6 +128,12 @@
   "src/fragments/fragment012_17ED00/battle_engine_355A00.c": {
     ".rodata": "0x82197D80"
   },
+  "src/fragments/fragment012_17ED00/battle_engine_356730.c": {
+    ".rodata": {
+      "address": "0x82197DB0",
+      "size": "0x4"
+    }
+  },
   "src/fragments/fragment012_17ED00/battle_engine_357C30.c": {
     ".data": "0x82193550",
     ".rodata": "0x82197DC0"
@@ -134,6 +143,12 @@
   },
   "src/fragments/fragment012_17ED00/battle_engine_move_animation.c": {
     ".rodata": "0x821948DC"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c": {
+    ".rodata": {
+      "address": "0x82194930",
+      "size": "0x1C"
+    }
   },
   "src/fragments/fragment012_17ED00/particle_math_269820_2.c": {
     ".rodata": "0x82196970"

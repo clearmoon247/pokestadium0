@@ -145,11 +145,39 @@ Particle* Particle_Alloc(void) {
     return var_a0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139B54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139B54.s")
-#endif
+BattleAnimEffectSlot* BattleAnim_AllocEffectSlot(void) {
+    s32 i;
+    s32 var_v0 = gBattleAnimEffectSlotIndex;
+    BattleAnimEffectSlot* var_v1 = &gBattleAnimEffectSlots[var_v0];
+
+    for (i = 0; i < 300; i++) {
+        if (var_v1->unk_15 == 0) {
+            break;
+        }
+
+        var_v0++;
+
+        if (var_v0 >= 300) {
+            var_v0 = 0;
+            var_v1 = &gBattleAnimEffectSlots[0];
+        } else {
+            var_v1++;
+        }
+    }
+
+    if (i >= 300) {
+        var_v1 = -1;
+    } else {
+        var_v1->unk_15 = -0x1;
+
+        gBattleAnimEffectSlotIndex = var_v0 + 1;
+        if (gBattleAnimEffectSlotIndex >= 300) {
+            gBattleAnimEffectSlotIndex = 0;
+        }
+    }
+
+    return var_v1;
+}
 
 void func_82139BE8(s8 *arg0) {
     s8 **temp_v0;
