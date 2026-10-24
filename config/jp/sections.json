@@ -32,7 +32,7 @@
   "src/fragments/fragment012_17ED00/battle_engine_309ED0.c": {
     ".rodata": {
       "address": "0x821962A8",
-      "size": "0x2C"
+      "size": "0x58"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_313D60.c": {
@@ -172,8 +172,14 @@
   "src/libleo/leoc2ecc.c": {
     ".rodata": "0x8007F3D0"
   },
+  "src/libnaudio/n_drvrNew.c": {
+    ".rodata": "0x8007EC90"
+  },
   "src/libnaudio/n_resample.c": {
     ".rodata": "0x8007ECB0"
+  },
+  "src/libnaudio/n_reverb.c": {
+    ".rodata": "0x8007ECC0"
   },
   "src/libnumus/player.c": {
     ".rodata": "0x8007DC68"

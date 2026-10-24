@@ -73,11 +73,16 @@ void Battle_Effect_MultiHit(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82114C20.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82114CAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82114CAC.s")
-#endif
+void Battle_Effect_OHKO(void) {
+    sBattleDamage = 0;
+    sBattleCritFlag = 0xFF;
+    if (sBattleUser->speed < sBattleTarget->speed) {
+        sBattleMoveFailed = 1;
+        return;
+    }
+    sBattleDamage = 0xFFFF;
+    sBattleCritFlag = 2;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82114D10; signature not recovered. */

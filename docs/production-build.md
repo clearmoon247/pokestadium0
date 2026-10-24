@@ -4,7 +4,7 @@
 opaque assets, and retained storage metadata. Every file listed in
 `config/jp/sources.json` (all 543 files in `src/`) is compiled whole through
 asm-processor, so its C functions and its `GLOBAL_ASM` owners come out of one
-object. 2,896 of the 5,444 code owners are C; the other 2,548 are assembled
+object. 2,919 of the 5,444 code owners are C; the other 2,525 are assembled
 from the extracted listings. The build links the resident image and all 259
 fragment images independently, preserving the fragments that share link
 addresses. The verified output is 16,777,216 bytes:

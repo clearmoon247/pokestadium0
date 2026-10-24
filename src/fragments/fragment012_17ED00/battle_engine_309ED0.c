@@ -442,11 +442,38 @@ void BattleScene_PhaseSendOutAfterFaint(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126D20.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82126E34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126E34.s")
-#endif
+void func_82126D20(UNUSED CameraNode* arg0);
+void func_82126E34(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            BattleScene_AdvanceSendOutPreparation(arg0);
+            break;
+
+        case 1:
+            BattleScene_AdvanceSendOutCamera(arg0);
+            break;
+
+        case 2:
+            BattleScene_AdvanceSendOutCameraClose(arg0);
+            break;
+
+        case 3:
+            BattleScene_FinishSendOutCameraClose(arg0);
+            break;
+
+        case 4:
+            func_82126D20(arg0);
+            break;
+
+        case 5:
+            func_82126A1C(arg0);
+            break;
+
+        case 10:
+            BattleScene_AdvanceSendOutFollowupCamera(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82126EE0; signature not recovered. */

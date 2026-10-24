@@ -82,11 +82,26 @@ void Ui_Draw20x20Icon(s32 arg0, s32 arg1, s32 arg2);
 
 void Ui_DrawTexturedRect8x8(s32 x1, s32 y1, s32 width, s32 height, u8* texture);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001D370; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001D370.s")
-#endif
+s32 func_8001D370(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u8* arg4) {
+    UNUSED s32 pad[4];
+    s32 sp2C;
+    s32 sp28;
+
+    if (arg2 < 9) {
+        sp2C = 0x400;
+    } else {
+        sp2C = 0;
+    }
+
+    // clang-format off
+    if (arg3 < 9) { sp28 = 0x400; } else { sp28 = 0; }
+    // clang-format on
+
+    gDPLoadTextureBlock(gDisplayListHead++, arg4, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    Gfx_DrawTexturedRect(arg0, arg1, (arg0 + arg2) - 1, (arg1 + arg3) - 1, sp2C, sp28, 0);
+}
 
 void Ui_DrawBorderStyleA(s32 x1, s32 y1, s32 width, s32 height) {
     Ui_DrawTexturedRect8x8(x1, y1, 8, 8, D_10027D0);
@@ -209,11 +224,25 @@ void Ui_DrawBorderedPanel(s32 x1, s32 y1, s32 width, s32 height, u16 color) {
     gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001E034; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001E034.s")
-#endif
+void Ui_DrawGradientPanel(s32 x1, s32 y1, s32 width, s32 height, Color_RGB8* top_color, Color_RGB8* bottom_color) {
+    if ((width >= 0xF) && (height >= 0xF)) {
+        if (StageContext_IsHighResolution() != 0) {
+            func_8001DBB0(x1 + 6, y1 + 6, width - 0xC, height - 0xC, top_color, bottom_color);
+        } else {
+            func_8001DBB0(x1 + 2, y1 + 2, width - 4, height - 4, top_color, bottom_color);
+        }
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    if (StageContext_IsHighResolution() != 0) {
+        Ui_DrawBorderStyleA(x1, y1, width, height);
+    } else {
+        Ui_DrawBorderStyleC(x1, y1, width, height);
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 void Ui_DrawBorderedPanelStyleB(s32 x1, s32 y1, s32 width, s32 height, u16 color) {
     gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);

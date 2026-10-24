@@ -1528,11 +1528,15 @@ void BattleAnim_StartEffect72ModelAnimWait(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821581BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82158224; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82158224.s")
-#endif
+void func_82158224(Particle* arg0) {
+    Particle_Field1C_SetScaled_0B938(arg0, 2.0f);
+    Particle_Field38_AddXZFromField94YOffset180_08F38(arg0, 10.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_SetTextureFrame(arg0, 1);
+    Particle_Field94_SetZ_0A2CC(arg0, ParticleMath_RandomRange(0x10000));
+    Particle_AdvanceLifecycle(arg0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821582A8; signature not recovered. */

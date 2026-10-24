@@ -100,17 +100,55 @@ void GbData_WriteU24BE(u8* arg0, s32 arg1) {
     arg0[2] = (arg1) & 0xFF;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001FB10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001FB10.s")
-#endif
+extern char* D_80076FD0_jp;
+extern u16 D_80076FD4_jp[0x100];
+char* Text_UntranscodeName(char* arg0, char* arg1) {
+    char* sp34 = arg0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001FBE4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001FBE4.s")
-#endif
+    while (*arg1 != 'P') {
+        if (*arg1 == ']') {
+            memcpy(arg0, D_80076FD0_jp, 10);
+            arg0 += 10;
+        } else {
+            *arg0++ = (D_80076FD4_jp[*arg1] >> 8) & 0xFF;
+            *arg0++ = D_80076FD4_jp[*arg1] & 0xFF;
+        }
+        arg1++;
+    }
+
+    *arg0++ = '\x0';
+
+    return sp34;
+}
+
+char* Text_TranscodeName(char* arg0, char* arg1) {
+    char* sp1C = arg0;
+    s32 i;
+    u16 c;
+
+    if (HAL_Strcmp(arg1, D_80076FD0_jp) == 0) {
+        *arg0++ = ']';
+    } else {
+        while (*(s8*)arg1 != 0) {
+            c = (((u8*)arg1)[0] << 8) | ((u8*)arg1)[1];
+            if (c == 0xA1A1) {
+                *arg0++ = 0x7F;
+            } else {
+                for (i = 0; i < 0x100; i++) {
+                    if (c == D_80076FD4_jp[i]) {
+                        *arg0++ = i;
+                        break;
+                    }
+                }
+            }
+            arg1 += 2;
+        }
+    }
+
+    *arg0++ = 'P';
+
+    return sp1C;
+}
 
 char* Text_UntranscodeFixedName(char* arg0, char* arg1) {
     char sp18[6];

@@ -15,11 +15,105 @@ extern s32 NULL_PARAMS_N[10];
 
 void alN_PVoiceNew(N_PVoice* mv, ALDMANew dmaNew, ALHeap* hp);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80046270; signature not recovered. */
+void n_alFxNew(ALFx** fx_ar, ALSynConfig* c, ALHeap* hp) {
+    u16 i, j, k;
+    s32* param = 0;
+    ALDelay* d;
+    ALFx* r;
+
+    *fx_ar = r = (ALFx*)alHeapAlloc(hp, 1, sizeof(ALFx));
+
+    switch (c->fxType) {
+        case AL_FX_SMALLROOM:
+            param = SMALLROOM_PARAMS_N;
+            break;
+        case AL_FX_BIGROOM:
+            param = BIGROOM_PARAMS_N;
+            break;
+        case AL_FX_ECHO:
+            param = ECHO_PARAMS_N;
+            break;
+        case AL_FX_CHORUS:
+            param = CHORUS_PARAMS_N;
+            break;
+        case AL_FX_FLANGE:
+            param = FLANGE_PARAMS_N;
+            break;
+        case AL_FX_CUSTOM:
+            param = c->params;
+            break;
+        default:
+            param = NULL_PARAMS_N;
+            break;
+    }
+
+    j = 0;
+
+    r->section_count = param[j++];
+    r->length = param[j++];
+
+    r->delay = alHeapAlloc(hp, r->section_count, sizeof(ALDelay));
+    r->base = alHeapAlloc(hp, r->length, sizeof(s16));
+    r->input = r->base;
+
+    for (k = 0; k < r->length; k++)
+        r->base[k] = 0;
+
+    for (i = 0; i < r->section_count; i++) {
+        d = &r->delay[i];
+        d->input = param[j++];
+        d->output = param[j++];
+        d->fbcoef = param[j++];
+        d->ffcoef = param[j++];
+        d->gain = param[j++];
+
+        if (param[j]) {
+#define RANGE 2.0
+            /*	    d->rsinc     = ((f32) param[j++])/0xffffff; */
+            d->rsinc = ((((f32)param[j++]) / 1000) * RANGE) / c->outputRate;
+
+            /*
+             * the following constant is derived from:
+             *
+             *		ratio = 2^(cents/1200)
+             *
+             * and therefore for hundredths of a cent
+             *			           x
+             *		ln(ratio) = ---------------
+             *			    (120,000)/ln(2)
+             * where
+             *		120,000/ln(2) = 173123.40...
+             */
+#define CONVERT 173123.404906676
+#define LENGTH (d->output - d->input)
+            d->rsgain = (((f32)param[j++]) / CONVERT) * LENGTH;
+            d->rsval = 1.0;
+            d->rsdelta = 0.0;
+            d->rs = alHeapAlloc(hp, 1, sizeof(ALResampler));
+            d->rs->state = alHeapAlloc(hp, 1, sizeof(RESAMPLE_STATE));
+            d->rs->delta = 0.0;
+            d->rs->first = 1;
+        } else {
+            d->rs = 0;
+            j++;
+            j++;
+        }
+
+        if (param[j]) {
+            d->lp = alHeapAlloc(hp, 1, sizeof(ALLowPass));
+            d->lp->fstate = alHeapAlloc(hp, 1, sizeof(POLEF_STATE));
+            d->lp->fc = param[j++];
+#ifdef _OLD_AUDIO_LIBRARY
+            init_lpfilter(d->lp);
 #else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80046270.s")
+            _init_lpfilter(d->lp);
 #endif
+        } else {
+            d->lp = 0;
+            j++;
+        }
+    }
+}
 
 void alN_PVoiceNew(N_PVoice* mv, ALDMANew dmaNew, ALHeap* hp) {
     mv->dc_state = alHeapAlloc(hp, 1, sizeof(ADPCM_STATE));

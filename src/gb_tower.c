@@ -34,11 +34,18 @@ void func_8000B340_jp(void);
 
 s32 GbPak_VerifyPattern(s32 arg0, void* arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000BA20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000BA20.s")
-#endif
+s32 GbPak_VerifyPattern(s32 arg0, void* arg1) {
+    u8 sp47;
+    u8 sp24[0x20];
+    s32 sp20 = 0;
+    UNUSED u8 padding[8];
+
+    if ((GbPak_MbcWrite(arg0, arg1, 0, 0x20) == 0) && (GbPak_MbcRead(arg0, (uintptr_t)&sp24, 0, 0x20) == 0) &&
+        (bcmp(&sp24, arg1, 0x20) == 0) && (osGbpakGetStatus(&D_800AB050[arg0], &sp47) == 0)) {
+        sp20 = ((sp47 & 4) != 0) == 0;
+    }
+    return sp20;
+}
 
 s32 GbPak_DetectRam(s32 arg0, u8* arg1) {
     s32 var_s0 = 0;
@@ -158,11 +165,18 @@ s32 GbTower_ReinitPak(s32 arg0) {
     return D_800AB1F0[arg0] == 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000C120; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000C120.s")
-#endif
+s32 GbTower_VerifyPakStillInserted(s32 arg0, void* arg1) {
+    u8 status;
+    u8 sp1C[0x20];
+    s32 sp18;
+
+    sp18 = 0;
+    if ((GbPak_MbcRead(arg0, (uintptr_t)&sp1C, 0, 0x20) == 0) && (bcmp(&sp1C, arg1, 0x20) == 0) &&
+        (osGbpakGetStatus(&D_800AB050[arg0], &status) == 0) && !(status & OS_GBPAK_RSTB_DETECTION)) {
+        sp18 = 1;
+    }
+    return sp18;
+}
 
 s32 GbPak_MbcRead(s32 arg0, void* arg1, u16 arg2, u16 arg3) {
     s32 var_v1;

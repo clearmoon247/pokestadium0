@@ -262,8 +262,8 @@ func_8000B30C,0x8000B30C,src/controller.c,Input_GetRepeatedDPad,s1,stadium1:src/
 func_8000B428,0x8000B428,src/controller.c,Cont_IsEepromPresent,s1,stadium1:src/controller.c,c
 func_8000B438,0x8000B438,src/controller.c,,asm,,asm
 func_8000B4D4,0x8000B4D4,src/controller.c,,asm,,asm
-func_8000B570,0x8000B570,src/controller.c,,asm,,asm
-func_8000B638,0x8000B638,src/controller.c,,asm,,asm
+func_8000B570,0x8000B570,src/controller.c,func_8000B570,s1,stadium1:src/crash_screen.c,c
+func_8000B638,0x8000B638,src/controller.c,crash_screen_wait_for_button_combo,s1,stadium1:src/crash_screen.c,c
 func_80007460,0x80007460,src/crash_screen.c,crash_screen_draw_rect,s1,stadium1:src/crash_screen.c,c
 func_80007568,0x80007568,src/crash_screen.c,crash_screen_draw_glyph,s1,stadium1:src/crash_screen.c,c
 func_8000782C,0x8000782C,src/crash_screen.c,crash_screen_copy_to_buf,s1,stadium1:src/crash_screen.c,c
@@ -1011,7 +1011,7 @@ func_8210C5CC,0x8210C5CC,src/fragments/fragment012_17ED00/battle_engine_2F6930.c
 func_82116480,0x82116480,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,,asm,,asm
 func_821165E8,0x821165E8,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,BattleHud_DrawTranslucentShadowRect,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
 func_8211694C,0x8211694C,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,Ui_DrawGradientRectangle,s1,stadium1:src/ui_graphics.c,c
-func_82116CF4,0x82116CF4,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,,asm,,asm
+func_82116CF4,0x82116CF4,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,Battle_DrawGradientRectWrapper,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
 func_8211E890,0x8211E890,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,,asm,,asm
 func_8211EB10,0x8211EB10,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,,asm,,asm
 func_8211ED90,0x8211ED90,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,Battle_ClearAllMessageQueues,s1,stadium1:src/fragments/battle_engine/battle_engine_3020D0.c,c
@@ -1144,7 +1144,7 @@ func_82126A1C,0x82126A1C,src/fragments/fragment012_17ED00/battle_engine_309ED0.c
 func_82126A24,0x82126A24,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
 func_82126C74,0x82126C74,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,BattleScene_PhaseSendOutAfterFaint,s1,stadium1:src/fragments/battle_engine/battle_engine_309ED0.c,c
 func_82126D20,0x82126D20,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
-func_82126E34,0x82126E34,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
+func_82126E34,0x82126E34,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,func_82126E34,s1,stadium1:src/fragments/battle_engine/battle_engine_309ED0.c,c
 func_82126EE0,0x82126EE0,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
 func_82126F70,0x82126F70,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
 func_82127250,0x82127250,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
@@ -1869,7 +1869,7 @@ func_82158094,0x82158094,src/fragments/fragment012_17ED00/battle_engine_32B680_3
 func_821580DC,0x821580DC,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_StartEffect10Model60AndModelAnimWait,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_82158168,0x82158168,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_StartEffect72ModelAnimWait,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_821581BC,0x821581BC,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
-func_82158224,0x82158224,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
+func_82158224,0x82158224,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_82158224,s1,stadium1:src/fragments/battle_engine/battle_engine_3223B0.c,c
 func_821582A8,0x821582A8,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
 func_82158344,0x82158344,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
 func_82158450,0x82158450,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_82158450,m2c,m2c,c
@@ -2107,7 +2107,7 @@ func_82165558,0x82165558,src/fragments/fragment012_17ED00/battle_engine_339CA0.c
 func_821655C0,0x821655C0,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
 func_82165644,0x82165644,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackStartEffects29And60And104And110Descriptor44BurstChild_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,asm
 func_82165730,0x82165730,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
-func_82165854,0x82165854,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
+func_82165854,0x82165854,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackStartEffects29And60And104And110DefaultDescriptorBurstEmitter_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_821658DC,0x821658DC,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
 func_8216592C,0x8216592C,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
 func_821659FC,0x821659FC,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
@@ -2150,7 +2150,7 @@ func_821677AC,0x821677AC,src/fragments/fragment012_17ED00/battle_engine_339CA0.c
 func_821677D4,0x821677D4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_EndEffect26DelayedDescriptor29ScatterSequence,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_821678F4,0x821678F4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_821678F4,m2c,m2c,c
 func_82167A8C,0x82167A8C,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_82167A8C,m2c,m2c,c
-func_82167B90,0x82167B90,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
+func_82167B90,0x82167B90,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,ParticleEffect_SimpleNodeSetup,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82167C60,0x82167C60,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_82167C60,m2c,m2c,c
 func_82167D48,0x82167D48,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_82167D48,m2c,m2c,c
 func_82167E28,0x82167E28,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_82167E28,m2c,m2c,c
@@ -2158,8 +2158,8 @@ func_82167EB4,0x82167EB4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c
 func_82167FC8,0x82167FC8,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
 func_821680EC,0x821680EC,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,ParticleEffect_FinalSetupPortraitBurst,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82168164,0x82168164,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,ParticleEffect_AdditionalNodeSingleRiseFade,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
-func_821681C4,0x821681C4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
-func_82168364,0x82168364,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
+func_821681C4,0x821681C4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_EndEffect58Descriptor4AAnd51Sequence,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
+func_82168364,0x82168364,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_82168364,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82168504,0x82168504,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_StartEffects87And88Descriptor3DVerticalFadeSequence,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82168688,0x82168688,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
 func_82168844,0x82168844,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_SpawnDefaultDescriptorBurstEmitterSequence,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
@@ -2519,7 +2519,7 @@ func_82114A3C,0x82114A3C,src/fragments/fragment012_17ED00/battle_engine_35DF70.c
 func_82114A8C,0x82114A8C,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,,asm,,asm
 func_82114B44,0x82114B44,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,Battle_Effect_MultiHit,s1,stadium1:src/fragments/battle_engine/battle_engine_35DF70.c,c
 func_82114C20,0x82114C20,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,,asm,,asm
-func_82114CAC,0x82114CAC,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,,asm,,asm
+func_82114CAC,0x82114CAC,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,Battle_Effect_OHKO,s1,stadium1:src/fragments/battle_engine/battle_engine_35DF70.c,c
 func_82114D10,0x82114D10,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,,asm,,asm
 func_82114F9C,0x82114F9C,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,,asm,,asm
 func_82115024,0x82115024,src/fragments/fragment012_17ED00/battle_engine_35DF70.c,,asm,,asm
@@ -4232,8 +4232,8 @@ func_8001FAB0,0x8001FAB0,src/gb_data.c,GbData_ReadU16BE,s1,stadium1:src/gb_data.
 func_8001FAC8,0x8001FAC8,src/gb_data.c,GbData_ReadU24BE,s1,stadium1:src/gb_data.c,c
 func_8001FAE8,0x8001FAE8,src/gb_data.c,GbData_WriteU16BE,s1,stadium1:src/gb_data.c,c
 func_8001FAF8,0x8001FAF8,src/gb_data.c,GbData_WriteU24BE,s1,stadium1:src/gb_data.c (VERSION_JP),c
-func_8001FB10,0x8001FB10,src/gb_data.c,,asm,,asm
-func_8001FBE4,0x8001FBE4,src/gb_data.c,,asm,,asm
+func_8001FB10,0x8001FB10,src/gb_data.c,Text_UntranscodeName,s1,stadium1:src/gb_data.c,c
+func_8001FBE4,0x8001FBE4,src/gb_data.c,Text_TranscodeName,s1,stadium1:src/gb_data.c,c
 func_8001FCC0,0x8001FCC0,src/gb_data.c,Text_UntranscodeFixedName,s1,stadium1:src/gb_data.c (VERSION_JP),c
 func_8001FD00,0x8001FD00,src/gb_data.c,,asm,,asm
 func_8001FD8C,0x8001FD8C,src/gb_data.c,Text_CopySpeciesName,s1,stadium1:src/gb_data.c (VERSION_JP),c
@@ -4304,7 +4304,7 @@ func_8002B788,0x8002B788,src/gb_save.c,,asm,,asm
 func_8002B940,0x8002B940,src/gb_save.c,,asm,,asm
 func_8002BAB8,0x8002BAB8,src/gb_save.c,,asm,,asm
 func_8002BC14,0x8002BC14,src/gb_save.c,Ui_GetSelectionDirection,s1,stadium1:src/gb_save.c,c
-func_8002BC44,0x8002BC44,src/gb_save.c,,asm,,asm
+func_8002BC44,0x8002BC44,src/gb_save.c,GbSave_GameToCategoryIndex,s1,stadium1:src/gb_save.c,asm
 func_8002BC58,0x8002BC58,src/gb_save.c,,asm,,asm
 func_8002BE24,0x8002BE24,src/gb_save.c,,asm,,asm
 func_8002C064,0x8002C064,src/gb_save.c,,asm,,asm
@@ -4328,7 +4328,7 @@ func_8002D454,0x8002D454,src/gb_save.c,func_8002D454,m2c,m2c,c
 func_8002D498,0x8002D498,src/gb_save.c,,asm,,asm
 func_8002D520,0x8002D520,src/gb_save.c,,asm,,asm
 func_8002D7D4,0x8002D7D4,src/gb_save.c,,asm,,asm
-func_8000BA20,0x8000BA20,src/gb_tower.c,,asm,,asm
+func_8000BA20,0x8000BA20,src/gb_tower.c,GbPak_VerifyPattern,s1,stadium1:src/gb_tower.c,c
 func_8000BAC8,0x8000BAC8,src/gb_tower.c,GbPak_DetectRam,s1,stadium1:src/gb_tower.c,c
 func_8000BB88,0x8000BB88,src/gb_tower.c,GbTower_ProbePak,s1,stadium1:src/gb_tower.c,c
 func_8000BC78,0x8000BC78,src/gb_tower.c,GbTower_CheckPakRemoved,s1,stadium1:src/gb_tower.c,c
@@ -4337,7 +4337,7 @@ func_8000BDC0,0x8000BDC0,src/gb_tower.c,,asm,,asm
 func_8000BF74,0x8000BF74,src/gb_tower.c,GbPak_IsCartOff,s1,stadium1:src/gb_tower.c,c
 func_8000BFEC,0x8000BFEC,src/gb_tower.c,GbPak_IsCartOn,s1,stadium1:src/gb_tower.c,c
 func_8000C060,0x8000C060,src/gb_tower.c,GbTower_ReinitPak,s1,stadium1:src/gb_tower.c,c
-func_8000C120,0x8000C120,src/gb_tower.c,,asm,,asm
+func_8000C120,0x8000C120,src/gb_tower.c,GbTower_VerifyPakStillInserted,s1,stadium1:src/gb_tower.c,c
 func_8000C1B4,0x8000C1B4,src/gb_tower.c,GbPak_MbcRead,s1,stadium1:src/gb_tower.c,c
 func_8000C238,0x8000C238,src/gb_tower.c,GbPak_MbcWrite,s1,stadium1:src/gb_tower.c,c
 func_8000C2BC,0x8000C2BC,src/gb_tower.c,GbPak_RawRead,s1,stadium1:src/gb_tower.c,c
@@ -4684,7 +4684,7 @@ func_8004A55C,0x8004A55C,src/libleo/leomecha.c,leoClrUA_MEDIUM_CHANGED,s1,stadiu
 func_8004A578,0x8004A578,src/libleo/leomecha.c,leoSetUA_MEDIUM_CHANGED,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A590,0x8004A590,src/libleo/leomecha.c,leoInitUnit_atten,s1,stadium1:src/libleo/leomecha.c,c
 func_8004B8C0,0x8004B8C0,src/libleo/leomseq_tbl.c,leoSet_mseq,s1,stadium1:src/libleo/leomseq_tbl.c,c
-func_8004BA70,0x8004BA70,src/libleo/leomseq_tbl.c,,asm,,asm
+func_8004BA70,0x8004BA70,src/libleo/leomseq_tbl.c,leoStart_stop,s1,stadium1:src/libleo/leomotor.c,c
 func_8004BC10,0x8004BC10,src/libleo/leord_capa.c,leoRd_capacity,s1,stadium1:src/libleo/leord_capa.c,c
 func_80049C30,0x80049C30,src/libleo/leord_diskid.c,,asm,,asm
 func_80049810,0x80049810,src/libleo/leoread.c,leoRead,s1,stadium1:src/libleo/leoread.c,c
@@ -4696,8 +4696,8 @@ func_8004CE80,0x8004CE80,src/libleo/leoseek.c,leoSeek,s1,stadium1:src/libleo/leo
 func_8004CDE0,0x8004CDE0,src/libleo/leotestunit.c,leoTest_unit_rdy,s1,stadium1:src/libleo/leotestunit.c,c
 func_8004C4C0,0x8004C4C0,src/libleo/leotimer.c,leoReadTimer,s1,stadium1:src/libleo/leotimer.c,c
 func_8004C57C,0x8004C57C,src/libleo/leotimer.c,leoSetTimer,s1,stadium1:src/libleo/leotimer.c,c
-func_8004C7B4,0x8004C7B4,src/libleo/leotimer.c,,asm,,asm
-func_8004C924,0x8004C924,src/libleo/leotimer.c,,asm,,asm
+func_8004C7B4,0x8004C7B4,src/libleo/leotimer.c,__locReadTimer,s1,stadium1:src/libleo/leotimer.c,c
+func_8004C924,0x8004C924,src/libleo/leotimer.c,__locSetTimer,s1,stadium1:src/libleo/leotimer.c,c
 func_8004C220,0x8004C220,src/libleo/leotranslat.c,leoTranslate,s1,stadium1:src/libleo/leotranslat.c,c
 func_8004BCB0,0x8004BCB0,src/libleo/leoutil.c,leoLba_to_phys,s1,stadium1:src/libleo/leoutil.c,c
 func_8004BEA4,0x8004BEA4,src/libleo/leoutil.c,leoLba_to_vzone,s1,stadium1:src/libleo/leoutil.c,c
@@ -4710,15 +4710,15 @@ func_8004B750,0x8004B750,src/libleo/setrtc.c,LeoSetRTC,s1,stadium1:src/libleo/se
 func_8004B810,0x8004B810,src/libleo/setrtc.c,leoVerifyRTC,s1,stadium1:src/libleo/setrtc.c,c
 func_8004A5A0,0x8004A5A0,src/libleo/spdlmotor.c,LeoSpdlMotor,s1,stadium1:src/libleo/spdlmotor.c,c
 func_800467B0,0x800467B0,src/libnaudio/n_auxbus.c,n_alAuxBusPull,s1,stadium1:src/libnaudio/n_auxbus.c,c
-func_80046270,0x80046270,src/libnaudio/n_drvrNew.c,,asm,,asm
+func_80046270,0x80046270,src/libnaudio/n_drvrNew.c,n_alFxNew,s1,stadium1:src/libnaudio/n_drvrNew.c,c
 func_80046684,0x80046684,src/libnaudio/n_drvrNew.c,alN_PVoiceNew,s1,stadium1:src/libnaudio/n_drvrNew.c,c
-func_80046B20,0x80046B20,src/libnaudio/n_load.c,,asm,,asm
+func_80046B20,0x80046B20,src/libnaudio/n_load.c,n_alAdpcmPull,s1,stadium1:src/libnaudio/n_load.c,c
 func_80046F5C,0x80046F5C,src/libnaudio/n_load.c,n_alLoadParam,s1,stadium1:src/libnaudio/n_load.c,c
 func_8004711C,0x8004711C,src/libnaudio/n_load.c,,asm,,asm
 func_80046950,0x80046950,src/libnaudio/n_resample.c,n_alResamplePull,s1,stadium1:src/libnaudio/n_resample.c,c
 func_80046AF8,0x80046AF8,src/libnaudio/n_resample.c,n_alResampleParam,s1,stadium1:src/libnaudio/n_resample.c,c
 func_80047530,0x80047530,src/libnaudio/n_reverb.c,n_alFxPull,s1,stadium1:src/libnaudio/n_reverb.c,c
-func_80047810,0x80047810,src/libnaudio/n_reverb.c,,asm,,asm
+func_80047810,0x80047810,src/libnaudio/n_reverb.c,n_alFxParamHdl,s1,stadium1:src/libnaudio/n_reverb.c,c
 func_80047A70,0x80047A70,src/libnaudio/n_reverb.c,_n_loadOutputBuffer,s1,stadium1:src/libnaudio/n_reverb.c,c
 func_80047C88,0x80047C88,src/libnaudio/n_reverb.c,_n_loadBuffer,s1,stadium1:src/libnaudio/n_reverb.c,c
 func_80047DD0,0x80047DD0,src/libnaudio/n_reverb.c,_n_saveBuffer,s1,stadium1:src/libnaudio/n_reverb.c,c
@@ -4736,7 +4736,7 @@ func_8003A800,0x8003A800,src/libnaudio/n_synsetpriority.c,n_alSynSetPriority,s1,
 func_800482B0,0x800482B0,src/libnaudio/n_synsetvol.c,n_alSynSetVol,s1,stadium1:src/libnaudio/n_synsetvol.c,c
 func_8003A820,0x8003A820,src/libnaudio/n_synstopvoice.c,n_alSynStopVoice,s1,stadium1:src/libnaudio/n_synstopvoice.c,c
 func_800444C0,0x800444C0,src/libnaudio/n_synthesizer.c,n_alSynNew,s1,stadium1:src/libnaudio/n_synthesizer.c,c
-func_80044790,0x80044790,src/libnaudio/n_synthesizer.c,,asm,,asm
+func_80044790,0x80044790,src/libnaudio/n_synthesizer.c,n_alAudioFrame,s1,stadium1:src/libnaudio/n_synthesizer.c,c
 func_800448F8,0x800448F8,src/libnaudio/n_synthesizer.c,__n_allocParam,s1,stadium1:src/libnaudio/n_synthesizer.c,c
 func_80044928,0x80044928,src/libnaudio/n_synthesizer.c,_n_freeParam,s1,stadium1:src/libnaudio/n_synthesizer.c,c
 func_80044948,0x80044948,src/libnaudio/n_synthesizer.c,_n_collectPVoices,s1,stadium1:src/libnaudio/n_synthesizer.c,c
@@ -5407,7 +5407,7 @@ func_80027D68,0x80027D68,src/table_view.c,PointerList_Sort,s1,stadium1:src/table
 func_80027D94,0x80027D94,src/table_view.c,PointerList_Filter,s1,stadium1:src/table_view.c,c
 func_80027E30,0x80027E30,src/table_view.c,Text_CompareU16Terminated,s1,stadium1:src/table_view.c,c
 func_80027E74,0x80027E74,src/table_view.c,Text_CompareGlyphCodes,s1,stadium1:src/table_view.c (VERSION_JP),c
-func_8001D370,0x8001D370,src/ui_graphics.c,,asm,,asm
+func_8001D370,0x8001D370,src/ui_graphics.c,func_8001D370,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
 func_8001D4CC,0x8001D4CC,src/ui_graphics.c,Ui_DrawBorderStyleA,s1,stadium1:src/ui_graphics.c,c
 func_8001D638,0x8001D638,src/ui_graphics.c,Ui_DrawBorderStyleB,s1,stadium1:src/ui_graphics.c,c
 func_8001D7A4,0x8001D7A4,src/ui_graphics.c,Ui_DrawBorderStyleC,s1,stadium1:src/ui_graphics.c,c
@@ -5415,7 +5415,7 @@ func_8001D910,0x8001D910,src/ui_graphics.c,Ui_FillInsetRectangleA,s1,stadium1:sr
 func_8001DA60,0x8001DA60,src/ui_graphics.c,Ui_FillInsetRectangleB,s1,stadium1:src/ui_graphics.c,c
 func_8001DBB0,0x8001DBB0,src/ui_graphics.c,BattleHud_DrawGradientRect,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
 func_8001DF58,0x8001DF58,src/ui_graphics.c,Ui_DrawBorderedPanel,s1,stadium1:src/ui_graphics.c,c
-func_8001E034,0x8001E034,src/ui_graphics.c,,asm,,asm
+func_8001E034,0x8001E034,src/ui_graphics.c,Ui_DrawGradientPanel,s1,stadium1:src/ui_graphics.c,c
 func_8001E170,0x8001E170,src/ui_graphics.c,Ui_DrawBorderedPanelStyleB,s1,stadium1:src/ui_graphics.c,c
 func_8001E24C,0x8001E24C,src/ui_graphics.c,,asm,,asm
 func_8001E618,0x8001E618,src/ui_graphics.c,Ui_DrawBorderedPanelNoFill,s1,stadium1:src/ui_graphics.c,c

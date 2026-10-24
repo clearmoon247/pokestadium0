@@ -92,11 +92,84 @@ void n_alSynNew(ALSynConfig* c) {
     n_syn->heap = hp;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80044790; signature not recovered. */
+Acmd* n_alAudioFrame(Acmd* cmdList, s32* cmdLen, s16* outBuf, s32 outLen) {
+    ALPlayer* client;
+    s16 tmp = 0; /* Starting buffer in DMEM */
+    Acmd* cmdlEnd = cmdList;
+    Acmd* cmdPtr;
+    s32 nOut;
+    s16* lOutBuf = outBuf;
+
+
+    if (n_syn->head == 0) {
+        *cmdLen = 0;
+        return cmdList; /* nothing to do */
+    }
+
+    /*
+     * run down list of clients and execute callback if needed this
+     * subframe. Here we do all the work for the frame at the
+     * start. Time offsets that occur before the next frame are
+     * executed "early".
+     */
+
+
+    /*
+     * paramSamples = time of next parameter change.
+     * curSamples = current sample time.
+     * so paramSamples - curSamples is the time until the next parameter change.
+     * if the next parameter change occurs within this frame time (outLen),
+     * then call back the client that contains the parameter change.
+     * Note, paramSamples must be rounded down to 16 sample boundary for use
+     * during the client handler.
+     */
+
+#ifndef ONLY_ONE_PLAYER
+    for (n_syn->paramSamples = __n_nextSampleTime(&client); n_syn->paramSamples - n_syn->curSamples < outLen;
+         n_syn->paramSamples = __n_nextSampleTime(&client)) {
+        n_syn->paramSamples &= ~0xf;
+        client->samplesLeft += _n_timeToSamplesNoRound((*client->handler)(client));
+    }
 #else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80044790.s")
+    client = n_syn->head;
+    while (client->samplesLeft - n_syn->curSamples < outLen) {
+        n_syn->paramSamples = (client->samplesLeft & ~0xf);
+        client->samplesLeft += _n_timeToSamplesNoRound((*client->handler)(client));
+    }
 #endif
+
+    /* for safety's sake, always store paramSamples aligned to 16 sample boundary.
+     * this way, if an voice handler routine gets called outside the N_ALVoiceHandler
+     * routine (alSynAllocVoice) it will get timestamped with an aligned value and
+     * will be processed immediately next audio frame.
+     */
+    n_syn->paramSamples &= ~0xf;
+
+
+    /*
+     * Now build the command list in small chunks
+     */
+    while (outLen > 0) {
+        nOut = MIN(n_syn->maxOutSamples, outLen);
+
+        /*
+         * construct the command list for each physical voice by calling
+         * the head of the filter chain.
+         */
+        cmdPtr = cmdlEnd;
+        n_syn->sv_dramout = (s32)lOutBuf;
+        cmdlEnd = n_alSavePull(n_syn->curSamples, cmdPtr);
+
+        outLen -= nOut;
+        lOutBuf += nOut << 1; /* For Stereo */
+        n_syn->curSamples += nOut;
+    }
+    *cmdLen = (s32)(cmdlEnd - cmdList);
+
+    _n_collectPVoices(); /* collect free physical voices */
+
+    return cmdlEnd;
+}
 
 ALParam* __n_allocParam(void) {
     ALParam* update = 0;
