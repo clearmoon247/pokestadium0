@@ -186,7 +186,7 @@ def compare(text, functions, relocations, name, vram, expected, symbols, learned
             addend = ((words[hi] & 0xFFFF) << 16) + sext16(got & 0xFFFF)
             target = ((expected[hi] & 0xFFFF) << 16) + sext16(want & 0xFFFF)
             if not bind(sym, target - addend):
-                return "address %d (%s)" % (i, sym)
+                return "address %d (%s); ROM implies 0x%08X" % (i, sym, (target - addend) & 0xFFFFFFFF)
         else:
             return "relocation type %d" % kind
     return None

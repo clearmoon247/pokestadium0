@@ -462,11 +462,23 @@ void BattleAnim_CallbackStartEffects6And58AnimatedScaleAlphaFade_InitParticle(Pa
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214A59C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214A59C.s")
-#endif
+void BattleAnim_CallbackStartEffects6And58AnimatedScaleAlphaFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffects6And58AnimatedScaleAlphaFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            Particle_Field1C_ApproachField24ByField20_0BA1C(arg0);
+            func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+            Particle_PrimAlpha_Approach_0BC2C(arg0, 0x20, 8);
+            break;
+
+        case 3:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 void BattleAnim_CallbackStartEffect58Descriptor0ABurstChild_InitParticle(Particle* arg0) {
     UNUSED s32 pad;
@@ -801,11 +813,22 @@ void BattleAnim_CallbackSharedDescriptor53ScaleGrowAnimFade_InitParticle(Particl
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214B1F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214B1F8.s")
-#endif
+void BattleAnim_CallbackSharedDescriptor53ScaleGrowAnimFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackSharedDescriptor53ScaleGrowAnimFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            func_8213CCEC(arg0, 0, 3, 1, 1, 0);
+            Particle_Field1C_ApproachField24ByField20_0BA1C(arg0);
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void BattleAnim_CallbackSharedDescriptor53ScalePulseCycle_InitParticle(Particle* arg0) {
     Particle_Field1C_SetScaled_0B938(arg0, 0.4f);

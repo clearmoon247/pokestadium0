@@ -693,11 +693,30 @@ void BattleAnim_CallbackStartEffect22Descriptor3DRotatingAlphaPaletteFade_InitPa
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82146504; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82146504.s")
-#endif
+s32 func_8213F658(Particle* arg0, f32 arg1, f32 arg2);
+void BattleAnim_CallbackStartEffect22Descriptor3DRotatingAlphaPaletteFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffect22Descriptor3DRotatingAlphaPaletteFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+            func_8213F658(arg0, 0.5, 0.5f);
+            Particle_PrimAlpha_Approach_0BC2C(arg0, 0x20, 4);
+            break;
+
+        case 3:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRunning(arg0) != 0) {
+        Particle_Field1C_Approach_0B98C(arg0, 0.75f, 0.1f);
+        Particle_AddVelocityFromRotationTemplate1(arg0);
+        ParticleGfx_ApproachPrimEnvPalettePair(arg0, 0x1A, 0x10);
+    }
+}
 
 void BattleAnim_SetParticleColorFromVariantIndex(Particle* arg0, u8 arg1) {
     u16 sp1E;
@@ -805,11 +824,31 @@ void BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade_InitParticl
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821468EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821468EC.s")
-#endif
+void BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_Field1C_ApproachField24ByField20_0BA1C(arg0);
+            func_8213CCEC(arg0, 2, 7, 1, 1, 0);
+            if (arg0->unk_C7 >= 6) {
+                Particle_PrimAlpha_Approach_0BC2C(arg0, 0x64, 0x4E);
+            }
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 void BattleAnim_CallbackEndEffects81And82Descriptor46AnimatedFade_InitParticle(Particle* arg0) {
     Vec3f sp2C;

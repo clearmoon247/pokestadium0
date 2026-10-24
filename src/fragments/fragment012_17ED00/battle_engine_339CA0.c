@@ -219,14 +219,34 @@ void BattleAnim_CallbackEndEffect3Descriptor29DirectionalScaleFade_InitParticle(
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215FCF4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215FCF4.s")
-#endif
+void BattleAnim_CallbackEndEffect3Descriptor29DirectionalScaleFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffect3Descriptor29DirectionalScaleFade_InitParticle(arg0);
+            break;
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 7, 1, 1, 0);
+            Particle_Field1C_Approach_0B98C(arg0, 3.5f, 0.25f);
+            break;
+
+        case 4:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x40);
+            Particle_Field1C_Approach_0B98C(arg0, 3.5f, 0.25f);
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
+
 void BattleAnim_CallbackSharedDescriptor29DirectionalScatterFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
     s16 sp24 = Particle_FieldCF_GetS16_0C058(arg0);
@@ -288,15 +308,28 @@ void BattleAnim_CallbackSharedDescriptor29DirectionalScatterFade_InitParticle(Pa
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215FDD8.s")
-#endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215FFE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215FFE8.s")
-#endif
+void BattleAnim_CallbackSharedDescriptor29DirectionalScatterFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackSharedDescriptor29DirectionalScatterFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 7, 2, 1, 0);
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8216008C; signature not recovered. */
@@ -583,11 +616,18 @@ void func_821608FC(s8 *arg0) {
     func_8213E4D8(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821609F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821609F0.s")
-#endif
+void BattleAnim_CallbackStartEffect31Descriptor49TieredRiseImpulseFade_InitParticle(Particle* arg0) {
+    UNUSED s16 pad;
+    s16 sp24 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.25f);
+    arg0->unk_5C.y = (MathUtil_Random_ZeroOne() * 0.5f) + 0.4f;
+    Particle_Field94_AddY_0A594(arg0, 0x800 - ((0x1000 / func_8213C494(arg0)) * sp24));
+    Particle_Field74_SetScaled_0AD8C(arg0, (2.0f * MathUtil_Random_ZeroOne()) + 5.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x32);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
@@ -678,8 +718,6 @@ void func_82160CCC(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackEndEffect55Descriptor49RiseGravityFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
@@ -693,9 +731,6 @@ void BattleAnim_CallbackEndEffect55Descriptor49RiseGravityFade_InitParticle(Part
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82160DC4.s")
-#endif
 
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213C9D0(s8 *);                      /* extern */
@@ -1003,8 +1038,6 @@ void func_82161890(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion_InitParticle(Particle* arg0) {
     Vec3s sp28;
     s16 sp26 = Particle_FieldCF_GetS16_0C058(arg0);
@@ -1068,9 +1101,6 @@ void BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion_InitParticle(Parti
     Particle_FieldA6_SetS16_0BCA8(arg0, ParticleMath_RandomRange(5) + 8);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82161968.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82161C4C; signature not recovered. */
@@ -1208,7 +1238,41 @@ void BattleAnim_CallbackEndEffect23Descriptor44ScalePulse(Particle* arg0) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_821627C0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_821627C0(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupSharedScalePulseFallSetup(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            if (Particle_Field1C_ApproachField24AndStepState_0BA48(arg0) != 0) {
+                Particle_SetScaleSpeed(arg0, 0.0f);
+            }
+            break;
+
+        case 4:
+            Particle_Field1C_ApproachField24AndStepState_0BA48(arg0);
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRenderingEnabled(arg0) != 0) {
+        func_8213E528(arg0);
+        if (arg0->unk_2C.y < 0.0f) {
+            Particle_MarkInactive(arg0);
+        }
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821627C0.s")
 #endif
@@ -1225,11 +1289,27 @@ void BattleAnim_CallbackEndEffect43Descriptor40DelayedAnimFade_InitParticle(Part
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82162938; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82162938.s")
-#endif
+void BattleAnim_CallbackEndEffect43Descriptor40DelayedAnimFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffect43Descriptor40DelayedAnimFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_TickDelayAndAdvanceLifecycle(arg0, arg0->unk_A6) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 5, 1, 1, 2);
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
@@ -1309,11 +1389,28 @@ void BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion_InitParticle(Partic
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821629E4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82162C68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82162C68.s")
-#endif
+void BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_TickDelayAndAdvanceLifecycle(arg0, arg0->unk_A6) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 3, 1, 1, 0);
+            Particle_AddVelocityXZFromRotationYPlusHalfTurn(arg0);
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
@@ -1408,11 +1505,37 @@ void BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor34BurstEmitter
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82162D1C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821630F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821630F4.s")
-#endif
+void BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor34BurstEmitter(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor34BurstEmitter_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_TickDelayAndAdvanceLifecycle(arg0, arg0->unk_A6) != 0) {
+                Particle_EnableRendering(arg0);
+                Particle_FieldA6_SetS16_0BCA8(arg0, 2);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 3, 1, 1, 0);
+            Particle_AddVelocityXZFromRotationYPlusHalfTurn(arg0);
+            if ((Particle_FieldA6_DecrementToZeroStep1_0BDAC != 0) && (arg0->unk_B8 == 0)) {
+                Particle_AdvancePhase(arg0);
+            }
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (arg0->unk_B8 == 1) {
+        BattleAnim_EmitParticleBurstWithMetadata(arg0, BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor3DMetadataBurstChild, &gBattleAnimParticleDescriptors[0x3D], 1, 8, 0);
+        Particle_AdvancePhase(arg0);
+    }
+}
 
 void BattleAnim_CallbackEndEffects37And38Descriptor34BurstEmitter_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -1440,11 +1563,53 @@ void BattleAnim_CallbackEndEffects37And38Descriptor34BurstEmitter_InitParticle(P
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82163328; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82163328.s")
-#endif
+s32 BattleAnim_CallbackEndEffects37And38Descriptor34BurstEmitter(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffects37And38Descriptor34BurstEmitter_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_TickDelayAndAdvanceLifecycle(arg0, arg0->unk_A6) != 0) {
+                Particle_EnableRendering(arg0);
+                Particle_FieldA6_SetS16_0BCA8(arg0, 2);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 3, 1, 1, 0);
+            Particle_AddVelocityXZFromRotationYPlusHalfTurn(arg0);
+            if ((Particle_FieldA6_DecrementToZeroStep1_0BDAC != NULL) && (arg0->unk_B8 == 0)) {
+                Particle_AdvancePhase(arg0);
+            }
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    switch (arg0->unk_B8) {
+        case 1:
+            BattleAnim_EmitParticleBurst(arg0, BattleAnim_CallbackEndEffects37And38Descriptor38BurstChild, &gBattleAnimParticleDescriptors[0x38], 8);
+            Particle_AdvancePhase(arg0);
+            break;
+
+        case 2:
+            if (Particle_TickPhaseTimer(arg0, 1) != 0) {
+                BattleAnim_EmitParticleBurst(arg0, BattleAnim_CallbackEndEffects37And38Descriptor38BurstChild, &gBattleAnimParticleDescriptors[0x38], 4);
+                Particle_AdvancePhase(arg0);
+            }
+            break;
+
+        case 3:
+            if (Particle_TickPhaseTimer(arg0, 1) != 0) {
+                BattleAnim_EmitParticleBurst(arg0, BattleAnim_CallbackEndEffects37And38Descriptor38BurstChild, &gBattleAnimParticleDescriptors[0x38], 4);
+                Particle_AdvancePhase(arg0);
+            }
+            break;
+    }
+}
 
 void BattleAnim_CallbackStartEffect56Descriptor40AnimScaleFade_InitParticle(Particle* arg0) {
     Particle_FieldAC_GetS16_0C038(arg0);
@@ -1455,11 +1620,23 @@ void BattleAnim_CallbackStartEffect56Descriptor40AnimScaleFade_InitParticle(Part
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82163540; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82163540.s")
-#endif
+void BattleAnim_CallbackStartEffect56Descriptor40AnimScaleFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffect56Descriptor40AnimScaleFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            func_8213CC10(arg0, 0, 5, 1, 1, -1);
+            Particle_Field1C_Approach_0B98C(arg0, 0.3f, 0.01f);
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 3:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 void BattleAnim_CallbackStartEffect56Descriptor46AnimColorImpulseFade_InitParticle(Particle* arg0) {
     s16 sp2E;
@@ -1785,7 +1962,36 @@ void BattleAnim_CallbackStartEffect81Descriptor3DRisingAnimFade_InitParticle(Par
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_821640A0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_CallbackStartEffect81Descriptor3DRisingAnimFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffect81Descriptor3DRisingAnimFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_FieldA6_SetS16_0BCA8(arg0, ParticleMath_RandomRange(4) + 4);
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            Particle_AddVelocityYFromFieldOffset74(arg0);
+            break;
+
+        case 4:
+            func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+            Particle_PrimAlpha_Approach_0BC2C(arg0, 0x40, 4);
+            Particle_AddVelocityYFromFieldOffset74(arg0);
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821640A0.s")
 #endif
@@ -2014,11 +2220,23 @@ void BattleAnim_CallbackStartEffect101Descriptor3DMetadataBurstChild_InitParticl
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82165068; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82165068.s")
-#endif
+void BattleAnim_CallbackStartEffect101Descriptor3DMetadataBurstChild(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffect101Descriptor3DMetadataBurstChild_InitParticle(arg0);
+            break;
+
+        case 2:
+            func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+            Particle_PrimAlpha_Approach_0BC2C(arg0, 0x80, 8);
+            Particle_AddVelocityFromRotationTemplate1(arg0);
+            break;
+
+        case 3:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 void BattleAnim_CallbackDescriptor50BurstChild_InitParticle(Particle* arg0) {
     Vec3s sp28;
@@ -2247,11 +2465,18 @@ void BattleAnim_CallbackStartEffects29And60And104And110DefaultDescriptorBurstEmi
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821658DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821658DC.s")
-#endif
+void func_82165854(Particle* arg0);
+void func_821658DC(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            func_82165854(arg0);
+            break;
+
+        case 2:
+            func_8213C938(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
@@ -2295,11 +2520,29 @@ void func_82165BC8(s32 arg0) {
     func_8213C9D0(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82165C4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82165C4C.s")
-#endif
+void BattleAnim_CallbackDescriptor26BurstEmitter(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackDescriptor26BurstEmitter_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            if (func_8213CCEC(arg0, 0, 0xF, 2, 1, 0) != 0) {
+                BattleAnim_EmitParticleBurst(arg0, BattleAnim_CallbackDescriptor26BurstChild, &gBattleAnimParticleDescriptors[0x26], 5);
+            }
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.

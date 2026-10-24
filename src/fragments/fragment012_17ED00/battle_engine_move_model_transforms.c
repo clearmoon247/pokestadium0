@@ -419,11 +419,21 @@ void BattleAnim_SubmissionEnd(ActivePokemon* owner, ActivePokemon* animated_poke
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A584.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210A694; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A694.s")
-#endif
+void func_8210A584(UNUSED ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon);
+void func_8210A694(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210A4AC(owner, animated_pokemon);
+
+        case 1:
+            func_8210A4F0(owner, animated_pokemon);
+            break;
+
+        case 2:
+            func_8210A584(owner, animated_pokemon);
+            break;
+    }
+}
 
 M2C_UNK func_821099CC(s8 *);                      /* extern */
 
@@ -456,11 +466,21 @@ void func_8210A744(s32 arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A7D8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210A8CC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A8CC.s")
-#endif
+void func_8210A7D8(UNUSED ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon);
+void func_8210A8CC(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210A700(owner, animated_pokemon);
+
+        case 1:
+            func_8210A744(owner, animated_pokemon);
+            break;
+
+        case 2:
+            func_8210A7D8(owner, animated_pokemon);
+            break;
+    }
+}
 
 M2C_UNK func_8000D700(s32, M2C_UNK, s16, M2C_UNK);  /* extern */
 M2C_UNK func_82107790(s8 *);                      /* extern */
@@ -516,11 +536,22 @@ void BattleAnim_AgilityEnd(ActivePokemon* owner, ActivePokemon* animated_pokemon
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210ABC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210ABC4.s")
-#endif
+void func_8210A9B4(ActivePokemon* owner, ActivePokemon* animated_pokemon);
+void func_8210AAA4(UNUSED ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon);
+void func_8210ABC4(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210A938(owner, animated_pokemon);
+
+        case 1:
+            func_8210A9B4(owner, animated_pokemon);
+            break;
+
+        case 2:
+            func_8210AAA4(owner, animated_pokemon);
+            break;
+    }
+}
 
 M2C_UNK func_8000D700(s32, M2C_UNK, s16, M2C_UNK);  /* extern */
 M2C_UNK func_82107790(s8 *);                      /* extern */
@@ -580,11 +611,17 @@ void func_8210ADBC(s32 arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210AE34.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210AFB8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210AFB8.s")
-#endif
+void func_8210AE34(ActivePokemon* owner, ActivePokemon* animated_pokemon);
+void func_8210AFB8(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210ADBC(owner, animated_pokemon);
+
+        case 1:
+            func_8210AE34(owner, animated_pokemon);
+            break;
+    }
+}
 
 M2C_UNK func_82109764(s8 *);                      /* extern */
 M2C_UNK func_82109C88(s8 *);                      /* extern */
@@ -612,11 +649,16 @@ void func_8210B06C(s32 arg0, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210B0FC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B0FC.s")
-#endif
+void func_8210B0FC(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210B00C(owner, animated_pokemon);
+
+        case 1:
+            func_8210B06C(owner, animated_pokemon);
+            break;
+    }
+}
 
 void func_8210B150(s32 arg0, s8 *arg1) {
     M2C_FIELD(arg1, s32 *, 0x614) = (s32) (M2C_FIELD(arg1, s32 *, 0x614) + 1);
@@ -632,11 +674,17 @@ void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* ani
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210B22C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B22C.s")
-#endif
+void func_8210B164(ActivePokemon* owner, ActivePokemon* animated_pokemon);
+void func_8210B22C(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210B150(owner, animated_pokemon);
+
+        case 1:
+            func_8210B164(owner, animated_pokemon);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210B280; signature not recovered. */
@@ -775,11 +823,17 @@ void func_8210BA4C(s32 arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210BA64.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210BB28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210BB28.s")
-#endif
+void func_8210BA64(ActivePokemon* owner, ActivePokemon* animated_pokemon);
+void func_8210BB28(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    switch (animated_pokemon->modelTransformTimer) {
+        case 0:
+            func_8210BA4C(owner, animated_pokemon);
+
+        case 1:
+            func_8210BA64(owner, animated_pokemon);
+            break;
+    }
+}
 
 void BattleAnim_DrawParticleNoop(UNUSED Particle* arg0, UNUSED CameraNode* arg1) {
 }

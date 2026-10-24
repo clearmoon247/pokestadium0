@@ -126,11 +126,27 @@ void Controller_PollInputs(void) {
     Input_ResetRepeatState();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81700190; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81700190.s")
-#endif
+extern s32 D_81701B00;
+void PikachuReward_UpdateLeadPikachuAnimation(void) {
+    static s32 D_83202004 = 0;
+
+    if ((D_81702020[0].transformAnim.animationId != 0x9) && (D_81702020[0].transformAnim.animationId != 5)) {
+        D_83202004++;
+        if (D_83202004 == 0x3C) {
+            D_83202004 = 0;
+            ModelAnim_SetEventTrack(&D_81702020[0], -1);
+            ModelAnim_SetEventTrack(&D_81702020[0], 0xA);
+        }
+    }
+
+    if ((D_81702020[0].transformAnim.animationId != 0) && (ModelAnim_IsFinished(&D_81702020[0]) != 0)) {
+        if (D_81701B00 != 0) {
+            D_81702020[0].node.flags &= ~1;
+        } else {
+            ModelAnim_SetAnimation(&D_81702020[0], 0);
+        }
+    }
+}
 
 void PikachuReward_UpdateFollowerVisibility(void) {
     if (D_81701B04 == -1) {

@@ -83,11 +83,29 @@ void func_8210F4E0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F4E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F688; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F688.s")
-#endif
+extern u8 D_82199F3F;
+extern u8 D_82199F30;
+void Battle_ResetTransientRuntimeState(s32 arg0, s32 arg1) {
+    BattleMonRuntime* sp1C = &sActivePokemon[arg0]->state.runtime;
+    BattleMonRuntime* sp18 = &sActivePokemon[arg1]->state.runtime;
+
+    ShowDamageMessage(arg0, arg1);
+    D_82199F4E = 0;
+    D_82199F3F = 0;
+    sp1C->moveCache.lastMove = 0;
+    sp1C->unk_58 = 0;
+    sp18->unk_58 = 0;
+    sp1C->unk_4A = 0;
+    sp1C->unk_4B = 0;
+    sp1C->unk_4C = 0;
+    sp1C->unk_4D = 0;
+    sp1C->unk_4E = 0;
+    sp1C->unk_52 = 0;
+    sp1C->unk_57 = 0;
+    sp1C->scaleResize = 0;
+    sp18->unk_4C &= ~0x20;
+    D_82199F30 = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210F730; signature not recovered. */
