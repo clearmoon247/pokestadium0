@@ -363,6 +363,13 @@
     "opt": "-O3",
     "profile": "ultralib"
   },
+  "src/libultra/io/cartrominit.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
   "src/libultra/io/conteeplongread.c": {
     "extra": [],
     "ido": "5.3",
@@ -378,6 +385,13 @@
     "profile": "ultralib"
   },
   "src/libultra/io/controller.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/driverominit.c": {
     "extra": [],
     "ido": "5.3",
     "mips": "-mips2",
@@ -510,6 +524,31 @@
     "opt": "-O3",
     "profile": "ultralib"
   },
+  "src/libultra/libc/ll.c": {
+    "extra": [
+      "-32"
+    ],
+    "ido": "5.3",
+    "mips": "-mips3",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/llcvt.c": {
+    "extra": [
+      "-32"
+    ],
+    "ido": "5.3",
+    "mips": "-mips3",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/sprintf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
   "src/libultra/libc/string.c": {
     "extra": [],
     "ido": "5.3",
@@ -615,7 +654,21 @@
     "opt": "-O1",
     "profile": "ultralib"
   },
+  "src/libultra/os/seteventmesg.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
   "src/libultra/os/setglobalintmask.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/sethwinterrupt.c": {
     "extra": [],
     "ido": "5.3",
     "mips": "-mips2",

@@ -1,3 +1,3 @@
-/* Stadium Zero resident libultra: ultralib 2.0I_P os/resetglobalintmask.c, unmodified. */
+/* Stadium Zero resident libultra: ultralib 2.0I os/resetglobalintmask.c, unmodified. */
 
 #include "lib/ultralib/src/os/resetglobalintmask.c"

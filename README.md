@@ -9,12 +9,12 @@ source file is compiled whole with IDO through asm-processor; its C functions
 and its `GLOBAL_ASM` owners link at their original addresses in the resident
 image and all 259 fragments, and the fragments' original storage is rebuilt.
 
-- **2,872 of 5,444 code owners are built from C** (Stadium 1 ports, m2c
-  output, and 127 libultra functions from unmodified `lib/ultralib` sources), listed per owner in [docs/function-matches.csv](docs/function-matches.csv).
+- **2,896 of 5,444 code owners are built from C** (Stadium 1 ports, m2c
+  output, and 151 libultra functions from unmodified `lib/ultralib` sources), listed per owner in [docs/function-matches.csv](docs/function-matches.csv).
   See [docs/matching.md](docs/matching.md) and [docs/production-build.md](docs/production-build.md).
 - 58 more functions have matching C that stays behind `#ifdef NON_MATCHING`
   until their file's `.rodata`/`.data` can be placed.
-- 61 files place their own `.rodata`, `.data` or `.bss` at the ROM address. Other data, `.rodata`,
+- 65 files place their own `.rodata`, `.data` or `.bss` at the ROM address. Other data, `.rodata`,
   microcode and other non-code ranges still come from the extracted ROM.
 
 Original function boundaries, translation units, and compiler settings remain

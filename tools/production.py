@@ -32,10 +32,11 @@ SOURCE_FLAGS = ['-c', '-G', '0', '-non_shared', '-Xcpluscomm', '-nostdinc', '-Wa
                 '-Iinclude', '-Isrc', '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/PR',
                 '-Ilib/ultralib/include/ido']
 # Files with "profile": "ultralib" include an unmodified lib/ultralib source and
-# build it with ultralib's own IDO flags for 2.0I_P libultra_rom.
+# build it with ultralib's own IDO flags for 2.0I libultra_rom (not 2.0I_P: seteventmesg,
+# sethwinterrupt and cartrominit only match the 2.0I code).
 ULTRALIB_FLAGS = ['-c', '-Wab,-r4300_mul', '-G', '0', '-nostdinc', '-Xcpluscomm', '-w',
-                  '-D_MIPS_SZLONG=32', '-DF3DEX_GBI', '-DBUILD_VERSION=7',
-                  '-DBUILD_VERSION_STRING="2.0I_P"', '-non_shared', '-DNDEBUG', '-D_FINALROM',
+                  '-D_MIPS_SZLONG=32', '-DF3DEX_GBI', '-DBUILD_VERSION=6',
+                  '-DBUILD_VERSION_STRING="2.0I"', '-non_shared', '-DNDEBUG', '-D_FINALROM',
                   '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/ido',
                   '-Ilib/ultralib/include/PR']
 PRAGMA = re.compile(r'(#pragma\s+GLOBAL_ASM\(\s*")([^"]+)("\s*\))')
@@ -492,7 +493,8 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
     script = directory / 'link.ld'
     script.write_text('\n'.join(linker) + '\n')
     elf = directory / (name + '.elf')
-    run([prefix + 'ld', '-T', script, '-Map', directory / 'link.map', '-o', elf, *objects])
+    # ll.c and llcvt.c are -mips3 objects, as in ultralib.
+    run([prefix + 'ld', '--no-warn-mismatch', '-T', script, '-Map', directory / 'link.map', '-o', elf, *objects])
     output = directory / (name + '.bin')
     run([prefix + 'objcopy', '-O', 'binary', elf, output])
     image = output.read_bytes()

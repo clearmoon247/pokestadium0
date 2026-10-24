@@ -15,7 +15,7 @@ work, from two sources:
 | Matched by a Stadium 1 or ultralib function, compiled in its own TU | 2,191 |
 | Either of the two | 3,014 |
 | Now C in `src/` and passing `tools/check_functions.py` | 2,804 (2,004 Stadium 1, 800 m2c) |
-| **Built as C by the full-ROM `make rom`** | **2,872** (incl. 127 from unmodified ultralib) |
+| **Built as C by the full-ROM `make rom`** | **2,896** (incl. 151 from unmodified ultralib) |
 | Identified as libultra (ultralib 2.0I, IDO 5.3), kept as `GLOBAL_ASM` | 173 |
 
 The first three rows count functions that compiled to the ROM bytes in isolation.

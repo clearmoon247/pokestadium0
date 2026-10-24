@@ -65,7 +65,7 @@ def main() -> int:
 - Built from C in the full-ROM build: **{len(c_rows):,} / {total:,} ({100 * len(c_rows) / total:.1f}%)**, **{c_bytes:,}** bytes ({100 * c_bytes / total_bytes:.1f}%)
   - ported from the Stadium 1 decomp: **{status['s1']:,}**
   - m2c output: **{status['m2c']:,}**
-  - unmodified ultralib 2.0I_P sources (`lib/ultralib`): **{status['ultralib']:,}**
+  - unmodified ultralib 2.0I sources (`lib/ultralib`): **{status['ultralib']:,}**
 - Matching C held behind `NON_MATCHING` until its file's data is placed: **{len(held):,}**
 - Identified libultra functions still built from assembly: **{len(libultra):,}**, **{lib_bytes:,}** bytes
 - Remaining assembly owners: **{total - len(c_rows):,}**
