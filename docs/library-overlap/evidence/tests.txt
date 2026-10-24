@@ -1,0 +1,51 @@
+test_coroutine_sets_include_resume_pcs (test_fragment_flow.InputFlowTests.test_coroutine_sets_include_resume_pcs) ... ok
+test_every_resolved_table_word_is_relocated_and_traversed (test_fragment_flow.InputFlowTests.test_every_resolved_table_word_is_relocated_and_traversed) ... ok
+test_gap_ledger_exactly_accounts_for_original_candidates (test_fragment_flow.InputFlowTests.test_gap_ledger_exactly_accounts_for_original_candidates) ... ok
+test_refined_partitions_cover_every_restored_byte (test_fragment_flow.InputFlowTests.test_refined_partitions_cover_every_restored_byte) ... ok
+test_runtime_initializer_sets_are_not_reported_as_resolved (test_fragment_flow.InputFlowTests.test_runtime_initializer_sets_are_not_reported_as_resolved) ... ok
+test_branch_likely_annuls_fallthrough_delay_write (test_fragment_flow.SyntheticFlowTests.test_branch_likely_annuls_fallthrough_delay_write) ... ok
+test_bypassed_writer_does_not_destroy_definition (test_fragment_flow.SyntheticFlowTests.test_bypassed_writer_does_not_destroy_definition) ... ok
+test_delay_slot_arrival_retains_definition (test_fragment_flow.SyntheticFlowTests.test_delay_slot_arrival_retains_definition) ... ok
+test_guarded_table_resolution (test_fragment_flow.SyntheticFlowTests.test_guarded_table_resolution) ... ok
+test_nonstandard_link_register_is_not_a_return (test_fragment_flow.SyntheticFlowTests.test_nonstandard_link_register_is_not_a_return) ... ok
+test_overwritten_definition_is_rejected (test_fragment_flow.SyntheticFlowTests.test_overwritten_definition_is_rejected) ... ok
+test_structural_failure_does_not_claim_execution (test_fragment_flow.SyntheticFlowTests.test_structural_failure_does_not_claim_execution) ... ok
+test_table_bound_cannot_overrun_storage (test_fragment_flow.SyntheticFlowTests.test_table_bound_cannot_overrun_storage) ... ok
+test_unrelocated_table_is_not_promoted (test_fragment_flow.SyntheticFlowTests.test_unrelocated_table_is_not_promoted) ... ok
+test_all_image_partitions_are_exact (test_fragment_sections.InputBackedTests.test_all_image_partitions_are_exact) ... ok
+test_code_and_noncode_inventory (test_fragment_sections.InputBackedTests.test_code_and_noncode_inventory) ... ok
+test_instruction_relocations_are_covered (test_fragment_sections.InputBackedTests.test_instruction_relocations_are_covered) ... ok
+test_data_pointer_is_not_code_seed (test_fragment_sections.SyntheticTests.test_data_pointer_is_not_code_seed) ... ok
+test_delay_relocation_does_not_fall_into_data (test_fragment_sections.SyntheticTests.test_delay_relocation_does_not_fall_into_data) ... ok
+test_header_nops_are_not_code (test_fragment_sections.SyntheticTests.test_header_nops_are_not_code) ... ok
+test_leaf_stack_entry (test_fragment_sections.SyntheticTests.test_leaf_stack_entry) ... ok
+test_valid_texture_words_are_not_code (test_fragment_sections.SyntheticTests.test_valid_texture_words_are_not_code) ... ok
+test_absolute_pair (test_library_overlap.OverlapTests.test_absolute_pair) ... ok
+test_branch_displacement_preserved (test_library_overlap.OverlapTests.test_branch_displacement_preserved) ... ok
+test_call_address_only (test_library_overlap.OverlapTests.test_call_address_only) ... ok
+test_nonaddress_constant_survives (test_library_overlap.OverlapTests.test_nonaddress_constant_survives) ... ok
+test_nonadjacent_pair_not_masked (test_library_overlap.OverlapTests.test_nonadjacent_pair_not_masked) ... ok
+test_nonterminal_zeros_preserved (test_library_overlap.OverlapTests.test_nonterminal_zeros_preserved) ... ok
+test_nonzero_after_return_not_trimmed (test_library_overlap.OverlapTests.test_nonzero_after_return_not_trimmed) ... ok
+test_register_and_stack_survive (test_library_overlap.OverlapTests.test_register_and_stack_survive) ... ok
+test_return_delay_preserved (test_library_overlap.OverlapTests.test_return_delay_preserved) ... ok
+test_wrong_base_not_masked (test_library_overlap.OverlapTests.test_wrong_base_not_masked) ... ok
+test_bad_backreference_rejected (test_map_rom.MappingTests.test_bad_backreference_rejected) ... ok
+test_fragment_header_rejected (test_map_rom.MappingTests.test_fragment_header_rejected) ... ok
+test_literal_stream (test_map_rom.MappingTests.test_literal_stream) ... ok
+test_manifest_extents (test_map_rom.MappingTests.test_manifest_extents) ... ok
+test_overlapping_backreference (test_map_rom.MappingTests.test_overlapping_backreference) ... ok
+test_splat_bins_reproduce_input_bytes (test_map_rom.MappingTests.test_splat_bins_reproduce_input_bytes)
+This is extraction partition identity, NOT a compiled ROM build. ... ok
+test_generated_c_syntax_in_both_modes (test_pragmas.InventoryTests.test_generated_c_syntax_in_both_modes) ... ok
+test_global_symbol_names_are_unique (test_pragmas.InventoryTests.test_global_symbol_names_are_unique) ... ok
+test_no_owners_for_resource_only_images (test_pragmas.InventoryTests.test_no_owners_for_resource_only_images) ... ok
+test_owner_ranges_and_listing_bytes_match_private_input (test_pragmas.InventoryTests.test_owner_ranges_and_listing_bytes_match_private_input) ... ok
+test_source_inventory_and_guards (test_pragmas.InventoryTests.test_source_inventory_and_guards) ... ok
+test_unresolved_transfers_do_not_block_owners (test_pragmas.InventoryTests.test_unresolved_transfers_do_not_block_owners) ... ok
+test_reference_conditional_direction (test_pragmas.TemplateTests.test_reference_conditional_direction) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 11.382s
+
+OK

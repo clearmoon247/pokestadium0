@@ -1,0 +1,285 @@
+{
+  "contract": "fresh-production-recipe-objects; raw STT_FUNC bytes; no relocations or masks",
+  "repository": "https://github.com/michiiik/pokestadium",
+  "revision": "61ab5896988e55a1355dcaae7c4302785ea97f21",
+  "compiler": "donor-bundled IDO 5.3",
+  "compiler_hashes": {
+    "cc": "43f58f6c073dcfe8bcfbfd84ee69d5b346a079847eab561a41e04f98a4031b54",
+    "cfe": "95f8e848c9cc5da3d0ead124ae3c71cd63904ae19e95185216b3ed775e0b2047",
+    "uopt": "6017dd61ac544547b357db2e1cd3abef317a778656a2999b3c6a0a8df8a8c9ff",
+    "ugen": "47e98c9d6538a8e279d878faa1b0ab0e222adce758e625a9ee41135054697320",
+    "as0": "e63d36eb37e78b91a5b37b775427118bf44435deb4d84f042ad5d9b7364557d4",
+    "as1": "2e2393759f36f196491d4370723fc10211092f281be49f9306bda75e6d87a483"
+  },
+  "source_hashes": {
+    "libc/string": "31902f760f5d7e3c1ad604d31fb65374514c884441665ad903216d7009d4c023",
+    "libc/ldiv": "e392f67923031f5572e589d5b1179389a2dc13bb0ef506350aa856a20e5071ae",
+    "gu/mtxutil": "4f61c11992bbfb679343516902e734ab3b475769fc3fd85b2ef2dd58f4d2c1df",
+    "gu/mtxcatf": "b7bf9b42b7a8186ff965eb5cb11f9b49b92adfb99cccd20a0ddbefdad0c38370"
+  },
+  "object_hashes": {
+    "libc/string": "cbae8c1edec0e9a70c3c048089bfa3a0c1ac59a7b95e5863e53720f17743e2a3",
+    "libc/ldiv": "7209af7889cbc7572d0ca96e52eb4e9b22b20bf493e1be610f2545de7424315d",
+    "gu/mtxutil": "e4b51aa9bd01cf29dce6bba5596c220a8d1d98b3f2b4ee6e8a4f1e5f2c40609f",
+    "gu/mtxcatf": "fb59fa6af5bb5f6e83457d38dfd1a0cb149859b60808528cf11139bd1009d217"
+  },
+  "candidate_source_hashes": {
+    "libc/string": "31902f760f5d7e3c1ad604d31fb65374514c884441665ad903216d7009d4c023",
+    "libc/ldiv": "e392f67923031f5572e589d5b1179389a2dc13bb0ef506350aa856a20e5071ae",
+    "gu/mtxutil": "4f61c11992bbfb679343516902e734ab3b475769fc3fd85b2ef2dd58f4d2c1df",
+    "gu/mtxcatf": "b7bf9b42b7a8186ff965eb5cb11f9b49b92adfb99cccd20a0ddbefdad0c38370"
+  },
+  "candidate_source_contract": "byte-for-byte identical to compiled donor translation units",
+  "make_command": [
+    "make",
+    "-B",
+    "VERSION=I_P",
+    "TARGET=libultra_rom",
+    "FIXUPS=1",
+    "COMPARE=0",
+    "CROSS=mips-linux-gnu-",
+    "CC=../../tools/ido/linux/5.3/cc",
+    "VERBOSE=1",
+    "COLOR=0",
+    "build/I_P/libultra_rom/src/libc/string.marker",
+    "build/I_P/libultra_rom/src/libc/ldiv.marker",
+    "build/I_P/libultra_rom/src/gu/mtxutil.marker",
+    "build/I_P/libultra_rom/src/gu/mtxcatf.marker"
+  ],
+  "binutils": "GNU objdump (GNU Binutils for Ubuntu) 2.45.90.20260125",
+  "zero_rom_sha256": "ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b",
+  "donor_rom_sha256": "502f6082a6436012a8b61419435dec1388869a90ed870e87e2d7bee88f831519",
+  "results": [
+    {
+      "function": "memcpy",
+      "source": "lib/ultralib/src/libc/string.c",
+      "zero_owner": "func_80056690",
+      "zero_address": "0x80056690",
+      "object_function_bytes": 44,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 44,
+        "expected_size": 44,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 44,
+        "expected_size": 44,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "770c81b6c68fa85d2b98688a09dd33a41366dd56288fda754c24eb3247e8763d",
+      "donor_code_sha256": "770c81b6c68fa85d2b98688a09dd33a41366dd56288fda754c24eb3247e8763d",
+      "zero_code_sha256": "770c81b6c68fa85d2b98688a09dd33a41366dd56288fda754c24eb3247e8763d",
+      "zero_extent_bytes": 44,
+      "donor_extent_bytes": 44
+    },
+    {
+      "function": "strlen",
+      "source": "lib/ultralib/src/libc/string.c",
+      "zero_owner": "func_800566BC",
+      "zero_address": "0x800566bc",
+      "object_function_bytes": 40,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 40,
+        "expected_size": 40,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 40,
+        "expected_size": 40,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "1a0aa68ec64cb0416c51af6928756ae3e13fda25594f3ae75665118951c7f97f",
+      "donor_code_sha256": "1a0aa68ec64cb0416c51af6928756ae3e13fda25594f3ae75665118951c7f97f",
+      "zero_code_sha256": "1a0aa68ec64cb0416c51af6928756ae3e13fda25594f3ae75665118951c7f97f",
+      "zero_extent_bytes": 40,
+      "donor_extent_bytes": 40
+    },
+    {
+      "function": "strchr",
+      "source": "lib/ultralib/src/libc/string.c",
+      "zero_owner": "func_800566E4",
+      "zero_address": "0x800566e4",
+      "object_function_bytes": 64,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 64,
+        "expected_size": 64,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 64,
+        "expected_size": 64,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "ba3fd0f15d38dd7f65a8cec858cd95f6cd476e3920b567661676fef4ad5babba",
+      "donor_code_sha256": "ba3fd0f15d38dd7f65a8cec858cd95f6cd476e3920b567661676fef4ad5babba",
+      "zero_code_sha256": "ba3fd0f15d38dd7f65a8cec858cd95f6cd476e3920b567661676fef4ad5babba",
+      "zero_extent_bytes": 76,
+      "donor_extent_bytes": 76
+    },
+    {
+      "function": "ldiv",
+      "source": "lib/ultralib/src/libc/ldiv.c",
+      "zero_owner": "func_8005B9E0",
+      "zero_address": "0x8005b9e0",
+      "object_function_bytes": 132,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 132,
+        "expected_size": 132,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 132,
+        "expected_size": 132,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "2995a6f8e965e5eeafef35a2b57ac86e02f262cb60d4fa3e0bbed5d667cb1228",
+      "donor_code_sha256": "2995a6f8e965e5eeafef35a2b57ac86e02f262cb60d4fa3e0bbed5d667cb1228",
+      "zero_code_sha256": "2995a6f8e965e5eeafef35a2b57ac86e02f262cb60d4fa3e0bbed5d667cb1228",
+      "zero_extent_bytes": 144,
+      "donor_extent_bytes": 144
+    },
+    {
+      "function": "guMtxF2L",
+      "source": "lib/ultralib/src/gu/mtxutil.c",
+      "zero_owner": "func_80053330",
+      "zero_address": "0x80053330",
+      "object_function_bytes": 256,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 256,
+        "expected_size": 256,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 256,
+        "expected_size": 256,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "766ecf1975b0b289ca1034155d694cc04c33d95ea7f69907505b4173ed0ed7d8",
+      "donor_code_sha256": "766ecf1975b0b289ca1034155d694cc04c33d95ea7f69907505b4173ed0ed7d8",
+      "zero_code_sha256": "766ecf1975b0b289ca1034155d694cc04c33d95ea7f69907505b4173ed0ed7d8",
+      "zero_extent_bytes": 256,
+      "donor_extent_bytes": 256
+    },
+    {
+      "function": "guMtxIdentF",
+      "source": "lib/ultralib/src/gu/mtxutil.c",
+      "zero_owner": "func_80053430",
+      "zero_address": "0x80053430",
+      "object_function_bytes": 136,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 136,
+        "expected_size": 136,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 136,
+        "expected_size": 136,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "8325b24de93e8818fe1d58e4d181e272f6bb2ad475863afed99d3a024438b2db",
+      "donor_code_sha256": "8325b24de93e8818fe1d58e4d181e272f6bb2ad475863afed99d3a024438b2db",
+      "zero_code_sha256": "8325b24de93e8818fe1d58e4d181e272f6bb2ad475863afed99d3a024438b2db",
+      "zero_extent_bytes": 136,
+      "donor_extent_bytes": 136
+    },
+    {
+      "function": "guMtxL2F",
+      "source": "lib/ultralib/src/gu/mtxutil.c",
+      "zero_owner": "func_800534E8",
+      "zero_address": "0x800534e8",
+      "object_function_bytes": 180,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 180,
+        "expected_size": 180,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 180,
+        "expected_size": 180,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "0b2bf12a8684f3decf44b0326354901ab06aff35cde6700bb3238ead80cbaf04",
+      "donor_code_sha256": "0b2bf12a8684f3decf44b0326354901ab06aff35cde6700bb3238ead80cbaf04",
+      "zero_code_sha256": "0b2bf12a8684f3decf44b0326354901ab06aff35cde6700bb3238ead80cbaf04",
+      "zero_extent_bytes": 184,
+      "donor_extent_bytes": 184
+    },
+    {
+      "function": "guMtxCatF",
+      "source": "lib/ultralib/src/gu/mtxcatf.c",
+      "zero_owner": "func_80055410",
+      "zero_address": "0x80055410",
+      "object_function_bytes": 360,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 360,
+        "expected_size": 360,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 360,
+        "expected_size": 360,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "fa2b62db8f138b69cf39d82b9e26813f244d2398b16bab99cdd73d588fad8c9f",
+      "donor_code_sha256": "fa2b62db8f138b69cf39d82b9e26813f244d2398b16bab99cdd73d588fad8c9f",
+      "zero_code_sha256": "fa2b62db8f138b69cf39d82b9e26813f244d2398b16bab99cdd73d588fad8c9f",
+      "zero_extent_bytes": 368,
+      "donor_extent_bytes": 368
+    },
+    {
+      "function": "guMtxXFMF",
+      "source": "lib/ultralib/src/gu/mtxcatf.c",
+      "zero_owner": "func_80055370",
+      "zero_address": "0x80055370",
+      "object_function_bytes": 160,
+      "function_relocations": 0,
+      "donor_control": {
+        "byte_identical": true,
+        "actual_size": 160,
+        "expected_size": 160,
+        "mismatched_word_offsets": []
+      },
+      "zero_result": {
+        "byte_identical": true,
+        "actual_size": 160,
+        "expected_size": 160,
+        "mismatched_word_offsets": []
+      },
+      "object_function_sha256": "ec5bc225baf6c5b426a7a126d1448d04e80da0a67c84200870933a97bed00b10",
+      "donor_code_sha256": "ec5bc225baf6c5b426a7a126d1448d04e80da0a67c84200870933a97bed00b10",
+      "zero_code_sha256": "ec5bc225baf6c5b426a7a126d1448d04e80da0a67c84200870933a97bed00b10",
+      "zero_extent_bytes": 160,
+      "donor_extent_bytes": 160
+    }
+  ],
+  "donor_controls_passed": 9,
+  "zero_raw_matches": 9,
+  "functions_tested": 9,
+  "source_integration": "not_performed",
+  "full_rom_baseline": "not_run",
+  "zero_compiler_identity": "not_established"
+}

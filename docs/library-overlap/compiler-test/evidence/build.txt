@@ -1,0 +1,160 @@
+Compiling libultra file:  build/I_P/libultra_rom/src/libc/string.marker
+cd src/libc && /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/../../tools/ido/linux/5.3/cc -c -Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips2 -o32 -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=7 -DBUILD_VERSION_STRING=\"2.0I_P\" -non_shared -DNDEBUG -D_FINALROM -O3 string.c -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/ido -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/PR -o /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/string.o
+tools/set_o32abi_bit.py /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/string.o
+mips-linux-gnu-strip /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/string.o -N asdasdasdasd
+mips-linux-gnu-objcopy --remove-section .mdebug /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/string.o
+Compiling libultra file:  build/I_P/libultra_rom/src/libc/ldiv.marker
+cd src/libc && /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/../../tools/ido/linux/5.3/cc -c -Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips2 -o32 -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=7 -DBUILD_VERSION_STRING=\"2.0I_P\" -non_shared -DNDEBUG -D_FINALROM -O3 ldiv.c -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/ido -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/PR -o /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/ldiv.o
+tools/set_o32abi_bit.py /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/ldiv.o
+mips-linux-gnu-strip /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/ldiv.o -N asdasdasdasd
+mips-linux-gnu-objcopy --remove-section .mdebug /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/libc/ldiv.o
+Compiling libultra file:  build/I_P/libultra_rom/src/gu/mtxutil.marker
+cd src/gu && /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/../../tools/ido/linux/5.3/cc -c -Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips2 -o32 -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=7 -DBUILD_VERSION_STRING=\"2.0I_P\" -non_shared -DNDEBUG -D_FINALROM -O3 mtxutil.c -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/ido -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/PR -o /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxutil.o
+tools/set_o32abi_bit.py /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxutil.o
+mips-linux-gnu-strip /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxutil.o -N asdasdasdasd
+mips-linux-gnu-objcopy --remove-section .mdebug /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxutil.o
+Compiling libultra file:  build/I_P/libultra_rom/src/gu/mtxcatf.marker
+cd src/gu && /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/../../tools/ido/linux/5.3/cc -c -Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712 -mips2 -o32 -D_MIPS_SZLONG=32 -DF3DEX_GBI -DBUILD_VERSION=7 -DBUILD_VERSION_STRING=\"2.0I_P\" -non_shared -DNDEBUG -D_FINALROM -O3 mtxcatf.c -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/ido -I /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/include/PR -o /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxcatf.o
+cfe: Warning 513: mtxcatf.c, line 1: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 24: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 25: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 31: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 32: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 34: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 35: Unknown control character \015 ignored
+ void guMtxCatF(float mf[4][4], float nf[4][4], float res[4][4])
+ ---------------------------------------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 36: Unknown control character \015 ignored
+ {
+ -^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 37: Unknown control character \015 ignored
+     int	i, j, k;
+ -------	--------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 38: Unknown control character \015 ignored
+     float	temp[4][4];
+ ---------	-----------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 39: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 40: Unknown control character \015 ignored
+     for (i=0; i<4; i++) {
+ -------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 41: Unknown control character \015 ignored
+         for (j=0; j<4; j++) {
+ -----------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 42: Unknown control character \015 ignored
+         temp[i][j] = 0.0;
+ -------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 43: Unknown control character \015 ignored
+         for (k=0; k<4; k++) {
+ -----------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 44: Unknown control character \015 ignored
+             temp[i][j] += mf[i][k] * nf[k][j];
+ ----------------------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 45: Unknown control character \015 ignored
+         }
+ ---------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 46: Unknown control character \015 ignored
+         }
+ ---------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 47: Unknown control character \015 ignored
+     }
+ -----^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 48: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 49: Unknown control character \015 ignored
+
+ -----^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 50: Unknown control character \015 ignored
+     for (i=0; i<4; i++) {
+ -------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 51: Unknown control character \015 ignored
+         for (j=0; j<4; j++) {
+ -----------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 52: Unknown control character \015 ignored
+         res[i][j] = temp[i][j];
+ -------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 53: Unknown control character \015 ignored
+         }
+ ---------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 54: Unknown control character \015 ignored
+     }
+ -----^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 55: Unknown control character \015 ignored
+ }
+ -^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 56: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 57: Unknown control character \015 ignored
+ void guMtxXFMF(float mf[4][4], float x, float y, float z, float *ox, float *oy, float *oz)
+ ------------------------------------------------------------------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 58: Unknown control character \015 ignored
+ {
+ -^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 59: Unknown control character \015 ignored
+         *ox = mf[0][0]*x + mf[1][0]*y + mf[2][0]*z + mf[3][0];
+ --------------------------------------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 60: Unknown control character \015 ignored
+         *oy = mf[0][1]*x + mf[1][1]*y + mf[2][1]*z + mf[3][1];
+ --------------------------------------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 61: Unknown control character \015 ignored
+         *oz = mf[0][2]*x + mf[1][2]*y + mf[2][2]*z + mf[3][2];
+ --------------------------------------------------------------^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 62: Unknown control character \015 ignored
+ }
+ -^
+The control character is not part of the source character set.
+cfe: Warning 513: mtxcatf.c, line 63: Unknown control character \015 ignored
+
+ ^
+The control character is not part of the source character set.
+tools/set_o32abi_bit.py /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxcatf.o
+mips-linux-gnu-strip /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxcatf.o -N asdasdasdasd
+mips-linux-gnu-objcopy --remove-section .mdebug /home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxcatf.o

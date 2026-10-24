@@ -1,0 +1,97 @@
+{
+  "zero_input_sha256": "ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b",
+  "zero_owners": 5444,
+  "donors": {
+    "stadium1": {
+      "repository": "https://github.com/michiiik/pokestadium",
+      "revision": "61ab5896988e55a1355dcaae7c4302785ea97f21",
+      "rom_md5": "ed1378bc12115f71209a77844965ba50",
+      "rom_sha256": "502f6082a6436012a8b61419435dec1388869a90ed870e87e2d7bee88f831519",
+      "functions": 501,
+      "modules_without_symbols": []
+    },
+    "stadium2": {
+      "repository": "https://github.com/michiiik/pokestadiumgs",
+      "revision": "d3def6af9ae318ea8ceb1872d54985ec255b1244",
+      "rom_md5": "1561c75d11cedf356a8ddb1a4a5f9d5d",
+      "rom_sha256": "8160abe7d4b9734317000c44e9f882efefe4cc6359eacded98be62f2811e40a9",
+      "functions": 282,
+      "modules_without_symbols": []
+    }
+  },
+  "tier_counts": {
+    "stadium1": {
+      "exact_extent": 90,
+      "exact_code_padding_only": 2,
+      "address_masked_candidate": 123,
+      "no_hit": 286
+    },
+    "stadium2": {
+      "exact_extent": 46,
+      "exact_code_padding_only": 3,
+      "address_masked_candidate": 23,
+      "no_hit": 210
+    }
+  },
+  "scope": "whole_owner_extents_only; aliases_not_separately_split",
+  "compiler_verification": "not_run",
+  "unambiguous_at_least_32_bytes": {
+    "stadium1": {
+      "address_masked_candidate": 101,
+      "exact_extent": 56,
+      "exact_code_padding_only": 2
+    },
+    "stadium2": {
+      "address_masked_candidate": 18,
+      "exact_extent": 26,
+      "exact_code_padding_only": 3
+    }
+  },
+  "by_library": {
+    "stadium1": {
+      "libgsm": {
+        "exact_extent": 0,
+        "exact_code_padding_only": 0,
+        "address_masked_candidate": 0,
+        "no_hit": 9
+      },
+      "libleo": {
+        "exact_extent": 1,
+        "exact_code_padding_only": 0,
+        "address_masked_candidate": 28,
+        "no_hit": 52
+      },
+      "libnaudio": {
+        "exact_extent": 2,
+        "exact_code_padding_only": 1,
+        "address_masked_candidate": 29,
+        "no_hit": 12
+      },
+      "libnumus": {
+        "exact_extent": 7,
+        "exact_code_padding_only": 0,
+        "address_masked_candidate": 2,
+        "no_hit": 95
+      },
+      "libultra": {
+        "exact_extent": 80,
+        "exact_code_padding_only": 1,
+        "address_masked_candidate": 64,
+        "no_hit": 118
+      }
+    },
+    "stadium2": {
+      "libultra": {
+        "exact_extent": 46,
+        "exact_code_padding_only": 3,
+        "address_masked_candidate": 23,
+        "no_hit": 210
+      }
+    }
+  },
+  "unique_zero_hit_owners": 394,
+  "unique_zero_exact_owners": 206,
+  "qualified_unique_zero_owners": 159,
+  "qualified_unique_zero_exact_owners": 58,
+  "qualified_exact_code_bytes": 7768
+}

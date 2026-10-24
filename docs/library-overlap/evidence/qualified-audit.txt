@@ -1,0 +1,4 @@
+qualified owners resident only: PASS
+Stadium 2 qualified owner set subset of Stadium 1: PASS
+qualified distinct owners: 159
+CSV contains no instruction-byte column: True

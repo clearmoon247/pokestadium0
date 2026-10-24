@@ -1,0 +1,141 @@
+
+/home/user/workspace/pokestadium0/.analysis/reference/pokestadium/lib/ultralib/build/I_P/libultra_rom/src/gu/mtxcatf.o:     file format elf32-tradbigmips
+
+
+Disassembly of section .text:
+
+00000000 <guMtxXFMF>:
+   0:	44856000 	mtc1	a1,fa0
+   4:	c4840000 	lwc1	ft0,0(a0)
+   8:	44867000 	mtc1	a2,fa1
+   c:	c4880010 	lwc1	ft2,16(a0)
+  10:	460c2182 	mul.s	ft1,ft0,fa0
+  14:	44878000 	mtc1	a3,ft4
+  18:	c4840020 	lwc1	ft0,32(a0)
+  1c:	460e4282 	mul.s	ft3,ft2,fa1
+  20:	8fae0010 	lw	t6,16(sp)
+  24:	46102202 	mul.s	ft2,ft0,ft4
+  28:	460a3480 	add.s	ft5,ft1,ft3
+  2c:	c48a0030 	lwc1	ft3,48(a0)
+  30:	46089180 	add.s	ft1,ft5,ft2
+  34:	46065100 	add.s	ft0,ft3,ft1
+  38:	e5c40000 	swc1	ft0,0(t6)
+  3c:	c4920004 	lwc1	ft5,4(a0)
+  40:	c48a0014 	lwc1	ft3,20(a0)
+  44:	8faf0014 	lw	t7,20(sp)
+  48:	460c9202 	mul.s	ft2,ft5,fa0
+  4c:	c4920024 	lwc1	ft5,36(a0)
+  50:	460e5182 	mul.s	ft1,ft3,fa1
+  54:	46064100 	add.s	ft0,ft2,ft1
+  58:	46109282 	mul.s	ft3,ft5,ft4
+  5c:	c4860034 	lwc1	ft1,52(a0)
+  60:	460a2200 	add.s	ft2,ft0,ft3
+  64:	46083480 	add.s	ft5,ft1,ft2
+  68:	e5f20000 	swc1	ft5,0(t7)
+  6c:	c4840008 	lwc1	ft0,8(a0)
+  70:	c4860018 	lwc1	ft1,24(a0)
+  74:	8fb80018 	lw	t8,24(sp)
+  78:	460c2282 	mul.s	ft3,ft0,fa0
+  7c:	c4840028 	lwc1	ft0,40(a0)
+  80:	460e3202 	mul.s	ft2,ft1,fa1
+  84:	46085480 	add.s	ft5,ft3,ft2
+  88:	46102182 	mul.s	ft1,ft0,ft4
+  8c:	c4880038 	lwc1	ft2,56(a0)
+  90:	46069280 	add.s	ft3,ft5,ft1
+  94:	460a4100 	add.s	ft0,ft2,ft3
+  98:	03e00008 	jr	ra
+  9c:	e7040000 	swc1	ft0,0(t8)
+
+000000a0 <guMtxCatF>:
+  a0:	27bdff98 	addiu	sp,sp,-104
+  a4:	44800000 	mtc1	zero,fv0
+  a8:	27a3001c 	addiu	v1,sp,28
+  ac:	27ab005c 	addiu	t3,sp,92
+  b0:	00803825 	or	a3,a0,zero
+  b4:	00a04025 	or	t0,a1,zero
+  b8:	240a0010 	addiu	t2,zero,16
+  bc:	00002025 	or	a0,zero,zero
+  c0:	00602825 	or	a1,v1,zero
+  c4:	01004825 	or	t1,t0,zero
+  c8:	e4a00000 	swc1	fv0,0(a1)
+  cc:	c52c0000 	lwc1	fa0,0(t1)
+  d0:	c4ee0000 	lwc1	fa1,0(a3)
+  d4:	24840004 	addiu	a0,a0,4
+  d8:	c4b00000 	lwc1	ft4,0(a1)
+  dc:	460c7482 	mul.s	ft5,fa1,fa0
+  e0:	508a0020 	beql	a0,t2,164 <guMtxCatF+0xc4>
+  e4:	46128380 	add.s	fa1,ft4,ft5
+  e8:	46128380 	add.s	fa1,ft4,ft5
+  ec:	24840004 	addiu	a0,a0,4
+  f0:	24a50004 	addiu	a1,a1,4
+  f4:	25290004 	addiu	t1,t1,4
+  f8:	e4aefffc 	swc1	fa1,-4(a1)
+  fc:	c4ee0004 	lwc1	fa1,4(a3)
+ 100:	c52c000c 	lwc1	fa0,12(t1)
+ 104:	c4aafffc 	lwc1	ft3,-4(a1)
+ 108:	460c7302 	mul.s	fa0,fa1,fa0
+ 10c:	460c5300 	add.s	fa0,ft3,fa0
+ 110:	e4acfffc 	swc1	fa0,-4(a1)
+ 114:	c4ec0008 	lwc1	fa0,8(a3)
+ 118:	c52a001c 	lwc1	ft3,28(t1)
+ 11c:	c4aefffc 	lwc1	fa1,-4(a1)
+ 120:	460a6282 	mul.s	ft3,fa0,ft3
+ 124:	460a7280 	add.s	ft3,fa1,ft3
+ 128:	e4aafffc 	swc1	ft3,-4(a1)
+ 12c:	c4ea000c 	lwc1	ft3,12(a3)
+ 130:	c52e002c 	lwc1	fa1,44(t1)
+ 134:	c4acfffc 	lwc1	fa0,-4(a1)
+ 138:	e4a00000 	swc1	fv0,0(a1)
+ 13c:	460e5382 	mul.s	fa1,ft3,fa1
+ 140:	c4b00000 	lwc1	ft4,0(a1)
+ 144:	460e6380 	add.s	fa1,fa0,fa1
+ 148:	e4aefffc 	swc1	fa1,-4(a1)
+ 14c:	c4ee0000 	lwc1	fa1,0(a3)
+ 150:	c52c0000 	lwc1	fa0,0(t1)
+ 154:	460c7482 	mul.s	ft5,fa1,fa0
+ 158:	548affe4 	bnel	a0,t2,ec <guMtxCatF+0x4c>
+ 15c:	46128380 	add.s	fa1,ft4,ft5
+ 160:	46128380 	add.s	fa1,ft4,ft5
+ 164:	24a50004 	addiu	a1,a1,4
+ 168:	25290004 	addiu	t1,t1,4
+ 16c:	e4aefffc 	swc1	fa1,-4(a1)
+ 170:	c52c000c 	lwc1	fa0,12(t1)
+ 174:	c4ee0004 	lwc1	fa1,4(a3)
+ 178:	c4aafffc 	lwc1	ft3,-4(a1)
+ 17c:	460c7302 	mul.s	fa0,fa1,fa0
+ 180:	460c5300 	add.s	fa0,ft3,fa0
+ 184:	e4acfffc 	swc1	fa0,-4(a1)
+ 188:	c52a001c 	lwc1	ft3,28(t1)
+ 18c:	c4ec0008 	lwc1	fa0,8(a3)
+ 190:	c4aefffc 	lwc1	fa1,-4(a1)
+ 194:	460a6282 	mul.s	ft3,fa0,ft3
+ 198:	460a7280 	add.s	ft3,fa1,ft3
+ 19c:	e4aafffc 	swc1	ft3,-4(a1)
+ 1a0:	c52e002c 	lwc1	fa1,44(t1)
+ 1a4:	c4ea000c 	lwc1	ft3,12(a3)
+ 1a8:	c4acfffc 	lwc1	fa0,-4(a1)
+ 1ac:	460e5382 	mul.s	fa1,ft3,fa1
+ 1b0:	460e6380 	add.s	fa1,fa0,fa1
+ 1b4:	e4aefffc 	swc1	fa1,-4(a1)
+ 1b8:	24630010 	addiu	v1,v1,16
+ 1bc:	006b082b 	sltu	at,v1,t3
+ 1c0:	1420ffbe 	bne	at,zero,bc <guMtxCatF+0x1c>
+ 1c4:	24e70010 	addiu	a3,a3,16
+ 1c8:	00c01825 	or	v1,a2,zero
+ 1cc:	27a4001c 	addiu	a0,sp,28
+ 1d0:	27a2005c 	addiu	v0,sp,92
+ 1d4:	c4860000 	lwc1	ft1,0(a0)
+ 1d8:	24840010 	addiu	a0,a0,16
+ 1dc:	24630010 	addiu	v1,v1,16
+ 1e0:	e466fff0 	swc1	ft1,-16(v1)
+ 1e4:	c488fff4 	lwc1	ft2,-12(a0)
+ 1e8:	e468fff4 	swc1	ft2,-12(v1)
+ 1ec:	c490fff8 	lwc1	ft4,-8(a0)
+ 1f0:	e470fff8 	swc1	ft4,-8(v1)
+ 1f4:	c48afffc 	lwc1	ft3,-4(a0)
+ 1f8:	1482fff6 	bne	a0,v0,1d4 <guMtxCatF+0x134>
+ 1fc:	e46afffc 	swc1	ft3,-4(v1)
+ 200:	03e00008 	jr	ra
+ 204:	27bd0068 	addiu	sp,sp,104
+ 208:	00000000 	sll	zero,zero,0x0
+ 20c:	00000000 	sll	zero,zero,0x0
