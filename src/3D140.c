@@ -306,8 +306,6 @@ void func_8003BC9C(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Cry_SetEnabled(s32 arg0) {
     const f32 D_8007C7C0 = 0.8000000119f;
     if (arg0 != 0) {
@@ -318,9 +316,6 @@ void Cry_SetEnabled(s32 arg0) {
     }
     D_80075E04[0] = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003BCE8.s")
-#endif
 
 void Cry_PlayFromPokedex(s32 arg0) {
     if (D_80075E04[0] == 0) {

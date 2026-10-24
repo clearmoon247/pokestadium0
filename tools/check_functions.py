@@ -33,6 +33,7 @@ from elftools.elf.elffile import ELFFile
 
 from map_fragment_sections import load_image
 from map_rom import EXPECTED_SHA256
+from production import ULTRALIB_FLAGS
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDR_NAME = re.compile(r"^(?:func|D|D_FLT|D_DBL|jtbl|B|sub|RO|L)_([0-9A-Fa-f]{8})(?:_\d+)?$")
@@ -55,7 +56,26 @@ def load_symbols():
 
 
 def load_owner_words(rom):
-    """(image_index, link address) -> owner words, from the inventory and ROM."""
+    """(image_index, link address) -> owner words, from the inventory and ROM.
+
+    Decompressing every fragment is slow, so the result is cached in build/.
+    """
+    import hashlib
+    import pickle
+    text = (ROOT / "docs/pragma-inventory.json").read_bytes()
+    key = hashlib.sha256(text + hashlib.sha256(rom).digest()).hexdigest()
+    cache = ROOT / "build/check_functions_owners.pickle"
+    if cache.exists():
+        stored_key, owners = pickle.loads(cache.read_bytes())
+        if stored_key == key:
+            return owners
+    owners = read_owner_words(rom)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_bytes(pickle.dumps((key, owners)))
+    return owners
+
+
+def read_owner_words(rom):
     inventory = json.loads((ROOT / "docs/pragma-inventory.json").read_text())
     mapping = json.loads((ROOT / "docs/mappings/resident-fragments.json").read_text())
     images = {}
@@ -102,8 +122,12 @@ def sext16(value):
     return value - 0x10000 if value & 0x8000 else value
 
 
-def compare(text, functions, relocations, name, vram, expected, symbols):
-    """Return None on a match, else a short reason."""
+def compare(text, functions, relocations, name, vram, expected, symbols, learned=None):
+    """Return None on a match, else a short reason.
+
+    With learned (a dict), a name with no known address is bound to the
+    address the ROM implies and recorded there instead of failing.
+    """
     offset, size = functions[name]
     count = size // 4
     if count > len(expected) or any(expected[count:]):
@@ -118,9 +142,12 @@ def compare(text, functions, relocations, name, vram, expected, symbols):
         if match and int(match.group(1), 16) != address:
             return False
         if not sym.startswith("@") and not match and sym not in symbols and sym not in functions:
-            return False
+            if learned is None or learned.setdefault(sym, address) != address:
+                return False
         if sym in symbols and symbols[sym] != address:
-            return False
+            if learned is None or learned.setdefault("!" + sym, address) != address:
+                return False
+            return True
         if bound.setdefault(sym, address) != address:
             return False
         return True
@@ -177,17 +204,23 @@ def compile_source(path, cc_dir, overrides):
         source = Path(tmp) / Path(path).name
         source.write_bytes((ROOT / path).read_text(encoding="utf-8").encode("euc-jp", "replace"))
         obj = Path(tmp) / "out.o"
-        command = [str(cc), *CFLAGS, flags.get("opt", "-O2"), flags.get("mips", "-mips2"),
-                   *flags.get("extra", []), *("-I" + str(ROOT / i) for i in INCLUDES),
-                   "-I" + str(ROOT / Path(path).parent), "-o", str(obj), str(source)]
-        result = subprocess.run(command, capture_output=True, text=True, errors="replace")
+        if flags.get("profile") == "ultralib":
+            # An unmodified lib/ultralib source, included by path from the repository root.
+            base = [*ULTRALIB_FLAGS, "-EB", "-DNON_MATCHING"]
+        else:
+            base = [*CFLAGS, *("-I" + str(ROOT / i) for i in INCLUDES)]
+        command = [str(cc), *base, flags.get("opt", "-O2"), flags.get("mips", "-mips2"),
+                   *flags.get("extra", []), "-I" + str(ROOT / Path(path).parent),
+                   "-o", str(obj), str(source)]
+        result = subprocess.run(command, capture_output=True, text=True, errors="replace",
+                                cwd=ROOT)
         if result.returncode != 0 or not obj.exists():
             return None, result.stdout + result.stderr
         return obj.read_bytes(), ""
 
 
 def check_file(job):
-    path, cc_dir, overrides, symbols, owners = job
+    path, cc_dir, overrides, symbols, owners, learn = job
     data, error = compile_source(path, cc_dir, overrides)
     if data is None:
         return path, [("<compile>", error.strip()[-500:])], 0
@@ -195,6 +228,7 @@ def check_file(job):
     segment = segment_of(path)
     failures = []
     checked = 0
+    learned = {} if learn else None
     for name in functions:
         match = ADDR_NAME.match(name)
         address = symbols.get(name, int(match.group(1), 16) if match else None)
@@ -202,10 +236,15 @@ def check_file(job):
         if owner is None:
             failures.append((name, "no assembly owner at this address"))
             continue
-        reason = compare(text, functions, relocations, name, address, owner[1], symbols)
+        reason = compare(text, functions, relocations, name, address, owner[1], symbols, learned)
         checked += 1
         if reason:
             failures.append((name, reason))
+    for name, address in sorted((learned or {}).items()):
+        if name.startswith("!"):
+            failures.append((name[1:], "conflicting symbol; ROM implies 0x%08X" % address))
+        else:
+            failures.append((name, "unknown symbol; ROM implies 0x%08X" % address))
     return path, failures, checked
 
 
@@ -215,6 +254,8 @@ def main():
     parser.add_argument("--rom", default=str(ROOT / "baseroms/jp/baserom.z64"))
     parser.add_argument("--cc-dir", default=str(ROOT / "tools"))
     parser.add_argument("-j", type=int, default=None)
+    parser.add_argument("--learn", action="store_true",
+                        help="report addresses the ROM implies for unknown symbols")
     args = parser.parse_args()
     rom = Path(args.rom).read_bytes()
     import hashlib
@@ -226,7 +267,7 @@ def main():
     sources = args.sources or sorted(
         str(p.relative_to(ROOT)) for p in (ROOT / "src").rglob("*.c")
         if has_c_functions(p))
-    jobs = [(s, args.cc_dir, overrides, symbols, owners) for s in sources]
+    jobs = [(s, args.cc_dir, overrides, symbols, owners, args.learn) for s in sources]
     total = 0
     bad = 0
     with Pool(args.j) as pool:

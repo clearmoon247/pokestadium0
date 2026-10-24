@@ -20,8 +20,6 @@ void Math_ProjectPointOntoLine(
 void MtxF_ExtractScale(MtxF* arg0, MtxF* arg1);
 void MtxF_GetScaleVector(MtxF* arg0, Vec3f* arg1);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Mtx_BuildDirectionRotation(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     f32 sp144;
     f32 sp140;
@@ -42,9 +40,6 @@ void Mtx_BuildDirectionRotation(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4
     guMtxCatL(&spB0, &sp70, &spF0);
     *mtx = spF0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80031D20.s")
-#endif
 
 f32 Math_AbsF32(f32 arg0) {
     if (arg0 < 0.0) {
@@ -99,8 +94,6 @@ void Vec3f_CrossProductArrays(const f32* a, const f32* b, f32* out) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80031FF8.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Mtx_BuildTranslatedDirectionRotation(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     f32 sp10C;
     f32 sp108;
@@ -123,9 +116,6 @@ void Mtx_BuildTranslatedDirectionRotation(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3
     guMtxCatL(&sp38, &spB8, &spB8);
     *mtx = spB8;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800320A8.s")
-#endif
 
 void Math_ProjectPointOntoLine(
     f32 px, f32 py, f32 pz,

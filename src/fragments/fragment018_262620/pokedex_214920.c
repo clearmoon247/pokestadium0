@@ -333,11 +333,26 @@ void Pokedex_ExitAreaMapScreen(void) {
     BgStage_RunUntilCondition(0xA, Pokedex_RedrawAreaMapTransition);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A101AA8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101AA8.s")
-#endif
+s32 Pokedex_ShowAreaMapScreen(void) {
+    s32 var_s0 = 3;
+
+    Pokedex_EnterAreaMapScreen();
+
+    while (var_s0 == 3) {
+        Cont_StartReadInputs();
+        Cont_ReadInputs();
+        Input_ResetRepeatState();
+        Pokedex_DrawAreaMapFrame(0);
+        if (Pokedex_CheckAreaMapExit() != 0) {
+            var_s0 = 1;
+        }
+        BgStage_AdvanceFrame();
+    }
+
+    Audio_PlaySoundEffectById(SFX_MENU_BACK);
+    Pokedex_ExitAreaMapScreen();
+    return var_s0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A101B30; signature not recovered. */
@@ -345,8 +360,6 @@ void Pokedex_ExitAreaMapScreen(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101B30.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Pokedex_RunEntryFlow(void) {
     s32 var_v0 = 1;
 
@@ -374,9 +387,6 @@ void Pokedex_RunEntryFlow(void) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101C50.s")
-#endif
 
 s32 Pokedex_GetHighestSeenSpeciesIndex(void) {
     s32 i;

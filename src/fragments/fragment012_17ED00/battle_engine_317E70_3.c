@@ -121,11 +121,20 @@ s32 func_8213C80C(void) {
     return D_8219A878;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C818; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C818.s")
-#endif
+Particle* BattleAnim_SpawnSecondaryOwnerParticle(Vec3f arg0, u8 arg1) {
+    Particle* sp1C = Particle_New();
+
+    if ((u32)sp1C != -1) {
+        ParticleMath_CopyVec3f(&sp1C->unk_68, &arg0);
+        BattleAnim_ConfigureSecondaryOwnerParticleVariant(sp1C, arg1);
+        sp1C->unk_10 = gBattleAnimSecondaryOwner;
+        sp1C->unk_14 = NULL;
+        sp1C->unk_CD = 0xFF;
+        sp1C->unk_CC = 0x15;
+        sp1C->unk_CA = 0;
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213C898; signature not recovered. */
@@ -137,11 +146,15 @@ void BattleAnim_MarkParticleInactive(Particle* arg0) {
     Particle_MarkInactive(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C8EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C8EC.s")
-#endif
+void Particle_InitLifecycle(Particle* arg0) {
+    arg0->unk_B2 = 1;
+    arg0->unk_0C = &gDefaultParticleDescriptor;
+    arg0->unk_08 = NULL;
+    arg0->unk_10 = 0;
+    arg0->unk_14 = 0;
+    arg0->unk_B8 = 0;
+    Particle_SetFlags(arg0, 4);
+}
 
 void func_8213C930(s8 *arg0) {
     M2C_FIELD(arg0, s16 *, 0xAE) = 0;

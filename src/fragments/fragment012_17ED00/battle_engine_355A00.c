@@ -43,8 +43,6 @@ void Trail50EffectAlt_Init(void) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Trail50EffectAlt_Start(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, u8 arg6, u8 arg7, u8 arg8, u8 arg9,
                    f32 argA, f32 argB, f32 argC, s16 argD) {
     Trail50Effect* var_v1;
@@ -105,12 +103,7 @@ void Trail50EffectAlt_Start(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f3
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8217F6C0.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Trail50EffectAlt_Update(f32 arg0, Vec3f* arg1, f32 arg2) {
     MtxF sp30;
     f32 temp_fv0 = (arg0 * 360.0) / 6.2831854820251465;
@@ -118,9 +111,6 @@ void Trail50EffectAlt_Update(f32 arg0, Vec3f* arg1, f32 arg2) {
     guRotateRPYF(sp30.mf, 90.0f, temp_fv0, temp_fv0);
     guMtxXFMF(sp30.mf, 0.0f, 0.0f, arg2, &arg1->x, &arg1->y, &arg1->z);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8217F988.s")
-#endif
 
 void Trail50EffectAlt_AdvanceNodes(Trail50Effect* arg0) {
     s32 i;
@@ -203,8 +193,6 @@ s32 Trail50EffectAlt_IsComplete(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 Gfx* Trail50EffectAlt_Draw(Gfx* arg0) {
     s32 i;
     s32 j;
@@ -296,6 +284,3 @@ Gfx* Trail50EffectAlt_Draw(Gfx* arg0) {
 
     return arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8217FDC4.s")
-#endif

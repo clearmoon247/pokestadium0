@@ -47,11 +47,33 @@ void BattleAnim_UnusedResetAppearanceAndAdvance(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821516B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821516B0.s")
-#endif
+void BattleAnim_CallbackUnusedGenericFadeApproach(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 0:
+            break;
+
+        case 1:
+            BattleAnim_UnusedResetAppearanceAndAdvance(arg0);
+            break;
+
+        case 2:
+            Particle_Field1C_Approach_0B98C(arg0, 3.0f, 0.025f);
+            Particle_TickDelayAndAdvanceLifecycle(arg0, 0x12C);
+            break;
+
+        case 3:
+            if (Particle_PrimAlpha_Approach_0BC2C(arg0, 0x20, 0x20) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+
+    Particle_UpdateRotatingVelocityXZ(arg0, 32.0f, 0x400);
+}
 
 void BattleAnim_SetupOrphanDescriptor2BSpinFade(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -67,11 +89,54 @@ void BattleAnim_SetupOrphanDescriptor2BSpinFade(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82151834; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151834.s")
-#endif
+void func_8213E1FC(Particle* arg0, f32 arg1);
+s32 func_8213F658(Particle* arg0, f32 arg1, f32 arg2);
+void BattleAnim_CallbackOrphanDescriptor2BSpinFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupOrphanDescriptor2BSpinFade(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+                Particle_BeginPhase(arg0);
+            }
+            break;
+
+        case 3:
+            if (Particle_TickDelayAndAdvanceLifecycle(arg0, 0x32) != 0) {
+                Particle_AdvancePhase(arg0);
+            }
+            break;
+
+        case 4:
+            if (Particle_TickDelayAndAdvanceLifecycle(arg0, 0x14) != 0) {}
+            break;
+
+        case 5:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+
+    switch (arg0->unk_B8) {
+        case 1:
+            func_8213F658(arg0, 50.0f, 0.5f);
+            func_8213E1FC(arg0, 1.0f);
+            Particle_UpdateRotatingVelocityXZ(arg0, arg0->unk_74, 0x1000);
+            Particle_Field94_AddX_0A578(arg0, 0x2000);
+            Particle_Field94_AddZ_0A5B0(arg0, 0x3000);
+            break;
+
+        case 2:
+            func_8213F658(arg0, 0.0f, 1.0f);
+            func_8213E1FC(arg0, -2.0f);
+            Particle_UpdateRotatingVelocityXZ(arg0, arg0->unk_74, 0x1000);
+            Particle_Field94_AddX_0A578(arg0, 0x2000);
+            Particle_Field94_AddZ_0A5B0(arg0, 0x3000);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821519AC; signature not recovered. */
@@ -114,8 +179,6 @@ void func_82151A5C(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_SetupEndEffect26Descriptor2CGravityScatterFall(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
@@ -134,27 +197,168 @@ void BattleAnim_SetupEndEffect26Descriptor2CGravityScatterFall(Particle* arg0) {
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151B20.s")
-#endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82151CC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151CC8.s")
-#endif
+void func_8213E1FC(Particle* arg0, f32 arg1);
+s32 func_8213F658(Particle* arg0, f32 arg1, f32 arg2);
+void func_8213ECD0(Particle* arg0);
+void BattleAnim_CallbackEndEffect26Descriptor2CGravityScatterFall(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupEndEffect26Descriptor2CGravityScatterFall(arg0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82151F80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151F80.s")
-#endif
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+                Particle_BeginPhase(arg0);
+                Particle_FieldA6_SetS16_0BCA8(arg0, ParticleMath_RandomRange(0xA) + 0x1E);
+            }
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82152230; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82152230.s")
-#endif
+        case 3:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_FieldA6_SetS16_0BCA8(arg0, 8);
+                Particle_AdvancePhase(arg0);
+            }
+            break;
+
+        case 4:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_Field9A_SetX_0A3C4(arg0, ParticleMath_RandomSignedOffsetBySign(0x1000, 0x600));
+                Particle_FieldB0_SetS16_0BFEC(arg0, ParticleMath_RandomSignedOffsetBySign(0x400, 0x400));
+                Particle_Field9A_SetZ_0A3EC(arg0, ParticleMath_RandomSignedOffsetBySign(0x1000, 0x600));
+                arg0->unk_38.x += arg0->unk_50.x;
+                arg0->unk_50.x = 0;
+                arg0->unk_38.z += arg0->unk_50.z;
+                arg0->unk_50.z = 0;
+                Particle_AdvancePhase(arg0);
+                arg0->unk_7C.y = -((ParticleMath_RandomRange(8) * 0.1f) + 0.5f);
+            }
+            break;
+
+        case 5:
+            Particle_TickDelayAndAdvanceLifecycle(arg0, 0x46);
+            break;
+
+        case 6:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    switch (arg0->unk_B8) {
+        case 1:
+            func_8213F658(arg0, 20.0f, 0.5f);
+            func_8213E1FC(arg0, arg0->unk_7C.y);
+            Particle_UpdateRotatingVelocityXZ(arg0, arg0->unk_74, arg0->unk_AE);
+            break;
+
+        case 2:
+            Particle_FieldAE_Approach_0BF60(arg0, 0, 0x200);
+            func_8213E1FC(arg0, arg0->unk_7C.y);
+            Particle_UpdateRotatingVelocityXZ(arg0, arg0->unk_74, arg0->unk_AE);
+            break;
+
+        case 3:
+            func_8213E1FC(arg0, arg0->unk_7C.y);
+            Particle_UpdateRotatingVelocityXZ(arg0, 5.0f, 0x400);
+            break;
+    }
+
+    if (Particle_IsRenderingEnabled(arg0) != 0) {
+        func_8213ECD0(arg0);
+        Particle_Field94_AddY_0A594(arg0, arg0->unk_B0);
+        Particle_Field94_AddZFromField9A_0A4DC(arg0);
+        if (arg0->unk_2C.y < 0.0f) {
+            Particle_MarkInactive(arg0);
+        }
+    }
+}
+
+void BattleAnim_SetupEndEffects85And87GravityFallDelay(Particle* arg0) {
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+    s16 sp24 = Particle_FieldCE_GetS32_0C040(arg0);
+
+    Particle_Field7C_SetYScaled_0AF24(arg0, 0.5f);
+
+    switch (sp24) {
+        case 0:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.12f);
+            arg0->unk_5C.y = -((ParticleMath_RandomRange(0xA) * 0.1f) + 0.5f);
+            Particle_Field38_AddYScaled_08E90(arg0, ParticleMath_RandomRange(0x28) + 0x1E);
+            Particle_SetRandomVelocityXSymmetric(arg0, 0x1E, 0);
+            Particle_SetRandomVelocityZSymmetric(arg0, 0x1E, 0);
+            break;
+
+        case 1:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.2f);
+            arg0->unk_5C.y = -((ParticleMath_RandomRange(4) * 0.1f) + 0.2f);
+            Particle_Field38_AddYScaled_08E90(arg0, ParticleMath_RandomSigned(0x14) + 0x1E);
+            Particle_SetRandomVelocityXSymmetric(arg0, 0xF, 5);
+            Particle_SetRandomVelocityZSymmetric(arg0, 0x14, 5);
+            break;
+    }
+
+    Particle_Field94_SetX_0A2A4(arg0, ParticleMath_RandomRange(0x10000));
+    Particle_Field94_SetZ_0A2CC(arg0, ParticleMath_RandomRange(0x10000));
+    Particle_Field74_SetScaled_0AD8C(arg0, ParticleMath_RandomRange(0x14) + 15.0f);
+    Particle_FieldAE_SetS16_0BF4C(arg0, ParticleMath_RandomRange(0x300) + 0x400);
+    Particle_Field9A_SetY_0A3D8(arg0, ParticleMath_RandomRange(0x10000));
+    Particle_Field9A_SetX_0A3C4(arg0, ParticleMath_RandomSignedOffsetBySign(0x800, 0x400));
+    Particle_Field9A_SetZ_0A3EC(arg0, ParticleMath_RandomSignedOffsetBySign(0x800, 0x400));
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+void func_8213E1FC(Particle* arg0, f32 arg1);
+void func_8213ECD0(Particle* arg0);
+void BattleAnim_CallbackEndEffects85And87GravityFallDelay(Particle* arg0) {
+    s16 sp26 = Particle_FieldCE_GetS32_0C040(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupEndEffects85And87GravityFallDelay(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+                Particle_BeginPhase(arg0);
+                switch (sp26) {
+                    case 0:
+                        Particle_FieldA6_SetS16_0BCA8(arg0, ParticleMath_RandomRange(0x1E) + 0x32);
+                        break;
+
+                    case 1:
+                        Particle_FieldA6_SetS16_0BCA8(arg0, ParticleMath_RandomRange(0x1E) + 0x64);
+                        break;
+                }
+            }
+            break;
+
+        case 3:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (arg0->unk_B8 == 1) {
+        func_8213E1FC(arg0, arg0->unk_5C.y);
+        Particle_UpdateRotatingVelocityXZ(arg0, 5.0f, 0x400);
+    }
+
+    if (Particle_IsRenderingEnabled(arg0) != 0) {
+        func_8213ECD0(arg0);
+        Particle_Field94_AddYFromField9A_0A4C8(arg0);
+        Particle_Field94_AddZFromField9A_0A4DC(arg0);
+        if (arg0->unk_2C.y < 0.0f) {
+            Particle_MarkInactive(arg0);
+        }
+    }
+}
 
 void BattleAnim_DefaultStartEffect_Draw(void) {
 }

@@ -208,8 +208,6 @@ void GbMusic_UpdateChannel(u32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void GbMusic_DecodeChannelCommands(u32 arg0) {
     u32 var_v0;
     u8 temp_v0;
@@ -275,9 +273,6 @@ void GbMusic_DecodeChannelCommands(u32 arg0) {
         }
     } while (!var_v0 ^ 0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003C3F0.s")
-#endif
 
 u8 GbMusic_CmdEndOrReturn(u32 arg0) {
     if (D_800B3FE8[arg0] & 2) {
@@ -782,8 +777,6 @@ u8 GbMusic_ReadStreamByte(u32 arg0) {
     return *D_800B40D8[arg0]++;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 u16 GbMusic_GetChannelRegister(u32 arg0, s32 arg1) {
     UNUSED s32 pad;
     u16 D_800785BC[] = {
@@ -793,12 +786,7 @@ u16 GbMusic_GetChannelRegister(u32 arg0, s32 arg1) {
 
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003D804.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 u16 GbMusic_GetNoteFrequency(u8 arg0, u8 arg1) {
     s16 sp8[] = {
         0xF82C, 0xF89D, 0xF907, 0xF96B, 0xF9CA, 0xFA23, 0xFA77, 0xFAC7, 0xFB12, 0xFB58, 0xFB9B, 0xFBDA,
@@ -809,9 +797,6 @@ u16 GbMusic_GetNoteFrequency(u8 arg0, u8 arg1) {
     ret += 0x800;
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003D850.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003D8D8; signature not recovered. */

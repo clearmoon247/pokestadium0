@@ -48,12 +48,12 @@ class InventoryTests(unittest.TestCase):
         asm_owners = {by_assembly[path] for path in pragmas}
         self.assertFalse(c_owners & asm_owners)
         # Matching C that still needs its file's data stays behind NON_MATCHING.
-        held = {row["owner"] for row in rows if row["status"] in ("s1", "m2c") and row["build"] != "c"}
+        held = {row["owner"] for row in rows if row["status"] in ("s1", "m2c", "hand") and row["build"] != "c"}
         self.assertLessEqual(held, asm_owners)
         self.assertEqual(c_owners | asm_owners,
                          {row["name"] for row in self.inventory["owners"]})
         for row in rows:
-            if row["status"] in ("s1", "m2c"):
+            if row["status"] in ("s1", "m2c", "hand"):
                 self.assertIn(row["c_name"], (ROOT / row["source"]).read_text(encoding="utf-8"))
 
     def test_global_symbol_names_are_unique(self):

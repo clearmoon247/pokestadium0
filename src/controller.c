@@ -180,14 +180,32 @@ s32 Cont_IsEepromPresent(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000B4D4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000B570; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000B570.s")
-#endif
+void func_8000B570(s32 ms) {
+    u64 cycles = OS_USEC_TO_CYCLES(ms * 1000LL); // why not just do OS_NSEC_TO_CYCLES and not multiply by 1000LL?
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000B638; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000B638.s")
-#endif
+    osSetTime(0);
+    while (osGetTime() < cycles) {}
+}
+
+extern u16 gCrashScreenUnlockInputs[];
+void func_8000B570(s32 ms);
+void crash_screen_wait_for_button_combo(void) {
+    s32 breakloop = FALSE;
+    s32 i = 0;
+
+    do {
+        Cont_StartReadInputs();
+        Cont_ReadInputs();
+        if (gPlayer1Controller->buttonPressed != 0) {
+            if (gPlayer1Controller->buttonPressed == gCrashScreenUnlockInputs[i++]) {
+                // have we reached the end of the array? exit the sleep loop.
+                if (i == 10) {
+                    breakloop = TRUE;
+                }
+            } else {
+                i = 0;
+            }
+        }
+        func_8000B570(10);
+    } while (breakloop == FALSE);
+}

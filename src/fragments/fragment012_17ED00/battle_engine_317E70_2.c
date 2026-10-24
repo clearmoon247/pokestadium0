@@ -110,17 +110,74 @@ void func_821398A0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213990C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139A88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139A88.s")
-#endif
+Particle* Particle_Alloc(void) {
+    s32 i;
+    s32 var_v0 = gParticlePoolIndex;
+    Particle* var_a0 = &gParticlePool[var_v0];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139B54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139B54.s")
-#endif
+    for (i = 0; i < 0x12C; i++) {
+        if (var_a0->unk_D0 == 0) {
+            break;
+        }
+
+        var_v0++;
+        if (var_v0 >= 0x12C) {
+            var_v0 = 0;
+            var_a0 = &gParticlePool[0];
+        } else {
+            var_a0++;
+        }
+    }
+
+    if (i >= 0x12C) {
+        var_a0 = (Particle*)-1;
+    } else {
+        var_a0->unk_D0 = 1;
+
+        Particle_ResetDefaults(var_a0);
+
+        gParticlePoolIndex = var_v0 + 1;
+        if (gParticlePoolIndex >= 0x12C) {
+            gParticlePoolIndex = 0;
+        }
+    }
+
+    return var_a0;
+}
+
+BattleAnimEffectSlot* BattleAnim_AllocEffectSlot(void) {
+    s32 i;
+    s32 var_v0 = gBattleAnimEffectSlotIndex;
+    BattleAnimEffectSlot* var_v1 = &gBattleAnimEffectSlots[var_v0];
+
+    for (i = 0; i < 300; i++) {
+        if (var_v1->unk_15 == 0) {
+            break;
+        }
+
+        var_v0++;
+
+        if (var_v0 >= 300) {
+            var_v0 = 0;
+            var_v1 = &gBattleAnimEffectSlots[0];
+        } else {
+            var_v1++;
+        }
+    }
+
+    if (i >= 300) {
+        var_v1 = -1;
+    } else {
+        var_v1->unk_15 = -0x1;
+
+        gBattleAnimEffectSlotIndex = var_v0 + 1;
+        if (gBattleAnimEffectSlotIndex >= 300) {
+            gBattleAnimEffectSlotIndex = 0;
+        }
+    }
+
+    return var_v1;
+}
 
 void func_82139BE8(s8 *arg0) {
     s8 **temp_v0;
@@ -176,11 +233,19 @@ Particle* Particle_AllocChain(u8 arg0) {
     return sp28;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139CE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139CE0.s")
-#endif
+void BattleAnim_InitializeParticleChain(Particle* arg0, Vec3f arg1, Vec3s arg2, s32 arg3, s32 arg4) {
+    while (arg0 != NULL) {
+        ParticleMath_CopyVec3f(&arg0->unk_68, &arg1);
+        ParticleMath_CopyVec3s(&arg0->unk_94, &arg2);
+        arg0->unk_08 = arg3;
+        arg0->unk_0C = arg4;
+        arg0->unk_10 = 0;
+        arg0->unk_14 = 0;
+        arg0->unk_CD = 0xFF;
+
+        arg0 = arg0->next;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82139D84; signature not recovered. */
@@ -201,17 +266,34 @@ void BattleAnim_EmitParticleBurst(Particle* arg0, ParticleUpdateCallback arg1, P
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139F00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139F00.s")
-#endif
+void BattleAnim_EmitParticleBurstWithMetadata(Particle* arg0, ParticleUpdateCallback arg1, ParticleDescriptor* arg2, s16 arg3, s16 arg4,
+                   s16 arg5) {
+    s16 i;
+    Particle* temp_v0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139FD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139FD4.s")
-#endif
+    for (i = 0; i < arg3; i++) {
+        temp_v0 = Particle_New();
+        if ((u32)temp_v0 == -1) {
+            break;
+        }
+        BattleAnim_CloneParticleState(temp_v0, arg0, arg1, arg2, i);
+        temp_v0->unk_CE = arg5;
+        temp_v0->unk_CF = arg4;
+    }
+}
+
+Particle* BattleAnim_CreateProceduralParticle(s16 arg0, s16 arg1, s32 arg2, f32 arg3) {
+    Particle* temp_v0 = Particle_New();
+
+    if ((u32)temp_v0 != -1) {
+        Vec3f_SetComponentsDuplicate(&temp_v0->unk_38, arg0, arg1, 0.0f);
+        Particle_UpdateWorldTransform(temp_v0);
+        Vec3s_SetComponents(&temp_v0->unk_94, arg2, arg2, arg2);
+        temp_v0->unk_1C = arg3;
+        Particle_SetFlags(temp_v0, 0x108);
+    }
+    return temp_v0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213A07C; signature not recovered. */
@@ -219,11 +301,75 @@ void BattleAnim_EmitParticleBurst(Particle* arg0, ParticleUpdateCallback arg1, P
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A07C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213A3B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A3B4.s")
-#endif
+void func_82107BFC(ActivePokemon* arg0, Vec3f* arg1);
+void BattleAnim_UpdateParticleAnchor(Particle* arg0) {
+    Vec3f sp3C;
+    Vec3f sp30;
+    Vec3s sp28;
+
+    switch (arg0->unk_CC) {
+        case 2:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            break;
+
+        case 3:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            arg0->unk_68.y = 0.0f;
+            break;
+
+        case 4:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&arg0->unk_68, &sp3C);
+            break;
+
+        case 5:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y + 0x8000);
+            ParticleMath_AddVec3f(&arg0->unk_68, &sp3C);
+            break;
+
+        case 6:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            func_82107BFC(arg0->unk_10, &sp30);
+            arg0->unk_68.y += sp30.y * 25.0f;
+            break;
+
+        case 7:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            func_82107BFC(arg0->unk_10, &sp30);
+            arg0->unk_68.y -= sp30.y * 25.0f;
+            if (arg0->unk_68.y <= 0.0f) {
+                arg0->unk_68.y = 0.0f;
+            }
+            break;
+
+        case 8:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &arg0->unk_68);
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&arg0->unk_68, &sp3C);
+            arg0->unk_68.y = 0.0f;
+            break;
+
+        case 16:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, arg0->unk_CD, &arg0->unk_68);
+            break;
+
+        case 18:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, arg0->unk_CD, &arg0->unk_68);
+            break;
+
+        case 29:
+            BattleScene_GetParticipantPokeBallPosition(arg0->unk_10, &arg0->unk_68);
+            break;
+    }
+}
 
 void BattleAnim_UpdateOrDestroyParticle(Particle* arg0) {
     if (Particle_IsInactive(arg0) != 0) {
@@ -346,8 +492,6 @@ void BattleAnim_SpawnSingleParticle(BattleAnimEffectSlot* arg0) {
     BattleAnim_InitializeParticleFromEffect(Particle_New(), sp18, arg0, 0);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_DispatchParticleEmission(BattleAnimEffectSlot* arg0) {
     switch (arg0->unk_16) {
         case 18:
@@ -379,9 +523,6 @@ void BattleAnim_DispatchParticleEmission(BattleAnimEffectSlot* arg0) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AD74.s")
-#endif
 
 void BattleAnim_TickEffectSlots(void) {
     s32 i;
@@ -431,17 +572,56 @@ void BattleAnim_ReleaseParticleModel(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213B038; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213B038.s")
-#endif
+void BattleAnim_CleanupEffectsRetainingCategories47(void) {
+    s32 i;
+    BattleAnimEffectSlot* var_s0 = gBattleAnimEffectSlots;
+    Particle* var_s2 = gParticlePool;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213B108; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213B108.s")
-#endif
+    BattleAnim_ResetSpawnDelay();
+
+    for (i = 0; i < 300; i++, var_s0++) {
+        if (var_s0->unk_15 != 0) {
+            if ((var_s0->unk_17 != 4) && (var_s0->unk_17 != 7)) {
+                BattleAnim_FreeEffectSlot(var_s0);
+            }
+        }
+    }
+
+    for (i = 0; i < 300; i++, var_s2++) {
+        if (var_s2->unk_D0 != 0) {
+            if ((var_s2->unk_CA != 4) && (var_s2->unk_CA != 7)) {
+                BattleAnim_DestroyParticle(var_s2);
+            }
+        }
+    }
+}
+
+void BattleAnim_CleanupEffectsRetainingCategory4(void) {
+    s32 i;
+    BattleAnimEffectSlot* var_s0 = gBattleAnimEffectSlots;
+    Particle* var_s2 = gParticlePool;
+
+    for (i = 0; i < 300; i++, var_s0++) {
+        if ((var_s0->unk_15 != 0) && (var_s0->unk_17 != 4)) {
+            BattleAnim_FreeEffectSlot(var_s0);
+        }
+    }
+
+    for (i = 0; i < 300; i++, var_s2++) {
+        if ((var_s2->unk_D0 != 0) && (var_s2->unk_CA != 4)) {
+            BattleAnim_DestroyParticle(var_s2);
+        }
+    }
+
+    Model_SetMaterialColor(&sActivePokemon[0]->displayObject, 0xFF, 0xFF, 0xFF, 0);
+    Model_SetMaterialColor(&sActivePokemon[1]->displayObject, 0xFF, 0xFF, 0xFF, 0);
+    Model_SetMaterialAlpha(&sActivePokemon[0]->displayObject, 0xFF);
+    Model_SetMaterialAlpha(&sActivePokemon[1]->displayObject, 0xFF);
+
+    gSavedPrimColorB = 0xFF;
+    gSavedPrimColorG = gSavedPrimColorB;
+    gSavedPrimColorR = gSavedPrimColorG;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213B234; signature not recovered. */

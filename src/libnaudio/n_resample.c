@@ -8,8 +8,6 @@
 Acmd* n_alResamplePull(N_PVoice* e, s16* outp, Acmd* p);
 s32 n_alResampleParam(N_PVoice* filter, s32 paramID, void* param);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 /***********************************************************************
  * Resampler filter public interfaces
  ***********************************************************************/
@@ -69,9 +67,6 @@ Acmd* n_alResamplePull(N_PVoice* e, s16* outp, Acmd* p) {
 
     return ptr;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80046950.s")
-#endif
 
 s32 n_alResampleParam(N_PVoice* filter, s32 paramID, void* param) {
     N_PVoice* r = filter;

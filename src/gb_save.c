@@ -387,7 +387,12 @@ s32 Ui_GetSelectionDirection(unk_func_8002EBD8_arg0* arg0) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8002BC44; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+s32 GbSave_GameToCategoryIndex(s32 arg0) {
+    static s32 D_80075910[] = { 0, 0, 1, 2, 0, 0, 0, 3, 0, 0, 0, 0 };
+
+    return D_80075910[arg0];
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002BC44.s")
 #endif
@@ -422,8 +427,6 @@ s32 Ui_GetSelectionDirection(unk_func_8002EBD8_arg0* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002C5A4.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 Color_RGBA8 Color_InterpolateFromGray(Color_RGBA8 arg0, f32 arg1) {
     static Color_RGBA8 D_80075940 = { 0xC8, 0xC8, 0xC8, 0xFF };
 
@@ -436,9 +439,6 @@ Color_RGBA8 Color_InterpolateFromGray(Color_RGBA8 arg0, f32 arg1) {
 
     return sp4;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002C8D8.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002C998; signature not recovered. */

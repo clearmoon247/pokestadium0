@@ -78,11 +78,11 @@ void Particle_SetFieldOffsetA8IfNotSentinel(Particle* arg0, s16 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C39C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C39C.s")
-#endif
+void Particle_SetFieldOffsetCEIfNotSentinel(Particle* arg0, u8 arg1) {
+    if ((u32)arg0 != -1) {
+        arg0->unk_CE = arg1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213C3B8; signature not recovered. */
@@ -104,7 +104,7 @@ void Particle_SetPrimAlphaIfNotSentinel(Particle* arg0, u8 arg1) {
 
 void Particle_SetFieldOffsetAAIfNotSentinel(Particle* arg0, s16 arg1) {
     if ((u32)arg0 != -1) {
-        arg0->unk_AA = arg1;
+        arg0->unk_AE = arg1;
     }
 }
 
@@ -123,7 +123,7 @@ u8 func_8213C46C(s8 *arg0) {
 }
 
 s16 Particle_FieldAA_GetS16_0C068(Particle* arg0) {
-    return arg0->unk_AA;
+    return arg0->unk_AE;
 }
 
 s16 func_8213C47C(s8 *arg0) {
@@ -137,7 +137,7 @@ s16 func_8213C47C(s8 *arg0) {
 #endif
 
 s16 Particle_FieldA6_GetS16_0BCBC(Particle* arg0) {
-    return arg0->unk_A6;
+    return arg0->unk_AA;
 }
 
 s16 func_8213C49C(s8 *arg0) {

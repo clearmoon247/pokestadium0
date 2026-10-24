@@ -51,14 +51,94 @@ void DoubleTextureTrail_InitPool(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82180408; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180408.s")
-#endif
+void DoubleTextureTrail_Spawn(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9,
+                   f32 argA, s16 argB, s32 argC, s32 argD, s16 argE, s16 argF, s16 arg10, s16 arg11, s16 arg12,
+                   s16 arg13, s16 arg14, s16 arg15, unk_D_843C2C00_024* arg16, unk_D_843C2C00_024* arg17, u8 arg18,
+                   u8 arg19, u8 arg1A, u8 arg1B, u8 arg1C, u8 arg1D, u8 arg1E, u8 arg1F, u8 arg20, u8 arg21, u8 arg22,
+                   u8 arg23, u8 arg24) {
+    DoubleTextureTrail* var_v0;
+    unk_D_843C2C00_0B0* var_a0;
+    s32 i;
+    s32 j;
+    Vec3f sp3C;
+    Vec3f sp30;
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+    sp3C.x = arg0;
+    sp3C.y = arg1;
+    sp3C.z = arg2;
+
+    sp30.x = arg3;
+    sp30.y = arg4;
+    sp30.z = arg5;
+
+    var_v0 = &D_821CD0E0[0];
+    for (i = 0; i < 4; i++, var_v0++) {
+        if (var_v0->unk_000 == 0) {
+            var_v0->unk_000 = 1;
+            var_v0->unk_002 = 0;
+            var_v0->unk_004 = argB;
+            var_v0->unk_008 = argA;
+            var_v0->unk_010 = arg7;
+            var_v0->unk_014 = arg8;
+            var_v0->unk_00C = arg6;
+            var_v0->unk_01C = argC;
+            var_v0->unk_020 = argD;
+
+            var_v0->unk_064.unk_00 = 0;
+            var_v0->unk_064.unk_02 = 0;
+            var_v0->unk_070.unk_00 = 0;
+            var_v0->unk_070.unk_02 = 0;
+
+            var_v0->unk_064.unk_04 = argE;
+            var_v0->unk_064.unk_06 = argF;
+            var_v0->unk_070.unk_04 = arg12;
+            var_v0->unk_070.unk_06 = arg13;
+
+            var_v0->unk_064.unk_08 = arg10;
+            var_v0->unk_064.unk_0A = arg11;
+            var_v0->unk_070.unk_08 = arg14;
+            var_v0->unk_070.unk_0A = arg15;
+
+            var_v0->unk_024 = *arg16;
+            var_v0->unk_044 = *arg17;
+
+            var_v0->unk_07C.unk_00.r = arg18;
+            var_v0->unk_07C.unk_00.g = arg19;
+            var_v0->unk_07C.unk_00.b = arg1A;
+            var_v0->unk_07C.unk_00.a = arg1B;
+
+            var_v0->unk_07C.unk_04 = arg1C;
+
+            var_v0->unk_081.unk_00.r = arg1D;
+            var_v0->unk_081.unk_00.g = arg1E;
+            var_v0->unk_081.unk_00.b = arg1F;
+            var_v0->unk_081.unk_00.a = arg20;
+
+            var_v0->unk_086.r = arg21;
+            var_v0->unk_086.g = arg22;
+            var_v0->unk_086.b = arg23;
+            var_v0->unk_086.a = arg24;
+
+            var_v0->unk_08C = 1.0f;
+            var_v0->unk_090 = 1.0f;
+            var_v0->unk_094 = 0x46;
+
+            var_a0 = &var_v0->unk_0B0[0];
+            for (j = 0; j < 10; j++, var_a0++) {
+                var_a0->unk_00 = j;
+                var_a0->unk_04 = 0xFF;
+                var_a0->unk_08 = arg9;
+                var_a0->unk_0C = 0.0f;
+                var_a0->unk_10 = sp3C;
+                var_a0->unk_1C = sp30.x * arg8;
+                var_a0->unk_20 = sp30.y * arg8;
+                var_a0->unk_24 = sp30.z * arg8;
+            }
+            break;
+        }
+    }
+}
+
 void DoubleTextureTrail_RotateVertexOffset(f32 arg0, Vec3f* arg1, f32 arg2) {
     UNUSED MtxF sp70;
     MtxF sp30;
@@ -67,9 +147,6 @@ void DoubleTextureTrail_RotateVertexOffset(f32 arg0, Vec3f* arg1, f32 arg2) {
     guRotateF(sp30.mf, (360.0f * arg0) / 6.2831855f, 1.0f, 0.0f, 0.0f);
     guMtxXFMF(sp30.mf, 0.0f, 0.0f, arg2, &arg1->x, &arg1->y, &arg1->z);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180794.s")
-#endif
 
 void DoubleTextureTrail_Update(DoubleTextureTrail* arg0) {
     unk_D_843C2C00_0B0* var_v0;

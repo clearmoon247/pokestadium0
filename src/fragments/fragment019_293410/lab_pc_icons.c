@@ -201,8 +201,6 @@ void func_8A202160(void) {
     func_8002C064(0x38, 0x1E0, M2C_FIELD(&D_8A203300, u8 *, 0), M2C_FIELD(&D_8A203300, u8 *, 1), (s32) M2C_FIELD(&D_8A203300, u8 *, 2));
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 LabPC_ComputeExpForLevel(s32 arg0, s32 arg1) {
     s32 sp4;
 
@@ -233,9 +231,6 @@ s32 LabPC_ComputeExpForLevel(s32 arg0, s32 arg1) {
     }
     return sp4;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A20219C.s")
-#endif
 
 s32 func_80020AFC(M2C_UNK, s32, M2C_UNK, M2C_UNK);  /* extern */
 M2C_UNK func_80020C60(s32);                         /* extern */

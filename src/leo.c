@@ -100,8 +100,6 @@ s32 Leo_QueueDiskPayloadRead(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Leo_HandleDiskIdCompletion(void) {
     s32 sp1C;
 
@@ -181,9 +179,6 @@ s32 Leo_HandleDiskIdCompletion(void) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000C9F0.s")
-#endif
 
 s32 Leo_HandleResetCompletion(void) {
     s32 sp1C;
@@ -232,8 +227,6 @@ s32 Leo_HandleResetCompletion(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Leo_HandleBootBlockCompletion(unk_D_800AA680* arg0) {
     s32 sp24;
     UNUSED s32 pad;
@@ -290,12 +283,7 @@ s32 Leo_HandleBootBlockCompletion(unk_D_800AA680* arg0) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000CD3C.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Leo_HandlePayloadCompletion(void) {
     s32 sp1C;
 
@@ -346,9 +334,6 @@ s32 Leo_HandlePayloadCompletion(void) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000CED4.s")
-#endif
 
 s32 Leo_PollDiskReady(void) {
     UNUSED s32 pad;
@@ -384,8 +369,6 @@ s32 Leo_PollDiskReady(void) {
 void func_8000D0D4(void) {
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Leo_RunBootStateMachine(unk_D_800AA680* arg0) {
     s32 sp24 = 1;
 
@@ -441,9 +424,6 @@ s32 Leo_RunBootStateMachine(unk_D_800AA680* arg0) {
 
     return (D_800AB210.unk_00 << 0x10) | (D_800AB210.unk_02 << 8) | D_800AB210.unk_04;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000D0DC.s")
-#endif
 
 s32 Leo_InitializeBootState(void) {
     s32 sp1C = Storage_GetDiskStatus();

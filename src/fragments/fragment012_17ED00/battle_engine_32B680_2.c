@@ -104,17 +104,28 @@ void BattleAnim_DrawAsset76Ia8FrameWithAsset77I4OverlayPipelineB(Particle* arg0,
     BattleAnim_DrawAsset76Ia8FrameWithAsset77I4Overlay(arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821418DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821418DC.s")
-#endif
+void BattleAnim_DrawAsset1FAnimatedI4WithAsset20DisplayList(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_PushBillboardMatrix(arg1, arg0->unk_2C, arg0->unk_1C);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141A00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141A00.s")
-#endif
+    gSPDisplayList(gDisplayListHead++, D_82190548);
+
+    ParticleGfx_LoadTextureI4WrapSTNoMirror(sBattleAnimAssetPointers[0x1F], 0x20, 0x40);
+    ParticleGfx_SetAnimatedTileSize(0, 8, 0x20, 0x40);
+    ParticleGfx_SetPrimEnvColorShadeCombine(0xFF, 0xFF, 0xFF, arg0->prim_a, 0xFF, 0xFF, 0xFF, 0xFF);
+
+    gDPSetRenderMode(gDisplayListHead++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
+    gSPDisplayList(gDisplayListHead++, sBattleAnimAssetPointers[0x20]);
+}
+
+s32 BattleAnim_DrawAssetBcRgba16WithAssetBdDisplayList(Particle* arg0, UNUSED CameraNode* arg1) {
+    ParticleGfx_PushTransformMatrix(arg0->unk_2C, arg0->unk_94, arg0->unk_1C);
+
+    gSPDisplayList(gDisplayListHead++, gDL_ItemIcon);
+
+    ParticleGfx_LoadTextureRgba16(sBattleAnimAssetPointers[0xBC], 0x20, 0x20);
+
+    gSPDisplayList(gDisplayListHead++, sBattleAnimAssetPointers[0xBD]);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82141AC8; signature not recovered. */
@@ -128,11 +139,18 @@ void BattleAnim_DrawAsset76Ia8FrameWithAsset77I4OverlayPipelineB(Particle* arg0,
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141BDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141CF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141CF0.s")
-#endif
+void BattleAnim_DrawAsset29DualI4LayeredQuad(Particle* arg0, UNUSED CameraNode* arg1) {
+    ParticleGfx_Push2DTransform(arg0->unk_2C.x, arg0->unk_2C.y, arg0->unk_94.z, arg0->unk_1C);
+
+    gSPDisplayList(gDisplayListHead++, D_821904C8);
+
+    ParticleGfx_SetPrimEnvLodCombine(0x80, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a, arg0->env_r, arg0->env_g, arg0->env_b);
+    ParticleGfx_LoadTextureMultiBlock4(sBattleAnimAssetPointers[0x29], 0, 0, 4, 0x20, 0x20, 1, 1, 5, 5, 2, 0);
+    ParticleGfx_SetAnimatedTileSize(1, 1, 0x20, 0x20);
+    ParticleGfx_LoadTextureMultiBlock4(sBattleAnimAssetPointers[0x29], 0x100, 1, 4, 0x20, 0x20, 1, 1, 5, 5, 1, 0xF);
+    ParticleGfx_SetAnimatedAuxTileSize(-1, 1, 0x20, 0x20);
+    ParticleGfx_DrawQuadVertices(gFullscreenQuadVtx);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82141E88; signature not recovered. */
@@ -224,23 +242,39 @@ void func_82142678(UNUSED ActivePokemon* active_pokemon, UNUSED s32 unused) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82142C8C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82142DB8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82142DB8.s")
-#endif
+void BattleAnim_DrawAsset1BI4TriangleA(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_821904C8);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82142EDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82142EDC.s")
-#endif
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x1B], 0x10, 0x100);
+    ParticleGfx_SetPrimEnvColorCombine(0xFF, 0xFF, 0xFF, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedTriangle(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, gVtx_UI_TriangleSmall);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143000; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143000.s")
-#endif
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
+
+extern Vtx D_82190D60[];
+void func_82142EDC(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_821904C8);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x1B], 0x10, 0x100);
+    ParticleGfx_SetPrimEnvColorCombine(0xFF, 0xFF, 0xFF, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedTriangle(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82190D60);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
+
+void BattleAnim_DrawAsset13FrameDiv2I4Quad(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_821904C8);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x13] + ((gParticleFrameDiv2 & 7) * 0x600), 0x20, 0x60);
+    ParticleGfx_SetPrimEnvColorCombine(0xFF, 0xFF, 0xFF, 0, 0x64, 0xC8, 0xFF);
+    ParticleGfx_DrawTransformedQuad(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, gVtx_UI_ComplexQuad);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8214313C; signature not recovered. */

@@ -242,11 +242,28 @@ s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210840C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108588; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108588.s")
-#endif
+void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, ThumbnailState* thumbnail, s16 object_type) {
+    ModelNodeView* model_node;
+
+    model_node = Battle_GetLoadedModelNode(pokemon, 0);
+    ModelRenderer_ClearDisplayObject(&thumbnail->displayObject);
+
+    if (pokemon == sActivePokemon[0]) {
+        thumbnail->displayObject.effectSlot = 0x2;
+    } else {
+        thumbnail->displayObject.effectSlot = 0x3;
+    }
+
+    if (pokemon == sActivePokemon[0]) {
+        Model_InitDisplayObject(&thumbnail->displayObject, 1, object_type, model_node);
+    } else {
+        Model_InitDisplayObject(&thumbnail->displayObject, 2, object_type, model_node);
+    }
+
+    ModelAnim_SetFrame(&thumbnail->displayObject, 0);
+    ModelAnim_SetAnimation(&thumbnail->displayObject, 0);
+    thumbnail->displayObject.node.renderFlags &= ~0x40;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82108648; signature not recovered. */

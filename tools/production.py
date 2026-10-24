@@ -24,11 +24,21 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / 'assets/production'
 BUILD = ROOT / 'build/production'
 SOURCE_REGISTRY = ROOT / 'config/jp/sources.json'
+# src/ file -> {section: link address} for object data placed at its ROM address.
+SECTION_REGISTRY = ROOT / 'config/jp/sections.json'
 SOURCE_FLAGS = ['-c', '-G', '0', '-non_shared', '-Xcpluscomm', '-nostdinc', '-Wab,-r4300_mul',
                 '-w', '-D_MIPS_SZLONG=32', '-DNDEBUG', '-D_FINALROM', '-DN_MICRO', '-DF3DEX_GBI_2',
                 '-DBUILD_VERSION=VERSION_I_P', '-DLANGUAGE_C', '-D_LANGUAGE_C', '-DVERSION_JP=1',
                 '-Iinclude', '-Isrc', '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/PR',
                 '-Ilib/ultralib/include/ido']
+# Files with "profile": "ultralib" include an unmodified lib/ultralib source and
+# build it with ultralib's own IDO flags for 2.0I libultra_rom (not 2.0I_P: seteventmesg,
+# sethwinterrupt and cartrominit only match the 2.0I code).
+ULTRALIB_FLAGS = ['-c', '-Wab,-r4300_mul', '-G', '0', '-nostdinc', '-Xcpluscomm', '-w',
+                  '-D_MIPS_SZLONG=32', '-DF3DEX_GBI', '-DBUILD_VERSION=6',
+                  '-DBUILD_VERSION_STRING="2.0I"', '-non_shared', '-DNDEBUG', '-D_FINALROM',
+                  '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/ido',
+                  '-Ilib/ultralib/include/PR']
 PRAGMA = re.compile(r'(#pragma\s+GLOBAL_ASM\(\s*")([^"]+)("\s*\))')
 LISTING = re.compile(r'/\*\s+[0-9A-F]+\s+([0-9A-F]+)\s+([0-9A-F]{8})\s*\*/\s*(.*)')
 MACROS = '''.set noreorder
@@ -281,6 +291,11 @@ def trim_file_text(obj, size):
     emits; that remainder comes from the erased (zero) owner bytes and is
     checked by the image comparison like everything else.
     """
+    return trim_section(obj, '.text', size)
+
+
+def trim_section(obj, name, size):
+    """Shorten a section to at most size bytes; only zero bytes may be removed."""
     data = bytearray(obj.read_bytes())
     header = struct.unpack_from('>16sHHIIIIIHHHHHH', data)
     positions = [header[6] + i * header[11] for i in range(header[12])]
@@ -288,15 +303,15 @@ def trim_file_text(obj, size):
     table = sections[header[13]]
     strings = data[table[4]:table[4] + table[5]]
     for position, section in zip(positions, sections):
-        if strings[section[0]:].split(b'\0', 1)[0] == b'.text':
-            if any(data[section[4] + size:section[4] + section[5]]):
-                raise ValueError(f'{obj.name}: .text is 0x{section[5]:X} bytes, owners span 0x{size:X}')
+        if strings[section[0]:].split(b'\0', 1)[0] == name.encode():
+            if section[1] != 8 and any(data[section[4] + size:section[4] + section[5]]):
+                raise ValueError(f'{obj.name}: {name} is 0x{section[5]:X} bytes, owners span 0x{size:X}')
             size = min(size, section[5])
             struct.pack_into('>I', data, position + 20, size)
             struct.pack_into('>I', data, position + 32, 4)
             obj.write_bytes(data)
             return size
-    raise ValueError('no .text section in ' + obj.name)
+    raise ValueError(f'no {name} section in {obj.name}')
 
 
 def compile_source_file(path, directory, compilers, prefix):
@@ -319,16 +334,33 @@ def compile_source_file(path, directory, compilers, prefix):
     unit = directory / (stem + '.c')
     unit.write_text(PRAGMA.sub(canonical, (ROOT / path).read_text(encoding='utf-8')), encoding='utf-8')
     obj = directory / (stem + '.o')
+    if flags.get('profile') == 'ultralib':
+        # No GLOBAL_ASM (and -O3, which asm-processor does not take): plain IDO.
+        run([compilers[flags.get('ido', '7.1')], *ULTRALIB_FLAGS, flags.get('opt', '-O2'),
+             flags.get('mips', '-mips2'), *flags.get('extra', []), '-o', obj, unit])
+        return obj
     run([sys.executable, 'tools/asm-processor/build.py', '--asm-prelude', 'tools/asm_prelude.inc',
          '--input-enc', 'utf-8', '--output-enc', 'euc-jp', compilers[flags.get('ido', '7.1')], '--',
-         prefix + 'as', '-march=vr4300', '-32', '-G0', '-EB', '--', *SOURCE_FLAGS,
+         prefix + 'as', '-march=vr4300', '-32', '-G0', '-EB', '--',
+         *(ULTRALIB_FLAGS if flags.get('profile') == 'ultralib' else SOURCE_FLAGS),
          flags.get('opt', '-O2'), flags.get('mips', '-mips2'), *flags.get('extra', []),
          '-I' + str(Path(path).parent), '-o', obj, unit])
     return obj
 
 
+def object_sections(obj):
+    """Section name -> (size, type) of an ELF32 big-endian object."""
+    data = obj.read_bytes()
+    header = struct.unpack_from('>16sHHIIIIIHHHHHH', data)
+    positions = [header[6] + i * header[11] for i in range(header[12])]
+    sections = [struct.unpack_from('>IIIIIIIIII', data, p) for p in positions]
+    table = sections[header[13]]
+    strings = data[table[4]:table[4] + table[5]]
+    return {strings[s[0]:].split(b'\0', 1)[0].decode(): (s[5], s[1]) for s in sections}
+
+
 def build_group(group, selected, cc, prefix, compare, files=None, compilers=None, symbols=None,
-                directory=None):
+                directory=None, placements=None):
     name = group['name']
     directory = directory or BUILD / name
     directory.mkdir(parents=True, exist_ok=True)
@@ -338,12 +370,50 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
     counts = Counter()
     cursor = 0
     current = None
+    files = files or {}
+    placements = placements or {}
+    objects_by_file = {}
+    occupied = []
+    nobits = []
+    for path in sorted({path for path, _ in files.values()} & {
+            files[row['name']][0] for row in group['owners'] if row['name'] in files}):
+        objects_by_file[path] = compile_source_file(path, directory, compilers, prefix)
+        found = object_sections(objects_by_file[path])
+        for section, place in placements.get(path, {}).items():
+            if section not in found:
+                raise ValueError(f'{path} has no {section} to place')
+            size, kind = found[section]
+            if isinstance(place, dict):
+                # IDO pads a section to 16 bytes; where the next object's data
+                # starts inside that padding, the registry gives the real size.
+                size = trim_section(objects_by_file[path], section, int(place['size'], 0))
+                place = place['address']
+            address = int(place, 0)
+            offset = address - group['base']
+            if kind == 8:  # SHT_NOBITS: addresses only, no image bytes
+                nobits.append((address, size, objects_by_file[path].name, section))
+            elif not 0 <= offset <= offset + size <= group['size']:
+                raise ValueError(f'{path} {section} lies outside {name}')
+            else:
+                occupied.append((offset, size, objects_by_file[path].name, section))
+    occupied.sort()
+    for (a, size_a, *_), (b, *_) in zip(occupied, occupied[1:]):
+        if a + size_a > b:
+            raise ValueError(f'placed data sections overlap in {name}')
+
     def gap(begin, end):
+        # Placed object data takes precedence over the extracted asset bytes.
+        for offset, size, obj, section in occupied:
+            if begin < offset + size and offset < end:
+                if offset < begin or offset + size > end:
+                    raise ValueError(f'{obj} {section} straddles an owner in {name}')
+                gap(begin, offset)
+                sections.append((offset, size, obj, section))
+                begin = offset + size
         if end > begin:
             section = f'.gap_{begin:X}'
             assembly.append(f'.section {section}, "a", @progbits\n.incbin "assets/production/{name}.bin", {begin}, {end - begin}\n')
             sections.append((begin, end - begin, 'assembly.o', section))
-    files = files or {}
     spans = {}
     for row in group['owners']:
         if row['name'] in files:
@@ -361,7 +431,7 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
         if row['name'] in files:
             current = files[row['name']][0]
             span_begin, span_end = spans[current]
-            obj = compile_source_file(current, directory, compilers, prefix)
+            obj = objects_by_file[current]
             size = trim_file_text(obj, span_end - span_begin)
             c_objects.append(obj)
             sections.append((begin, size, obj.name, '.text'))
@@ -407,6 +477,10 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
         segment = 'prefix' if index == 0 else 'body'
         linker.append(f'{output} 0x{group["base"] + begin:X} : AT({begin}) SUBALIGN(4) {{ "{directory / obj}"({section}) }} :{segment}')
         linker.append(f'ASSERT(SIZEOF({output}) == {size}, "size differs: {name} {section}")')
+    for index, (address, size, obj, section) in enumerate(nobits):
+        output = f'.nobits_{index}'
+        linker.append(f'{output} 0x{address:X} (NOLOAD) : {{ "{directory / obj}"({section}) }} :body')
+        linker.append(f'ASSERT(SIZEOF({output}) == {size}, "size differs: {name} {obj} {section}")')
     linker.append('/DISCARD/ : { *(*) }\n}')
     for symbol in sorted(undefined):
         if symbols and symbol in symbols:
@@ -419,7 +493,8 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
     script = directory / 'link.ld'
     script.write_text('\n'.join(linker) + '\n')
     elf = directory / (name + '.elf')
-    run([prefix + 'ld', '-T', script, '-Map', directory / 'link.map', '-o', elf, *objects])
+    # ll.c and llcvt.c are -mips3 objects, as in ultralib.
+    run([prefix + 'ld', '--no-warn-mismatch', '-T', script, '-Map', directory / 'link.map', '-o', elf, *objects])
     output = directory / (name + '.bin')
     run([prefix + 'objcopy', '-O', 'binary', elf, output])
     image = output.read_bytes()
@@ -474,6 +549,9 @@ def build(cc, prefix, compare, jobs, asm_only, compilers):
         if selected.keys() - known:
             raise ValueError('matching registry contains unknown owners')
     files = source_files(json.loads(SOURCE_REGISTRY.read_text()) if not asm_only else [])
+    placements = json.loads(SECTION_REGISTRY.read_text()) if not asm_only else {}
+    if placements.keys() - {path for path, _ in files.values()}:
+        raise ValueError('section registry names files that are not built')
     for name in files.keys() & selected.keys():
         del selected[name]
     symbols = {}
@@ -489,7 +567,8 @@ def build(cc, prefix, compare, jobs, asm_only, compilers):
         output[gap['start']:gap['end']] = data
     counts = Counter()
     def task(group):
-        return build_group(group, selected, cc, prefix, compare, files, compilers, symbols)
+        return build_group(group, selected, cc, prefix, compare, files, compilers, symbols,
+                           placements=placements)
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         for index, (group, image, totals) in enumerate(pool.map(task, manifest['groups']), 1):
             if len(image) != group['rom_end'] - group['rom_start']:
@@ -512,6 +591,7 @@ def build(cc, prefix, compare, jobs, asm_only, compilers):
                                             for version, path in compilers.items()} if files else None,
                    source_files=sorted({path for path, _ in files.values()}),
                    source_registry_sha256=sha(SOURCE_REGISTRY.read_bytes()),
+                   section_registry_sha256=sha(SECTION_REGISTRY.read_bytes()),
                    headers_sha256=headers_digest(),
                    matching_registry_sha256=sha((ROOT / 'config/jp/matching.json').read_bytes()),
                    build_tools_sha256={name: sha((ROOT / name).read_bytes()) for name in

@@ -16,8 +16,6 @@ Gfx* Trail40_Draw(Gfx* arg0);
 
 void Trail40_Reset(void);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Trail40_Init(s16 arg0) {
     s32 i;
     s32 j;
@@ -48,9 +46,6 @@ void Trail40_Init(s16 arg0) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82177DA0.s")
-#endif
 
 void Trail40_Start(s32 arg0, s32 arg1) {
     f32 sp84;
@@ -181,8 +176,6 @@ void Trail40Node_FillVertex(Trail40Node* arg0, Vtx* arg1) {
     arg1->v.cn[3] = sWaterSurface.unk_0004;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Trail40_IsComplete(void) {
     Trail40Node* var_s1;
     s32 i;
@@ -229,9 +222,6 @@ s32 Trail40_IsComplete(void) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82178564.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821787C4; signature not recovered. */

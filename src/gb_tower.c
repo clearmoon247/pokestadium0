@@ -34,11 +34,18 @@ void func_8000B340_jp(void);
 
 s32 GbPak_VerifyPattern(s32 arg0, void* arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000BA20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000BA20.s")
-#endif
+s32 GbPak_VerifyPattern(s32 arg0, void* arg1) {
+    u8 sp47;
+    u8 sp24[0x20];
+    s32 sp20 = 0;
+    UNUSED u8 padding[8];
+
+    if ((GbPak_MbcWrite(arg0, arg1, 0, 0x20) == 0) && (GbPak_MbcRead(arg0, (uintptr_t)&sp24, 0, 0x20) == 0) &&
+        (bcmp(&sp24, arg1, 0x20) == 0) && (osGbpakGetStatus(&D_800AB050[arg0], &sp47) == 0)) {
+        sp20 = ((sp47 & 4) != 0) == 0;
+    }
+    return sp20;
+}
 
 s32 GbPak_DetectRam(s32 arg0, u8* arg1) {
     s32 var_s0 = 0;
@@ -158,11 +165,18 @@ s32 GbTower_ReinitPak(s32 arg0) {
     return D_800AB1F0[arg0] == 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000C120; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000C120.s")
-#endif
+s32 GbTower_VerifyPakStillInserted(s32 arg0, void* arg1) {
+    u8 status;
+    u8 sp1C[0x20];
+    s32 sp18;
+
+    sp18 = 0;
+    if ((GbPak_MbcRead(arg0, (uintptr_t)&sp1C, 0, 0x20) == 0) && (bcmp(&sp1C, arg1, 0x20) == 0) &&
+        (osGbpakGetStatus(&D_800AB050[arg0], &status) == 0) && !(status & OS_GBPAK_RSTB_DETECTION)) {
+        sp18 = 1;
+    }
+    return sp18;
+}
 
 s32 GbPak_MbcRead(s32 arg0, void* arg1, u16 arg2, u16 arg3) {
     s32 var_v1;
@@ -282,8 +296,6 @@ u8 GbTower_SetPollMask(u8 arg0) {
     return temp_v0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 // Polls one Game Boy pak per call, rotating through ports 0-3. The first
 // osGbpakGetStatus failure on a port enabled by GbTower_SetPollMask latches
 // D_800AB1F8 and calls Game_ShutdownAndLoadFragment(port, 1); the per-port
@@ -302,9 +314,6 @@ void GbTower_PollPakConnection(void) {
         D_800697D0 = (D_800697D0 + 1) & 3;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000C628.s")
-#endif
 
 // Checks every pak enabled by GbTower_SetPollMask in one call, using the same
 // failure handling as GbTower_PollPakConnection.

@@ -142,8 +142,6 @@ s32 Battle_CheckMoveSuccess(void) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void ComputePokemonStat(s32 arg0, BattleMon* arg1) {
     u16 i;
     u16 spC;
@@ -242,6 +240,3 @@ void ComputePokemonStat(s32 arg0, BattleMon* arg1) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210FAD4.s")
-#endif
