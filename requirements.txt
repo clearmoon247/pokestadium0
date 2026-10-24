@@ -1,2 +1,1 @@
-splat64
-spimdisasm
+-r requirements-mapping.txt

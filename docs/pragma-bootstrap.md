@@ -2,6 +2,11 @@
 
 The source tree now contains **5,444 first-pass assembly owners in 188 C files**, using `#ifdef NON_MATCHING` / `#else` / `#pragma GLOBAL_ASM(...)` / `#endif`. Runtime capture is not required to preserve an unresolved indirect transfer inside an assembly owner; all 71 watchlist sites are included.
 
+The later [production build](production-build.md) now assembles this inventory,
+compiles the explicit C registry, and passes the full-ROM gate. The scaffold
+source files retain their TODO slots; the registry selects C directly from
+`candidates/`. The extraction and first-pass boundary caveats below still apply.
+
 ## Source layout and conditional pattern
 
 `src/1060.c` owns the scoped resident CPU text after the boot entry. `src/fragments/fragmentNNN_ROMOFFSET.c` contains one source unit per executable fragment image, including independently named images that reuse the `0x8FF00000` link slot. There are 187 fragment source units and one resident source unit.
@@ -58,6 +63,9 @@ Tests check every pragma path, conditional block, unique symbol name, resource-o
 
 All seven new pragma tests pass, alongside the existing twenty-eight mapping and flow tests, for thirty-five passing tests in this environment. The generator's `--check` also passes against the complete local source and assembly output.
 
-Assembly listing word annotations reproduce each owner's input interval byte-for-byte, and regeneration is deterministic. That does not prove symbolic mnemonics reassemble correctly: assembler macros, data symbols, linker placement, production compiler settings, and full-ROM rebuilding remain open gates.
+Assembly listing word annotations reproduce each owner's input interval byte-for-byte, and regeneration is deterministic. The original scaffold validation did not prove symbolic mnemonic reassembly.
+The production build now supplies assembler syntax normalization, absolute symbol
+addresses, fixed linker placement, and the full-ROM gate. Original compiler
+settings remain a research question beyond individually accepted candidates.
 
 The runtime capture workstream is paused. These source files are usable decompilation starting points without claiming that indirect target sets or inferred boundaries have become fully verified.

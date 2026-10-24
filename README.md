@@ -1,80 +1,72 @@
 # Pokémon Stadium Zero (JP)
 
-A WIP decomp of Pokémon Stadium Zero (Japanese-only original, ポケモンスタジアム).
-This is a **Team Hippodrome original** project; the layout and conventions follow
-[pret](https://pret.github.io/)'s decompilation style, but pret is not involved with
-this recompilation.
+A WIP decompilation of the Japanese-only original Pokémon Stadium
+(ポケモンスタジアム), by **Team Hippodrome**. The project follows pret's layout
+conventions; pret is not involved.
 
-**Status: mapping and static-analysis bootstrap; not a buildable decomp.**
-Resident/fragment storage mapping, evidence-labelled executable sections, and
-indirect-flow analysis are implemented as standalone Python tools. No production
-ROM build or toolchain bootstrap is implemented yet. `make rom`, `make extract`, `make setup`,
-`make diff-init`, and `make init` all fail with a clear error by design. See
-[docs/bootstrap.md](docs/bootstrap.md) for the open bootstrap gates and
-[COVERAGE.md](COVERAGE.md) for the (unmeasured) coverage state.
+Two matching tracks currently live side by side:
 
-## Completed analysis
-
-- [Resident and fragment mappings](docs/mappings/README.md): input hashes,
-  resident layout, compression/restoration rules, and 259 fragment images.
-- [Initial executable-section map](docs/sections/stadium-zero-fragment-executable-sections.md):
-  evidence spans and explicitly inferred text envelopes.
-- [Latest indirect-flow and gap validation](docs/sections/refined/flow-and-gap-validation.md):
-  217 static target sets across 288 recovered indirect sites; 71 runtime-dependent
-  sites remain unresolved. The refined maps supersede the initial inventories.
-- [Runtime capture watchlist](docs/sections/refined/runtime-watchlist.csv):
-  unresolved-site registers and link-time addresses, not assumed runtime PCs.
-- [Conditional pragma scaffold](docs/pragma-bootstrap.md): 5,444 first-pass
-  assembly owners, with local assembly regeneration and `NON_MATCHING` TODO slots.
-- [First matching pass](docs/matching.md): 2,803 functions are C that compiles to
+- **Per-function matching in `src/`.** 2,803 functions are C that compiles to
   the ROM bytes (2,004 ported from the Stadium 1 decomp, 799 from m2c's first
   output), checked per function by `tools/check_functions.py`; 173 more are
-  identified libultra. See [COVERAGE.md](COVERAGE.md).
+  identified libultra. See [docs/matching.md](docs/matching.md).
+- **Fixed-layout production build.** `make rom` reproduces the complete 16 MiB
+  ROM byte-for-byte. It compiles **551 unmodified m2c functions** from
+  `candidates/`, assembles the remaining **4,893 known code owners**, links the
+  resident image and all 259 fragments, and reconstructs their original storage.
+  See [docs/production-build.md](docs/production-build.md).
 
-The isolated analysis dependencies are pinned in `requirements-mapping.txt`.
-The reports include reproduction commands and evidence from 28 mapping/flow
-tests plus seven pragma-scaffold tests, all passing in the tested environment.
-The pragma inventory is a first-pass assembly-owner scaffold, not recovered
-original function/translation-unit boundaries. Matching C is verified per
-function against the ROM; no rebuilt-ROM identity is claimed yet. Generated assembly and binary
-extraction output remain local and ignored.
+Original function boundaries, translation units, and compiler settings remain
+under investigation.
 
-It targets the following ROM:
+## Build
 
-* pokestadium0-jp.z64
+Provide your own Japanese ROM as `baseroms/jp/baserom.z64`:
 
-Note: To use this repository, you must already have a rom for the game. Do not
-commit the rom (or any dump of retail assets) to this repository.
-
-# Prerequisites
-
-The prerequisites and workflow below are **planned, not implemented** — this is a
-bootstrap scaffold, and `requirements.txt` is provisional until the Stadium Zero
-toolchain is confirmed.
-
-Under Debian / Ubuntu, the eventual build is expected to need the standard
-MIPS cross-compiler toolchain, Python 3, and a virtual environment. Install
-suggested packages with:
-
-```powershell
-sudo apt update
-sudo apt install make git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv
+```text
+SHA-256 ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b
 ```
 
-Python packages will be pinned in `requirements.txt` once the toolchain is
-confirmed. In the meantime it lists only the provisional set of extraction
-tools:
+Install Python 3, GNU make, and GNU MIPS binutils, then run:
 
-```powershell
-python3 -m pip install -r requirements.txt
+```sh
+make init
+make rom
+make test
 ```
 
-# To use (planned workflow — not implemented)
+`make init` installs pinned Python dependencies and verified official IDO 5.3
+binaries, then extracts local assets and assembly. `make rom` compares by default
+and produces `build/pokestadium0-jp.z64`. See [production build details and
+constraints](docs/production-build.md) for setup, verification, and development.
 
-1. Place the Japanese Pokémon Stadium Zero rom into the repository's `/baseroms/jp/`
-   folder as `baserom.z64`.
-2. Set up tools and extract the rom: `make init`
-3. Re-assemble the rom: `make`
+The per-function checker uses the IDO 7.1 and 5.3 recompilations fetched by
+`tools/get_ido.sh` into the ignored `tools/ido/`:
 
-These commands are currently stubs and will fail with a clear bootstrap error until
-the gates in [docs/bootstrap.md](docs/bootstrap.md) are resolved.
+```sh
+tools/get_ido.sh
+python3 tools/check_functions.py
+```
+
+Do not commit ROMs or extracted retail assets.
+
+## Progress and evidence
+
+- [Coverage](COVERAGE.md): first-pass owner counts and bytes for both tracks.
+- [First matching pass](docs/matching.md): Stadium 1 ports and m2c output in
+  `src/`, listed per owner in [function-matches.csv](docs/function-matches.csv).
+- [Initial 100 m2c functions](docs/m2c-easiest-100.md): eight-byte empty returns.
+- [Next 200 m2c attempts](docs/m2c-next-200.md): 148 matches and 52 misses.
+- [Next 500 m2c attempts](docs/m2c-next-500.md): 200 matches and 300 misses.
+- [Ranks 801–1000](docs/m2c-next-200-801-1000.md): 103 matches and 97 misses.
+- [Production receipt](docs/production-build-receipt.json): complete-ROM identity.
+- [Resident and fragment mappings](docs/mappings/README.md): storage and restoration.
+- [Executable sections and flow](docs/sections/refined/flow-and-gap-validation.md):
+  conservative code discovery, indirect sites, and unresolved boundaries.
+- [Runtime capture watchlist](docs/sections/refined/runtime-watchlist.csv):
+  unresolved-site registers and link-time addresses, not assumed runtime PCs.
+- [Pragma scaffold](docs/pragma-bootstrap.md): 5,444 assembly owners. The
+  production registry selects accepted C directly from candidate files.
+
+The inventory is a first-pass assembly-owner scaffold, not recovered original
+function or translation-unit boundaries. Runtime capture work remains paused.
