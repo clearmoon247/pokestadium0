@@ -212,17 +212,47 @@ void Battle_FillActivePokemonThumbnail(GraphNode* thumbnail_root, DepthBuffer* t
     gDPSetTextureFilter(gDisplayListHead++, G_TF_BILERP);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82100B84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100B84.s")
-#endif
+void Battle_ResetFaintBatches(void) {
+    s32 side_index;
+    s32 trainer_index;
+    s32 pokemon_index;
+    TeamRoster* roster;
+    BattleSessionTeams* side = &sBattleSides[0];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82100C00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100C00.s")
-#endif
+    for (side_index = 0; side_index < 2; side_index++, side++) {
+        for (trainer_index = 0; trainer_index < side->tagTeamSize; trainer_index++) {
+            roster = side->teamMember[trainer_index];
+            for (pokemon_index = 0; pokemon_index < roster->numberOfPokemonBrought; pokemon_index++) {
+                roster->pokemonPicked[pokemon_index].unk_25 = 0;
+            }
+        }
+    }
+}
+
+void Battle_UpdateFaintBatches(void) {
+    s32 side_index;
+    s32 trainer_index;
+    s32 pokemon_index;
+    s32 found_faint = 0;
+    TeamRoster* roster;
+    BattleSessionTeams* side = &sBattleSides[0];
+
+    for (side_index = 0; side_index < 2; side_index++, side++) {
+        for (trainer_index = 0; trainer_index < side->tagTeamSize; trainer_index++) {
+            roster = side->teamMember[trainer_index];
+            for (pokemon_index = 0; pokemon_index < roster->numberOfPokemonBrought; pokemon_index++) {
+                if ((roster->pokemonPicked[pokemon_index].unk_25 == 0) && (roster->pokemonPicked[pokemon_index].hp == 0)) {
+                    found_faint = 1;
+                    roster->pokemonPicked[pokemon_index].unk_25 = sNextFaintBatch;
+                }
+            }
+        }
+    }
+
+    if (found_faint != 0) {
+        sNextFaintBatch += 1;
+    }
+}
 
 // Empty retail hook; its intended purpose is not established.
 void func_82100CB8(void) {

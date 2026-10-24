@@ -54,11 +54,11 @@ typedef struct BattleMon {
     /* 0x2E */ u16 unk_2E;
     /* 0x30 */ u8 unk_30[11];
     /* 0x3B */ u8 unk_3B[11];
-    /* 0x46 */ u8 unk_46[11];
-    /* 0x51 */ u8 pad51;
-    /* 0x52 */ u8 unk_52;
-    /* 0x53 */ u8 unk_53;
-} BattleMon; // size = 0x54
+    /* 0x46 */ u8 unk_46[7];
+    /* 0x4D */ u8 pad4D;
+    /* 0x4E */ u8 unk_4E;
+    /* 0x4F */ u8 unk_4F;
+} BattleMon; // size = 0x50
 
 typedef struct ExtendedRosterInfo {
     /* 0x000 */ u16 unk_000;
