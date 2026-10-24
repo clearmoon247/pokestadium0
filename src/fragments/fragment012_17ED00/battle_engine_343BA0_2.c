@@ -1,0 +1,115 @@
+/* Stadium Zero fragment012_17ED00. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_343BA0.c. */
+
+#include "fragments/battle_engine/battle_engine.h"
+#include "gallery.h"
+#include "gfx_buffer.h"
+#include "math.h"
+#include "math_util.h"
+extern u8* sBattleAnimAssetPointers[256];
+extern s16 sBattleAnimResourceList[0x10];
+extern arg1_func_80019420* sBattleAnimResourceTablePointers[40];
+extern s16 D_8219CAC0;
+extern s16 D_8219CAC2;
+extern Mtx D_8219CAC8;
+extern s16 D_8219CB08;
+extern s16 D_8219CB0A;
+extern s16 D_8219CB0C;
+extern s16 D_8219CB0E;
+extern s16 D_8219CB10;
+extern s16 D_8219CB12;
+extern s16 D_8219CB14;
+extern s16 D_8219CB16;
+extern s16 D_8219CB18;
+extern s16 D_8219CB1A;
+extern const char D_821978C8[];
+
+#include "m2c_macros.h"
+
+void func_82132E20(void);
+void func_821336E4(UNUSED s32 arg0);
+
+void func_82132E20(void) {
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82132E28; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132E28.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82132EB4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132EB4.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82132F88; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132F88.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82133028; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82133028.s")
+#endif
+
+M2C_UNK func_82133028();                            /* extern */
+extern s8 *D_8219A5A0;
+
+void func_82133318(void) {
+    func_82133028();
+    M2C_FIELD(D_8219A5A0, s32 *, 0x20) = (s32) (M2C_FIELD(D_8219A5A0, s32 *, 0x20) + 1);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213334C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213334C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213346C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213346C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82133534; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82133534.s")
+#endif
+
+M2C_UNK func_80019B28(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
+M2C_UNK func_821088BC(s8 *);                      /* extern */
+M2C_UNK func_82133028(s32);                         /* extern */
+M2C_UNK func_8213B31C(M2C_UNK);                     /* extern */
+extern s8 *D_8219A590;
+extern s8 D_8219A594;
+extern s8 *D_8219A5A0;
+
+void func_82133640(s32 arg0) {
+    u8 *temp_v0;
+
+    if (*M2C_FIELD(D_8219A590, u8 **, 0x85C) & 0x10) {
+        func_8213B31C(2);
+        temp_v0 = M2C_FIELD(D_8219A590, u8 **, 0x85C);
+        *temp_v0 &= 0xFF6F;
+        func_821088BC(D_8219A590);
+        func_82133028(arg0);
+        func_80019B28(D_8219A590, 0, 0, 0, 0xFF);
+        D_8219A594 = 0;
+        M2C_FIELD(D_8219A5A0, s32 *, 0x20) = 2;
+    }
+}
+
+void func_821336E4(UNUSED s32 arg0) {
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821336EC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821336EC.s")
+#endif

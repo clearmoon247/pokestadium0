@@ -223,11 +223,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("rom", type=Path)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--asm-only", action="store_true",
+                        help="write only asm/ owners; src/ now holds edited and split C files")
     args = parser.parse_args()
     mapping = json.loads((ROOT / "docs/mappings/resident-fragments.json").read_text())
     sections = json.loads((ROOT / "docs/sections/refined/fragment-sections.json").read_text())
     flow = json.loads((ROOT / "docs/sections/refined/flow-validation.json").read_text())
     outputs, inventory = generate(args.rom.read_bytes(), mapping, sections, flow)
+    if args.asm_only:
+        outputs = {path: data for path, data in outputs.items() if path.startswith("asm/")}
     previous = ROOT / "docs/pragma-inventory.json"
     prior = json.loads(previous.read_text()) if previous.exists() else {}
     old_hashes = {row["source"]: row["source_sha256"] for row in prior.get("sources", [])}

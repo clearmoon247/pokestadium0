@@ -1,0 +1,248 @@
+#!/usr/bin/env python3
+"""Compile C functions and compare each one with the retail ROM bytes.
+
+Each source file is compiled with IDO and -DNON_MATCHING, which leaves only
+the C function definitions (GLOBAL_ASM owners drop out). Every function in
+the object is matched to its pragma-inventory owner by address and compared
+word for word. Relocated fields are checked by solving for symbol addresses:
+
+* names in linker_scripts/jp/symbol_addrs.txt and address-style names
+  (func_XXXXXXXX, D_XXXXXXXX, ...) must resolve to that address;
+* every reference to one symbol inside a function must agree;
+* section-relative references (string/float literals, jump tables, statics
+  local to a function) only need to agree within the function, because the
+  .rodata/.bss layout of a whole file is not verified until the ROM links.
+
+This is a per-function check, not a ROM rebuild: position-dependent code
+(alignment padding inside a function) can differ once files link for real.
+
+Usage: tools/check_functions.py [--cc-dir tools/ido/linux] [src files...]
+"""
+import argparse
+import io
+import json
+from multiprocessing import Pool
+from pathlib import Path
+import re
+import struct
+import subprocess
+import sys
+import tempfile
+
+from elftools.elf.elffile import ELFFile
+
+from map_fragment_sections import load_image
+from map_rom import EXPECTED_SHA256
+
+ROOT = Path(__file__).resolve().parents[1]
+ADDR_NAME = re.compile(r"^(?:func|D|D_FLT|D_DBL|jtbl|B|sub|RO|L)_([0-9A-Fa-f]{8})(?:_\d+)?$")
+FRAGMENT_PATH = re.compile(r"^src/fragments/fragment(\d{3})_[0-9A-F]+(?:/|\.c$)")
+CFLAGS = ["-c", "-G", "0", "-non_shared", "-Xcpluscomm", "-nostdinc", "-Wab,-r4300_mul",
+          "-EB", "-w", "-D_MIPS_SZLONG=32", "-DNDEBUG", "-D_FINALROM", "-DN_MICRO",
+          "-DF3DEX_GBI_2", "-DBUILD_VERSION=VERSION_I_P", "-DLANGUAGE_C", "-D_LANGUAGE_C",
+          "-DVERSION_JP=1", "-DNON_MATCHING"]
+INCLUDES = ["include", "src", ".", "lib/ultralib/include", "lib/ultralib/include/PR",
+            "lib/ultralib/include/ido"]
+
+
+def load_symbols():
+    symbols = {}
+    for line in (ROOT / "linker_scripts/jp/symbol_addrs.txt").read_text().splitlines():
+        match = re.match(r"\s*(\w+)\s*=\s*(0x[0-9A-Fa-f]+)\s*;", line)
+        if match:
+            symbols[match.group(1)] = int(match.group(2), 16)
+    return symbols
+
+
+def load_owner_words(rom):
+    """(image_index, link address) -> owner words, from the inventory and ROM."""
+    inventory = json.loads((ROOT / "docs/pragma-inventory.json").read_text())
+    mapping = json.loads((ROOT / "docs/mappings/resident-fragments.json").read_text())
+    images = {}
+    owners = {}
+    for row in inventory["owners"]:
+        index = row["image_index"]
+        start, stop = int(row["start"], 0), int(row["end"], 0)
+        if index is None:
+            raw = rom[start:stop]
+        else:
+            if index not in images:
+                images[index] = load_image(rom, mapping["fragments"][index])
+            raw = images[index][start:stop]
+        words = list(struct.unpack(">%dI" % (len(raw) // 4), raw))
+        owners[(index, int(row["link_start"], 0))] = (row["name"], words)
+    return owners
+
+
+def parse_object(data):
+    elf = ELFFile(io.BytesIO(data))
+    sections = list(elf.iter_sections())
+    text_index = [i for i, s in enumerate(sections) if s.name == ".text"]
+    if not text_index:
+        return b"", {}, {}
+    text_index = text_index[0]
+    symtab = elf.get_section_by_name(".symtab")
+    functions = {}
+    for sym in symtab.iter_symbols():
+        if sym["st_shndx"] == text_index and sym["st_info"]["type"] == "STT_FUNC":
+            functions[sym.name] = (sym["st_value"], sym["st_size"])
+    relocations = {}
+    rel = elf.get_section_by_name(".rel.text")
+    if rel:
+        for entry in rel.iter_relocations():
+            sym = symtab.get_symbol(entry["r_info_sym"])
+            name = sym.name
+            if sym["st_info"]["type"] == "STT_SECTION" or not name:
+                name = "@" + sections[sym["st_shndx"]].name
+            relocations[entry["r_offset"]] = (entry["r_info_type"], name)
+    return sections[text_index].data(), functions, relocations
+
+
+def sext16(value):
+    return value - 0x10000 if value & 0x8000 else value
+
+
+def compare(text, functions, relocations, name, vram, expected, symbols):
+    """Return None on a match, else a short reason."""
+    offset, size = functions[name]
+    count = size // 4
+    if count > len(expected) or any(expected[count:]):
+        return "size %d words, owner has %d" % (count, len(expected))
+    words = struct.unpack(">%dI" % count, text[offset:offset + size])
+    by_offset = {value[0]: key for key, value in functions.items()}
+    bound = {}
+
+    def bind(sym, address):
+        address &= 0xFFFFFFFF
+        match = ADDR_NAME.match(sym)
+        if match and int(match.group(1), 16) != address:
+            return False
+        if not sym.startswith("@") and not match and sym not in symbols and sym not in functions:
+            return False
+        if sym in symbols and symbols[sym] != address:
+            return False
+        if bound.setdefault(sym, address) != address:
+            return False
+        return True
+
+    for i, (got, want) in enumerate(zip(words, expected)):
+        reloc = relocations.get(offset + 4 * i)
+        if reloc is None:
+            if got != want:
+                return "word %d" % i
+            continue
+        kind, sym = reloc
+        if kind == 4:  # R_MIPS_26
+            if (got ^ want) & 0xFC000000:
+                return "opcode %d" % i
+            target = ((vram + 4 * i) & 0xF0000000) | ((want & 0x3FFFFFF) << 2)
+            addend = (got & 0x3FFFFFF) << 2
+            if sym == "@.text" and addend in by_offset:
+                sym, addend = by_offset[addend], 0
+            if not bind(sym, target - addend):
+                return "call target %d (%s)" % (i, sym)
+        elif kind == 5:  # R_MIPS_HI16, checked through its LO16 users
+            if (got ^ want) & 0xFFFF0000:
+                return "opcode %d" % i
+        elif kind == 6:  # R_MIPS_LO16: pair with the HI16 that loaded its base
+            if (got ^ want) & 0xFFFF0000:
+                return "opcode %d" % i
+            base = (got >> 21) & 0x1F
+            hi = None
+            for k in range(i - 1, -1, -1):
+                prior = relocations.get(offset + 4 * k)
+                if prior and prior[0] == 5 and prior[1] == sym and ((words[k] >> 16) & 0x1F) == base:
+                    hi = k
+                    break
+            if hi is None:
+                return "unpaired %%lo %d" % i
+            addend = ((words[hi] & 0xFFFF) << 16) + sext16(got & 0xFFFF)
+            target = ((expected[hi] & 0xFFFF) << 16) + sext16(want & 0xFFFF)
+            if not bind(sym, target - addend):
+                return "address %d (%s)" % (i, sym)
+        else:
+            return "relocation type %d" % kind
+    return None
+
+
+def segment_of(path):
+    match = FRAGMENT_PATH.match(path)
+    return int(match.group(1)) if match else None
+
+
+def compile_source(path, cc_dir, overrides):
+    flags = overrides.get(path, {})
+    cc = Path(cc_dir) / flags.get("ido", "7.1") / "cc"
+    with tempfile.TemporaryDirectory() as tmp:
+        source = Path(tmp) / Path(path).name
+        source.write_bytes((ROOT / path).read_text(encoding="utf-8").encode("euc-jp", "replace"))
+        obj = Path(tmp) / "out.o"
+        command = [str(cc), *CFLAGS, flags.get("opt", "-O2"), flags.get("mips", "-mips2"),
+                   *flags.get("extra", []), *("-I" + str(ROOT / i) for i in INCLUDES),
+                   "-I" + str(ROOT / Path(path).parent), "-o", str(obj), str(source)]
+        result = subprocess.run(command, capture_output=True, text=True, errors="replace")
+        if result.returncode != 0 or not obj.exists():
+            return None, result.stdout + result.stderr
+        return obj.read_bytes(), ""
+
+
+def check_file(job):
+    path, cc_dir, overrides, symbols, owners = job
+    data, error = compile_source(path, cc_dir, overrides)
+    if data is None:
+        return path, [("<compile>", error.strip()[-500:])], 0
+    text, functions, relocations = parse_object(data)
+    segment = segment_of(path)
+    failures = []
+    checked = 0
+    for name in functions:
+        match = ADDR_NAME.match(name)
+        address = symbols.get(name, int(match.group(1), 16) if match else None)
+        owner = owners.get((segment, address))
+        if owner is None:
+            failures.append((name, "no assembly owner at this address"))
+            continue
+        reason = compare(text, functions, relocations, name, address, owner[1], symbols)
+        checked += 1
+        if reason:
+            failures.append((name, reason))
+    return path, failures, checked
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("sources", nargs="*")
+    parser.add_argument("--rom", default=str(ROOT / "baseroms/jp/baserom.z64"))
+    parser.add_argument("--cc-dir", default=str(ROOT / "tools/ido/linux"))
+    parser.add_argument("-j", type=int, default=None)
+    args = parser.parse_args()
+    rom = Path(args.rom).read_bytes()
+    import hashlib
+    if hashlib.sha256(rom).hexdigest() != EXPECTED_SHA256:
+        sys.exit("wrong input ROM")
+    owners = load_owner_words(rom)
+    symbols = load_symbols()
+    overrides = json.loads((ROOT / "tools/cflags_overrides.json").read_text())
+    sources = args.sources or sorted(
+        str(p.relative_to(ROOT)) for p in (ROOT / "src").rglob("*.c")
+        if has_c_functions(p))
+    jobs = [(s, args.cc_dir, overrides, symbols, owners) for s in sources]
+    total = 0
+    bad = 0
+    with Pool(args.j) as pool:
+        for path, failures, checked in pool.imap_unordered(check_file, jobs):
+            total += checked
+            for name, reason in failures:
+                bad += 1
+                print("%s: %s: %s" % (path, name, reason))
+    print("%d functions checked in %d files, %d failures" % (total, len(sources), bad))
+    sys.exit(1 if bad else 0)
+
+
+def has_c_functions(path):
+    text = path.read_text(encoding="utf-8")
+    return bool(re.search(r"^[A-Za-z_][^;#\n]*\)\s*\{\s*$", text, re.M))
+
+
+if __name__ == "__main__":
+    main()

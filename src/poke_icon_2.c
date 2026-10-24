@@ -1,0 +1,185 @@
+/* Stadium Zero resident code. */
+/* C ported from the Stadium 1 decomp: src/poke_icon.c. */
+
+#include "poke_icon.h"
+#include "geo_node.h"
+#include "geo_render.h"
+#include "model_animation.h"
+#include "display_object_textures.h"
+#include "model_renderer.h"
+#include "graphics_textures.h"
+#include "jpeg_stream.h"
+#include "gfx_rect.h"
+#include "matrix.h"
+#include "dp_intro.h"
+#include "geo_layout.h"
+#include "memory.h"
+extern DisplayObject* D_800AD1C0;
+s32 PokeIcon_CapturePreviewGeoNode(s32, GraphNode*);
+s32 PokeIcon_CaptureGeoNode(s32, GraphNode*);
+
+s32 PokeIcon_CapturePreviewGeoNode(s32 arg0, GraphNode* arg1);
+void PokeIcon_InitPreviewScene(unk_func_8001B1FC* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4);
+unk_func_8001B1FC* PokeIcon_CreateModelPreview(ModelLoadContext* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5,
+                                 s16 arg6, u8* arg7);
+s32 PokeIcon_HandlePreviewInput(Vec3s* arg0);
+s32 func_800193EC(Vec3s* arg0);
+void PokeIcon_AdvancePreviewMotion(unk_func_8001B1FC* arg0);
+void PokeIcon_UpdatePreview(unk_func_8001B1FC* arg0);
+
+s32 PokeIcon_CapturePreviewGeoNode(s32 arg0, GraphNode* arg1) {
+    if (arg0 == 0) {
+        D_800AD1C0 = arg1;
+    }
+    return 0;
+}
+
+void PokeIcon_InitPreviewScene(unk_func_8001B1FC* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
+    static u32 D_8006F3E0[] = {
+        0x0C00FFFF,    0x05000000, 0x0B00001E, 0x00000000, 0x010000E0, 0x00000000, 0x0000000A, 0x015404E2, 0x05000000,
+        0x0D000000,    0x05000000, 0x14000000, 0x002D013B, 0xFFFFFF32, 0x14000000, 0xFFD30087, 0x80808032, 0x16646464,
+        0x0F000001,    0x05000000, 0x1F000000, 0x00000000, 0x00000000, 0xFF060000, 0x00640064, 0x00640000, 0x08000000,
+        PokeIcon_CapturePreviewGeoNode, 0x00000000, 0x06000000, 0x06000000, 0x06000000, 0x06000000, 0x01000000, 0x00000000, 0x00000000,
+    };
+    MemoryBlock* sp24;
+    MemoryBlock* temp_v0;
+
+    sp24 = MainPool_AllocState(main_pool_get_available(), 0);
+    arg0->unk_20 = process_geo_layout(sp24, D_8006F3E0);
+    arg0->unk_24 = D_800AD1C0;
+    MainPool_FinalizeAllocation(sp24);
+    GeoCamera_SetViewport(arg0->unk_20->children, arg1, arg2, arg3, arg4);
+    GeoCamera_SetPerspective(arg0->unk_20->children, 30.0f, 100.0f, 12800.0f);
+}
+
+unk_func_8001B1FC* PokeIcon_CreateModelPreview(ModelLoadContext* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5,
+                                 s16 arg6, u8* arg7) {
+    unk_func_8001B1FC* temp_v0 = main_pool_alloc(sizeof(unk_func_8001B1FC), 0);
+
+    if (temp_v0 != NULL) {
+        temp_v0->unk_00 = 6;
+        temp_v0->unk_1C = arg0;
+        temp_v0->unk_14 = 0;
+        temp_v0->unk_04 = arg1;
+        temp_v0->unk_06 = arg2;
+        temp_v0->unk_08 = arg5;
+        temp_v0->unk_0A = arg6;
+        temp_v0->unk_0C = arg7;
+        temp_v0->unk_28 = GfxImage_Allocate(0, 2, arg1, arg2, 0);
+        temp_v0->unk_2C = GfxImage_Allocate(0, 2, arg1, arg2, 1);
+        GfxImage_AttachDepthBuffer(temp_v0->unk_28, temp_v0->unk_2C);
+        PokeIcon_InitPreviewScene(temp_v0, arg3, arg4, arg5, arg6);
+    }
+    return temp_v0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80019008; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019008.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800191B0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800191B0.s")
+#endif
+
+s32 PokeIcon_HandlePreviewInput(Vec3s* arg0) {
+    s32 var_v1 = 0;
+
+    if (gPlayer1Controller->buttonDown & 0x800) {
+        var_v1 = 1;
+        arg0->x += 0x400;
+    }
+
+    if (gPlayer1Controller->buttonDown & 0x400) {
+        var_v1 = 1;
+        arg0->x -= 0x400;
+    }
+
+    if (gPlayer1Controller->buttonDown & 0x200) {
+        var_v1 = 1;
+        arg0->y += 0x400;
+    }
+
+    if (gPlayer1Controller->buttonDown & 0x100) {
+        var_v1 = 1;
+        arg0->y -= 0x400;
+    }
+
+    return var_v1;
+}
+
+s32 func_800193EC(Vec3s* arg0) {
+    return 0;
+}
+
+void PokeIcon_AdvancePreviewMotion(unk_func_8001B1FC* arg0) {
+    s32 var_a0;
+    Vec3s* sp18 = &arg0->unk_24->rotation;
+    s16 var_a2;
+    s16 temp_lo;
+
+    if (arg0->unk_12 < 0x100) {
+        arg0->unk_12 += 0x10;
+    }
+    sp18->y += arg0->unk_12;
+    var_a2 = arg0->unk_12;
+
+    if (sp18->x < 0) {
+        var_a0 = -sp18->x;
+    } else {
+        var_a0 = sp18->x;
+    }
+
+    temp_lo = var_a0 / 12;
+    if (temp_lo < 8) {
+        temp_lo = 8;
+    }
+
+    if (temp_lo < var_a2) {
+        var_a2 = temp_lo;
+    }
+    sp18->x = Math_StepToS(sp18->x, 0, var_a2);
+}
+
+void PokeIcon_UpdatePreview(unk_func_8001B1FC* arg0) {
+    f32 temp_fv0;
+    s16 temp_v0_2;
+    s32 temp_v0;
+    s32 var_v1;
+
+    var_v1 = 0;
+    if (arg0->unk_00 & 2) {
+        var_v1 = PokeIcon_HandlePreviewInput(&arg0->unk_24->rotation);
+        if (var_v1 == 0) {
+            var_v1 = func_800193EC(&arg0->unk_24->rotation);
+        }
+    }
+
+    if (var_v1 != 0) {
+        arg0->unk_12 = 0;
+        arg0->unk_10 = 0x78;
+    } else if (arg0->unk_00 & 4) {
+        if (arg0->unk_10 > 0) {
+            arg0->unk_10--;
+        } else {
+            PokeIcon_AdvancePreviewMotion(arg0);
+        }
+    }
+
+    Vec3f_SetComponentsDuplicate(&D_800AD1C0->scale, arg0->unk_18, arg0->unk_18, arg0->unk_18);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80019564; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019564.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800196F8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800196F8.s")
+#endif

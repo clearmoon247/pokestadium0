@@ -1,0 +1,206 @@
+/* Stadium Zero fragment016_252E10. */
+/* C ported from the Stadium 1 decomp: src/fragments/lab_pc_list/lab_pc_list_1D7B40.c, src/fragments/lab_pc_list/lab_pc_list_1E46B0.c. */
+
+#include "fragments/lab_pc_list/lab_pc_list.h"
+#include "gb_data.h"
+#include "save_data.h"
+#include "game_state.h"
+#include "table_view.h"
+#include "gb_save.h"
+#include "hal_libc.h"
+#include "memory.h"
+extern Gfx D_8910D028[];
+typedef struct unk_func_88316214 {
+    /* 0x00 */ char unk00[0x2C];
+    /* 0x2C */ u8 unk_2C;
+} unk_func_88316214;
+typedef struct unk_func_88316304 {
+    /* 0x00 */ unk_func_8830867C_02C_0CC_000** unk_00;
+    /* 0x04 */ char unk04[0x4];
+    /* 0x08 */ u8 unk_08;
+    /* 0x09 */ char unk09[0x8];
+    /* 0x11 */ u8 unk_11[1];
+} unk_func_88316304;
+typedef struct unk_func_883164C0 {
+    /* 0x00 */ char unk00[0x5C];
+} unk_func_883164C0;
+
+#include "fragments/lab_pc_list/lab_pc_list.h"
+#include "graphics_textures.h"
+#include "input.h"
+#include "gb_data.h"
+#include "game_state.h"
+#include "table_view.h"
+#include "text_system.h"
+#include "gb_save.h"
+#include "audio_sfx.h"
+#include "hal_libc.h"
+#include "memmap.h"
+#include "memory.h"
+#include "pokemon_stats.h"
+extern u8 D_8910D7D0[];
+typedef struct unk_func_88309614 {
+    /* 0x00 */ char unk00[0x8];
+    /* 0x08 */ s32 unk_08;
+} unk_func_88309614;
+typedef struct unk_func_88313894 {
+    /* 0x00 */ char unk00[0xC];
+    /* 0x0C */ unk_func_8830867C_02C_0CC_000_000* unk_0C;
+    /* 0x10 */ char unk10[0xC];
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ unk_func_88313894_020 unk_20;
+    /* 0x40 */ unk_func_88313894_020 unk_40;
+} unk_func_88313894;
+
+void LabPCList_ReadDeckCategory(unk_func_8830867C_02C_154* arg0);
+void LabPCList_WriteDeckCategory(unk_func_8830867C_02C_154* arg0);
+s32 LabPCList_IsTmItemId(s32* arg0);
+s32 LabPCList_IsHmItemId(s32* arg0);
+s32 LabPCList_IsSpecialTmItemId(s32* arg0);
+s32 LabPCList_CompareTmHmEntries(unk_func_88200FA0_030_038* arg0, unk_func_88200FA0_030_038* arg1);
+s32 LabPCList_CanLearnMoveByLevelUp(s32 arg0, s32 arg1);
+void LabPCList_ConsumeUsedTmItem(unk_func_8830867C_04C_030_02C_000* arg0);
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_89109990; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109990.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_89109B60; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109B60.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_89109C6C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109C6C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_89109D14; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109D14.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_89109E5C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109E5C.s")
+#endif
+
+void LabPCList_ReadDeckCategory(unk_func_8830867C_02C_154* arg0) {
+    DeckHandle* sp24;
+
+    sp24 = Deck_Open(arg0->unk_00, arg0->unk_01, arg0->unk_02, 0);
+    arg0->unk_14 = Deck_ReadEntries(arg0->unk_0C, arg0->unk_10, sp24);
+    Deck_CloseAndFlush(sp24);
+    arg0->unk_08 = 0;
+}
+
+void LabPCList_WriteDeckCategory(unk_func_8830867C_02C_154* arg0) {
+    DeckHandle* sp24 = Deck_Open(arg0->unk_00, arg0->unk_01, arg0->unk_02, 1);
+
+    Deck_WriteEntries(arg0->unk_0C, arg0->unk_14, sp24);
+    Deck_CloseAndFlush(sp24);
+    arg0->unk_08 = 0;
+}
+
+s32 LabPCList_IsTmItemId(s32* arg0) {
+    if ((*arg0 >= 0xC9) && (*arg0 < 0xFB)) {
+        *arg0 -= 0x65;
+        return 1;
+    }
+    if ((*arg0 >= 0xC4) && (*arg0 < 0xC9)) {
+        *arg0 += 4;
+        return 1;
+    }
+    return 0;
+}
+
+s32 LabPCList_IsHmItemId(s32* arg0) {
+    static u8 D_8831A250[] = { 0x23, 0x24, 0x25, 0x26, 0x27, 0x28 };
+
+    s32 i;
+
+    for (i = 0; i < 6; i++) {
+        if (*arg0 == D_8831A250[i]) {
+            *arg0 = i;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+s32 LabPCList_IsSpecialTmItemId(s32* arg0) {
+    static u8 D_8831A258[] = { 0x4F };
+
+    s32 i;
+
+    for (i = 0; i < 1; i++) {
+        if (*arg0 == D_8831A258[i]) {
+            *arg0 = i + 0x32;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+s32 LabPCList_CompareTmHmEntries(unk_func_88200FA0_030_038* arg0, unk_func_88200FA0_030_038* arg1) {
+    return (arg0->unk_08 - arg1->unk_08 != 0) ? arg0->unk_08 - arg1->unk_08 : (s32)arg0[1].unk_00 - (s32)arg1[1].unk_00;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8910A21C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910A21C.s")
+#endif
+
+s32 LabPCList_CanLearnMoveByLevelUp(s32 arg0, s32 arg1) {
+    static SpeciesData D_8831757C[] = {
+        { 0x06, 0x4E, 0x54, 0x4E, 0x64, 0x55, 0x14, 0x02, 0x2D, 0xD1, {0x0A, 0x2D, 0x34, 0x2B}, 0x03, {0xB5, 0x43, 0x4F, 0xCE, 0xE3, 0x08, 0x2E}, 0x00 },
+        { 0x0C, 0x3C, 0x2D, 0x32, 0x46, 0x50, 0x07, 0x02, 0x2D, 0xA0, {0x5D, 0x00, 0x00, 0x00}, 0x00, {0x2A, 0x43, 0x38, 0xF0, 0x43, 0x28, 0x42}, 0x00 },
+        { 0x30, 0x3C, 0x37, 0x32, 0x2D, 0x28, 0x07, 0x03, 0xBE, 0x4B, {0x21, 0x32, 0x00, 0x00}, 0x00, {0x20, 0x03, 0x38, 0xD0, 0x03, 0x28, 0x42}, 0x00 },
+        { 0x31, 0x46, 0x41, 0x3C, 0x5A, 0x5A, 0x07, 0x03, 0x4B, 0x8A, {0x21, 0x32, 0x4D, 0x8D}, 0x00, {0x2A, 0x43, 0x38, 0xF0, 0x43, 0x28, 0x42}, 0x00 },
+        { 0x32, 0x0A, 0x37, 0x19, 0x5F, 0x2D, 0x04, 0x04, 0xFF, 0x51, {0x0A, 0x00, 0x00, 0x00}, 0x00, {0xA0, 0x03, 0x08, 0xCE, 0x02, 0x88, 0x06}, 0x00 },
+        { 0x33, 0x23, 0x50, 0x32, 0x78, 0x46, 0x04, 0x04, 0x32, 0x99, {0x0A, 0x2D, 0x5B, 0x00}, 0x00, {0xA0, 0x43, 0x08, 0xCE, 0x02, 0x88, 0x06}, 0x00 },
+        { 0x8D, 0x3C, 0x73, 0x69, 0x50, 0x46, 0x05, 0x15, 0x2D, 0xC9, {0x0A, 0x6A, 0x47, 0x00}, 0x00, {0xB6, 0x7F, 0x0D, 0xC0, 0x83, 0x08, 0x16}, 0x00 },
+        { 0x96, 0x6A, 0x6E, 0x5A, 0x82, 0x9A, 0x18, 0x18, 0x03, 0xDC, {0x5D, 0x32, 0x81, 0x5E}, 0x05, {0xB1, 0x7F, 0xAF, 0xF1, 0xAF, 0x38, 0x63}, 0x00 },
+        { 0x97, 0x64, 0x64, 0x64, 0x64, 0x64, 0x18, 0x18, 0x2D, 0x40, {0x01, 0x00, 0x00, 0x00}, 0x03, {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F}, 0x00 },
+    };
+
+    SpeciesData* var_v1;
+    s32 i;
+
+    var_v1 = &gSpeciesData[arg0 - 1];
+
+    if (GbSave_GetPortGame(GbSave_GetActivePort()) == 7) {
+        for (i = 0; i < 9; i++) {
+            if (arg0 == D_8831757C[i].speciesId) {
+                var_v1 = &D_8831757C[i];
+            }
+        }
+    }
+    return ((var_v1->tmHmLearnset[arg1 / 8] >> (arg1 % 8)) & 1) != 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8910A4C8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910A4C8.s")
+#endif
+
+void LabPCList_ConsumeUsedTmItem(unk_func_8830867C_04C_030_02C_000* arg0) {
+    if ((LabItem_IsQuantitylessItemForOperation(arg0->unk_00[0]->unk_00) != 0) || (arg0->unk_00[0]->unk_01 < 2)) {
+        s32 tmp = arg0->unk_00[1]->unk_0C.unk_00;
+
+        WordList_Remove(&arg0->unk_00[1]->unk_0C, ((s32)arg0->unk_00[0] - tmp) >> 1);
+    } else {
+        arg0->unk_00[0]->unk_01--;
+    }
+    arg0->unk_00[1]->unk_08 = 1;
+}

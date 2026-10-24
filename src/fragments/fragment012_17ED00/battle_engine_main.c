@@ -1,0 +1,359 @@
+/* Stadium Zero fragment012_17ED00. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_309ED0.c, src/fragments/battle_engine/battle_engine_main.c. */
+
+#include "fragments/battle_engine/battle_engine.h"
+#include "game_state.h"
+#include "geo_node.h"
+#include "geo_render.h"
+#include "display_object_textures.h"
+#include "model_renderer.h"
+#include "graphics_textures.h"
+#include "input.h"
+#include "battle_hud.h"
+#include "3D140.h"
+#include "jpeg_stream.h"
+#include "audio_loop_point.h"
+#include "gfx_buffer.h"
+#include "matrix.h"
+#include "controller.h"
+#include "geo_layout.h"
+#include "memmap.h"
+#include "memory.h"
+extern CameraNode sStageCamera;
+extern unk_D_8690A610 sStageFog;
+extern GraphNode sStageLayout0;
+extern GraphNode sStageLayout1;
+extern GraphNode sStageLayout3;
+extern CameraNode sSide1ThumbnailCamera;
+extern CameraNode sSide2ThumbnailCamera;
+extern u8* sSide1PokemonThumbnailImage;
+extern u8* sSide2PokemonThumbnailImage;
+extern void* sStageBackdrop;
+extern GraphNode* sStageRoot;
+extern GraphNode* sSide1ThumbnailRoot;
+extern GraphNode* sSide2ThumbnailRoot;
+extern DepthBuffer* sSide1PokemonThumbnail;
+extern DepthBuffer* sSide2PokemonThumbnail;
+extern BattleSessionTeams* sBattleSides;
+extern s32 sIsPaused;
+extern s32 sNextFaintBatch;
+extern Color_RGBA8_u32 sTintColor;
+extern f32 sStageScale;
+extern s32 sCompletionGate;
+extern u8 sBattleModeDispatch[];
+extern u32 sStageGeoLayout[];
+extern u32 sSide1ThumbnailLayout[];
+extern u32 sSide2ThumbnailLayout[];
+
+#include "fragments/battle_engine/battle_engine.h"
+#include "model_animation.h"
+#include "model_renderer.h"
+#include "audio_commands.h"
+#include "3D140.h"
+#include "audio_fade.h"
+#include "audio_loop_point.h"
+#include "cry.h"
+#include "matrix.h"
+extern s32 pad_D_84390210[4];
+extern s32 sMultihitCount;
+extern s32 sMultihitCountdown;
+
+s32 Battle_StageGeoDispatchCallback(s32 event, GraphNode* node);
+s32 Battle_StageLightAngleCallbackA(s32 event, unk_D_86002F34_alt18* light);
+s32 Battle_StageMaterialTintCallback(s32 event, DisplayObject* object);
+void Battle_SetStageScale(f32 scale);
+void Battle_RenderActivePokemonThumbnail(GraphNode* thumbnail_root, DepthBuffer* thumbnail);
+void Battle_DrawTexturedRectSegment(s32 x1, s32 y1, s32 draw_width, s32 height, u8* texture, s32 load_width);
+void Battle_FillActivePokemonThumbnail(GraphNode* thumbnail_root, DepthBuffer* thumbnail);
+void func_82100CB8(void);
+void func_82100CC0(void);
+s32 BattleScene_UpdateFrame(s32 fade_mode);
+s32 BattleScene_UpdatePausedFrame(s32 fade_mode);
+void Battle_CompleteRosterOrder(u8* roster_order, s32 number_of_pokemon_picked);
+void BattleScene_InitializeParticipantPresentation(BattleSessionTeams* side, unk_D_86002F30* model);
+void func_8210186C(void);
+
+void Battle_DrawStageBackdrop(void);
+void Battle_DrawClippedTextureRect(s32 x1, s32 y1, s32 x2, s32 y2);
+void Battle_UpdateFaintBatches(void);
+
+// called every frame: bug boy in GLC
+// Geo_ProcessNodeChildren invokes render callbacks with event 2.
+s32 Battle_StageGeoDispatchCallback(s32 event, GraphNode* node) {
+    if (event == 2) {
+        BattleAnim_DispatchPresentation(5, &sStageCamera);
+    }
+    return 0;
+}
+
+// called every frame: bug boy in GLC
+// Orient the first stage light relative to the current camera's viewing axis.
+s32 Battle_StageLightAngleCallbackA(s32 event, unk_D_86002F34_alt18* light) {
+    UNUSED s32 pad;
+    f32 distance;
+    s16 angle_x;
+    s16 angle_y;
+
+    if (event == 2) {
+        Vec3f_CalculateDistanceAngles(&D_80060488->view.targetPosition, &D_80060488->view.eyePosition, &distance, &angle_x, &angle_y);
+        light->unk_1C = angle_x + 0x2000;
+        light->unk_1E = angle_y - 0x2000;
+    }
+    return 0;
+}
+
+// called every frame: bug boy in GLC
+// Apply presentation effects to each of the three stage-layout containers.
+s32 Battle_StageMaterialTintCallback(s32 event, DisplayObject* object) {
+    if (event == 2) {
+        Vec3f_SetComponentsDuplicate(&object->scale, sStageScale, sStageScale, sStageScale);
+        object->textureTint.rgba = sTintColor.rgba;
+    }
+    return 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100118; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100118.s")
+#endif
+
+// Called at the start of battles
+// Uniform scale consumed by the stage material callbacks, not the Pokemon models.
+void Battle_SetStageScale(f32 scale) {
+    sStageScale = scale;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100148; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100148.s")
+#endif
+
+/*
+    Makes and Freezes the thumbnail of active pokemon
+*/
+// Capture only when camera flag 0x10 requests a refresh. Restoring the viewport
+// keeps the camera's on-screen placement separate from its off-screen render size.
+void Battle_RenderActivePokemonThumbnail(GraphNode* thumbnail_root, DepthBuffer* thumbnail) {
+    CameraNode* camera_node = thumbnail_root->children;
+    CameraViewport viewport;
+
+    if (camera_node->node.flags & 0x10) {
+        viewport = camera_node->viewport;
+
+        camera_node->viewport.x = 0;
+        camera_node->viewport.y = 0;
+        camera_node->viewport.width = 76;
+        camera_node->viewport.height = 76;
+
+        GfxImage_SetRenderTarget(&gDisplayListHead, thumbnail);
+        GfxImage_FillCurrent(&gDisplayListHead, 0x10D);
+        Geo_RenderRootNode(thumbnail_root);
+
+        camera_node->node.flags &= ~0x10;
+
+        camera_node->viewport = viewport;
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100650; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100650.s")
+#endif
+
+// called every frame: bug boy in GLC
+// Load full-width source rows and draw at half size using the clipped rectangle helper.
+void Battle_DrawTexturedRectSegment(s32 x1, s32 y1, s32 draw_width, s32 height, u8* texture, s32 load_width) {
+    gDPLoadTextureBlock(gDisplayListHead++, texture, G_IM_FMT_RGBA, G_IM_SIZ_16b, load_width, (height * 2) + 2, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+
+    Battle_DrawClippedTextureRect(x1, y1, (x1 + draw_width) - 1, (y1 + height) - 1);
+}
+
+/*
+    Fills in the texture of the pokemon thumbnail
+*/
+// Blit the captured side image as four strips, producing a 37 x 37 thumbnail.
+void Battle_FillActivePokemonThumbnail(GraphNode* thumbnail_root, DepthBuffer* thumbnail) {
+    s32 x;
+    s32 y;
+    CameraNode* camera_node = thumbnail_root->children;
+    CameraViewport* viewport = &thumbnail_root->children->viewport;
+    s32 image_address;
+
+    x = viewport->x;
+    y = viewport->y;
+
+    camera_node++;
+
+    gDPPipeSync(gDisplayListHead++);
+
+    gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCombineMode(gDisplayListHead++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetTextureFilter(gDisplayListHead++, G_TF_AVERAGE);
+
+    image_address = thumbnail->img_p;
+    Battle_DrawTexturedRectSegment(x, y, 37, 10, image_address, 76);
+    image_address = thumbnail->img_p + 0xBE0;
+    Battle_DrawTexturedRectSegment(x, y + 10, 37, 10, image_address, 76);
+    image_address = thumbnail->img_p + 0x17C0;
+    Battle_DrawTexturedRectSegment(x, y + 20, 37, 10, image_address, 76);
+    image_address = thumbnail->img_p + 0x23A0;
+    Battle_DrawTexturedRectSegment(x, y + 30, 37, 7, image_address, 76);
+
+    gDPPipeSync(gDisplayListHead++);
+
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_PERSP);
+    gDPSetTextureFilter(gDisplayListHead++, G_TF_BILERP);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100B84; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100B84.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100C00; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100C00.s")
+#endif
+
+// Empty retail hook; its intended purpose is not established.
+void func_82100CB8(void) {
+}
+
+// Empty retail hook; no purpose is established by callers in this fragment.
+void func_82100CC0(void) {
+}
+
+// called every frame: bug boy in GLC
+// Advance simulation/presentation, capture dirty thumbnails, then draw the scene and UI.
+s32 BattleScene_UpdateFrame(s32 fade_mode) {
+    s32 battle_result;
+
+    GeoRender_AdvanceFrameCounter();
+    ModelAnim_UpdateFrameChangeState();
+    BattleScene_DispatchLifecycle(2, sBattleSides);
+    BattleThumbnail_DispatchOwnerCameraLifecycle(2, &sSide1ThumbnailCamera, &sSide2ThumbnailCamera);
+    battle_result = BattleScene_Dispatch(2, &sStageCamera);
+    BattleAnim_DispatchPresentation(2, &sStageCamera);
+    Battle_RenderActivePokemonThumbnail(sSide1ThumbnailRoot, sSide1PokemonThumbnail);
+    Battle_RenderActivePokemonThumbnail(sSide2ThumbnailRoot, sSide2PokemonThumbnail);
+    BgStage_DrawFrame();
+    Battle_DrawStageBackdrop();
+    Geo_RenderRootNode(sStageRoot);
+    BattleScene_DispatchLifecycle(5, sBattleSides);
+    Battle_FillActivePokemonThumbnail(sSide1ThumbnailRoot, sSide1PokemonThumbnail);
+    Battle_FillActivePokemonThumbnail(sSide2ThumbnailRoot, sSide2PokemonThumbnail);
+    Battle_UpdateFaintBatches();
+
+    if (battle_result == 1) {
+        sBattleSides[0].unk_1C = 1;
+    }
+
+    if (battle_result == 2) {
+        sBattleSides[1].unk_1C = 1;
+    }
+
+    return battle_result;
+}
+
+/*
+    No idea what the hell this is, it's not drawing the Run selection cursor and nothing else in battle would use START
+    Stadium doesn't have pausing so it's not that either
+    preliminary guess: unused pausing debug option, sIsPaused can never be 1 through the current code
+*/
+// Dormant frame-step path: this translation unit initializes the selector to zero
+// and never sets it to one. A steps and Start resumes only while fade_mode is zero.
+s32 BattleScene_UpdatePausedFrame(s32 fade_mode) {
+    s32 battle_result = 0;
+
+    if ((fade_mode == 0) && BTN_IS_PRESSED(gPlayer1Controller, BTN_A)) {
+        battle_result = BattleScene_UpdateFrame(fade_mode);
+    } else {
+        ModelAnim_UpdateFrameChangeState();
+        BgStage_DrawFrame();
+        Battle_DrawStageBackdrop();
+        Geo_RenderRootNode(sStageRoot);
+        BattleScene_DispatchLifecycle(5, sBattleSides);
+        Battle_FillActivePokemonThumbnail(sSide1ThumbnailRoot, sSide1PokemonThumbnail);
+        Battle_FillActivePokemonThumbnail(sSide2ThumbnailRoot, sSide2PokemonThumbnail);
+    }
+
+    if ((fade_mode == 0) && BTN_IS_PRESSED(gPlayer1Controller, BTN_START)) {
+        sIsPaused = 0;
+    }
+    return battle_result;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100ED4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100ED4.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82100FD4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100FD4.s")
+#endif
+
+// triggers on battle start: bug boy in glc
+// Preserve the picked prefix and append missing roster indices 0..5 in order.
+// This completes the copy order; it does not choose additional battle participants.
+void Battle_CompleteRosterOrder(u8* roster_order, s32 number_of_pokemon_picked) {
+    s32 roster_index;
+    s32 picked_index;
+
+    for (roster_index = 0; roster_index < 6; roster_index++) {
+        for (picked_index = 0; picked_index < number_of_pokemon_picked; picked_index++) {
+            if (roster_index == roster_order[picked_index]) {
+                break;
+            }
+        }
+
+        if (picked_index == number_of_pokemon_picked) {
+            roster_order[number_of_pokemon_picked++] = roster_index;
+        }
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82101178; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82101178.s")
+#endif
+
+// triggers at the start of battle: bug boy in glc
+// Seed icon/presentation state from the side's first trainer and first picked Pokemon.
+void BattleScene_InitializeParticipantPresentation(BattleSessionTeams* side, unk_D_86002F30* model) {
+    TeamRoster* first_trainer = side->teamMember[0];
+
+    side->unk_18 = model->unk_08->unk_00[0];
+    side->uniqueStatusFlags |= 0xA0;
+    side->unk_1C = 0;
+    side->displayModel = first_trainer->pokemonPicked[0].unk_00.unk_00;
+    side->unk_04 = first_trainer->pokemonPicked;
+    Trainer_RequestPokeIcon(side);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82101324; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82101324.s")
+#endif
+
+void func_8210186C(void) {
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82101874; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82101874.s")
+#endif

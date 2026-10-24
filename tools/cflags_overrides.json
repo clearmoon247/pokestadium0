@@ -1,0 +1,184 @@
+{
+  "src/hal_libc.c": {
+    "extra": [
+      "-signed"
+    ],
+    "ido": "7.1",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/jpeg_decoder.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/jpegutils.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/bytetolba.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/lbatobyte.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoc2ecc.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leocmdex.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leodiskinit.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leofunc.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoinquiry.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoint.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leointerrupt.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leomecha.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leomseq_tbl.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leord_capa.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoreset.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leorezero.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoseek.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leotestunit.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leotimer.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leotranslat.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leoutil.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/leowrite.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/readdiskid.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/readrtc.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/readwrite.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/seek.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/setrtc.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  },
+  "src/libleo/spdlmotor.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2"
+  }
+}

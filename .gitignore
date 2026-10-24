@@ -40,3 +40,6 @@ undefined_syms_auto.txt
 
 # Local binary-analysis scratch and rejected exploratory splits.
 .analysis/
+
+# IDO recompilations fetched by tools/get_ido.sh
+tools/ido/

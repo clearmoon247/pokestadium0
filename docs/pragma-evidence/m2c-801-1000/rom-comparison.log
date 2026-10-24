@@ -1,0 +1,6 @@
+Direct cmp: PASS
+16777216 baseroms/jp/baserom.z64
+16777216 build/pokestadium0-jp.z64
+33554432 total
+ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b  baseroms/jp/baserom.z64
+ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b  build/pokestadium0-jp.z64

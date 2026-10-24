@@ -4,8 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 import re
-import shutil
 import subprocess
+import sys
 import unittest
 
 from generate_pragmas import conditional, LISTING_WORD
@@ -29,21 +29,29 @@ class InventoryTests(unittest.TestCase):
     def setUpClass(cls):
         cls.inventory = json.loads((ROOT / "docs/pragma-inventory.json").read_text())
 
-    def test_source_inventory_and_guards(self):
-        count = 0
-        for row in self.inventory["sources"]:
-            data = (ROOT / row["source"]).read_bytes()
-            self.assertEqual(hashlib.sha256(data).hexdigest(), row["source_sha256"])
-            source = data.decode()
-            pragmas = PRAGMA.findall(source)
-            self.assertEqual(len(pragmas), row["pragma_count"])
-            self.assertEqual(source.count("#ifdef NON_MATCHING"), len(pragmas))
-            self.assertEqual(source.count("#else"), len(pragmas))
-            self.assertEqual(source.count("#endif"), len(pragmas))
-            for path in pragmas:
-                self.assertTrue((ROOT / path).is_file())
-            count += len(pragmas)
-        self.assertEqual(count, self.inventory["summary"]["pragma_owners"])
+    def test_every_owner_has_one_source(self):
+        """Each owner is either one GLOBAL_ASM pragma or one verified C function."""
+        import csv
+        pragmas = []
+        for path in sorted((ROOT / "src").rglob("*.c")):
+            source = path.read_text(encoding="utf-8")
+            found = PRAGMA.findall(source)
+            self.assertEqual(source.count("#pragma GLOBAL_ASM"), len(found), path)
+            pragmas.extend(found)
+        self.assertEqual(len(pragmas), len(set(pragmas)))
+        by_assembly = {row["assembly"]: row["name"] for row in self.inventory["owners"]}
+        for path in pragmas:
+            self.assertIn(path, by_assembly)
+        with (ROOT / "docs/function-matches.csv").open() as handle:
+            rows = list(csv.DictReader(handle))
+        c_owners = {row["owner"] for row in rows if row["status"] in ("s1", "m2c")}
+        asm_owners = {by_assembly[path] for path in pragmas}
+        self.assertFalse(c_owners & asm_owners)
+        self.assertEqual(c_owners | asm_owners,
+                         {row["name"] for row in self.inventory["owners"]})
+        for row in rows:
+            if row["status"] in ("s1", "m2c"):
+                self.assertIn(row["c_name"], (ROOT / row["source"]).read_text(encoding="utf-8"))
 
     def test_global_symbol_names_are_unique(self):
         names = []
@@ -71,23 +79,15 @@ class InventoryTests(unittest.TestCase):
                       and int(row["start"], 0) <= offset < int(row["end"], 0)]
             self.assertEqual(len(owners), 1, site)
 
-    def test_generated_c_syntax_in_both_modes(self):
-        compiler = shutil.which("cc") or shutil.which("gcc")
-        if compiler is None:
-            self.skipTest("host C compiler unavailable")
-        paths = [str(ROOT / row["source"]) for row in self.inventory["sources"]]
-        for defines in ([], ["-DNON_MATCHING"]):
-            subprocess.run([compiler, "-fsyntax-only", "-Wno-unknown-pragmas",
-                            "-I", str(ROOT / "include"), *defines, *paths],
-                           check=True, capture_output=True)
-        sample = ROOT / self.inventory["sources"][0]["source"]
-        ordinary = subprocess.run([compiler, "-E", "-P", "-I", str(ROOT / "include"),
-                                   str(sample)], check=True, capture_output=True, text=True).stdout
-        nonmatching = subprocess.run([compiler, "-E", "-P", "-DNON_MATCHING",
-                                     "-I", str(ROOT / "include"), str(sample)],
-                                    check=True, capture_output=True, text=True).stdout
-        self.assertTrue(PRAGMA.findall(ordinary))
-        self.assertFalse(PRAGMA.findall(nonmatching))
+    def test_c_functions_match_private_input(self):
+        rom_path = ROOT / "baseroms/jp/baserom.z64"
+        if not rom_path.exists():
+            self.skipTest("private input ROM unavailable")
+        if not (ROOT / "tools/ido/linux/7.1/cc").exists():
+            self.skipTest("IDO unavailable; run tools/get_ido.sh")
+        result = subprocess.run([sys.executable, str(ROOT / "tools/check_functions.py")],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout[-2000:] + result.stderr[-2000:])
 
     def test_owner_ranges_and_listing_bytes_match_private_input(self):
         rom_path = ROOT / "baseroms/jp/baserom.z64"

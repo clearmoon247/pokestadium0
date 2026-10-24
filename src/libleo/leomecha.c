@@ -1,0 +1,204 @@
+/* Stadium Zero resident code. */
+/* C ported from the Stadium 1 decomp: src/libleo/leomecha.c. */
+
+#include "global.h"
+#include "libleo/internal.h"
+extern s32 currentCommand;
+s32 osEPiWriteIo(OSPiHandle*, u32, u32);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+
+#include "m2c_macros.h"
+
+u8 leoAnalize_asic_status(void);
+u8 leoSend_asic_cmd_w(u32 asic_cmd, u32 asic_data);
+u8 leoDetect_index_w(void);
+u8 leoRecal_i(void);
+u8 leoRecal_w(void);
+u8 leoSeek_i(u16 rwmode);
+u8 leoSeek_w(void);
+s32 leoRecv_event_mesg(s32 control);
+u8 leoChk_cur_drvmode(void);
+void leoDrive_reset();
+u32 leoChkUnit_atten(void);
+u32 leoRetUnit_atten(void);
+void leoClrUA_RESET(void);
+void leoClrUA_MEDIUM_CHANGED(void);
+void leoSetUA_MEDIUM_CHANGED(void);
+void leoInitUnit_atten(void);
+
+u8 leoSend_asic_cmd_i(u32 asic_cmd, u32 asic_data);
+u8 leoWait_mecha_cmd_done(u32 asic_cmd);
+
+u8 leoAnalize_asic_status(void) {
+    u32 curr_stat;
+
+    osEPiReadIo(LEOPiInfo, LEO_STATUS, &asic_cur_status);
+
+    if ((curr_stat = asic_cur_status ^ 0x1000000) & 0x1C3FFFF) {
+        if (curr_stat & 0x1C1FFFF) {
+            LEOdrive_flag = 0;
+        }
+        if (curr_stat & LEO_STATUS_PRESENCE_MASK) {
+            return 41;
+        }
+        if ((curr_stat & 0xC00000) == LEO_STATUS_BUSY_STATE) {
+            return LEO_SENSE_COMMAND_PHASE_ERROR;
+        }
+        if (curr_stat & LEO_STATUS_RESET_STATE) {
+            unit_atten |= 2;
+            return LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED;
+        }
+        if (curr_stat & LEO_STATUS_DISK_PRESENT) {
+            return LEO_SENSE_EJECTED_ILLEGALLY_RESUME;
+        }
+        if (curr_stat & LEO_STATUS_DISK_CHANGE) {
+            unit_atten |= 1;
+            return LEO_SENSE_MEDIUM_MAY_HAVE_CHANGED;
+        }
+        if (curr_stat & LEO_STATUS_MECHANIC_ERROR) {
+            return LEO_SENSE_NO_SEEK_COMPLETE;
+        }
+    }
+    return LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80049ECC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80049ECC.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80049FB4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80049FB4.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8004A168; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004A168.s")
+#endif
+
+s32 func_80049FB4(s32);                             /* extern */
+s32 func_8004A3B0(M2C_UNK);                         /* extern */
+
+s32 func_8004A210(s32 arg0) {
+    s32 temp_v0;
+
+    if (func_8004A3B0(1) != 0) {
+        return 0x2B;
+    }
+    temp_v0 = func_80049FB4(arg0);
+    if (temp_v0 != 0) {
+        return temp_v0 & 0xFF;
+    }
+    return 0;
+}
+
+u8 leoSend_asic_cmd_w(u32 asic_cmd, u32 asic_data) {
+    u32 wstatus = leoSend_asic_cmd_i(asic_cmd, asic_data);
+
+    if (wstatus != 0) {
+        return wstatus;
+    }
+    return leoWait_mecha_cmd_done(asic_cmd);
+}
+
+u8 leoDetect_index_w(void) {
+    return leoSend_asic_cmd_w(ASIC_INDEX_LOCK_RETRY, 0);
+}
+
+u8 leoRecal_i(void) {
+    return leoSend_asic_cmd_i(ASIC_RECAL, 0);
+}
+
+u8 leoRecal_w(void) {
+    return leoSend_asic_cmd_w(ASIC_RECAL, 0);
+}
+
+u8 leoSeek_i(u16 rwmode) {
+    u32 tgt_tk = ((LEOtgt_param.head << 0xC) + LEOtgt_param.cylinder) << 0x10;
+
+    if (rwmode == 0) {
+        return leoSend_asic_cmd_i(0x10001, tgt_tk);
+    }
+    return leoSend_asic_cmd_i(0x20001, tgt_tk);
+}
+
+u8 leoSeek_w(void) {
+    u8 sksense = leoSeek_i(0);
+
+    if (sksense != 0) {
+        return sksense;
+    }
+
+    return leoWait_mecha_cmd_done(ASIC_RD_SEEK);
+}
+
+s32 leoRecv_event_mesg(s32 control) {
+    u32 done_mesg;
+
+    if (osRecvMesg(&LEOevent_que, (OSMesg*)&done_mesg, control) == 0) {
+        if (done_mesg == ASIC_SOFT_RESET_CODE) {
+            leoDrive_reset();
+            return 0xFF;
+        }
+    }
+    return 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8004A404; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004A404.s")
+#endif
+
+u8 leoChk_cur_drvmode(void) {
+    u8 devstat = 0;
+    if (!(asic_cur_status & 0x1000000)) {
+        devstat = 1;
+    }
+    if (asic_cur_status & 0x80000) {
+        devstat |= 2;
+    }
+    if (asic_cur_status & 0x100000) {
+        devstat |= 4;
+    }
+    return devstat;
+}
+
+void leoDrive_reset() {
+    osEPiWriteIo(LEOPiInfo, LEO_HARD_RESET, ASIC_HARD_RESET_CODE);
+}
+
+u32 leoChkUnit_atten(void) {
+    return unit_atten;
+}
+
+u32 leoRetUnit_atten(void) {
+    if (unit_atten & 2) {
+        return 43;
+    }
+    if (unit_atten & 1) {
+        return 47;
+    }
+    return 0;
+}
+
+void leoClrUA_RESET(void) {
+    unit_atten &= ~2;
+}
+
+void leoClrUA_MEDIUM_CHANGED(void) {
+    unit_atten &= ~1;
+}
+
+void leoSetUA_MEDIUM_CHANGED(void) {
+    unit_atten |= 1;
+}
+
+void leoInitUnit_atten(void) {
+    unit_atten = 1;
+}

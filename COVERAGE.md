@@ -2,9 +2,26 @@
 
 # pokestadium0 decompilation coverage
 
-- C owners passing the full-ROM gate: **448/5,444 (8.2%)**
-- Remaining assembly owners: **4,996**
-- C owner bytes: **8,444/1,303,636 (0.65%)**
+## Per-function matching (`src/`)
+
+<!-- AUTO_COVERAGE:START -->
+- Assembly owners (first-pass function inventory): **5,444** covering **1,303,636** text bytes
+- Functions with matching C: **2,803 / 5,444 (51.5%)**, **422,012** bytes (32.4%)
+  - ported from the Stadium 1 decomp: **2,004**
+  - first-pass m2c output: **799**
+- Identified libultra functions (identical to ultralib 2.0I, kept as `GLOBAL_ASM`): **173**, **34,948** bytes
+- Remaining `GLOBAL_ASM` owners: **2,468** (plus the libultra owners above)
+<!-- AUTO_COVERAGE:END -->
+
+"Matching C" is a per-function comparison against the retail ROM made by
+`tools/check_functions.py`; file-level data and `.rodata` layout of `src/` are
+unverified. See [docs/matching.md](docs/matching.md).
+
+## Full-ROM production build (`candidates/`)
+
+- C owners passing the full-ROM gate: **551/5,444 (10.1%)**
+- Remaining assembly owners: **4,893**
+- C owner bytes: **12,720/1,303,636 (0.98%)**
 - Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
 
 Counts use the conservative first-pass assembly-owner inventory, not confirmed
