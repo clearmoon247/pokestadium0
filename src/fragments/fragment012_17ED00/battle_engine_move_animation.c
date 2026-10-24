@@ -850,8 +850,6 @@ void BattleScene_UpdateParticipantsAndQueueEffects(UNUSED ActivePokemon* side1_p
     BattleScene_TryQueueIdleCueEffect(sActivePokemon[1]);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 /**
  * Battle scene lifecycle dispatcher: allocate (0), update (1, 2),
  * initialize (3) and HUD render (5). Always returns 0.
@@ -878,9 +876,6 @@ s32 BattleScene_DispatchLifecycle(s32 lifecycle_stage, BattleSessionTeams* sessi
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821070E0.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82107160; signature not recovered. */

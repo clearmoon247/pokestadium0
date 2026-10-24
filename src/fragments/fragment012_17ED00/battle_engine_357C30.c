@@ -23,8 +23,6 @@ Gfx* BattleAnim_SixSlotTrail_DrawSegments(Gfx* arg0, unk_D_843C3508* arg1);
 Gfx* BattleAnim_SixSlotTrail_LoadTextures(Gfx* arg0, unk_D_843C3508* arg1);
 Gfx* BattleAnim_SixSlotTrail_DrawAll(Gfx* arg0);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 void BattleAnim_SixSlotTrail_ResetPool(void) {
     s32 i;
     s32 j;
@@ -59,9 +57,6 @@ void BattleAnim_SixSlotTrail_ResetPool(void) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82181790.s")
-#endif
 
 void BattleAnim_SixSlotTrail_Spawn(s16 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, u8 arg7, u8 arg8, u8 arg9,
                    u8 argA, u8 argB, u8 argC, u8 argD, u8 argE, u8 argF, f32 arg10, f32 arg11, f32 arg12, s16 arg13,
@@ -173,8 +168,6 @@ void BattleAnim_SixSlotTrail_ComputeCameraRelativeOffset(s32 arg0, Vec3f* arg1, 
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_SixSlotTrail_ComputeRotatedOffset(f32 arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     UNUSED Mtx sp70;
     Mtx sp30;
@@ -183,12 +176,7 @@ void BattleAnim_SixSlotTrail_ComputeRotatedOffset(f32 arg0, Vec3f* arg1, Vec3f* 
     guRotateF(&sp30, (360.0f * arg0) / 6.2831855f, 1.0f, 0.0f, 0.0f);
     guMtxXFMF(&sp30, 0.0f, 0.0f, arg3, &arg2->x, &arg2->y, &arg2->z);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82181E58.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_SixSlotTrail_UpdateSlot(unk_D_843C3508* arg0) {
     unk_D_843C3508_0A4* var_s0;
     s32 spA8;
@@ -232,12 +220,7 @@ void BattleAnim_SixSlotTrail_UpdateSlot(unk_D_843C3508* arg0) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82181EE4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 BattleAnim_SixSlotTrail_UpdateAll(void) {
     f32 temp_fv0;
     s32 i;
@@ -281,9 +264,6 @@ s32 BattleAnim_SixSlotTrail_UpdateAll(void) {
     }
     return -1;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82182280.s")
-#endif
 
 Gfx* BattleAnim_SixSlotTrail_DrawSegments(Gfx* arg0, unk_D_843C3508* arg1) {
     s32 i;
@@ -315,8 +295,6 @@ Gfx* BattleAnim_SixSlotTrail_LoadTextures(Gfx* arg0, unk_D_843C3508* arg1) {
     return arg0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data/rodata data that is not placed in this file yet.
 Gfx* BattleAnim_SixSlotTrail_DrawAll(Gfx* arg0) {
     static Gfx D_84389CE8[] = {
         gsDPPipeSync(),
@@ -411,6 +389,3 @@ Gfx* BattleAnim_SixSlotTrail_DrawAll(Gfx* arg0) {
 
     return arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821827DC.s")
-#endif

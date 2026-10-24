@@ -120,8 +120,6 @@ s32 LabPCList_IsTmItemId(s32* arg0) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 s32 LabPCList_IsHmItemId(s32* arg0) {
     static u8 D_8831A250[] = { 0x23, 0x24, 0x25, 0x26, 0x27, 0x28 };
 
@@ -136,12 +134,7 @@ s32 LabPCList_IsHmItemId(s32* arg0) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910A0E4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 s32 LabPCList_IsSpecialTmItemId(s32* arg0) {
     static u8 D_8831A258[] = { 0x4F };
 
@@ -156,9 +149,6 @@ s32 LabPCList_IsSpecialTmItemId(s32* arg0) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910A1A8.s")
-#endif
 
 s32 LabPCList_CompareTmHmEntries(unk_func_88200FA0_030_038* arg0, unk_func_88200FA0_030_038* arg1) {
     return (arg0->unk_08 - arg1->unk_08 != 0) ? arg0->unk_08 - arg1->unk_08 : (s32)arg0[1].unk_00 - (s32)arg1[1].unk_00;
@@ -170,8 +160,6 @@ s32 LabPCList_CompareTmHmEntries(unk_func_88200FA0_030_038* arg0, unk_func_88200
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910A21C.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 s32 LabPCList_CanLearnMoveByLevelUp(s32 arg0, s32 arg1) {
     static SpeciesData D_8831757C[] = {
         { 0x06, 0x4E, 0x54, 0x4E, 0x64, 0x55, 0x14, 0x02, 0x2D, 0xD1, {0x0A, 0x2D, 0x34, 0x2B}, 0x03, {0xB5, 0x43, 0x4F, 0xCE, 0xE3, 0x08, 0x2E}, 0x00 },
@@ -199,9 +187,6 @@ s32 LabPCList_CanLearnMoveByLevelUp(s32 arg0, s32 arg1) {
     }
     return ((var_v1->tmHmLearnset[arg1 / 8] >> (arg1 % 8)) & 1) != 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910A3C0.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8910A4C8; signature not recovered. */

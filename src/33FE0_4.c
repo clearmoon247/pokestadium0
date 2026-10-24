@@ -45,8 +45,6 @@ f32 Model_ComputeScaledDistance(Vec3f* a, Vec3f* b, Vec3f* scale);
 f32 Model_ComputeDistance(s16 (*a)[3], s16 (*b)[3]);
 void Model_ExtrapolateVertexPosition(Vec3f* from, Vec3f* to, f32 currentTime, f32 deltaTime, f32 scale);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_80035500(PosBlend* src, PosBlend* dst, f32 totalTime, f32 elapsed, f32 stiffness) {
     f32 sp3C;
     f32 sp38;
@@ -78,9 +76,6 @@ void func_80035500(PosBlend* src, PosBlend* dst, f32 totalTime, f32 elapsed, f32
         dst->offset.z += sp34 * stiffness;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80035500.s")
-#endif
 
 void func_80035694(StadiumModel* model) {
     s32 i;
@@ -326,8 +321,6 @@ void func_80035CCC(ModelSegment* segment, ModelVertex* vertices, f32 arg2, Stadi
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_80035E48(ModelSegment* segment, ModelVertex* vertices) {
     f32 drawGroup;
     s16* indexTable;
@@ -373,12 +366,7 @@ void func_80035E48(ModelSegment* segment, ModelVertex* vertices) {
         remap++;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80035E48.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_80036064(StadiumModel* model, MtxF* mtx) {
     s32 var_s0;
     s32 var_v1;
@@ -454,9 +442,6 @@ void func_80036064(StadiumModel* model, MtxF* mtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036064.s")
-#endif
 
 void Model_WriteVtxBuffer(StadiumModel* model, Vtx* vtxBuf) {
     ModelSegment* segment;

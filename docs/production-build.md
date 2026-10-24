@@ -4,7 +4,7 @@
 opaque assets, and retained storage metadata. Every file listed in
 `config/jp/sources.json` (all 543 files in `src/`) is compiled whole through
 asm-processor, so its C functions and its `GLOBAL_ASM` owners come out of one
-object. 2,657 of the 5,444 code owners are C; the other 2,787 are assembled
+object. 2,715 of the 5,444 code owners are C; the other 2,729 are assembled
 from the extracted listings. The build links the resident image and all 259
 fragment images independently, preserving the fragments that share link
 addresses. The verified output is 16,777,216 bytes:
@@ -59,9 +59,18 @@ all 5,444 owners from assembly as an independent baseline.
   is zero. When the last owner carries more padding than the object emits, the
   remainder comes from the erased (zero) owner bytes, and the image comparison
   checks it. An owner of another file inside a span is an error.
-* Only `.text` is linked. A C reference to the file's own `.rodata`, `.data` or
-  `.bss` fails the link (the section is discarded). Functions that need their
-  literals or statics are kept behind `#ifdef NON_MATCHING` until data is split.
+* `.text` is always linked. A file's own `.rodata`, `.data` or `.bss` is linked
+  only when `config/jp/sections.json` gives its address; otherwise it is
+  discarded and a reference to it fails the link. A placed `.rodata`/`.data`
+  replaces the extracted asset bytes at that address (the image comparison
+  checks them), and `.bss` is placed as `NOLOAD`. Functions whose data cannot be
+  placed yet are kept behind `#ifdef NON_MATCHING`.
+* `tools/place_sections.py [--unwrap] src/file.c` solves those addresses: it
+  compiles the file as the build does and solves every `.text` relocation into
+  the file's data sections against the retail instructions, requiring one base
+  per section. `--unwrap` first turns the file's held functions into plain C.
+  This fails when `GLOBAL_ASM` functions' literals sit between the C functions'
+  literals, because the object then lacks those bytes.
 * Undefined symbols resolve, in order, to another object in the same image,
   `linker_scripts/jp/symbol_addrs.txt`, or the address in an address-style name.
 

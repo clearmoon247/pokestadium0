@@ -619,8 +619,6 @@ s16 func_80045774(void) {
     return out;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s16 func_80045B9C(void) {
     s32 i;
     s32 nr43;
@@ -741,9 +739,6 @@ s16 func_80045B9C(void) {
     D_800FD7B8.unk_00 += 0x100;
     return sample;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80045B9C.s")
-#endif
 
 void GbAudio_ClearInterpolationHistory(void) {
     s32 i;

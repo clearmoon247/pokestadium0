@@ -8,7 +8,7 @@ import json
 
 from m2c_easiest import function_bytes
 from production import MACROS, canonical_assembly, encode_image, run, storage_template, trim_text
-from production import ROOT, SOURCE_REGISTRY, source_files, trim_file_text
+from production import ROOT, SECTION_REGISTRY, SOURCE_REGISTRY, source_files, trim_file_text
 from production import ASSETS
 
 
@@ -125,6 +125,14 @@ class SourceRegistryTests(unittest.TestCase):
         on_disk = {str(p.relative_to(ROOT)) for p in (ROOT / 'src').rglob('*.c')
                    if not p.name.endswith('.inc.c')}
         self.assertEqual(set(registered), on_disk)
+
+    def test_placed_sections_belong_to_registered_files(self):
+        registered = set(json.loads(SOURCE_REGISTRY.read_text()))
+        for path, sections in json.loads(SECTION_REGISTRY.read_text()).items():
+            self.assertIn(path, registered)
+            self.assertLessEqual(set(sections), {'.rodata', '.data', '.bss'}, path)
+            for address in sections.values():
+                self.assertRegex(address, r'^0x[0-9A-F]{8}$')
 
     @unittest.skipUnless(shutil.which('mips-linux-gnu-as'), 'MIPS GNU assembler unavailable')
     def test_file_text_trims_only_zero_alignment(self):

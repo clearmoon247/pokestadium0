@@ -50,8 +50,6 @@ s32 Storage_InitializeLeoManager(void) {
     return result;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss data that is not placed in this file yet.
 OSPiHandle* Storage_GetSramHandle(void) {
     static OSPiHandle sramHandle;
 
@@ -71,9 +69,6 @@ OSPiHandle* Storage_GetSramHandle(void) {
     }
     return &sramHandle;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80000628.s")
-#endif
 
 s32 Storage_ReadSram(struct UnkStruct800006C4_2* arg0) {
     OSIoMesg msg;

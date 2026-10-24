@@ -140,8 +140,6 @@ void crash_screen_sleep(s32 ms) {
     while (osGetTime() < cycles) {}
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void crash_screen_print_fpr(s32 x, s32 y, s32 regNum, void* addr) {
     u32 bits;
     s32 exponent;
@@ -154,12 +152,7 @@ void crash_screen_print_fpr(s32 x, s32 y, s32 regNum, void* addr) {
         crash_screen_printf(x, y, "F%02d:---------", regNum);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800079D4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void crash_screen_print_fpcsr(u32 fpcsr) {
     s32 i;
     u32 bit = 1 << 17;
@@ -174,9 +167,6 @@ void crash_screen_print_fpcsr(u32 fpcsr) {
         bit >>= 1;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80007A58.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80007AE4; signature not recovered. */

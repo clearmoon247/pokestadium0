@@ -25,7 +25,8 @@ def production():
             or receipt['input_sha256'] != receipt['output_sha256']):
         raise ValueError('coverage requires a current full-ROM PASS receipt')
     for path, key in (('config/jp/matching.json', 'matching_registry_sha256'),
-                      ('config/jp/sources.json', 'source_registry_sha256')):
+                      ('config/jp/sources.json', 'source_registry_sha256'),
+                      ('config/jp/sections.json', 'section_registry_sha256')):
         if receipt[key] != digest(ROOT / path):
             raise ValueError('receipt is stale for ' + path + '; rebuild and refresh receipt')
     sys.path.insert(0, str(ROOT / 'tools'))

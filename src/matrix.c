@@ -991,8 +991,6 @@ Color_RGBA8_u32* Color_HSVToRGBA8(Color_RGBA8_u32* arg0, Vec3f* arg1, s32 arg2) 
     return arg0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u16 Color_AdjustRGB5551(u16 arg0, arg1_func_80010CA8 arg1) {
     Vec3f sp24;
     s32 a;
@@ -1028,12 +1026,7 @@ u16 Color_AdjustRGB5551(u16 arg0, arg1_func_80010CA8 arg1) {
     }
     return arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000FA38.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 Color_AdjustRGBA8(u32 arg0, arg1_func_80010CA8 arg1) {
     Vec3f sp2C;
     Color_RGBA8_u32 arg;
@@ -1074,6 +1067,3 @@ u32 Color_AdjustRGBA8(u32 arg0, arg1_func_80010CA8 arg1) {
 
     return arg.rgba;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000FBB0.s")
-#endif

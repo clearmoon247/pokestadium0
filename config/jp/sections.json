@@ -1,0 +1,85 @@
+{
+  "src/33FE0_4.c": {
+    ".rodata": "0x8007DC00"
+  },
+  "src/crash_screen.c": {
+    ".rodata": "0x80079704"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_34A420.c": {
+    ".rodata": "0x82197AB8"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_34E1A0.c": {
+    ".rodata": "0x82197BC0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_34F1A0.c": {
+    ".rodata": "0x82197BE0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_3502D0.c": {
+    ".rodata": "0x82197C00"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_3512D0.c": {
+    ".rodata": "0x82197C20"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_351F20.c": {
+    ".rodata": "0x82197C60"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_352570.c": {
+    ".rodata": "0x82197C90"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_353370.c": {
+    ".rodata": "0x82197CD0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_354CD0.c": {
+    ".rodata": "0x82197D50"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_355A00.c": {
+    ".rodata": "0x82197D80"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_357C30.c": {
+    ".data": "0x82193550",
+    ".rodata": "0x82197DC0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_3591E0.c": {
+    ".rodata": "0x82197DE0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_move_animation.c": {
+    ".rodata": "0x821948DC"
+  },
+  "src/fragments/fragment016_252E10/lab_pc_list_1E46B0_2.c": {
+    ".data": "0x8910D9E0"
+  },
+  "src/gb_audio_render.c": {
+    ".rodata": "0x8007EC60"
+  },
+  "src/gb_tower.c": {
+    ".data": "0x800603F0"
+  },
+  "src/jpeg_stream.c": {
+    ".rodata": "0x80079400"
+  },
+  "src/leo.c": {
+    ".rodata": "0x800798D0"
+  },
+  "src/libleo/leoc2ecc.c": {
+    ".rodata": "0x8007F3D0"
+  },
+  "src/libnaudio/n_resample.c": {
+    ".rodata": "0x8007ECB0"
+  },
+  "src/libnumus/player.c": {
+    ".rodata": "0x8007DC68"
+  },
+  "src/matrix.c": {
+    ".rodata": "0x80079A50"
+  },
+  "src/profiler.c": {
+    ".data": "0x80060250",
+    ".rodata": "0x800798B0"
+  },
+  "src/rsp.c": {
+    ".bss": "0x80087050"
+  },
+  "src/vector_math.c": {
+    ".rodata": "0x8007DB58"
+  }
+}
