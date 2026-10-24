@@ -1,5 +1,5 @@
 /* Stadium Zero fragment012_17ED00. */
-/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_343BA0.c, src/fragments/battle_engine/battle_engine_3591E0.c. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_343BA0.c, src/fragments/particle_math/particle_math_26E6D0.c. */
 
 #include "fragments/battle_engine/battle_engine.h"
 #include "gallery.h"
@@ -24,23 +24,43 @@ extern s16 D_8219CB18;
 extern s16 D_8219CB1A;
 extern const char D_821978C8[];
 
-#include "fragments/battle_engine/battle_engine.h"
-#include "gfx_buffer.h"
-#include "geo_render.h"
-#include "gallery.h"
-#include "battle_hud.h"
-extern AuxiliaryEffect D_821CEEA0[2];
-extern Gfx D_82193E18[];
+#include "fragments/particle_math/particle_math.h"
+extern u8 gParticlePalette[][3];
+extern u8 gParticlePaletteSetA[];
+extern u8 gParticlePaletteSetB[];
+extern u8 gParticleRandomPaletteIndices[];
+extern u8 gParticlePalettePairs[][2];
 
-void BattleAnim_EndEffect16_NoOpDraw(void);
-void func_8216D978(void);
-void func_8216D980(void);
+#include "m2c_macros.h"
 
-void BattleAnim_EndEffect16_NoOpDraw(void) {
+void func_82140D50(void);
+void ParticleGfx_LoadTextureCallbackI4FrameMod10_32x64(UNUSED Particle* arg0, u8* texture);
+void ParticleGfx_LoadTextureCallbackI4_64x64(UNUSED Particle* arg0, u8* texture);
+void ParticleGfx_LoadTextureCallbackI4FrameMod8_64x64(UNUSED Particle* arg0, u8* texture);
+
+void func_82140D50(void) {
 }
 
-void func_8216D978(void) {
+M2C_UNK func_8216C008(s32, M2C_UNK, M2C_UNK);       /* extern */
+
+void func_82140D58(s8 *arg0, s32 arg1) {
+    func_8216C008((M2C_FIELD(arg0, s8 *, 0xC3) * 0x120) + arg1, 0x18, 0x18);
 }
 
-void func_8216D980(void) {
+void ParticleGfx_LoadTextureCallbackI4FrameMod10_32x64(UNUSED Particle* arg0, u8* texture) {
+    ParticleGfx_LoadTextureI4Alias(&texture[(gParticleFrameCounter % 10) * (32 * 64 / 2)], 32, 64);
+}
+
+M2C_UNK func_8216BFE8(s32, M2C_UNK, M2C_UNK);       /* extern */
+
+void func_82140DD8(s8 *arg0, s32 arg1) {
+    func_8216BFE8((M2C_FIELD(arg0, s8 *, 0xC3) << 0xA) + arg1, 0x20, 0x40);
+}
+
+void ParticleGfx_LoadTextureCallbackI4_64x64(UNUSED Particle* arg0, u8* texture) {
+    ParticleGfx_LoadTextureI4Alias(texture, 64, 64);
+}
+
+void ParticleGfx_LoadTextureCallbackI4FrameMod8_64x64(UNUSED Particle* arg0, u8* texture) {
+    ParticleGfx_LoadTextureI4Alias(&texture[gParticleFrameMod8 * (64 * 64 / 2)], 64, 64);
 }

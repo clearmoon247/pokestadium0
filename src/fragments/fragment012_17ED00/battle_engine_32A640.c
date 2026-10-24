@@ -114,6 +114,8 @@ void func_82151A5C(s8 *arg0) {
     }
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_SetupEndEffect26Descriptor2CGravityScatterFall(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
@@ -132,6 +134,9 @@ void BattleAnim_SetupEndEffect26Descriptor2CGravityScatterFall(Particle* arg0) {
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151B20.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82151CC8; signature not recovered. */

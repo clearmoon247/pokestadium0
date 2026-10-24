@@ -117,12 +117,17 @@ s32 func_88400108(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_8840079C.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 void Trade_DrawSaveSeqMessageBackdrop(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     Color_RGB8 sp24 = { 0x58, 0x08, 0x00 };
     Color_RGB8 sp20 = { 0x58, 0x08, 0x00 };
 
     Ui_DrawGradientPanel(arg0, arg1, arg2, arg3, &sp24, &sp20);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88400A1C.s")
+#endif
 
 M2C_UNK func_80006780();                            /* extern */
 M2C_UNK func_88400108(M2C_UNK);                     /* extern */

@@ -773,9 +773,14 @@ void func_8213E8C8(s8 *arg0, f32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E8E0.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 f32 ParticleMath_ScaleApproachStep(f32 arg0) {
     return arg0 * 0.4f;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E924.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213E938; signature not recovered. */

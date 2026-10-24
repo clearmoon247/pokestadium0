@@ -232,6 +232,9 @@ def main():
     outputs, inventory = generate(args.rom.read_bytes(), mapping, sections, flow)
     if args.asm_only:
         outputs = {path: data for path, data in outputs.items() if path.startswith("asm/")}
+    elif args.check:
+        # src/ holds edited and split C files; check only the generated listings and inventory.
+        outputs = {path: data for path, data in outputs.items() if not path.startswith("src/")}
     previous = ROOT / "docs/pragma-inventory.json"
     prior = json.loads(previous.read_text()) if previous.exists() else {}
     old_hashes = {row["source"]: row["source_sha256"] for row in prior.get("sources", [])}

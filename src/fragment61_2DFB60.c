@@ -14,3 +14,9 @@ void func_80056A90(void);
 
 void func_80056A90(void) {
 }
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80056A98; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80056A98.s")
+#endif

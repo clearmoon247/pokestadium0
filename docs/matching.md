@@ -14,7 +14,8 @@ work, from two sources:
 | Matched by m2c's first output, compiled alone | 1,577 |
 | Matched by a Stadium 1 or ultralib function, compiled in its own TU | 2,191 |
 | Either of the two | 3,014 |
-| **Now C in `src/` and passing `tools/check_functions.py`** | **2,803** (2,004 Stadium 1, 799 m2c) |
+| Now C in `src/` and passing `tools/check_functions.py` | 2,804 (2,004 Stadium 1, 800 m2c) |
+| **Built as C by the full-ROM `make rom`** | **2,657** |
 | Identified as libultra (ultralib 2.0I, IDO 5.3), kept as `GLOBAL_ASM` | 173 |
 
 The first three rows count functions that compiled to the ROM bytes in isolation.
@@ -61,11 +62,9 @@ whether it is a Stadium 1 port (with the source file), m2c output, libultra, or 
 ## Verifying
 
 ```sh
-python3 -m venv .venv && .venv/bin/pip install -r requirements-mapping.txt
-tools/get_ido.sh                                   # IDO 7.1 / 5.3 recomp into tools/ido/
-.venv/bin/python tools/generate_pragmas.py baseroms/jp/baserom.z64 --asm-only
-.venv/bin/python tools/check_functions.py          # 2803 functions checked ..., 0 failures
-.venv/bin/python tools/test_pragmas.py
+make init                                    # Python packages, IDO 5.3 and 7.1, extraction
+make rom                                     # full-ROM build of src/, compared with the base ROM
+.venv/bin/python tools/check_functions.py    # 2804 functions checked in 388 files, 0 failures
 ```
 
 `check_functions.py` compiles each source with `-DNON_MATCHING`, which leaves only
@@ -75,7 +74,14 @@ address in `symbol_addrs.txt` or to the address in the symbol's name, and must b
 consistent within the function. Per-file compiler overrides (IDO 5.3 for libleo and
 the JPEG code, `-signed` for `hal_libc.c`) are in `tools/cflags_overrides.json`.
 
-Limits: this is a per-function check, not a ROM rebuild. Literal pools, jump
-tables and statics local to a function are checked only for internal consistency.
-File-level `.data`/`.rodata`/`.bss` layout and link order are still open, and
-`asm-processor` has not been run over the mixed files yet.
+`check_functions.py` is a quick per-function check. `make rom` is the real gate: it
+builds every `src/` file whole through asm-processor and links it at its ROM
+address (see [production-build.md](production-build.md)). Of the 2,804 matching
+functions, 2,657 are built as C there. The other 147 reference their file's
+literals, jump tables or statics; those sections are not placed yet, so these
+functions stay behind `#ifdef NON_MATCHING` with the `GLOBAL_ASM` in the `#else`.
+One more function (`func_8004F8B4` in `src/libultra/audio/reverb.c`) came from
+the single-function m2c candidates.
+
+Building whole files exposed one missed object boundary: `fragment007_166580.c`
+is now split at 0x82008C40, where the ROM pads to 16 bytes after a C function.

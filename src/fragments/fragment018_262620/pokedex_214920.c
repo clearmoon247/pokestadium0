@@ -345,6 +345,8 @@ void Pokedex_ExitAreaMapScreen(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101B30.s")
 #endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Pokedex_RunEntryFlow(void) {
     s32 var_v0 = 1;
 
@@ -372,6 +374,9 @@ void Pokedex_RunEntryFlow(void) {
         }
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101C50.s")
+#endif
 
 s32 Pokedex_GetHighestSeenSpeciesIndex(void) {
     s32 i;

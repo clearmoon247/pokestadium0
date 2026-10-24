@@ -33,6 +33,8 @@ s32 Jpeg_ReadBigEndianU16(u8* arg0) {
     return ((arg0[0] << 8) | arg0[1]) & 0xFFFF;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Jpeg_ParseStreamMarkers(unk_func_80003680_sp300* arg0, u8* arg1) {
     s32 temp_v0_2;
     s32 var_s2;
@@ -102,6 +104,9 @@ void Jpeg_ParseStreamMarkers(unk_func_80003680_sp300* arg0, u8* arg1) {
     arg0->width = (arg0->start_of_frame[3] << 8) | arg0->start_of_frame[4];
     arg0->height = (arg0->start_of_frame[1] << 8) | arg0->start_of_frame[2];
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80003178.s")
+#endif
 
 void Jpeg_InitializeDspTask(UnkStruct80001380* arg0, unk_func_80003680_sp90* arg1) {
     arg0->task.t.type = 4;

@@ -1,5 +1,5 @@
 /* Stadium Zero fragment012_17ED00. */
-/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_move_animation.c. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_move_animation.c, src/fragments/battle_engine/battle_engine_thumbnail.c. */
 
 #include "fragments/battle_engine/battle_engine.h"
 #include "model_animation.h"
@@ -65,6 +65,13 @@ extern char** sBattleControllerDisconnectedMessage;
 #define BLASTOISE_OB1 (BLASTOISE - 1)
 #define CLOYSTER_OB1  (CLOYSTER - 1)
 
+#include "fragments/battle_engine/battle_engine.h"
+#include "model_animation.h"
+#include "model_renderer.h"
+#include "model_renderer_callbacks.h"
+#include "matrix.h"
+#include "status.h"
+
 #include "m2c_macros.h"
 
 void BattleScene_ClearStateTickCallbacks(void);
@@ -80,6 +87,7 @@ void func_82105E64(ActivePokemon* active_pokemon);
 void BattleScene_AllocateParticipants(BattleSessionTeams* battle_teams);
 void BattleScene_UpdateParticipantsAndQueueEffects(UNUSED ActivePokemon* side1_pokemon, UNUSED ActivePokemon* side2_pokemon);
 s32 BattleScene_DispatchLifecycle(s32 lifecycle_stage, BattleSessionTeams* session_teams);
+void BattleThumbnail_SetFlagToUpdatePokemonThumbnail(CameraNode* camera);
 
 void BattleAnim_SetModelEventTrackFromRow(ActivePokemon* pokemon, s32 cue_index);
 void BattleScene_TryQueueIdleCueEffect(ActivePokemon* active_pokemon);
@@ -842,6 +850,8 @@ void BattleScene_UpdateParticipantsAndQueueEffects(UNUSED ActivePokemon* side1_p
     BattleScene_TryQueueIdleCueEffect(sActivePokemon[1]);
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 /**
  * Battle scene lifecycle dispatcher: allocate (0), update (1, 2),
  * initialize (3) and HUD render (5). Always returns 0.
@@ -868,6 +878,9 @@ s32 BattleScene_DispatchLifecycle(s32 lifecycle_stage, BattleSessionTeams* sessi
 
     return 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821070E0.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82107160; signature not recovered. */
@@ -896,3 +909,17 @@ void func_821071DC(void) {
     M2C_FIELD(M2C_FIELD(&D_82199DE0, s8 **, 0), s32 *, 0x9D8) = 1;
     M2C_FIELD(M2C_FIELD(&D_82199DE0, s8 **, 4), s32 *, 0x9D8) = 1;
 }
+
+/*
+    Sets flag to update the thumbnail.
+    Battle_RenderActivePokemonThumbnail in @src/fragments/battle_engine/battle_engine_main.c
+*/
+void BattleThumbnail_SetFlagToUpdatePokemonThumbnail(CameraNode* camera) {
+    camera->node.flags |= 0x10;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8210720C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210720C.s")
+#endif

@@ -8,6 +8,7 @@ import json
 
 from m2c_easiest import function_bytes
 from production import MACROS, canonical_assembly, encode_image, run, storage_template, trim_text
+from production import ROOT, SOURCE_REGISTRY, source_files, trim_file_text
 from production import ASSETS
 
 
@@ -114,3 +115,29 @@ class AssemblerTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class SourceRegistryTests(unittest.TestCase):
+    def test_every_source_file_is_registered(self):
+        registered = json.loads(SOURCE_REGISTRY.read_text())
+        files = source_files(registered)
+        self.assertEqual(sorted(registered), sorted({path for path, _ in files.values()}))
+        on_disk = {str(p.relative_to(ROOT)) for p in (ROOT / 'src').rglob('*.c')
+                   if not p.name.endswith('.inc.c')}
+        self.assertEqual(set(registered), on_disk)
+
+    @unittest.skipUnless(shutil.which('mips-linux-gnu-as'), 'MIPS GNU assembler unavailable')
+    def test_file_text_trims_only_zero_alignment(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / 'fixture.s'
+            obj = source.with_suffix('.o')
+            source.write_text(MACROS + '.text\nglabel fixture\njr $ra\nnop\n.word 0, 0\n')
+            run(['mips-linux-gnu-as', '-march=vr4300', '-32', '-G0', source, '-o', obj])
+            self.assertEqual(trim_file_text(obj, 8), 8)
+            # A span longer than the object keeps the object size; the image
+            # comparison checks the remaining (erased) owner bytes.
+            self.assertEqual(trim_file_text(obj, 0x20), 8)
+            source.write_text(MACROS + '.text\nglabel fixture\njr $ra\nnop\nnop\naddiu $v0, $v0, 1\n')
+            run(['mips-linux-gnu-as', '-march=vr4300', '-32', '-G0', source, '-o', obj])
+            with self.assertRaisesRegex(ValueError, 'owners span'):
+                trim_file_text(obj, 8)

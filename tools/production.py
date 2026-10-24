@@ -6,6 +6,7 @@ comes from a compiler or assembler object placed by the image linker script.
 """
 import argparse
 from collections import Counter
+import csv
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
@@ -13,6 +14,7 @@ from pathlib import Path
 import re
 import struct
 import subprocess
+import sys
 
 from map_fragment_sections import load_image
 from map_rom import EXPECTED_SHA256, trace_yay0
@@ -21,6 +23,13 @@ from m2c_easiest import FLAGS, TYPES
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / 'assets/production'
 BUILD = ROOT / 'build/production'
+SOURCE_REGISTRY = ROOT / 'config/jp/sources.json'
+SOURCE_FLAGS = ['-c', '-G', '0', '-non_shared', '-Xcpluscomm', '-nostdinc', '-Wab,-r4300_mul',
+                '-w', '-D_MIPS_SZLONG=32', '-DNDEBUG', '-D_FINALROM', '-DN_MICRO', '-DF3DEX_GBI_2',
+                '-DBUILD_VERSION=VERSION_I_P', '-DLANGUAGE_C', '-D_LANGUAGE_C', '-DVERSION_JP=1',
+                '-Iinclude', '-Isrc', '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/PR',
+                '-Ilib/ultralib/include/ido']
+PRAGMA = re.compile(r'(#pragma\s+GLOBAL_ASM\(\s*")([^"]+)("\s*\))')
 LISTING = re.compile(r'/\*\s+[0-9A-F]+\s+([0-9A-F]+)\s+([0-9A-F]{8})\s*\*/\s*(.*)')
 MACROS = '''.set noreorder
 .set noat
@@ -265,23 +274,101 @@ def trim_text(obj, name, size):
     raise ValueError('no C text section')
 
 
-def build_group(group, selected, cc, prefix, compare):
+def trim_file_text(obj, size):
+    """Trim IDO's trailing .text alignment of a source file to its owner span.
+
+    The last owner of a file can carry more trailing padding than the object
+    emits; that remainder comes from the erased (zero) owner bytes and is
+    checked by the image comparison like everything else.
+    """
+    data = bytearray(obj.read_bytes())
+    header = struct.unpack_from('>16sHHIIIIIHHHHHH', data)
+    positions = [header[6] + i * header[11] for i in range(header[12])]
+    sections = [struct.unpack_from('>IIIIIIIIII', data, p) for p in positions]
+    table = sections[header[13]]
+    strings = data[table[4]:table[4] + table[5]]
+    for position, section in zip(positions, sections):
+        if strings[section[0]:].split(b'\0', 1)[0] == b'.text':
+            if any(data[section[4] + size:section[4] + section[5]]):
+                raise ValueError(f'{obj.name}: .text is 0x{section[5]:X} bytes, owners span 0x{size:X}')
+            size = min(size, section[5])
+            struct.pack_into('>I', data, position + 20, size)
+            struct.pack_into('>I', data, position + 32, 4)
+            obj.write_bytes(data)
+            return size
+    raise ValueError('no .text section in ' + obj.name)
+
+
+def compile_source_file(path, directory, compilers, prefix):
+    """Compile a whole src/ file through asm-processor.
+
+    GLOBAL_ASM owners use the same normalized listings as assembly owners.
+    """
+    overrides = json.loads((ROOT / 'tools/cflags_overrides.json').read_text())
+    flags = overrides.get(path, {})
+    stem = path[len('src/'):-2].replace('/', '__')
+    canon = BUILD / 'canonical'
+
+    def canonical(match):
+        listing = canon / match[2]
+        if not listing.exists():
+            listing.parent.mkdir(parents=True, exist_ok=True)
+            listing.write_text(canonical_assembly((ROOT / match[2]).read_text()))
+        return match[1] + str(listing.relative_to(ROOT)) + match[3]
+
+    unit = directory / (stem + '.c')
+    unit.write_text(PRAGMA.sub(canonical, (ROOT / path).read_text(encoding='utf-8')), encoding='utf-8')
+    obj = directory / (stem + '.o')
+    run([sys.executable, 'tools/asm-processor/build.py', '--asm-prelude', 'tools/asm_prelude.inc',
+         '--input-enc', 'utf-8', '--output-enc', 'euc-jp', compilers[flags.get('ido', '7.1')], '--',
+         prefix + 'as', '-march=vr4300', '-32', '-G0', '-EB', '--', *SOURCE_FLAGS,
+         flags.get('opt', '-O2'), flags.get('mips', '-mips2'), *flags.get('extra', []),
+         '-I' + str(Path(path).parent), '-o', obj, unit])
+    return obj
+
+
+def build_group(group, selected, cc, prefix, compare, files=None, compilers=None, symbols=None,
+                directory=None):
     name = group['name']
-    directory = BUILD / name
+    directory = directory or BUILD / name
     directory.mkdir(parents=True, exist_ok=True)
     assembly = [MACROS]
     sections = []
     c_objects = []
     counts = Counter()
     cursor = 0
+    current = None
     def gap(begin, end):
         if end > begin:
             section = f'.gap_{begin:X}'
             assembly.append(f'.section {section}, "a", @progbits\n.incbin "assets/production/{name}.bin", {begin}, {end - begin}\n')
             sections.append((begin, end - begin, 'assembly.o', section))
+    files = files or {}
+    spans = {}
+    for row in group['owners']:
+        if row['name'] in files:
+            path, _ = files[row['name']]
+            begin, end = spans.get(path, (int(row['start'], 0), int(row['end'], 0)))
+            spans[path] = (min(begin, int(row['start'], 0)), max(end, int(row['end'], 0)))
     for row in sorted(group['owners'], key=lambda r: int(r['start'], 0)):
         begin, end = int(row['start'], 0), int(row['end'], 0)
+        if begin < cursor:
+            if files.get(row['name'], (None,))[0] != current:
+                raise ValueError(f'{row["name"]} lies inside the span of {current}')
+            counts['c' if files[row['name']][1] else 'asm'] += 1
+            continue
         gap(cursor, begin)
+        if row['name'] in files:
+            current = files[row['name']][0]
+            span_begin, span_end = spans[current]
+            obj = compile_source_file(current, directory, compilers, prefix)
+            size = trim_file_text(obj, span_end - span_begin)
+            c_objects.append(obj)
+            sections.append((begin, size, obj.name, '.text'))
+            gap(begin + size, span_end)
+            counts['c' if files[row['name']][1] else 'asm'] += 1
+            cursor = span_end
+            continue
         if row['name'] in selected:
             candidate = ROOT / selected[row['name']]['candidate']
             unit = directory / (row['name'] + '.c')
@@ -306,10 +393,14 @@ def build_group(group, selected, cc, prefix, compare):
     assembly_obj = directory / 'assembly.o'
     run([prefix + 'as', '-march=vr4300', '-32', '-G0', source, '-o', assembly_obj])
     objects = [assembly_obj, *c_objects]
-    undefined = set()
-    for line in run([prefix + 'nm', '-u', *objects]).decode().splitlines():
-        if re.match(r'\s*U\s+', line):
-            undefined.add(line.split()[-1])
+    undefined, defined = set(), set()
+    for line in run([prefix + 'nm', *objects]).decode().splitlines():
+        parts = line.split()
+        if len(parts) == 2 and parts[0] == 'U':
+            undefined.add(parts[1])
+        elif len(parts) == 3:
+            defined.add(parts[2])
+    undefined -= defined
     linker = ['PHDRS { prefix PT_LOAD FLAGS(4); body PT_LOAD FLAGS(7); }', 'SECTIONS {']
     for index, (begin, size, obj, section) in enumerate(sections):
         output = f'.part_{index}'
@@ -318,7 +409,10 @@ def build_group(group, selected, cc, prefix, compare):
         linker.append(f'ASSERT(SIZEOF({output}) == {size}, "size differs: {name} {section}")')
     linker.append('/DISCARD/ : { *(*) }\n}')
     for symbol in sorted(undefined):
-        match = re.fullmatch(r'(?:func_|D_(?:(?:FLT|DBL|STR)_)?|jtbl_|\.L)([0-9A-F]{8})(?:_\d+)?', symbol)
+        if symbols and symbol in symbols:
+            linker.append(f'PROVIDE({symbol} = 0x{symbols[symbol]:08X});')
+            continue
+        match = re.fullmatch(r'(?:func_|D_(?:(?:FLT|DBL|STR)_)?|jtbl_|T_|\.L)([0-9A-F]{8})(?:_\d+)?', symbol)
         if not match:
             raise ValueError('unresolved symbol has no established address: ' + symbol)
         linker.append(f'PROVIDE({symbol} = 0x{match[1]});')
@@ -338,7 +432,33 @@ def build_group(group, selected, cc, prefix, compare):
     return group, image, counts
 
 
-def build(cc, prefix, compare, jobs, asm_only):
+def headers_digest():
+    """One digest over every header and included C fragment the src/ build can read."""
+    digest = hashlib.sha256()
+    for directory in ('include', 'src', 'lib/ultralib/include'):
+        for path in sorted((ROOT / directory).rglob('*')):
+            if path.is_file() and (path.suffix == '.h' or path.name.endswith('.inc.c')):
+                digest.update(str(path.relative_to(ROOT)).encode() + b'\0' + path.read_bytes())
+    return digest.hexdigest()
+
+
+def source_files(paths):
+    """Owner name -> (src file, owner is C) for the whole-file source registry."""
+    if len(set(paths)) != len(paths):
+        raise ValueError('duplicate source file in registry')
+    wanted = set(paths)
+    files = {}
+    with (ROOT / 'docs/function-matches.csv').open() as handle:
+        for row in csv.DictReader(handle):
+            if row['source'] in wanted:
+                files[row['owner']] = (row['source'], row['build'] == 'c')
+    missing = wanted - {path for path, _ in files.values()}
+    if missing:
+        raise ValueError('source registry names files with no owners: ' + ', '.join(sorted(missing)))
+    return files
+
+
+def build(cc, prefix, compare, jobs, asm_only, compilers):
     manifest = json.loads((ASSETS / 'manifest.json').read_text())
     BUILD.mkdir(parents=True, exist_ok=True)
     receipt_path = BUILD / 'receipt.json'
@@ -353,6 +473,14 @@ def build(cc, prefix, compare, jobs, asm_only):
         known = {row['name'] for group in manifest['groups'] for row in group['owners']}
         if selected.keys() - known:
             raise ValueError('matching registry contains unknown owners')
+    files = source_files(json.loads(SOURCE_REGISTRY.read_text()) if not asm_only else [])
+    for name in files.keys() & selected.keys():
+        del selected[name]
+    symbols = {}
+    for line in (ROOT / 'linker_scripts/jp/symbol_addrs.txt').read_text().splitlines():
+        match = re.match(r'\s*(\w+)\s*=\s*(0x[0-9A-Fa-f]+)\s*;', line)
+        if match:
+            symbols[match[1]] = int(match[2], 16)
     output = bytearray(manifest['size'])
     for gap in manifest['gaps']:
         data = (ASSETS / gap['asset']).read_bytes()
@@ -361,7 +489,7 @@ def build(cc, prefix, compare, jobs, asm_only):
         output[gap['start']:gap['end']] = data
     counts = Counter()
     def task(group):
-        return build_group(group, selected, cc, prefix, compare)
+        return build_group(group, selected, cc, prefix, compare, files, compilers, symbols)
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         for index, (group, image, totals) in enumerate(pool.map(task, manifest['groups']), 1):
             if len(image) != group['rom_end'] - group['rom_start']:
@@ -380,13 +508,25 @@ def build(cc, prefix, compare, jobs, asm_only):
                    full_rom_identical=exact, compare=compare, c_owners=counts['c'],
                    asm_owners=counts['asm'], linked_images=len(manifest['groups']),
                    compiler_sha256=sha(Path(cc).read_bytes()) if counts['c'] else None,
+                   source_compilers_sha256={version: sha(Path(path).read_bytes())
+                                            for version, path in compilers.items()} if files else None,
+                   source_files=sorted({path for path, _ in files.values()}),
+                   source_registry_sha256=sha(SOURCE_REGISTRY.read_bytes()),
+                   headers_sha256=headers_digest(),
                    matching_registry_sha256=sha((ROOT / 'config/jp/matching.json').read_bytes()),
                    build_tools_sha256={name: sha((ROOT / name).read_bytes()) for name in
-                                       ('tools/production.py', 'tools/m2c_easiest.py')},
+                                       ('tools/production.py', 'tools/m2c_easiest.py',
+                                        'tools/asm_prelude.inc', 'tools/cflags_overrides.json',
+                                        'tools/asm-processor/asm_processor.py',
+                                        'tools/asm-processor/build.py',
+                                        'docs/function-matches.csv',
+                                        'linker_scripts/jp/symbol_addrs.txt')},
                    binutils={tool: run([prefix + tool, '--version']).decode().splitlines()[0]
                              for tool in ('as', 'ld', 'objcopy')},
                    c_sources_sha256={row['candidate']: sha((ROOT / row['candidate']).read_bytes())
-                                     for row in selected.values()})
+                                     for row in selected.values()} |
+                                    {path: sha((ROOT / path).read_bytes())
+                                     for path in sorted({path for path, _ in files.values()})})
     receipt_path.write_text(json.dumps(receipt, indent=2) + '\n')
     print(json.dumps({key: value for key, value in receipt.items() if key != 'c_sources_sha256'}, indent=2), flush=True)
 
@@ -395,6 +535,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['extract', 'build'])
     parser.add_argument('--cc', default='tools/ido5.3/cc')
+    parser.add_argument('--cc71', default='tools/ido7.1/cc', help='IDO 7.1 for src/ files')
     parser.add_argument('--prefix', default='mips-linux-gnu-')
     parser.add_argument('--compare', type=int, choices=[0, 1], default=1)
     parser.add_argument('--jobs', type=int, default=4)
@@ -403,7 +544,8 @@ def main():
     if args.command == 'extract':
         extract()
     else:
-        build(str(Path(args.cc).resolve()), args.prefix, bool(args.compare), args.jobs, args.asm_only)
+        compilers = {'5.3': str(Path(args.cc).resolve()), '7.1': str(Path(args.cc71).resolve())}
+        build(compilers['5.3'], args.prefix, bool(args.compare), args.jobs, args.asm_only, compilers)
 
 
 if __name__ == '__main__':

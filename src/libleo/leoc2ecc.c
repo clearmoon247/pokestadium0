@@ -19,6 +19,8 @@ void leoC2_4_ecc(void);
 s32 leoAlpha_mult(s32 i, s32 k);
 s32 leoAlpha_div(s32 i, s32 k);
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 leoC2_Correction(void) {
     switch (LEOc2_param.err_num) {
         case 0:
@@ -40,6 +42,9 @@ s32 leoC2_Correction(void) {
     }
     return 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004A660.s")
+#endif
 
 void leoC2_single_ecc(void) {
     u8* pointer;

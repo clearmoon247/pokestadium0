@@ -31,6 +31,7 @@ tools/permuter
 tools/n64
 tools/m2c
 tools/ido5.3
+tools/ido7.1
 .DS_Store
 
 # Local mapping-only splat output.

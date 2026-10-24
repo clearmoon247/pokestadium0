@@ -6,64 +6,12 @@
 
 #include "m2c_macros.h"
 
-void BattleAnim_SetupOwnerModelTintPaletteCycle(Particle* arg0);
 void BattleAnim_SetupOwnerModelTintPaletteFade(Particle* arg0);
 void BattleAnim_SetupParticleRecolorTransparent(Particle* arg0);
 void BattleAnim_SetupDescriptor25AlphaFadeInHoldOut(Particle* arg0);
 void BattleAnim_SetupDescriptor25AlphaFadeInHold(Particle* arg0);
 void BattleAnim_SetupDescriptor25PaletteFadeOut(Particle* arg0);
 void BattleAnim_SetupDescriptor25PaletteFadeIn(Particle* arg0);
-
-void BattleAnim_SetupOwnerModelTintPaletteCycle(Particle* arg0) {
-    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
-    Particle_FieldAE_SetS16_0BF4C(arg0, 0);
-    Particle_AdvanceLifecycle(arg0);
-}
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143F28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143F28.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82144010; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144010.s")
-#endif
-
-M2C_UNK func_80019B28(s32, u8, u8, u8, s32);        /* extern */
-M2C_UNK func_8213C930(s8 *);                      /* extern */
-s32 func_8213C9B0(s8 *);                          /* extern */
-M2C_UNK func_8213C9D0(s8 *);                      /* extern */
-M2C_UNK func_82140874(s8 *, M2C_UNK, u8);         /* extern */
-s32 func_821436A0(s8 *, u8, u8);                  /* extern */
-M2C_UNK func_82144010(s8 *);                      /* extern */
-
-void func_82144058(s8 *arg0) {
-    s16 temp_v0;
-
-    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
-    switch (temp_v0) {                              /* irregular */
-    case 1:
-        func_82144010(arg0);
-        break;
-    case 2:
-        if (func_821436A0(arg0, M2C_FIELD(arg0, u8 *, 0xC9), M2C_FIELD(arg0, u8 *, 0xA7)) != 0) {
-            func_8213C9D0(arg0);
-        }
-        break;
-    case 3:
-        func_82140874(arg0, 0, M2C_FIELD(arg0, u8 *, 0xCA));
-        break;
-    case 4:
-        func_8213C930(arg0);
-        break;
-    }
-    if (func_8213C9B0(arg0) != 0) {
-        func_80019B28(M2C_FIELD(arg0, s32 *, 0x10), M2C_FIELD(arg0, u8 *, 0xBA), M2C_FIELD(arg0, u8 *, 0xBB), M2C_FIELD(arg0, u8 *, 0xBC), (s32) M2C_FIELD(arg0, s16 *, 0xAA));
-    }
-}
 
 void BattleAnim_SetupOwnerModelTintPaletteFade(Particle* arg0) {
     ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));

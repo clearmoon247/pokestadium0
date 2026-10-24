@@ -1,5 +1,5 @@
 /* Stadium Zero fragment012_17ED00. */
-/* C ported from the Stadium 1 decomp: src/fragments/ekans_game/ekans_game.c. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_343BA0.c, src/fragments/ekans_game/ekans_game.c. */
 
 #include "fragments/ekans_game/ekans_game.h"
 #include "geo_render.h"
@@ -76,7 +76,208 @@ extern ActorOriginPosition diglettActorInfo[];
 extern s16 playerGUIScoreXPositions[];
 extern Color_RGB8 playerColors[];
 
-void func_82183AE0(void);
+#include "fragments/battle_engine/battle_engine.h"
+#include "gallery.h"
+#include "gfx_buffer.h"
+#include "math.h"
+#include "math_util.h"
+extern u8* sBattleAnimAssetPointers[256];
+extern s16 sBattleAnimResourceList[0x10];
+extern arg1_func_80019420* sBattleAnimResourceTablePointers[40];
+extern s16 D_8219CAC0;
+extern s16 D_8219CAC2;
+extern Mtx D_8219CAC8;
+extern s16 D_8219CB08;
+extern s16 D_8219CB0A;
+extern s16 D_8219CB0C;
+extern s16 D_8219CB0E;
+extern s16 D_8219CB10;
+extern s16 D_8219CB12;
+extern s16 D_8219CB14;
+extern s16 D_8219CB16;
+extern s16 D_8219CB18;
+extern s16 D_8219CB1A;
+extern const char D_821978C8[];
 
-void func_82183AE0(void) {
+void func_8216E0B0(void);
+s32 BattleAnim_EndEffect16_CompleteImmediately(void);
+void func_8216E0C0(void);
+void BattleAnim_StartEffect19Radial20_Init(void);
+s32 BattleAnim_StartEffect19Radial20_Update(void);
+void BattleAnim_StartEffect19Radial20_Draw(void);
+s32 BattleAnim_EndEffect9Radial20_Update(void);
+void BattleAnim_EndEffect9Radial20_Draw(void);
+void BattleAnim_StartEffect7TexturedRibbonSheet_Init(void);
+s32 BattleAnim_StartEffect7TexturedRibbonSheet_Update(void);
+void BattleAnim_StartEffect7TexturedRibbonSheet_Draw(void);
+void BattleAnim_StartEffect33Radial20_Init(void);
+s32 BattleAnim_StartEffect33Radial20_Update(void);
+void BattleAnim_StartEffect33Radial20_Draw(void);
+s32 BattleAnim_EndEffect32Radial20_Update(void);
+void BattleAnim_EndEffect32Radial20_Draw(void);
+s32 BattleAnim_EndEffect33Radial20_Update(void);
+void BattleAnim_EndEffect33Radial20_Draw(void);
+
+void BattleAnim_ResetSharedEffectMatrix(void);
+void BattleAnim_StartEffect19Radial20_EmitVariantD(void);
+void BattleAnim_StartEffect7TexturedRibbonSheet_Emit(void);
+void BattleAnim_StartEffect33Radial20_EmitVariantC(void);
+
+void func_8216E0B0(void) {
 }
+
+s32 BattleAnim_EndEffect16_CompleteImmediately(void) {
+    return -1;
+}
+
+void func_8216E0C0(void) {
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216E0C8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E0C8.s")
+#endif
+
+void BattleAnim_StartEffect19Radial20_Init(void) {
+    D_8219CB0E = 0;
+    BattleAnim_ResetSharedEffectMatrix();
+    Radial20_ResetPool();
+    BattleAnim_StartEffect19Radial20_EmitVariantD();
+}
+
+s32 BattleAnim_StartEffect19Radial20_Update(void) {
+    D_8219CB0E++;
+    if (D_8219CB0E >= 0xB5) {
+        return -1;
+    }
+
+    if ((D_8219CB0E < 0x78) && ((D_8219CB0E % 7) == 0)) {
+        BattleAnim_StartEffect19Radial20_EmitVariantD();
+    }
+    return Radial20_IsComplete();
+}
+
+void BattleAnim_StartEffect19Radial20_Draw(void) {
+    gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gDisplayListHead = Radial20_Draw(gDisplayListHead);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216E340; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E340.s")
+#endif
+
+s32 BattleAnim_EndEffect9Radial20_Update(void) {
+    return Radial20_Update();
+}
+
+void BattleAnim_EndEffect9Radial20_Draw(void) {
+    gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gDisplayListHead = Strip400_Draw(gDisplayListHead);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216E428; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E428.s")
+#endif
+
+void BattleAnim_StartEffect7TexturedRibbonSheet_Init(void) {
+    D_8219CB10 = 0;
+    BattleAnim_ResetSharedEffectMatrix();
+    TexturedRibbonSheet_Init();
+    BattleAnim_StartEffect7TexturedRibbonSheet_Emit();
+}
+
+s32 BattleAnim_StartEffect7TexturedRibbonSheet_Update(void) {
+    D_8219CB10++;
+    if (D_8219CB10 >= 0x709) {
+        return -1;
+    }
+
+    if ((D_8219CB10 < 0x6EA) && ((D_8219CB10 % 3) == 0)) {
+        BattleAnim_StartEffect7TexturedRibbonSheet_Emit();
+    }
+
+    return TexturedRibbonSheet_IsComplete();
+}
+
+void BattleAnim_StartEffect7TexturedRibbonSheet_Draw(void) {
+    gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gDisplayListHead = TexturedRibbonSheet_Draw(gDisplayListHead);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216E680; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E680.s")
+#endif
+
+void BattleAnim_StartEffect33Radial20_Init(void) {
+    D_8219CB12 = 0;
+    BattleAnim_ResetSharedEffectMatrix();
+    Radial20_ResetPool();
+    BattleAnim_StartEffect33Radial20_EmitVariantC();
+}
+
+s32 BattleAnim_StartEffect33Radial20_Update(void) {
+    D_8219CB12++;
+    if (D_8219CB12 >= 0xB5) {
+        return -1;
+    }
+
+    if ((D_8219CB12 < 0x78) && ((D_8219CB12 % 7) == 0)) {
+        BattleAnim_StartEffect33Radial20_EmitVariantC();
+    }
+
+    return Radial20_IsComplete();
+}
+
+void BattleAnim_StartEffect33Radial20_Draw(void) {
+    gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gDisplayListHead = Radial20_Draw(gDisplayListHead);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216E930; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E930.s")
+#endif
+
+s32 BattleAnim_EndEffect32Radial20_Update(void) {
+    return Radial20_Update();
+}
+
+void BattleAnim_EndEffect32Radial20_Draw(void) {
+    gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gDisplayListHead = Strip400_Draw(gDisplayListHead);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216EA20; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EA20.s")
+#endif
+
+s32 BattleAnim_EndEffect33Radial20_Update(void) {
+    return Radial20_Update();
+}
+
+void BattleAnim_EndEffect33Radial20_Draw(void) {
+    gSPMatrix(gDisplayListHead++, &D_8219CAC8, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gDisplayListHead = Strip400_Draw(gDisplayListHead);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8216EB10; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EB10.s")
+#endif

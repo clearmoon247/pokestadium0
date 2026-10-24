@@ -1,5 +1,5 @@
 /* Stadium Zero fragment012_17ED00. */
-/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_317E70.c, src/fragments/battle_engine/battle_engine_359F90.c. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_359F90.c. */
 
 #include "fragments/battle_engine/battle_engine.h"
 #include "gb_data.h"
@@ -53,20 +53,8 @@ extern u8 sTypeEffects[];
 extern u8 sHighCritMoves[];
 #define PRINTF(x) ((void)(x))
 
-#include "fragments/battle_engine/battle_engine.h"
-#include "geo_render.h"
-#include "model_renderer.h"
-#include "matrix.h"
-#include "fragments/particle_math/particle_math.h"
-#include "memory.h"
-
 #include "m2c_macros.h"
 
-s32 IsByteInArray(u8 lookup, u8* array, s32 array_length);
-void func_8210FA74(void);
-void Battle_SetActiveMoveFromSlotIndex(void);
-s32 Battle_CheckMoveSuccess(void);
-void ComputePokemonStat(s32 arg0, BattleMon* arg1);
 void ComputeAllPokemonStats(BattleMon* arg0);
 void func_82110FB0(void);
 void func_82110FB8(void);
@@ -74,136 +62,10 @@ void Battle_ExecuteMoveAnimation(void);
 s32 Battle_Effect_Metronome(void);
 void Battle_ApplyPoisonOrBurnDamage(void);
 void func_82111870(void);
-void BattleAnim_EffectEndNop(void);
 
 u8 Battle_Random(void);
+void ComputePokemonStat(s32 arg0, BattleMon* arg1);
 void Battle_IncrementMoveUsage(void);
-
-s32 IsByteInArray(u8 lookup, u8* array, s32 array_length) {
-    while (array_length--) {
-        if (lookup == *array) {
-            return 1;
-        }
-        array++;
-    }
-
-    return 0;
-}
-
-void func_8210FA74(void) {
-}
-
-void Battle_SetActiveMoveFromSlotIndex(void) {
-    D_8219A3C8[0].usedMove = D_8219A3C8[0].moves[D_82199F4E];
-}
-
-s32 Battle_CheckMoveSuccess(void) {
-    Battle_ExecuteMoveEffect();
-
-    if (sBattleMoveFailed == 1) {
-        return 0;
-    }
-    return 1;
-}
-
-void ComputePokemonStat(s32 arg0, BattleMon* arg1) {
-    u16 i;
-    u16 spC;
-    u16 spA;
-    u16 tmp;
-    u16 sp6;
-    u16 temp_a0;
-
-    switch (arg0) {
-        case 1:
-            spA = gSpeciesData[arg1->unk_24].baseHitPoints;
-            spC = arg1->unk_14;
-            break;
-
-        case 2:
-            spA = gSpeciesData[arg1->unk_24].baseAttack;
-            spC = arg1->unk_16;
-            break;
-
-        case 3:
-            spA = gSpeciesData[arg1->unk_24].baseDefense;
-            spC = arg1->unk_18;
-            break;
-
-        case 4:
-            spA = gSpeciesData[arg1->unk_24].baseSpeed;
-            spC = arg1->unk_1A;
-            break;
-
-        case 5:
-            spA = gSpeciesData[arg1->unk_24].baseSpecial;
-            spC = arg1->unk_1C;
-            break;
-    }
-
-    for (i = 1; i < 255; i++) {
-        if (SQ(i) >= spC) {
-            break;
-        }
-    }
-
-    tmp = D_8219A3C8[0].unk_24;
-
-    switch (arg0) {
-        case 1:
-            sp6 = ((tmp & 0x1000) >> 9) | ((tmp & 0x100) >> 6) | ((tmp & 0x10) >> 3) | (tmp & 1);
-            break;
-
-        case 2:
-            sp6 = (tmp >> 0xC) & 0xF;
-            break;
-
-        case 3:
-            sp6 = (tmp >> 8) & 0xF;
-            break;
-
-        case 4:
-            sp6 = (tmp >> 4) & 0xF;
-            break;
-
-        case 5:
-            sp6 = tmp & 0xF;
-            break;
-    }
-
-    temp_a0 = ((((spA + sp6) * 2) + (i >> 2)) * arg1->unk_24) / 100;
-    if (arg0 == 1) {
-        temp_a0 += arg1->unk_24 + 0xA;
-    } else {
-        temp_a0 += 5;
-    }
-
-    if (temp_a0 >= 0x3E8) {
-        temp_a0 = 0x3E7;
-    }
-
-    switch (arg0) {
-        case 1:
-            arg1->unk_26 = temp_a0;
-            break;
-
-        case 2:
-            arg1->unk_28 = temp_a0;
-            break;
-
-        case 3:
-            arg1->unk_2A = temp_a0;
-            break;
-
-        case 4:
-            arg1->unk_2C = temp_a0;
-            break;
-
-        case 5:
-            arg1->unk_2E = temp_a0;
-            break;
-    }
-}
 
 void ComputeAllPokemonStats(BattleMon* arg0) {
     ComputePokemonStat(0, arg0);
@@ -420,55 +282,4 @@ void func_82111870(void) {
 /* TODO: decompile func_82111878; signature not recovered. */
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111878.s")
-#endif
-
-void BattleAnim_EffectEndNop(void) {
-}
-
-M2C_UNK func_82110FC0();                            /* extern */
-M2C_UNK func_821115F4();                            /* extern */
-M2C_UNK func_8211EF74(s32, M2C_UNK, s32);           /* extern */
-extern s32 D_8218C784;
-extern s8 *D_8219A3C0;
-extern s8 *D_8219A3C4;
-extern s32 D_8219A520;
-extern s8 *D_8219A5A0;
-
-s32 func_821119F8(void) {
-    u8 temp_v0;
-
-    temp_v0 = M2C_FIELD(D_8219A3C4, u8 *, 0x58);
-    if ((temp_v0 == 0x77) || (temp_v0 == 0)) {
-        M2C_FIELD(D_8219A5A0, s32 *, 0x48) = 0x1C;
-        func_8211EF74(D_8219A520 + 0x88, 0x20, D_8218C784);
-        return 0;
-    }
-    M2C_FIELD(D_8219A3C0, u8 *, 0x5A) = temp_v0;
-    func_821115F4();
-    func_82110FC0();
-    return 1;
-}
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111A78; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111A78.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111AC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111AC4.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111C00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111C00.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111CD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111CD4.s")
 #endif

@@ -167,6 +167,8 @@ void AuxiliaryEffect_Update(s16 arg0) {
     }
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 Gfx* AuxiliaryEffect_DrawOne(Gfx* arg0, AuxiliaryEffectNode* arg1, MtxF* arg2) {
     f32 spCC;
     f32 spC8;
@@ -195,6 +197,9 @@ Gfx* AuxiliaryEffect_DrawOne(Gfx* arg0, AuxiliaryEffectNode* arg1, MtxF* arg2) {
 
     return arg0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821830D0.s")
+#endif
 
 Gfx* AuxiliaryEffect_Draw(s16 arg0, Gfx* arg1) {
     UNUSED s32 pad;

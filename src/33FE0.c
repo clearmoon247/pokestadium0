@@ -1,5 +1,5 @@
 /* Stadium Zero resident code. */
-/* C ported from the Stadium 1 decomp: src/33FE0.c, src/3D140_2.c. */
+/* C ported from the Stadium 1 decomp: src/33FE0.c, src/3D140_2.c, src/DDC0.c. */
 
 #include "global.h"
 #include "33FE0.h"
@@ -112,9 +112,29 @@ s32 Battle_MapCategoryIdToCompactIndex(u8);
 ALDMAproc __amDmaNew(AMDMAState** state);
 extern u8 sMusicSeqTables[0x134];
 
+#include <PR/os_internal_reg.h>
+#include "global.h"
+#include "dp_intro.h"
+#include "profiler.h"
+#include "audio_loop_point.h"
+#include "scheduler.h"
+#include "gb_tower_audio.h"
+#include "audio_commands.h"
+#include "audio_category_fade.h"
+#include "audio_sound_state.h"
+#include "audio_channel.h"
+#include "audio_loop_point.h"
+typedef struct unk_D_800A8480 {
+  /* 0x0000 */ OSThread thread;
+  /* 0x01B0 */ char unk01B0[0x2030];
+} unk_D_800A8480;
+extern s32 D_800AAE30;
+extern s32 D_800AAF3C;
+
 void func_8000A780(void);
 void func_80035208_empty();
 void func_800420F0_empty();
+void func_8000A798(void);
 
 void func_8000A780(void) {
 
@@ -126,4 +146,7 @@ void func_80035208_empty() {
 
 void func_800420F0_empty() {
     
+}
+
+void func_8000A798(void) {
 }

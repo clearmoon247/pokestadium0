@@ -4,17 +4,18 @@ A WIP decompilation of the Japanese-only original Pokémon Stadium
 (ポケモンスタジアム), by **Team Hippodrome**. The project follows pret's layout
 conventions; pret is not involved.
 
-Two matching tracks currently live side by side:
+`make rom` builds the complete 16 MiB ROM byte-for-byte from `src/`. Every
+source file is compiled whole with IDO through asm-processor; its C functions
+and its `GLOBAL_ASM` owners link at their original addresses in the resident
+image and all 259 fragments, and the fragments' original storage is rebuilt.
 
-- **Per-function matching in `src/`.** 2,803 functions are C that compiles to
-  the ROM bytes (2,004 ported from the Stadium 1 decomp, 799 from m2c's first
-  output), checked per function by `tools/check_functions.py`; 173 more are
-  identified libultra. See [docs/matching.md](docs/matching.md).
-- **Fixed-layout production build.** `make rom` reproduces the complete 16 MiB
-  ROM byte-for-byte. It compiles **551 unmodified m2c functions** from
-  `candidates/`, assembles the remaining **4,893 known code owners**, links the
-  resident image and all 259 fragments, and reconstructs their original storage.
-  See [docs/production-build.md](docs/production-build.md).
+- **2,657 of 5,444 code owners are built from C** (Stadium 1 ports and m2c
+  output), listed per owner in [docs/function-matches.csv](docs/function-matches.csv).
+  See [docs/matching.md](docs/matching.md) and [docs/production-build.md](docs/production-build.md).
+- 147 more functions have matching C that stays behind `#ifdef NON_MATCHING`
+  until their file's `.rodata`/`.data` is placed.
+- Data, `.rodata`, microcode and other non-code ranges still come from the
+  extracted ROM.
 
 Original function boundaries, translation units, and compiler settings remain
 under investigation.
@@ -36,23 +37,19 @@ make test
 ```
 
 `make init` installs pinned Python dependencies and verified official IDO 5.3
-binaries, then extracts local assets and assembly. `make rom` compares by default
-and produces `build/pokestadium0-jp.z64`. See [production build details and
+and 7.1 binaries into the ignored `tools/ido5.3/` and `tools/ido7.1/`, then
+extracts local assets and assembly. `make rom` compares by default and produces
+`build/pokestadium0-jp.z64`. See [production build details and
 constraints](docs/production-build.md) for setup, verification, and development.
 
-The per-function checker uses the IDO 7.1 and 5.3 recompilations fetched by
-`tools/get_ido.sh` into the ignored `tools/ido/`:
-
-```sh
-tools/get_ido.sh
-python3 tools/check_functions.py
-```
+`tools/check_functions.py` is a faster per-function check of the C in `src/`
+against the ROM, without linking.
 
 Do not commit ROMs or extracted retail assets.
 
 ## Progress and evidence
 
-- [Coverage](COVERAGE.md): first-pass owner counts and bytes for both tracks.
+- [Coverage](COVERAGE.md): first-pass owner counts and bytes built from C.
 - [First matching pass](docs/matching.md): Stadium 1 ports and m2c output in
   `src/`, listed per owner in [function-matches.csv](docs/function-matches.csv).
 - [Initial 100 m2c functions](docs/m2c-easiest-100.md): eight-byte empty returns.

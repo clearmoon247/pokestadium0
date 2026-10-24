@@ -34,6 +34,8 @@ s32 PokeIcon_CapturePreviewGeoNode(s32 arg0, GraphNode* arg1) {
     return 0;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses data data that is not placed in this file yet.
 void PokeIcon_InitPreviewScene(unk_func_8001B1FC* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
     static u32 D_8006F3E0[] = {
         0x0C00FFFF,    0x05000000, 0x0B00001E, 0x00000000, 0x010000E0, 0x00000000, 0x0000000A, 0x015404E2, 0x05000000,
@@ -51,6 +53,9 @@ void PokeIcon_InitPreviewScene(unk_func_8001B1FC* arg0, s16 arg1, s16 arg2, s16 
     GeoCamera_SetViewport(arg0->unk_20->children, arg1, arg2, arg3, arg4);
     GeoCamera_SetPerspective(arg0->unk_20->children, 30.0f, 100.0f, 12800.0f);
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80018E84.s")
+#endif
 
 unk_func_8001B1FC* PokeIcon_CreateModelPreview(ModelLoadContext* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5,
                                  s16 arg6, u8* arg7) {

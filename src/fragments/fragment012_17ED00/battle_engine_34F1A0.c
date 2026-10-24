@@ -17,6 +17,8 @@ Gfx* Trail40Variant_BuildGfx(Gfx* arg0);
 
 void Trail40Variant_SetupCameraTransform(void);
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Trail40Variant_ApplyRippleAtPoint(s16 arg0, s16 arg1) {
     Trail40VariantNode* var_s0 = &D_821A8B70.unk_0014[0][0];
     s32 i;
@@ -37,7 +39,12 @@ void Trail40Variant_ApplyRippleAtPoint(s16 arg0, s16 arg1) {
         }
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82178D90.s")
+#endif
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Trail40Variant_InitPool(s16 arg0) {
     s32 i;
     s32 j;
@@ -87,6 +94,9 @@ void Trail40Variant_InitPool(s16 arg0) {
         }
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82178EC8.s")
+#endif
 
 void Trail40Variant_UpdateNodes(s32 arg0, s32 arg1) {
     f32 sp84;
@@ -217,6 +227,8 @@ void Trail40Variant_WriteVertex(Trail40VariantNode* arg0, Vtx* arg1) {
     arg1->v.cn[3] = D_821A8B70.unk_0004;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Trail40Variant_AdvanceTimer(void) {
     Trail40VariantNode* var_s1;
     s32 i;
@@ -260,6 +272,9 @@ s32 Trail40Variant_AdvanceTimer(void) {
 
     return 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82179738.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821798E4; signature not recovered. */

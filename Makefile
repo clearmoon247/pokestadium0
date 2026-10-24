@@ -5,6 +5,7 @@ COMPARE ?= 1
 VENV ?= .venv
 PYTHON ?= $(VENV)/bin/python
 IDO_CC ?= tools/ido5.3/cc
+IDO71_CC ?= tools/ido7.1/cc
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 JOBS ?= 4
 ASM_ONLY ?= 0
@@ -37,7 +38,7 @@ init: setup extract
 
 rom:
 	@test -f assets/production/manifest.json || { echo 'Run make init first'; exit 1; }
-	$(PYTHON) tools/production.py build --cc $(IDO_CC) --prefix $(MIPS_BINUTILS_PREFIX) --compare $(COMPARE) --jobs $(JOBS) $(if $(filter 1,$(ASM_ONLY)),--asm-only,)
+	$(PYTHON) tools/production.py build --cc $(IDO_CC) --cc71 $(IDO71_CC) --prefix $(MIPS_BINUTILS_PREFIX) --compare $(COMPARE) --jobs $(JOBS) $(if $(filter 1,$(ASM_ONLY)),--asm-only,)
 
 diff-init: rom
 	@echo 'Per-image ELF objects, generated linker scripts and maps: build/production/'

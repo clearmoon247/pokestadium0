@@ -16,7 +16,7 @@ word for word. Relocated fields are checked by solving for symbol addresses:
 This is a per-function check, not a ROM rebuild: position-dependent code
 (alignment padding inside a function) can differ once files link for real.
 
-Usage: tools/check_functions.py [--cc-dir tools/ido/linux] [src files...]
+Usage: tools/check_functions.py [--cc-dir tools] [src files...]  (IDO from tools/ido<version>/cc)
 """
 import argparse
 import io
@@ -36,7 +36,7 @@ from map_rom import EXPECTED_SHA256
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDR_NAME = re.compile(r"^(?:func|D|D_FLT|D_DBL|jtbl|B|sub|RO|L)_([0-9A-Fa-f]{8})(?:_\d+)?$")
-FRAGMENT_PATH = re.compile(r"^src/fragments/fragment(\d{3})_[0-9A-F]+(?:/|\.c$)")
+FRAGMENT_PATH = re.compile(r"^src/fragments/fragment(\d{3})_[0-9A-F]+(?:/|(?:_\d+)?\.c$)")
 CFLAGS = ["-c", "-G", "0", "-non_shared", "-Xcpluscomm", "-nostdinc", "-Wab,-r4300_mul",
           "-EB", "-w", "-D_MIPS_SZLONG=32", "-DNDEBUG", "-D_FINALROM", "-DN_MICRO",
           "-DF3DEX_GBI_2", "-DBUILD_VERSION=VERSION_I_P", "-DLANGUAGE_C", "-D_LANGUAGE_C",
@@ -172,7 +172,7 @@ def segment_of(path):
 
 def compile_source(path, cc_dir, overrides):
     flags = overrides.get(path, {})
-    cc = Path(cc_dir) / flags.get("ido", "7.1") / "cc"
+    cc = Path(cc_dir) / ("ido" + flags.get("ido", "7.1")) / "cc"
     with tempfile.TemporaryDirectory() as tmp:
         source = Path(tmp) / Path(path).name
         source.write_bytes((ROOT / path).read_text(encoding="utf-8").encode("euc-jp", "replace"))
@@ -213,7 +213,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("sources", nargs="*")
     parser.add_argument("--rom", default=str(ROOT / "baseroms/jp/baserom.z64"))
-    parser.add_argument("--cc-dir", default=str(ROOT / "tools/ido/linux"))
+    parser.add_argument("--cc-dir", default=str(ROOT / "tools"))
     parser.add_argument("-j", type=int, default=None)
     args = parser.parse_args()
     rom = Path(args.rom).read_bytes()

@@ -178,6 +178,8 @@ void Trail40GridAlt_FillVertex(Trail40Node* arg0, Vtx* arg1) {
     arg1->v.cn[3] = D_821AAB90.unk_0004;
 }
 
+#ifdef NON_MATCHING
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Trail40GridAlt_IsComplete(void) {
     Trail40Node* var_s1;
     s32 i;
@@ -224,6 +226,9 @@ s32 Trail40GridAlt_IsComplete(void) {
 
     return 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8217A670.s")
+#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8217A8DC; signature not recovered. */
