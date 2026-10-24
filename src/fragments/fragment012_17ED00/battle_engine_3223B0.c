@@ -163,11 +163,13 @@ void BattleAnim_CallbackStartEffects77And120Descriptor45DeceleratingSparkFade_In
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82149C20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82149C20.s")
-#endif
+s32 func_8213EFF8(Particle* arg0, s32 arg1, s32 arg2);
+void BattleAnim_CallbackStartEffects77And120Descriptor45DeceleratingSparkFade_AdvancePhase(Particle* arg0) {
+    if (arg0->unk_B8 == 1) {
+        func_8213EFF8(arg0, arg0->unk_B0, arg0->unk_9A.x);
+        Particle_AddVelocityFromRotationTemplate1(arg0);
+    }
+}
 
 s32 func_82137D74(M2C_UNK);                         /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */

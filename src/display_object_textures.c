@@ -332,29 +332,107 @@ void func_80017934(void) {
     D_800AD1AC = func_800023C4(0x28000, 1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001799C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001799C.s")
-#endif
+s32 PokeIcon_RequestFrameLoad(ModelLoadContext* arg0, u16 arg1, arg1_func_80010CA8 arg2) {
+    s32 sp1C;
+    sp18_func_800198E4* sp18;
+    s32 var_v1;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017AD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017AD4.s")
-#endif
+    sp1C = 0;
+    if ((arg0->flags & 1) && !(arg0->pendingLoads & 1)) {
+        sp18 = Util_Malloc(sizeof(sp18_func_800198E4));
+        if (sp18 != NULL) {
+            var_v1 = arg0->bufferIndex;
+            if (arg0->flags & 4) {
+                var_v1 ^= 1;
+            }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017BA0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017BA0.s")
-#endif
+            sp18->unk_00 = 1;
+            sp18->unk_02 = arg1 - 1;
+            sp18->unk_04 = &arg0->modelQueue;
+            sp18->unk_08 = 0;
+            sp18->unk_0C = 0;
+            sp18->unk_10 = arg0->modelBuffers[var_v1];
+            sp18->unk_14 = 0x3C000;
+            sp18->unk_18 = arg2;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017C60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017C60.s")
-#endif
+            if ((arg0->loadedModel != NULL) && (arg0->loadedModel->modelId == arg1) && (arg0->colorVariant.raw == sp18->unk_18.raw)) {
+                osSendMesg(sp18->unk_04, sp18, 1);
+            } else {
+                osSendMesg(&D_800AC7A0.unk_9D0, sp18, 1);
+            }
+
+            arg0->pendingLoads |= 1;
+            sp1C = 1;
+        }
+    }
+
+    return sp1C;
+}
+
+s32 PokeIcon_RequestBackgroundLoad(ModelLoadContext* arg0, s32 arg1, s32 arg2) {
+    s32 sp1C = 0;
+    sp18_func_800198E4* temp_v0;
+
+    if ((arg0->flags & 2) && !(arg0->pendingLoads & 2)) {
+        temp_v0 = Util_Malloc(sizeof(sp18_func_800198E4));
+        if (temp_v0 != NULL) {
+            temp_v0->unk_00 = 2;
+            temp_v0->unk_02 = 0;
+            temp_v0->unk_04 = &arg0->backgroundQueue;
+            temp_v0->unk_08 = arg2;
+            temp_v0->unk_0C = arg1;
+            temp_v0->unk_10 = arg0->backgroundBuffer;
+            temp_v0->unk_14 = 0x18000;
+
+            osSendMesg(&D_800AC7A0.unk_9D0, temp_v0, 1);
+
+            sp1C = 1;
+            arg0->pendingLoads |= 2;
+        }
+    }
+
+    return sp1C;
+}
+
+s32 PokeIcon_ApplyLoadResult(ModelLoadContext* arg0, sp18_func_800198E4* arg1) {
+    s32 sp1C = 0;
+
+    switch (arg1->unk_00) {
+        case 1:
+            arg0->pendingLoads &= ~1;
+            if (arg1->unk_08 != 0) {
+                if (arg0->flags & 4) {
+                    arg0->bufferIndex ^= 1;
+                }
+                arg0->loadedModel = arg1->unk_08;
+                arg0->modelSize = arg1->unk_14;
+                arg0->colorVariant = arg1->unk_18;
+            }
+            sp1C = 1;
+            break;
+
+        case 2:
+            arg0->pendingLoads &= ~2;
+            arg0->loadedBackground = arg1->unk_08;
+            arg0->backgroundSize = arg1->unk_14;
+            sp1C = 1;
+            break;
+    }
+
+    Util_Free(arg1);
+    return sp1C;
+}
+
+s32 PokeIcon_PollFrameLoad(ModelLoadContext* arg0) {
+    sp18_func_800198E4* sp1C;
+    s32 sp18 = 0;
+
+    if (osRecvMesg(&arg0->modelQueue, &sp1C, 0) != -1) {
+        sp18 = PokeIcon_ApplyLoadResult(arg0, sp1C);
+    }
+
+    return sp18;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80017CB0; signature not recovered. */

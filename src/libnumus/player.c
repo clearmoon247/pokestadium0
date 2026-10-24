@@ -59,11 +59,17 @@ s32 func_80036640(s8 *arg0, M2C_UNK arg1) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036660; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036660.s")
-#endif
+u8* Audio_SetVoiceSampleIndex(channel_t* cp, u8* ptr) {
+    u16 wave = *ptr++;
+
+    if (wave & 0x80) {
+        wave = (wave & 0x7F) << 8;
+        wave |= *ptr++;
+    }
+
+    cp->wave = wave;
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80036698; signature not recovered. */
@@ -94,23 +100,31 @@ s32 func_800366BC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800368E4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800368F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800368F8.s")
-#endif
+u8* Audio_SetVoiceFixedDuration(channel_t* cp, u8* ptr) {
+    s16 tmp = *ptr++ << 8;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036928; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036928.s")
-#endif
+    tmp |= *ptr++;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036980; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036980.s")
-#endif
+    cp->cutoff = tmp;
+    cp->endit = 0;
+
+    return ptr;
+}
+
+u8* Audio_EnableVoiceVibrato(channel_t* cp, u8* ptr) {
+    cp->vib_delay = *ptr++;
+    cp->vib_speed = *ptr++;
+    cp->vib_amount = (f32)*ptr++ / 50.0;
+    return ptr;
+}
+
+u8* Audio_EnableVoiceVibratoDown(channel_t* cp, u8* ptr) {
+    cp->vib_delay = *ptr++;
+    cp->vib_speed = *ptr++;
+    cp->vib_amount = -(f32)*ptr++ / 50.0;
+
+    return ptr;
+}
 
 s32 func_800369DC(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s8 *, 0xE8) = 0;
@@ -118,11 +132,17 @@ s32 func_800369DC(s8 *arg0, s32 arg1) {
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800369F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800369F0.s")
-#endif
+u8* Audio_SetVoiceDurationOverride(channel_t* cp, u8* ptr) {
+    u8 value = *ptr++;
+
+    if (value < 0x80) {
+        cp->fixed_length = value;
+    } else {
+        cp->fixed_length = (value & 0x7F) << 8;
+        cp->fixed_length += *ptr++;
+    }
+    return ptr;
+}
 
 s32 func_80036A34(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s8 *, 0xC5) = 1;
@@ -145,11 +165,17 @@ s32 func_80036A54(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036A64.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036AC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036AC8.s")
-#endif
+u8* Audio_SetVoiceEnvelopeFromTable(channel_t* cp, u8* ptr) {
+    s32 value = *ptr++;
+
+    if (value & 0x80) {
+        value = (value & 0x7F) << 8;
+        value |= *ptr++;
+    }
+
+    Audio_SetVoiceVolumeEnvelope(cp, (u8*)&cp->song_addr->env_table[value]);
+    return ptr;
+}
 
 u8* Audio_EnableVoiceVelocityFromStream(channel_t* cp, u8* ptr) {
     cp->velocity_on = 1;
@@ -222,11 +248,12 @@ u8* Audio_SkipVoiceCommandWord(UNUSED channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036D8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036D8C.s")
-#endif
+u8* Audio_SetVoiceSubEnvelopePointer(channel_t* cp, u8* ptr) {
+    u8* addr = (u8*)&cp->song_addr->num_channels + cp->song_addr->drum_table[*ptr++];
+
+    cp->pdrums = addr;
+    return ptr;
+}
 
 s32 func_80036DB4(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x90) = 0;
@@ -254,17 +281,17 @@ s8 *func_80036E30(s8 *arg0, u8 *arg1) {
     return arg1 + 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036E40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036E40.s")
-#endif
+u8* Audio_SetRandomVoiceDetune(channel_t* cp, u8* ptr) {
+    cp->transpose = Audio_RandomScale(*ptr++);
+    cp->transpose += *ptr++;
+    return ptr;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036E90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036E90.s")
-#endif
+u8* Audio_SetRandomVoiceVolume(channel_t* cp, u8* ptr) {
+    cp->volume = Audio_RandomScale(*ptr++);
+    cp->volume += *ptr++;
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80036EE0; signature not recovered. */
@@ -283,11 +310,11 @@ s8 *func_80036F30(s8 *arg0, u8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036F40.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037038; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037038.s")
-#endif
+u8* Audio_SetVoiceVolumeScale(channel_t* cp, u8* ptr) {
+    cp->bendrange = (f32)*ptr++ * 0.015625;
+    cp->pitchbend_calc = SQ(cp->pitchbend);
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80037088; signature not recovered. */
@@ -543,7 +570,41 @@ void func_80038880(void) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_800393F8; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
+    f32 temp_fv1;
+    f32 var_fv1;
+    f32 var_fv1_2;
+    s32 temp_lo;
+
+    temp_fv1 = arg0->base_note;
+    if (arg0->port != 0) {
+        if (arg0->port >= arg0->wobble_frame) {
+            var_fv1_2 = ((temp_fv1 - arg0->last_note) / arg0->port);
+            var_fv1_2 *= arg0->wobble_frame;
+            temp_fv1 = arg0->last_note + var_fv1_2;
+        }
+        arg0->port_base = temp_fv1;
+    }
+
+    temp_lo = arg0->transpose * (1 - arg0->ignore_transpose);
+
+    arg0->ignore_transpose = 0;
+
+    temp_fv1 += (offset + arg0->pitchbend_calc + temp_lo);
+    if (temp_fv1 == arg0->pitch_current) {
+        return 0.0f;
+    }
+    arg0->pitch_current = temp_fv1;
+
+    temp_fv1 = Audio_ExpApproximation(temp_fv1 * 0.0833333333333333287);
+    if (temp_fv1 > 2.0) {
+        temp_fv1 = 2.0f;
+        arg0->velocity = 0;
+    }
+
+    return temp_fv1;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800393F8.s")
 #endif

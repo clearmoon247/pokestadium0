@@ -98,11 +98,35 @@ void BattleAnim_SetupOwnerModelTintPaletteRotateFadeDetach(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821444D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821444D0.s")
-#endif
+void BattleAnim_CallbackOwnerModelTintPaletteRotateFadeDetach(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupOwnerModelTintPaletteRotateFadeDetach(arg0);
+            break;
+
+        case 2:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            if (Particle_FieldA8_DecrementToZeroStep1_0BE6C(arg0) != 0) {
+                Particle_FieldA8_SetS16_0BE14(arg0, 0xFF / arg0->unk_AA);
+                arg0->unk_AE = (arg0->unk_AE + 1) % 6;
+                Particle_FieldCF_SetU8_0BEEC(arg0, gParticlePaletteSetA[arg0->unk_AE]);
+            }
+            ParticleGfx_ApproachPrimPalette(arg0, arg0->unk_CF, arg0->unk_AA);
+            Model_SetMaterialColor(&arg0->unk_10->displayObject, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a);
+            break;
+
+        case 3:
+            if (Particle_PrimAlpha_Approach_0BC2C(arg0, 0, 8) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            Model_SetMaterialColor(&arg0->unk_10->displayObject, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a);
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82144644; signature not recovered. */

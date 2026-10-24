@@ -37,12 +37,11 @@ typedef union unk_func_8001A024_008_014 {
 typedef struct unk_func_8001A024_008 {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ u16 unk_02;
-    /* 0x04 */ s16 unk_04;
+    /* 0x04 */ unk_func_8001A024_008_014 unk_14;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ DepthBuffer* unk_0C;
     /* 0x10 */ arg1_func_80010CA8 unk_10;
-    /* 0x14 */ unk_func_8001A024_008_014 unk_14;
-} unk_func_8001A024_008; // size = 0x18
+} unk_func_8001A024_008; // size = 0x14
 
 typedef struct unk_func_8001A024 {
     /* 0x00 */ u8 unk_00;

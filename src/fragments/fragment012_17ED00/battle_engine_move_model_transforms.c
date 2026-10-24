@@ -27,7 +27,13 @@ void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* ani
 void BattleAnim_DrawParticleNoop(UNUSED Particle* arg0, UNUSED CameraNode* arg1);
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82109130; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_InitSwayOffset(ActivePokemon* pokemon, f32 y, s16 theta) {
+    pokemon->y = y;
+    pokemon->modelTransform.rotation.z = COSS(theta) * y;
+    pokemon->modelTransform.rotation.y = SINS(theta) * y;
+    pokemon->rotationZ = 0.01f;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109130.s")
 #endif

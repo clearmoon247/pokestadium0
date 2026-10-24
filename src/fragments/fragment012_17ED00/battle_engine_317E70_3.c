@@ -196,14 +196,25 @@ s32 func_8213C9B0(s8 *arg0) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C9D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C9D0.s")
-#endif
+void Particle_AdvanceLifecycle(Particle* arg0) {
+    Particle_ClearFlags(arg0, 1);
+    arg0->unk_B2++;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CA04; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CA04.s")
-#endif
+s32 Particle_TickDelayTimer(Particle* arg0, s16 arg1) {
+    s32 sp1C = 0;
+
+    if (Particle_LacksFlags(arg0, 0x80) != 0) {
+        Particle_SetFlags(arg0, 0x80);
+        arg0->unk_BC = arg1;
+    }
+
+    arg0->unk_BC--;
+    if (arg0->unk_BC <= 0) {
+        arg0->unk_BC = 0;
+        Particle_ClearFlags(arg0, 0x80);
+        sp1C = 1;
+    }
+
+    return sp1C;
+}

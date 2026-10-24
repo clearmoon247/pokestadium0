@@ -358,14 +358,54 @@ void func_82108DE8(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DF8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108E40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108E40.s")
-#endif
+s32 Battle_FreezeClauseInEffect(ActivePokemon* active_pokemon) {
+    s32 i;
+    ActivePokemonState* state;
+    BattleMon* pokemon;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108FB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108FB4.s")
-#endif
+    state = &active_pokemon->state;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(active_pokemon); i++) {
+        pokemon = &active_pokemon->teamRoster->pokemonPicked[i];
+        if ((pokemon->statusCondition & STATUS_FREEZE) && (active_pokemon->state.runtime.roster[state->rosterIndex + state->teamMemberIndex * 3] == 0)) {
+            return 1;
+        }
+    }
+
+    if (active_pokemon->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(active_pokemon); i++) {
+            pokemon = &active_pokemon->sessionTeams->teamMember[state->teamMemberIndex == 0]->pokemonPicked[i];
+            if ((pokemon->statusCondition & STATUS_FREEZE) &&
+                (active_pokemon->state.runtime.roster[state->rosterIndex + (state->teamMemberIndex == 0) * 3] == 0)) {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+s32 Battle_SleepClauseInEffect(ActivePokemon* active_pokemon) {
+    s32 i;
+    ActivePokemonState* state;
+    BattleMon* pokemon;
+
+    state = &active_pokemon->state;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(active_pokemon); i++) {
+        pokemon = &active_pokemon->teamRoster->pokemonPicked[i];
+        if ((pokemon->statusCondition & STATUS_SLEEP_MASK) && (active_pokemon->state.runtime.roster[state->rosterIndex + state->teamMemberIndex * 3] == 0)) {
+            return 1;
+        }
+    }
+
+    if (active_pokemon->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(active_pokemon); i++) {
+            pokemon = &active_pokemon->sessionTeams->teamMember[state->teamMemberIndex == 0]->pokemonPicked[i];
+            if ((pokemon->statusCondition & STATUS_SLEEP_MASK) && (active_pokemon->state.runtime.roster[state->rosterIndex + (state->teamMemberIndex == 0) * 3] == 0)) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

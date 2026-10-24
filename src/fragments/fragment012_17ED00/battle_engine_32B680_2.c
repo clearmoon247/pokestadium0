@@ -152,11 +152,16 @@ void BattleAnim_DrawAsset29DualI4LayeredQuad(Particle* arg0, UNUSED CameraNode* 
     ParticleGfx_DrawQuadVertices(gFullscreenQuadVtx);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141E88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141E88.s")
-#endif
+void BattleAnim_DrawAsset87AnimatedI4Quad(Particle* arg0, UNUSED CameraNode* arg1) {
+    ParticleGfx_Push2DTransform(arg0->unk_2C.x, arg0->unk_2C.y, arg0->unk_94.z, arg0->unk_1C);
+
+    gSPDisplayList(gDisplayListHead++, D_821904C8);
+
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_LoadTextureI4WrapSTNoMirror(sBattleAnimAssetPointers[0x87], 0x20, 0x20);
+    ParticleGfx_SetAnimatedTileSize(0, 2, 0x20, 0x20);
+    ParticleGfx_DrawQuadVertices(gFullscreenQuadVtx);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82141F6C; signature not recovered. */
@@ -282,11 +287,16 @@ void BattleAnim_DrawAsset13FrameDiv2I4Quad(Particle* arg0, UNUSED CameraNode* ar
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214313C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143218; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143218.s")
-#endif
+void BattleAnim_DrawAssetA9I4XYScaledQuad(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_82190548);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0xA9], 0x20, 0x20);
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuadXYScaled(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, arg0->unk_20, gVtx_UI_RectVertical);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
 
 M2C_UNK func_8216D640(u8, u8, u8, u8);              /* extern */
 

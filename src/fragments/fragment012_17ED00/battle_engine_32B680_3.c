@@ -398,11 +398,16 @@ Gfx* BattleAnim_BuildAnimatedTileDisplayListFromStruct(Gfx* arg0, arg1_func_8434
     return arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821536E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821536E4.s")
-#endif
+void Gfx_SetParticlePrimEnvColors(Gfx* arg0) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0, temp_v0->prim_r, temp_v0->prim_g, temp_v0->prim_b, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, temp_v0->env_r, temp_v0->env_g, temp_v0->env_b, 255);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void ParticleEffect_AllocateGfxIfNeeded(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {

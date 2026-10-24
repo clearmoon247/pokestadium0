@@ -23,6 +23,9 @@
   "src/crash_screen.c": {
     ".rodata": "0x80079704"
   },
+  "src/fragments/fragment000_80C00/81110190.c": {
+    ".data": "0x81138350"
+  },
   "src/fragments/fragment010_17BE70/pikachu_reward.c": {
     ".data": {
       "address": "0x81701BF8",
@@ -155,10 +158,7 @@
     ".rodata": "0x82196970"
   },
   "src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c": {
-    ".rodata": {
-      "address": "0x82196990",
-      "size": "0x14"
-    }
+    ".rodata": "0x82196990"
   },
   "src/fragments/fragment016_252E10/lab_pc_list_1E46B0_2.c": {
     ".data": "0x8910D9E0"
