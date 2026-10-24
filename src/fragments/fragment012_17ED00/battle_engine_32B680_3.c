@@ -303,41 +303,73 @@ void BattleAnim_SetupReflectiveCamera(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82152730.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82152F44; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82152F44.s")
-#endif
+void BattleAnim_CallbackInitModelAnimWait(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82152FB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82152FB0.s")
-#endif
+        case 2:
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_MarkInactive(arg0);
+            }
+            break;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82152FE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82152FE0.s")
-#endif
+void BattleAnim_CallbackInitModelAnim(Particle* arg0) {
+    if (arg0->unk_B2 == 1) {
+        BattleAnim_SelectParticleModelFrames(arg0, 0);
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82153040; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82153040.s")
-#endif
+void BattleAnim_CallbackStartEffects83And103ModelAlphaFadeIn(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821530C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821530C4.s")
-#endif
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, arg0->unk_A6, Particle_FieldCE_GetS32_0C040(arg0));
+            break;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821530F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821530F4.s")
-#endif
+void BattleAnim_CallbackInitModelAnimWaitCleanup(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 1);
+            break;
+
+        case 2:
+            if (BattleAnim_IsModelAnimComplete(arg0->unk_14) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
+
+void BattleAnim_CallbackInitModelAnimMode2(Particle* arg0) {
+    if (arg0->unk_B2 == 1) {
+        BattleAnim_SelectParticleModelFrames(arg0, 2);
+    }
+}
+
+void BattleAnim_CallbackInitModelAnimMode2Update(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 2);
+            break;
+
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, arg0->unk_A6, Particle_FieldCE_GetS32_0C040(arg0));
+            break;
+    }
+}
 
 Gfx* BattleAnim_BuildAnimatedTileDisplayList(Gfx* arg0, u8* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7, s16 arg8, s16 arg9,
                    s16 argA, s16 argB) {
@@ -379,11 +411,80 @@ void ParticleEffect_AllocateGfxIfNeeded(s32 arg0, arg1_func_84344CE8* arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821537D8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821537D8.s")
-#endif
+void Gfx_DrawParticleTextureWithParams(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
+    s16 mask = 5;
+    Particle* sp40;
+    s16 var_a2;
+    s16 sp3C;
+    s16 sp3A;
+    s16 sp38;
+    s16 sp36;
+    s16 w = 32;
+    s16 h = 32;
+    s16 sp30;
+    s16 sp2E;
+    s16 sp2C;
+    s16 sp2A;
+    s32 temp_v0_2;
+
+    sp40 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+    temp_v0_2 = Particle_FieldCE_GetS32_0C040(sp40);
+    var_a2 = 0x80;
+
+    switch (temp_v0_2) {
+        case 0:
+            var_a2 = 0x96;
+            sp3C = 2;
+            sp3A = 0;
+            sp38 = -2;
+            sp36 = 0;
+            sp30 = 0xC;
+            sp2E = 0;
+            sp2C = 0xF;
+            sp2A = 0;
+            break;
+
+        case 1:
+            var_a2 = 0xFF;
+            sp3C = 0;
+            sp3A = 0;
+            sp38 = 0xF;
+            sp36 = 0;
+            sp30 = 0xF;
+            sp2E = 0;
+            sp2C = 0xE;
+            sp2A = 0xD;
+            break;
+
+        case 2:
+            var_a2 = 0xFF;
+            sp3C = 0;
+            sp3A = 0;
+            sp38 = 1;
+            sp36 = 0;
+            sp30 = 1;
+            sp2E = 1;
+            sp2C = 7;
+            sp2A = 1;
+            break;
+    }
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, var_a2, sp40->prim_r, sp40->prim_g, sp40->prim_b, sp40->prim_a);
+    gDPSetEnvColor(arg0++, sp40->env_r, sp40->env_g, sp40->env_b, 255);
+
+    gDPLoadTextureTile_4b(arg0++, arg1->unk_00, G_IM_FMT_I, w, h, 0, 0, w - 1, h - 1, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                          G_TX_NOMIRROR | G_TX_WRAP, mask, mask, sp30, sp2E);
+
+    ParticleGfx_SetAnimatedTileSizeOnList(arg0++, sp3C, sp3A, w, h);
+
+    gDPLoadMultiTile_4b(arg0++, arg1->unk_04, 0x0100, 1, G_IM_FMT_I, w, h, 0, 0, w - 1, h - 1, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, mask, mask, sp2C, sp2A);
+
+    ParticleGfx_SetAnimatedAuxTileSizeOnList(arg0++, sp38, sp36, w, h);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void ParticleEffect_AllocateGfxAndDraw(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -468,11 +569,23 @@ void BattleAnim_SetupEffect1Descriptor2F(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82154248; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154248.s")
-#endif
+void BattleAnim_CallbackStartEffect1Descriptor2FPhaseFadeOut(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupEffect1Descriptor2F(arg0);
+            break;
+
+        case 3:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x20);
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+
+        case 2:
+            break;
+    }
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 extern M2C_UNK D_8218E700;
@@ -521,11 +634,32 @@ void BattleAnim_InitModelAnimationSlot(Particle* arg0, s16 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821545D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821545D0.s")
-#endif
+void BattleAnim_CallbackStartEffects12And129DelayedModelAnimWait(Particle* arg0) {
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 8);
+            Particle_AdvanceLifecycle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1_0BDAC(arg0) != 0) {
+                BattleAnim_InitModelAnimationSlot(arg0, sp26);
+            }
+            break;
+
+        case 3:
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void BattleAnim_StartEffect12DelayedModelAnim(void) {
     BattleAnim_SpawnCategory17MarkerSlot(0x55, 1);
@@ -622,11 +756,31 @@ void BattleAnim_AllocateReflectiveTextureDisplayList(s32 arg0, arg1_func_84344CE
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154E28.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82154EA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154EA4.s")
-#endif
+void BattleAnim_CallbackStartEffect125ModelBurstEmitter(Particle* arg0) {
+    s16 temp_a1 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_InitEffect125Model(arg0, temp_a1);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1_0BDAC(arg0) != 0) {
+                BattleAnim_EmitParticleBurstWithMetadata(arg0, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, &gBattleAnimParticleDescriptors[0x42], 8, 0x18, 3);
+                Particle_FieldA6_SetS16_0BCA8(arg0, 0x10);
+            }
+            break;
+
+        case 3:
+            Particle_Field1C_ApproachAndStepState_0B9D0(arg0, 0.0f, 0.05f);
+            Particle_PrimAlpha_Approach_0BC2C(arg0, 0, 8);
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void BattleAnim_BuildEffect125DisplayList(Gfx* arg0, u16 arg1) {
     DisplayObject* tmp = D_8006049C;
@@ -664,11 +818,17 @@ void func_82155084(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215510C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821551E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821551E8.s")
-#endif
+void BattleAnim_CallbackStartEffect65Descriptors31And32FadeIn(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_InitEffect65Overlay(arg0);
+            break;
+
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0xFF, 4);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82155238; signature not recovered. */
@@ -687,11 +847,17 @@ void BattleAnim_InitEffect28Overlay(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82155380; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82155380.s")
-#endif
+void BattleAnim_CallbackStartEffects28And53And76Descriptor33FadeIn(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_InitEffect28Overlay(arg0);
+            break;
+
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0xB4, 8);
+            break;
+    }
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 extern M2C_UNK D_8218E720;
@@ -994,11 +1160,16 @@ void func_8215604C(void) {
     func_8213B644(0x32, 0x20, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821561D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821561D4.s")
-#endif
+void ParticleEffect_DrawNode(Gfx* arg0, s32 arg1, u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, 0x80, 255, 255, 255, temp_v0->prim_a);
+
+    arg0 = BattleAnim_BuildAnimatedTileDisplayListFromStruct(arg0, arg1, 0x40, 6, -4, 0xF, 0, 0, -0xF, 5, 0, 0);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void ParticleEffect_CreateNodeDL(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1042,11 +1213,23 @@ void BattleAnim_DefaultEndEffect_Draw(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82156430.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821564F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821564F8.s")
-#endif
+void BattleAnim_CallbackMove146EndEffect6ModelAnimWait(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_InitMove146Model(arg0);
+            break;
+
+        case 2:
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void ParticleEffect_RegisterPaletteVariants(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackMove146EndEffect6ModelAnimWait, &gDefaultParticleDescriptor, 0x1E, 1, 6, gBattleAnimCurrentAnchor, 0, 0);
@@ -1089,23 +1272,55 @@ void BattleAnim_InitEffect49Model(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215673C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215673C.s")
-#endif
+void func_82156654(Particle* arg0);
+s32 func_82136E2C(DisplayObject* arg0);
+void func_8215673C(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            func_82156654(arg0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821567BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821567BC.s")
-#endif
+        case 2:
+            if (func_82136E2C(arg0->unk_14) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215683C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215683C.s")
-#endif
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
+
+void func_82156654(Particle* arg0);
+void func_821567BC(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            func_82156654(arg0);
+            break;
+
+        case 2:
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
+
+void BattleAnim_BuildEffect49DisplayList(Gfx* arg0, UNUSED s32 arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0, temp_v0->prim_r, temp_v0->prim_g, temp_v0->prim_b, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, temp_v0->env_r, temp_v0->env_g, temp_v0->env_b, 0);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void BattleAnim_AllocateEffect49DisplayList(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1137,11 +1352,25 @@ void BattleAnim_InitEffect40Model(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82156B0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82156B0C.s")
-#endif
+void BattleAnim_CallbackStartEffect40ModelFadeCycle(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_InitEffect40Model(arg0);
+            break;
+
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0x80, 0x10);
+            break;
+
+        case 3:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 4:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x20);
+            break;
+    }
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 extern M2C_UNK D_8218E580;
@@ -1157,11 +1386,20 @@ void ParticleEffect_RegisterLargeExplosionAndEffects(void) {
     BattleAnim_SpawnOwnerModelAlphaFade(0x2D, 0, 0xFF, 0x20);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82156C58; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82156C58.s")
-#endif
+void BattleAnim_BuildEffect63DisplayList(Gfx* arg0, s32 arg1, u16 arg2) {
+    UNUSED s32 pad;
+    Particle* sp28 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    ParticleGfx_SetAnimatedTileSizeOnList(arg0++, 1, 0x28, 0x20, 0x20);
+    ParticleGfx_SetAnimatedAuxTileSizeOnList(arg0++, -1, 0x1E, 0x20, 0x20);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0x80, 255, 255, 255, sp28->prim_a);
+    gDPSetEnvColor(arg0++, 255, 55, 100, 255);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void BattleAnim_AllocateEffect63DisplayList(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1170,11 +1408,16 @@ void BattleAnim_AllocateEffect63DisplayList(s32 arg0, arg1_func_84344CE8* arg1) 
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82156D7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82156D7C.s")
-#endif
+void BattleAnim_BuildEffect75DisplayList(Gfx* arg0, UNUSED s32 arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0x80, 255, 255, 255, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, 255, 255, 100, 255);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void BattleAnim_AllocateEffect75DisplayList(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1201,11 +1444,24 @@ void BattleAnim_InitEffects63And75Model(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82156EF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82156EF0.s")
-#endif
+void func_82156E54(Particle* arg0);
+void func_82156EF0(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            func_82156E54(arg0);
+            break;
+
+        case 2:
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void BattleAnim_InitEffects10And50Model(Particle* arg0) {
     u16 sp26 = Particle_FieldCF_GetS16_0C058(arg0);
@@ -1361,17 +1617,31 @@ void BattleAnim_InitEffects63And75Model38(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821573BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821573BC.s")
-#endif
+void func_82157354(Particle* arg0);
+void func_821573BC(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            func_82157354(arg0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215740C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215740C.s")
-#endif
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0xFF, 4);
+            break;
+    }
+}
+
+void Gfx_DrawParticleAlpha(Gfx* arg0, s32 arg1, u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0xC8, 255, 255, 255, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, 255, 155, 0, 255);
+
+    arg0 = BattleAnim_BuildAnimatedTileDisplayListFromStruct(arg0, arg1, 0x20, 5, 1, 0, 0, 0, -1, 0, 0, 0);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Particle_CreateDisplayList_Alpha(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1380,11 +1650,22 @@ void Particle_CreateDisplayList_Alpha(s32 arg0, arg1_func_84344CE8* arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82157518; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82157518.s")
-#endif
+void Gfx_DrawParticleTexture4b(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0, 255, 255, 255, temp_v0->prim_r);
+    gDPSetEnvColor(arg0++, 255, 155, 0, 255);
+    gDPSetCombineLERP(arg0++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED,
+                      0, 0, 0, COMBINED);
+    gDPSetTextureLUT(arg0++, G_TT_NONE);
+    gSPTexture(arg0++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPLoadTextureBlock_4b(arg0++, arg1, G_IM_FMT_I, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                           G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Particle_CreateDisplayList_Texture4b(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1393,11 +1674,22 @@ void Particle_CreateDisplayList_Texture4b(s32 arg0, arg1_func_84344CE8* arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821576C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821576C8.s")
-#endif
+void Gfx_DrawParticleGreenPrim(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0, 255, 255, 255, temp_v0->prim_g);
+    gDPSetEnvColor(arg0++, 255, 255, 0, 255);
+    gDPSetCombineLERP(arg0++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED,
+                      0, 0, 0, COMBINED);
+    gDPSetTextureLUT(arg0++, G_TT_NONE);
+    gSPTexture(arg0++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPLoadTextureBlock_4b(arg0++, arg1, G_IM_FMT_I, 32, 32, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                           G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Particle_CreateDisplayList_GreenPrim(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1500,11 +1792,17 @@ void Particle_CreateDisplayList_CyanEnv(s32 arg0, arg1_func_84344CE8* arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82157FBC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82157FBC.s")
-#endif
+void Gfx_DrawParticleBluePrim(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, 0x80, 255, 255, 255, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, 0, 255, 255, 255);
+
+    arg0 = BattleAnim_BuildAnimatedTileDisplayListFromStruct(arg0, arg1, 0x20, 5, -3, -5, 0xD, 3, 0, -2, 0xF, 2);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Particle_CreateDisplayList_BluePrim(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1522,11 +1820,21 @@ void BattleAnim_StartEffect72ModelAnimWait(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xE, 0, 0x25, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821581BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821581BC.s")
-#endif
+void BattleAnim_CallbackStartEffects50And82ModelDelay(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 0);
+            break;
+
+        case 2:
+            Particle_TickDelayAndAdvanceLifecycle(arg0, arg0->unk_A6);
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void func_82158224(Particle* arg0) {
     Particle_Field1C_SetScaled_0B938(arg0, 2.0f);
@@ -1538,17 +1846,50 @@ void func_82158224(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821582A8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821582A8.s")
-#endif
+void BattleAnim_CallbackStartEffects50And82ScalePulse(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffects50And82ScalePulse_InitParticle(arg0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82158344; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82158344.s")
-#endif
+        case 2:
+            Particle_Field1C_ApproachAndStepState_0B9D0(arg0, 10.0f, 1.0f);
+            break;
+
+        case 3:
+            Particle_Field1C_ApproachAndStepState_0B9D0(arg0, 0.0f, 1.0f);
+            Particle_PrimAlpha_Approach_0BC2C(arg0, 0x40, 0x20);
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
+
+void BattleAnim_CallbackStartEffects50And82Descriptor48AnimatedScaleFade_InitParticle(Particle* arg0) {
+    UNUSED s16 pad;
+    s16 sp34;
+    Vec3s sp2C;
+    UNUSED s32 pad2[3];
+
+    Particle_FieldAC_GetS16_0C038(arg0);
+    sp34 = Particle_FieldCF_GetS16_0C058(arg0);
+    Particle_SetRandomVelocityXYZ(arg0, 5, 5, 5);
+    Particle_Field1C_SetScaled_0B938(arg0, 1.5f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 1.5f);
+    sp2C.x = ParticleMath_RandomRange(0x2000) - 0x1000;
+    sp2C.y = ParticleMath_RandomRange(0x10000);
+    sp2C.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp2C);
+    Particle_AddRotationTargetXY(arg0, sp2C.x, sp2C.y);
+    Particle_Field9A_SetXY_0A3A0(arg0, 0, 0);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp34);
+    Particle_SetPrimAlpha(arg0, 0x80);
+    Particle_FieldA6_SetS16_0BCA8(arg0, arg0->unk_AC * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CB3C(s8 *);                      /* extern */
@@ -1655,11 +1996,20 @@ void func_8215863C(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82158740; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82158740.s")
-#endif
+void Gfx_DrawParticleCustomColors(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0x78, temp_v0->prim_r, temp_v0->prim_g, temp_v0->prim_b, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, temp_v0->env_r, temp_v0->env_g, temp_v0->env_b, temp_v0->unk_B0);
+    gDPSetCombineLERP(arg0++, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, PRIMITIVE,
+                      ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, ENVIRONMENT);
+
+    arg0 = BattleAnim_BuildAnimatedTileDisplayListFromStruct(arg0, arg1, 0x20, 5, 2, 0xA, 0xD, 0xF, -2, 5, 0xE, 0xF);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Particle_CreateDisplayList_CustomColors(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -1716,11 +2066,57 @@ void func_821588C0(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821589E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821589E8.s")
-#endif
+void BattleAnim_CallbackStartEffects50And82OffsetModelsScalePaletteFade(Particle* arg0) {
+    s16 sp26 = Particle_FieldCE_GetS32_0C040(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 2);
+            Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+            Particle_FieldB0_SetS16_0BFEC(arg0, 0x64);
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+            Particle_FieldA6_SetS16_0BCA8(arg0, 5);
+
+            switch (sp26) {
+                case 0:
+                    Particle_Field38_SetXScaled_08C88(arg0, 15.0f);
+                    Particle_Field38_SetYScaled_08CA0(arg0, 15.0f);
+                    break;
+
+                case 1:
+                    Particle_Field38_SetXScaled_08C88(arg0, -15.0f);
+                    Particle_Field38_SetZScaled_08CB8(arg0, 15.0f);
+                    Particle_Field38_SetYScaled_08CA0(arg0, -10.0f);
+                    break;
+
+                case 2:
+                    Particle_Field38_SetXScaled_08C88(arg0, -10.0f);
+                    Particle_Field38_SetZScaled_08CB8(arg0, -15.0f);
+                    break;
+            }
+            break;
+
+        case 2:
+            Particle_Field1C_Approach_0B98C(arg0, 5.0f, 0.15f);
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_FieldA6_SetS16_0BCA8(arg0, 5);
+            }
+            break;
+
+        case 3:
+            Particle_Field1C_Approach_0B98C(arg0, 5.0f, 0.15f);
+            ParticleGfx_ApproachPrimEnvPalettePair(arg0, 0x1A, 0x19);
+            if (Particle_FieldA6_DecrementToZeroStep1_0BDAC(arg0) != 0) {
+                Particle_FieldB0_Approach_0C000(arg0, 0, 8);
+                Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x10);
+            }
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 M2C_UNK func_8213C464();                            /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
@@ -1982,11 +2378,18 @@ void func_82159898(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821599E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821599E8.s")
-#endif
+void Gfx_DrawParticleFromTempColors(Gfx* arg0, s32 arg1, u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0, temp_v0->prim_r, temp_v0->prim_g, temp_v0->prim_b, temp_v0->prim_a);
+    gDPSetEnvColor(arg0++, temp_v0->env_r, temp_v0->env_g, temp_v0->env_b, 0);
+
+    arg0 = BattleAnim_BuildAnimatedTileDisplayListFromStruct(arg0, arg1, 0x20, 5, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Particle_CreateDisplayList_TempColors(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -2074,11 +2477,20 @@ f32 BattleAnim_GetSpeciesScaleAdjust(Particle* arg0) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82159F70; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82159F70.s")
-#endif
+void BattleAnim_CallbackStartEffect69ModelPhaseWait(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 0);
+            break;
+
+        case 2:
+            break;
+
+        case 3:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
@@ -2150,11 +2562,19 @@ void BattleAnim_CallbackStartEffect17ModelAnimFinish_InitParticle(Particle* arg0
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215A418; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215A418.s")
-#endif
+void BattleAnim_CallbackStartEffect17ModelAnimFinish(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffect17ModelAnimFinish_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_MarkInactive(arg0);
+            }
+            break;
+    }
+}
 
 void BattleAnim_CallbackEndEffect7ModelScaleAlphaFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldCD_GetU8_0C048(arg0);
@@ -2188,11 +2608,26 @@ void BattleAnim_CallbackEndEffect7ModelScaleAlphaFade_InitParticle(Particle* arg
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215A5A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215A5A4.s")
-#endif
+void BattleAnim_CallbackEndEffect7ModelScaleAlphaFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffect7ModelScaleAlphaFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 3:
+            Particle_Field1C_ApproachAndStepState_0B9D0(arg0, 0.0f, 0.05f);
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x10);
+            break;
+
+        case 4:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 
 void Gfx_DrawParticlePaletteBased(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
     UNUSED s32 pad[2];
@@ -2422,11 +2857,14 @@ void Gfx_ParticleTextureTileAllocCallback(s32 arg0, arg1_func_84344CE8* arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215AFEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215AFEC.s")
-#endif
+void Gfx_ParticleRedPrimCallback(Gfx* arg0, UNUSED arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+
+    gDPSetPrimColor(arg0++, 0, 0, 255, 0, 0, temp_v0->prim_a);
+    gSPEndDisplayList(arg0++);
+}
 
 void Gfx_ParticleRedPrimAllocCallback(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -2596,14 +3034,260 @@ void func_8215B83C(s8 *arg0) {
     func_8213C938(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215B904; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215B904.s")
-#endif
+void BattleAnim_CallbackStartEffects95To97EndEffects62And63ModelFadeIn(Particle* arg0) {
+    u32 temp_v0 = Particle_FieldCD_GetU8_0C048(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffects95To97EndEffects62And63ModelFadeIn_InitParticle(arg0);
+            break;
+
+        case 2:
+            if ((temp_v0 == 0) || ((s32)temp_v0 == 1)) {
+                Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0x80, 8);
+            } else if (temp_v0 == 3) {
+                Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0xFF, 0xFF);
+            } else {
+                Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0xFF, 4);
+            }
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8215B9A0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Gfx_PaletteParticleDL(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
+    u8* a1;
+    Particle* spC8;
+    u8 var_t0;
+    s16 spC4;
+    s16 spC2;
+    s16 spC0;
+    s16 spBE;
+    s16 var_a1;
+    s16 var_a2;
+    s16 var_a3;
+    s16 var_s1;
+    UNUSED s16 pad2;
+    s16 spB2;
+    s16 spB0;
+    s16 spAE;
+    s16 spAC;
+    u16 temp_v0_2;
+    s16 var_t2;
+    s16 var_t1;
+
+    spC8 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+    temp_v0_2 = Particle_FieldCD_GetU8_0C048(spC8);
+    var_s1 = 0x20;
+    var_t1 = 5;
+    var_t2 = 5;
+    var_a3 = 0;
+    var_a1 = 0;
+    var_a2 = 0;
+    var_t0 = spC8->prim_a;
+
+    switch (temp_v0_2) {
+        case 0:
+            spC4 = -1;
+            spC2 = -1;
+            spC0 = 1;
+            spBE = -1;
+            spB2 = 0xF;
+            spB0 = 0;
+            spAE = 0xE;
+            spAC = 0xF;
+            break;
+
+        case 1:
+            spC4 = -1;
+            spC2 = 1;
+            spC0 = 1;
+            spBE = 1;
+            spB2 = 0xF;
+            spB0 = 0;
+            spAE = 0xE;
+            spAC = 0xF;
+            break;
+
+        case 2:
+            spC4 = -2;
+            spC2 = 2;
+            spC0 = 2;
+            var_a3 = 0xFF;
+            spBE = 3;
+            spB2 = 0xC;
+            spB0 = 1;
+            spAE = 0xC;
+            spAC = 0;
+            break;
+
+        case 3:
+            spC4 = -2;
+            spC2 = -2;
+            spC0 = 2;
+            var_a3 = 0xFF;
+            spBE = -3;
+            spB2 = 0xC;
+            spB0 = 1;
+            spAE = 0xC;
+            spAC = 0;
+            break;
+
+        case 4:
+            var_a2 = 0xFF;
+            var_a1 = 0x9B;
+            spC4 = 1;
+            spC2 = 1;
+            spC0 = -1;
+            spBE = -1;
+            spB2 = 0xC;
+            spB0 = 1;
+            spAE = 0xC;
+            spAC = 0;
+
+            break;
+
+        case 5:
+            spC0 = -0xA;
+            spBE = -0xF;
+            spC4 = 0;
+            spC2 = 0;
+            spB2 = 0xF;
+            spB0 = 1;
+            spAE = 0xF;
+            spAC = 1;
+            var_a2 = 0xFF;
+            var_a1 = 0xFF;
+            var_a3 = 0xFF;
+            var_t0 = 0x32;
+            break;
+
+        case 6:
+            spC4 = 2;
+            spC2 = -1;
+            spC0 = -2;
+            spBE = -2;
+            spB2 = 0xD;
+            spB0 = 0xE;
+            spAE = 0xC;
+            spAC = 0xE;
+            var_a2 = 0xFF;
+            var_a1 = 0xFF;
+            var_a3 = 0xFF;
+            var_s1 = 0x40;
+            var_t1 = 6;
+            var_t2 = 6;
+            break;
+
+        case 7:
+            spC4 = 1;
+            spC2 = 1;
+            spC0 = -1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0xF;
+            spAE = 0xF;
+            spAC = 0xE;
+            var_a2 = 0xFF;
+            var_a3 = 0x80;
+            break;
+
+        case 8:
+            spC4 = 1;
+            spC2 = 1;
+            spC0 = -1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0xF;
+            spAE = 0xF;
+            spAC = 0xE;
+            var_a1 = 0xFF;
+            var_a3 = 0xFF;
+            break;
+
+        case 9:
+            spC4 = 1;
+            spC2 = 1;
+            spC0 = -1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0xF;
+            spAE = 0xF;
+            spAC = 0xE;
+            var_a2 = 0x64;
+            var_a1 = 0xFF;
+            break;
+
+        case 10:
+            spC4 = -1;
+            spC2 = -1;
+            spC0 = 1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0;
+            spAE = 0xC;
+            spAC = 0xF;
+            var_a2 = 0xC8;
+            var_a1 = 0x64;
+            break;
+
+        case 11:
+            spC4 = -1;
+            spC2 = -1;
+            spC0 = 1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0;
+            spAE = 0xC;
+            spAC = 0xF;
+            var_a1 = 0xFF;
+            var_a3 = 0xFF;
+            break;
+
+        case 12:
+            spC4 = -1;
+            spC2 = -1;
+            spC0 = 1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0;
+            spAE = 0xC;
+            spAC = 0xF;
+            var_a2 = 0xC8;
+            var_a1 = 0xFF;
+            break;
+
+        case 13:
+            spC4 = -1;
+            spC2 = -1;
+            spC0 = 1;
+            spBE = -1;
+            spB2 = 0xD;
+            spB0 = 0;
+            spAE = 0xC;
+            spAC = 0xF;
+            var_a2 = 0xFF;
+            break;
+    }
+
+    a1 = arg1;
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, 0x80, var_a2, var_a1, var_a3, var_t0);
+
+    gDPLoadTextureTile_4b(arg0++, arg1, G_IM_FMT_I, var_s1, var_s1, 0, 0, var_s1 - 1, var_s1 - 1, 0,
+                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, var_t2, var_t1, spB2, spB0);
+
+    ParticleGfx_SetAnimatedTileSizeOnList(arg0++, spC4, spC2, var_s1, var_s1);
+
+    gDPLoadMultiTile_4b(arg0++, a1, 0x0100, 1, G_IM_FMT_I, var_s1, var_s1, 0, 0, var_s1 - 1, var_s1 - 1, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, var_t2, var_t1, spAE, spAC);
+
+    ParticleGfx_SetAnimatedAuxTileSizeOnList(arg0++, spC0, spBE, var_s1, var_s1);
+
+    gSPEndDisplayList(arg0++);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215B9A0.s")
 #endif
@@ -2749,11 +3433,27 @@ void func_8215CA9C(s8 *arg0) {
     func_8213EAD4(arg0, (s16) (func_821385C0() + 0x8000));
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215CAF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215CAF0.s")
-#endif
+void Gfx_WaterAnimPrimEnvDL(Gfx* arg0, u8 arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    switch (arg1) {
+        case 0:
+            gDPPipeSync(arg0++);
+            gDPSetPrimColor(arg0++, 0, 0, temp_v0->prim_r, temp_v0->prim_g, temp_v0->prim_b, temp_v0->prim_a);
+            break;
+
+        case 1:
+            gDPPipeSync(arg0++);
+            gDPSetPrimColor(arg0++, 0, 0, temp_v0->prim_r, temp_v0->prim_g, temp_v0->prim_b, temp_v0->unk_AE);
+            break;
+    }
+
+    gDPSetEnvColor(arg0++, temp_v0->env_r, temp_v0->env_g, temp_v0->env_b, 0);
+    gDPSetCombineLERP(arg0++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED,
+                      0, 0, 0, COMBINED);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Gfx_WaterAnimPrimEnvDLCallback(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -2984,17 +3684,43 @@ void BattleAnim_CallbackStartEffect49EndEffect66ModelFadeIn_InitParticle(Particl
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215DCE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215DCE8.s")
-#endif
+void BattleAnim_CallbackStartEffect49EndEffect66ModelFadeIn(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffect49EndEffect66ModelFadeIn_InitParticle(arg0);
+            break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215DD38; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215DD38.s")
-#endif
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0x80, 8);
+            break;
+    }
+}
+
+void Gfx_SimpleNodeDL(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
+    UNUSED s32 pad;
+    Particle* sp48 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+    UNUSED s16 pad2;
+    s16 sp44;
+    s16 sp42;
+
+    switch (Particle_FieldCF_GetS16_0C058(sp48)) {
+        case 0:
+            sp44 = -5;
+            sp42 = 3;
+            break;
+
+        case 1:
+            sp44 = 5;
+            sp42 = -3;
+            break;
+    }
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, 0x80, 55, 255, 255, sp48->prim_a);
+
+    arg0 = BattleAnim_BuildAnimatedTileDisplayListFromStruct(arg0++, arg1, 0x20, 5, 1, sp44, 0xD, 0xC, -1, sp42, 0xB, 0xD);
+    gSPEndDisplayList(arg0++);
+}
 
 void Gfx_SimpleNodeDLCallback(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -3023,7 +3749,30 @@ void func_8215DEF4(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8215DFB4; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_CallbackEndEffects73And74DefaultDescriptorFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 2);
+            break;
+
+        case 2:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, arg0->unk_A6, Particle_FieldCE_GetS32_0C040(arg0));
+            break;
+
+        case 3:
+            Particle_TickDelayAndAdvanceLifecycle(arg0, 0x20);
+            break;
+
+        case 4:
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0xA);
+            break;
+
+        case 5:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215DFB4.s")
 #endif
@@ -3153,7 +3902,123 @@ void ParticleEffect_PlaySoundAndReset(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8215E76C; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void ParticleEffect_DrawQuad(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0;
+    UNUSED s32 pad;
+    s16 var_t2;
+    s16 tmp;
+    s16 sp82;
+    s16 sp80;
+    s16 sp7E;
+    s16 sp7C;
+    s16 sp7A;
+    s16 sp78;
+    s16 sp76;
+    s16 sp74;
+    s16 var_s1;
+    s16 var_t1;
+    UNUSED s16 pad2;
+    s16 var_t5;
+
+    temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+    var_t1 = 0x96;
+    var_t2 = 0xFF;
+    var_s1 = 0x20;
+    var_t5 = 5;
+    tmp = arg1->unk_0A;
+
+    switch (tmp) {
+        case 1:
+            sp82 = -5;
+            sp80 = -0xF;
+            sp7E = -0xA;
+            sp7C = -0xA;
+            sp7A = 0;
+            sp78 = 1;
+            sp76 = 0;
+            sp74 = 1;
+            break;
+
+        case 2:
+            sp82 = 5;
+            sp80 = -0xF;
+            sp7E = 0;
+            sp7C = -0xA;
+            sp7A = 0;
+            sp78 = 0xF;
+            sp76 = 0;
+            sp74 = 0xF;
+            break;
+
+        case 3:
+            sp82 = 5;
+            sp80 = -0xF;
+            sp7C = -0xA;
+            sp7E = 0;
+            sp7A = 1;
+            sp78 = 1;
+            sp76 = 1;
+            sp74 = 1;
+            break;
+
+        case 4:
+            sp82 = 5;
+            sp80 = -0xF;
+            sp7E = 0;
+            sp7C = -0xA;
+            sp7A = 0;
+            sp78 = 0;
+            sp76 = 0;
+            sp74 = 0;
+            break;
+
+        case 5:
+            sp82 = -5;
+            sp80 = -0xA;
+            sp7E = 0;
+            sp7C = 0;
+            sp7A = 1;
+            sp78 = 0;
+            sp76 = 0;
+            sp74 = 0;
+            var_t1 = 0x78;
+            var_t2 = 0xC8;
+            var_s1 = 0x40;
+            var_t5 = 6;
+            break;
+
+        case 6:
+            sp82 = 0;
+            sp80 = -0xA;
+            sp7E = 0;
+            sp7C = 0;
+            sp7A = 1;
+            sp78 = 1;
+            sp76 = 0;
+            sp74 = 0;
+            var_t1 = 0x78;
+            var_t2 = 0xC8;
+            var_s1 = 0x40;
+            var_t5 = 6;
+            break;
+    }
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, var_t1, 255, var_t2, 0, temp_v0->prim_a);
+
+    gDPLoadTextureTile_4b(arg0++, arg1->unk_00, G_IM_FMT_I, 32, 32, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                          G_TX_NOMIRROR | G_TX_WRAP, 5, 5, sp7A, sp78);
+
+    ParticleGfx_SetAnimatedTileSizeOnList(arg0++, sp82, sp80, 0x20, 0x20);
+
+    gDPLoadMultiTile_4b(arg0++, arg1->unk_04, 0x0100, 1, G_IM_FMT_I, var_s1, 0, 0, 0, var_s1 - 1, var_s1 - 1, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, var_t5, var_t5, sp76, sp74);
+
+    ParticleGfx_SetAnimatedAuxTileSizeOnList(arg0++, sp7E, sp7C, var_s1, var_s1);
+
+    gSPEndDisplayList(arg0++);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215E76C.s")
 #endif
@@ -3181,11 +4046,26 @@ void func_8215EC9C(void) {
     func_82168A50();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215ED1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215ED1C.s")
-#endif
+void BattleAnim_CallbackEndEffect76DefaultDescriptorModelFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 0);
+            Particle_FieldA6_SetS16_0BCA8(arg0, 2);
+            break;
+
+        case 2:
+            Particle_PrimG_Approach_0BB14(arg0, 0, 0x20);
+
+            if (Particle_FieldA6_DecrementToZeroStep1_0BDAC != NULL) {
+                Particle_PrimAlpha_Approach_0BC2C(arg0, 0, 0x20);
+            }
+
+            if (ModelAnim_IsFinished(arg0->unk_14) != 0) {
+                Particle_MarkInactive(arg0);
+            }
+            break;
+    }
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
@@ -3222,11 +4102,33 @@ void func_8215EF60(void) {
     func_8213BC00(0x30, 0xA, 0xFF, 0, 2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215EFF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215EFF8.s")
-#endif
+void BattleAnim_CallbackStartEffects118And119ModelPalettePulse(Particle* arg0) {
+    s16 sp26 = Particle_FieldCE_GetS32_0C040(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SelectParticleModelFrames(arg0, 0);
+            if (sp26 == 1) {
+                Particle_Field1C_SetScaled_0B938(arg0, 1.5f);
+                Particle_Field38_AddXZFromField94YOffset180_08F38(arg0, 40.0f);
+            }
+            break;
+
+        case 2:
+            ParticleGfx_ApproachPrimEnvPalettePair(arg0, 0x33, 0x40);
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0xFF, 0x40);
+            break;
+
+        case 3:
+            ParticleGfx_ApproachPrimEnvPalettePair(arg0, 0, 0x40);
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x40);
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
 extern M2C_UNK D_8218E580;

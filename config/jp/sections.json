@@ -49,8 +49,8 @@
   },
   "src/fragments/fragment012_17ED00/battle_engine_317E70_2.c": {
     ".rodata": {
-      "address": "0x8219694C",
-      "size": "0x24"
+      "address": "0x821968DC",
+      "size": "0x94"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c": {
@@ -59,16 +59,34 @@
       "size": "0x14"
     }
   },
-  "src/fragments/fragment012_17ED00/battle_engine_32A640.c": {
+  "src/fragments/fragment012_17ED00/battle_engine_3223B0.c": {
     ".rodata": {
-      "address": "0x82196BC8",
-      "size": "0x4"
+      "address": "0x82196A90",
+      "size": "0x44"
     }
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_3274D0.c": {
+    ".rodata": "0x82196AF0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_328F10.c": {
+    ".rodata": {
+      "address": "0x82196B20",
+      "size": "0x3C"
+    }
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_32A640.c": {
+    ".rodata": "0x82196BA0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_32B680_3.c": {
     ".rodata": {
       "address": "0x821973D8",
       "size": "0xA8"
+    }
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_339CA0.c": {
+    ".rodata": {
+      "address": "0x82197520",
+      "size": "0x2C"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_34A420.c": {
@@ -118,9 +136,12 @@
     ".rodata": "0x821948DC"
   },
   "src/fragments/fragment012_17ED00/particle_math_269820_2.c": {
+    ".rodata": "0x82196970"
+  },
+  "src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c": {
     ".rodata": {
-      "address": "0x82196970",
-      "size": "0x4"
+      "address": "0x82196990",
+      "size": "0x14"
     }
   },
   "src/fragments/fragment016_252E10/lab_pc_list_1E46B0_2.c": {

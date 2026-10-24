@@ -225,11 +225,11 @@ void func_82143934(s8 *arg0) {
     func_82140410(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821439D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821439D0.s")
-#endif
+void BattleAnim_SetupOwnerModelTintRampDetach(Particle* arg0) {
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_FieldAE_SetS16_0BF4C(arg0, arg0->unk_A6);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_80019B28(s32, u8, u8, u8, s32);        /* extern */
 M2C_UNK func_8213C938(s8 *);                      /* extern */
@@ -260,17 +260,43 @@ void func_82143A18(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143AD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143AD0.s")
-#endif
+void BattleAnim_SetupOwnerModelTintPulseDetach(Particle* arg0) {
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_FieldAE_SetS16_0BF4C(arg0, arg0->unk_CE);
+    Particle_AdvanceLifecycle(arg0);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143B18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143B18.s")
-#endif
+void BattleAnim_CallbackOwnerModelTintPulseDetach(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupOwnerModelTintPulseDetach(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldAE_Approach_0BF60(arg0, arg0->unk_CD, arg0->unk_AA) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 4:
+            if (Particle_FieldAE_Approach_0BF60(arg0, 0, arg0->unk_AA) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 5:
+            Particle_DisableAndDetach(arg0);
+            break;
+    }
+
+    if (Particle_IsRunning(arg0) != 0) {
+        Model_SetMaterialColor(&arg0->unk_10->displayObject, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->unk_AE);
+    }
+}
 
 void func_82143C08(void) {
 }
