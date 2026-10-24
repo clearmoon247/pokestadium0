@@ -2,9 +2,9 @@
 
 # pokestadium0 decompilation coverage
 
-- C owners passing the full-ROM gate: **448/5,444 (8.2%)**
-- Remaining assembly owners: **4,996**
-- C owner bytes: **8,444/1,303,636 (0.65%)**
+- C owners passing the full-ROM gate: **551/5,444 (10.1%)**
+- Remaining assembly owners: **4,893**
+- C owner bytes: **12,720/1,303,636 (0.98%)**
 - Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
 
 Counts use the conservative first-pass assembly-owner inventory, not confirmed
