@@ -334,11 +334,16 @@ u8* Audio_SetVoiceVolumeScale(channel_t* cp, u8* ptr) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800371A4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800374E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800374E0.s")
-#endif
+extern s16 D_800B3654;
+extern s16 D_800B3656;
+void func_800374E0(s32 arg0, s32 arg1) {
+    if (arg0 & 1) {
+        D_800B3654 = arg1;
+    }
+    if (arg0 & 2) {
+        D_800B3656 = arg1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80037508; signature not recovered. */

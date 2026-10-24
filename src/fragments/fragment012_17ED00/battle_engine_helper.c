@@ -336,21 +336,17 @@ void func_82108DC8(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x860) = (s32) M2C_FIELD((M2C_FIELD(arg0, s32 *, 0x85C) + (arg1 * 4)), s32 *, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108DE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DE0.s")
-#endif
+void func_82108DE0(void *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s8 *, 0x7B7) = arg1;
+}
 
 void func_82108DE8(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x858) = arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108DF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DF0.s")
-#endif
+void func_82108DF0(void *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s8 *, 0x7B9) = arg1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82108DF8; signature not recovered. */

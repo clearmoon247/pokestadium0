@@ -2,8 +2,6 @@
 
 #include "global.h"
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8005BD60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8005BD60.s")
-#endif
+void func_8005BD60(s32 arg0) {
+    (*(volatile s32 *)0xA4040010) = arg0;
+}

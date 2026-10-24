@@ -3,11 +3,17 @@
 #include "global.h"
 #include "m2c_macros.h"
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F400020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment038_38A540/func_8F400020.s")
-#endif
+s32 func_8004D300(s32);                             /* extern */
+s32 func_8F400020(s32 arg0) {
+    s32 temp_a0;
+
+    temp_a0 = func_8004D300(1);
+    if (!((*(volatile s32 *)0xA4600010) & 3) && (((*(volatile s32 *)0xB0000504) & 0xFFFF) != 0xA460)) {
+        arg0 = -1;
+    }
+    func_8004D300(temp_a0);
+    return arg0;
+}
 
 s32 func_8F400020(s32);                             /* extern */
 extern s8 *D_8006049C;

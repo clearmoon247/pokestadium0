@@ -2941,11 +2941,23 @@ void func_82167E28(void) {
     func_8213BC00(0, 8, 0xFF, 0, 0x10);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82167EB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82167EB4.s")
-#endif
+M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213BC7C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8215E510();                            /* extern */
+extern M2C_UNK D_8218E770;
+extern M2C_UNK D_8218E7F8;
+extern M2C_UNK func_82145CC4;
+void func_82167EB4(void) {
+    M2C_UNK *sp38;
+
+    func_8213BC7C(0, 1, 0xA, 0, 0xC8, 0x10);
+    sp38 = &func_82164AD0;
+    func_8213B5D8(6, 4, 0xE, &func_82164AD0, &D_8218E770, 0, 1, 0x11, 7, 0x1A, 0);
+    func_8213B5D8(7, 8, 7, &func_82164AD0, &D_8218E770, 0, 1, 0x11, 7, 0x1A, 0);
+    func_8213B560(0, &func_82145CC4, &D_8218E7F8, 0, 0x20, 7, 0, 0, 0);
+    func_8215E510();
+}
 
 void ParticleEffect_FinalSetupRiseAndVerticalFade(void) {
     BattleAnim_SpawnOwnerModelTintPulseDetach(0, 1, 0xA, 0, 0xC8, 4);

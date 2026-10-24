@@ -70,11 +70,23 @@ void BgStage_DrawFrame(void);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80005980.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80005B98; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80005B98.s")
-#endif
+extern s8 *D_800AA184;
+s32 func_80005B98(s32 arg0) {
+    s32 var_v1;
+
+    var_v1 = 0;
+    if (((D_800AA184 != NULL) && (M2C_FIELD(D_800AA184, u8 *, 0x11) == 1)) || (M2C_FIELD(D_800AA184, u8 *, 0x11) == 0)) {
+        if (M2C_FIELD(D_800AA184, u8 *, 0x11) == 1) {
+            M2C_FIELD(D_800AA184, u8 *, 0x11) = 2U;
+        } else {
+            M2C_FIELD(D_800AA184, u8 *, 0x11) = 3U;
+        }
+        var_v1 = 1;
+        M2C_FIELD(D_800AA184, s8 *, 0x13) = 0;
+        M2C_FIELD(D_800AA184, s8 *, 0x12) = arg0;
+    }
+    return var_v1;
+}
 
 s32 StageFade_StartFromOpaque(s32 arg0) {
     s32 ret = 0;

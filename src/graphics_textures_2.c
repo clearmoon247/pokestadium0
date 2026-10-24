@@ -86,11 +86,10 @@ char* String_CopyBytesAndAdvance(char* buffer, const char* data, u32 size) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001A944.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001AA60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001AA60.s")
-#endif
+M2C_UNK func_8001A3E4(s16, s16, s16);               /* extern */
+void func_8001AA60(s32 arg0, s32 arg1, s32 arg2) {
+    func_8001A3E4(arg0, arg1, (s16) (arg2 & 0x7F7F));
+}
 
 void Gfx_SetEnvColor(s32 r, s32 g, s32 b, s32 a) {
     gDPSetEnvColor(gDisplayListHead++, r, g, b, a);
@@ -100,11 +99,10 @@ void Gfx_SetPrimColor(s32 r, s32 g, s32 b, s32 a) {
     gDPSetPrimColor(gDisplayListHead++, 0, 0, r, g, b, a);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001AB2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001AB2C.s")
-#endif
+extern s8 *D_800AD200;
+void func_8001AB2C(s32 arg0) {
+    M2C_FIELD(D_800AD200, s8 *, 0x3A) = arg0;
+}
 
 extern s8 *D_800AD200;
 

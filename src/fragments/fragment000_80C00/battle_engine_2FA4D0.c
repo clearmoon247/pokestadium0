@@ -112,11 +112,10 @@ void func_8110FC48(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FDF0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FE74; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FE74.s")
-#endif
+void func_8110FE74(void) {
+    (*(u8 *)&D_811861DB) = (*(u8 *)&D_811861DA);
+    (*(s8 *)&D_811861DC) = 0;
+}
 
 void func_8110FE90(void) {
 }
@@ -169,11 +168,10 @@ s32 Audio_CountCategorySounds(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8111009C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811100F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811100F8.s")
-#endif
+extern s8 D_811847BC;
+s8 func_811100F8(s32 arg0, s32 arg1) {
+    return *(&D_811847BC + ((arg0 * 0x15C) + arg1));
+}
 
 M2C_UNK func_811098C0(M2C_UNK *, s32, M2C_UNK);     /* extern */
 extern M2C_UNK D_811842A0;
