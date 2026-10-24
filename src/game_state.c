@@ -1,0 +1,362 @@
+/* Stadium Zero resident code. */
+/* C ported from the Stadium 1 decomp: src/dp_intro.c, src/game_state.c. */
+
+#include "game_state.h"
+#include "functions.h"
+#include "input.h"
+#include "save_data.h"
+#include "audio_commands.h"
+#include "gallery.h"
+#include "gb_data.h"
+#include "jpeg_stream.h"
+#include "gfx_buffer.h"
+#include "DDC0.h"
+#include "session.h"
+#include "save_data.h"
+#include "minigame_dispatch.h"
+#include "gb_save.h"
+#include "gb_tower_audio.h"
+#include "leo.h"
+#include "display_object_textures.h"
+#include "pokemon_stats.h"
+#include "controller.h"
+#include "dp_intro.h"
+#include "gb_tower.h"
+#include "memory.h"
+#include "rsp.h"
+#include "stage_loader.h"
+#include "lib/ultralib/include/PR/os_internal_reg.h"
+extern u16 D_8006BBB0[16][256];
+extern s32 pad_D_80075660;
+extern s32 pad_D_80075664;
+extern s32 gCurrentGameState;
+extern s32 gLastGameState;
+extern s32 pad_D_80075670;
+extern s16 D_800733D4;
+extern s16 D_800733D8;
+extern unk_D_800AE520 D_800AF990;
+extern s32 pad_D_800AE534[2];
+extern SessionContext gSessionContext;
+
+#include "global.h"
+#include <PR/os_internal_reg.h>
+#include "dp_intro.h"
+#include "scheduler.h"
+#include "gfx_rect.h"
+#include "crash_screen.h"
+#include "profiler.h"
+#include "memory.h"
+extern u64 F3DEX2_data_bin[];
+extern s32 D_800733F0;
+extern UnkStruct80083CA0_2 D_800870A0;
+u64 D_80087B88[0x100 / sizeof(u64)];
+u64 D_80087C88[0x408 / sizeof(u64)];
+u64 D_80088090[0xC08 / sizeof(u64)];
+u64 D_80088C98[0x20000 / sizeof(u64)];
+void Display_ClearFramebufferLine(u16 color);
+void Display_SetBufferConfig(struct UnkArray4* arg0, u8 arg1, u8 arg2, u8 arg3, u8 arg4, s32 arg5, s32 arg6, s32 arg7);
+
+#include "m2c_macros.h"
+
+s32 Fragment_LoadAndCall(s32 arg0, u8* romStart, u8* romEnd, u32 arg3, u32 arg4);
+void Fragment_QueueCall(s32 arg0, u8* arg1, u8* arg2, s32 arg3, s32 arg4);
+TeamRoster* Trainer_GetSlots(void);
+s32 GbSave_GetActivePort(void);
+void GbSave_SetActivePort(s32 arg0);
+void State_N64ddBootUnused(void);
+void func_800268DC(void);
+void Game_ShutdownAndLoadFragment(s32 arg0, s32 arg1);
+void Game_ResetStorageDevice(void);
+void Display_DisableBlackout(void);
+
+void Display_ClearFramebufferLine(u16 color);
+void Display_WaitForFrames(s32 arg0);
+void Display_ApplyPendingVideoMode(void);
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025540; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025540.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025640; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025640.s")
+#endif
+
+void func_8002572C(s8 *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s8 *, 0) = 0;
+    M2C_FIELD(arg0, s8 *, 1) = 1;
+    M2C_FIELD(arg0, s16 *, 2) = 0;
+    M2C_FIELD(arg0, s32 *, 4) = 0;
+    M2C_FIELD(arg0, s32 *, 0x14) = 0;
+    M2C_FIELD(arg0, s32 *, 8) = arg1;
+    M2C_FIELD(arg0, s32 *, 0xC) = 0;
+    M2C_FIELD(arg0, s8 *, 0x1D) = 0;
+    M2C_FIELD(arg0, s32 *, 0x20) = 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025758; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025758.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800257F0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800257F0.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025830; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025830.s")
+#endif
+
+M2C_UNK func_80058410(M2C_UNK *, M2C_UNK *, M2C_UNK, M2C_UNK *); /* extern */
+extern M2C_UNK D_800AE8F0;
+extern M2C_UNK D_800AF974;
+extern M2C_UNK D_800AFB10;
+extern M2C_UNK D_800AFB14;
+
+void func_800258B4(void) {
+    M2C_FIELD(&D_800AE8F0, u8 *, 0) = (u8) M2C_FIELD(&D_800AFB10, u8 *, 0);
+    M2C_FIELD(&D_800AE8F0, u8 *, 1) = (u8) M2C_FIELD(&D_800AFB10, u8 *, 0);
+    M2C_FIELD(&D_800AE8F0, u8 *, 2) = (u8) M2C_FIELD(&D_800AFB10, u8 *, 1);
+    M2C_FIELD(&D_800AE8F0, u8 *, 3) = (u8) M2C_FIELD(&D_800AFB10, u8 *, 2);
+    func_80058410(&D_800AFB14, &D_800AF974, 8, &D_800AFB10);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025910; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025910.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025A64; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025A64.s")
+#endif
+
+s32 Fragment_LoadAndCall(s32 arg0, u8* romStart, u8* romEnd, u32 arg3, u32 arg4) {
+    s32 result;
+    FragmentEntry func;
+
+    func = Fragment_Load(arg0, romStart, romEnd);
+
+    result = func(arg3, arg4);
+
+    main_pool_try_free(func);
+
+    return result;
+}
+
+void Fragment_QueueCall(s32 arg0, u8* arg1, u8* arg2, s32 arg3, s32 arg4) {
+    D_800AF990.unk_00 = 1;
+    D_800AF990.fragment_id = arg0;
+    D_800AF990.rom_start = arg1;
+    D_800AF990.rom_end = arg2;
+    D_800AF990.arg0 = arg3;
+    D_800AF990.arg1 = arg4;
+}
+
+TeamRoster* Trainer_GetSlots(void) {
+    return gSessionContext.trainerSlots;
+}
+
+s32 GbSave_GetActivePort(void) {
+    return D_800733D4;
+}
+
+void GbSave_SetActivePort(s32 arg0) {
+    if ((arg0 >= 0) && (arg0 < 4)) {
+        D_800733D4 = arg0;
+        D_800733D8 = 1;
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025C0C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025C0C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025D8C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025D8C.s")
+#endif
+
+M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
+M2C_UNK func_80002620(M2C_UNK);                     /* extern */
+M2C_UNK func_80003EB8(u32, M2C_UNK *, M2C_UNK *, M2C_UNK); /* extern */
+M2C_UNK func_80006724();                            /* extern */
+M2C_UNK func_8000675C();                            /* extern */
+M2C_UNK func_8001A194(M2C_UNK, M2C_UNK);            /* extern */
+M2C_UNK func_8001A360();                            /* extern */
+s32 func_80021B30(s32);                             /* extern */
+M2C_UNK func_80025C0C(M2C_UNK);                     /* extern */
+M2C_UNK func_80025D8C();                            /* extern */
+extern M2C_UNK D_002E0BE0;
+extern M2C_UNK D_002E2B90;
+extern M2C_UNK D_01000000;
+
+void func_80025E3C(s32 arg0) {
+    M2C_UNK var_s0;
+    s32 temp_v0;
+
+    var_s0 = 2;
+    func_8000256C(0x47424552);
+    func_8001A194(0x18, 0);
+    func_80003EB8((u32) ((s32) &D_01000000 & 0x0F000000) >> 0x18, &D_002E0BE0, &D_002E2B90, 0);
+    func_8000675C();
+    do {
+        temp_v0 = func_80021B30(arg0);
+        if (temp_v0 == 1) {
+            var_s0 = 1;
+        }
+        if (temp_v0 == 3) {
+            var_s0 = 3;
+        }
+        func_80025C0C(var_s0);
+    } while (temp_v0 != 2);
+    func_80025D8C();
+    func_80025D8C();
+    func_80006724();
+    func_8001A360();
+    func_80002620(0x47424552);
+}
+
+M2C_UNK func_80025758(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+M2C_UNK func_80025B60(s32, M2C_UNK *, M2C_UNK *, M2C_UNK, M2C_UNK *); /* extern */
+extern M2C_UNK D_0015F390;
+extern M2C_UNK D_0015F8F0;
+extern M2C_UNK D_0017ED00;
+extern M2C_UNK D_00232510;
+extern s32 D_800733C8;
+extern M2C_UNK D_800AE8F0;
+extern M2C_UNK D_81500000;
+extern M2C_UNK D_82100000;
+
+void func_80025F3C(void) {
+    func_80025B60(((u32) ((s32) &D_81500000 & 0x0FF00000) >> 0x14) - 0x10, &D_0015F390, &D_0015F8F0, 0, NULL);
+    func_80025758(5, 3, 3);
+    func_80025B60(((u32) ((s32) &D_82100000 & 0x0FF00000) >> 0x14) - 0x10, &D_0017ED00, &D_00232510, 0, &D_800AE8F0);
+    D_800733C8 = 0x8010;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80025FDC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025FDC.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800260C4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800260C4.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80026368; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80026368.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8002677C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002677C.s")
+#endif
+
+extern s32 D_800733C8;
+
+void func_80026898(void) {
+    D_800733C8 = 0x8010;
+}
+
+void State_N64ddBootUnused(void) {
+    Audio_WaitForIdle(1);
+    Display_WaitForFrames(2);
+    LeoBootGame(D_800AB200.unk_08);
+}
+
+void func_800268DC(void) {
+}
+
+void Game_ShutdownAndLoadFragment(s32 arg0, s32 arg1) {
+    osViBlack(1);
+    GbTower_PowerOffAllPaks();
+    Audio_FadeOutForShutdown();
+    Game_ResetStorageDevice();
+    Display_ClearFramebufferLine(1);
+    Display_ApplyPendingVideoMode();
+    Display_WaitForFrames(0xA);
+
+    main_pool_pop_state('GAME');
+
+    FRAGMENT_LOAD_AND_CALL(FRAGMENT_FATAL_ERROR_SCREEN, arg0, arg1);
+}
+
+void Game_ResetStorageDevice(void) {
+    Storage_ResetDisk();
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800269A0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800269A0.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80026B50; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80026B50.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800270B4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800270B4.s")
+#endif
+
+void Display_DisableBlackout(void) {
+    D_800733F0 = 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80027140; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027140.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80027168; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027168.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80027214; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027214.s")
+#endif
+
+M2C_UNK func_80027168();                            /* extern */
+
+void func_800273C4(s8 *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s32 *, 4) = arg1;
+    M2C_FIELD(arg0, s32 *, 0) = 0;
+    func_80027168();
+}
+
+M2C_UNK func_80027168();                            /* extern */
+
+void func_800273E8(s8 *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s32 *, 4) = arg1;
+    M2C_FIELD(arg0, s32 *, 0) = 1;
+    func_80027168();
+}

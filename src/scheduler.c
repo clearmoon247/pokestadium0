@@ -1,0 +1,346 @@
+/* Stadium Zero resident code. */
+/* C ported from the Stadium 1 decomp: src/scheduler.c. */
+
+#include "scheduler.h"
+#include "game_state.h"
+#include "DDC0.h"
+#include "profiler.h"
+extern unk_D_800A62E0 D_800A9710;
+
+#include "m2c_macros.h"
+
+void Sched_ResetTaskState(UnkStruct80001380* arg0);
+void Sched_WaitForTaskMessage(UnkStruct80001380* arg0);
+s32 Sched_StartTask(UnkStruct80001380* arg0);
+s32 Sched_RequestTaskYield(UnkStruct80001380* arg0);
+s32 Sched_HandleRspCompletion(UnkStruct80001380* arg0);
+void Sched_HandleRdpCompletion(UnkStruct80001380* arg0);
+void Sched_PromotePendingTasks(void);
+void func_800049E0(void);
+UnkStruct80001380* Sched_TryStartTask(UnkStruct80001380* arg0);
+void Sched_StartPendingTask(void);
+s32 Sched_TryYieldActiveTask(void);
+void Sched_HandleRspEvent(void);
+void Sched_HandleRdpEvent(void);
+void Sched_Init(void);
+void Sched_SubmitTask(UnkStruct80001380* arg0, s32 arg1);
+
+void Sched_ThreadEntry(void* arg0);
+
+void Sched_ResetTaskState(UnkStruct80001380* arg0) {
+    osWritebackDCacheAll();
+    arg0->unk_1C = 0;
+    arg0->unk_1E = 0;
+}
+
+void Sched_WaitForTaskMessage(UnkStruct80001380* arg0) {
+    void* sp1C;
+
+    osRecvMesg(&arg0->queue, &sp1C, 1);
+}
+
+s32 Sched_StartTask(UnkStruct80001380* arg0) {
+    s32 var_v1 = 0;
+
+    if (arg0->unk_1C == 2) {
+        osSpTaskLoad(&arg0->task);
+        osSpTaskStartGo(&arg0->task);
+        arg0->unk_1C = 1;
+        var_v1 = 1;
+    } else if (arg0->unk_1C == 0) {
+        switch (arg0->task.t.type) {
+            case M_AUDTASK:
+                profiler_log_vblank_time();
+                break;
+
+            case M_GFXTASK:
+                profiler_log_gfx_time(TASKS_QUEUED);
+                arg0->unk_1E = 1;
+                osDpSetStatus(0x3C0);
+                break;
+
+            case 4:
+                arg0->unk_1E = 2;
+                break;
+        }
+
+        osSpTaskLoad(&arg0->task);
+        osSpTaskStartGo(&arg0->task);
+
+        arg0->unk_1C = 1;
+        var_v1 = 1;
+    }
+    return var_v1;
+}
+
+s32 Sched_RequestTaskYield(UnkStruct80001380* arg0) {
+    s32 var_v1 = 0;
+
+    switch (arg0->task.t.type) {
+        case 1:
+        case 4:
+            if (arg0->unk_1C == 1) {
+                arg0->unk_1C = 2;
+                osSpTaskYield();
+                var_v1 = 1;
+            }
+            break;
+    }
+
+    return var_v1;
+}
+
+s32 Sched_HandleRspCompletion(UnkStruct80001380* arg0) {
+    s32 sp24 = 0;
+
+    if (arg0->unk_1C == 2) {
+        if (osSpTaskYielded(&arg0->task) == 0) {
+            arg0->unk_1C = 3;
+            switch (arg0->task.t.type) {
+                case M_GFXTASK:
+                    profiler_log_gfx_time(RSP_COMPLETE);
+                    if (arg0->unk_1E == 2) {
+                        osSendMesg(&arg0->queue, 'DONE', 0);
+                    }
+                    break;
+
+                case 4:
+                    osSendMesg(&arg0->queue, 'DONE', 0);
+                    break;
+            }
+        }
+        sp24 = 1;
+    } else {
+        switch (arg0->task.t.type) {
+            case M_AUDTASK:
+                if (arg0->unk_1C == 1) {
+                    profiler_log_vblank_time();
+                    osSendMesg(&arg0->queue, 'DONE', 0);
+                }
+                break;
+
+            case M_GFXTASK:
+                profiler_log_gfx_time(RSP_COMPLETE);
+                if (arg0->unk_1E == 2) {
+                    osSendMesg(&arg0->queue, 'DONE', 0);
+                }
+                break;
+
+            case 4:
+                osSendMesg(&arg0->queue, 'DONE', 0);
+                break;
+        }
+        arg0->unk_1C = 3;
+    }
+    return sp24;
+}
+
+void Sched_HandleRdpCompletion(UnkStruct80001380* arg0) {
+    profiler_log_gfx_time(RDP_COMPLETE);
+    if (arg0->unk_1C == 3) {
+        osSendMesg(&arg0->queue, 'DONE', 0);
+    }
+    arg0->unk_1E = 2;
+}
+
+M2C_UNK func_8004D1C0(s32, s32 *, M2C_UNK);         /* extern */
+
+s32 func_80004920(s32 arg0) {
+    s32 sp1C;
+
+    func_8004D1C0(arg0 + 0x10, &sp1C, 1);
+    return sp1C;
+}
+
+s32 func_8000494C(s8 *arg0) {
+    s32 sp1C;
+
+    sp1C = 0x4E554C4C;
+    if (M2C_FIELD(arg0, s32 *, 0x18) != 0) {
+        func_8004D1C0(arg0 + 0x10, &sp1C, 1);
+    }
+    return sp1C;
+}
+
+void Sched_PromotePendingTasks(void) {
+    if ((D_800A9710.unk_A18 == NULL) && (D_800A9710.unk_A20 != NULL)) {
+        D_800A9710.unk_A18 = D_800A9710.unk_A20;
+        D_800A9710.unk_A20 = NULL;
+    }
+
+    if ((D_800A9710.unk_A1C == NULL) && (D_800A9710.unk_A24 != NULL)) {
+        D_800A9710.unk_A1C = D_800A9710.unk_A24;
+        D_800A9710.unk_A24 = NULL;
+    }
+}
+
+void func_800049E0(void) {
+}
+
+M2C_UNK func_8004CFB0(s8 *, s32, M2C_UNK);        /* extern */
+extern s8 *D_800AA120;
+
+void func_800049E8(s32 arg0) {
+    s8 *var_s0;
+
+    var_s0 = D_800AA120;
+    if (var_s0 != NULL) {
+        do {
+            func_8004CFB0(var_s0 + 0x10, arg0, 0);
+            var_s0 = M2C_FIELD(var_s0, s8 **, 0x28);
+        } while (var_s0 != NULL);
+    }
+}
+
+UnkStruct80001380* Sched_TryStartTask(UnkStruct80001380* arg0) {
+    if (arg0 != NULL) {
+        if (Sched_StartTask(arg0) == 0) {
+            arg0 = NULL;
+        }
+    }
+    return arg0;
+}
+
+void Sched_StartPendingTask(void) {
+    if (D_800A9710.unk_A14 == NULL) {
+        D_800A9710.unk_A14 = Sched_TryStartTask(D_800A9710.unk_A1C);
+    }
+}
+
+s32 Sched_TryYieldActiveTask(void) {
+    s32 ret = 0;
+
+    if (D_800A9710.unk_A14 != NULL) {
+        ret = Sched_RequestTaskYield(D_800A9710.unk_A14);
+    }
+
+    return ret;
+}
+
+M2C_UNK func_8000A8BC();                            /* extern */
+M2C_UNK func_80026980();                            /* extern */
+extern s16 D_800AA148;
+
+void func_80004AE0(void) {
+    D_800AA148 = 1;
+    func_8000A8BC();
+    func_80026980();
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80004B10; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004B10.s")
+#endif
+
+void Sched_HandleRspEvent(void) {
+    UnkStruct80001380* sp24 = D_800A9710.unk_A14;
+    s32 tmp = Sched_HandleRspCompletion(D_800A9710.unk_A14);
+
+    D_800A9710.unk_A14 = NULL;
+
+    if (tmp) {
+        D_800A9710.unk_A14 = Sched_TryStartTask(D_800A9710.unk_A18);
+    }
+
+    if (sp24->unk_1C == 3) {
+        switch (sp24->task.t.type) {
+            case M_AUDTASK:
+                D_800A9710.unk_A18 = 0;
+                D_800A9710.unk_A28 = 0;
+                D_800A9710.unk_A14 = Sched_TryStartTask(D_800A9710.unk_A1C);
+                break;
+
+            case M_GFXTASK:
+                if (D_800A9710.unk_A1C->unk_1E == 2) {
+                    D_800A9710.unk_A1C = NULL;
+                    D_800A9710.unk_A2C = 0;
+                }
+                break;
+
+            case 4:
+                D_800A9710.unk_A1C = NULL;
+                D_800A9710.unk_A30 = 0;
+                break;
+        }
+    }
+}
+
+void Sched_HandleRdpEvent(void) {
+    Sched_HandleRdpCompletion(D_800A9710.unk_A1C);
+    if (D_800A9710.unk_A1C->unk_1C == 3) {
+        D_800A9710.unk_A1C = NULL;
+        D_800A9710.unk_A2C = 0;
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80004D14; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004D14.s")
+#endif
+
+void Sched_Init(void) {
+    D_800A9710.unk_A10 = NULL;
+    D_800A9710.unk_A14 = NULL;
+    D_800A9710.unk_A18 = 0;
+    D_800A9710.unk_A1C = NULL;
+    D_800A9710.unk_A20 = NULL;
+    D_800A9710.unk_A24 = NULL;
+    D_800A9710.unk_A28 = 0;
+    D_800A9710.unk_A2C = 0;
+    osCreateThread(&D_800A9710.thread, 3, Sched_ThreadEntry, NULL, D_800A9710.stack, 0x64);
+    osStartThread(&D_800A9710.thread);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80004EA8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004EA8.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80004EF0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004EF0.s")
+#endif
+
+void Sched_SubmitTask(UnkStruct80001380* arg0, s32 arg1) {
+    if (arg0 != NULL) {
+        Sched_ResetTaskState(arg0);
+
+        switch (arg0->task.t.type) {
+            case 2:
+                D_800A9710.unk_A20 = arg0;
+                break;
+
+            case 1:
+                if ((arg1 != 0) && (D_800A9710.unk_A1C == NULL)) {
+                    D_800A9710.unk_A1C = arg0;
+                    D_800A9710.unk_A24 = NULL;
+                    osSendMesg(&D_800A9710.queue, 0x67, 0);
+                } else {
+                    D_800A9710.unk_A24 = arg0;
+                }
+                break;
+
+            case 4:
+                if (D_800A9710.unk_A1C == NULL) {
+                    D_800A9710.unk_A1C = arg0;
+                    D_800A9710.unk_A24 = NULL;
+                    osSendMesg(&D_800A9710.queue, 0x67, 0);
+                }
+                break;
+        }
+    }
+}
+
+s32 func_80005014(void) {
+    s32 var_v1;
+
+    var_v1 = M2C_FIELD(&D_800A9710, s32 *, 0xA1C) != 0;
+    if (var_v1 == 0) {
+        var_v1 = M2C_FIELD(&D_800A9710, s32 *, 0xA24) != 0;
+    }
+    return var_v1;
+}

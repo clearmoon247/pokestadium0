@@ -3,14 +3,17 @@
 # pokestadium0 decompilation coverage
 
 <!-- AUTO_COVERAGE:START -->
-- Function inventory: **not measured** — Stadium Zero split pending
-- Functions with C implementations: **not measured** (split pending)
-- Remaining decompilable `GLOBAL_ASM` owners: **not measured** (split pending)
+- Assembly owners (first-pass function inventory): **5,444** covering **1,303,636** text bytes
+- Functions with matching C: **2,803 / 5,444 (51.5%)**, **422,012** bytes (32.4%)
+  - ported from the Stadium 1 decomp: **2,004**
+  - first-pass m2c output: **799**
+- Identified libultra functions (identical to ultralib 2.0I, kept as `GLOBAL_ASM`): **173**, **34,948** bytes
+- Remaining `GLOBAL_ASM` owners: **2,468** (plus the libultra owners above)
 <!-- AUTO_COVERAGE:END -->
 
-This repository is a bootstrap: the Stadium Zero ROM identity, segment layout, and
-compiler/toolchain confirmation are still pending. Do not transfer verification from
-Stadium 1 or Stadium 2 to Stadium Zero without per-target evidence.
+"Matching C" is a per-function comparison against the retail ROM made by
+`tools/check_functions.py`; the ROM is not rebuilt yet, so file-level data and
+`.rodata` layout are unverified. See [docs/matching.md](docs/matching.md).
 
 Regenerate with:
 `python3 ci/update_coverage.py`

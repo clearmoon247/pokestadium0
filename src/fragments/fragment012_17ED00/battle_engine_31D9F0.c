@@ -1,0 +1,1456 @@
+/* Stadium Zero fragment012_17ED00. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_31D9F0.c, src/fragments/battle_engine/battle_engine_343BA0.c. */
+
+#include "fragments/battle_engine/battle_engine.h"
+#include "model_renderer.h"
+
+#include "fragments/battle_engine/battle_engine.h"
+#include "gallery.h"
+#include "gfx_buffer.h"
+#include "math.h"
+#include "math_util.h"
+extern u8* sBattleAnimAssetPointers[256];
+extern s16 sBattleAnimResourceList[0x10];
+extern arg1_func_80019420* sBattleAnimResourceTablePointers[40];
+extern s16 D_8219CAC0;
+extern s16 D_8219CAC2;
+extern Mtx D_8219CAC8;
+extern s16 D_8219CB08;
+extern s16 D_8219CB0A;
+extern s16 D_8219CB0C;
+extern s16 D_8219CB0E;
+extern s16 D_8219CB10;
+extern s16 D_8219CB12;
+extern s16 D_8219CB14;
+extern s16 D_8219CB16;
+extern s16 D_8219CB18;
+extern s16 D_8219CB1A;
+extern const char D_821978C8[];
+
+#include "m2c_macros.h"
+
+void BattleAnim_CallbackStartEffects23And35And84Descriptor4FColorCycleScaleFade_InitParticle(Particle* arg0, s16 arg1);
+void BattleAnim_SetupUnusedDescriptor4FColorCycleScaleFadeVariant(Particle* arg0);
+void BattleAnim_CallbackStartEffects23And35And84Descriptor3DAlphaScaleFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackStartEffects23And35And84Descriptor4FRotatingFallColorCycle_InitParticle(Particle* arg0, s16 arg1);
+void BattleAnim_CallbackSharedGrowFadeSetup(Particle* arg0);
+void BattleAnim_CallbackStartEffect104DelayedSpiralFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect29Descriptor02RotatingScaleGrow_InitParticle(Particle* arg0);
+void BattleAnim_SetupUnusedVariant2(Particle* arg0);
+void BattleAnim_CallbackStartEffect22Descriptor4ABurstChild_InitParticle(Particle* arg0);
+void BattleAnim_CallbackStartEffect22Descriptor46BurstEmitter_InitParticle(Particle* arg0);
+void BattleAnim_CallbackStartEffect22Descriptor34RotatingPaletteScaleFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackStartEffect22Descriptor3DRotatingAlphaPaletteFade_InitParticle(Particle* arg0);
+void BattleAnim_SetParticleColorFromVariantIndex(Particle* arg0, u8 arg1);
+void func_82146674(void);
+void BattleAnim_ApproachParticleColorFromVariantIndex(Particle* arg0);
+void BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffects81And82Descriptor46AnimatedFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect40Descriptor48SpreadScaleAlphaFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect40Descriptor3DSpreadRisingColorFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect56Descriptor46RisingScaleAlphaFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffects54And56Descriptor3DRisingColorScaleFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffects40And54Descriptor46SpreadScaleFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect54Descriptor46DelayedColorAlphaFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackSharedRotatingColorFadeSetup(Particle* arg0, s16 arg1, s16 arg2);
+void BattleAnim_CallbackEndEffects15And22Descriptor4ERotatingColorFadeVariant0(Particle* arg0);
+void BattleAnim_CallbackEndEffects15And22Descriptor4ERotatingColorFadeVariant1(Particle* arg0);
+void BattleAnim_CallbackEndEffects15And22And59Descriptor3DRotatingAlphaScaleFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade_InitParticle(Particle* arg0);
+void BattleAnim_CallbackEndEffect59Descriptor4FColorScaleFade_InitParticle(Particle* arg0);
+
+void BattleAnim_CallbackSharedRotatingColorFadeMotion(Particle* arg0, s32 arg1);
+
+void BattleAnim_CallbackStartEffects23And35And84Descriptor4FColorCycleScaleFade_InitParticle(Particle* arg0, s16 arg1) {
+    UNUSED s32 pad[3];
+    s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.25f);
+    Particle_Field94_AddX_0A578(arg0, ParticleMath_RandomSignedOffset(0x400, 0xE00));
+    Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSigned(0x400));
+    Particle_Field74_SetScaled_0AD8C(arg0, 2.5f);
+
+    switch (arg1) {
+        case 0:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+            break;
+
+        case 1:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x18);
+            break;
+    }
+
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82144D80; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144D80.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82144E24; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144E24.s")
+#endif
+
+void BattleAnim_SetupUnusedDescriptor4FColorCycleScaleFadeVariant(Particle* arg0) {
+    UNUSED s32 pad[3];
+    s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.25f);
+    Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSigned(0x400));
+    Particle_Field74_SetScaled_0AD8C(arg0, D_8219C590[0]);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821450E0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821450E0.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82145170; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145170.s")
+#endif
+
+void BattleAnim_CallbackStartEffects23And35And84Descriptor3DAlphaScaleFade_InitParticle(Particle* arg0) {
+    UNUSED s32 pad[3];
+    s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+    s16 sp20 = Particle_FieldCF_GetS16_0C058(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.4f);
+    Particle_Field94_AddX_0A578(arg0, ParticleMath_RandomSignedOffset(0x200, 0xE00));
+    Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSigned(0x1800));
+    Particle_Field74_SetScaled_0AD8C(arg0, 2.0f);
+
+    switch (sp20) {
+        case 0:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+            break;
+
+        case 1:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 6);
+            break;
+    }
+
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821453F4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821453F4.s")
+#endif
+
+M2C_UNK func_8213C930(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+s32 func_8213CB7C(s8 *);                          /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213D238(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_821452FC(s8 *);                      /* extern */
+M2C_UNK func_821453F4(s8 *);                      /* extern */
+
+void func_82145498(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_821452FC(arg0);
+        break;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213D238(arg0);
+            func_8213CB3C(arg0);
+        }
+        break;
+    case 3:
+        func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+        func_82140518(arg0, 0x20, 4);
+        func_82140228(arg0, 0x3F400000, 0x3D4CCCCD);
+        break;
+    case 4:
+        func_8213C930(arg0);
+        break;
+    }
+    if (func_8213CB7C(arg0) != 0) {
+        func_821453F4(arg0);
+    }
+}
+
+void BattleAnim_CallbackStartEffects23And35And84Descriptor4FRotatingFallColorCycle_InitParticle(Particle* arg0, s16 arg1) {
+    UNUSED s32 pad[3];
+    s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.2f);
+    Particle_Field94_AddX_0A578(arg0, ParticleMath_RandomSignedOffset(0x200, 0xE00));
+    Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSigned(0x2000));
+    Particle_Field74_SetScaled_0AD8C(arg0, 2.0f);
+
+    switch (arg1) {
+        case 0:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+            break;
+
+        case 1:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x18);
+            break;
+    }
+
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82145674; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145674.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82145718; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145718.s")
+#endif
+
+void BattleAnim_CallbackSharedGrowFadeSetup(Particle* arg0) {
+    Particle_Field38_AddXZFromField94YOffset180_08F38(arg0, 33.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.67f);
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82145998; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145998.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82145A58; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145A58.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82145B2C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145B2C.s")
+#endif
+
+void BattleAnim_CallbackStartEffect104DelayedSpiralFade_InitParticle(Particle* arg0) {
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+    Particle_Field7C_SetYScaled_0AF24(arg0, 2.0f);
+    Particle_Field9A_SetY_0A3D8(arg0, ParticleMath_RandomRange(0x10000));
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 4);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213C9D0(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213E1FC(s8 *, M2C_UNK);             /* extern */
+M2C_UNK func_82140064(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8214047C(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
+M2C_UNK func_82140594(s8 *, M2C_UNK);             /* extern */
+s32 func_82140690(s8 *);                          /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_82145C28(s8 *);                      /* extern */
+
+void func_82145CC4(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82145C28(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213CB3C(arg0);
+            func_82140594(arg0, 0x10);
+            return;
+        }
+        return;
+    case 3:
+        func_8213CCEC(arg0, 0, 7, 1, 2, -1);
+        func_82140228(arg0, 0x3F800000, 0x3DCCCCCD);
+        func_8213E1FC(arg0, 0x40000000);
+        func_82140064(arg0, 0x41200000, 0x800);
+        func_821403B0(arg0, 0, 4);
+        func_8214047C(arg0, 0, 4);
+        if ((func_82140690(arg0) != 0) && (func_82140518(arg0, 0, 0x18) != 0)) {
+            func_8213C9D0(arg0);
+            return;
+        }
+        break;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffect29Descriptor02RotatingScaleGrow_InitParticle(Particle* arg0) {
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+    Particle_Field38_SetYScaled_08CA0(arg0, 10.0f);
+    Particle_Field7C_SetYScaled_0AF24(arg0, 1.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_DisableRendering(arg0);
+    Particle_Field9A_SetY_0A3D8(arg0, (sp26 << 0x10) / 18);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 3);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+s32 func_8213CB7C(s8 *);                          /* extern */
+M2C_UNK func_82140064(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_82145E04(s8 *);                      /* extern */
+
+void func_82145EC0(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82145E04(arg0);
+        break;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213CB3C(arg0);
+        }
+        break;
+    case 3:
+        func_82140228(arg0, 0x3F800000, 0x3DCCCCCD);
+        break;
+    }
+    if (func_8213CB7C(arg0) != 0) {
+        func_82140064(arg0, 0x42480000, 0);
+    }
+}
+
+void BattleAnim_SetupUnusedVariant2(Particle* arg0) {
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+    Particle_Field38_SetYScaled_08CA0(arg0, 10.0f);
+    Particle_Field7C_SetYScaled_0AF24(arg0, 1.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_DisableRendering(arg0);
+    Particle_Field9A_SetY_0A3D8(arg0, (sp26 << 0x10) / 18);
+    Particle_FieldA6_SetS16_0BCA8(arg0, 0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82146010; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82146010.s")
+#endif
+
+void BattleAnim_CallbackStartEffect22Descriptor4ABurstChild_InitParticle(Particle* arg0) {
+    Particle_Field1C_SetScaled_0B938(arg0, 0.4f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+    Particle_SetPrimAlpha(arg0, 0xA0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821460C8(s8 *);                      /* extern */
+
+void func_82146110(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_821460C8(arg0);
+        break;
+    case 2:
+        func_8213CCEC(arg0, 2, 7, 1, 2, 0);
+        func_82140518(arg0, 0x20, 0x18);
+        break;
+    case 3:
+        func_8213C938(arg0);
+        break;
+    }
+    func_82140228(arg0, 0x3F19999A, 0x3D4CCCCD);
+}
+
+void BattleAnim_CallbackStartEffect22Descriptor46BurstEmitter_InitParticle(Particle* arg0) {
+    Particle_Field1C_SetScaled_0B938(arg0, 0.4f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 8.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x29);
+    Particle_SetTextureFrame(arg0, 2);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_82139E5C(s8 *, M2C_UNK *, M2C_UNK *, M2C_UNK); /* extern */
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213CA80(s8 *, M2C_UNK);             /* extern */
+s32 func_8213CB7C(s8 *);                          /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213E528(s8 *);                      /* extern */
+M2C_UNK func_821437E0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821461C4(s8 *);                      /* extern */
+extern M2C_UNK D_8218E7D0;
+
+void func_8214622C(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_821461C4(arg0);
+        break;
+    case 2:
+        func_8213CCEC(arg0, 3, 5, 1, 1, 0);
+        break;
+    case 3:
+        func_8213CA80(arg0, 0xF);
+        break;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+    if (func_8213CB7C(arg0) != 0) {
+        func_821437E0(arg0, 0x2A, 0x1C);
+        func_8213E528(arg0);
+        func_82139E5C(arg0, &func_82146110, &D_8218E7D0, 1);
+    }
+}
+
+void BattleAnim_CallbackStartEffect22Descriptor34RotatingPaletteScaleFade_InitParticle(Particle* arg0) {
+    Particle_FieldAC_GetS16_0C038(arg0);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.2f);
+    Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1D);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C930(s8 *);                      /* extern */
+M2C_UNK func_8213CA80(s8 *, M2C_UNK);             /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213E6BC(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821437E0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82146314(s8 *);                      /* extern */
+
+void func_82146378(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82146314(arg0);
+        return;
+    case 2:
+        func_8213CA80(arg0, 1);
+        return;
+    case 3:
+        func_8213CCEC(arg0, 0, 3, 1, 2, 0);
+        func_8213E6BC(arg0);
+        func_821437E0(arg0, 0, 0x20);
+        func_82140228(arg0, 0x3FC00000, 0x3DCCCCCD);
+        return;
+    case 4:
+        func_8213C930(arg0);
+        return;
+    }
+}
+
+void BattleAnim_CallbackStartEffect22Descriptor3DRotatingAlphaPaletteFade_InitParticle(Particle* arg0) {
+    Vec3s sp28;
+    UNUSED s32 pad[1];
+
+    Particle_FieldCF_GetS16_0C058(arg0);
+    Particle_FieldAC_GetS16_0C038(arg0);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.45f);
+    sp28.x = ParticleMath_RandomSigned(0x2000);
+    sp28.y = ParticleMath_RandomSignedOffset(0x3000, 0);
+    sp28.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp28);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1D);
+    Particle_SetPrimAlpha(arg0, 0x64);
+    Particle_Field74_SetScaled_0AD8C(arg0, 2.5f);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82146504; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82146504.s")
+#endif
+
+void BattleAnim_SetParticleColorFromVariantIndex(Particle* arg0, u8 arg1) {
+    u16 sp1E;
+
+    Particle_FieldCF_SetU8Alt_0BEF8(arg0, arg1);
+
+    switch (arg1) {
+        case 0:
+            sp1E = 0x1A;
+            break;
+
+        case 1:
+            sp1E = 0x2A;
+            break;
+
+        case 2:
+            sp1E = 0x24;
+            break;
+
+        case 3:
+            sp1E = 0x2C;
+            break;
+    }
+
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp1E);
+}
+
+void func_82146674(void) {
+}
+
+void BattleAnim_ApproachParticleColorFromVariantIndex(Particle* arg0) {
+    UNUSED u16 pad;
+    u16 sp1C;
+    u16 sp1A;
+
+    switch (Particle_FieldCF_GetS16_0C058(arg0)) {
+        case 0:
+            sp1C = 0x2E;
+            sp1A = 0x10;
+            break;
+
+        case 1:
+            sp1C = 0x2D;
+            sp1A = 0x10;
+            break;
+
+        case 2:
+            sp1C = 0x2D;
+            sp1A = 0x10;
+            break;
+
+        case 3:
+            sp1C = 0x2B;
+            sp1A = 0x10;
+            break;
+    }
+
+    ParticleGfx_ApproachPrimEnvPalettePair(arg0, sp1C, sp1A);
+}
+
+void BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade_InitParticle(Particle* arg0) {
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+    s16 sp24 = Particle_FieldCF_GetS16_0C058(arg0);
+    s16 sp22 = Particle_FieldCE_GetS32_0C040(arg0);
+
+    switch (sp26) {
+        case 0:
+            Particle_SetPosition(arg0, 0.0f, -5.0f, 0.0f);
+            break;
+
+        case 1:
+            Particle_SetPosition(arg0, 0.0f, 5.0f, 5.0f);
+            break;
+
+        case 2:
+            Particle_SetPosition(arg0, 0.0f, 5.0f, -5.0f);
+            break;
+    }
+
+    switch (sp22) {
+        case 0:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+            Particle_SetScaleSpeed(arg0, 1.0f);
+            Particle_SetScaleTarget(arg0, 0.1f);
+            break;
+
+        case 1:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.75f);
+            Particle_SetScaleSpeed(arg0, 1.5f);
+            Particle_SetScaleTarget(arg0, 0.15f);
+            break;
+
+        case 2:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+            Particle_SetScaleSpeed(arg0, 2.0f);
+            Particle_SetScaleTarget(arg0, 0.2f);
+            break;
+    }
+
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp24);
+    Particle_SetTextureFrame(arg0, 1);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821468EC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821468EC.s")
+#endif
+
+void BattleAnim_CallbackEndEffects81And82Descriptor46AnimatedFade_InitParticle(Particle* arg0) {
+    Vec3f sp2C;
+    s16 sp2A;
+    s16 sp28;
+
+    sp2A = Particle_FieldAC_GetS16_0C038(arg0);
+    sp28 = Particle_FieldCF_GetS16_0C058(arg0);
+    sp2C.x = ParticleMath_RandomSigned(0xA);
+    sp2C.y = ParticleMath_RandomSignedOffset(0xF, 0xA);
+    sp2C.z = ParticleMath_RandomSigned(0xF);
+    Particle_Field38_AddVecScaledFromVec3f_08D78(arg0, sp2C);
+    Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(5) * 0.25f) + 3.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.75f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp28);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp2A * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C464();                            /* extern */
+M2C_UNK func_8213C930(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213E6BC(s8 *);                      /* extern */
+M2C_UNK func_821402B8(s8 *);                      /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_821469BC(s8 *);                      /* extern */
+
+void func_82146AF4(s8 *arg0) {
+    s16 temp_v1;
+
+    func_8213C464();
+    temp_v1 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v1) {                              /* irregular */
+    case 1:
+        func_821469BC(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_8213E6BC(arg0);
+        func_821402B8(arg0);
+        func_8213CCEC(arg0, 1, 7, 1, 1, 0);
+        if (M2C_FIELD(arg0, s8 *, 0xC3) >= 6) {
+            func_82140518(arg0, 0x64, 0x4E);
+        }
+        if (M2C_FIELD(arg0, s8 *, 0xC3) >= 4) {
+            return;
+        }
+        break;
+    case 4:
+        func_8213C930(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffect40Descriptor48SpreadScaleAlphaFade_InitParticle(Particle* arg0) {
+    Vec3s sp30;
+    Vec3f sp24;
+    s16 sp22;
+    s16 sp20;
+
+    sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+    sp20 = Particle_FieldCF_GetS16_0C058(arg0);
+    sp24.x = ParticleMath_RandomSigned(0xA);
+    sp24.y = ParticleMath_RandomSignedOffset(0xA, 5);
+    sp24.z = ParticleMath_RandomSigned(0xA);
+    Particle_Field38_AddVecScaledFromVec3f_08D78(arg0, sp24);
+    Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.5f);
+    sp30.x = ParticleMath_RandomSigned(0x2000);
+    sp30.y = ParticleMath_RandomSigned(0x2000);
+    sp30.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp20);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 2);
+    Particle_SetTextureFrame(arg0, 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213E528(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_82146BEC(s8 *);                      /* extern */
+
+void func_82146D38(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82146BEC(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_8213CCEC(arg0, 2, 7, 1, 1, 0);
+        func_82140228(arg0, 0x3F99999A, 0x3D4CCCCD);
+        func_82140518(arg0, 0x64, 0x10);
+        func_8213E528(arg0);
+        return;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffect40Descriptor3DSpreadRisingColorFade_InitParticle(Particle* arg0) {
+    s16 sp36 = Particle_FieldAC_GetS16_0C038(arg0);
+    Vec3s sp30;
+    UNUSED s32 pad[3];
+
+    Particle_SetRandomVelocityXYZ(arg0, 5, 5, 5);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 1.0f);
+    sp30.x = 0x2000 - ParticleMath_RandomRange(0x4000);
+    sp30.y = 0x2000 - ParticleMath_RandomRange(0x4000);
+    sp30.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+    Particle_AddRotationTargetXY(arg0, sp30.x, sp30.y);
+    Particle_Field9A_SetXY_0A3A0(arg0, 0, 0);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp36 * 3);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213C9D0(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213D604(s8 *, M2C_UNK);             /* extern */
+M2C_UNK func_8213E528(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140380(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
+M2C_UNK func_82140594(s8 *, M2C_UNK);             /* extern */
+s32 func_82140690(s8 *);                          /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_8214667C(s8 *);                      /* extern */
+M2C_UNK func_82146E1C(s8 *);                      /* extern */
+
+void func_82146F34(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82146E1C(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_82140594(arg0, 0xA);
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_82140228(arg0, 0x3F800000, 0x3DCCCCCD);
+        func_82140380(arg0, 0, 0xC);
+        func_821403B0(arg0, 0, 0x20);
+        func_8213E528(arg0);
+        func_8213D604(arg0, 0x3ECCCCCD);
+        func_8214667C(arg0);
+        if ((func_82140690(arg0) != 0) && (func_82140518(arg0, 0x20, 0x10) != 0)) {
+            func_8213C9D0(arg0);
+            return;
+        }
+        break;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffect56Descriptor46RisingScaleAlphaFade_InitParticle(Particle* arg0) {
+    s16 sp36 = Particle_FieldAC_GetS16_0C038(arg0);
+    Vec3s sp30;
+    Vec3f sp24;
+
+    sp24.x = ParticleMath_RandomSigned(0x19);
+    sp24.y = ParticleMath_RandomSignedOffset(0xF, 5);
+    sp24.z = ParticleMath_RandomSigned(0xA);
+    Particle_Field38_AddVecScaledFromVec3f_08D78(arg0, sp24);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.15f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.5f);
+    sp30.x = 0x2000 - ParticleMath_RandomRange(0x4000);
+    sp30.y = 0x2000 - ParticleMath_RandomRange(0x4000);
+    sp30.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+    Particle_AddRotationTargetXY(arg0, sp30.x, sp30.y);
+    Particle_Field9A_SetXY_0A3A0(arg0, 0, 0);
+    BattleAnim_SetParticleColorFromVariantIndex(arg0, (sp36 % 4) & 0xFF);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp36 * 1);
+    Particle_SetTextureFrame(arg0, 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213E528(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_82147050(s8 *);                      /* extern */
+
+void func_821471D8(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82147050(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_8213CCEC(arg0, 2, 7, 1, 1, 0);
+        func_82140228(arg0, 0x3EE66667, 0x3D99999A);
+        func_82140518(arg0, 0x64, 0x10);
+        func_8213E528(arg0);
+        return;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise_InitParticle(Particle* arg0) {
+    s16 sp36 = Particle_FieldAC_GetS16_0C038(arg0);
+    Vec3s sp30;
+    UNUSED s32 pad[3];
+
+    Particle_SetRandomVelocityXYZ(arg0, 5, 0xA, 0xA);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.90000004f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 1.0f);
+    sp30.x = ParticleMath_RandomSigned(0x2000);
+    sp30.y = ParticleMath_RandomRange(0x10000);
+    sp30.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+    BattleAnim_SetParticleColorFromVariantIndex(arg0, (sp36 % 4) & 0xFF);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, 0);
+    Particle_SetTextureFrame(arg0, 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821473B8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821473B8.s")
+#endif
+
+void BattleAnim_CallbackEndEffects54And56Descriptor3DRisingColorScaleFade_InitParticle(Particle* arg0) {
+    s16 sp36 = Particle_FieldAC_GetS16_0C038(arg0);
+    Vec3s sp30;
+    UNUSED s32 pad[3];
+
+    Particle_SetRandomVelocityXYZ(arg0, 5, 5, 5);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.75f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 1.0f);
+    sp30.x = 0x2000 - ParticleMath_RandomRange(0x4000);
+    sp30.y = ParticleMath_RandomRange(0x10000);
+    sp30.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+    Particle_AddRotationTargetXY(arg0, sp30.x, sp30.y);
+    Particle_Field9A_SetXY_0A3A0(arg0, 0, 0);
+    BattleAnim_SetParticleColorFromVariantIndex(arg0, (sp36 % 4) & 0xFF);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp36 * 3);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213C9D0(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213D604(s8 *, M2C_UNK);             /* extern */
+M2C_UNK func_8213E528(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140380(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
+M2C_UNK func_82140594(s8 *, M2C_UNK);             /* extern */
+s32 func_82140690(s8 *);                          /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_8214667C(s8 *);                      /* extern */
+M2C_UNK func_821474CC(s8 *);                      /* extern */
+
+void func_821475F4(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_821474CC(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_82140594(arg0, 0xA);
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_82140380(arg0, 0, 0xC);
+        func_821403B0(arg0, 0, 0x20);
+        func_82140228(arg0, 0x3FC00000, 0x3E19999A);
+        func_8214667C(arg0);
+        func_8213E528(arg0);
+        func_8213D604(arg0, 0x3ECCCCCD);
+        if ((func_82140690(arg0) != 0) && (func_82140518(arg0, 0x20, 0x10) != 0)) {
+            func_8213C9D0(arg0);
+            return;
+        }
+        break;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffects40And54Descriptor46SpreadScaleFade_InitParticle(Particle* arg0) {
+    s16 sp36;
+    Vec3s sp30;
+    Vec3f sp24;
+
+    sp36 = Particle_FieldAC_GetS16_0C038(arg0);
+    sp24.x = ParticleMath_RandomSigned(0x14);
+    sp24.y = ParticleMath_RandomSignedOffset(0xF, 0xA);
+    sp24.z = ParticleMath_RandomSigned(0xF);
+    Particle_Field38_AddVecScaledFromVec3f_08D78(arg0, sp24);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.1f);
+    sp30.x = ParticleMath_RandomRange(0x10000);
+    sp30.y = ParticleMath_RandomRange(0x10000);
+    sp30.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+    Particle_AddRotationTargetXY(arg0, sp30.x, sp30.y);
+    Particle_Field9A_SetXY_0A3A0(arg0, 0, 0);
+    BattleAnim_SetParticleColorFromVariantIndex(arg0, (sp36 % 4) & 0xFF);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp36 * 2);
+    Particle_SetTextureFrame(arg0, 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C938(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_82147710(s8 *);                      /* extern */
+
+void func_82147880(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82147710(arg0);
+        return;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_8213CCEC(arg0, 2, 7, 1, 1, 0);
+        func_82140228(arg0, 0x3E99999A, 0x3D4CCCCD);
+        func_82140518(arg0, 0x64, 0x10);
+        return;
+    case 4:
+        func_8213C938(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackEndEffect54Descriptor46DelayedColorAlphaFade_InitParticle(Particle* arg0) {
+    s16 temp_s1 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.75f);
+
+    switch (temp_s1) {
+        case 0:
+            Particle_SetPosition(arg0, 0.0f, -3.0f, 0.0f);
+            break;
+
+        case 1:
+            Particle_SetPosition(arg0, 0.0f, 3.0f, 3.0f);
+            break;
+
+        case 2:
+            Particle_SetPosition(arg0, 0.0f, 3.0f, -3.0f);
+            break;
+    }
+
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+    Particle_FieldA6_SetS16_0BCA8(arg0, temp_s1 * 4);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C930(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821403E0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821404DC(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8214795C(s8 *);                      /* extern */
+
+void func_82147A68(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_8214795C(arg0);
+        return;
+    case 2:
+        if (func_8213CA80(arg0, M2C_FIELD(arg0, s16 *, 0xA2)) != 0) {
+            func_8213CB3C(arg0);
+            return;
+        }
+        return;
+    case 3:
+        func_8213CCEC(arg0, 0, 7, 1, 1, 0);
+        func_82140228(arg0, 0x3F800000, 0x3CA3D70A);
+        func_821403E0(arg0, 0, 0x20);
+        func_821404DC(arg0, 0, 0x20);
+        if (M2C_FIELD(arg0, s8 *, 0xC3) >= 6) {
+            func_821403B0(arg0, 0, 0x20);
+            func_82140518(arg0, 0x64, 0x4E);
+            return;
+        }
+        break;
+    case 4:
+        func_8213C930(arg0);
+        break;
+    }
+}
+
+void BattleAnim_CallbackSharedRotatingColorFadeSetup(Particle* arg0, s16 arg1, s16 arg2) {
+    UNUSED s32 pad[2];
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field38_SetYScaled_08CA0(arg0, -10.0f);
+    Particle_Field38_AddXZFromField94Y_08ED0(arg0, 50.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 5.0f);
+
+    switch (arg1) {
+        case 0:
+            Particle_Field94_AddX_0A578(arg0, ParticleMath_RandomSigned(0x800));
+            Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSignedOffset(0x1000, 0x8000));
+            break;
+
+        case 1:
+            Particle_Field94_AddX_0A578(arg0, ParticleMath_RandomSigned(0xA00));
+            Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSignedOffsetBySign(0xD00, 0xF400) + 0x8000);
+            break;
+    }
+
+    switch (arg2) {
+        case 0:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+            break;
+
+        case 1:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 6);
+            break;
+    }
+
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 4);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82147CEC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82147CEC.s")
+#endif
+
+void BattleAnim_CallbackEndEffects15And22Descriptor4ERotatingColorFadeVariant0(Particle* arg0) {
+    BattleAnim_CallbackSharedRotatingColorFadeMotion(arg0, 0);
+}
+
+void BattleAnim_CallbackEndEffects15And22Descriptor4ERotatingColorFadeVariant1(Particle* arg0) {
+    BattleAnim_CallbackSharedRotatingColorFadeMotion(arg0, 1);
+}
+
+void BattleAnim_CallbackEndEffects15And22And59Descriptor3DRotatingAlphaScaleFade_InitParticle(Particle* arg0) {
+    s16 sp36 = Particle_FieldCF_GetS16_0C058(arg0);
+    UNUSED s32 pad[3];
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.4f);
+    Particle_Field38_AddXZFromField94Y_08ED0(arg0, 15.0f);
+    Particle_Field94_AddX_0A578(arg0, ParticleMath_RandomSignedOffset(0x200, 0xE00));
+    Particle_Field94_AddY_0A594(arg0, ParticleMath_RandomSignedOffset(0x3800, 0x8000));
+    Particle_FieldA0_SetX_0A400(arg0, -0x4000);
+    Particle_Field9A_SetX_0A3C4(arg0, 0x1000);
+    Particle_Field74_SetScaled_0AD8C(arg0, 3.0f);
+
+    switch (sp36) {
+        case 0:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+            break;
+
+        case 1:
+            ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 6);
+            break;
+    }
+
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82147FF0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82147FF0.s")
+#endif
+
+M2C_UNK func_8213C930(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+s32 func_8213CB7C(s8 *);                          /* extern */
+M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213D238(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_82147ED0(s8 *);                      /* extern */
+M2C_UNK func_82147FF0(s8 *);                      /* extern */
+
+void func_82148090(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_82147ED0(arg0);
+        break;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213D238(arg0);
+            func_8213CB3C(arg0);
+        }
+        break;
+    case 3:
+        func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+        func_82140518(arg0, 0x20, 4);
+        func_82140228(arg0, 0x3F99999A, 0x3DCCCCCD);
+        break;
+    case 4:
+        func_8213C930(arg0);
+        break;
+    }
+    if (func_8213CB7C(arg0) != 0) {
+        func_82147FF0(arg0);
+    }
+}
+
+void BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade_InitParticle(Particle* arg0) {
+    UNUSED s32 pad[3];
+    s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+    s16 sp20 = Particle_FieldCF_GetS16_0C058(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.6f);
+    Particle_Field38_AddYScaled_08E90(arg0, 15.0f);
+    Particle_Field38_AddXZFromField94YOffset180_08F38(arg0, 20.0f);
+
+    switch (sp20) {
+        case 0:
+            Particle_Field74_SetScaled_0AD8C(arg0, 1.5f);
+            Particle_Field94_AddX_0A578(arg0, -0x4000);
+            break;
+
+        case 1:
+            Particle_Field74_SetScaled_0AD8C(arg0, 2.0f);
+            Particle_Field94_AddY_0A594(arg0, 0x4000);
+            Particle_Field94_AddX_0A578(arg0, -0xE00);
+            break;
+
+        case 2:
+            Particle_Field74_SetScaled_0AD8C(arg0, 2.0f);
+            Particle_Field94_AddY_0A594(arg0, -0x4000);
+            Particle_Field94_AddX_0A578(arg0, -0xE00);
+            break;
+
+        case 3:
+            Particle_Field74_SetScaled_0AD8C(arg0, 2.5f);
+            Particle_Field94_AddY_0A594(arg0, 0x4000);
+            Particle_Field94_AddX_0A578(arg0, 0x2000);
+            break;
+
+        case 4:
+            Particle_Field74_SetScaled_0AD8C(arg0, 2.5f);
+            Particle_Field94_AddY_0A594(arg0, -0x4000);
+            Particle_Field94_AddX_0A578(arg0, 0x2000);
+            break;
+    }
+
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 2);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8214830C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214830C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821483A0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821483A0.s")
+#endif
+
+void BattleAnim_CallbackEndEffect59Descriptor4FColorScaleFade_InitParticle(Particle* arg0) {
+    UNUSED s32 pad[3];
+    s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_FieldCF_GetS16_0C058(arg0);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.7f);
+    Particle_SetRandomVelocityX(arg0, 0xF);
+    Particle_SetRandomVelocityYOffset(arg0, 0xF, 0xA);
+    Particle_SetRandomVelocityZ(arg0, 0xF);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x1A);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp22 * 4);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
+M2C_UNK func_8213C930(s8 *);                      /* extern */
+M2C_UNK func_8213C9D0(s8 *);                      /* extern */
+M2C_UNK func_8213CB3C(s8 *);                      /* extern */
+s32 func_8213CB7C(s8 *);                          /* extern */
+M2C_UNK func_8213CC10(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+M2C_UNK func_8213D238(s8 *);                      /* extern */
+M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8214047C(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
+M2C_UNK func_82140594(s8 *, M2C_UNK);             /* extern */
+s32 func_82140690(s8 *);                          /* extern */
+s32 func_821406B4(s8 *);                          /* extern */
+M2C_UNK func_8214851C(s8 *);                      /* extern */
+
+void func_821485C8(s8 *arg0) {
+    s16 temp_v0;
+
+    temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
+    switch (temp_v0) {                              /* irregular */
+    case 1:
+        func_8214851C(arg0);
+        break;
+    case 2:
+        if (func_821406B4(arg0) != 0) {
+            func_8213D238(arg0);
+            func_8213CB3C(arg0);
+            func_82140594(arg0, 8);
+        }
+        break;
+    case 3:
+        func_821403B0(arg0, 0, 0x10);
+        func_8214047C(arg0, 0, 0x10);
+        if ((func_82140690(arg0) != 0) && (func_82140518(arg0, 0x20, 0x18) != 0)) {
+            func_8213C9D0(arg0);
+        }
+        break;
+    case 4:
+        func_8213C930(arg0);
+        break;
+    }
+    if (func_8213CB7C(arg0) != 0) {
+        func_82140228(arg0, 0x3F800000, 0x3CCCCCCD);
+        func_8213CC10(arg0, 0, 7, 1, 2, 0);
+    }
+}
+
+M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B794(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
+extern M2C_UNK D_8218E728;
+extern M2C_UNK D_8218E770;
+extern M2C_UNK D_8218E7B0;
+extern s16 D_8219A80A;
+extern M2C_UNK func_82146504;
+
+void func_821486FC(void) {
+    func_8213B794(0, 0, 0x40, 8, 0xC8);
+    func_8213B560(1, &func_82146378, &D_8218E728, 0, 1, 0x10, (s32) D_8219A80A, 0, 0);
+    func_8213B560(2, &func_82146504, &D_8218E770, 0, 3, 0x11, (s32) D_8219A80A, 0, 0);
+    func_8213B560(4, &func_8214622C, &D_8218E7B0, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_821487F0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821487F0.s")
+#endif
+
+M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B794(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
+M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
+extern M2C_UNK D_8218E770;
+extern M2C_UNK D_8218E7B0;
+
+void func_82148948(void) {
+    func_8213B794(2, 0, 0x40, 8, 0xC8);
+    func_8213BC00(2, 9, 0xC8, 0, 0x10);
+    func_8213B560(0, &func_82147A68, &D_8218E7B0, 0, 3, 0x10, 9, 0, 0);
+    func_8213B560(0xA, &func_82147880, &D_8218E7B0, 0, 8, 0x11, 9, 0, 0);
+    func_8213B5D8(0xC, 2, 2, &func_821475F4, &D_8218E770, 0, 4, 0x11, 9, 0, 0);
+}
+
+M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+M2C_UNK func_8213C220(M2C_UNK, M2C_UNK);            /* extern */
+extern M2C_UNK D_8218E770;
+extern M2C_UNK D_8218E7F8;
+extern s16 D_8219A80A;
+extern M2C_UNK func_82144E24;
+extern M2C_UNK func_82145718;
+
+void func_82148A58(void) {
+    func_8213C220(0x64, 1);
+    func_8213B644(0, 8, 6);
+    func_8213B5D8(0, 2, 0x3C, &func_82144E24, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+    func_8213B5D8(0, 4, 0x1E, &func_82145498, &D_8218E770, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+    func_8213B5D8(0, 4, 0x1E, &func_82145718, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82148B70; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82148B70.s")
+#endif
+
+M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+extern M2C_UNK D_8218E770;
+extern M2C_UNK D_8218E7F8;
+extern s16 D_8219A80A;
+extern M2C_UNK func_82144E24;
+extern M2C_UNK func_82145718;
+
+void func_82148D30(void) {
+    func_8213B644(0, 8, 6);
+    func_8213B5D8(0, 2, 0x3C, &func_82144E24, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 1, 0);
+    func_8213B5D8(0, 4, 0x1E, &func_82145498, &D_8218E770, 0, 1, 0x11, (s32) D_8219A80A, 1, 0);
+    func_8213B5D8(0, 4, 0x1E, &func_82145718, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 1, 0);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82148E48; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82148E48.s")
+#endif
+
+M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+extern M2C_UNK D_8218E770;
+extern M2C_UNK D_8218E7F8;
+extern s16 D_8219A80A;
+extern M2C_UNK func_82144E24;
+extern M2C_UNK func_82145718;
+
+void func_82149014(void) {
+    func_8213B644(0, 8, 6);
+    func_8213B5D8(0, 2, 0x50, &func_82144E24, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+    func_8213B5D8(0, 4, 0x28, &func_82145498, &D_8218E770, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+    func_8213B5D8(0, 4, 0x28, &func_82145718, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
+}
+
+M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
+M2C_UNK func_8213BF70(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
+extern M2C_UNK D_8218E598;
+extern M2C_UNK D_8218E7F8;
+
+void func_82149120(void) {
+    func_8213B560(0, &func_82145EC0, &D_8218E598, 0, 0x12, 0xE, 0, 0, 0);
+    func_8213B560(8, &func_82145CC4, &D_8218E7F8, 0, 0x20, 7, 0, 0, 0);
+    func_8213BF70(8, 9, 0xE, 8, 0xC8, 0x10);
+}

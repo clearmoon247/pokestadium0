@@ -1,0 +1,46 @@
+#ifndef _FUNCTIONS_H_
+#define _FUNCTIONS_H_
+
+#include "ultra64.h"
+
+
+
+
+// 517A0.s
+void D_80048010(s32, void*);
+
+// bcopy.s
+void _bcopy(void* src, void* dst, s32);
+
+// C030.s
+s32 Controller_CheckAccessoryEeprom(void);
+
+// Yay0.s
+void Yay0_Decompress(void* src, void* dst);
+
+// DDC0.s
+void Audio_StartThread(void);
+
+// exception_set.s
+void set_watch_lohi(s32);
+
+u32 osGetCount(void);
+OSIntMask osSetIntMask(OSIntMask);
+
+unsigned long long __ull_rshift(unsigned long long a0, unsigned long long a1);
+unsigned long long __ull_rem(unsigned long long a0, unsigned long long a1);
+unsigned long long __ull_div(unsigned long long a0, unsigned long long a1);
+unsigned long long __ll_lshift(unsigned long long a0, unsigned long long a1);
+long long __ll_rem(unsigned long long a0, long long a1);
+long long __ll_div(long long a0, long long a1);
+unsigned long long __ll_mul(unsigned long long a0, unsigned long long a1);
+void __ull_divremi(unsigned long long* div, unsigned long long* rem, unsigned long long a2, unsigned short a3);
+long long __ll_mod(long long a0, long long a1);
+long long __ll_rshift(long long a0, long long a1);
+
+f32 fabsf(f32);
+
+f32 __cosf(f32);
+f32 __sinf(f32);
+
+#endif

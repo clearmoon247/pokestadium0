@@ -34,6 +34,8 @@ The generated owners cover 1,303,636 text bytes. These are assembly-owner ranges
 
 ## Reproduction
 
+Since the [first matching pass](matching.md) split and edited `src/`, regenerate only the assembly with `tools/generate_pragmas.py baseroms/jp/baserom.z64 --asm-only`; the source-file description below is the original scaffold layout.
+
 The repo contains C pragma owners, the generator, tests, and `docs/pragma-inventory.json`. Assembly is generated under ignored `asm/jp/nonmatchings/`; neither a ROM nor retail resource binaries are added to Git.
 
 On Windows, from the repo root:

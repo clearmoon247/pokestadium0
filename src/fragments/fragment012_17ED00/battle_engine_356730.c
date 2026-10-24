@@ -1,0 +1,261 @@
+/* Stadium Zero fragment012_17ED00. */
+/* C ported from the Stadium 1 decomp: src/fragments/battle_engine/battle_engine_356730.c. */
+
+#include "fragments/battle_engine/battle_engine.h"
+#include "battle_hud.h"
+#include "gfx_buffer.h"
+extern DoubleTextureTrail D_821CD0E0[4];
+extern Gfx D_821934E0[];
+#define TRIANGLES(gfx)                                                                                        \
+    {                                                                                                         \
+        s32 j, k;                                                                                             \
+        for (j = 0; j < 2; j++)                                                                               \
+            for (k = 0; k < 4; k++)                                                                           \
+                gSP2Triangles(gfx++, (j * 4) + k, (j * 4) + (k + 9), (j * 4) + (k + 1), 0, (j * 4) + (k + 9), \
+                              (j * 4) + (k + 10), (j * 4) + (k + 1), 0);                                      \
+    }
+
+void DoubleTextureTrail_InitPool(void);
+void DoubleTextureTrail_RotateVertexOffset(f32 arg0, Vec3f* arg1, f32 arg2);
+void DoubleTextureTrail_Update(DoubleTextureTrail* arg0);
+s32 DoubleTextureTrail_UpdateAll(void);
+Gfx* DoubleTextureTrail_LoadTextures(Gfx* arg0, DoubleTextureTrail* arg1);
+Gfx* DoubleTextureTrail_DrawAll(Gfx* arg0);
+
+Gfx* WaterParticle_DrawPass(Gfx* arg0, DoubleTextureTrail* arg1, s16 arg2, s16 arg3);
+
+void DoubleTextureTrail_InitPool(void) {
+    s32 i;
+    s32 j;
+    DoubleTextureTrail* var_v0 = &D_821CD0E0[0];
+    unk_D_843C2C00_0B0* var_a0;
+
+    for (i = 0; i < 4; i++, var_v0++) {
+        var_v0->unk_000 = 0;
+        var_v0->unk_002 = 0;
+        var_v0->unk_004 = 0;
+
+        var_a0 = &var_v0->unk_0B0[0];
+        for (j = 0; j < 10; j++, var_a0++) {
+            var_a0->unk_00 = 0;
+            var_a0->unk_04 = 0;
+            var_a0->unk_08 = 1.0f;
+            var_a0->unk_0C = 0.0f;
+            var_a0->unk_10.x = 0.0f;
+            var_a0->unk_10.y = 0.0f;
+            var_a0->unk_10.z = 0.0f;
+            var_a0->unk_1C = 0.0f;
+            var_a0->unk_20 = 0.0f;
+            var_a0->unk_24 = 0.0f;
+        }
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82180408; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180408.s")
+#endif
+
+void DoubleTextureTrail_RotateVertexOffset(f32 arg0, Vec3f* arg1, f32 arg2) {
+    UNUSED MtxF sp70;
+    MtxF sp30;
+    UNUSED s32 pad;
+
+    guRotateF(sp30.mf, (360.0f * arg0) / 6.2831855f, 1.0f, 0.0f, 0.0f);
+    guMtxXFMF(sp30.mf, 0.0f, 0.0f, arg2, &arg1->x, &arg1->y, &arg1->z);
+}
+
+void DoubleTextureTrail_Update(DoubleTextureTrail* arg0) {
+    unk_D_843C2C00_0B0* var_v0;
+    UNUSED s32 pad;
+    s32 i;
+    Vec3f sp58;
+    Vec3f sp4C;
+    f32 temp_fa0;
+    f32 temp_fa1;
+    f32 var_fv0;
+    f32 var_fv1;
+
+    BattleAnim_GetSecondaryOwnerAnchorPosition(&sp58);
+    BattleAnim_GetTertiaryOwnerBone9Position(&sp4C);
+    if (sp4C.y > 200.0f) {
+        sp4C.y = 200.0f;
+    }
+
+    var_v0 = &arg0->unk_0B0[0];
+    for (i = 0; i < 10; i++, var_v0++) {
+        if (arg0->unk_002 < arg0->unk_004) {
+            temp_fa1 = ((f32)arg0->unk_002 * i) / 9.0f;
+            var_fv0 = arg0->unk_004 - 1;
+            var_fv1 = temp_fa1 / var_fv0;
+            temp_fa0 = 1.0f - var_fv1;
+        } else {
+            temp_fa1 = i;
+
+            var_fv1 = temp_fa1 / 9.0f;
+            temp_fa0 = 1.0f - var_fv1;
+        }
+
+        var_v0->unk_10.x = (sp58.x * temp_fa0) + (sp4C.x * var_fv1);
+        var_v0->unk_10.y = (sp58.y * temp_fa0) + (sp4C.y * var_fv1);
+        var_v0->unk_10.z = (sp58.z * temp_fa0) + (sp4C.z * var_fv1);
+
+        var_v0->unk_0C += arg0->unk_00C;
+
+        if (i == 0) {
+            var_v0->unk_08 = 1.0f;
+        } else if (i == 9) {
+            if (arg0->unk_002 < 5) {
+                var_v0->unk_08 = 1.0f;
+            } else {
+                var_v0->unk_08 += 0.5f;
+                if (arg0->unk_008 * 1.0f < var_v0->unk_08) {
+                    var_v0->unk_08 = arg0->unk_008 * 1.0f;
+                }
+            }
+        } else if (i == 1) {
+            var_v0->unk_08 += arg0->unk_010;
+            if (arg0->unk_008 * 0.5f < var_v0->unk_08) {
+                var_v0->unk_08 = arg0->unk_008 * 0.5f;
+            }
+        } else if (i == 2) {
+            var_v0->unk_08 += arg0->unk_010;
+            if (arg0->unk_008 * 0.75f < var_v0->unk_08) {
+                var_v0->unk_08 = arg0->unk_008 * 0.75f;
+            }
+        } else {
+            var_v0->unk_08 += arg0->unk_010;
+            if (arg0->unk_008 * 1.0f < var_v0->unk_08) {
+                var_v0->unk_08 = arg0->unk_008 * 1.0f;
+            }
+        }
+    }
+}
+
+s32 DoubleTextureTrail_UpdateAll(void) {
+    s32 i;
+    DoubleTextureTrail* var_s0 = &D_821CD0E0[0];
+
+    for (i = 0; i < 4; i++, var_s0++) {
+        if (var_s0->unk_000 == 1) {
+            var_s0->unk_002 += 1;
+            DoubleTextureTrail_Update(var_s0);
+        }
+    }
+
+    return 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_82180AF4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180AF4.s")
+#endif
+
+Gfx* DoubleTextureTrail_LoadTextures(Gfx* arg0, DoubleTextureTrail* arg1) {
+    unk_D_843C2C00_064* ptr;
+
+    ptr = &arg1->unk_064;
+    gDPLoadTextureTile_4b(arg0++, sBattleAnimAssetPointers[arg1->unk_01C], G_IM_FMT_I, 32, 0, 0, 0, 31, 31, 0,
+                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, ptr->unk_08, ptr->unk_0A);
+    gDPSetTileSize(arg0++, G_TX_RENDERTILE, ptr->unk_00, ptr->unk_02, (ptr->unk_00 + 31) << 2, (ptr->unk_02 + 31) << 2);
+
+    ptr = &arg1->unk_070;
+    gDPLoadMultiTile_4b(arg0++, sBattleAnimAssetPointers[arg1->unk_020], 0x0100, 1, G_IM_FMT_I, 32, 0, 0, 0, 31, 31, 0,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, ptr->unk_08, ptr->unk_0A);
+    gDPSetTileSize(arg0++, 1, ptr->unk_00, ptr->unk_02, (ptr->unk_00 + 31) << 2, (ptr->unk_02 + 31) << 2);
+
+    return arg0;
+}
+
+Gfx* DoubleTextureTrail_DrawAll(Gfx* arg0) {
+    s32 i;
+    s32 j;
+    s32 k;
+    DoubleTextureTrail* var_fp;
+    unk_D_843C2C00_0B0* var_s2;
+    Vec3f sp100;
+    Vec3f spF4;
+    Vec3f spE8;
+    Vec3f spDC;
+    CameraNode* spD8;
+    UNUSED s32 pad[3];
+    Vtx* var_s0;
+
+    spD8 = BattleAnim_GetCameraContext();
+    var_fp = &D_821CD0E0[0];
+
+    for (i = 0; i < 4; i++, var_fp++) {
+        if (var_fp->unk_000 == 1) {
+            if (ModelPhase_IsIdle() == 0) {
+                var_fp->unk_064.unk_00 += var_fp->unk_064.unk_04;
+                var_fp->unk_064.unk_02 += var_fp->unk_064.unk_06;
+                var_fp->unk_070.unk_00 += var_fp->unk_070.unk_04;
+                var_fp->unk_070.unk_02 += var_fp->unk_070.unk_06;
+            }
+
+            var_s2 = &var_fp->unk_0B0[0];
+
+            var_fp->unk_018 = Gfx_AllocDisplayList(sizeof(Vtx) * 90);
+
+            var_s0 = var_fp->unk_018;
+            for (j = 0; j < 10; j++, var_s2++) {
+                for (k = 0; k < 9; k++) {
+                    DoubleTextureTrail_RotateVertexOffset(var_s2->unk_0C + ((2.0f * (k % 8) * 3.1415927f) / 8), &sp100, var_s2->unk_08);
+                    var_s0->v.ob[0] = var_s2->unk_10.x + sp100.x;
+                    var_s0->v.ob[1] = var_s2->unk_10.y + sp100.y;
+                    var_s0->v.ob[2] = var_s2->unk_10.z + sp100.z;
+
+                    var_s0->v.tc[0] = (k * 0x400) / 8;
+                    var_s0->v.tc[1] = (j * 0x400) / 10;
+
+                    var_s0->v.cn[0] = 0;
+                    var_s0->v.cn[1] = 0;
+                    var_s0->v.cn[2] = 0;
+                    var_s0->v.cn[3] = 0;
+
+                    var_s0++;
+                }
+            }
+
+            if ((var_fp->unk_086.r | var_fp->unk_086.g | var_fp->unk_086.b | var_fp->unk_086.a) != 0) {
+                spE8 = var_fp->unk_0B0[9].unk_10;
+                spF4 = var_fp->unk_0B0[0].unk_10;
+                spDC.x = spD8->view.eyePosition.x;
+                spDC.y = spD8->view.eyePosition.y;
+                spDC.z = spD8->view.eyePosition.z;
+                arg0 = Gfx_DrawThickLine(arg0, &spF4, &spE8, &spDC, 20.0f, var_fp->unk_086.r, var_fp->unk_086.g,
+                                     var_fp->unk_086.b, var_fp->unk_086.a * var_fp->unk_08C);
+            }
+
+            gSPDisplayList(arg0++, D_821934E0);
+
+            Gfx_SetCombineMode(
+                arg0++, var_fp->unk_024.unk_00, var_fp->unk_024.unk_04, var_fp->unk_024.unk_08, var_fp->unk_024.unk_0C,
+                var_fp->unk_024.unk_10, var_fp->unk_024.unk_14, var_fp->unk_024.unk_18, var_fp->unk_024.unk_1C,
+                var_fp->unk_044.unk_00, var_fp->unk_044.unk_04, var_fp->unk_044.unk_08, var_fp->unk_044.unk_0C,
+                var_fp->unk_044.unk_10, var_fp->unk_044.unk_14, var_fp->unk_044.unk_18, var_fp->unk_044.unk_1C);
+
+            arg0 = DoubleTextureTrail_LoadTextures(arg0, var_fp);
+
+            gDPSetPrimColor(arg0++, 0, var_fp->unk_07C.unk_04, var_fp->unk_07C.unk_00.r, var_fp->unk_07C.unk_00.g,
+                            var_fp->unk_07C.unk_00.b, var_fp->unk_07C.unk_00.a);
+            gDPSetEnvColor(arg0++, var_fp->unk_081.unk_00.r, var_fp->unk_081.unk_00.g, var_fp->unk_081.unk_00.b,
+                           var_fp->unk_081.unk_00.a);
+            gSPClearGeometryMode(arg0++, G_CULL_BOTH);
+            gSPSetGeometryMode(arg0++, G_CULL_FRONT);
+            gDPPipeSync(arg0++);
+
+            arg0 = WaterParticle_DrawPass(arg0, var_fp, i, 0);
+
+            gSPClearGeometryMode(arg0++, G_CULL_BOTH);
+            gSPSetGeometryMode(arg0++, G_CULL_BACK);
+            gDPPipeSync(arg0++);
+
+            arg0 = WaterParticle_DrawPass(arg0, var_fp, i, 1);
+        }
+    }
+
+    return arg0;
+}
