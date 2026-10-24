@@ -1,0 +1,152 @@
+/* Stadium Zero resident code. */
+/* C ported from the Stadium 1 decomp: src/jpeg_stream.c. */
+
+#include "jpeg_stream.h"
+#include "jpeg_stream.h"
+#include "flash.h"
+#include "dma.h"
+#include "dp_intro.h"
+#include "util.h"
+#include "lib/ultralib/include/PR/leo.h"
+typedef enum {
+    JPEG_MARKER_START_OF_FRAME = 0xC0,
+    JPEG_MARKER_HUFFMAN_TABLE = 0xC4,
+    JPEG_MARKER_RESTART0 = 0xD0,
+    JPEG_MARKER_RESTART7 = 0xD7,
+    JPEG_MARKER_START_OF_IMAGE = 0xD8,
+    JPEG_MARKER_END_OF_IMAGE = 0xD9,
+    JPEG_MARKER_START_OF_SCAN = 0xDA,
+    JPEG_MARKER_QUANTIZATION_TABLE = 0xDB,
+} JpegStreamMarker;
+extern u8 D_800A94F0[0x200];
+extern OSMesgQueue D_800A96F0;
+extern OSMesg D_800A9708;
+extern u64 njpgdspMainTextStart[];
+extern u64 njpgdspMainDataStart[];
+
+s32 Jpeg_ReadBigEndianU16(u8* arg0);
+void Jpeg_ParseStreamMarkers(unk_func_80003680_sp300* arg0, u8* arg1);
+void Jpeg_InitializeDspTask(UnkStruct80001380* arg0, unk_func_80003680_sp90* arg1);
+void Jpeg_BuildDspOutput(unk_func_80003680_sp90* arg0, u8(arg1)[2][0x80], unk_func_80003680_sp300* arg2);
+
+s32 Jpeg_ReadBigEndianU16(u8* arg0) {
+    return ((arg0[0] << 8) | arg0[1]) & 0xFFFF;
+}
+
+void Jpeg_ParseStreamMarkers(unk_func_80003680_sp300* arg0, u8* arg1) {
+    s32 temp_v0_2;
+    s32 var_s2;
+    s32 var_v0;
+    u8 temp_t6;
+    s32 temp_v0;
+
+    var_s2 = 1;
+    arg0->unk_01 = 0;
+
+    while (var_s2 != 0) {
+        // JPEG data consists of streams, which are identified by a marker.
+        // Each marker is in the form [0xFF, 0xID] where ID identifies the type of stream.
+        if (*arg1++ == 0xFF) {
+            temp_v0 = *arg1++;
+            switch (temp_v0) {
+                case 0:
+                    break;
+
+                case JPEG_MARKER_END_OF_IMAGE:
+                    var_s2 = 0;
+                    break;
+
+                case JPEG_MARKER_QUANTIZATION_TABLE:
+                    arg0->quantization_table = arg1 + 2;
+                    arg1 += Jpeg_ReadBigEndianU16(arg1);
+                    break;
+
+                case JPEG_MARKER_HUFFMAN_TABLE:
+                    arg0->huffman_table = arg1 + 2;
+                    arg1 += Jpeg_ReadBigEndianU16(arg1);
+                    break;
+
+                case JPEG_MARKER_START_OF_FRAME:
+                    arg0->start_of_frame = arg1 + 2;
+                    arg1 += Jpeg_ReadBigEndianU16(arg1);
+                    break;
+
+                case JPEG_MARKER_START_OF_SCAN:
+                    arg1 += Jpeg_ReadBigEndianU16(arg1);
+                    arg0->start_of_scan = arg1;
+                    break;
+
+                case JPEG_MARKER_START_OF_IMAGE:
+                    break;
+
+                default:
+                    if ((temp_v0 >= JPEG_MARKER_RESTART0) && (temp_v0 <= JPEG_MARKER_RESTART7)) {
+                        arg0->unk_01 = 1;
+                    } else {
+                        arg1 += Jpeg_ReadBigEndianU16(arg1);
+                    }
+                    break;
+            }
+        }
+    }
+
+    // Checking the second component's ID,
+    // this seems weird as it will break entirely if number of components is less than 3.
+    // Looking at every JPEG used in the Stadium rom, no JPEGs use this ID, they're all 0x22.
+    if (arg0->start_of_frame[7] == 0x21) {
+        arg0->unk_00 = 0;
+    } else {
+        arg0->unk_00 = 2;
+    }
+
+    arg0->width = (arg0->start_of_frame[3] << 8) | arg0->start_of_frame[4];
+    arg0->height = (arg0->start_of_frame[1] << 8) | arg0->start_of_frame[2];
+}
+
+void Jpeg_InitializeDspTask(UnkStruct80001380* arg0, unk_func_80003680_sp90* arg1) {
+    arg0->task.t.type = 4;
+    arg0->task.t.flags = 0;
+    arg0->task.t.ucode_boot = rspbootTextStart;
+    arg0->task.t.ucode_boot_size = (u32)_binary_assets_us_F3DEX2_bin_start - (u32)rspbootTextStart;
+    arg0->task.t.ucode = njpgdspMainTextStart;
+    arg0->task.t.ucode_size = 0x1000;
+    arg0->task.t.ucode_data = njpgdspMainDataStart;
+    arg0->task.t.ucode_data_size = 0x800;
+    arg0->task.t.dram_stack = NULL;
+    arg0->task.t.dram_stack_size = 0;
+    arg0->task.t.output_buff = NULL;
+    arg0->task.t.output_buff_size = NULL;
+    arg0->task.t.data_ptr = arg1;
+    arg0->task.t.data_size = 0x20;
+    arg0->task.t.yield_data_ptr = D_800A94F0;
+    arg0->task.t.yield_data_size = 0x200;
+
+    osCreateMesgQueue(&arg0->queue, &arg0->mesg, 1);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800033B8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800033B8.s")
+#endif
+
+void Jpeg_BuildDspOutput(unk_func_80003680_sp90* arg0, u8(arg1)[2][0x80], unk_func_80003680_sp300* arg2) {
+    arg0->unk_00 = 0;
+    arg0->unk_08 = arg2->unk_00;
+    arg0->unk_04 = 1;
+    arg0->unk_0C = (u32)&arg1[0] & 0x1FFFFFFF;
+    arg0->unk_10 = (u32)&arg1[1] & 0x1FFFFFFF;
+    arg0->unk_14 = (u32)&arg1[1] & 0x1FFFFFFF;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8000342C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000342C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800034A4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800034A4.s")
+#endif

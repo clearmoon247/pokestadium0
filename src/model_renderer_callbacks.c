@@ -1,0 +1,112 @@
+/* Stadium Zero resident code. */
+/* C ported from the Stadium 1 decomp: src/model_renderer_callbacks.c. */
+
+#include "model_renderer_callbacks.h"
+#include "geo_render.h"
+#include "gallery.h"
+#include "battle_hud.h"
+#include "33FE0.h"
+#include "gfx_buffer.h"
+#include "matrix.h"
+typedef struct StadiumModelSlot {
+    /* 0x000 */ StadiumModel model;
+    /* 0x204 */ char pad204[0x5CC];
+} StadiumModelSlot;
+typedef struct unk_func_80032F94_a0 {
+    /* 0x00 */ u8 pad00[0x18];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+} unk_func_80032F94_a0;
+typedef struct unk_D_800B2EA8 {
+    u8 unk_00[0xA8];
+} unk_D_800B2EA8;
+typedef struct {
+    MtxF mtx[16];   // 16 (0x10) × 0x40 = 0x400
+} MtxBuffer;
+extern MtxBuffer D_800AFB38[2];
+extern StadiumModelSlot D_800B0338[2][3];
+
+void ModelRenderer_CacheSlotMatrices(u8 arg0);
+void ModelRenderer_ApplySlotScale(u8 index);
+void ModelRenderer_RebuildSlotMatrix(u8 index);
+void ModelRenderer_ClearSlotModels(s32 arg0);
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80032840; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032840.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80032890; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032890.s")
+#endif
+
+void ModelRenderer_CacheSlotMatrices(u8 arg0) {
+    MtxF_Copy(D_800AFB38[arg0].mtx, GeoRender_GetRelativeMatrix(0));
+    MtxF_Copy(D_800AFB38[arg0].mtx[1].mf, GeoRender_GetRelativeMatrix(-1));
+}
+
+void ModelRenderer_ApplySlotScale(u8 index) {
+    MtxF* temp_a1;
+    MtxF sp1C;
+
+    temp_a1 = &D_800AFB38[index];
+    MtxF_ExtractScale(&sp1C, &D_80060488->view.floatMatrix);
+    guMtxCatF(sp1C.mf, temp_a1->mf, temp_a1->mf);
+}
+
+void ModelRenderer_RebuildSlotMatrix(u8 index) {
+    MtxF* temp_a0;
+    
+    s32 pad[2];
+    f32 spC0;
+    f32 spBC;
+    f32 spB8;
+    
+    MtxF sp78;
+    MtxF sp38;
+    Vec3f sp2C;
+    
+    temp_a0 = &D_800AFB38[index].mtx;
+    
+    MtxF_GetScaleVector(temp_a0, &sp2C);
+    guScaleF(sp38.mf, sp2C.x, sp2C.y, sp2C.z);
+    guMtxXFMF(temp_a0->mf, 0.0f, 0.0f, 0.0f, &spC0, &spBC, &spB8);
+    guTranslateF(sp78.mf, spC0, spBC, spB8);
+    guMtxCatF(sp38.mf, sp78.mf, temp_a0->mf);
+}
+
+void ModelRenderer_ClearSlotModels(s32 arg0) {
+    s32 i;
+    StadiumModelSlot* slot = &D_800B0338[arg0];
+
+    for (i = 0; i < 3; i++) {
+        slot[i].model.unk_00 = 0;
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80032A6C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032A6C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80032BA8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032BA8.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80032C74; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032C74.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_80032D90; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032D90.s")
+#endif

@@ -25,15 +25,18 @@ ROM build or toolchain bootstrap is implemented yet. `make rom`, `make extract`,
 - [Runtime capture watchlist](docs/sections/refined/runtime-watchlist.csv):
   unresolved-site registers and link-time addresses, not assumed runtime PCs.
 - [Conditional pragma scaffold](docs/pragma-bootstrap.md): 5,444 first-pass
-  assembly owners in 188 C files, with local assembly regeneration and
-  `NON_MATCHING` TODO slots.
+  assembly owners, with local assembly regeneration and `NON_MATCHING` TODO slots.
+- [First matching pass](docs/matching.md): 2,803 functions are C that compiles to
+  the ROM bytes (2,004 ported from the Stadium 1 decomp, 799 from m2c's first
+  output), checked per function by `tools/check_functions.py`; 173 more are
+  identified libultra. See [COVERAGE.md](COVERAGE.md).
 
 The isolated analysis dependencies are pinned in `requirements-mapping.txt`.
 The reports include reproduction commands and evidence from 28 mapping/flow
 tests plus seven pragma-scaffold tests, all passing in the tested environment.
 The pragma inventory is a first-pass assembly-owner scaffold, not recovered
-original function/translation-unit boundaries or matching C. No Stadium 1/2
-library match or rebuilt-ROM identity is claimed. Generated assembly and binary
+original function/translation-unit boundaries. Matching C is verified per
+function against the ROM; no rebuilt-ROM identity is claimed yet. Generated assembly and binary
 extraction output remain local and ignored.
 
 It targets the following ROM:

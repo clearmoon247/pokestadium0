@@ -1,0 +1,165 @@
+/* Stadium Zero fragment012_17ED00. */
+/* C ported from the Stadium 1 decomp: src/fragments/demo_scenes/demo_scenes_16A0E0.c, src/fragments/particle_math/particle_math_269820.c. */
+
+#include "fragments/particle_math/particle_math.h"
+#include "geo_render.h"
+extern ParticleDescriptor gDefaultParticleDescriptor;
+
+#include "fragments/demo_scenes/demo_scenes.h"
+#include "geo_render.h"
+#include "model_animation.h"
+#include "geo_layout.h"
+#include "display_object_textures.h"
+#include "model_renderer.h"
+#include "graphics_textures.h"
+#include "input.h"
+#include "text_system.h"
+#include "jpeg_stream.h"
+#include "audio_loop_point.h"
+#include "gfx_buffer.h"
+#include "gfx_rect.h"
+#include "matrix.h"
+#include "controller.h"
+#include "memory.h"
+#include "stage_loader.h"
+typedef struct unk_D_86B10BD0 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} unk_D_86B10BD0;
+typedef struct unk_D_86B10BE0 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+} unk_D_86B10BE0;
+extern unk_D_86B10BE0 D_8219A82C;
+
+#include "m2c_macros.h"
+
+void Particle_SetFieldOffsetACIfNotSentinel(Particle* arg0, s16 arg1);
+void Particle_SetFieldOffsetCFIfNotSentinel(Particle* arg0, u8 arg1);
+void Particle_SetFieldOffsetA6IfNotSentinel(Particle* arg0, s16 arg1);
+void Particle_SetFieldOffsetA8IfNotSentinel(Particle* arg0, s16 arg1);
+void Particle_SetPrimAlphaIfNotSentinel(Particle* arg0, u8 arg1);
+void Particle_SetFieldOffsetAAIfNotSentinel(Particle* arg0, s16 arg1);
+s16 Particle_FieldAA_GetS16_0C068(Particle* arg0);
+s16 Particle_FieldA6_GetS16_0BCBC(Particle* arg0);
+void FirstClearBonus_HideDialogBox(void);
+
+void Particle_SetPrimAlpha(Particle* arg0, u8 arg1);
+void Particle_FieldA6_SetS16_0BCA8(Particle* arg0, s16 arg1);
+void Particle_FieldA8_SetS16_0BE14(Particle* arg0, s16 arg1);
+void Particle_FieldAC_SetS16_0BED8(Particle* arg0, s16 arg1);
+void Particle_FieldCF_SetU8_0BEEC(Particle* arg0, u8 arg1);
+
+void Particle_SetFieldOffsetACIfNotSentinel(Particle* arg0, s16 arg1) {
+    if ((u32)arg0 != -1) {
+        Particle_FieldAC_SetS16_0BED8(arg0, arg1);
+    }
+}
+
+void Particle_SetFieldOffsetCFIfNotSentinel(Particle* arg0, u8 arg1) {
+    if ((u32)arg0 != -1) {
+        Particle_FieldCF_SetU8_0BEEC(arg0, arg1);
+    }
+}
+
+void Particle_SetFieldOffsetA6IfNotSentinel(Particle* arg0, s16 arg1) {
+    if ((u32)arg0 != -1) {
+        Particle_FieldA6_SetS16_0BCA8(arg0, arg1);
+    }
+}
+
+void Particle_SetFieldOffsetA8IfNotSentinel(Particle* arg0, s16 arg1) {
+    if ((u32)arg0 != -1) {
+        Particle_FieldA8_SetS16_0BE14(arg0, arg1);
+    }
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213C39C; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C39C.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213C3B8; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C3B8.s")
+#endif
+
+void func_8213C3D4(s8 *arg0, s16 arg1) {
+    if (arg0 != (s8 *)-1) {
+        M2C_FIELD(arg0, s16 *, 0xA6) = arg1;
+    }
+}
+
+void Particle_SetPrimAlphaIfNotSentinel(Particle* arg0, u8 arg1) {
+    if ((u32)arg0 != -1) {
+        Particle_SetPrimAlpha(arg0, arg1);
+    }
+}
+
+void Particle_SetFieldOffsetAAIfNotSentinel(Particle* arg0, s16 arg1) {
+    if ((u32)arg0 != -1) {
+        arg0->unk_AA = arg1;
+    }
+}
+
+void func_8213C444(s8 *arg0, s16 arg1) {
+    if (arg0 != (s8 *)-1) {
+        M2C_FIELD(arg0, s16 *, 0xAC) = arg1;
+    }
+}
+
+u8 func_8213C464(s8 *arg0) {
+    return M2C_FIELD(arg0, u8 *, 0xCA);
+}
+
+u8 func_8213C46C(s8 *arg0) {
+    return M2C_FIELD(arg0, u8 *, 0xC9);
+}
+
+s16 Particle_FieldAA_GetS16_0C068(Particle* arg0) {
+    return arg0->unk_AA;
+}
+
+s16 func_8213C47C(s8 *arg0) {
+    return M2C_FIELD(arg0, s16 *, 0xA8);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213C484; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C484.s")
+#endif
+
+s16 Particle_FieldA6_GetS16_0BCBC(Particle* arg0) {
+    return arg0->unk_A6;
+}
+
+s16 func_8213C49C(s8 *arg0) {
+    return M2C_FIELD(arg0, s16 *, 0xA2);
+}
+
+s16 func_8213C4A4(s8 *arg0) {
+    return M2C_FIELD(arg0, s16 *, 0xA4);
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213C4AC; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C4AC.s")
+#endif
+
+void FirstClearBonus_HideDialogBox(void) {
+    D_8219A82C.unk_00 = 0;
+}
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_8213C4C4; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C4C4.s")
+#endif

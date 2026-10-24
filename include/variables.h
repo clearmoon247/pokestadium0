@@ -1,0 +1,1015 @@
+#ifndef _VARIABLES_H_
+#define _VARIABLES_H_
+
+#include "global.h"
+#include "PR/leo.h"
+
+// thread pris
+#define THREAD_PRI_IDLE_INIT 100
+#define THREAD_PRI_RESET 30
+
+// thread IDs
+#define THREAD_ID_IDLE 1
+#define THREAD_ID_RESET 21
+
+#define POOL_START   0x80104BB0
+#define POOL_END_4MB 0x80400000
+#define POOL_END_6MB 0x80600000
+
+/*
+ * Audio_PlaySoundEffectById IDs. Names describe source-backed uses, not
+ * recovered original names or verified sample contents. Unknown IDs are
+ * intentionally omitted. Category 12 IDs retain their complete command value.
+ */
+#define SFX_MENU_SCROLL       0x01
+#define SFX_MENU_CONFIRM      0x02
+#define SFX_MENU_BACK         0x03
+#define SFX_PANEL_OPEN        0x04
+#define SFX_MENU_ERROR        0x08
+#define SFX_N64_LOGO          0x0A
+#define SFX_TITLE_START       0x0F
+#define SFX_MOVE_SWAP         0x18 // PC Pokemon, item, box and move reordering.
+#define SFX_ZOOM_IN           0x19 // Gallery enlargement and Pokedex area detail.
+#define SFX_ZOOM_OUT          0x1A
+#define SFX_PAUSE             0x23
+#define SFX_RESUME            0x24
+#define SFX_PAK_CURSOR        0x25 // Transfer Pak and trade-machine port selection.
+#define SFX_PAGE_CHANGE       0x27 // Gallery pages and Pokemon boxes.
+#define SFX_TROPHY_APPEAR     0x28
+#define SFX_PAK_LAB_SELECT    0x2A
+#define SFX_PAK_TOWER_SELECT  0x2B
+#define SFX_PHOTO_CAPTURE     0x2C
+#define SFX_CAMERA_FULL       0x2D // Automatic exit begins after the 24th photo.
+#define SFX_CAMERA_EXIT       0x2E
+#define SFX_AREA_CURSOR       0x32
+#define SFX_CAMERA_TEXT       0x3C // Tutorial character reveal; detuned ID 5.
+
+#define SFX_TRADE_TEXT        0x01200001
+#define SFX_TRADE_BEGIN       0x01200002
+#define SFX_TRADE_END         0x01200003
+#define SFX_TRADE_LIGHT_ON    0x01200004
+#define SFX_TRADE_BALL_APPEAR 0x01200005
+#define SFX_TRADE_BALL_READY  0x01200006
+#define SFX_EVOLUTION_START  0x01200007
+
+// game states
+typedef enum {
+    STATE_N64_LOGO_INTRO      = 0x01, // N64 Logo + Intro
+    STATE_TITLE_SCREEN        = 0x02, // Title screen
+    STATE_N64DD_BOOT_UNUSED   = 0x03, // seems to be unused, but boots an N64DD disk. Leftover from JP.
+    STATE_MENU_SELECT         = 0x04, // Menu Select (select Battle Now!, POKeMON Stadium, etc)
+    STATE_AREA_SELECT         = 0x10, // Area Select (select Stadium, GB Tower, Gym Leader Castle, etc)
+    STATE_GALLERY             = 0x11, // Gallery
+    STATE_EVENT_BATTLE        = 0x12, // Event Battle
+    STATE_OPTIONS             = 0x13, // Options
+    STATE_FAST_N64_LOGO       = 0x40, // N64 Logo but no Intro. The Sticker Station might use this for booting quickly and into Gallery mode.
+    STATE_STADIUM_MENU        = 0x20, // POKeMON Stadium (the main Stadium mode) 
+    STATE_FREE_BATTLE         = 0x21, // Free Battle
+    STATE_VS_MEWTWO           = 0x22, // VS Mewtwo
+    STATE_KIDS_CLUB           = 0x23, // Kids Club
+    STATE_VICTORY_PALACE      = 0x24, // Victory Palace
+    STATE_POKEMON_LAB         = 0x25, // POKeMON Lab
+    STATE_GB_TOWER            = 0x26, // GB Tower
+    STATE_GYM_LEADER_CASTLE   = 0x27, // Gym Leader Castle
+    STATE_BATTLE_NOW_1P       = 0x28, // Battle Now! (1P)
+    STATE_BATTLE_NOW_2P       = 0x29, // Battle Now! (2P)
+    STATE_BATTLE_FROM_EVENT   = 0x2A, // Battle menu from Event Battle
+    STATE_STUBBED_DEBUG       = 0x80, // stubbed/removed debug menu. This could have been the Early Pokedex Menu seen in the JP version.
+    STATE_FAST_BATTLE         = 0x81, // most likely the P97/P98 mode(s) and uses GB Pak 1 and 2 for the teams for an immediate battle; skips even the VS screen and Battle Rule screen. However, the music/stadium used is probably set by some other menu, because it seems to use the outdoor Free Battle area + Poke Cup 1-3, which isnt correct.
+    STATE_KIDS_CLUB_TITLE     = 0x82, // Kids Club, but it returns to the title screen. Possibly for a Kiosk/demo version.
+} GameState;
+
+/*
+ * Dynamic heap with an indetermate amount of space. This pool can either end at 4MB or
+ * 6MB depending on osMemSize, which is really strange as it should be using the whole
+ * 8MB of the expansion pak.
+ */
+extern u8 gPool[];
+
+extern Gfx* gDisplayListHead;
+extern u64 _binary_assets_us_F3DEX2_bin_start[];
+
+extern f32 gSineTable[];
+extern f32 gCosineTable[0x1000];
+extern s16 gArctanTable[0x401];
+
+
+
+extern u8 D_1000000[];
+extern u8 D_8000000[];
+
+extern u8 D_1000800[];
+extern u8 D_1001800[];
+extern Gfx D_1002480[];
+extern Gfx D_1002508[];
+extern Gfx D_1002590[];
+extern u8 D_2000000[];
+extern u8 D_3000000[];
+extern u8 D_3000000_2[];
+extern u8 D_3000210[];
+
+extern u8 D_4000008[];
+extern u8 D_4000810[];
+extern u8 D_4001018[];
+extern u8 D_4001820[];
+extern u8 D_5000000[];
+extern u8 D_6000000[];
+
+extern u8 gRound2BadgeTexture[];
+extern u8 sAreaSelectGlowCircleTexture[];
+extern u8 gUiPanelBottomLeftTexture[];
+extern u8 gUiPanelBottomRightTexture[];
+extern u8 gUiPanelTopLeftTexture[];
+extern u8 gUiPanelTopRightTexture[];
+
+extern u8 D_400C800[];
+extern u8 D_400CA00[];
+extern u8 D_400CC00[];
+extern u8 D_400CE00[];
+extern u8 D_400CF00[];
+extern u8 D_400D100[];
+extern u8 D_400D200[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern u8 D_4006A60[];
+extern u8 D_40022E0[];
+extern u8 D_4002368[];
+extern u8 D_40025F0[];
+extern u8 D_4002878[];
+extern u8 D_4002B00[];
+extern u8 D_4002D88[];
+extern u8 D_4003010[];
+extern u8 D_4003298[];
+extern u8 D_4003520[];
+extern u8 D_4001638[];
+extern u8 D_4001680[];
+extern u8 D_40016C8[];
+extern u8 D_4001710[];
+extern u8 D_4004A00[];
+extern u8 D_4005570[];
+extern u8 D_4001010[];
+extern u8 D_4001C90[];
+extern u8 D_4001FB8[];
+extern u8 D_4006AB8[];
+extern u8 D_4007750[];
+extern u8 D_4007798[];
+extern u8 D_40077E0[];
+extern u8 D_4007828[];
+extern u8 D_4006F40[];
+extern u8 D_4006F88[];
+extern u8 D_4006FD0[];
+extern u8 D_4007018[];
+extern u8 D_4007060[];
+extern u8 D_40070A8[];
+extern u8 D_40070F0[];
+extern u8 D_4007138[];
+extern u8 D_4007180[];
+extern u8 D_40071C8[];
+extern u8 D_4007BF0[];
+extern u8 D_4007210[];
+extern u8 D_4007318[];
+extern u8 D_4007420[];
+extern u8 D_4007528[];
+extern u8 D_4001218[];
+extern u8 D_4001320[];
+extern u8 D_4001428[];
+extern u8 D_4001530[];
+extern u8 D_4007630[];
+extern u8 D_4007678[];
+extern u8 D_40076C0[];
+extern u8 D_4007708[];
+extern u8 D_4007948[];
+extern u8 D_4007978[];
+
+
+
+
+extern u8 D_40068E8[];
+extern u8 D_4006930[];
+extern u8 D_4006978[];
+extern u8 D_40069C0[];
+extern u8 D_4007AD0[];
+extern u8 D_4007B18[];
+extern u8 D_4007B60[];
+extern u8 D_4007BA8[];
+extern u8 D_4004448[];
+extern u8 D_4004FB8[];
+extern u8 D_4003AD0[];
+extern u8 D_400D780[];
+extern u8 D_400D9C0[];
+extern u8 D_4011638[];
+extern u8 D_30099B8[];
+extern u8 D_4003900[];
+extern u8 D_4002900[];
+extern u8 D_3001D20[];
+extern u8 D_4011BF8[];
+extern u8 D_4015080[];
+
+
+
+
+
+
+
+extern u8 D_300BF40[];
+extern u8 D_300C140[];
+extern u8 D_300C540[];
+extern u8 D_300C640[];
+extern u8 D_300C740[];
+extern u8 D_300C840[];
+extern u8 D_3009E38[];
+extern u8 D_300AE38[];
+extern u8 D_4004848[];
+extern u8 D_4004AC8[];
+extern u16 D_4004D48[];
+extern u8 D_4006748[];
+extern u16 D_4005F48[];
+extern u8 D_4007048[];
+extern u8 D_4003A38[];
+extern u8 D_4007448[];
+extern u8 D_3004540[];
+extern u8 D_3005260[];
+
+extern u8 D_3001D20[];
+
+
+
+extern u8 D_300BE40[];
+extern u8 D_300BE80[];
+extern u8 D_300BEC0[];
+extern u8 D_300BF00[];
+extern u8 D_300C340[];
+extern u8 D_300C3C0[];
+extern u8 D_300C440[];
+extern u8 D_300C4C0[];
+extern u8 D_3028E00[];
+extern u8 D_3029A80[];
+extern u8 D_302A700[];
+extern u8 D_302B380[];
+extern u8 D_2000C80[];
+extern u8 D_2000D80[];
+extern u8 D_2000E80[];
+extern u8 D_2000F80[];
+#define BOTTOM_LEFT_SECTION_CORNER D_2000C80
+#define BOTTOM_RIGHT_SECTION_CORNER D_2000D80
+#define TOP_LEFT_SECTION_CORNER D_2000F80
+#define TOP_RIGHT_SECTION_CORNER D_2000E80
+extern u8 D_2006C00[];
+#define POKEBALL_ICON_TOP D_2006C00
+extern u8 D_2007500[];
+#define POKEBALL_ICON_BOTTOM D_2007500
+extern u8 D_20003C0[];
+extern u8 D_20005C0[];
+extern u8 D_20002C0[];
+extern u8 D_2000300[];
+extern u8 D_2000340[];
+extern u8 D_2000380[];
+extern u8 D_3024C80[];
+extern u8 D_30260C0[];
+extern u8 D_2000B40[];
+extern u8 D_2000B80[];
+extern u8 D_2000BC0[];
+extern u8 D_2000C00[];
+extern u8 D_302C000[];
+extern u8 D_20287E0[];
+extern u8 D_2028860[];
+extern u8 D_20288E0[];
+extern u8 D_2028960[];
+extern u8 D_302FBC0[];
+extern u8 D_30300C0[];
+extern u8 D_30242C0[];
+extern u8 D_30243A0[];
+extern u8 D_302EBC0[];
+extern u8 D_201D820[];
+extern u8 D_201DB20[];
+extern u8 D_201DE20[];
+extern u8 D_201E120[];
+extern u8 D_201E420[];
+extern u8 D_2020420[];
+extern u8 D_2022420[];
+extern u8 D_2024420[];
+extern u8 D_2026420[];
+extern u8 D_3006668[];
+extern u8 D_3000008[];
+extern u8 D_3004EF0[];
+extern u8 D_30055B0[];
+extern u8 D_3005A18[];
+
+
+
+
+extern u8 D_3006060[];
+extern u8 D_3008670[];
+extern u8 D_3009678[];
+extern u8 D_3012D80[];
+extern u8 D_301C488[];
+extern u8 D_2002480[];
+extern u8 D_2002900[];
+extern u8 D_2003900[];
+extern u8 D_2004900[];
+extern u8 D_2004C00[];
+extern u8 D_2005A10[];
+extern u8 D_2006820[];
+extern u8 D_20068A0[];
+extern u8 D_2006920[];
+extern u8 D_20069A0[];
+extern u8 D_2002000[];
+extern u8 D_30C1290[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern u8 D_3023280[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern u8 D_30CD390[];
+extern u8 D_30CD410[];
+extern u8 D_30CD490[];
+extern u8 D_30CD510[];
+
+
+
+
+
+
+
+
+
+
+extern u8 D_4001C90[];
+extern u8 D_4001FB8[];
+extern u8 D_30015E0[];
+extern u8 D_30025E0[];
+extern u8 D_3002C00[];
+extern u8 D_302F690[];
+extern u8 D_302F588[];
+extern u8 D_302F5C8[];
+extern u8 D_302F608[];
+extern u8 D_302F648[];
+extern u8 D_30387B0[];
+extern u8 D_30387F0[];
+extern u8 D_3038830[];
+extern u8 D_3038870[];
+extern u8 D_302F6E0[];
+extern u8 D_302F740[];
+extern u8 D_302F7A0[];
+extern u8 D_302F800[];
+extern u8 D_302F860[];
+extern u8 D_302F8C0[];
+extern u8 D_302F928[];
+extern u8 D_302F988[];
+extern u8 D_302F9E8[];
+extern u8 D_302FA48[];
+extern u8 D_3038C70[];
+extern u8 D_3038D70[];
+extern u8 D_3038E70[];
+extern u8 D_3038F70[];
+extern u8 D_3027168[];
+extern u8 D_3027EE8[];
+extern u8 D_3039070[];
+extern u8 D_3039540[];
+extern u8 D_3039A10[];
+extern u8 D_3039FB0[];
+extern u8 D_303A550[];
+extern u8 D_303AAF0[];
+extern u8 D_303B090[];
+extern u8 D_303B630[];
+extern u8 D_303BBD0[];
+extern u8 D_303C170[];
+extern u8 D_303C710[];
+extern u8 D_303CCB0[];
+extern u8 D_303D250[];
+extern u8 D_303D7F0[];
+extern u8 D_303DD90[];
+extern u8 D_30388B0[];
+extern u8 D_3038990[];
+extern u8 D_3028C68[];
+extern u8 D_3029468[];
+extern u8 D_3029C68[];
+extern u8 D_302A468[];
+extern u8 D_30386B0[];
+extern u8 D_30386F0[];
+extern u8 D_3038730[];
+extern u8 D_3038770[];
+extern u8 D_3014468[];
+extern u8 D_302DE68[];
+extern u8 D_302E418[];
+extern u8 D_302E9C8[];
+extern u8 D_302EF78[];
+extern u8 D_302F528[];
+extern u8 D_303E330[];
+extern u8 D_303FC30[];
+extern u8 D_3040590[];
+extern u8 D_3040270[];
+extern u8 D_303F910[];
+extern u8 D_303F5F0[];
+extern u8 D_3040590[];
+extern u8 D_303FF50[];
+extern u8 D_3040BD0[];
+extern u8 D_303E650[];
+extern u8 D_303E970[];
+extern u8 D_303EFB0[];
+extern u8 D_303F2D0[];
+extern u8 D_30408B0[];
+extern u8 D_303EC90[];
+extern u8 D_3040EF0[];
+extern u8 D_302F6E0[];
+extern u8 D_302F7A0[];
+extern u8 D_302F800[];
+extern u8 D_302F860[];
+extern u8 D_302F8C0[];
+extern u8 D_302F928[];
+extern u8 D_302F988[];
+extern u8 D_302F9E8[];
+extern u8 D_302FA48[];
+extern u8 D_302FAB0[];
+extern u8 D_302FDB0[];
+extern u8 D_30300B0[];
+extern u8 D_30303B0[];
+extern u8 D_302BE68[];
+extern u8 D_30306B0[];
+extern u8 D_30326B0[];
+extern u8 D_30346B0[];
+extern u8 D_30366B0[];
+extern u8 D_302AC68[];
+extern u8 D_302B568[];
+extern u8 D_3026168[];
+extern u8 D_3026368[];
+extern u8 D_3026568[];
+extern u8 D_3026768[];
+extern u8 D_3026968[];
+extern u8 D_3026B68[];
+extern u8 D_3026D68[];
+extern u8 D_3026F68[];
+extern u8 D_300D868[];
+extern u8 D_300EA68[];
+extern u8 D_300FC68[];
+extern u8 D_3010E68[];
+extern u8 D_3012068[];
+extern u8 D_3013268[];
+extern u8 D_3012068[];
+extern u8 D_3010E68[];
+extern u8 D_300FC68[];
+extern u8 D_300EA68[];
+extern u8 D_3005D28[];
+extern u8 D_300D108[];
+extern u8 D_300D278[];
+extern u8 D_3006000[];
+extern u8 D_3009DC8[];
+extern u8 D_300B768[];
+extern u8 D_30079A0[];
+extern u8 D_3009BC0[];
+extern u8 D_30081A8[];
+extern u8 D_3038A70[];
+extern u8 D_3038AF0[];
+extern u8 D_3038B70[];
+extern u8 D_3038BF0[];
+extern u8 D_4000C00[];
+extern u8 D_201A620[];
+extern u8 D_2028420[];
+extern u8 D_2000C40[];
+extern u8 D_2007E00[];
+extern u8 D_2008700[];
+extern u8 D_2009000[];
+extern u8 D_2009900[];
+extern u8 D_2001080[];
+extern u8 D_2001550[];
+extern u8 D_2001A20[];
+extern u8 D_2001FC0[];
+extern u8 D_2002560[];
+extern u8 D_2002B00[];
+extern u8 D_20030A0[];
+extern u8 D_2003640[];
+extern u8 D_2003BE0[];
+extern u8 D_2004180[];
+extern u8 D_2004720[];
+extern u8 D_2004CC0[];
+extern u8 D_2005260[];
+extern u8 D_2005800[];
+extern u8 D_2005DA0[];
+extern u8 D_2006340[];
+extern u8 D_20007C0[];
+extern u8 D_20008A0[];
+extern u8 D_200A200[];
+extern u8 D_200A280[];
+extern u8 D_200A300[];
+extern u8 D_200A780[];
+extern u8 D_2000980[];
+extern u8 D_2000A60[];
+extern u8 D_3008200[];
+extern u8 D_4000C40[];
+extern u8 D_4000DD0[];
+#define ELIGIBILITY_PANEL_LEGEND D_4000DD0
+extern u8 D_300F780[];
+extern u8 D_3024480[];
+extern u8 D_30256A0[];
+extern u8 D_3026AE0[];
+extern u8 D_2016010[];
+extern u8 D_300F380[];
+extern u8 D_300F400[];
+extern u8 D_300F480[];
+extern u8 D_300F500[];
+extern u8 D_30229A0[];
+extern u8 D_30229E0[];
+extern u8 D_3022A20[];
+extern u8 D_3022A60[];
+extern u8 D_30111A0[];
+extern u8 D_3017DA0[];
+extern u8 D_301E9A0[];
+extern u8 D_301F9A0[];
+extern u8 D_30209A0[];
+extern u8 D_30219A0[];
+extern u8 D_30230C0[];
+extern u8 D_30239C0[];
+extern u8 D_3004E20[];
+extern u8 D_3006020[];
+extern u8 D_3007220[];
+extern u8 D_3008420[];
+extern u8 D_3009620[];
+extern u8 D_3000FA0[];
+extern u8 D_3001F40[];
+extern u8 D_3002EE0[];
+extern u8 D_3003E80[];
+extern u8 D_300A820[];
+extern u8 D_300B820[];
+extern u8 D_300C820[];
+extern u8 D_300D820[];
+extern u8 D_300F240[];
+extern u8 D_300F280[];
+extern u8 D_300F2C0[];
+extern u8 D_300F300[];
+extern u8 D_300F340[];
+extern u8 D_2000040[];
+extern u8 D_2000240[];
+extern u8 D_300E820[];
+extern u8 D_300ED30[];
+extern u8 D_300F580[];
+extern u8 D_3022AA0[];
+extern u8 D_200B3E0[];
+extern u8 D_200C380[];
+extern u8 D_200D320[];
+extern u8 D_3008880[];
+extern u8 D_302E440[];
+extern u8 D_302E840[];
+extern u8 D_3014760[];
+extern u8 D_301A760[];
+extern u8 D_3020760[];
+
+
+
+
+
+
+extern u8 D_3024000[];
+extern u8 D_3009000[];
+extern u8 D_3012000[];
+extern u8 D_301B000[];
+extern u8 D_2028AE0[];
+extern u8 D_20293E0[];
+extern u8 D_200DFA0[];
+extern u8 D_200F3E0[];
+extern u8 D_2010820[];
+extern u8 D_2011C60[];
+extern u8 D_20130A0[];
+extern u8 D_2029CE0[];
+extern u8 D_20068E0[];
+extern u8 D_200AC00[];
+extern u8 D_202C080[];
+extern u8 D_202C500[];
+extern u8 D_202C980[];
+extern u8 D_202CE00[];
+extern u8 D_202D280[];
+extern u8 D_202D700[];
+extern u8 D_202DB80[];
+extern u8 D_202E000[];
+extern u8 D_202A8C0[];
+extern u8 D_202B4A0[];
+extern u8 D_2014F00[];
+extern u8 D_20154B0[];
+extern u8 D_2015A60[];
+extern u8 D_2016D40[];
+extern u8 D_2017740[];
+extern u8 D_2019040[];
+extern u8 D_2019680[];
+extern u8 D_2018D20[];
+extern u8 D_2018A00[];
+extern u8 D_20199A0[];
+extern u8 D_2019360[];
+extern u8 D_2019FE0[];
+extern u8 D_2017A60[];
+extern u8 D_2017D80[];
+extern u8 D_20183C0[];
+extern u8 D_20186E0[];
+extern u8 D_2019CC0[];
+extern u8 D_20180A0[];
+extern u8 D_201A300[];
+extern u8 D_20165C0[];
+extern u8 D_2016980[];
+extern u8 D_3024A00[];
+extern u8 D_3013000[];
+extern u8 D_3014000[];
+extern u8 D_3017F00[];
+extern u8 D_3018780[];
+extern u8 D_30187C0[];
+extern u8 D_3018700[];
+extern u8 D_3018740[];
+extern u8 D_3010800[];
+extern u8 D_3011400[];
+extern u8 D_302AA70[];
+extern u8 D_302BA70[];
+extern u8 D_302CA70[];
+extern u8 D_302DA70[];
+extern u8 D_302EA70[];
+extern u8 D_30497F0[];
+extern u8 D_30339F0[];
+extern u8 D_3034FD0[];
+extern u8 D_30365B0[];
+extern u8 D_3037B90[];
+extern u8 D_3039170[];
+extern u8 D_303A750[];
+extern u8 D_303BD30[];
+extern u8 D_303D310[];
+extern u8 D_303E8F0[];
+extern u8 D_303FED0[];
+extern u8 D_30414B0[];
+extern u8 D_3042A90[];
+extern u8 D_3044070[];
+extern u8 D_3045650[];
+extern u8 D_3046C30[];
+extern u8 D_3048210[];
+extern u8 D_3029270[];
+extern u8 D_3029670[];
+extern u8 D_3029A70[];
+extern u8 D_3029E70[];
+extern u8 D_302A270[];
+extern u8 D_302A670[];
+extern u8 D_3030A70[];
+extern u8 D_3031650[];
+extern u8 D_3032230[];
+extern u8 D_3032E10[];
+extern u8 D_3027890[];
+extern u8 D_3003000[];
+extern u8 D_300F000[];
+extern u8 D_300FC00[];
+extern u8 D_300D800[];
+extern u8 D_3010000[];
+extern u8 D_3016E80[];
+extern u8 D_30200C0[];
+extern u8 D_3004000[];
+extern u8 D_3008000[];
+extern u8 D_300C000[];
+extern u8 D_2018000[];
+extern u8 D_2021620[];
+extern u8 D_2023240[];
+extern u8 D_2022E40[];
+extern u8 D_3016F00[];
+extern u8 D_3027690[];
+extern u8 D_10031D0[];
+extern u8 D_3025200[];
+extern u8 D_3025950[];
+extern u8 D_30260A0[];
+extern u8 D_30267F0[];
+extern u8 D_3026F40[];
+extern u8 D_3028030[];
+extern u8 D_30280F0[];
+extern u8 D_3027EB0[];
+extern u8 D_3027F70[];
+extern u8 D_30281B0[];
+extern u8 D_3024800[];
+extern u8 D_3020800[];
+extern u8 D_3018800[];
+extern u8 D_301C800[];
+extern u8 D_3015100[];
+extern u8 D_3015700[];
+extern u8 D_3015D00[];
+extern u8 D_3016300[];
+extern u8 D_3016900[];
+extern u8 D_3015000[];
+extern u8 D_3015040[];
+extern u8 D_3015080[];
+extern u8 D_30150C0[];
+extern u8 D_3002220[];
+extern u8 D_3002820[];
+extern u8 D_3002E20[];
+extern u8 D_3003C80[];
+extern u8 D_30050C0[];
+extern u8 D_3005680[];
+extern u8 D_300C660[];
+extern u8 D_300D308[];
+extern u8 D_300DFB0[];
+extern u8 D_300EC58[];
+extern u8 D_3005B80[];
+extern u8 D_3005F40[];
+extern u8 D_3006300[];
+extern u8 D_30066C0[];
+extern u8 D_3006A80[];
+extern u8 D_3006E40[];
+extern u8 D_3007200[];
+extern u8 D_30075C0[];
+extern u8 D_3007980[];
+extern u8 D_3007D40[];
+extern u8 D_3008100[];
+extern u8 D_30084C0[];
+extern u8 D_300B9B8[];
+extern u8 D_300AD10[];
+extern u8 D_3008FD0[];
+extern u8 D_3009720[];
+extern u8 D_3009E70[];
+extern u8 D_300A5C0[];
+extern u8 D_3003F80[];
+extern u8 D_3004D40[];
+extern u8 D_30005B0[];
+extern u8 D_3000B60[];
+extern u8 D_3001110[];
+extern u8 D_30016C0[];
+extern u8 D_3001C70[];
+extern u8 D_300CC10[];
+extern u8 D_3019C38[];
+extern u8 D_3009290[];
+extern u8 D_300A290[];
+extern u8 D_300B290[];
+extern u8 D_3011A30[];
+extern u8 D_300C290[];
+extern u8 D_3000000[];
+extern u8 D_3000D20[];
+extern u8 D_3001A40[];
+extern u8 D_3002760[];
+extern u8 D_3003480[];
+extern u8 D_30041A0[];
+extern u8 D_3004EC0[];
+extern u8 D_3005BE0[];
+extern u8 D_3006900[];
+extern u8 D_3008E50[];
+extern u8 D_3007620[];
+extern u8 D_3008238[];
+extern u8 _798CD0_TEXT_START[];
+extern u8 D_8FC00090[];
+
+extern u8 D_8FC01070[];
+extern u8 D_8FC011C4[];
+extern u8 D_3008380[];
+extern u8 D_3008400[];
+extern u8 D_3008480[];
+extern u8 D_3008500[];
+extern u8 D_3008580[];
+extern u8 D_3008600[];
+extern u8 D_3008680[];
+extern u8 D_3008700[];
+extern u8 D_3000470[];
+extern u8 D_3001F70[];
+extern u8 D_30092C0[];
+extern u8 D_3009560[];
+extern u8 D_3008280[];
+extern u8 D_3006170[];
+extern u8 D_30061D0[];
+extern u8 D_3006230[];
+extern u8 D_1003DB0[];
+extern u8 D_1003E50[];
+extern u8 D_1003EA0[];
+extern u8 D_1003EC8[];
+extern u8 D_1003EF0[];
+extern u8 D_300B870[];
+extern u8 D_3008C00[];
+extern u8 D_3008D80[];
+extern u8 D_3008E40[];
+extern u8 D_3008FC0[];
+extern u8 D_3009080[];
+extern u8 D_3009200[];
+extern u8 D_3008780[];
+extern u8 D_3008900[];
+extern u8 D_30089C0[];
+extern u8 D_3008B40[];
+extern u8 D_3006290[];
+extern u8 D_3006450[];
+extern u8 D_3006530[];
+extern u8 D_30066F0[];
+extern u8 D_30067D0[];
+extern u8 D_3006990[];
+extern u8 D_3006A70[];
+extern u8 D_3006C30[];
+extern u8 D_300B630[];
+extern u8 D_300A1F0[];
+extern u8 D_30096B0[];
+extern u8 D_300AAF0[];
+extern u8 D_300A8B0[];
+extern u8 D_300B3F0[];
+extern u8 D_3009FB0[];
+extern u8 D_30098F0[];
+extern u8 D_300A430[];
+extern u8 D_300B1B0[];
+extern u8 D_300AF70[];
+extern u8 D_300A670[];
+extern u8 D_3009D70[];
+extern u8 D_300AD30[];
+extern u8 D_3009B30[];
+extern u8 D_3006D10[];
+extern u8 D_3007010[];
+extern u8 D_3007310[];
+extern u8 D_3007610[];
+extern u8 D_3007A78[];
+extern u8 D_3007EB0[];
+extern u8 D_3007910[];
+extern u8 D_3008018[];
+extern u8 D_3007BE0[];
+extern u8 D_3007D48[];
+
+extern LEODiskID D_80084D10;
+
+extern Gfx gUiEnvTintTextureDL[];
+extern Gfx gUiRestoreTextureDL[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+typedef struct Rectangle {
+	/* 0x00 */ s16 x1;
+	/* 0x02 */ s16 y1;
+	/* 0x04 */ s16 x2;
+	/* 0x06 */ s16 y2;
+} unk_D_800A7440; // size >= 0x8
+
+
+extern struct DisplayNodeHeader D_800AD1D0;
+extern struct DisplayNodeHeader D_800AD1E8;
+
+typedef struct unk_D_8006FF00 {
+	/* 0x00 */ u8 unk_00;
+	/* 0x01 */ u8 unk_01;
+	/* 0x02 */ s16 unk_02;
+	/* 0x04 */ char* name;
+	/* 0x08 */ s32 unk_08;
+	/* 0x0C */ u8 unk_0C;
+	/* 0x0D */ u8 unk_0D;
+	/* 0x0E */ s16 unk_0E;
+	/* 0x10 */ s16 unk_10;
+	/* 0x12 */ s16 unk_12;
+	/* 0x14 */ u32 unk_14;
+	/* 0x18 */ u32 unk_18;
+} unk_D_8006FF00; // size = 0x1C
+
+
+typedef struct FontSet {
+	/* 0x00 */ s16 unk_00;
+	/* 0x02 */ s16 unk_02;
+	/* 0x04 */ u8* unk_04;
+	/* 0x08 */ u8* unk_08;
+} FontSet; // size = 0xC
+
+typedef struct FontContext {
+    /* 0x00 */ FontSet unk_00[6];
+    /* 0x48 */ void* unk_48;
+    /* 0x4C */ s32 unk_4C;
+    /* 0x50 */ u8 unk_50;
+    /* 0x51 */ s8 unk_51;
+    /* 0x52 */ u8 line_height;
+    /* 0x53 */ u8 line_break_flag;
+} FontContext; // size = 0x54
+
+extern Gfx gUiTranslucentFillDL[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 D_80087B80;
+
+
+
+typedef struct unk_D_800A6CF4 {
+    /* 0x00 */ char unk00[0x20];
+    /* 0x20 */ s32 unk_20;
+} unk_D_800A6CF4; // size = 0x24
+
+extern u8 gAudioData[];
+
+extern Mtx gIdentityMtx;
+extern u32 D_1003E78[];
+extern u32 D_304F120[];
+
+extern s32 D_80075C30;
+
+
+
+typedef struct unk_70D3A0 {
+    /* 0x00 */ f32 unk_00;
+    /* 0x04 */ f32 unk_04;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ f32 unk_0C;
+} unk_70D3A0; // size = 0x10
+
+typedef struct unk_D_70B10 {
+    /* 0x00 */ char unk00[0x20];
+} unk_D_70B10; // size = 0x20
+
+ // start of some rom area
+
+typedef struct MoveData {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
+    /* 0x04 */ u8 unk_04;
+    /* 0x05 */ u8 unk_05;
+} MoveData; // size = 0x6
+extern MoveData gMoveData[];
+
+typedef struct unk_D_80072338 {
+    /* 0x00 */ char unk00[0x1];
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ char unk02[0x2];
+    /* 0x04 */ char* unk_04;
+    /* 0x08 */ char* comment;
+} unk_D_80072338; // size = 0xC
+extern unk_D_80072338 gMoveDisplayInfo[];
+
+extern char D_80064C44[][0x1C];
+#define gSpeciesDataById D_80064C44
+
+typedef struct unk_rom_70D3A0_offset_72780 {
+    /* 0x00 */ char unk00[0x20];
+} unk_rom_70D3A0_offset_72780;
+extern unk_rom_70D3A0_offset_72780 D_72780[];
+
+typedef struct unk_rom_70D3A0_offset_73A60 {
+    /* 0x00 */ char unk00[0x20];
+} unk_rom_70D3A0_offset_73A60;
+extern unk_rom_70D3A0_offset_73A60 D_73A60[];
+
+#endif

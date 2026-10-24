@@ -1,0 +1,15 @@
+/* Stadium Zero resident code. */
+
+#include "global.h"
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800093C0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800093C0.s")
+#endif
+
+#ifdef NON_MATCHING
+/* TODO: decompile func_800093D0; signature not recovered. */
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800093D0.s")
+#endif
