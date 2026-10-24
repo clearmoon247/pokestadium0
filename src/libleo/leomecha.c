@@ -69,11 +69,70 @@ u8 leoAnalize_asic_status(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80049ECC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80049FB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80049FB4.s")
-#endif
+u8 leoChk_done_status(u32 asic_cmd) {
+    u32 asic_data;
+    u32 code = leoAnalize_asic_status();
+
+    switch (code) {
+        case 43:
+        case 47:
+            if (!(asic_cur_status & 0x800000)) {
+                if (leoRecv_event_mesg(0) != 0) {
+                    return 43;
+                }
+
+                osEPiWriteIo(LEOPiInfo, 0x5000508, 0x90000);
+                if (leoRecv_event_mesg(1) != 0) {
+                    return 43;
+                }
+            }
+            break;
+
+        case 49:
+            if (asic_cmd & 1) {
+                break;
+            }
+            return 0;
+
+        case 21:
+            osEPiWriteIo(LEOPiInfo, 0x5000500, 0);
+            if (leoRecv_event_mesg(0) != 0) {
+                return 43;
+            }
+
+            osEPiWriteIo(LEOPiInfo, 0x5000508, 0xC0000);
+            if (leoRecv_event_mesg(1) != 0) {
+                return 43;
+            }
+
+            osEPiReadIo(LEOPiInfo, 0x5000500, &asic_data);
+            code = leoChk_asic_ready(0xC0000);
+            if (code != 0) {
+                return code;
+            }
+
+            if (asic_data & 0x10000) {
+                return 2;
+            }
+            if (asic_data & 0x20000) {
+                return 24;
+            }
+            if (asic_data & 0x40000) {
+                return 1;
+            }
+            if (asic_data & 0x80000) {
+                return 21;
+            }
+            if (asic_data & 0x200000) {
+                return 11;
+            }
+            return 41;
+
+        default:
+            break;
+    }
+    return code;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8004A168; signature not recovered. */

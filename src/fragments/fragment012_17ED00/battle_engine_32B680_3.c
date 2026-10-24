@@ -1377,11 +1377,23 @@ void ParticleEffect_RegisterColorAnim(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackEndEffect49Model33Anim34WaitCleanup, &gDefaultParticleDescriptor, 0, 1, 2, gBattleAnimCurrentAnchor, 1, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821569A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821569A0.s")
-#endif
+void ParticleEffect_RegisterModeSpecific(void) {
+    switch (BattleAnim_GetQueuedMoveId()) {
+        case 0x8D:
+            BattleAnim_SpawnOwnerModelTintPaletteFade(0, 0xA, 0x3E, 2, 0xC8, 0x10);
+            break;
+
+        case 0x47:
+            BattleAnim_SpawnOwnerModelTintPaletteFade(0, 0x35, 0x3E, 2, 0xC8, 0x10);
+            break;
+
+        case 0x48:
+            BattleAnim_SpawnOwnerModelTintPaletteFade(0, 0x27, 0x3E, 2, 0xC8, 0x10);
+            break;
+    }
+
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackEndEffect21ModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 2, gBattleAnimCurrentAnchor, 0, 0);
+}
 
 void BattleAnim_InitEffect40Model(Particle* arg0) {
     arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);
@@ -2214,11 +2226,27 @@ void func_82158BA4(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82158CE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82158CE0.s")
-#endif
+void BattleAnim_CallbackEndEffects81And82Descriptor4AAnimatedColorFade_InitParticle(Particle* arg0) {
+    UNUSED s32 pad[2];
+    s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_FieldCE_GetS32_0C040(arg0);
+    Particle_FieldCF_GetS16_0C058(arg0);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 2);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_Field1C_SetScaled_0B938(arg0, 1.2f);
+    Particle_SetScaleSpeed(arg0, 1.0f);
+    Particle_SetScaleTarget(arg0, 0.02f);
+    Particle_SetRandomVelocityXYZ(arg0, 5, 0xF, 0xF);
+    Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0xA) * 0.5f) + 8.0f);
+    ParticleGfx_RecolorPrim(arg0, 0x17);
+    ParticleGfx_RecolorEnv(arg0, 0x17);
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldAE_SetS16_0BF4C(arg0, 4);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CB3C(s8 *);                      /* extern */
