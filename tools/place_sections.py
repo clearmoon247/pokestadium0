@@ -95,7 +95,21 @@ def solve(obj, image, start, base):
         if len(bases) != 1:
             raise ValueError(f'{obj.name}: {section} references disagree: '
                              + ', '.join(f'0x{b:08X}' for b in sorted(bases)))
-        result[section] = f'0x{bases.pop():08X}'
+        address = bases.pop()
+        result[section] = f'0x{address:08X}'
+        contents = elf.get_section_by_name(section)
+        if contents['sh_type'] == 'SHT_NOBITS':
+            continue
+        # IDO pads the section to 16 bytes. When the next object's data starts
+        # inside that zero padding, record the shorter size actually present.
+        data = contents.data()
+        used = len(data.rstrip(b'\0'))
+        used += -used % 4
+        offset = address - base
+        tail = image[offset + used:offset + len(data)]
+        if any(tail):
+            size = used + next(i for i, b in enumerate(tail) if b) // 4 * 4
+            result[section] = {'address': f'0x{address:08X}', 'size': f'0x{size:X}'}
     return result
 
 

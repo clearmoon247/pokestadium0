@@ -187,17 +187,12 @@ s32 PikachuReward_RenderFrame(u8 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817003C8.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 void PikachuReward_DrawTextBoxPanel(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     Color_RGB8 sp24 = { 0x00, 0x00, 0x32 };
     Color_RGB8 sp20 = { 0x00, 0x00, 0xC8 };
 
     Ui_DrawGradientPanel(arg0, arg1, arg2, arg3, &sp24, &sp20);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81700468.s")
-#endif
 
 void PikachuReward_DrawSelectionCursor(s16 arg0, s16 arg1) {
     gSPDisplayList(gDisplayListHead++, D_80060290);

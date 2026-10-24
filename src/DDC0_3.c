@@ -58,8 +58,6 @@ void Model_CopyPositionBuffer(PosBlend* src, PosBlend* dst);
 void func_800350E0(void) {
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_800350E8(ModelSegment* segment, MtxF* mtx, ModelVertex* mvtx) {
     ModelVertex* tmp;
     Vtx* vtx;
@@ -102,12 +100,7 @@ void func_800350E8(ModelSegment* segment, MtxF* mtx, ModelVertex* mvtx) {
         tmp++;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800350E8.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 f32 Model_ComputeScaledDistance(Vec3f* a, Vec3f* b, Vec3f* scale) {
     f32 dx;
     f32 dy;
@@ -128,9 +121,6 @@ f32 Model_ComputeScaledDistance(Vec3f* a, Vec3f* b, Vec3f* scale) {
     }
     return sqrtf((dx * dx) + (dy * dy) + (dz * dz));
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800352D4.s")
-#endif
 
 f32 Model_ComputeDistance(s16 (*a)[3], s16 (*b)[3]) {
     f32 dx;
@@ -143,8 +133,6 @@ f32 Model_ComputeDistance(s16 (*a)[3], s16 (*b)[3]) {
     return sqrtf((dx * dx) + (dy * dy) + (dz * dz));
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Model_ExtrapolateVertexPosition(Vec3f* from, Vec3f* to, f32 currentTime, f32 deltaTime, f32 scale) {
     s32 pad;
     f32 temp_fv0;
@@ -168,6 +156,3 @@ void Model_ExtrapolateVertexPosition(Vec3f* from, Vec3f* to, f32 currentTime, f3
     to->y += temp_fa1 * scale;
     to->z += temp_ft5 * scale;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80035448.s")
-#endif

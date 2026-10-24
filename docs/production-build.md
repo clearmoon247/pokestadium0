@@ -4,7 +4,7 @@
 opaque assets, and retained storage metadata. Every file listed in
 `config/jp/sources.json` (all 543 files in `src/`) is compiled whole through
 asm-processor, so its C functions and its `GLOBAL_ASM` owners come out of one
-object. 2,715 of the 5,444 code owners are C; the other 2,729 are assembled
+object. 2,746 of the 5,444 code owners are C; the other 2,698 are assembled
 from the extracted listings. The build links the resident image and all 259
 fragment images independently, preserving the fragments that share link
 addresses. The verified output is 16,777,216 bytes:
@@ -70,7 +70,10 @@ all 5,444 owners from assembly as an independent baseline.
   the file's data sections against the retail instructions, requiring one base
   per section. `--unwrap` first turns the file's held functions into plain C.
   This fails when `GLOBAL_ASM` functions' literals sit between the C functions'
-  literals, because the object then lacks those bytes.
+  literals, because the object then lacks those bytes. When the next object's
+  data starts inside a section's 16-byte zero padding (for example `DDC0_2.c`
+  and `DDC0_3.c`, which are probably one original file), the entry records
+  `{"address", "size"}` and only that zero padding is dropped.
 * Undefined symbols resolve, in order, to another object in the same image,
   `linker_scripts/jp/symbol_addrs.txt`, or the address in an address-style name.
 

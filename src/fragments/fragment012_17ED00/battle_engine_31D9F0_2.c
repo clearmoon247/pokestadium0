@@ -1231,8 +1231,6 @@ void func_82148090(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade_InitParticle(Particle* arg0) {
     UNUSED s32 pad[3];
     s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -1278,9 +1276,6 @@ void BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade_InitPartic
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214818C.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8214830C; signature not recovered. */

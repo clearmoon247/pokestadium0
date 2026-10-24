@@ -346,8 +346,6 @@ void BattleAnim_SpawnSingleParticle(BattleAnimEffectSlot* arg0) {
     BattleAnim_InitializeParticleFromEffect(Particle_New(), sp18, arg0, 0);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_DispatchParticleEmission(BattleAnimEffectSlot* arg0) {
     switch (arg0->unk_16) {
         case 18:
@@ -379,9 +377,6 @@ void BattleAnim_DispatchParticleEmission(BattleAnimEffectSlot* arg0) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AD74.s")
-#endif
 
 void BattleAnim_TickEffectSlots(void) {
     s32 i;

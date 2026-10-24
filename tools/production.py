@@ -283,6 +283,11 @@ def trim_file_text(obj, size):
     emits; that remainder comes from the erased (zero) owner bytes and is
     checked by the image comparison like everything else.
     """
+    return trim_section(obj, '.text', size)
+
+
+def trim_section(obj, name, size):
+    """Shorten a section to at most size bytes; only zero bytes may be removed."""
     data = bytearray(obj.read_bytes())
     header = struct.unpack_from('>16sHHIIIIIHHHHHH', data)
     positions = [header[6] + i * header[11] for i in range(header[12])]
@@ -290,15 +295,15 @@ def trim_file_text(obj, size):
     table = sections[header[13]]
     strings = data[table[4]:table[4] + table[5]]
     for position, section in zip(positions, sections):
-        if strings[section[0]:].split(b'\0', 1)[0] == b'.text':
-            if any(data[section[4] + size:section[4] + section[5]]):
-                raise ValueError(f'{obj.name}: .text is 0x{section[5]:X} bytes, owners span 0x{size:X}')
+        if strings[section[0]:].split(b'\0', 1)[0] == name.encode():
+            if section[1] != 8 and any(data[section[4] + size:section[4] + section[5]]):
+                raise ValueError(f'{obj.name}: {name} is 0x{section[5]:X} bytes, owners span 0x{size:X}')
             size = min(size, section[5])
             struct.pack_into('>I', data, position + 20, size)
             struct.pack_into('>I', data, position + 32, 4)
             obj.write_bytes(data)
             return size
-    raise ValueError('no .text section in ' + obj.name)
+    raise ValueError(f'no {name} section in {obj.name}')
 
 
 def compile_source_file(path, directory, compilers, prefix):
@@ -360,11 +365,16 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
             files[row['name']][0] for row in group['owners'] if row['name'] in files}):
         objects_by_file[path] = compile_source_file(path, directory, compilers, prefix)
         found = object_sections(objects_by_file[path])
-        for section, address in placements.get(path, {}).items():
-            address = int(address, 0)
+        for section, place in placements.get(path, {}).items():
             if section not in found:
                 raise ValueError(f'{path} has no {section} to place')
             size, kind = found[section]
+            if isinstance(place, dict):
+                # IDO pads a section to 16 bytes; where the next object's data
+                # starts inside that padding, the registry gives the real size.
+                size = trim_section(objects_by_file[path], section, int(place['size'], 0))
+                place = place['address']
+            address = int(place, 0)
             offset = address - group['base']
             if kind == 8:  # SHT_NOBITS: addresses only, no image bytes
                 nobits.append((address, size, objects_by_file[path].name, section))

@@ -31,16 +31,11 @@ void BattleScene_UpdateCameraDefaultModeNoop(UNUSED CameraNode* arg0) {
 void BattleScene_UpdateCameraOwner0FramingModeNoop(UNUSED CameraNode* arg0) {
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleScene_AvoidDegenerateCameraLookAt(CameraNode* arg0) {
     if (BattleAnim_Distance2D(arg0->view.targetPosition.x, arg0->view.targetPosition.z, arg0->view.eyePosition.x, arg0->view.eyePosition.z) < 0.0001f) {
         arg0->view.targetPosition.z += 0.001f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134500.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82134560; signature not recovered. */

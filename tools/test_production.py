@@ -131,7 +131,8 @@ class SourceRegistryTests(unittest.TestCase):
         for path, sections in json.loads(SECTION_REGISTRY.read_text()).items():
             self.assertIn(path, registered)
             self.assertLessEqual(set(sections), {'.rodata', '.data', '.bss'}, path)
-            for address in sections.values():
+            for place in sections.values():
+                address = place['address'] if isinstance(place, dict) else place
                 self.assertRegex(address, r'^0x[0-9A-F]{8}$')
 
     @unittest.skipUnless(shutil.which('mips-linux-gnu-as'), 'MIPS GNU assembler unavailable')

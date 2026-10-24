@@ -133,8 +133,6 @@ char* Text_CopySpeciesName(char* arg0, s32 arg1) {
     return arg0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 char* Text_GetTmHmName(s32 arg0, char* arg1) {
     // "ひでんマシン%02d"
     static const char D_0007CCA0[] = { 164, 210, 164, 199, 164, 243, 165, 222, 165, 183,
@@ -155,9 +153,6 @@ char* Text_GetTmHmName(s32 arg0, char* arg1) {
 
     return arg1;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001FDC8.s")
-#endif
 
 s16 func_8001FAB0(s8 *);                          /* extern */
 s32 func_8001FAC8(s8 *);                          /* extern */
@@ -242,8 +237,6 @@ u16 StatExpSqrt(u16 square) {
 void func_80020188(void) {
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u16 GetPokemonDV(s32 statId, u16 dvBits) { //GetPokemonDV
     u16 dvValue;
 
@@ -274,12 +267,7 @@ u16 GetPokemonDV(s32 statId, u16 dvBits) { //GetPokemonDV
 
     return dvValue;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80020190.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 CalculateStatValue(s32 statId, s32 speciesId, u16 statModifier, u16 level, u16 dvBits) {
     u16 statValue;
     u16 baseStat;
@@ -323,9 +311,6 @@ u32 CalculateStatValue(s32 statId, s32 speciesId, u16 statModifier, u16 level, u
 
     return statValue;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80020234.s")
-#endif
 
 void Pokemon_RecalcStats(BattleMon* arg0) {
     arg0->unk_24 = Pokemon_LevelFromExp(arg0->unk_00.unk_00, arg0->unk_10);
@@ -350,8 +335,6 @@ u16 Pokemon_StatExpForTarget(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u16 arg4) {
     return i;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 Pokemon_ExpForLevel(s32 arg0, u16 arg1) {
     u32 sp4;
 
@@ -383,9 +366,6 @@ u32 Pokemon_ExpForLevel(s32 arg0, u16 arg1) {
 
     return sp4;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002057C.s")
-#endif
 
 // The Japanese build compiles the functions from here through Deck_WriteEntries into the
 // gb_data object (gb_data.c includes this file with POKEMON_STATS_HEAD_ONLY defined); the

@@ -159,8 +159,6 @@ void Model_BuildVertexRuntimeData(StadiumModel* model, MtxF* mtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_800339CC(StadiumModel* model, void* arg1,  void* arg2, void* arg3) {
     f32 sp4C;
     f32 sp48;
@@ -216,17 +214,12 @@ void func_800339CC(StadiumModel* model, void* arg1,  void* arg2, void* arg3) {
     Model_BuildVertexRuntimeData(model, temp_s0);
     func_80035694(model);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800339CC.s")
-#endif
 
 void func_80033BBC(StadiumModel* model, MtxF* mtx) {
     Model_BuildVertexRuntimeData(model, mtx);
     func_80035694(model);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_80033BE4(StadiumModel* model, s16 maxDist, f32 radius, f32 ax, f32 ay, f32 az, f32 bx, f32 by, f32 bz, MtxF* mtx) {
     ModelSegment* segment;
     f32 cx, cy, cz;
@@ -322,12 +315,7 @@ void func_80033BE4(StadiumModel* model, s16 maxDist, f32 radius, f32 ax, f32 ay,
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80033BE4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_800340F4(StadiumModel* model) {
     u32 pad[2];
     ModelSegment* segment;
@@ -364,9 +352,6 @@ void func_800340F4(StadiumModel* model) {
         var_a2++;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800340F4.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800341E8; signature not recovered. */

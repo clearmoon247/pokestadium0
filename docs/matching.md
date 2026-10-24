@@ -15,7 +15,7 @@ work, from two sources:
 | Matched by a Stadium 1 or ultralib function, compiled in its own TU | 2,191 |
 | Either of the two | 3,014 |
 | Now C in `src/` and passing `tools/check_functions.py` | 2,804 (2,004 Stadium 1, 800 m2c) |
-| **Built as C by the full-ROM `make rom`** | **2,715** |
+| **Built as C by the full-ROM `make rom`** | **2,746** |
 | Identified as libultra (ultralib 2.0I, IDO 5.3), kept as `GLOBAL_ASM` | 173 |
 
 The first three rows count functions that compiled to the ROM bytes in isolation.
@@ -77,8 +77,8 @@ the JPEG code, `-signed` for `hal_libc.c`) are in `tools/cflags_overrides.json`.
 `check_functions.py` is a quick per-function check. `make rom` is the real gate: it
 builds every `src/` file whole through asm-processor and links it at its ROM
 address (see [production-build.md](production-build.md)). Of the 2,804 matching
-functions, 2,715 are built as C there; 58 of those needed their file's
-data placed at its ROM address (`config/jp/sections.json`). The other 89 reference
+functions, 2,746 are built as C there; 89 of those needed their file's
+data placed at its ROM address (`config/jp/sections.json`). The other 58 reference
 literals, jump tables or statics in files whose remaining `GLOBAL_ASM` functions
 own data in between, so they stay behind `#ifdef NON_MATCHING` with the
 `GLOBAL_ASM` in the `#else`.
