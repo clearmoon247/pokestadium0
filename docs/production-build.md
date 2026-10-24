@@ -4,7 +4,7 @@
 opaque assets, and retained storage metadata. Every file listed in
 `config/jp/sources.json` (all 543 files in `src/`) is compiled whole through
 asm-processor, so its C functions and its `GLOBAL_ASM` owners come out of one
-object. 2,746 of the 5,444 code owners are C; the other 2,698 are assembled
+object. 2,872 of the 5,444 code owners are C; the other 2,572 are assembled
 from the extracted listings. The build links the resident image and all 259
 fragment images independently, preserving the fragments that share link
 addresses. The verified output is 16,777,216 bytes:
@@ -46,6 +46,10 @@ all 5,444 owners from assembly as an independent baseline.
 ## How `src/` files are built
 
 * Compiler flags are IDO 7.1 `-O2 -mips2 -G 0` with the Stadium 1 defines.
+  Files under `src/libultra/` that are just `#include "lib/ultralib/src/..."`
+  have `"profile": "ultralib"` in `tools/cflags_overrides.json`: they are built
+  with IDO 5.3 and ultralib's own 2.0I_P flags (the `-O1`/`-O2`/`-O3` choice
+  follows `lib/ultralib/Makefile.ido`), without asm-processor.
   `tools/cflags_overrides.json` selects IDO 5.3 (libleo and the JPEG code)
   or `-signed` (`hal_libc.c`) per file.
 * `GLOBAL_ASM` pragmas are pointed at normalized copies of the listings (the

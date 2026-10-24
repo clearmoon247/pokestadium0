@@ -2758,3 +2758,7 @@ Pokedex_ExitAreaMapPool = 0x8A1057AC; // type:func
 LabPC_ComputeExpForLevel = 0x8A20219C; // type:func
 DisplayList_BuildRotationMatrixSegment = 0x8F2003EC; // type:func
 DisplayList_InitRotationMatrixSegment = 0x8F200504; // type:func
+
+// ultralib 2.0I_P names of functions and data built from lib/ultralib
+_init_lpfilter = 0x8004E990; // type:func libultra
+__osFaultedThread = 0x80077C24; // type:data libultra

@@ -1,16 +1,3 @@
-/* Stadium Zero resident code. */
-/* Identical to ultralib src/audio/mainbus.c (2.0I, IDO 5.3); link libultra here once the build exists. */
+/* Stadium Zero resident libultra: ultralib 2.0I_P audio/mainbus.c, unmodified. */
 
-#include "global.h"
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8004EE70; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004EE70.s")
-#endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8004EEA0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004EEA0.s")
-#endif
+#include "lib/ultralib/src/audio/mainbus.c"

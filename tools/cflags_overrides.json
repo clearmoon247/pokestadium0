@@ -180,5 +180,509 @@
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O2"
+  },
+  "src/libultra/audio/auxbus.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/copy.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/drvrnew.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/env.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/filter.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/heapalloc.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/heapinit.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/load.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/mainbus.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/resample.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/reverb.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/save.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/sl.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/synallocfx.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/audio/syndelete.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/cosf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/lookatref.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/mtxcatf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/mtxcatl.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/mtxutil.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/normalize.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/ortho.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/random.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/scale.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/sinf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/translate.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/conteeplongread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/conteeplongwrite.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/controller.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epidma.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epilinkhandle.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epiread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epiwrite.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/pfsisplug.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/piacs.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/pigetcmdq.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/siacs.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sptaskyield.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sptaskyielded.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/viblack.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/virepeatline.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/visetevent.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/visetmode.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/visetspecial.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/visetxscale.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/viswapbuf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/ldiv.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/string.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/syncprintf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O2",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/xlitob.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/libc/xprintf.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/afterprenmi.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/createmesgqueue.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/createthread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/destroythread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/getactivequeue.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/getthreadpri.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/gettime.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/jammesg.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/recvmesg.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/resetglobalintmask.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/sendmesg.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/setglobalintmask.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/setthreadpri.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/settime.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/settimer.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/startthread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/stopthread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/thread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/timerintr.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/virtualtophysical.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/yieldthread.c": {
+    "extra": [],
+    "ido": "5.3",
+    "mips": "-mips2",
+    "opt": "-O1",
+    "profile": "ultralib"
   }
 }

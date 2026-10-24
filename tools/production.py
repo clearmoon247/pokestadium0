@@ -31,6 +31,13 @@ SOURCE_FLAGS = ['-c', '-G', '0', '-non_shared', '-Xcpluscomm', '-nostdinc', '-Wa
                 '-DBUILD_VERSION=VERSION_I_P', '-DLANGUAGE_C', '-D_LANGUAGE_C', '-DVERSION_JP=1',
                 '-Iinclude', '-Isrc', '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/PR',
                 '-Ilib/ultralib/include/ido']
+# Files with "profile": "ultralib" include an unmodified lib/ultralib source and
+# build it with ultralib's own IDO flags for 2.0I_P libultra_rom.
+ULTRALIB_FLAGS = ['-c', '-Wab,-r4300_mul', '-G', '0', '-nostdinc', '-Xcpluscomm', '-w',
+                  '-D_MIPS_SZLONG=32', '-DF3DEX_GBI', '-DBUILD_VERSION=7',
+                  '-DBUILD_VERSION_STRING="2.0I_P"', '-non_shared', '-DNDEBUG', '-D_FINALROM',
+                  '-I.', '-Ilib/ultralib/include', '-Ilib/ultralib/include/ido',
+                  '-Ilib/ultralib/include/PR']
 PRAGMA = re.compile(r'(#pragma\s+GLOBAL_ASM\(\s*")([^"]+)("\s*\))')
 LISTING = re.compile(r'/\*\s+[0-9A-F]+\s+([0-9A-F]+)\s+([0-9A-F]{8})\s*\*/\s*(.*)')
 MACROS = '''.set noreorder
@@ -326,9 +333,15 @@ def compile_source_file(path, directory, compilers, prefix):
     unit = directory / (stem + '.c')
     unit.write_text(PRAGMA.sub(canonical, (ROOT / path).read_text(encoding='utf-8')), encoding='utf-8')
     obj = directory / (stem + '.o')
+    if flags.get('profile') == 'ultralib':
+        # No GLOBAL_ASM (and -O3, which asm-processor does not take): plain IDO.
+        run([compilers[flags.get('ido', '7.1')], *ULTRALIB_FLAGS, flags.get('opt', '-O2'),
+             flags.get('mips', '-mips2'), *flags.get('extra', []), '-o', obj, unit])
+        return obj
     run([sys.executable, 'tools/asm-processor/build.py', '--asm-prelude', 'tools/asm_prelude.inc',
          '--input-enc', 'utf-8', '--output-enc', 'euc-jp', compilers[flags.get('ido', '7.1')], '--',
-         prefix + 'as', '-march=vr4300', '-32', '-G0', '-EB', '--', *SOURCE_FLAGS,
+         prefix + 'as', '-march=vr4300', '-32', '-G0', '-EB', '--',
+         *(ULTRALIB_FLAGS if flags.get('profile') == 'ultralib' else SOURCE_FLAGS),
          flags.get('opt', '-O2'), flags.get('mips', '-mips2'), *flags.get('extra', []),
          '-I' + str(Path(path).parent), '-o', obj, unit])
     return obj

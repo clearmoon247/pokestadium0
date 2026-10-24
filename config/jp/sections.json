@@ -178,6 +178,61 @@
   "src/libnumus/player.c": {
     ".rodata": "0x8007DC68"
   },
+  "src/libultra/audio/drvrnew.c": {
+    ".data": "0x80077C30",
+    ".rodata": "0x8007F5B0"
+  },
+  "src/libultra/audio/env.c": {
+    ".data": "0x80077DC0",
+    ".rodata": "0x8007F600"
+  },
+  "src/libultra/audio/resample.c": {
+    ".rodata": "0x8007F660"
+  },
+  "src/libultra/audio/reverb.c": {
+    ".rodata": "0x8007F5D0"
+  },
+  "src/libultra/audio/sl.c": {
+    ".data": "0x80077BE0"
+  },
+  "src/libultra/gu/cosf.c": {
+    ".rodata": "0x8007F800"
+  },
+  "src/libultra/gu/random.c": {
+    ".data": "0x80079100"
+  },
+  "src/libultra/gu/sinf.c": {
+    ".rodata": "0x8007F510"
+  },
+  "src/libultra/io/controller.c": {
+    ".bss": "0x801027D0",
+    ".data": "0x80077F00"
+  },
+  "src/libultra/io/pfsisplug.c": {
+    ".bss": "0x80102B80"
+  },
+  "src/libultra/io/piacs.c": {
+    ".data": "0x800790F0",
+    ".bss": "0x80103E80"
+  },
+  "src/libultra/io/siacs.c": {
+    ".bss": "0x80102860",
+    ".data": "0x80077F10"
+  },
+  "src/libultra/libc/xlitob.c": {
+    ".data": "0x80079340"
+  },
+  "src/libultra/libc/xprintf.c": {
+    ".rodata": "0x8007F6D0",
+    ".data": "0x80079110"
+  },
+  "src/libultra/os/thread.c": {
+    ".data": "0x80077C10"
+  },
+  "src/libultra/os/timerintr.c": {
+    ".bss": "0x80103F40",
+    ".data": "0x80079160"
+  },
   "src/matrix.c": {
     ".rodata": "0x80079A50"
   },

@@ -33,6 +33,7 @@ from elftools.elf.elffile import ELFFile
 
 from map_fragment_sections import load_image
 from map_rom import EXPECTED_SHA256
+from production import ULTRALIB_FLAGS
 
 ROOT = Path(__file__).resolve().parents[1]
 ADDR_NAME = re.compile(r"^(?:func|D|D_FLT|D_DBL|jtbl|B|sub|RO|L)_([0-9A-Fa-f]{8})(?:_\d+)?$")
@@ -177,10 +178,16 @@ def compile_source(path, cc_dir, overrides):
         source = Path(tmp) / Path(path).name
         source.write_bytes((ROOT / path).read_text(encoding="utf-8").encode("euc-jp", "replace"))
         obj = Path(tmp) / "out.o"
-        command = [str(cc), *CFLAGS, flags.get("opt", "-O2"), flags.get("mips", "-mips2"),
-                   *flags.get("extra", []), *("-I" + str(ROOT / i) for i in INCLUDES),
-                   "-I" + str(ROOT / Path(path).parent), "-o", str(obj), str(source)]
-        result = subprocess.run(command, capture_output=True, text=True, errors="replace")
+        if flags.get("profile") == "ultralib":
+            # An unmodified lib/ultralib source, included by path from the repository root.
+            base = [*ULTRALIB_FLAGS, "-EB", "-DNON_MATCHING"]
+        else:
+            base = [*CFLAGS, *("-I" + str(ROOT / i) for i in INCLUDES)]
+        command = [str(cc), *base, flags.get("opt", "-O2"), flags.get("mips", "-mips2"),
+                   *flags.get("extra", []), "-I" + str(ROOT / Path(path).parent),
+                   "-o", str(obj), str(source)]
+        result = subprocess.run(command, capture_output=True, text=True, errors="replace",
+                                cwd=ROOT)
         if result.returncode != 0 or not obj.exists():
             return None, result.stdout + result.stderr
         return obj.read_bytes(), ""

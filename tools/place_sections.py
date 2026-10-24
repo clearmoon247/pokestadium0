@@ -56,25 +56,42 @@ def file_placement(path, rows, owners, images, rom, mapping):
     return index, int(first['start'], 0), base
 
 
-def solve(obj, image, start, base):
+def load_symbols():
+    symbols = {}
+    for line in (ROOT / 'linker_scripts/jp/symbol_addrs.txt').read_text().splitlines():
+        match = re.match(r'\s*(\w+)\s*=\s*(0x[0-9A-Fa-f]+)\s*;', line)
+        if match:
+            symbols[match[1]] = int(match[2], 16)
+    return symbols
+
+
+def solve(obj, image, start, base, symbols):
     elf = ELFFile(io.BytesIO(obj.read_bytes()))
     sections = list(elf.iter_sections())
     text = elf.get_section_by_name('.text')
     rel = elf.get_section_by_name('.rel.text')
     symtab = elf.get_section_by_name('.symtab')
-    if rel is None:
-        return {}
-    words = text.data()
-    entries = sorted(rel.iter_relocations(), key=lambda e: e['r_offset'])
     targets = {}
+    # A global defined in a data section whose address is already known.
+    for sym in symtab.iter_symbols():
+        if (isinstance(sym['st_shndx'], int) and sym['st_shndx'] < len(sections)
+                and sections[sym['st_shndx']].name in DATA and sym.name in symbols
+                and sym['st_info']['bind'] == 'STB_GLOBAL'):
+            targets.setdefault(sections[sym['st_shndx']].name, set()).add(
+                symbols[sym.name] - sym['st_value'])
+    words = text.data()
+    entries = sorted(rel.iter_relocations(), key=lambda e: e['r_offset']) if rel else []
     pending = {}
     for entry in entries:
         sym = symtab.get_symbol(entry['r_info_sym'])
-        if sym['st_info']['type'] != 'STT_SECTION':
+        if not isinstance(sym['st_shndx'], int) or sym['st_shndx'] >= len(sections):
             continue
         section = sections[sym['st_shndx']].name
         if section not in DATA:
             continue
+        # Section-relative references carry the offset in the addend; references
+        # to a global defined here add the symbol's offset in the section.
+        value = 0 if sym['st_info']['type'] == 'STT_SECTION' else sym['st_value']
         offset = entry['r_offset']
         got = struct.unpack_from('>I', words, offset)[0]
         want = struct.unpack_from('>I', image, start + offset)[0]
@@ -87,9 +104,9 @@ def solve(obj, image, start, base):
                 raise ValueError(f'{obj.name}: unpaired %lo at 0x{offset:X}')
             addend = ((hi[0] & 0xFFFF) << 16) + sext16(got & 0xFFFF)
             target = ((hi[1] & 0xFFFF) << 16) + sext16(want & 0xFFFF)
-            targets.setdefault(section, set()).add((target - addend) & 0xFFFFFFFF)
+            targets.setdefault(section, set()).add((target - addend - value) & 0xFFFFFFFF)
         elif kind == 2:  # R_MIPS_32 in .text (rare)
-            targets.setdefault(section, set()).add((want - got) & 0xFFFFFFFF)
+            targets.setdefault(section, set()).add((want - got - value) & 0xFFFFFFFF)
     result = {}
     for section, bases in targets.items():
         if len(bases) != 1:
@@ -104,6 +121,10 @@ def solve(obj, image, start, base):
         # inside that zero padding, record the shorter size actually present.
         data = contents.data()
         used = len(data.rstrip(b'\0'))
+        relocated = elf.get_section_by_name('.rel' + section)
+        if relocated:
+            # Relocated words are zero in the object but not in the ROM.
+            used = max([used] + [e['r_offset'] + 4 for e in relocated.iter_relocations()])
         used += -used % 4
         offset = address - base
         tail = image[offset + used:offset + len(data)]
@@ -128,6 +149,7 @@ def main():
     registry = json.loads(production.SECTION_REGISTRY.read_text())
     compilers = {'5.3': str(ROOT / 'tools/ido5.3/cc'), '7.1': str(ROOT / 'tools/ido7.1/cc')}
     images = {}
+    symbols = load_symbols()
     became_c = set()
     for path in args.sources:
         if args.unwrap:
@@ -135,7 +157,7 @@ def main():
         index, start, base = file_placement(path, rows, owners, images, rom, mapping)
         with tempfile.TemporaryDirectory() as temporary:
             obj = production.compile_source_file(path, Path(temporary), compilers, 'mips-linux-gnu-')
-            placed = solve(obj, images[index], start, base)
+            placed = solve(obj, images[index], start, base, symbols)
         if placed:
             registry[path] = placed
         else:

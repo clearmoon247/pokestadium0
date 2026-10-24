@@ -1,10 +1,3 @@
-/* Stadium Zero resident code. */
-/* Identical to ultralib src/io/visetxscale.c (2.0I, IDO 5.3); link libultra here once the build exists. */
+/* Stadium Zero resident libultra: ultralib 2.0I_P io/visetxscale.c, unmodified. */
 
-#include "global.h"
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8005C280; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8005C280.s")
-#endif
+#include "lib/ultralib/src/io/visetxscale.c"
