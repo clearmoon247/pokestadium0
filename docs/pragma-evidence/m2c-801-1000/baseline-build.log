@@ -1,0 +1,32 @@
+.venv/bin/python tools/production.py build --cc tools/ido5.3/cc --prefix mips-linux-gnu- --compare 1 --jobs 8 
+25/260 images linked
+50/260 images linked
+75/260 images linked
+100/260 images linked
+125/260 images linked
+150/260 images linked
+175/260 images linked
+200/260 images linked
+225/260 images linked
+250/260 images linked
+{
+  "status": "PASS",
+  "input_sha256": "ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b",
+  "output_sha256": "ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b",
+  "full_rom_identical": true,
+  "compare": true,
+  "c_owners": 448,
+  "asm_owners": 4996,
+  "linked_images": 260,
+  "compiler_sha256": "76d796c9591c9f5504949f85b29c32a6039a663791afe2f36f34ca18425b64d0",
+  "matching_registry_sha256": "01273864628d2cfcaf22f5616d7d53d915ba80516758c0d0ab9d227c1c5ab0ec",
+  "build_tools_sha256": {
+    "tools/production.py": "f0941f538896cd776d9f7323ff4626334f0a496d32ed053e87936ff38fb76499",
+    "tools/m2c_easiest.py": "edb0c9af61e5241c9e90f24152effdf636ceaa630812900d2840e2a67c5ff3f3"
+  },
+  "binutils": {
+    "as": "GNU assembler (GNU Binutils for Ubuntu) 2.45.90.20260125",
+    "ld": "GNU ld (GNU Binutils for Ubuntu) 2.45.90.20260125",
+    "objcopy": "GNU objcopy (GNU Binutils for Ubuntu) 2.45.90.20260125"
+  }
+}

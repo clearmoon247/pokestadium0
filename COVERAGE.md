@@ -2,6 +2,8 @@
 
 # pokestadium0 decompilation coverage
 
+## Per-function matching (`src/`)
+
 <!-- AUTO_COVERAGE:START -->
 - Assembly owners (first-pass function inventory): **5,444** covering **1,303,636** text bytes
 - Functions with matching C: **2,803 / 5,444 (51.5%)**, **422,012** bytes (32.4%)
@@ -12,8 +14,25 @@
 <!-- AUTO_COVERAGE:END -->
 
 "Matching C" is a per-function comparison against the retail ROM made by
-`tools/check_functions.py`; the ROM is not rebuilt yet, so file-level data and
-`.rodata` layout are unverified. See [docs/matching.md](docs/matching.md).
+`tools/check_functions.py`; file-level data and `.rodata` layout of `src/` are
+unverified. See [docs/matching.md](docs/matching.md).
 
-Regenerate with:
-`python3 ci/update_coverage.py`
+## Full-ROM production build (`candidates/`)
+
+- C owners passing the full-ROM gate: **551/5,444 (10.1%)**
+- Remaining assembly owners: **4,893**
+- C owner bytes: **12,720/1,303,636 (0.98%)**
+- Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
+
+Counts use the conservative first-pass assembly-owner inventory, not confirmed
+original functions or translation units. The initial 100 are eight-byte empty
+returns. Data, microcode, opaque ranges, and resource-only images are excluded
+from the owner-byte denominator. Coverage applies to the explicit production C
+registry and the committed validation receipt; original compiler settings remain
+under investigation beyond the measured candidates.
+
+See [the production build](docs/production-build.md),
+[matching registry](config/jp/matching.json), and
+[validation receipt](docs/production-build-receipt.json).
+
+Regenerate with `make coverage` after updating the verified receipt.

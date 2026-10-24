@@ -1,0 +1,9 @@
+extern M2C_UNK D_80060464;
+extern M2C_UNK D_800AC508;
+
+void func_800113E0(void) {
+    M2C_FIELD(&D_800AC508, s32 *, 0x180) = 0;
+    M2C_FIELD(&D_800AC508, s32 *, 0) = (s32) M2C_FIELD(&D_80060464, s32 *, 0);
+    M2C_FIELD(&D_800AC508, s32 *, 4) = (s32) M2C_FIELD(&D_80060464, s32 *, 4);
+    M2C_FIELD(&D_800AC508, s32 *, 8) = (s32) M2C_FIELD(&D_80060464, s32 *, 8);
+}

@@ -1,0 +1,14 @@
+.venv/bin/python tools/generate_pragmas.py baseroms/jp/baserom.z64 --check
+{
+  "source_files": 188,
+  "pragma_owners": 5444,
+  "covered_text_bytes": 1303636,
+  "excluded_ranges": 1,
+  "fragment_images_with_stubs": 187
+}
+.venv/bin/python -m unittest discover -s tools -p 'test_*.py'
+..............................................
+----------------------------------------------------------------------
+Ran 46 tests in 12.009s
+
+OK
