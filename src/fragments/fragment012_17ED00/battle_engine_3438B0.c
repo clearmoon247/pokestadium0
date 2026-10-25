@@ -352,11 +352,48 @@ void func_8212F118(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821301EC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82130494; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82130494.s")
-#endif
+void func_82106354(ActivePokemon*);
+void func_8211F034(s32, s32);
+extern s32 D_8219A520;
+extern ActivePokemon* D_8219A540;
+s32 func_82124A50(ActivePokemon* active_pokemon);
+void func_82108C0C(ActivePokemon* active_pokemon);
+void func_80040738(void);
+void func_82124894(CameraNode* arg0, ActivePokemon* arg1);
+void func_82125AC8(CameraNode* arg0);
+void BattleScene_Phase10(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            BattleScene_CleanupParticipantEffectMode((ActivePokemon*)D_8219A544);
+            func_82106354(sActivePokemon[sBattleScene.scene->unk_2C]);
+            if (func_82124A50(sActivePokemon[sBattleScene.scene->unk_2C]) == 0) {
+                func_82108C0C((ActivePokemon*)D_8219A544);
+                func_80040738();
+                BattleAnim_CleanupEffects(1);
+                BattleScene_ResetCameraFrameCounter();
+                func_8211F034(D_8219A520 + 0x348, !sBattleScene.scene->unk_2C);
+                BattleAnim_QueueEffectList6(3, D_8219A540);
+                Audio_PlayCommand(0x23, 0, 0);
+                func_82124894(arg0, D_8219A540);
+                sBattleScene.scene->unk_20 += 1;
+            }
+            break;
+
+        case 1:
+            if (BattleScene_AdvanceCameraFrameCounter(0x37) != 0) {
+                func_8211EE8C();
+                func_8211F034(D_8219A520 + 0x2C8, !sBattleScene.scene->unk_2C);
+                sBattleScene.scene->unk_20 += 1;
+            }
+
+        case 2:
+            if (BattleScene_AdvanceCameraFrameCounter(0x3C) != 0) {
+                func_8211EE8C();
+                func_82125AC8(arg0);
+            }
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82130628; signature not recovered. */
@@ -577,11 +614,24 @@ void func_82131C64(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82131D24.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82131EC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82131EC4.s")
-#endif
+void BattleScene_IntroPanCamera(CameraNode* arg0) {
+    Vec3f sp2C;
+
+    sp2C.y = 0.0f;
+    sp2C.z = 0.0f;
+    sp2C.x = -150.0f;
+    sActivePokemon[0]->displayObject.node.flags &= ~1;
+    sActivePokemon[1]->displayObject.node.flags &= ~1;
+    BattleAnim_ApproachF(&M2C_FIELD(sBattleScene.scene, f32*, 0x74), 60.000004f, 0.1f);
+    BattleAnim_StepToS16(&M2C_FIELD(sBattleScene.scene, s16*, 0x58), 0, 0x1E);
+    BattleScene_SetCameraEyeFromPosition(arg0, sp2C, M2C_FIELD(sBattleScene.scene, s16*, 0x58), 0x4000, M2C_FIELD(sBattleScene.scene, f32*, 0x74), 0.0f);
+
+    if ((M2C_FIELD(sBattleScene.scene, s16*, 0x58) >= 0x2E) && (M2C_FIELD(sActivePokemon[0], f32*, 0x64C) == 2.5f)) {
+        Audio_PlayCommand(2, 0, 0);
+        M2C_FIELD(sActivePokemon[0], u8*, 0x626) |= 0x20;
+        sBattleScene.scene->unk_20 += 1;
+    }
+}
 
 s32 func_8001101C(s8 *, M2C_UNK *);               /* extern */
 extern M2C_UNK D_82199DE0;

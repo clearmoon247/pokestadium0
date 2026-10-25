@@ -35,11 +35,37 @@ void func_82116D20(void) {
 void func_82116D28(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82116D30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82116D30.s")
-#endif
+void BattleHud_DrawLevelNumber(s32 arg0, s32 arg1, s32 arg2) {
+    UNUSED s32 pad[2];
+    s8* var_s2;
+    s8 sp58[2];
+    UNUSED s32 pad2[2];
+    u8** temp_s4;
+
+    var_s2 = &sp58;
+    temp_s4 = Memmap_GetSegmentVaddr(D_300B870);
+    sprintf(sp58, "%d", arg2);
+
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    if (arg2 >= 0x64) {
+        arg0 -= 2;
+        Gfx_DrawTextureRgba16(arg0, arg1, 8, 6, temp_s4[sp58[0] - '0'], 8, 0);
+        arg0 += 8;
+        var_s2 = &sp58[1];
+    } else {
+        Gfx_DrawTextureRgba16(arg0, arg1, 4, 6, temp_s4[11], 4, 0);
+        arg0 += 5;
+    }
+
+    while (*var_s2 != 0) {
+        Gfx_DrawTextureRgba16(arg0, arg1, 8, 6, temp_s4[*var_s2 - '0'], 8, 0);
+        arg0 += 8;
+        var_s2++;
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 void BattleHud_DrawHpFractionText(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     UNUSED s32 pad[2];

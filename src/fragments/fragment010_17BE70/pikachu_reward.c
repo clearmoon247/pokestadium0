@@ -300,11 +300,68 @@ void PikachuReward_ScrollTextIn(s8* arg0) {
     D_81701B08 = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_817008B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817008B4.s")
-#endif
+extern char** D_83202020;
+extern char D_81701EFC[];
+extern char D_81701F04[];
+s32 PikachuReward_ConfirmYesNoPrompt(char* arg0) {
+    s32 temp_s3;
+    s32 var_a2;
+    s32 var_s1;
+    s32 var_s2;
+
+    var_s2 = 1;
+    var_s1 = 0;
+
+    do {
+        Controller_PollInputs();
+        if (BTN_IS_PRESSED(gPlayer1Controller, BTN_DUP | BTN_DDOWN)) {
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_s1 ^= 1;
+        } else if (BTN_IS_PRESSED(gPlayer1Controller, BTN_A)) {
+            var_s2 = 0;
+        } else if (BTN_IS_PRESSED(gPlayer1Controller, BTN_B)) {
+            var_s1 = 1;
+            var_s2 = 0;
+        }
+
+        temp_s3 = var_s1 == 0;
+        PikachuReward_RenderFrame(0);
+        PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x104, 0x30);
+        PikachuReward_DrawTextBoxPanel(0xD2, 0x54, 0x50, 0x2C);
+        PikachuReward_DrawSelectionCursor(0xDA, (var_s1 * 0x10) + 0x5C);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(2, 0);
+        Font_SetLineHeight(0x10);
+        Font_Printf(0x2E, 0x28, arg0);
+
+        if (temp_s3 != 0) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xF2, 0x5C, D_81701EFC);
+
+        if (var_s1 == 1) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xF2, 0x6C, D_81701F04);
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    } while (var_s2 != 0);
+
+    if (temp_s3 != 0) {
+        Audio_PlaySoundEffectById(SFX_MENU_CONFIRM);
+    } else {
+        Audio_PlaySoundEffectById(SFX_MENU_BACK);
+    }
+    return temp_s3;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81700A80; signature not recovered. */

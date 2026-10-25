@@ -755,17 +755,64 @@ f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039B7C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039C10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039C10.s")
-#endif
+void Audio_AdvancePitchEnvelope(channel_t* arg0) {
+    s32 tmp;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039D08; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039D08.s")
-#endif
+    do {
+        M2C_FIELD(arg0, u64*, 0x8) += 0x100;
+
+        arg0->cont_vol_repeat_count--;
+        if (arg0->cont_vol_repeat_count) {
+            continue;
+        }
+
+        tmp = *arg0->pvolumebase++;
+        if (tmp >= 0x80u) {
+            arg0->volume = tmp & 0x7F;
+
+            tmp = *arg0->pvolumebase++;
+            if (tmp >= 0x80u) {
+                arg0->cont_vol_repeat_count = (tmp & 0x7F) << 8;
+                arg0->cont_vol_repeat_count += *arg0->pvolumebase++ + 2;
+            } else {
+                arg0->cont_vol_repeat_count = tmp + 2;
+            }
+        } else {
+            arg0->volume = tmp;
+            arg0->cont_vol_repeat_count = 1;
+        }
+    } while (M2C_FIELD(arg0, u64*, 0x8) < M2C_FIELD(arg0, u64*, 0x0));
+}
+
+void Audio_AdvanceVolumeEnvelope(channel_t* arg0) {
+    u8 tmp;
+
+    do {
+        M2C_FIELD(arg0, u64*, 0x10) += 0x100;
+
+        arg0->cont_pb_repeat_count--;
+        if (arg0->cont_pb_repeat_count) {
+            continue;
+        }
+
+        tmp = *arg0->ppitchbendbase++;
+        if (tmp >= 0x80) {
+            arg0->pitchbend = (f32)(tmp & 0x7F) - 64.0;
+            arg0->pitchbend_calc = arg0->pitchbend * arg0->bendrange;
+            tmp = *arg0->ppitchbendbase++;
+            if (tmp >= 0x80) {
+                arg0->cont_pb_repeat_count = (tmp & 0x7F) << 8;
+                arg0->cont_pb_repeat_count += *arg0->ppitchbendbase++ + 2;
+            } else {
+                arg0->cont_pb_repeat_count = tmp + 2;
+            }
+        } else {
+            arg0->pitchbend = (f32)(tmp)-64.0;
+            arg0->pitchbend_calc = arg0->pitchbend * arg0->bendrange;
+            arg0->cont_pb_repeat_count = 1;
+        }
+    } while (M2C_FIELD(arg0, u64*, 0x10) < M2C_FIELD(arg0, u64*, 0x0));
+}
 
 f32 Audio_ExpApproximation(f32 arg0) {
     f32 temp_fa1;

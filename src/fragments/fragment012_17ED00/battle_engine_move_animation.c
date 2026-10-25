@@ -321,11 +321,29 @@ void BattleScene_TickRow10CleanupAndEnterState18(ActivePokemon* active_pokemon) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210278C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821028EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821028EC.s")
-#endif
+void Battle_HandleStatBoostingMoveAnimation(ActivePokemon* active_pokemon) {
+    BattleMonRuntime* runtime = &active_pokemon->state.runtime;
+    UNUSED s16 pad;
+    s16 move;
+    MovePresentationCue* anim;
+
+    move = runtime->usedMove;
+    BattleScene_GetParticipantSideIndex(active_pokemon);
+    anim = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[runtime->usedMove - 1];
+
+    if (active_pokemon->animationTimer == (anim->unk_09 + 1)) {
+        if (BattleAnim_IsAssetLoadBusy(active_pokemon) == 0) {
+            if (((move == GROWTH) || (move == MEDITATE) || (move == AGILITY) || (move == HARDEN) || (move == WITHDRAW) ||
+                 (move == SWORDS_DANCE) || (move == DOUBLE_TEAM) || (move == MINIMIZE) || (move == DEFENSE_CURL) || (move == BARRIER) ||
+                 (move == AMNESIA) || (move == ACID_ARMOR) || (move == SHARPEN)) &&
+                (sStatCanBeChangedFurther == 1)) {
+                BattleAnim_QueueEffectList6(3, active_pokemon);
+                Audio_PlayCommand(35, 0, 0);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82102A34; signature not recovered. */

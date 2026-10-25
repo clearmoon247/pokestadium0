@@ -226,6 +226,7 @@ void BattleMenu_DrawBorderedPanel(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 ar
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823012D0.s")
 #endif
 
+extern char** D_84803790;
 #ifdef NON_MATCHING
 /* TODO: decompile func_82301448; signature not recovered. */
 #else
@@ -404,11 +405,64 @@ s32 BattleMenu_UpdateOrderSelectPanel(s32 arg0, unk_D_848037A0* arg1) {
     return sp18;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82301EF4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301EF4.s")
-#endif
+extern s32 D_8480379C;
+extern s16 D_84803798;
+extern unk_D_848037A0 D_848037A0[4];
+extern s32 D_82302BCC;
+void func_823017EC(void);
+extern s16 D_82302B40;
+void func_82300020(void);
+extern s32 D_82302B44;
+void func_8230016C(void);
+void func_8000A7FC(u16 color);
+s32 BattleMenu_UpdateOrderSelect(s32 arg0) {
+    UNUSED s32 pad;
+    s32 i;
+    s32 var_s2;
+    s32 sp30;
+
+    var_s2 = 0;
+    sp30 = 0;
+
+    Cont_StartReadInputs();
+    Cont_ReadInputs();
+    Input_ResetRepeatState();
+    func_823017EC();
+    GeoRender_AdvanceFrameCounter();
+    i = PokeIcon_ProcessAllSlots((unk_func_8001A024*)D_82302BCC, 0);
+    if (i != -1) {
+        ((unk_D_848037A0*)&D_82302B48)[i % 4].unk_0006 = 3;
+    }
+    BgStage_DrawFrame();
+
+    if (D_82302B40 != 0) {
+        func_82300020();
+    }
+
+    for (i = 0; i < D_82302B44; i++) {
+        var_s2 += BattleMenu_UpdateOrderSelectPanel(arg0, &((unk_D_848037A0*)&D_82302B48)[i]);
+        BattleMenu_DrawOrderSelectPanel(&((unk_D_848037A0*)&D_82302B48)[i]);
+    }
+
+    BattleMenu_DrawTeamOrderSidebarTeam0();
+    BattleMenu_DrawTeamOrderSidebarTeam1();
+    func_8230016C();
+
+    if (arg0 == 0) {
+        if (var_s2 == D_82302B44) {
+            sp30 = 1;
+            func_8000A7FC(0x1E);
+            Audio_PlayCommand(0x54, 0, 0);
+        }
+
+        if (D_82302B40 > 0) {
+            D_82302B40 -= 1;
+        }
+    } else {
+        D_82302B40 = 2;
+    }
+    return sp30;
+}
 
 void BattleMenu_RearrangeLeadPokemon(BattleSessionTeams* arg0, unk_D_84803760* arg1) {
     TeamRoster* temp_v0;

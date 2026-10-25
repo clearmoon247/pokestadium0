@@ -195,11 +195,32 @@ void Battle_Effect_Confuse(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211545C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211545C.s")
-#endif
+extern s32 D_8218C8B0;
+extern s32 D_8218C8B4;
+extern s32 D_8218C8B8;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_Effect_Paralyze(void) {
+    sBattleScene.scene->unk_48 = 0x16;
+    if (sBattleTarget->unk_15 == 0) {
+        if ((sBattleUser->moveCache.unk_03 != 0x17) || ((sBattleTarget->roster[6] != 4) && (sBattleTarget->roster[7] != 4))) {
+            HandleMoveEffectFlags();
+            if (sBattleMoveFailed == 0) {
+                sBattleTarget->unk_15 |= 0x40;
+                ApplyParalysisSpeedCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+                func_8211EF74(D_8219A520 + 0x88, -0x43, D_8218C8B0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                return;
+            }
+        } else {
+            sConfused = 0;
+            func_8211EF74(D_8219A520 + 0x88, -0x42, D_8218C8B4);
+            return;
+        }
+    }
+
+    sConfused = 0;
+    func_8211EF74(D_8219A520 + 0x88, -0x41, D_8218C8B8, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821155DC; signature not recovered. */

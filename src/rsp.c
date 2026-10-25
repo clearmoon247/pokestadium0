@@ -172,11 +172,63 @@ void* Storage_WriteRtc(struct UnkStruct80000A80* arg0) {
     return Storage_WaitForIoMessage();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80000A58; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80000A58.s")
-#endif
+void thread20_rsp(UNUSED void* arg) {
+    struct UnkStruct800006C4_2* sp2C;
+    OSMesg var_v0;
+
+    Storage_InitializeLeoManager();
+
+    while (true) {
+        osRecvMesg(&D_80087000.queue1, (void*)&sp2C, OS_MESG_BLOCK);
+
+        switch (sp2C->unk0) {
+            case 0xF0:
+                var_v0 = (OSMesg)INT2VOID(Storage_ReadRom(sp2C, 0));
+                break;
+            case 0xF1:
+                var_v0 = (OSMesg)INT2VOID(Storage_ReadRom(sp2C, 1));
+                break;
+            case 0xF2:
+                var_v0 = (OSMesg)INT2VOID(Storage_ReadSram(sp2C));
+                break;
+            case 0xF3:
+                var_v0 = (OSMesg)INT2VOID(Storage_WriteSram(sp2C));
+                break;
+            case 0x5:
+                var_v0 = (OSMesg)Storage_ReadDisk(sp2C);
+                break;
+            case 0x6:
+                var_v0 = (OSMesg)Storage_WriteDisk(sp2C);
+                break;
+            case 0xC:
+                /*
+                 * TODO: These castings imply the 2 struct defs are the same struct, but
+                 * there is very tenuous aliasing going on due to s16 and u8 overlap where
+                 * there should be word loads. What is going on here?
+                 */
+                var_v0 = (OSMesg)Storage_ReadDiskId((struct UnkStruct80000A80*)sp2C);
+                break;
+            case 0x7:
+                var_v0 = (OSMesg)Storage_SeekDisk((struct UnkStruct80000A80*)sp2C);
+                break;
+            case 0x8:
+                var_v0 = (OSMesg)Storage_SetDiskMotor((struct UnkStruct80000A80*)sp2C);
+                break;
+            case 0xD:
+                var_v0 = (OSMesg)Storage_ReadRtc((struct UnkStruct80000A80*)sp2C);
+                break;
+            case 0xE:
+                var_v0 = (OSMesg)Storage_WriteRtc((struct UnkStruct80000A80*)sp2C);
+                break;
+        }
+
+        if ((OSMesgQueue*)INT2VOID(sp2C->unk28) != NULL) {
+            osSendMesg(INT2VOID(sp2C->unk28), var_v0, 0);
+        }
+
+        Util_Free(sp2C);
+    }
+}
 
 M2C_UNK func_80051B20(M2C_UNK *, M2C_UNK, M2C_UNK *, M2C_UNK, M2C_UNK *, s32); /* extern */
 M2C_UNK func_80054AB0(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK); /* extern */

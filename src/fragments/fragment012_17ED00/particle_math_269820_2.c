@@ -388,7 +388,29 @@ s32 Particle_TickPhaseTimer(Particle* arg0, s16 arg1) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8213D30C; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Particle_UpdateWorldTransform(Particle* arg0) {
+    arg0->unk_2C.x = arg0->unk_68.x + arg0->unk_38.x + arg0->unk_50.x;
+    arg0->unk_2C.y = arg0->unk_68.y + arg0->unk_38.y + arg0->unk_50.y;
+    arg0->unk_2C.z = arg0->unk_68.z + arg0->unk_38.z + arg0->unk_50.z;
+
+    if (arg0->unk_14 != NULL) {
+        arg0->unk_14->position.x = arg0->unk_2C.x;
+        arg0->unk_14->position.y = arg0->unk_2C.y;
+        arg0->unk_14->position.z = arg0->unk_2C.z;
+
+        arg0->unk_14->scale.x = arg0->unk_1C;
+        arg0->unk_14->scale.y = arg0->unk_1C;
+        arg0->unk_14->scale.z = arg0->unk_1C;
+
+        if (Particle_LacksFlags(arg0, 0x200) != 0) {
+            arg0->unk_14->rotation.x = arg0->unk_94.x;
+            arg0->unk_14->rotation.y = arg0->unk_94.y;
+            arg0->unk_14->rotation.z = arg0->unk_94.z;
+        }
+        arg0->unk_14->lodFraction = arg0->prim_a;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D30C.s")
 #endif
