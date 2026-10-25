@@ -297,29 +297,21 @@ s32 func_82183BB0(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C24.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C54.s")
-#endif
+s32 func_82183C54(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C78; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C78.s")
-#endif
+s32 func_82183C78(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C9C.s")
-#endif
+s32 func_82183C9C(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183CC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183CC0.s")
-#endif
+s32 func_82183CC0(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
 s32 func_82183CE4(s8 *arg0)
 {

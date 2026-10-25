@@ -1230,14 +1230,102 @@ void BattleAnim_CallbackEndEffect52DefaultBurstEmitter(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216201C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216201C.s")
-#endif
+void BattleAnim_SetupSharedScalePulseFallSetup(Particle* arg0) {
+    s16 sp2E = Particle_FieldAC_GetS16_0C038(arg0);
+    s16 sp2C = Particle_FieldCE_GetS32_0C040(arg0);
+    s16 sp2A = Particle_FieldCF_GetS16_0C058(arg0);
+    Vec3s sp24;
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+    sp24.x = ParticleMath_RandomRange(0x10000);
+    sp24.y = ParticleMath_RandomRange(0x10000);
+    sp24.z = 0;
+
+    Particle_Field94_SetVecFromVec3s_0A24C(arg0, sp24);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+    Particle_Field78_SetScaled_0ADA4(arg0, 0.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp2A);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.0f);
+    Particle_SetScaleSpeed(arg0, 0.3f);
+    Particle_SetScaleTarget(arg0, 0.05f);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp2E * 2);
+
+    switch (sp2C) {
+        case 0:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0x1E, 0xA));
+            Particle_SetScaleSpeed(arg0, 0.2f);
+            break;
+
+        case 1:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0x28, 0xA));
+            Particle_SetScaleSpeed(arg0, 0.3f);
+            Particle_SetScaleTarget(arg0, 0.04f);
+            break;
+
+        case 2:
+            Particle_SetScaleSpeed(arg0, 0.1f);
+            Particle_SetScaleTarget(arg0, 0.03f);
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0xC, 5));
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E * 1);
+            break;
+
+        case 3:
+            Particle_Field74_SetScaled_0AD8C(arg0, 0.2f);
+            Particle_Field1C_SetScaled_0B938(arg0, 0.1f);
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0x14, 0x1E));
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E * 4);
+            break;
+
+        case 5:
+            Particle_SetRandomVelocityXYZ(arg0, 0, 0xF, 0x19);
+            Particle_Field38_AddYScaled_08E90(arg0, 15.0f);
+            Particle_SetScaleSpeed(arg0, 0.15f);
+            Particle_SetScaleTarget(arg0, 0.02f);
+            Particle_Field74_SetScaled_0AD8C(arg0, 0.1f);
+            break;
+
+        case 6:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0x1E, 0x14));
+            Particle_Field74_SetScaled_0AD8C(arg0, 0.3f);
+            break;
+
+        case 8:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(8, 2));
+            Particle_SetScaleSpeed(arg0, 0.1f);
+            Particle_SetScaleTarget(arg0, 0.04f);
+            Particle_Field74_SetScaled_0AD8C(arg0, 0.4f);
+            Particle_FieldA6_SetS16_0BCA8(arg0, 0);
+            break;
+
+        case 7:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0xA, 2));
+            Particle_SetScaleSpeed(arg0, 0.2f);
+            Particle_SetScaleTarget(arg0, 0.025f);
+            Particle_Field74_SetScaled_0AD8C(arg0, 1.0f);
+            break;
+
+        case 9:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0x1E, 0x14));
+            Particle_SetScaleSpeed(arg0, 0.3f);
+            Particle_SetScaleTarget(arg0, 0.025f);
+            Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+            Particle_Field78_SetScaled_0ADA4(arg0, 0.02f);
+            break;
+
+        case 10:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(0x19, 5));
+            Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
+            Particle_SetScaleSpeed(arg0, 0.2f);
+            break;
+
+        case 11:
+            Particle_AddPositionFromRotationTemplate1(arg0, ParticleMath_RandomRangeOffset(5, 5));
+            Particle_Field74_SetScaled_0AD8C(arg0, ParticleMath_RandomRange(5) + 5.0f);
+            break;
+    }
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
+
 void BattleAnim_CallbackSharedDescriptors42And44ScaleFall(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
@@ -1272,9 +1360,6 @@ void BattleAnim_CallbackSharedDescriptors42And44ScaleFall(Particle* arg0) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821624FC.s")
-#endif
 
 void BattleAnim_CallbackEndEffect23Descriptor44ScalePulse_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -1293,8 +1378,6 @@ void BattleAnim_CallbackEndEffect23Descriptor44ScalePulse_InitParticle(Particle*
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackEndEffect23Descriptor44ScalePulse(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
@@ -1326,12 +1409,7 @@ void BattleAnim_CallbackEndEffect23Descriptor44ScalePulse(Particle* arg0) {
         Particle_AddVelocityXZFromRotationYPlusHalfTurn(arg0);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821626F4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_821627C0(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
@@ -1366,9 +1444,6 @@ void func_821627C0(Particle* arg0) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821627C0.s")
-#endif
 
 void BattleAnim_CallbackEndEffect43Descriptor40DelayedAnimFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -1404,8 +1479,6 @@ void BattleAnim_CallbackEndEffect43Descriptor40DelayedAnimFade(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
     s16 sp24 = Particle_FieldCE_GetS32_0C040(arg0);
@@ -1478,9 +1551,6 @@ void BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion_InitParticle(Partic
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821629E4.s")
-#endif
 
 void BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -1505,8 +1575,6 @@ void BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor34BurstEmitter_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
@@ -1594,9 +1662,6 @@ void BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor34BurstEmitter
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82162D1C.s")
-#endif
 
 void BattleAnim_CallbackEndEffects39And41And45And46And83Descriptor34BurstEmitter(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -1887,8 +1952,6 @@ void func_821639EC(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_RecolorParticleByQueuedMoveId(Particle* arg0) {
     s16 sp1E;
 
@@ -1926,9 +1989,6 @@ void BattleAnim_RecolorParticleByQueuedMoveId(Particle* arg0) {
     }
     ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp1E);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82163B24.s")
-#endif
 
 void BattleAnim_CallbackStartEffects28And53And65And76Descriptor47AnimatedScaleMotion_InitParticle(Particle* arg0) {
     Vec3s sp28;
@@ -2594,7 +2654,7 @@ extern Vec3f D_8219A880;
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
-void BattleAnim_CallbackDescriptor26BurstChild(Particle* arg0) {
+void func_821659FC(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
             BattleAnim_CallbackDescriptor26BurstChild_InitParticle(arg0);

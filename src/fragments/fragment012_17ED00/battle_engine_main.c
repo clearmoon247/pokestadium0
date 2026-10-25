@@ -112,11 +112,14 @@ s32 Battle_StageMaterialTintCallback(s32 event, DisplayObject* object) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82100118; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100118.s")
-#endif
+extern u8 D_8007838C[4];
+extern u8 D_82198D28[];
+
+void func_82100118(u8 arg0, u8 arg1, u8 arg2) {
+    D_82198D28[0] = arg0;
+    D_82198D28[1] = arg1;
+    D_82198D28[2] = arg2;
+}
 
 // Called at the start of battles
 // Uniform scale consumed by the stage material callbacks, not the Pokemon models.

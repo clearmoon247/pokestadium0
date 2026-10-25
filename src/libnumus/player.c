@@ -316,11 +316,13 @@ u8* Audio_SetVoiceVolumeScale(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037088; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037088.s")
-#endif
+u8* Audio_SetVoicePanModulation(channel_t* cp, u8* ptr) {
+    M2C_FIELD(cp, u8*, 0xE7) = *ptr++;
+    if (!M2C_FIELD(cp, u8*, 0xE7)) {
+        M2C_FIELD(cp, u16*, 0xBC) = 0x80;
+    }
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800370AC; signature not recovered. */

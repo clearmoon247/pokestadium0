@@ -95,17 +95,17 @@ s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107AD0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107B20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107B20.s")
-#endif
+s16 BattleScene_GetHitCueDefaultAnchor(ActivePokemon* active_pokemon) {
+    MovePresentationCue* hit_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107B54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107B54.s")
-#endif
+    return hit_cue->defaultAnchor;
+}
+
+s16 func_82107B54(ActivePokemon* active_pokemon) {
+    MovePresentationCue* hit_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;
+
+    return M2C_FIELD(hit_cue, u8*, 3);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82107B88; signature not recovered. */
@@ -202,11 +202,16 @@ s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
     return M2C_FIELD(M2C_FIELD(arg0, s8 **, 0x85C), s16 *, 2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F68.s")
-#endif
+typedef struct {
+    /* 0x0 */ s32 unk_00;
+    /* 0x4 */ s32 unk_04;
+    /* 0x8 */ s32 unk_08;
+} unk_D_8006A9CC; // size = 0xC
+extern unk_D_8006A9CC D_8006A9CC[];
+
+s32 func_82107F68(u8* arg0) {
+    return D_8006A9CC[arg0[0x80A]].unk_00;
+}
 
 s32 func_82107F88(s8 *arg0)
 {

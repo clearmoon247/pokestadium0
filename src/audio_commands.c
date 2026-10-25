@@ -81,11 +81,11 @@ void Audio_RelocateOffsets(u32* arg0, u32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003F96C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003FE34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003FE34.s")
-#endif
+void func_8003FE58(s32, s32, s32);
+
+void func_8003FE34(s32 arg0, s32 arg1) {
+    func_8003FE58(arg0, 1, arg1);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003FE58; signature not recovered. */

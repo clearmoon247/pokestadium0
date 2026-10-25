@@ -108,11 +108,10 @@ void BattleThumbnail_TickOwnerSlideAnimation(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821076D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821076D4.s")
-#endif
+void BattleThumbnail_TickBothOwnerSlideAnimations(ActivePokemon* side1_pokemon, ActivePokemon* side2_pokemon) {
+    BattleThumbnail_TickOwnerSlideAnimation(side1_pokemon);
+    BattleThumbnail_TickOwnerSlideAnimation(side2_pokemon);
+}
 
 /*
     Dispatches the thumbnail's rendering based on the current of the battle

@@ -128,11 +128,10 @@ void BattleAnim_CallbackOwnerModelTintPaletteRotateFadeDetach(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82144644; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144644.s")
-#endif
+void BattleAnim_SetupOwnerModelAlphaFade(Particle* arg0) {
+    arg0->prim_a = arg0->unk_A6;
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_80019B6C(s32, u8);                     /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
