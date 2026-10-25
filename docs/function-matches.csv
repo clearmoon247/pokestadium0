@@ -32,7 +32,7 @@ func_8002F9D8,0x8002F9D8,src/2E480.c,,asm,,asm
 func_8002FD8C,0x8002FD8C,src/2E480.c,,asm,,asm
 func_80030230,0x80030230,src/2E480.c,,asm,,asm
 func_800306E0,0x800306E0,src/2E480.c,,asm,,asm
-func_80030744,0x80030744,src/2E480.c,,asm,,asm
+func_80030744,0x80030744,src/2E480.c,func_80030744,hand,,c
 func_800307D4,0x800307D4,src/2E480.c,WidgetTree_SetPagedGridSelectionWithOffset,hand,,c
 func_80030894,0x80030894,src/2E480.c,,asm,,asm
 func_800309D4,0x800309D4,src/2E480.c,func_800309D4,m2c,m2c,c
@@ -260,8 +260,8 @@ func_8000B2E8,0x8000B2E8,src/controller.c,func_8000B2E8,m2c,m2c,c
 func_8000B2F4,0x8000B2F4,src/controller.c,Input_SetRepeatController,s1,stadium1:src/input.c,c
 func_8000B30C,0x8000B30C,src/controller.c,Input_GetRepeatedDPad,s1,stadium1:src/input.c,c
 func_8000B428,0x8000B428,src/controller.c,Cont_IsEepromPresent,s1,stadium1:src/controller.c,c
-func_8000B438,0x8000B438,src/controller.c,,asm,,asm
-func_8000B4D4,0x8000B4D4,src/controller.c,,asm,,asm
+func_8000B438,0x8000B438,src/controller.c,Cont_AttemptReadEeprom,hand,,c
+func_8000B4D4,0x8000B4D4,src/controller.c,func_8000B4D4,hand,,c
 func_8000B570,0x8000B570,src/controller.c,func_8000B570,s1,stadium1:src/crash_screen.c,c
 func_8000B638,0x8000B638,src/controller.c,crash_screen_wait_for_button_combo,s1,stadium1:src/crash_screen.c,c
 func_80007460,0x80007460,src/crash_screen.c,crash_screen_draw_rect,s1,stadium1:src/crash_screen.c,c
@@ -453,7 +453,7 @@ func_811020A8,0x811020A8,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0
 func_81102168,0x81102168,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,func_81102168,m2c,m2c,c
 func_811021D4,0x811021D4,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,,asm,,asm
 func_81102280,0x81102280,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,,asm,,asm
-func_81102344,0x81102344,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,,asm,,asm
+func_81102344,0x81102344,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,GbPak_SelectRamBank,hand,,c
 func_811023DC,0x811023DC,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,,asm,,asm
 func_81102460,0x81102460,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,,asm,,asm
 func_81102690,0x81102690,src/fragments/fragment000_80C00/gb_tower_emulator_7F9A0.c,GbPak_TransferBankedRam,hand,,c
@@ -795,7 +795,7 @@ func_82005958,0x82005958,src/fragments/fragment007_166580.c,func_82005958,m2c,m2
 func_8200597C,0x8200597C,src/fragments/fragment007_166580.c,func_8200597C,hand,,c
 func_820059EC,0x820059EC,src/fragments/fragment007_166580.c,,asm,,asm
 func_82005CCC,0x82005CCC,src/fragments/fragment007_166580.c,func_82005CCC,m2c,m2c+permuter,asm
-func_82005D90,0x82005D90,src/fragments/fragment007_166580.c,,asm,,asm
+func_82005D90,0x82005D90,src/fragments/fragment007_166580.c,func_82005D90,hand,,c
 func_82005E34,0x82005E34,src/fragments/fragment007_166580.c,,asm,,asm
 func_82005EE4,0x82005EE4,src/fragments/fragment007_166580.c,,asm,,asm
 func_820060AC,0x820060AC,src/fragments/fragment007_166580.c,,asm,,asm
@@ -845,7 +845,7 @@ func_88100100,0x88100100,src/fragments/fragment008_1720F0.c,func_88100100,m2c,m2
 func_881001A8,0x881001A8,src/fragments/fragment008_1720F0.c,,asm,,asm
 func_8810024C,0x8810024C,src/fragments/fragment008_1720F0.c,,asm,,asm
 func_88100348,0x88100348,src/fragments/fragment008_1720F0.c,,asm,,asm
-func_88100428,0x88100428,src/fragments/fragment008_1720F0.c,,asm,,asm
+func_88100428,0x88100428,src/fragments/fragment008_1720F0.c,func_88100428,hand,,c
 func_881004CC,0x881004CC,src/fragments/fragment008_1720F0.c,,asm,,asm
 func_881005E4,0x881005E4,src/fragments/fragment008_1720F0.c,,asm,,asm
 func_881007AC,0x881007AC,src/fragments/fragment008_1720F0.c,,asm,,asm
@@ -985,7 +985,7 @@ func_821339CC,0x821339CC,src/fragments/fragment012_17ED00/821337A0.c,,asm,,asm
 func_82133A44,0x82133A44,src/fragments/fragment012_17ED00/821337A0.c,,asm,,asm
 func_82133AD8,0x82133AD8,src/fragments/fragment012_17ED00/821337A0.c,,asm,,asm
 func_82133B6C,0x82133B6C,src/fragments/fragment012_17ED00/821337A0.c,,asm,,asm
-func_82168C20,0x82168C20,src/fragments/fragment012_17ED00/82168C20.c,,asm,,asm
+func_82168C20,0x82168C20,src/fragments/fragment012_17ED00/82168C20.c,func_82168C20,hand,,c
 func_82168CC4,0x82168CC4,src/fragments/fragment012_17ED00/82168C20.c,,asm,,asm
 func_82168E18,0x82168E18,src/fragments/fragment012_17ED00/82168C20.c,,asm,,asm
 func_8210BCF0,0x8210BCF0,src/fragments/fragment012_17ED00/battle_engine_2F6930.c,BattleAnim_CalculateDistanceAngles,s1,stadium1:src/fragments/battle_engine/battle_engine_2F6930.c,c
@@ -2722,7 +2722,7 @@ func_82104D10,0x82104D10,src/fragments/fragment012_17ED00/battle_engine_move_ani
 func_82104DB0,0x82104DB0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82104E14,0x82104E14,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82104EAC,0x82104EAC,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
-func_8210502C,0x8210502C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
+func_8210502C,0x8210502C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,BattleScene_StartHitCueAnimation,hand,,c
 func_821050D0,0x821050D0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82105140,0x82105140,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_821051B0,0x821051B0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
@@ -2792,7 +2792,7 @@ func_82109E60,0x82109E60,src/fragments/fragment012_17ED00/battle_engine_move_mod
 func_82109EF8,0x82109EF8,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleAnim_PokeBallLandContinue,hand,,c
 func_82109FA8,0x82109FA8,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,func_82109FA8,m2c,m2c,c
 func_82109FFC,0x82109FFC,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleAnim_FlyStart,s1,stadium1:src/fragments/battle_engine/battle_engine_move_model_transforms.c,c
-func_8210A084,0x8210A084,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
+func_8210A084,0x8210A084,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleAnim_FlyContinue,hand,,c
 func_8210A120,0x8210A120,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,func_8210A120,m2c,m2c,c
 func_8210A174,0x8210A174,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleAnim_WaterfallStart,s1,stadium1:src/fragments/battle_engine/battle_engine_move_model_transforms.c,c
 func_8210A1F4,0x8210A1F4,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
@@ -2983,7 +2983,7 @@ func_82137694,0x82137694,src/fragments/fragment012_17ED00/particle_math_261F90.c
 func_821376CC,0x821376CC,src/fragments/fragment012_17ED00/particle_math_261F90.c,ParticleMath_ApproachS16UpByPointer,s1,stadium1:src/fragments/particle_math/particle_math_261F90.c,c
 func_82137714,0x82137714,src/fragments/fragment012_17ED00/particle_math_261F90.c,ParticleMath_ApproachS16DownByPointer,s1,stadium1:src/fragments/particle_math/particle_math_261F90.c,c
 func_8213775C,0x8213775C,src/fragments/fragment012_17ED00/particle_math_261F90.c,,asm,,asm
-func_82137804,0x82137804,src/fragments/fragment012_17ED00/particle_math_261F90.c,,asm,,asm
+func_82137804,0x82137804,src/fragments/fragment012_17ED00/particle_math_261F90.c,ParticleMath_ApproachU8,hand,,c
 func_82137898,0x82137898,src/fragments/fragment012_17ED00/particle_math_261F90.c,,asm,,asm
 func_82137940,0x82137940,src/fragments/fragment012_17ED00/particle_math_261F90.c,ParticleMath_ApproachAngle,s1,stadium1:src/fragments/particle_math/particle_math_261F90.c,c
 func_82137A20,0x82137A20,src/fragments/fragment012_17ED00/particle_math_261F90.c,ParticleMath_ApproachS32,s1,stadium1:src/fragments/particle_math/particle_math_261F90.c,c
@@ -3498,7 +3498,7 @@ func_822023D4,0x822023D4,src/fragments/fragment013_232510/demo_scenes_161E60.c,f
 func_82202494,0x82202494,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82202494,hand,,c
 func_82202728,0x82202728,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82202728,hand,,c
 func_88000020,0x88000020,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
-func_8800023C,0x8800023C,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
+func_8800023C,0x8800023C,src/fragments/fragment014_235D70/lab_pc_icons.c,func_8800023C,hand,,c
 func_880002D8,0x880002D8,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
 func_880003D4,0x880003D4,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
 func_88000564,0x88000564,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
@@ -3728,7 +3728,7 @@ func_89104998,0x89104998,src/fragments/fragment016_252E10/89100020.c,func_891049
 func_891049E8,0x891049E8,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
 func_89104B08,0x89104B08,src/fragments/fragment016_252E10/89100020.c,func_89104B08,m2c,m2c,c
 func_89104B48,0x89104B48,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
-func_89104C70,0x89104C70,src/fragments/fragment016_252E10/lab_pc_list_1D7B40.c,,asm,,asm
+func_89104C70,0x89104C70,src/fragments/fragment016_252E10/lab_pc_list_1D7B40.c,func_89104C70,hand,,c
 func_89104D14,0x89104D14,src/fragments/fragment016_252E10/lab_pc_list_1D7B40.c,,asm,,asm
 func_89104E38,0x89104E38,src/fragments/fragment016_252E10/lab_pc_list_1D7B40.c,,asm,,asm
 func_89104E94,0x89104E94,src/fragments/fragment016_252E10/lab_pc_list_1D7B40.c,func_89104E94,m2c,m2c,c
@@ -3844,7 +3844,7 @@ func_8A1003D0,0x8A1003D0,src/fragments/fragment018_262620/pokedex_214920.c,,asm,
 func_8A100588,0x8A100588,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
 func_8A100620,0x8A100620,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
 func_8A10068C,0x8A10068C,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
-func_8A100808,0x8A100808,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
+func_8A100808,0x8A100808,src/fragments/fragment018_262620/pokedex_214920.c,func_8A100808,hand,,c
 func_8A1008A4,0x8A1008A4,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
 func_8A100954,0x8A100954,src/fragments/fragment018_262620/pokedex_214920.c,func_8A100954,m2c,m2c,c
 func_8A1009A4,0x8A1009A4,src/fragments/fragment018_262620/pokedex_214920.c,func_8A1009A4,m2c,m2c,c
@@ -3898,7 +3898,7 @@ func_8A2001C0,0x8A2001C0,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,a
 func_8A200274,0x8A200274,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,asm
 func_8A20034C,0x8A20034C,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,asm
 func_8A2003C0,0x8A2003C0,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,asm
-func_8A200770,0x8A200770,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,asm
+func_8A200770,0x8A200770,src/fragments/fragment019_293410/lab_pc_icons.c,func_8A200770,hand,,c
 func_8A20080C,0x8A20080C,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,asm
 func_8A2008F4,0x8A2008F4,src/fragments/fragment019_293410/lab_pc_icons.c,func_8A2008F4,m2c,m2c,c
 func_8A20093C,0x8A20093C,src/fragments/fragment019_293410/lab_pc_icons.c,,asm,,asm
@@ -4819,7 +4819,7 @@ func_800388BC,0x800388BC,src/libnumus/player.c,,asm,,asm
 func_80039010,0x80039010,src/libnumus/player.c,,asm,,asm
 func_80039328,0x80039328,src/libnumus/player.c,Audio_ComputeVoiceVolume,hand,,c
 func_800393F8,0x800393F8,src/libnumus/player.c,Audio_AdvanceVoicePitch,s1,stadium1:src/libnumus/player.c,asm
-func_80039530,0x80039530,src/libnumus/player.c,,asm,,asm
+func_80039530,0x80039530,src/libnumus/player.c,Audio_UpdateVoicePlaybackEnd,hand,,c
 func_800395D0,0x800395D0,src/libnumus/player.c,,asm,,asm
 func_80039A44,0x80039A44,src/libnumus/player.c,,asm,,asm
 func_80039A60,0x80039A60,src/libnumus/player.c,,asm,,asm

@@ -736,11 +736,21 @@ f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800393F8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039530; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039530.s")
-#endif
+void Audio_UpdateVoicePlaybackEnd(channel_t* arg0) {
+    if (M2C_FIELD(arg0, u16*, 0xA6) != 0x7FFF) {
+        if (M2C_FIELD(arg0, u16*, 0xBE) != 0) {
+            M2C_FIELD(arg0, s64*, 0x28) = (s32)(M2C_FIELD(arg0, u16*, 0xBE) << 8) + M2C_FIELD(arg0, s64*, 0x20);
+        } else {
+            M2C_FIELD(arg0, s64*, 0x28) = M2C_FIELD(arg0, s64*, 0x18) - (s32)(M2C_FIELD(arg0, u16*, 0xC0) << 8);
+        }
+    } else {
+        M2C_FIELD(arg0, s64*, 0x28) = 0x7FFFFFFF;
+    }
+
+    M2C_FIELD(arg0, u8*, 0xD2) = M2C_FIELD(arg0, u8*, 0xCE);
+    M2C_FIELD(arg0, u8*, 0xD3) = M2C_FIELD(arg0, u8*, 0xCD);
+    M2C_FIELD(arg0, u8*, 0xD1) = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800395D0; signature not recovered. */

@@ -33,11 +33,22 @@ typedef struct unk_func_88313894 {
 void func_891053E0(void);
 void func_89108F0C(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89104C70; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104C70.s")
-#endif
+extern Color_RGBA8 D_8910A910;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+
+void func_89104C70(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5) {
+    s32 temp_v0 = *arg5;
+
+    if (arg4 & 8) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, temp_v0 - 6, 0x16, D_8910A910);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89104D14; signature not recovered. */

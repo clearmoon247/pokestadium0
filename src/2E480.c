@@ -214,11 +214,29 @@ void func_8002ED70(s8 *arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800306E0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80030744; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80030744.s")
-#endif
+void func_80030744(s32* arg0, s32 arg1) {
+    s32 temp_a2;
+    s32 temp_v0;
+    s32 var_a1;
+    s32 var_v0;
+    s32 var_v1;
+
+    arg0[16] = 0;
+    arg0[2] = arg1;
+    temp_v0 = arg0[13] - arg0[11];
+    arg0[13] = arg0[4] * arg1;
+
+    temp_a2 = ((s32*)arg0[0])[2] - arg0[9];
+
+    var_a1 = temp_a2 = (temp_a2 > 0) ? temp_a2 : 0;
+    temp_a2 *= arg0[4];
+
+    var_v0 = (arg0[13] - temp_v0 > 0) ? arg0[13] - temp_v0 : 0;
+
+    var_v1 = (var_v0 < temp_a2) ? var_v0 : temp_a2;
+    arg0[11] = var_v1;
+    arg0[12] = var_v1;
+}
 
 void WidgetTree_SetPagedGridSelectionWithOffset(s8* arg0, s32 arg1, s32 arg2) {
     s32 temp_a2;

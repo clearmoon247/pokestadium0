@@ -342,11 +342,30 @@ s32 ParticleMath_ApproachS16DownByPointer(s16* arg0, s16 arg1, s16* arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213775C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82137804; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82137804.s")
-#endif
+s32 ParticleMath_ApproachU8(u8* arg0, u8 arg1, u8 arg2) {
+    s32 var_v1 = 0;
+    s16 var_a3 = *arg0;
+    s16 target = arg1;
+
+    if (var_a3 < target) {
+        var_a3 += arg2;
+        if (var_a3 >= target) {
+            var_a3 = target;
+            var_v1 = 1;
+        }
+    } else if (target < var_a3) {
+        var_a3 -= arg2;
+        if (target >= var_a3) {
+            var_a3 = target;
+            var_v1 = 1;
+        }
+    } else {
+        var_v1 = 1;
+    }
+
+    *arg0 = var_a3;
+    return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82137898; signature not recovered. */

@@ -676,11 +676,24 @@ void BattleScene_TickStateCallbacks(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104EAC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210502C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210502C.s")
-#endif
+s32 func_82101FD4(ActivePokemon*);
+void func_82101F00(ActivePokemon*);
+void func_821054C4(ActivePokemon*, s32);
+
+void BattleScene_StartHitCueAnimation(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[4];
+    MovePresentationCue* cue = (MovePresentationCue*)((u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x738);
+    UNUSED s32 pad2;
+
+    if (func_82101FD4(active_pokemon) != 0) {
+        func_82101F00(active_pokemon);
+        func_821054C4(active_pokemon, 0xA8);
+        active_pokemon->animationTimer = 0;
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+        ModelAnim_SetAnimation(&active_pokemon->displayObject, cue->id);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821050D0; signature not recovered. */

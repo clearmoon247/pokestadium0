@@ -330,11 +330,17 @@ void BattleAnim_FlyStart(UNUSED ActivePokemon* owner, ActivePokemon* animated_po
     animated_pokemon->modelTransformTimer++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210A084; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A084.s")
-#endif
+extern f32 D_FLT_82189354[][4];
+
+void BattleAnim_FlyContinue(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    BattleAnim_UpdateTransform(owner, animated_pokemon, 7.0f, 0.1f, NINETY_DEGREES);
+    BattleScene_UpdateSecondaryModelTrailPosition(animated_pokemon, 0);
+    if (owner->displayObject.position.y - D_FLT_82189354[M2C_FIELD(owner, s16*, 0x1A)][0] >= 800.0f) {
+        M2C_FIELD(animated_pokemon, f32*, 0x5C8) = 0.0f;
+        BattleScene_ResetParticipantModelFlags(animated_pokemon);
+        BattleScene_HideParticipantSecondaryModels(animated_pokemon);
+    }
+}
 
 M2C_UNK func_82109FFC(s32);                         /* extern */
 M2C_UNK func_8210A084(s32, s8 *);                 /* extern */

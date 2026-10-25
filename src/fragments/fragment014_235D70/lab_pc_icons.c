@@ -63,11 +63,20 @@ void func_88000FE0(void);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment014_235D70/func_88000020.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8800023C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment014_235D70/func_8800023C.s")
-#endif
+extern Color_RGBA8 D_88001FD0;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+
+void func_8800023C(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4) {
+    if (arg4 & 8) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, 0x162, 0x1E, D_88001FD0);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 0xC, arg1 + 6, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_880002D8; signature not recovered. */

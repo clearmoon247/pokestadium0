@@ -176,17 +176,45 @@ s32 Cont_IsEepromPresent(void) {
     return gEepromProbe != 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000B438; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000B438.s")
-#endif
+s32 Cont_AttemptReadEeprom(u8* buffer, u32 size, s32 inaddr) {
+    s32 result = 1;
+    if (gEepromProbe) {
+        s32 i = 4;
+        do {
+            // Get the number of 8-byte buffers to send, since we are sending in 8
+            // byte chunks.
+            s32 count = size / 8;
+            // this value must be a multiple of 8 due to hardware restrictions as
+            // specified by http://n64devkit.square7.ch/n64man/os/osEepromLongRead.htm.
+            // Force the value to be a multiple of 8 to adhere to the restrictions.
+            s32 address = ALIGN8(inaddr);
+            i--;
+            // once the result is 0 (success), exit from the loop since the write was successful.
+            result = osEepromLongRead(&gSIEventMesgQueue, count, buffer, address);
+        } while (i > 0 && result);
+    }
+    return result;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000B4D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000B4D4.s")
-#endif
+s32 func_8000B4D4(u8* buffer, u32 size, s32 inaddr) {
+    s32 result = 1;
+    if (gEepromProbe) {
+        s32 i = 4;
+        do {
+            // Get the number of 8-byte buffers to send, since we are sending in 8
+            // byte chunks.
+            s32 count = size / 8;
+            // this value must be a multiple of 8 due to hardware restrictions as
+            // specified by http://n64devkit.square7.ch/n64man/os/osEepromLongRead.htm.
+            // Force the value to be a multiple of 8 to adhere to the restrictions.
+            s32 address = ALIGN8(inaddr);
+            i--;
+            // once the result is 0 (success), exit from the loop since the write was successful.
+            result = osEepromLongWrite(&gSIEventMesgQueue, count, buffer, address);
+        } while (i > 0 && result);
+    }
+    return result;
+}
 
 void func_8000B570(s32 ms) {
     u64 cycles = OS_USEC_TO_CYCLES(ms * 1000LL); // why not just do OS_NSEC_TO_CYCLES and not multiply by 1000LL?
