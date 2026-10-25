@@ -28,6 +28,7 @@ extern s16 D_8219CB1A;
 extern const char D_821978C8[];
 
 #include "m2c_macros.h"
+extern ParticleDescriptor D_8218E580[];
 
 M2C_UNK func_8213CC10(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32);
 
@@ -113,11 +114,71 @@ void BattleAnim_CallbackStartEffects23And35And84Descriptor4FColorCycleScaleFade_
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82144E24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144E24.s")
-#endif
+void BattleAnim_CallbackStartEffects23And35And84Descriptor4FColorCycleScaleFade(Particle* arg0) {
+    s16 sp2E = Particle_FieldCF_GetS16_0C058(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffects23And35And84Descriptor4FColorCycleScaleFade_InitParticle(arg0, sp2E);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_BeginPhase(arg0);
+                Particle_EnableRendering(arg0);
+                Particle_FieldA6_SetS16_0BCA8(arg0, 0xB);
+            }
+            break;
+
+        case 3:
+            Particle_Field1C_Approach_0B98C(arg0, 0.75f, 0.03f);
+
+            switch (sp2E) {
+                case 0:
+                    Particle_PrimB_Approach_0BB44(arg0, 0, 0x18);
+                    Particle_EnvG_Approach_0BBF0(arg0, 0, 0x18);
+                    break;
+
+                case 1:
+                    Particle_PrimR_Approach_0BAE4(arg0, 0, 0x18);
+                    Particle_EnvG_Approach_0BBF0(arg0, 0x78, 0xC);
+                    break;
+            }
+
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_FieldA6_SetS16_0BCA8(arg0, 0xC);
+            }
+            break;
+
+        case 4:
+            Particle_Field1C_Approach_0B98C(arg0, 0.75f, 0.02f);
+            switch (sp2E) {
+                case 0:
+                    Particle_PrimG_Approach_0BB14(arg0, 0, 0x10);
+                    Particle_EnvR_Approach_0BB90(arg0, 0, 0x10);
+                    break;
+
+                case 1:
+                    Particle_PrimG_Approach_0BB14(arg0, 0x78, 0xC);
+                    Particle_EnvG_Approach_0BBF0(arg0, 0, 0xA);
+                    break;
+            }
+
+            if ((Particle_FieldA6_DecrementToZeroStep1_0BDAC(arg0) != 0) && (Particle_PrimAlpha_Approach_0BC2C(arg0, 0, 0x18) != 0)) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRenderingEnabled(arg0) != 0) {
+        func_8213CC10(arg0, 0, 7, 1, 2, -1);
+        BattleAnim_CallbackStartEffects23And35And84Descriptor4FColorCycleScaleFade_AdvancePhase(arg0);
+    }
+}
 
 void BattleAnim_SetupUnusedDescriptor4FColorCycleScaleFadeVariant(Particle* arg0) {
     UNUSED s32 pad[3];
@@ -151,8 +212,6 @@ void BattleAnim_MotionUnusedDescriptor4FColorCycleScaleFadeVariant(Particle* arg
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackUnusedDescriptor4FColorCycleScaleFadeVariant(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
@@ -195,9 +254,6 @@ void BattleAnim_CallbackUnusedDescriptor4FColorCycleScaleFadeVariant(Particle* a
         BattleAnim_MotionUnusedDescriptor4FColorCycleScaleFadeVariant(arg0);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145170.s")
-#endif
 
 void BattleAnim_CallbackStartEffects23And35And84Descriptor3DAlphaScaleFade_InitParticle(Particle* arg0) {
     UNUSED s32 pad[3];
@@ -331,11 +387,70 @@ void BattleAnim_CallbackStartEffects23And35And84Descriptor4FRotatingFallColorCyc
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82145718; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82145718.s")
-#endif
+void BattleAnim_CallbackStartEffects23And35And84Descriptor4FRotatingFallColorCycle(Particle* arg0) {
+    s16 temp_v0 = Particle_FieldCF_GetS16_0C058(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackStartEffects23And35And84Descriptor4FRotatingFallColorCycle_InitParticle(arg0, temp_v0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_BeginPhase(arg0);
+                Particle_EnableRendering(arg0);
+                Particle_FieldAE_SetS16_0BF4C(arg0, ParticleMath_RandomRange(3));
+                Particle_FieldA6_SetS16_0BCA8(arg0, 8);
+            }
+            break;
+
+        case 3:
+            switch (temp_v0) {
+                case 0:
+                    Particle_PrimB_Approach_0BB44(arg0, 0, 0x20);
+                    Particle_EnvG_Approach_0BBF0(arg0, 0, 0x20);
+                    break;
+
+                case 1:
+                    Particle_PrimR_Approach_0BAE4(arg0, 0, 0x20);
+                    Particle_EnvG_Approach_0BBF0(arg0, 0x78, 0x10);
+                    break;
+            }
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 4:
+            switch (temp_v0) {
+                case 0:
+                    Particle_PrimG_Approach_0BB14(arg0, 0, 0x20);
+                    Particle_EnvR_Approach_0BB90(arg0, 0, 0x20);
+                    break;
+
+                case 1:
+                    Particle_PrimG_Approach_0BB14(arg0, 0x78, 0xC);
+                    Particle_EnvG_Approach_0BBF0(arg0, 0, 0xA);
+                    break;
+            }
+
+            if (Particle_PrimAlpha_Approach_0BC2C(arg0, 0, 0x18) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRenderingEnabled(arg0) != 0) {
+        func_8213CC10((s8*)arg0, 0, 7, 1, 2, -1);
+        Particle_Field1C_Approach_0B98C(arg0, 0.02f, 0.015f);
+        BattleAnim_CallbackStartEffects23And35And84Descriptor4FRotatingFallColorCycle_AdvancePhase(arg0);
+        if (arg0->unk_2C.y <= 0.0f) {
+            Particle_MarkInactive(arg0);
+        }
+    }
+}
 
 void BattleAnim_CallbackSharedGrowFadeSetup(Particle* arg0) {
     Particle_Field38_AddXZFromField94YOffset180_08F38(arg0, 33.0f);
@@ -1810,11 +1925,16 @@ void func_82148D30(void) {
     func_8213B5D8(0, 4, 0x1E, &func_82145718, &D_8218E7F8, 0, 1, 0x11, (s32) D_8219A80A, 1, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82148E48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82148E48.s")
-#endif
+extern ParticleDescriptor D_8218E588[86];
+void ParticleEffect_InitExplosionSetTintPalette35(void) {
+    BattleAnim_SpawnOwnerModelTintPaletteFade(0xA, 0x33, 0x2C, 8, 0xC8, 0x10);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 2, 0x14, BattleAnim_CallbackEndEffects15And22Descriptor4ERotatingColorFadeVariant0, &D_8218E7F0, 0, 1, 0x11, 9, 1, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 2, 2, BattleAnim_CallbackEndEffects15And22Descriptor4ERotatingColorFadeVariant1, &D_8218E7F0, 0, 0xC, 0x11, 9, 1, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xE, 8, 5, BattleAnim_CallbackEndEffects15And22And59Descriptor3DRotatingAlphaScaleFade, &D_8218E770, 0, 2, 0x11, 9, 1, 0);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x3C, 0x2C, 0xC8, 0, 8);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x3A, 2, 2, BattleAnim_CallbackSharedAnimatedVerticalFade, &D_8218E770, 0, 1, 9, 0, 0x18, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x3C, 2, 2, BattleAnim_CallbackSharedAnimatedVerticalFade, &D_8218E770, 0, 1, 9, 0, 0x18, 0);
+}
 
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
@@ -1848,17 +1968,33 @@ void func_821491CC(void) {
 void BattleAnim_DefaultStartEffect_Init(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821491DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821491DC.s")
-#endif
+extern ParticleDescriptor D_8218E588[86];
+extern M2C_UNK D_8218E5A8;
+extern M2C_UNK D_8218E7C0;
+void ParticleEffect_InitSparkleSet(void) {
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackSharedDescriptor04GrowFade, &D_8218E5A8, 0, 1, 0x10, 9, 0x12, 0);
+    BattleAnim_SpawnDescriptor25AlphaHoldFadeOut(0, 0, 0x40, 0x8, 0xC8);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactive(4, 0x8, 0x17, 0x20, 0xFF);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade, &D_8218E7B0, 0, 3, 0x10, 9, 0x17, 2);
+    BattleAnim_CreateEffectSlotForCurrentOwner(6, BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade, &D_8218E7B0, 0, 3, 0x10, 9, 0x2C, 1);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0xC, BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade, &D_8218E7B0, 0, 3, 0x10, 9, 0x1A, 1);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x12, BattleAnim_CallbackEndEffect40Descriptor46DelayedScaleAlphaFade, &D_8218E7B0, 0, 2, 0x10, 9, 0x1A, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x14, BattleAnim_CallbackEndEffect40Descriptor48SpreadScaleAlphaFade, &D_8218E7C0, 0, 3, 0x11, 9, 0x1A, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x14, 2, 2, BattleAnim_CallbackEndEffect40Descriptor3DSpreadRisingColorFade, &D_8218E770, 0, 6, 0x11, 9, 0, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x18, BattleAnim_CallbackEndEffects40And54Descriptor46SpreadScaleFade, &D_8218E7B0, 0, 8, 0x11, 9, 0, 0);
+}
 
 void BattleAnim_DefaultEndEffect_Init(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82149444; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82149444.s")
-#endif
+void ParticleEffect_InitCombinedSet(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0xFF, 0);
+    BattleAnim_SpawnOwnerModelTintPaletteFade(0xA, 9, 0xE, 8, 0xC8, 0x10);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(4, 8, 0x14, BattleAnim_CallbackEndEffects15And22And59Descriptor3DRotatingAlphaScaleFade, &D_8218E580[0x3E], 0, 2, 0xE, 0, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(4, 8, 0x14, BattleAnim_CallbackEndEffect59Descriptor4FColorScaleFade, &D_8218E580[0x4F], 0, 2, 9, 0, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 6, 0x28, BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade, &D_8218E580[0x4F], 0, 1, 9, 0, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 4, 0x3C, BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade, &D_8218E580[0x4F], 0, 1, 9, 0, 1, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 4, 0x3C, BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade, &D_8218E580[0x4F], 0, 1, 9, 0, 2, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 3, 0x50, BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade, &D_8218E580[0x4F], 0, 1, 9, 0, 3, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 3, 0x50, BattleAnim_CallbackEndEffect59Descriptor4FRotatingColorScaleFade, &D_8218E580[0x4F], 0, 1, 9, 0, 4, 0);
+}

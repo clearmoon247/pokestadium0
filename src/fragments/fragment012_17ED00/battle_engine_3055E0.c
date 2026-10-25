@@ -526,11 +526,34 @@ void BattleScene_CameraHelperNop(UNUSED CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82122FD8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212311C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212311C.s")
-#endif
+// Zero passes an extra, unused 4-byte struct by value; its type is a guess.
+void func_8212311C(CameraNode* arg0, ActivePokemon* arg1, Color_RGBA8 arg2) {
+    Vec3f sp74;
+    Vec3f sp68;
+    Vec3f sp5C;
+    f32 sp58;
+    s16 sp56;
+    s16 sp54;
+    s16 sp52;
+    s16 sp50;
+    s16 sp4E;
+    s16 sp4C;
+
+    BattleAnim_Vec3fCopy(&sp68, &arg0->view.targetPosition);
+    BattleAnim_Vec3fCopy(&sp5C, &arg0->view.eyePosition);
+    BattleAnim_GetOwnerDefaultAnchorPosition(arg1, &sp74);
+    gCameraDistTarget = BattleScene_ScaleCameraDistance(arg1, 3.5f, 300.0f);
+    BattleScene_SetCameraAtFromAnchor(arg1, arg0, sp74, 0, BattleScene_GetParticipantFacingAngle(arg1), 0.0f, 0.0f);
+    BattleScene_SetCameraEyeFromPosition(arg0, sp74, 0, BattleScene_GetParticipantFacingAngle(arg1), gCameraDistTarget, 0.0f);
+    BattleAnim_CalculateDistanceAngles(&arg0->view.targetPosition, &arg0->view.eyePosition, &D_8219A534, &sp4C, &sp50);
+    BattleAnim_CalculateDistanceAngles(&sp68, &sp5C, &gCameraDistTarget, &sp4E, &sp52);
+    BattleAnim_ApproachF(&gCameraDistTarget, D_8219A534, 0.05f);
+    BattleAnim_StepToS16(&sp52, sp50, 0x108);
+    BattleAnim_StepToS16(&sp4E, sp4C, 0xB6);
+    BattleAnim_CalculateDistanceAngles(&sp68, &arg0->view.targetPosition, &sp58, &sp56, &sp54);
+    Camera_ComputeEyeFromAngles(&sp68, &arg0->view.targetPosition, sp58 / 6, sp56, sp54);
+    BattleScene_SetCameraEyeFromAt(arg0, sp4E, sp52, gCameraDistTarget, 0.0f);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82123314; signature not recovered. */

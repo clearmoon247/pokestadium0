@@ -450,12 +450,11 @@ typedef struct Radial20 {
     /* 0x004 */ s16 unk_004;
     /* 0x006 */ s16 unk_006;
     /* 0x008 */ s16 unk_008;
-    /* 0x00A */ Color_RGBA8 unk_00A;
-    /* 0x00E */ Color_RGB8 unk_00E;
-    /* 0x014 */ f32 unk_014;
-    /* 0x018 */ f32 unk_018;
-    /* 0x01C */ Vtx* unk_01C;
-    /* 0x020 */ char unk020[0x14];
+    /* 0x00A */ Color_RGBA8 unk_00A; // Stadium 1 follows this with a Color_RGB8
+    /* 0x010 */ f32 unk_014;
+    /* 0x014 */ f32 unk_018;
+    /* 0x018 */ Vtx* unk_01C;
+    /* 0x01C */ char unk020[0x18];
     /* 0x034 */ s32 unk_038[3];
     /* 0x040 */ Radial20Node unk_048[20];
 } Radial20; // size = 0x5E0 (Stadium 1: 0x5E8)

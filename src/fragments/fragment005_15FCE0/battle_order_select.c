@@ -260,7 +260,7 @@ void BattleMenu_FillDefaultOrder(s8* arg0, s32 arg1) {
 }
 
 extern s32 D_82302B44;
-extern u8* D_82302BD0;
+extern SessionContext* D_82302BD0;
 
 // Zero's order-select slot keeps only the first 0x20 bytes of Stadium 1's unk_D_848037A0.
 typedef struct OrderSelectSlot {
@@ -297,8 +297,8 @@ void BattleMenu_CommitOrderSelection(void) {
         var_s2++;
     }
 
-    BattleMenu_RearrangeLeadPokemon((BattleSessionTeams*)(D_82302BD0 + 0x1034), &D_82302B20[0]);
-    BattleMenu_RearrangeLeadPokemon((BattleSessionTeams*)(D_82302BD0 + 0x105C), &D_82302B20[1]);
+    BattleMenu_RearrangeLeadPokemon(&D_82302BD0->battleSides[0], &D_82302B20[0]);
+    BattleMenu_RearrangeLeadPokemon(&D_82302BD0->battleSides[1], &D_82302B20[1]);
 }
 
 #ifdef NON_MATCHING
@@ -307,11 +307,46 @@ void BattleMenu_CommitOrderSelection(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82302288.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_823023EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823023EC.s")
-#endif
+extern s32 D_82302BFC;
+extern s16 D_82302B42;
+extern s16 D_82302B40;
+extern s32 D_82302C00;
+extern Controller D_82302BD8;
+void BattleMenu_InitOrderSelectPanels(SessionContext* arg0) {
+    BattleSessionTeams* temp_s0 = &arg0->battleSides[0];
+
+    D_82302BD0 = arg0;
+    D_82302B44 = 0;
+    D_82302B40 = 2;
+    D_82302B42 = 0;
+    D_82302BFC = 0;
+    D_82302C00 = 0;
+    D_82302BD8.buttonPressed = 0;
+
+    BattleMenu_InitTeamOrderState(&D_82302B20[0], &D_82302BD0->battleSides[0], D_82302BD0->ruleCategory);
+    BattleMenu_InitTeamOrderState(&D_82302B20[1], &D_82302BD0->battleSides[1], D_82302BD0->ruleCategory);
+
+    if (temp_s0->tagTeamSize == 1) {
+        BattleMenu_AddOrderSelectPanel(0x50, 0x21, temp_s0->teamMember[0], 0, -1);
+    } else if (temp_s0->teamMember[0]->controllerPort < temp_s0->teamMember[1]->controllerPort) {
+        BattleMenu_AddOrderSelectPanel(0x50, 0x21, temp_s0->teamMember[0], 0, D_82302B44 + 1);
+        BattleMenu_AddOrderSelectPanel(0x50, 0x81, temp_s0->teamMember[1], 0, D_82302B44 - 1);
+    } else {
+        BattleMenu_AddOrderSelectPanel(0x50, 0x21, temp_s0->teamMember[1], 0, D_82302B44 + 1);
+        BattleMenu_AddOrderSelectPanel(0x50, 0x81, temp_s0->teamMember[0], 0, D_82302B44 - 1);
+    }
+
+    temp_s0++;
+    if (temp_s0->tagTeamSize == 1) {
+        BattleMenu_AddOrderSelectPanel(0x50, 0x146, temp_s0->teamMember[0], 1, -1);
+    } else if (temp_s0->teamMember[0]->controllerPort < temp_s0->teamMember[1]->controllerPort) {
+        BattleMenu_AddOrderSelectPanel(0x50, 0xE6, temp_s0->teamMember[0], 1, D_82302B44 + 1);
+        BattleMenu_AddOrderSelectPanel(0x50, 0x146, temp_s0->teamMember[1], 1, D_82302B44 - 1);
+    } else {
+        BattleMenu_AddOrderSelectPanel(0x50, 0xE6, temp_s0->teamMember[1], 1, D_82302B44 + 1);
+        BattleMenu_AddOrderSelectPanel(0x50, 0x146, temp_s0->teamMember[0], 1, D_82302B44 - 1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82302644; signature not recovered. */

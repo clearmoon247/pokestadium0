@@ -2711,11 +2711,19 @@ void ParticleEffect_SpecialSetupDelayedScatterPalette1(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackSharedDescriptor34DelayedFrameMotion, &gBattleAnimParticleDescriptors[0x34], 0, 7, 0x11, 9, 1, 0xC);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82166314; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82166314.s")
-#endif
+extern ParticleDescriptor D_8218E580[86];
+extern M2C_UNK D_8218E798;
+extern M2C_UNK D_8218E7D0;
+void ParticleEffect_TextureSetup(void) {
+    s32 temp_s1 = gBattleAnimCurrentAnchor & 0xFF;
+
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 8, 6, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, &D_8218E798, 0, 8, 0x11, temp_s1, 0x18, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(1, 8, 6, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, &D_8218E798, 0, 8, 0x11, temp_s1, 0x18, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(2, 8, 6, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, &D_8218E798, 0, 8, 0x11, temp_s1, 0x18, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(4, 8, 6, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, &D_8218E798, 0, 8, 0x11, temp_s1, 0x18, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 6, 0xC, BattleAnim_CallbackEndEffect67Descriptor3DAnimatedGravityFade, &D_8218E7D0, 0, 2, 0x11, temp_s1, 1, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(1, 6, 0xA, BattleAnim_CallbackEndEffect67Descriptor3DAnimatedGravityFade, &D_8218E7D0, 0, 2, 0x11, temp_s1, 1, 0);
+}
 
 void ParticleEffect_ModeSetup(void) {
     UNUSED s32 pad;

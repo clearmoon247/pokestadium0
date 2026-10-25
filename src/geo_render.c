@@ -652,11 +652,42 @@ void Geo_NodeType9Empty(UNUSED GraphNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014164.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001426C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001426C.s")
-#endif
+void func_8001426C(GraphNode* arg0) {
+    unk_D_86002F34_alt4* arg = (unk_D_86002F34_alt4*)arg0;
+    Light* light;
+    Ambient* ambient;
+
+    if (D_80060490->unk_1C >= 7) {
+        return;
+    }
+
+    light = &D_80060490->lights->l[D_80060490->unk_1C];
+    ambient = &D_80060490->lights->a;
+
+    *(u32*)light->l.col = arg->unk_18.rgba;
+    *(u32*)light->l.colc = arg->unk_18.rgba;
+
+    light->l.dir[0] = (120.0f * COSS(arg->unk_1C)) * SINS(arg->unk_1E);
+    light->l.dir[1] = (120.0f) * SINS(arg->unk_1C);
+    light->l.dir[2] = (120.0f * COSS(arg->unk_1C)) * COSS(arg->unk_1E);
+
+    ambient->l.col[0] += ((arg->unk_18.r * arg->unk_18.a) / 100);
+    if (ambient->l.col[0] > 0xFF) {
+        ambient->l.col[0] = 0xFF;
+    }
+
+    ambient->l.col[1] += ((arg->unk_18.g * arg->unk_18.a) / 100);
+    if (ambient->l.col[1] > 0xFF) {
+        ambient->l.col[1] = 0xFF;
+    }
+
+    ambient->l.col[2] += ((arg->unk_18.b * arg->unk_18.a) / 100);
+    if (ambient->l.col[2] > 0xFF) {
+        ambient->l.col[2] = 0xFF;
+    }
+
+    D_80060490->unk_1C++;
+}
 
 void Geo_NodeType12Empty(UNUSED GraphNode* arg0) {
 }

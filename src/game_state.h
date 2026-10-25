@@ -68,10 +68,8 @@ typedef struct ExtendedRosterInfo {
     /* 0x014 */ char unk_014[4];
     /* 0x018 */ char unk018[0x10];
     /* 0x028 */ BattleMon unk_028[1];
-    /* 0x07C */ char unk07C[0x1A4];
-    /* 0x220 */ char unk_220[0x4];
-    /* 0x224 */ char unk224[0x24];
-} ExtendedRosterInfo; // size = 0x248
+    /* 0x078 */ char unk078[0x190];
+} ExtendedRosterInfo; // size = 0x208 (Stadium 1: 0x248)
 
 typedef struct TeamRoster {
     /* 0x000 */ u8 unk_000;

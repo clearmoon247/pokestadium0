@@ -271,11 +271,68 @@ s32 BattleScene_ApplyCpuSwitchChoice(ActivePokemon* arg0, ActivePokemon* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E0A4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E118; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E118.s")
-#endif
+extern f32 D_82199EB0;
+extern s32 D_82199EBC;
+s32 BattleScene_CollectCpuAction(ActivePokemon* arg0, ActivePokemon* arg1) {
+    BattleMonRuntime* sp34 = &arg0->state.runtime;
+    BattleMonRuntime* sp30 = &arg1->state.runtime;
+    ActivePokemonState* sp2C = &arg0->state;
+    ActivePokemonState* sp28 = &arg1->state;
+
+    if (BattleScene_WaitForCpuChoice(arg0, arg1) != 0) {
+        return 0;
+    }
+
+    if (!(sp34->unk_4D & 0x60)) {
+        sp34->unk_4C &= ~8;
+        sp30->unk_4C &= ~8;
+
+        if (!(sp34->unk_4C & 0x12)) {
+            if (BattleScene_ApplyForcedActionDelay(arg0) != 0) {
+                return 0;
+            }
+
+            if (D_82199EB0 == 0.0f) {
+                D_82199EBC = 0;
+                return 0;
+            }
+
+            BattleScene_TriggerCpuChoice(sp34, sp30, sp2C, sp28, arg1);
+
+            if (BattleScene_ApplyCpuSwitchChoice(arg0, arg1) != 0) {
+                return 0;
+            }
+
+            if (!(sp34->unk_15 & 0x27)) {
+                if (!(sp34->unk_4C & 0x21)) {
+                    if (sp30->unk_4C & 0x20) {
+                        BattleScene_CompleteCpuMoveAction(arg0, arg1);
+                        sp34->usedMove = 0xFF;
+                    } else if (BattleScene_ApplyForcedActionDelay(arg0) != 0) {
+                        return 0;
+                    } else {
+                        if (D_82199EB0 == 0.0f) {
+                            D_82199EBC = 0;
+                            return 0;
+                        }
+                        BattleScene_TriggerCpuChoice(sp34, sp30, sp2C, sp28, arg1);
+                        BattleScene_ApplyCpuChoice(arg0, arg1);
+                    }
+                } else {
+                    BattleScene_CompleteCpuMoveAction(arg0, arg1);
+                }
+            } else {
+                BattleScene_CompleteCpuMoveAction(arg0, arg1);
+            }
+        } else {
+            BattleScene_CompleteCpuForcedAction(arg0, arg1);
+        }
+    } else {
+        BattleScene_CompleteCpuForcedAction(arg0, arg1);
+    }
+
+    return 0;
+}
 
 extern s8 D_82199DE0;
 void func_8210E318(void)

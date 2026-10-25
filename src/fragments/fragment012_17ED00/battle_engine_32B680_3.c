@@ -3669,11 +3669,24 @@ void func_8215CE20(void) {
     func_8213BC00(0, 8, 0xFF, 0, 0x10);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215CF14; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215CF14.s")
-#endif
+void Gfx_WaterAnimDL(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
+    Particle* temp_v0 = BattleAnim_GetOwnerContextParticle(D_8006049C);
+
+    gDPPipeSync(arg0++);
+    gDPSetPrimColor(arg0++, 0, 0x80, 255, 255, 255, temp_v0->prim_a);
+
+    gDPLoadTextureTile_4b(arg0++, arg1, G_IM_FMT_I, 32, 0, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                          G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 14, 15);
+
+    ParticleGfx_SetPartiallyAnimatedTileSize(arg0++, -0xB, -8, 0x20, 0x20);
+
+    gDPLoadMultiTile_4b(arg0++, arg1, 0x0100, 1, G_IM_FMT_I, 32, 0, 0, 0, 31, 31, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                        G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 13, 15);
+
+    ParticleGfx_SetPartiallyAnimatedAuxTileSize(arg0++, 0x35, -4, 0x20, 0x20);
+
+    gSPEndDisplayList(arg0++);
+}
 
 void Gfx_WaterAnimDLCallback(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
