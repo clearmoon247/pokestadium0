@@ -181,11 +181,36 @@ void func_8211F274(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F288.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F2E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F2E0.s")
-#endif
+void func_8211C43C(u8, s32, s32, s8*);
+extern ActivePokemon* sSide1ActivePokemon;
+void func_8211F2E0(ActivePokemon* arg0) {
+    TeamRoster* roster = arg0->teamRoster;
+    s8 c = arg0->captionState.unk_48[arg0->captionState.unk_04];
+
+    if (c != 0) {
+        if ((c == 0xA) || (c == 0x20)) {
+            arg0->captionState.unk_08[arg0->captionState.unk_04] = c;
+            arg0->captionState.unk_04++;
+            c = arg0->captionState.unk_48[arg0->captionState.unk_04];
+        }
+        if ((c > 0x20) && (c < 0x40)) {
+            arg0->captionState.unk_08[arg0->captionState.unk_04] = c;
+            arg0->captionState.unk_04++;
+        } else {
+            arg0->captionState.unk_08[arg0->captionState.unk_04] = c;
+            arg0->captionState.unk_08[arg0->captionState.unk_04 + 1] = arg0->captionState.unk_48[arg0->captionState.unk_04 + 1];
+            arg0->captionState.unk_04 += 2;
+        }
+    }
+    arg0->captionState.unk_08[arg0->captionState.unk_04] = 0;
+    if (arg0->captionState.unk_48[0] != 0) {
+        if (arg0 == sSide1ActivePokemon) {
+            func_8211C43C(M2C_FIELD(roster, u8*, 1), 0x5F, 0xE, arg0->captionState.unk_08);
+        } else {
+            func_8211C43C(M2C_FIELD(roster, u8*, 1), 0x17, 0xBB, arg0->captionState.unk_08);
+        }
+    }
+}
 
 void func_8211F3E4(void) {
 }

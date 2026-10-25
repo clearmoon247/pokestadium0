@@ -283,11 +283,42 @@ void func_88400DAC(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_8840173C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88401970; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401970.s")
-#endif
+void func_884014B4(s32, u8);
+void func_8840173C(s32, s32);
+s32 func_88401970(s32 arg0, s32 arg1, u8 arg2) {
+    s32 loop = 1;
+    s32 sel = 1;
+    s32 buttons;
+
+    do {
+        func_88400108(0);
+        func_884014B4(arg1, arg2);
+        buttons = M2C_FIELD(D_800603C0, u16 *, 8);
+        if (buttons & 0x300) {
+            func_8003F6AC(1);
+            sel ^= 1;
+        } else if (buttons & 0x8000) {
+            loop = 0;
+        } else if (buttons & 0x4000) {
+            sel = 1;
+            loop = 0;
+        }
+        func_8840173C(arg0, sel);
+        func_80006780();
+    } while (loop);
+
+    loop = sel == 0;
+    if (loop) {
+        if (arg0 == 0) {
+            func_8003F6AC(2);
+        } else {
+            func_8003F6AC(0x1F);
+        }
+    } else {
+        func_8003F6AC(3);
+    }
+    return loop;
+}
 
 void func_800245E0(s32 arg0, s32 arg1);
 void Save_InitializeBank3(void) {
@@ -321,11 +352,39 @@ void Save_InitializeBank3(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401D54.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88401E24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401E24.s")
-#endif
+void func_800273E8(s8* arg0, s32 arg1);
+s32 func_80027214(s8*, s32);
+void func_80010F8C(void*, s32);
+void func_80010F9C(void*, s32);
+void func_8000A7FC(s32);
+void func_80041374(s32, s32);
+M2C_UNK func_80006998(M2C_UNK);
+M2C_UNK func_80005B98(M2C_UNK);
+extern M2C_UNK D_88403648;
+extern s8 D_88402E24;
+extern s8 D_88402E08;
+void func_88401E24(void) {
+    s8 sp74[0x3C];
+    s8 sp38[0x3C];
+    s32 sp34;
+
+    sp34 = M2C_FIELD(D_88403370, s32 *, 0xC);
+    func_800273E8(sp74, (s32)&D_88402E24);
+    func_800273E8(sp38, (s32)&D_88402E08);
+    func_80010F8C(&D_88403648, 0xFFFF0000);
+    func_80010F9C(&D_88403648, 0x2E);
+    M2C_FIELD(&D_88403648, u8 *, 2) |= 0x20;
+    func_80006998(0xFFFF);
+    func_80005B98(0x1E);
+    func_8000A7FC(0x3C);
+    func_80041374(0x46, 0x3C);
+    func_8003F6AC(0x23);
+    while (func_80027214(sp74, sp34 + 0xA8)) {
+        func_80027214(sp38, sp34 + 0xB4);
+        func_88400108(0);
+        func_80006780();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88401F38; signature not recovered. */

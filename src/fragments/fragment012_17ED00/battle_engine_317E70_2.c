@@ -619,11 +619,28 @@ void func_8213AB88(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213AC3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AC3C.s")
-#endif
+void func_8213AC3C(s8* arg0) {
+    s16 step;
+    s16 count;
+    s16 i;
+    s32 temp_s4;
+    s32 temp_v0;
+
+    temp_s4 = M2C_FIELD(arg0, s32 *, 8);
+    step = M2C_FIELD(arg0, s16 *, 0x12);
+    count = M2C_FIELD(arg0, s16 *, 0x10) / step;
+    if (M2C_FIELD(M2C_FIELD(arg0, s8 **, 4), s16 *, 2) == 0) {
+        for (i = 0; i < count; i++) {
+            temp_v0 = func_82139C38();
+            M2C_FIELD(arg0, s16 *, 0x10) = step;
+            func_8213AA78(temp_v0, temp_s4, arg0, i);
+        }
+    } else {
+        temp_v0 = func_82139C58(count & 0xFF);
+        M2C_FIELD(arg0, s16 *, 0x10) = step;
+        func_8213AA78(temp_v0, temp_s4, arg0, 0);
+    }
+}
 
 void BattleAnim_SpawnSingleParticle(BattleAnimEffectSlot* arg0) {
     UNUSED s32 pad;
