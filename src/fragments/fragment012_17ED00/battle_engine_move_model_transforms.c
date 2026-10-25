@@ -366,11 +366,13 @@ void BattleAnim_WaterfallStart(UNUSED ActivePokemon* owner, ActivePokemon* anima
     animated_pokemon->modelTransformTimer++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210A1F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A1F4.s")
-#endif
+void BattleAnim_WaterfallContinue(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    BattleAnim_UpdateTransform(owner, animated_pokemon, 3.0f, 0.01f, NINETY_DEGREES);
+    if (owner->displayObject.position.y - D_FLT_82189354[M2C_FIELD(owner, s16*, 0x1A)][0] >= 300.0f) {
+        animated_pokemon->modelTransformTimer++;
+        M2C_FIELD(animated_pokemon, f32*, 0x5C8) = 0.0f;
+    }
+}
 
 void BattleAnim_WaterfallEnd(UNUSED ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon) {
 }

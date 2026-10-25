@@ -443,11 +443,16 @@ extern u8 D_82199F3F;
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821113E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821115F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821115F4.s")
-#endif
+void Battle_IncrementMoveUsage(void) {
+    ActivePokemonState* state;
+    BattleMon* mon;
+
+    mon = &sActivePokemon[sBattleScene.scene->unk_2C]->teamRoster->pokemonPicked[sActivePokemon[sBattleScene.scene->unk_2C]->state.rosterIndex];
+    state = &sActivePokemon[sBattleScene.scene->unk_2C]->state;
+
+    sBattleUser->unk_32[state->unk_0C]++;
+    mon->unk_20[state->unk_0C]++;
+}
 
 s32 Battle_Effect_Metronome(void) {
     s32 move_pulled;

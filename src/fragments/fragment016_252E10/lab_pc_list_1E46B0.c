@@ -249,11 +249,26 @@ s32 LabPCList_CompareByNickname(unk_func_88316128* arg0, unk_func_88316128* arg1
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89109638; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109638.s")
-#endif
+typedef struct LabNameEntryZ {
+    /* 0x00 */ u8 pad00[4];
+    /* 0x04 */ u8* name;
+    /* 0x08 */ u8 pad08[0x14];
+} LabNameEntryZ; // size = 0x1C
+extern LabNameEntryZ D_80064C5C[];
+s32 Text_CompareGlyphCodes(u8*, u8*);
+
+s32 func_89109638(u8* arg0, u8* arg1) {
+    s32 ret;
+    s32 var_v1;
+
+    ret = Text_CompareGlyphCodes(D_80064C5C[arg0[8] - 1].name, D_80064C5C[arg1[8] - 1].name);
+    if (ret != 0) {
+        var_v1 = ret;
+    } else {
+        var_v1 = LabPCList_CompareByPointer((unk_func_88316128*)arg0, (unk_func_88316128*)arg1);
+    }
+    return var_v1;
+}
 
 s32 LabPCList_CompareBySpeciesRawId(unk_func_8830867C_02C_0CC* arg0, unk_func_8830867C_02C_0CC* arg1) {
     s32 var_v0 = *(u8*)&arg0->unk_08 - *(u8*)&arg1->unk_08;

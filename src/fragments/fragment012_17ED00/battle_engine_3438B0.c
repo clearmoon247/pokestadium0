@@ -768,8 +768,18 @@ void func_8213201C(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132238.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213233C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213233C.s")
-#endif
+M2C_UNK func_82125384();
+void func_82122A7C(CameraNode* arg0, ActivePokemon* arg1);
+
+void func_8213233C(CameraNode* arg0) {
+    M2C_FIELD(sActivePokemon[0], u8*, 1) &= ~1;
+    func_82122A7C(arg0, sActivePokemon[1]);
+    sBattleScene.scene->unk_10++;
+    if (sBattleScene.scene->unk_10 == 0x28) {
+        Battle_ClearMessageCursor();
+    }
+    if (BattleScene_IsRowWaitCompleteWithEventCount(sActivePokemon[1], 0x3C) != 0) {
+        Battle_ClearMessageCursor();
+        func_82125384();
+    }
+}

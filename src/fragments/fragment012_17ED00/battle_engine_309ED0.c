@@ -609,11 +609,27 @@ void func_8212601C(s32 arg0) {
     M2C_FIELD(D_8219A5A0, s32 *, 0x20) = (s32) (M2C_FIELD(D_8219A5A0, s32 *, 0x20) + 1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821261A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821261A0.s")
-#endif
+void func_821247F0(void*, void*);
+s32 func_82124810(void*, void*);
+void func_82124830(void*, void*);
+void func_82124874(void*, void*);
+
+void func_821261A0(void* arg0, void* arg1, s32 arg2) {
+    switch (arg2) {
+        case 0:
+            func_821247F0(arg1, arg0);
+            break;
+        case 1:
+            func_82124810(arg1, arg0);
+            break;
+        case 2:
+            func_82124830(arg1, arg0);
+            break;
+        default:
+            func_82124874(arg1, arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82126220; signature not recovered. */

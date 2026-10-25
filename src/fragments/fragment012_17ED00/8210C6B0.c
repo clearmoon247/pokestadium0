@@ -480,8 +480,26 @@ void func_8210E36C(void)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E790.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E924; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E924.s")
-#endif
+void func_8210E504(void);
+void func_8210E790(void);
+
+void func_8210E924(void) {
+    ActivePokemonState* state0 = &sActivePokemon[0]->state;
+    ActivePokemonState* state1 = &sActivePokemon[1]->state;
+
+    if (state0->unk_2A != 1) {
+        state0->unk_2A = 0;
+    }
+    if (state1->unk_2A != 1) {
+        state1->unk_2A = 0;
+    }
+    switch (sBattleScene.scene->unk_1C) {
+        case 1:
+            func_8210E790();
+            break;
+        case 5:
+            func_8210E504();
+            break;
+    }
+    func_8210C6B0();
+}

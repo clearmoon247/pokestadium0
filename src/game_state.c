@@ -109,11 +109,28 @@ void func_8002572C(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800257F0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025830; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025830.s")
-#endif
+typedef struct ContinueDataZ {
+    /* 0x00 */ u8 mode;
+    /* 0x01 */ u8 modeSelection;
+    /* 0x02 */ u8 round;
+    /* 0x03 */ u8 pad03;
+    /* 0x04 */ u8 opponentHistory[8];
+} ContinueDataZ; // size = 0xC
+extern M2C_UNK D_800AF974;
+extern M2C_UNK D_800AF9A8;
+void func_80025260(ContinueDataZ* arg0, void* arg1, BattleMon* arg2, s32 arg3);
+
+void func_80025830(void) {
+    ContinueDataZ sp1C;
+    ExtendedRosterInfo* info = (*(TeamRoster**)((u8*)&gSessionContext + 0x103C))->rosterInfo;
+
+    sp1C.mode = gSessionContext.mode;
+    sp1C.modeSelection = gSessionContext.modeSelection;
+    sp1C.round = gSessionContext.roundOrDemoId + 1;
+    _bcopy(&D_800AF974, sp1C.opponentHistory, 8);
+    func_80025260(&sp1C, &D_800AF9A8, info->unk_028, info->numberOfPokemonCanBePicked);
+    Save_CommitTypedRecord(0x15, 0);
+}
 
 M2C_UNK func_80058410(M2C_UNK *, M2C_UNK *, M2C_UNK, M2C_UNK *); /* extern */
 extern M2C_UNK D_800AE8F0;

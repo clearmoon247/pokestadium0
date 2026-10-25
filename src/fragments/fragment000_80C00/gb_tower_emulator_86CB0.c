@@ -354,11 +354,35 @@ s32 func_81112EEC(s8 *arg0) {
     return M2C_FIELD(temp_v1, s32 *, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112F2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112F2C.s")
-#endif
+typedef struct GbEmuListZ {
+    /* 0x00 */ void* next;
+    /* 0x04 */ void* prev;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ s32 unk_0C;
+} GbEmuListZ; // size = 0x10
+typedef struct GbEmuEntryZ {
+    /* 0x00 */ u8 pad00[0x74];
+    /* 0x74 */ void* next;
+    /* 0x78 */ void* prev;
+    /* 0x7C */ struct GbEmuEntryZ* owner;
+    /* 0x80 */ s32 unk_80;
+} GbEmuEntryZ; // size = 0x84
+extern GbEmuListZ D_81184928;
+extern GbEmuEntryZ D_811847C8[1];
+
+void func_81112F2C(void) {
+    s32 i;
+
+    D_81184928.next = &D_81184928;
+    D_81184928.prev = &D_81184928;
+    D_81184928.count = 0;
+    D_81184928.unk_0C = 0;
+    for (i = 0; i < 1; i++) {
+        D_811847C8[i].owner = &D_811847C8[i];
+        D_811847C8[i].next = NULL;
+        func_81112EAC((s8*)&D_81184928, (s8*)&D_811847C8[i].next);
+    }
+}
 
 u8 func_81112FB0(u8 **arg0)
 {

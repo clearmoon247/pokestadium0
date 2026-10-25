@@ -126,11 +126,27 @@ s32 func_8900732C(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007678.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89007CD8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007CD8.s")
-#endif
+s32 Ui_HandleHorizontalSelectionInput(void* arg0);
+s32 Ui_GetSelectionDirection(void* arg0);
+
+s32 func_89007CD8(u8* arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (Ui_HandleHorizontalSelectionInput(arg0 + 0xA4) == 0) {
+        dir = Ui_GetSelectionDirection(*(void**)(arg0 + 0xA4));
+        if (dir == -1) {
+            sp1C = -1;
+        } else if (dir == 1) {
+            if (*(s32*)(arg0 + 0xA8) == 1) {
+                sp1C = -1;
+            } else {
+                sp1C = 1;
+            }
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89007D54; signature not recovered. */
@@ -201,11 +217,23 @@ void func_89008284(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89008F4C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890093AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890093AC.s")
-#endif
+s32 func_8002DCE0(void* arg0);
+
+s32 func_890093AC(void* arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (func_8002DCE0(arg0) == 0) {
+        dir = Ui_GetSelectionDirection(gPlayer1Controller);
+        if (dir == -1) {
+            Audio_PlaySoundEffectById(3);
+            sp1C = -1;
+        } else if (dir == 1) {
+            sp1C = 1;
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89009414; signature not recovered. */

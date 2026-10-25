@@ -440,11 +440,15 @@ void func_890019C8(s32 arg0, s32 arg1, s32 arg2, s8 *arg3) {
     func_8001ABBC();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89001A7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89001A7C.s")
-#endif
+extern M2C_UNK D_800734A8;
+
+void func_89001A7C(s32 arg0, s32 arg1, char* arg2) {
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(0x10, 0);
+    Gfx_SetEnvColor(M2C_FIELD(&D_800734A8, u8*, 0), M2C_FIELD(&D_800734A8, u8*, 1), M2C_FIELD(&D_800734A8, u8*, 2), M2C_FIELD(&D_800734A8, u8*, 3));
+    Font_Printf(((0x178 - (strlen(arg2) / 2) * 0x18) / 2) + arg0, arg1 + 0x10, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 M2C_UNK func_8001A384(M2C_UNK, M2C_UNK);            /* extern */
 M2C_UNK func_8001A944(s32, s32, s32);               /* extern */
@@ -529,11 +533,24 @@ void func_890022D0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89002D14.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89002DE4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89002DE4.s")
-#endif
+s32 func_8002DC04(void*);
+
+s32 func_89002DE4(unk_func_8820E99C_030* arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (func_8002DC04((u8*)arg0 + 0x4C) == 0) {
+        dir = Ui_GetSelectionDirection((unk_func_8002EBD8_arg0*)gPlayer1Controller);
+        if (dir == -1) {
+            Audio_PlaySoundEffectById(3);
+            sp1C = -1;
+        } else if (dir == 1) {
+            Audio_PlaySoundEffectById(2);
+            sp1C = 1;
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89002E58; signature not recovered. */

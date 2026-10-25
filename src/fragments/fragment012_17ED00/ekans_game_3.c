@@ -386,11 +386,26 @@ void GalleryDebugger_SaveControllerPak(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183F6C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183FD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183FD4.s")
-#endif
+typedef struct BattleSlotZ {
+    /* 0x00 */ TeamRoster* roster;
+    /* 0x04 */ u8 pad04[0x17];
+    /* 0x1B */ u8 unk_1B;
+    /* 0x1C */ u8 pad1C[0x1A];
+    /* 0x36 */ u8 unk_36;
+    /* 0x37 */ u8 pad37[0x59];
+} BattleSlotZ; // size = 0x90
+extern BattleSlotZ* D_821CF298;
+
+s32 func_82183FD4(void) {
+    s32 i;
+
+    for (i = 0; i < D_821CF298->roster->rosterInfo->numberOfPokemonCanBePicked; i++) {
+        if ((D_821CF298[i].unk_1B == 0x80) && (D_821CF298[i].unk_36 == 0x37)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8218403C; signature not recovered. */

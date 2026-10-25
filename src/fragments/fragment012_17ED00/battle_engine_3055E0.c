@@ -221,9 +221,9 @@ void BattleAnim_StartEffect140StartEffect139Alias(void);
 void BattleAnim_StartEffect142StartEffect141Alias(void);
 void ClefairyGame_HidePatternIcons(void);
 void ClefairyGame_ShowPatternIcons(void);
-void Diorama_RenderFinalFrame(void);
-s32 LabPCList_CompareByPokemonColumn(unk_func_8830867C_02C_0CC* arg0, unk_func_8830867C_02C_0CC* arg1);
-void MetapodGame_UpdateParticleFx(void);
+void func_821247F0(void);
+s32 func_82124810(CameraNode* arg0, ActivePokemon* arg1);
+void func_82124874(void);
 
 void BattleScene_SetCameraAnglesAndDistance(s16 arg0, s16 arg1, f32 arg2);
 void BattleScene_SetCameraAtFromAnchor(ActivePokemon* arg0, CameraNode* arg1, Vec3f arg2, s16 arg3, s16 arg4, f32 arg5, f32 arg6);
@@ -841,12 +841,13 @@ void ClefairyGame_ShowPatternIcons(void) {
     ClefairyGame_SpawnPatternIcons();
 }
 
-void Diorama_RenderFinalFrame(void) {
+// Called with (CameraNode*, ActivePokemon*); the arguments pass through untouched.
+void func_821247F0(void) {
     Diorama_RenderFrame();
 }
 
-s32 LabPCList_CompareByPokemonColumn(unk_func_8830867C_02C_0CC* arg0, unk_func_8830867C_02C_0CC* arg1) {
-    return LabPCList_CompareBySpeciesGroup(arg0, arg1);
+s32 func_82124810(CameraNode* arg0, ActivePokemon* arg1) {
+    return LabPCList_CompareBySpeciesGroup((unk_func_8830867C_02C_0CC*)arg0, (unk_func_8830867C_02C_0CC*)arg1);
 }
 
 void func_82124830(s8 *arg0, ActivePokemon* arg1)
@@ -861,7 +862,8 @@ void func_82124830(s8 *arg0, ActivePokemon* arg1)
   }
 }
 
-void MetapodGame_UpdateParticleFx(void) {
+// Called with (CameraNode*, ActivePokemon*); the arguments pass through untouched.
+void func_82124874(void) {
     MiniFx_UpdateParticles();
 }
 

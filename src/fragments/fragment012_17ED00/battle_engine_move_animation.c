@@ -690,11 +690,19 @@ void BattleScene_TickStateCallbacks(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104DB0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82104E14; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104E14.s")
-#endif
+extern s32 D_8219A750;
+
+void func_82104E14(ActivePokemon* active_pokemon) {
+    BattleScene_GetParticipantSideIndex(active_pokemon);
+    if (D_8219A750 == 0) {
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        return;
+    }
+    if ((active_pokemon->animationTimer == D_8219A750) && (BattleAnim_IsAssetLoadBusy(active_pokemon) == 0)) {
+        BattleAnim_QueueEffectList6(1, active_pokemon);
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82104EAC; signature not recovered. */

@@ -625,11 +625,22 @@ s32 func_8002D454(s32 arg0, s32 arg1) {
     return func_8002D430(arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D498; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D498.s")
-#endif
+s32 func_8001FA8C(s32);
+
+s32 func_8002D498(BattleMon* arg0, s32 arg1) {
+    s32 idx = arg0->unk_00.unk_00 - 1;
+    s32 type;
+
+    if (arg1 == 1) {
+        if (gSpeciesData[idx].type1 == gSpeciesData[idx].type2) {
+            return -1;
+        }
+        type = gSpeciesData[idx].type2;
+    } else {
+        type = gSpeciesData[idx].type1;
+    }
+    return func_8001FA8C(type);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002D520; signature not recovered. */
