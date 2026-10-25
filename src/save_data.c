@@ -119,11 +119,15 @@ void func_800239C4(s32 arg0, s32 arg1) {
     func_80058410(arg0 + arg1, arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800239F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800239F0.s")
-#endif
+M2C_UNK func_8004FD20();                            /* extern */
+void func_800239F0(s16 *arg0)
+{
+  if (1)
+  {
+    func_8004FD20();
+    *arg0 |= 2;
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80023A20; signature not recovered. */
@@ -141,11 +145,47 @@ void func_80023C08(s32 arg0, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80023C30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80023C30.s")
-#endif
+s32 func_8000234C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *); /* extern */
+M2C_UNK func_80003774(s32, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK func_80023A20(M2C_UNK, s32);                /* extern */
+M2C_UNK func_8004FD20(s32, M2C_UNK);                /* extern */
+s32 func_80023C30(void)
+{
+  s32 temp_v0;
+  int new_var;
+  s32 var_s0;
+  s32 var_s0_2;
+  if ((*((s32 *) (&D_8006BBA0))) == 0)
+  {
+ do { temp_v0 = func_8000234C(0x8000, 0, 0x42553634, &(*((s8 *) (&func_80023C08)))); *((s32 *) (&D_800AE8E0)) = temp_v0; } while (0);
+    if (temp_v0 != 0)
+    {
+      *((s32 *) (&D_8006BBA0)) = 1;
+      new_var = 0;
+      func_8004FD20(temp_v0, 0x8000);
+      func_80003774(*((s32 *) (&D_800AE8E0)), 0, 0x8000, 0);
+      var_s0 = new_var;
+      do
+      {
+        func_80023A20(0x10, var_s0);
+        var_s0 += 1;
+      }
+      while (var_s0 < 0x10);
+      var_s0_2 = 0;
+      do
+      {
+        func_80023A20(0x11, var_s0_2);
+        func_80023A20(0x12, var_s0_2);
+        var_s0_2 += 1;
+      }
+      while (var_s0_2 != 4);
+      func_80023A20(0x13, new_var);
+      func_80023A20(0x14, 0);
+      func_80023A20(0x15, new_var);
+    }
+  }
+  return *((s32 *) (&D_8006BBA0));
+}
 
 s32 Audio_GetFreeVoiceCount(void) {
     return mus_free_voices_count;
@@ -358,11 +398,10 @@ s32 func_80025130(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025168.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800251A8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800251A8.s")
-#endif
+s32 func_800251A8(void)
+{
+  return (((*((u8 *) (((s8 *) (*((s8 **) (&D_800AE8E0)))) + 0x7A48))) << 8) | (*((u8 *) (((s8 *) (*((s8 **) (&D_800AE8E0)))) + 0x7A49)))) & 0xFFFF;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800251C8; signature not recovered. */

@@ -162,11 +162,14 @@ void func_81111688(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x48) = arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811116BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811116BC.s")
-#endif
+extern f32 D_FLT_811858D4;
+void func_811116BC(s8 *arg0, s8 *arg1)
+{
+  *((s8 **) (((s8 *) arg0) + 0x48)) = arg1;
+  *((u8 *) (((s8 *) arg0) + 0x30)) = (u8) (*((u8 *) (((s8 *) (*((s8 **) (((s8 *) arg1) + 0x54)))) + 5)));
+  *((f32 *) (((s8 *) arg0) + 0x6C)) = (f32) D_FLT_811858D4;
+  *((u8 *) (((s8 *) arg0) + 0x5C)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x5C))) | 0x10);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811116E8; signature not recovered. */

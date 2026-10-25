@@ -695,11 +695,18 @@ s32 LabPCList_CompareByPokemonColumn(unk_func_8830867C_02C_0CC* arg0, unk_func_8
     return LabPCList_CompareBySpeciesGroup(arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124830; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124830.s")
-#endif
+M2C_UNK func_82124054();                            /* extern */
+void func_82124830(s8 *arg0)
+{
+  if (arg0)
+  {
+  }
+  func_82124054();
+  if ((*((f32 *) (((s8 *) arg0) + 0xB8))) <= 20.0f)
+  {
+    *((f32 *) (((s8 *) arg0) + 0xB8)) = 20.0f;
+  }
+}
 
 void MetapodGame_UpdateParticleFx(void) {
     MiniFx_UpdateParticles();

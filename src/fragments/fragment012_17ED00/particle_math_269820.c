@@ -84,11 +84,15 @@ void Particle_SetFieldOffsetCEIfNotSentinel(Particle* arg0, u8 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C3B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C3B8.s")
-#endif
+void func_8213C3B8(s8 *arg0, unsigned char arg1)
+{
+  int new_var;
+  new_var = arg0 != ((s8 *) (-1));
+  if (new_var)
+  {
+    *((s8 *) (((s8 *) arg0) + 0xC9)) = (s8) (arg1 & 0xFF);
+  }
+}
 
 void func_8213C3D4(s8 *arg0, s16 arg1) {
     if (arg0 != (s8 *)-1) {

@@ -22,11 +22,26 @@ s32 func_8F600020(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment033_35E790/func_8F600088.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F6000E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment033_35E790/func_8F6000E8.s")
-#endif
+s32 func_8000515C(M2C_UNK);                         /* extern */
+s32 func_8F600020(s32);                             /* extern */
+M2C_UNK func_8F600088(s32, s32);                    /* extern */
+extern s8 *D_80060490;
+void func_8F6000E8(s32 arg0, s8 *arg1)
+{
+  int new_var2;
+  s32 sp18;
+  int new_var;
+  s32 temp_v0;
+  if (arg0 == 2)
+  {
+    sp18 = *((s32 *) (((s8 *) D_80060490) + 0x14));
+    temp_v0 = func_8000515C(0x10);
+    *((s32 *) (((s8 *) arg1) + 0x18)) = temp_v0;
+    new_var = 0x18;
+    func_8F600088(temp_v0, *((s32 *) (((s8 *) (sp18 + ((*((s32 *) (((s8 *) arg1) + 0x14))) * 0x48))) + (new_var2 = 4))));
+    *((s32 *) (((s8 *) arg1) + new_var)) = func_8F600020(*((s32 *) (((s8 *) arg1) + 0x18)));
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8F600164; signature not recovered. */

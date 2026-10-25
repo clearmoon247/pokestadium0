@@ -39,11 +39,30 @@ void func_89006FC0(u8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_8900721C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89007264; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007264.s")
-#endif
+s32 func_8900721C(M2C_UNK, M2C_UNK, s32, s8 *, s32); /* extern */
+void func_89007264(s8 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3)
+{
+  s32 temp_v0;
+  s32 *new_var2;
+  int new_var;
+  s32 var_s0;
+  arg0 = arg0;
+  new_var = 0;
+  new_var = arg3 > new_var;
+  var_s0 = 0;
+  if (new_var)
+  {
+    do
+    {
+      temp_v0 = func_8900721C(arg1, arg2, var_s0, arg0, 0x1E);
+      var_s0 += 1;
+      arg0 += 0x964;
+      new_var2 = (s32 *) (((s8 *) arg0) + (-4));
+      *new_var2 = temp_v0;
+    }
+    while (var_s0 != arg3);
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_890072E4; signature not recovered. */

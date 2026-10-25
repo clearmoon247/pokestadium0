@@ -1,6 +1,7 @@
 /* Stadium Zero resident code. */
 
 #include "global.h"
+#include "m2c_macros.h"
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003A6F0; signature not recovered. */

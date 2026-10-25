@@ -755,11 +755,23 @@ void func_80014E78(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014EDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80014F78; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014F78.s")
-#endif
+M2C_UNK func_800135FC(u8, s32, M2C_UNK, s32);       /* extern */
+M2C_UNK func_8001380C(s8 *);                      /* extern */
+void func_80014F78(s8 *arg0)
+{
+  s32 new_var;
+  s32 temp_a1;
+  temp_a1 = *((s32 *) (((s8 *) arg0) + 0x18));
+  new_var = temp_a1;
+  if (new_var != 0)
+  {
+    if ((!arg0) && (!arg0))
+    {
+    }
+    func_800135FC(*((u8 *) (((s8 *) arg0) + 3)), new_var, 0, (*((u8 *) (((s8 *) arg0) + 2))) & 4);
+  }
+  func_8001380C((0, arg0));
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80014FC4; signature not recovered. */

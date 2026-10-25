@@ -643,11 +643,10 @@ void func_8213E3E4(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E450.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E474; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E474.s")
-#endif
+void func_8213E474(s8 *arg0)
+{
+  *((f32 *) (((s8 *) arg0) + 0x4C)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x78))) + (*((f32 *) (((s8 *) arg0) + 0x4C))));
+}
 
 void Particle_Field50_AddXFromField7C_09C58(Particle* arg0) {
     arg0->unk_50.y += arg0->unk_7C.y;
@@ -933,17 +932,17 @@ void func_8213EC80(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EC9C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213ECD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213ECD0.s")
-#endif
+void func_8213ECD0(s8 *arg0)
+{
+  s16 *new_var;
+  *((s16 *) (((0, (s8 *) arg0)) + 0x90)) = (s16) ((*(new_var = (s16 *) (((s8 *) arg0) + 0x96))) + (*((s16 *) (((s8 *) arg0) + 0x90))));
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213ECE4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213ECE4.s")
-#endif
+void func_8213ECE4(s8 *arg0)
+{
+  *((s16 *) (((s8 *) arg0) + 0x92)) = (s16) ((*((s16 *) (((s8 *) arg0) + 0x98))) + (*((s16 *) (((s8 *) arg0) + 0x92))));
+ if (0) { }
+}
 
 void Particle_Field94_AddXFromField9A_0A4B4(Particle* arg0) {
     arg0->unk_94.z += arg0->unk_9A.z;

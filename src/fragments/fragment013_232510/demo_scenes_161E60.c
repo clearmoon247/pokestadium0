@@ -146,11 +146,15 @@ s32 Completion_LightAngleCallbackA(s32 arg0, GraphNode* arg1) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_822000F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment013_232510/func_822000F0.s")
-#endif
+void func_822000F0(s32 arg0, s8 *arg1)
+{
+  s8 **new_var;
+  if (arg0 == 0)
+  {
+    new_var = *((s8 ***) (((s8 *) arg1) + 0x14));
+    *new_var = arg1;
+  }
+}
 
 M2C_UNK func_8000B1FC();                            /* extern */
 M2C_UNK func_8000B220();                            /* extern */

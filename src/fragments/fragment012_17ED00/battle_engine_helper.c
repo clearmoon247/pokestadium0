@@ -66,11 +66,12 @@ u8 func_82107A30(s8 *arg0) {
     return M2C_FIELD(M2C_FIELD(arg0, s8 **, 0x860), u8 *, 2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107A3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107A3C.s")
-#endif
+u8 func_82107A3C(s8 *arg0)
+{
+  int new_var;
+  new_var = (*((u8 *) (((s8 *) arg0) + 0x7B7))) == 0;
+  return *((u8 *) (((s8 *) (*((s8 **) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x85C))) + (new_var * 4))) + 8)))) + 2));
+}
 
 s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon) {
     if (active_pokemon == sSide1ActivePokemon) {
@@ -204,11 +205,11 @@ s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F68.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F88.s")
-#endif
+s32 func_82107F88(s8 *arg0)
+{
+  unsigned int new_var;
+  return ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x85C))) + ((*((u8 *) (((s8 *) arg0) + 0x7B9))) * 4))) + 8))) + ((*((s32 *) (((s8 *) arg0) + 0x794))) * 0x50)) + (new_var = 0x4C);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82107FB8; signature not recovered. */

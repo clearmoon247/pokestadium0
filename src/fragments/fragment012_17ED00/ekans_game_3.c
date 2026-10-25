@@ -467,11 +467,36 @@ s32 func_82184D9C(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82185220.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82185378; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82185378.s")
-#endif
+void func_82185378(s8 *arg0, s8 *arg1)
+{
+  s32 var_v0;
+  s8 *var_v1;
+  *((s8 *) (((s8 *) arg0) + 0x4A)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x4B)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x4C)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x4D)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x4E)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x52)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x57)) = 0;
+  *((s8 *) (((s8 *) arg0) + 0x56)) = 0;
+  var_v1 = arg0;
+  var_v0 = 0;
+  *((u16 *) (((s8 *) arg0) + 0x2A)) = (u16) (*((u16 *) (((s8 *) arg1) + 0x28)));
+  *((u16 *) (((s8 *) arg0) + 0x2C)) = (u16) (*((u16 *) (((s8 *) arg1) + 0x2A)));
+  *((u16 *) (((s8 *) arg0) + 0x2E)) = (u16) (*((u16 *) (((s8 *) arg1) + 0x2C)));
+  var_v1 = (s8 *) var_v1;
+  *((u16 *) (((s8 *) arg0) + 0x30)) = (u16) (*((u16 *) (((s8 *) arg1) + 0x2E)));
+  do
+  {
+    var_v0 += 4;
+    *((s8 *) (((s8 *) var_v1) + 0x5D)) = 7;
+    *((s8 *) (var_v1 + 0x5E)) = 7;
+    *((s8 *) (var_v1 + 0x5F)) = 7;
+    var_v1 += 4;
+    *((s8 *) (((s8 *) var_v1) + 0x58)) = 7;
+  }
+  while (var_v0 != 8);
+}
 
 void GalleryDebugger_LoadControllerPak(void) {
 }
@@ -485,11 +510,18 @@ void func_821853FC(void) {
 void JigglypuffGame_UpdateEffects(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8218540C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8218540C.s")
-#endif
+s32 func_8218540C(s8 *arg0, s8 *arg1)
+{
+  if ((*((u8 *) (((s8 *) arg1) + 0x75))) & (*((u8 *) (((s8 *) arg0) + 0x76))))
+  {
+    return 1;
+  }
+  if (((s32) (*((u16 *) (((s8 *) arg1) + 0x3A)))) < ((s32) (*((u16 *) (((s8 *) arg0) + 0x3A)))))
+  {
+    return 1;
+  }
+  return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82185450; signature not recovered. */
@@ -593,11 +625,43 @@ s32 func_82185494(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821868E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821869C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821869C4.s")
-#endif
+M2C_UNK func_80058410(s8 *, s8 *, M2C_UNK);     /* extern */
+M2C_UNK func_821867A8(s8 *, s8 *);              /* extern */
+extern s8 *D_821CF2A0;
+void func_821869C4(s8 *arg0, s8 *arg1)
+{
+  long temp_v1;
+  u8 *new_var;
+  *((u16 *) (((s8 *) arg0) + 0x28)) = (u16) (*((u16 *) (((s8 *) arg1) + 0x28)));
+  *((u16 *) (((s8 *) arg0) + 0xC)) = (u16) (*((u16 *) (((s8 *) arg1) + 0xC)));
+  *((u8 *) (((s8 *) arg0) + 0x15)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x15)));
+  func_80058410(arg1 + 0x44, arg0 + 0x44, 6);
+  *((u8 *) (((s8 *) arg0) + 0x4A)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x4A)));
+  *((u8 *) (((s8 *) arg0) + 0x4B)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x4B)));
+  *((u8 *) (((s8 *) arg0) + 0x4C)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x4C)));
+  *((u8 *) (((s8 *) arg0) + 0x4D)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x4D)));
+  *((u8 *) (((s8 *) arg0) + 0x4E)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x4E)));
+  *((u16 *) (((s8 *) arg0) + 0x54)) = (u16) (*((u16 *) (((s8 *) arg1) + 0x54)));
+  *((u8 *) (((s8 *) arg0) + 0x56)) = (u8) (*(new_var = (u8 *) (((s8 *) arg1) + 0x56)));
+  *((u8 *) (((s8 *) arg0) + 0x57)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x57)));
+  *((u8 *) (((s8 *) arg0) + 0x58)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x58)));
+  *((u8 *) (((s8 *) arg0) + 0x59)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x59)));
+  *((u8 *) (((s8 *) arg0) + 0x5A)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x5A)));
+  *((u8 *) (((s8 *) arg0) + 0x5B)) = (u8) (*((u8 *) (((s8 *) arg1) + 0x5B)));
+  func_80058410(arg1 + 0x5C, arg0 + 0x5C, 8);
+  if ((*((u8 *) (((s8 *) arg1) + 0x4E))) & 8)
+  {
+    func_821867A8(arg1 + 0x1F, arg0 + 0x1F);
+    func_80058410(arg1 + 0x32, arg0 + 0x32, 4);
+    return;
+  }
+  temp_v1 = *((u8 *) (((s8 *) D_821CF2A0) + 0x78));
+  if (((s32) temp_v1) < 4)
+  {
+    *((u8 *) (((s8 *) (arg0 + temp_v1)) + 0x1F)) = (u8) (*((u8 *) (((s8 *) (arg1 + temp_v1)) + 0x1F)));
+    *((u8 *) (((s8 *) (arg0 + (*((u8 *) (((s8 *) D_821CF2A0) + 0x78))))) + 0x32)) = (u8) (*((u8 *) (((s8 *) D_821CF2A0) + 0x79)));
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82186AF4; signature not recovered. */

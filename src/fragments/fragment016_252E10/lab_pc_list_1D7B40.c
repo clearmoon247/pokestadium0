@@ -87,11 +87,24 @@ void func_89104E94(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105200.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89105340; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105340.s")
-#endif
+void func_89105340(s8 *arg0, s32 arg1, s32 arg2)
+{
+  u16 *temp_v0;
+  int new_var;
+  *((s32 *) (((s8 *) arg0) + 0x7C)) = arg1;
+  new_var = arg1 * 4;
+  *((s32 *) (((s8 *) arg0) + 0x80)) = (s32) (arg2 - 1);
+  if ((*((s32 *) (((s8 *) (arg0 + new_var)) + 0x60))) == (-1))
+  {
+    *((s32 *) (((s8 *) arg0) + 0x78)) = 0x3C;
+  }
+  else
+  {
+    *((s32 *) (((s8 *) arg0) + 0x78)) = 0x3C;
+  }
+  temp_v0 = (*((s32 *) (((s8 *) arg0) + 0x30))) + (arg1 * 2);
+  *temp_v0 |= 0x300;
+}
 
 M2C_UNK func_8002DC04(s32);                         /* extern */
 
@@ -234,11 +247,23 @@ void func_891057FC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106570.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8910666C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910666C.s")
-#endif
+s32 func_8002AE6C();                                /* extern */
+M2C_UNK func_8002D9B8(s32, s32, s32, s32, s8 *);  /* extern */
+void func_8910666C(s8 *arg0, s32 arg1)
+{
+  s8 *new_var;
+  if (func_8002AE6C() == 0)
+  {
+    new_var = (s8 *) arg0;
+    if ((arg0 && arg0) && arg0)
+    {
+    }
+    func_8002D9B8(arg0 + 0x40, (*((s32 *) (((s8 *) arg0) + 0))) + 6, (*((s32 *) (new_var + 4))) + 0xA, arg1 | 0xFFED, arg0);
+    if (arg1)
+    {
+    }
+  }
+}
 
 M2C_UNK func_8002DC04(s32);                         /* extern */
 
@@ -339,11 +364,31 @@ s32 func_89106C98(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106E64.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89106F74; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106F74.s")
-#endif
+s32 func_89106F74(s8 *arg0)
+{
+  s32 temp_v0;
+  s32 var_v1;
+  u16 temp_a1;
+  temp_v0 = *((s32 *) (((s8 *) arg0) + 0x10));
+  var_v1 = 0;
+  if (temp_v0 & 1)
+  {
+    return 0;
+  }
+  temp_a1 = *((u16 *) (((s8 *) (*((s8 **) (&D_800603C0)))) + 8));
+  if ((*((u16 *) (((s8 *) (*((s8 **) (&D_800603C0)))) + 8))) & 0x200)
+  {
+    *((s32 *) (((s8 *) arg0) + 0x10)) = (s32) (temp_v0 | 8);
+    var_v1 = 0x200;
+  }
+  else
+    if ((*((u16 *) (((s8 *) (*((s8 **) (&D_800603C0)))) + 8))) & 0x100)
+  {
+    *((s32 *) (((s8 *) arg0) + 0x10)) = (s32) (temp_v0 & (~8));
+    var_v1 = 0x100;
+  }
+  return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89106FD8; signature not recovered. */

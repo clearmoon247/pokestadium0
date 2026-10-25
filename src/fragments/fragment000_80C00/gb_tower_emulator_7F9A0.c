@@ -340,11 +340,24 @@ void func_81104AE4(void) {
     func_8004FD20(D_81156550 + 0x12D00, 0x20);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81104B18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81104B18.s")
-#endif
+extern u32 D_811565AC;
+extern u32 D_811565B0;
+s32 func_81104B18(s32 arg0, M2C_UNK arg1)
+{
+  s32 new_var;
+  s32 temp_v1;
+  u32 temp_t6;
+  temp_v1 = (D_811565AC + 0x3F) & (~0x3F);
+  new_var = temp_v1;
+  ;
+  if ((D_811565AC = new_var + arg0) >= ((u32) D_811565B0))
+  {
+    loop_1:
+    goto loop_1;
+
+  }
+  return new_var;
+}
 
 M2C_UNK func_81102970(u8, s32);                     /* extern */
 extern u8 D_811565A0;

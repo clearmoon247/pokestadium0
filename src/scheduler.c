@@ -293,11 +293,31 @@ void Sched_Init(void) {
     osStartThread(&D_800A9710.thread);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80004EA8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004EA8.s")
-#endif
+void func_80004EA8(s8 *arg0)
+{
+  s8 *var_a1;
+  s8 *var_v1;
+  if ((*((s8 **) (((s8 *) (&(*((s8 *) (&D_800A9710))))) + 0xA10))) == 0)
+  {
+    *((s8 **) ((&(*((s8 *) (&D_800A9710)))) + 0xA10)) = arg0;
+  }
+  else
+  {
+    var_v1 = *((s8 **) (((s8 *) (&(*((s8 *) (&D_800A9710))))) + 0xA10));
+    var_a1 = *((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&(*((s8 *) (&D_800A9710))))) + 0xA10)))) + 0x28));
+    if (var_a1 != 0)
+    {
+      do
+      {
+        var_v1 = var_a1;
+        var_a1 = *((s8 **) (((s8 *) var_a1) + 0x28));
+      }
+      while (var_a1 != 0);
+    }
+    *((s8 **) (((s8 *) var_v1) + 0x28)) = arg0;
+  }
+  *((s32 *) (((s8 *) arg0) + 0x28)) = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80004EF0; signature not recovered. */

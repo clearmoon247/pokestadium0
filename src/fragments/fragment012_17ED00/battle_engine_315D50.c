@@ -442,8 +442,16 @@ void func_82134DC8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134FD0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82135098; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82135098.s")
-#endif
+M2C_UNK func_80041940(s32, u16, u16, s8 *);       /* extern */
+s32 func_82107A5C(s8 *);                          /* extern */
+void func_82135098(s8 *arg0)
+{
+  s8 *sp18;
+  s8 *temp_v1;
+  temp_v1 = (((*((s32 *) (((s8 *) arg0) + 0x794))) * 0x50) + (*((s32 *) (((s8 *) arg0) + 0x860)))) + 0x1C;
+  if ((*((s16 *) (((s8 *) arg0) + 0x1A))) != 0x98)
+  {
+    sp18 = temp_v1;
+    func_80041940(func_82107A5C(arg0), *((u16 *) (((s8 *) arg0) + 0x7D2)), *((u16 *) (((s8 *) temp_v1) + 0x26)), arg0);
+  }
+}

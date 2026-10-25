@@ -59,11 +59,32 @@ void GbApu_InitAllocator(unk_func_81206FA0* arg0, s32 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81109678.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81109764; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81109764.s")
-#endif
+M2C_UNK func_81112E00(M2C_UNK *);                   /* extern */
+extern s8 D_81184668;
+extern s16 D_811858CC;
+void func_81109764(s32 arg0)
+{
+  s32 new_var2;
+  s8 *new_var;
+  s32 var_s1;
+  var_s1 = 0;
+  if (D_811858CC > 0)
+  {
+    new_var = &D_81184668;
+    new_var = new_var;
+    new_var2 = arg0;
+    do
+    {
+      if (((((u32) (*((u32 *) (((s8 *) new_var) + 0)))) >> 0x1F) != 0) && (new_var2 == (*((u8 *) (((s8 *) new_var) + 4)))))
+      {
+        func_81112E00(new_var);
+      }
+      var_s1 += 1;
+      new_var += 0x15C;
+    }
+    while (var_s1 < D_811858CC);
+  }
+}
 
 u32 GbApu_AllocZeroed(unk_func_81206FA0* arg0, s32 arg1) {
   s32 temp_v0;
@@ -339,11 +360,25 @@ void func_8110B9F8(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110BEE4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110BF28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110BF28.s")
-#endif
+s32 func_81109868(M2C_UNK *, s32);                  /* extern */
+s8 *func_8110BF28(s32 arg0)
+{
+  s32 temp_v0_2;
+  s8 *temp_v0;
+  s32 *new_var;
+  new_var = (s32 *) (&D_811845F4);
+  temp_v0_2 = func_81109868(&(*((s8 *) (&D_811845D0))), arg0);
+  if (temp_v0_2 == 0)
+  {
+    return 0;
+  }
+  temp_v0 = (((*new_var) * 0x14) + 0x10) + (&(*((s8 *) (&D_811845D0))));
+  *((s8 *) (((s8 *) temp_v0) + 0)) = 1;
+  *((s32 *) (((s8 *) temp_v0) + 8)) = temp_v0_2;
+  *((s32 *) (((s8 *) temp_v0) + 0x10)) = arg0;
+  *new_var += 1;
+  return temp_v0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110BFB0; signature not recovered. */
