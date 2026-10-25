@@ -353,11 +353,21 @@ void func_820044D0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_8200569C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8200573C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_8200573C.s")
-#endif
+extern s32 D_8200AD28;
+extern s32 D_8200AD2C;
+extern M2C_UNK D_8200AD30;
+s32 func_80025BD8(void);
+void func_80027FF8(void*, s32);
+s32 func_80002D98(s32);
+void func_82004B0C(s32);
+void func_8200573C(void) {
+    D_8200AD2C = func_80025BD8();
+    if (D_8200AD2C != -1) {
+        func_80027FF8(&D_8200AD30, D_8200AD2C);
+    }
+    D_8200AD28 = func_80002D98(0x5020);
+    func_82004B0C(D_8200AD28);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8200579C; signature not recovered. */

@@ -287,11 +287,31 @@ void func_81109B50(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110AFF0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110B880; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110B880.s")
-#endif
+typedef struct unk_D_81184450 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ char unk4[0x4];
+    /* 0x8 */ s16 unk_8;
+    /* 0xA */ s16 unk_A;
+} unk_D_81184450; // size = 0xC
+
+typedef struct unk_D_81184440 {
+    /* 0x00 */ char unk00[0xC];
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ unk_D_81184450 unk_10[1];
+} unk_D_81184440;
+
+extern unk_D_81184440 D_81184440;
+s32 func_8110B880(s32 arg0, s32 arg1) {
+    s32 i;
+
+    for (i = 0; i < D_81184440.unk_0C; i++) {
+        if (arg0 == D_81184440.unk_10[i].unk_8 && arg1 == D_81184440.unk_10[i].unk_A) {
+            return D_81184440.unk_10[i].unk_0;
+        }
+    }
+
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110B8D8; signature not recovered. */
@@ -299,17 +319,31 @@ void func_81109B50(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110B8D8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110B958; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110B958.s")
-#endif
+s8* func_8110BA8C(s32);
+s32 func_8110B958(s32 arg0, s32 arg1, s32 arg2, s8 arg3) {
+    s8* p = func_8110BA8C(arg0);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110B9A8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110B9A8.s")
-#endif
+    if (p != NULL) {
+        M2C_FIELD(p, u8*, 2) = arg1;
+        M2C_FIELD(p, s32*, 0xC) = arg2;
+        M2C_FIELD(p, s8*, 1) = arg3;
+        return M2C_FIELD(p, s32*, 8);
+    }
+    return 0;
+}
+
+s8* func_8110BF28(s32 arg0);
+s32 func_8110B9A8(s32 arg0, s32 arg1, s32 arg2, s8 arg3) {
+    s8* p = func_8110BF28(arg0);
+
+    if (p != NULL) {
+        M2C_FIELD(p, u8*, 2) = arg1;
+        M2C_FIELD(p, s32*, 0xC) = arg2;
+        M2C_FIELD(p, s8*, 1) = arg3;
+        return M2C_FIELD(p, s32*, 8);
+    }
+    return 0;
+}
 
 s32 func_81109868(M2C_UNK *, s32);                  /* extern */
 M2C_UNK func_811098C0(M2C_UNK *, s32, s32);         /* extern */
@@ -599,13 +633,12 @@ void func_8110CEC0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #endif
 
 s32 func_8110A310(s32, M2C_UNK, s32);               /* extern */
-s32 func_8110B880();                                /* extern */
 
 s32 func_8110D7EC(s32 arg0, s32 arg1) {
     s32 temp_v0;
     s32 temp_v0_2;
 
-    temp_v0_2 = func_8110B880();
+    temp_v0_2 = func_8110B880(arg0, arg1);
     if (temp_v0_2 != 0) {
         return temp_v0_2;
     }

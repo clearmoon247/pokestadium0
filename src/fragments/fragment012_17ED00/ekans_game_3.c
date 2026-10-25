@@ -354,11 +354,10 @@ void func_82183DBC(void) {
 void func_82183DC4(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183DCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183DCC.s")
-#endif
+void func_82183DCC(s8* arg0) {
+    func_82183B60();
+    M2C_FIELD(arg0, s32*, 4) += (func_82183AF0() & 0xF) * 400;
+}
 
 void GalleryDebugger_SaveControllerPak(void) {
 }

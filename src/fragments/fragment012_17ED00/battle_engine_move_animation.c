@@ -399,11 +399,15 @@ void Battle_HandleStatBoostingMoveAnimation(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821032B0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821033DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821033DC.s")
-#endif
+void func_82134EBC(ActivePokemon*, s32);
+void func_821033DC(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    MovePresentationCue* hit_cue = (MovePresentationCue*)((u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x738);
+
+    ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+    ModelAnim_SetAnimation(&active_pokemon->displayObject, hit_cue->id);
+    func_82134EBC(active_pokemon, 0x1E);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210343C; signature not recovered. */
@@ -1005,11 +1009,14 @@ void BattleScene_CleanupOpponentSpecialAnimFlag(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82106220; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106220.s")
-#endif
+void func_821366B0(u8 category, ActivePokemon* owner);
+void func_82106220(ActivePokemon* active_pokemon) {
+    if (M2C_FIELD(active_pokemon, u16*, 0x7C2) & 0x40) {
+        func_82105E4C((s8*)active_pokemon, 0x40);
+        func_82105E38((s8*)active_pokemon, 0x80);
+        func_821366B0(2, active_pokemon);
+    }
+}
 
 extern f32 D_FLT_82189354[];
 

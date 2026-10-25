@@ -561,11 +561,24 @@ void func_80038014(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     D_800B3664 = D_800B3668;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003807C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003807C.s")
-#endif
+extern s32 D_800B3638;
+extern s8* D_800B3640;
+s32 Team_IsOpponentIndexUsed(s32 arg0) {
+    s32 i;
+    s8* p;
+
+    if (arg0 == 0) {
+        return 0;
+    }
+    p = D_800B3640;
+    for (i = 0; i < D_800B3638; i++, p += 0x148) {
+        if (arg0 == M2C_FIELD(p, s32*, 0x5C)) {
+            return M2C_FIELD(p, s32*, 0x88);
+        }
+    }
+
+    return 0;
+}
 
 typedef struct PlayerChannelZero_1E {
     /* 0x00 */ char unk00[0x1E];

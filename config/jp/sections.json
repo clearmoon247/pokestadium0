@@ -177,10 +177,7 @@
   },
   "src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c": {
     ".data": "0x821891F0",
-    ".rodata": {
-      "address": "0x82194930",
-      "size": "0x1C"
-    }
+    ".rodata": "0x82194930"
   },
   "src/fragments/fragment012_17ED00/fragment1_89010.c": {
     ".rodata": "0x82196670"

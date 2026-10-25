@@ -788,11 +788,16 @@ void func_8210B22C(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210B280; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B280.s")
-#endif
+void BattleAnim_MeditateStart(UNUSED ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    animated_pokemon->oscillationVelocityEasePhase = 364;
+    animated_pokemon->oscillationPhase = 0;
+    animated_pokemon->oscillationAngularVelocity = 0;
+    animated_pokemon->oscillationAmplitude = 0.4f;
+    animated_pokemon->modelTransform.rotation.x = owner->displayObject.scale.x;
+    animated_pokemon->modelTransform.rotation.y = owner->displayObject.scale.y;
+    animated_pokemon->modelTransform.rotation.z = owner->displayObject.scale.z;
+    animated_pokemon->modelTransformTimer++;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210B2C4; signature not recovered. */
@@ -825,7 +830,15 @@ void func_8210B520(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8210B58C; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_SquishHitReactionStart(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    animated_pokemon->oscillationAngularVelocity = 1820;
+    animated_pokemon->oscillationAmplitude = 0.4f;
+    animated_pokemon->modelTransform.rotation.x = owner->displayObject.scale.x;
+    animated_pokemon->modelTransform.rotation.y = owner->displayObject.scale.y;
+    animated_pokemon->modelTransform.rotation.z = owner->displayObject.scale.z;
+    animated_pokemon->modelTransformTimer++;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B58C.s")
 #endif
@@ -886,7 +899,16 @@ void func_8210B790(s32 arg0, s8 *arg1) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8210B7E4; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_8210B7E4(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    animated_pokemon->oscillationAngularVelocity = 0x4000;
+    animated_pokemon->oscillationAmplitude = 0.1f;
+    animated_pokemon->modelTransform.rotation.x = owner->displayObject.scale.x;
+    animated_pokemon->modelTransform.rotation.y = owner->displayObject.scale.y;
+    animated_pokemon->modelTransform.rotation.z = owner->displayObject.scale.z;
+    animated_pokemon->doubleTeamTimer = 0;
+    animated_pokemon->modelTransformTimer++;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B7E4.s")
 #endif
@@ -897,7 +919,6 @@ void func_8210B790(s32 arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B824.s")
 #endif
 
-M2C_UNK func_8210B7E4(s32);                         /* extern */
 M2C_UNK func_8210B824(s32, s8 *);                 /* extern */
 
 void func_8210B9F8(s32 arg0, s8 *arg1) {
@@ -906,7 +927,7 @@ void func_8210B9F8(s32 arg0, s8 *arg1) {
     temp_v0 = M2C_FIELD(arg1, s32 *, 0x614);
     switch (temp_v0) {                              /* irregular */
     case 0:
-        func_8210B7E4(arg0);
+        func_8210B7E4((ActivePokemon*)arg0, (ActivePokemon*)arg1);
         /* fallthrough */
     case 1:
         func_8210B824(arg0, arg1);

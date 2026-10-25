@@ -80,11 +80,20 @@ void func_89104E94(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104FC0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89105144; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105144.s")
-#endif
+extern s32 D_8910A920[5];
+void BattleMoveListWidget_DisableRestrictedMoves(unk_func_8830867C_04C_078* arg0) {
+    s32 j;
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 5; j++) {
+            if (M2C_FIELD(arg0, s32*, 0x60 + i * 4) == D_8910A920[j]) {
+                M2C_FIELD(arg0, u16*, 0x70 + i * 2) |= 1;
+                break;
+            }
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_891051A4; signature not recovered. */
@@ -204,11 +213,12 @@ void func_891057FC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891059FC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89105A98; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105A98.s")
-#endif
+void BattleInfoWidget_ApplyEntrySelection(unk_func_8830867C_034* arg0, s32 arg1) {
+    s8* ptr = M2C_FIELD(M2C_FIELD(arg0, s8**, 0x70), s8**, 0) + arg1 * 0x24;
+    s8* ptr2 = M2C_FIELD(ptr, s8**, 0x10);
+
+    M2C_FIELD(ptr2, s32*, 0xC) = (M2C_FIELD(arg0, u16**, 0x74)[arg1] & 8) != 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89105AD4; signature not recovered. */
