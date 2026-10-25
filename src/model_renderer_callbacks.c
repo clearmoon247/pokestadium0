@@ -37,11 +37,18 @@ void ModelRenderer_ClearSlotModels(s32 arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032840.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80032890; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032890.s")
-#endif
+extern s16 D_800AFB30[];
+
+s32 func_80032890(u32 arg0) {
+    if (arg0 >= 4) {
+        return 1;
+    }
+    arg0 &= 1;
+    if (D_800AFB30[arg0] == 3) {
+        return 1;
+    }
+    return 0;
+}
 
 void ModelRenderer_CacheSlotMatrices(u8 arg0) {
     MtxF_Copy(D_800AFB38[arg0].mtx, GeoRender_GetRelativeMatrix(0));

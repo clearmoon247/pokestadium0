@@ -867,7 +867,7 @@ func_8810165C,0x8810165C,src/fragments/fragment008_1720F0.c,func_8810165C,m2c,m2
 func_88101670,0x88101670,src/fragments/fragment008_1720F0.c,func_88101670,m2c,m2c,c
 func_88101690,0x88101690,src/fragments/fragment008_1720F0.c,func_88101690,m2c,m2c+permuter,c
 func_881016B0,0x881016B0,src/fragments/fragment008_1720F0.c,func_881016B0,m2c,m2c,c
-func_881016BC,0x881016BC,src/fragments/fragment008_1720F0.c,,asm,,asm
+func_881016BC,0x881016BC,src/fragments/fragment008_1720F0.c,func_881016BC,hand,,c
 func_88101704,0x88101704,src/fragments/fragment008_1720F0.c,Audio_QueueSoundAvoidingRecent,hand,,c
 func_88101734,0x88101734,src/fragments/fragment008_1720F0.c,func_88101734,m2c,m2c,c
 func_8810173C,0x8810173C,src/fragments/fragment008_1720F0.c,,asm,,asm
@@ -2943,7 +2943,7 @@ func_821869C4,0x821869C4,src/fragments/fragment012_17ED00/ekans_game_3.c,func_82
 func_82186AF4,0x82186AF4,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
 func_82186CA8,0x82186CA8,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
 func_82186F28,0x82186F28,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
-func_821870D8,0x821870D8,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
+func_821870D8,0x821870D8,src/fragments/fragment012_17ED00/ekans_game_3.c,func_821870D8,hand,,c
 func_82187134,0x82187134,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
 func_82187414,0x82187414,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
 func_82187738,0x82187738,src/fragments/fragment012_17ED00/ekans_game_3.c,,asm,,asm
@@ -3618,7 +3618,7 @@ func_8900352C,0x8900352C,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,
 func_89003650,0x89003650,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_8900379C,0x8900379C,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_89003880,0x89003880,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
-func_89003A50,0x89003A50,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
+func_89003A50,0x89003A50,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,func_89003A50,hand,,c
 func_89003A88,0x89003A88,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_89003D40,0x89003D40,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,func_89003D40,hand,,c
 func_89003E2C,0x89003E2C,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
@@ -4319,7 +4319,7 @@ func_8002CD7C,0x8002CD7C,src/gb_save.c,,asm,,asm
 func_8002CE5C,0x8002CE5C,src/gb_save.c,,asm,,asm
 func_8002CEEC,0x8002CEEC,src/gb_save.c,,asm,,asm
 func_8002D024,0x8002D024,src/gb_save.c,,asm,,asm
-func_8002D138,0x8002D138,src/gb_save.c,,asm,,asm
+func_8002D138,0x8002D138,src/gb_save.c,func_8002D138,hand,,c
 func_8002D188,0x8002D188,src/gb_save.c,,asm,,asm
 func_8002D2BC,0x8002D2BC,src/gb_save.c,,asm,,asm
 func_8002D3D0,0x8002D3D0,src/gb_save.c,,asm,,asm
@@ -4823,7 +4823,7 @@ func_80039530,0x80039530,src/libnumus/player.c,Audio_UpdateVoicePlaybackEnd,hand
 func_800395D0,0x800395D0,src/libnumus/player.c,,asm,,asm
 func_80039A44,0x80039A44,src/libnumus/player.c,,asm,,asm
 func_80039A60,0x80039A60,src/libnumus/player.c,Audio_AdvancePanModulation,hand,,c
-func_80039B2C,0x80039B2C,src/libnumus/player.c,,asm,,asm
+func_80039B2C,0x80039B2C,src/libnumus/player.c,Audio_AdvancePeriodicPitchModulation,hand,,c
 func_80039B7C,0x80039B7C,src/libnumus/player.c,Audio_ComputeSinePitchModulation,hand,,c
 func_80039C10,0x80039C10,src/libnumus/player.c,Audio_AdvancePitchEnvelope,hand,,c
 func_80039D08,0x80039D08,src/libnumus/player.c,Audio_AdvanceVolumeEnvelope,hand,,c
@@ -5146,7 +5146,7 @@ func_80019E90,0x80019E90,src/model_renderer.c,PokeIcon_RequestBackgroundForObjec
 func_80019F20,0x80019F20,src/model_renderer.c,PokeIcon_PollBackgroundForObject,s1,stadium1:src/model_renderer.c,c
 func_80019F70,0x80019F70,src/model_renderer.c,,asm,,asm
 func_80032840,0x80032840,src/model_renderer_callbacks.c,,asm,,asm
-func_80032890,0x80032890,src/model_renderer_callbacks.c,,asm,,asm
+func_80032890,0x80032890,src/model_renderer_callbacks.c,func_80032890,hand,,c
 func_800328D4,0x800328D4,src/model_renderer_callbacks.c,ModelRenderer_CacheSlotMatrices,s1,stadium1:src/model_renderer_callbacks.c,c
 func_80032930,0x80032930,src/model_renderer_callbacks.c,ModelRenderer_ApplySlotScale,s1,stadium1:src/model_renderer_callbacks.c,c
 func_80032980,0x80032980,src/model_renderer_callbacks.c,ModelRenderer_RebuildSlotMatrix,s1,stadium1:src/model_renderer_callbacks.c,c

@@ -831,11 +831,26 @@ void Audio_AdvancePanModulation(channel_t* arg0) {
     arg0->pan_current = 0xFF;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039B2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039B2C.s")
-#endif
+#define CH_U8(ch, off) (*(u8*)((u8*)(ch) + (off)))
+#define CH_S8(ch, off) (*(s8*)((u8*)(ch) + (off)))
+
+f32 Audio_AdvancePeriodicPitchModulation(channel_t* arg0) {
+    CH_U8(arg0, 0xE3)--;
+    if (!CH_U8(arg0, 0xE3)) {
+        if (CH_S8(arg0, 0xE4) == 0) {
+            CH_S8(arg0, 0xE4) = CH_S8(arg0, 0xEB);
+            CH_U8(arg0, 0xE3) = CH_U8(arg0, 0xE1);
+        } else {
+            CH_S8(arg0, 0xE4) = 0;
+            CH_U8(arg0, 0xE3) = CH_U8(arg0, 0xE2);
+        }
+    }
+
+    return CH_S8(arg0, 0xE4);
+}
+
+#undef CH_U8
+#undef CH_S8
 
 f32 Audio_ComputeSinePitchModulation(channel_t* arg0) {
     s32 temp_v0 = M2C_FIELD(arg0, u16*, 0xB6) - M2C_FIELD(arg0, u8*, 0xC4);

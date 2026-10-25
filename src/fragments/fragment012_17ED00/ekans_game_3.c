@@ -693,11 +693,20 @@ void func_821869C4(s8 *arg0, s8 *arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82186F28.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821870D8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821870D8.s")
-#endif
+extern u8* D_821CF294;
+s32 func_82186F28(s32, s32);
+
+s32 func_821870D8(s32 arg0, s32 arg1, s32 arg2) {
+    if ((M2C_FIELD(D_821CF294, u8*, 0x368) != 0) || (arg0 != 0)) {
+        return 1;
+    }
+    if (func_82186F28(arg1, arg2) == 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+    return 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82187134; signature not recovered. */

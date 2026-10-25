@@ -583,11 +583,17 @@ void func_890022D0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003880.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89003A50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003A50.s")
-#endif
+s32 func_89003A50(s32* arg0) {
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        if (arg0[0x284 + i] != 0) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89003A88; signature not recovered. */

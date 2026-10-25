@@ -581,11 +581,15 @@ void BattleInfoWidget_DrawLabel(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 ar
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D024.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D138; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D138.s")
-#endif
+s32 func_8002D138(UNUSED s32 arg0) {
+    s32 ret = 0;
+
+    if (gPlayer1Controller->buttonPressed & (BTN_A | BTN_B)) {
+        ret = 1;
+        Audio_PlaySoundEffectById(SFX_MENU_CONFIRM);
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002D188; signature not recovered. */

@@ -228,11 +228,12 @@ s32 func_881016B0(s32 *arg0) {
     return *arg0 == 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_881016BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_881016BC.s")
-#endif
+s32 func_881016BC(s8* arg0) {
+    if (M2C_FIELD(arg0, s32*, 0) < M2C_FIELD(arg0, s32*, 4) * M2C_FIELD(arg0, s32*, 8)) {
+        M2C_FIELD(arg0, s32*, 0) += 1;
+    }
+    return func_88101690(arg0);
+}
 
 void Audio_QueueSoundAvoidingRecent(s32* arg0) {
     if (*arg0 > 0) {
