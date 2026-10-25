@@ -203,11 +203,49 @@ s32 func_8213CE3C(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 ar
     return sp24;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CEB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CEB0.s")
-#endif
+s32 Particle_AnimateFramesPingPong(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp24 = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+        Particle_ClearFlags(arg0, 0x10);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+
+            if (Particle_LacksFlags(arg0, 0x10) != 0) {
+                arg0->unk_C7 += arg3;
+                if (arg0->unk_C7 >= arg2) {
+                    arg0->unk_C7 = arg2;
+                    Particle_SetFlags(arg0, 0x10);
+                }
+            } else {
+                arg0->unk_C7 -= arg3;
+                if (arg1 >= arg0->unk_C7) {
+                    arg0->unk_C7 = arg1;
+                    if (arg0->unk_C6 > 0) {
+                        arg0->unk_C6--;
+                    }
+
+                    if (arg0->unk_C6 == 0) {
+                        Particle_ClearFlags(arg0, 0x20);
+                        Particle_ClearFlags(arg0, 1);
+                        sp24 = 1;
+                    } else {
+                        Particle_ClearFlags(arg0, 0x10);
+                        Particle_SetFlags(arg0, 0x20);
+                    }
+                }
+            }
+        }
+    }
+
+    return sp24;
+}
 
 s32 Particle_AnimateFramesForwardAndAdvanceLifecycle(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
     s32 sp24 = Particle_AnimateFramesForward(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -219,11 +257,45 @@ s32 Particle_AnimateFramesForwardAndAdvanceLifecycle(Particle* arg0, s16 arg1, s
     return sp24;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D080; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D080.s")
-#endif
+s32 Particle_AnimateFramesReverseFirstPingPong(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp24 = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+        Particle_ClearFlags(arg0, 0x10);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+            if (Particle_LacksFlags(arg0, 0x10) != 0) {
+                arg0->unk_C7 -= arg3;
+                if (arg2 >= arg0->unk_C7) {
+                    arg0->unk_C7 = arg2;
+                    Particle_SetFlags(arg0, 0x10);
+                }
+            } else {
+                arg0->unk_C7 += arg3;
+                if (arg0->unk_C7 >= arg1) {
+                    arg0->unk_C7 = arg1;
+                    if (arg0->unk_C6 > 0) {
+                        arg0->unk_C6--;
+                    }
+
+                    if (arg0->unk_C6 == 0) {
+                        Particle_ClearFlags(arg0, 1);
+                        sp24 = 1;
+                    } else {
+                        Particle_ClearFlags(arg0, 0x10);
+                    }
+                }
+            }
+        }
+    }
+    return sp24;
+}
 
 s32 Particle_AnimateFramesReverseAndAdvanceLifecycle(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
     s32 sp24 = Particle_AnimateFramesReverse(arg0, arg1, arg2, arg3, arg4, arg5);

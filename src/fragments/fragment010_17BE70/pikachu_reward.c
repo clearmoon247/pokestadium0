@@ -543,8 +543,51 @@ void PikachuReward_SetupScene(void) {
     PikachuReward_SetupFollowerModel(&D_81702020[3], 0x50, 0x17C, -0x1800);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81701984; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81701984.s")
-#endif
+extern char** D_83202020;
+extern char** D_8320201C;
+extern unk_D_832027C8 D_832027C8;
+extern s8* D_8170201C;
+
+extern u8 D_81000000[];
+extern u8 D_8FC00000[];
+extern u8 D_01000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_0042C4A0[];
+extern u8 D_0042CC80[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+s32 func_81700064(u8);
+void func_8001A194(s32, s32);
+
+void func_81701710(void);
+
+s32 Stadium_BonusPikachuReward(UNUSED s32 arg0, s32 arg1) {
+    UNUSED s32 pad;
+    StageContext* sp20;
+
+    D_8170201C = (s8*)arg1;
+    main_pool_push_state('PIKA');
+
+    if ((M2C_FIELD(D_8170201C, u16*, 0x1096) & 0x20) && (func_81700064(M2C_FIELD(D_8170201C, u8*, 0x1094)) != 0)) {
+        Gfx_InitDisplayListBuffers(0x10000, 0);
+        sp20 = StageContext_Allocate(0, 1, 3, 1, 2, 1);
+        func_8001A194(6, 0);
+
+        Fragment_Load(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+        Fragment_Load(((((u32)D_8FC00000) & 0x0FF00000) >> 0x14) - 0x10, D_0042C4A0, D_0042CC80);
+        Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+
+        PokeIcon_OpenModelArchives();
+        D_81702018 = Model_LoadForPokemon((BattleMon*)D_817027A8);
+        PikachuReward_SetupScene();
+        StageContext_Activate(sp20);
+        func_81701710();
+        StageContext_Deactivate();
+        Font_Free();
+        Gfx_FreeDisplayListBuffers();
+    }
+
+    main_pool_pop_state('PIKA');
+    return 0;
+}

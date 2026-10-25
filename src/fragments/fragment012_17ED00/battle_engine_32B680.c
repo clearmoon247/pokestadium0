@@ -45,14 +45,21 @@ s32 BattleScene_SkipIntroIfFainted(UNUSED ActivePokemon* arg0, CameraNode* arg1)
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F6B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F6B8.s")
-#endif
-
 extern Vec3f D_8218B630;
 extern Vec3f D_8218B63C;
+void BattleScene_IntroCameraStep0(CameraNode* arg0) {
+    BattleScene_SetCameraClipPlanes(arg0, 20.0f, 4000.0f);
+    BattleScene_ResetCameraFrameCounter();
+    if (BattleScene_AreBothParticipantModelsCompact() != 0) {
+        BattleScene_SetCameraAtFromPosition(arg0, D_8218B63C, 0, 0, 0.0f, 0.0f);
+        BattleScene_SetCameraEyeAndStoreAngles(arg0, D_8218B63C, 0x5B0, 0, 750.0f, 0.0f);
+    } else {
+        BattleScene_SetCameraAtFromPosition(arg0, D_8218B630, 0, 0, 0.0f, 0.0f);
+        BattleScene_SetCameraEyeAndStoreAngles(arg0, D_8218B630, 0x5B0, 0, 750.0f, 0.0f);
+    }
+    arg0->view.eyePosition.z *= 0.6;
+    sBattleScene.scene->unk_20++;
+}
 
 void BattleScene_IntroCameraStep2(CameraNode* arg0) {
     BattleScene_SetCameraClipPlanes(arg0, 20.0f, 4000.0f);

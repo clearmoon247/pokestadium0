@@ -502,8 +502,58 @@ void BattleMenu_InitOrderSelectPanels(SessionContext* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82302644; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82302644.s")
-#endif
+extern char** D_8480378C;
+extern char** D_84803788;
+extern void* D_84803784;
+extern char** D_84803790;
+extern BinArchive* D_84803780;
+extern char** D_84803794;
+extern s8* D_82302BC8;
+extern s32 D_82302BCC;
+extern u8 D_81000000[];
+extern u8 D_01000000[];
+extern u8 D_02000000[];
+extern u8 D_03000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_002F0A50[];
+extern u8 D_002F3BD0[];
+extern u8 D_003D64A0[];
+extern u8 D_003DCB60[];
+s8* func_80017860(s32);
+s32 func_80017FDC(s8*, s32, s32, s32);
+void func_8001A194(s32, s32);
+void func_80017934(void);
+s32 func_82301EF4();
+
+s32 BattleMenu_RunOrderSelectScreen(s32 arg0, s32 arg1) {
+    StageContext* sp24;
+
+    main_pool_push_state('MSEL');
+
+    Gfx_InitDisplayListBuffers(0x10000, 0);
+    sp24 = StageContext_Allocate(1, 1, 2, 0, 2, 1);
+    D_82302BC8 = func_80017860(1);
+    D_82302BCC = func_80017FDC(D_82302BC8, 0x18, 0x28, 0x28);
+    func_8001A194(0x3C, 0);
+    func_80017934();
+
+    Fragment_Load(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_02000000 & 0x0F000000) >> 0x18, D_002F0A50, D_002F3BD0, 0);
+    Asset_LoadToSegment(((u32)D_03000000 & 0x0F000000) >> 0x18, D_003D64A0, D_003DCB60, 0);
+
+    BattleMenu_InitOrderSelectPanels((SessionContext*)arg1);
+    Audio_PlayMusicIfChanged(7);
+    StageContext_Activate(sp24);
+    BgStage_WaitForCondition(func_82301EF4, 0x10, 0x10);
+    StageContext_Deactivate();
+    BattleMenu_CommitOrderSelection();
+    Font_Free();
+    Gfx_FreeDisplayListBuffers();
+
+    main_pool_pop_state('MSEL');
+    return 0;
+}

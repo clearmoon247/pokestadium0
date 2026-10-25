@@ -89,7 +89,73 @@ s32 BattleScene_AdvanceOwnerAnimation98(ActivePokemon* arg0) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82124CD0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_821020FC(ActivePokemon*);
+void func_821089D0(ActivePokemon*);
+
+s32 BattleScene_AdvanceBothOwnerAnimations(void) {
+    UNUSED s32 pad[2];
+    s32 sp1C = 0;
+    ActivePokemonState* temp_a1 = &sActivePokemon[0]->state;
+    ActivePokemonState* temp_a2 = &sActivePokemon[1]->state;
+
+    if (sBattleScene.scene->unk_44 != 1) {
+        return 0;
+    }
+
+    if (!(temp_a1->flags & 0x2000) && !(temp_a2->flags & 0x2000)) {
+        return 0;
+    }
+
+    switch (sBattleScene.scene->unk_24) {
+        case 0:
+            if (temp_a1->flags & 0x2000) {
+                func_821020FC(sActivePokemon[0]);
+            }
+            sp1C = 1;
+            sBattleScene.scene->unk_24 = sBattleScene.scene->unk_24 + 1;
+            break;
+
+        case 1:
+            sp1C = 1;
+            if (temp_a1->flags & 0x2000) {
+                if (sActivePokemon[0]->sessionTeams->uniqueStatusFlags & 0x10) {
+                    sActivePokemon[0]->sessionTeams->uniqueStatusFlags &= ~0x90;
+                    func_821089D0(sActivePokemon[0]);
+                    sBattleScene.scene->unk_24 += 1;
+                }
+            } else {
+                sBattleScene.scene->unk_24 = sBattleScene.scene->unk_24 + 1;
+            }
+            break;
+
+        case 2:
+            if (temp_a2->flags & 0x2000) {
+                func_821020FC(sActivePokemon[1]);
+            }
+            sp1C = 1;
+            sBattleScene.scene->unk_24 = sBattleScene.scene->unk_24 + 1;
+            break;
+
+        case 3:
+            sp1C = 1;
+            if (temp_a2->flags & 0x2000) {
+                if (sActivePokemon[1]->sessionTeams->uniqueStatusFlags & 0x10) {
+                    sActivePokemon[1]->sessionTeams->uniqueStatusFlags &= ~0x90;
+                    func_821089D0(sActivePokemon[1]);
+                    sBattleScene.scene->unk_24 += 1;
+                }
+            } else {
+                sBattleScene.scene->unk_24 = sBattleScene.scene->unk_24 + 1;
+            }
+            break;
+
+        case 4:
+            break;
+    }
+
+    return sp1C;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124CD0.s")
 #endif

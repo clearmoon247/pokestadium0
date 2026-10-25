@@ -86,7 +86,6 @@ M2C_UNK func_80005770(M2C_UNK *, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_800069CC();                            /* extern */
 M2C_UNK func_8001560C(s32);                         /* extern */
 M2C_UNK func_800158C0();                            /* extern */
-M2C_UNK func_884000CC();                            /* extern */
 extern M2C_UNK D_800AA150;
 extern s32 D_88403370;
 
@@ -130,7 +129,6 @@ void Trade_DrawSaveSeqMessageBackdrop(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
 #endif
 
 M2C_UNK func_80006780();                            /* extern */
-M2C_UNK func_88400108(M2C_UNK);                     /* extern */
 M2C_UNK func_88400A1C(s16, s16, s16, s16);          /* extern */
 
 void func_88400A98(void) {
@@ -152,7 +150,6 @@ void func_88400A98(void) {
 }
 
 M2C_UNK func_80006780();                            /* extern */
-M2C_UNK func_88400108(M2C_UNK);                     /* extern */
 M2C_UNK func_88400A1C(s16, s16, s16, s16);          /* extern */
 
 void func_88400B70(void) {
@@ -203,7 +200,6 @@ M2C_UNK func_8001AB2C(M2C_UNK);                     /* extern */
 M2C_UNK func_8001AB6C();                            /* extern */
 M2C_UNK func_8001ABBC();                            /* extern */
 M2C_UNK func_8003F6AC(M2C_UNK);                     /* extern */
-M2C_UNK func_88400108(M2C_UNK);                     /* extern */
 extern s8 *D_800603C0;
 extern s32 D_88402D70;
 extern s32 D_88403364;
@@ -225,11 +221,31 @@ void func_88400CE8(s32 arg0) {
     D_88402D70 = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88400DAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88400DAC.s")
-#endif
+
+void func_88400DAC(s8* arg0) {
+    s32 i;
+    s32 x1 = 0x1E;
+    s32 x2 = 0x122;
+    s32 y1 = 0x28;
+    s32 y2 = 0x48;
+
+    for (i = 1; i < 9; i++) {
+        func_88400108(0);
+        func_88400A1C(0x1E, 0x20, 0x104, 0x34);
+
+        gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
+
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(4, -1);
+        Font_SetLineHeight(0x14);
+        Font_Printf(0x2E, y1 - i * 4, (s8*)D_88402D70);
+        Font_Printf(0x2E, 0x50 - i * 4, arg0);
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    }
+
+    D_88402D70 = (s32)arg0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88400F4C; signature not recovered. */
@@ -351,7 +367,6 @@ M2C_UNK func_800067BC(M2C_UNK);                     /* extern */
 M2C_UNK func_80006828(M2C_UNK, M2C_UNK *);          /* extern */
 M2C_UNK func_8000D520(s32, s8 *);                 /* extern */
 M2C_UNK func_80025BE4(s32);                         /* extern */
-M2C_UNK func_884000CC();                            /* extern */
 M2C_UNK func_8840115C();                            /* extern */
 M2C_UNK func_884022AC();                            /* extern */
 extern s8 D_88402DD0;

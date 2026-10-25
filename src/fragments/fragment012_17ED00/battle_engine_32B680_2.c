@@ -251,11 +251,22 @@ void func_8214243C(Particle* arg0, UNUSED CameraNode* arg1) {
     gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82142530; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82142530.s")
-#endif
+extern Vtx D_82190E50[];
+void BattleAnim_DrawAsset1DRotatedI4Quad(Particle* arg0, UNUSED CameraNode* arg1) {
+    Vec3s sp40;
+
+    gSPDisplayList(gDisplayListHead++, D_821904C8);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x1D], 0x20, 0x20);
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    sp40.x = arg0->unk_94.x + 0x4000;
+    sp40.y = arg0->unk_94.y + 0x4000;
+    sp40.z = arg0->unk_94.z;
+    ParticleGfx_DrawTransformedQuad(arg0->unk_2C, sp40, arg0->unk_1C, D_82190E50);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
 
 /**
  * Empty function. Not referenced in C.

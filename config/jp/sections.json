@@ -90,6 +90,9 @@
   "src/fragments/fragment012_17ED00/battle_engine_32A640.c": {
     ".rodata": "0x82196BA0"
   },
+  "src/fragments/fragment012_17ED00/battle_engine_32B680.c": {
+    ".rodata": "0x82196030"
+  },
   "src/fragments/fragment012_17ED00/battle_engine_32B680_3.c": {
     ".rodata": {
       "address": "0x821973C4",
@@ -161,7 +164,7 @@
     ".rodata": "0x82197DE0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_move_animation.c": {
-    ".rodata": "0x821948DC"
+    ".rodata": "0x821948C0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c": {
     ".data": "0x821891F0",

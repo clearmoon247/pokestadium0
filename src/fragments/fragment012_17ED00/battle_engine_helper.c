@@ -310,11 +310,40 @@ void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, Thumbna
     thumbnail->displayObject.node.renderFlags &= ~0x40;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108648; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108648.s")
-#endif
+void BattleScene_ReinitParticipantAfterimages(ActivePokemon* pokemon, s16 object_type) {
+    s32 i;
+    ModelNodeView* model_node;
+    PokemonAfterimage* afterimage;
+
+    model_node = Battle_GetLoadedModelNode(pokemon, 0);
+
+    for (i = 0; i < 3; i++) {
+        afterimage = &pokemon->afterimages[i];
+
+        ModelRenderer_ClearDisplayObject(&afterimage->displayObject);
+        if (pokemon == sActivePokemon[0]) {
+            afterimage->displayObject.effectSlot = 2;
+        } else {
+            afterimage->displayObject.effectSlot = 3;
+        }
+
+        Model_InitDisplayObject(&afterimage->displayObject, 0, object_type, model_node);
+        ModelAnim_SetFrame(&afterimage->displayObject, 0);
+        ModelAnim_SetAnimation(&afterimage->displayObject, 0);
+
+        afterimage->displayObject.node.renderFlags &= ~0x40;
+
+        if (pokemon == sActivePokemon[0]) {
+            Vec3f_SetComponentsDuplicate(&afterimage->displayObject.position, -150.0f, 0.0f, 0.0f);
+            afterimage->displayObject.rotation.y = 0x4000;
+        } else {
+            Vec3f_SetComponentsDuplicate(&afterimage->displayObject.position, 150.0f, 0.0f, 0.0f);
+            afterimage->displayObject.rotation.y = -0x4000;
+        }
+
+        afterimage->displayObject.node.flags &= ~1;
+    }
+}
 
 void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
     if (active_pokemon->state.flags & ACTIVE_SLEEP) {

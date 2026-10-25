@@ -1075,11 +1075,61 @@ void BattleScene_AllocateParticipants(BattleSessionTeams* battle_teams) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106D90.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82106E1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106E1C.s")
-#endif
+extern s32 D_84390174;
+extern unk_D_84390178 D_84390178;
+void func_821079E8(s32);
+
+void func_821081D0(ActivePokemon*);
+
+void func_82107FB8(ActivePokemon*);
+void func_82108090(ActivePokemon*, void*);
+void func_82108340(ActivePokemon*);
+void func_82121D5C(s32, s32);
+void func_82108A88(ActivePokemon*, s32, s32);
+void func_8211F430(void);
+void func_8211F274(ActivePokemon*);
+
+void BattleScene_InitializePresentation(UNUSED BattleSessionTeams* session_teams) {
+    BattleScene_InitializeParticipantController(sActivePokemon[0]);
+    BattleScene_InitializeParticipantController(sActivePokemon[1]);
+    func_821081D0(sActivePokemon[0]);
+    func_821081D0(sActivePokemon[1]);
+    func_82107FB8(sActivePokemon[0]);
+    func_82107FB8(sActivePokemon[1]);
+    func_82108090(sActivePokemon[0], &sActivePokemon[0]->afterimages);
+    func_82108090(sActivePokemon[1], &sActivePokemon[1]->afterimages);
+    func_82108340(sActivePokemon[0]);
+    func_82108340(sActivePokemon[1]);
+
+    switch (gSessionContext.mode) {
+        case 0:
+            func_82121D5C(8, 0);
+            break;
+        case 1:
+        case 2:
+            func_82121D5C(4, 0);
+            break;
+        case 3:
+            func_82121D5C(5, 50);
+            break;
+        case 4:
+            func_82121D5C(7, 0);
+            break;
+        case 6:
+            func_82121D5C(9, 50);
+            break;
+        case 5:
+            func_82121D5C(0xB, 0);
+            break;
+    }
+
+    func_82108A88(sActivePokemon[0], 0, 0);
+    func_82108A88(sActivePokemon[1], 0, 0);
+    func_821079E8(0x1FFE);
+    func_8211F430();
+    func_8211F274(sActivePokemon[0]);
+    func_8211F274(sActivePokemon[1]);
+}
 
 void BattleScene_ResetParticipantAuxTransform(UNUSED ActivePokemon* owner, ActivePokemon* active_pokemon, s32 facing_direction) {
     Vec3f_SetComponentsDuplicate(&active_pokemon->modelTransform, 0.0f, 0.0f, 0.0f);

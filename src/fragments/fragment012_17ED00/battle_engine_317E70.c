@@ -204,29 +204,127 @@ void Battle_CheckAllBroughtFainted_HP(ActivePokemon* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82112C1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82112C1C.s")
-#endif
+void func_82112C1C(ActivePokemon* arg0) {
+    ActivePokemonState* ptr1 = &arg0->state;
+    BattleMon* temp_v0;
+    s32 i;
+    s32 var_s2 = 0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82112D5C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82112D5C.s")
-#endif
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(arg0); i++) {
+        if (i == ptr1->rosterIndex) {
+            var_s2 += M2C_FIELD(arg0, u16*, 0x7D6);
+        } else {
+            temp_v0 = &arg0->teamRoster->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82112E9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82112E9C.s")
-#endif
+    if (arg0->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(arg0); i++) {
+            temp_v0 = &arg0->sessionTeams->teamMember[!ptr1->teamMemberIndex]->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82112FDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82112FDC.s")
-#endif
+    if (var_s2 == 0) {
+        Battle_ResetEntityState(arg0);
+        ptr1->unk_2D = 0x12;
+    } else {
+        Battle_HandleFaint(arg0);
+    }
+}
+
+void func_82112D5C(ActivePokemon* arg0) {
+    ActivePokemonState* ptr1 = &arg0->state;
+    BattleMon* temp_v0;
+    s32 i;
+    s32 var_s2 = 0;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(arg0); i++) {
+        if (i == ptr1->rosterIndex) {
+            var_s2 += M2C_FIELD(arg0, u16*, 0x7D8);
+        } else {
+            temp_v0 = &arg0->teamRoster->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
+
+    if (arg0->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(arg0); i++) {
+            temp_v0 = &arg0->sessionTeams->teamMember[!ptr1->teamMemberIndex]->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
+
+    if (var_s2 == 0) {
+        Battle_ResetEntityState(arg0);
+        ptr1->unk_2D = 0x12;
+    } else {
+        Battle_HandleFaint(arg0);
+    }
+}
+
+void func_82112E9C(ActivePokemon* arg0) {
+    ActivePokemonState* ptr1 = &arg0->state;
+    BattleMon* temp_v0;
+    s32 i;
+    s32 var_s2 = 0;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(arg0); i++) {
+        if (i == ptr1->rosterIndex) {
+            var_s2 += M2C_FIELD(arg0, u16*, 0x7D2);
+        } else {
+            temp_v0 = &arg0->teamRoster->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
+
+    if (arg0->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(arg0); i++) {
+            temp_v0 = &arg0->sessionTeams->teamMember[!ptr1->teamMemberIndex]->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
+
+    if (var_s2 == 0) {
+        Battle_ResetEntityState(arg0);
+        ptr1->unk_2D = 0x12;
+    } else {
+        Battle_HandleFaint(arg0);
+    }
+}
+
+s32 Battle_CheckSideDefeatAfterResidualStatus(ActivePokemon* arg0) {
+    ActivePokemonState* ptr1 = &arg0->state;
+    BattleMon* temp_v0;
+    s32 i;
+    s32 var_s2;
+
+    if (arg0->state.runtime.unk_15 & 0x18) {
+        var_s2 = 0;
+        if (arg0->state.runtime.unk_0E == 0) {
+            for (i = 0; i < BattleScene_GetTeamMemberTeamSize(arg0); i++) {
+                temp_v0 = &arg0->teamRoster->pokemonPicked[i];
+                var_s2 += temp_v0->hp;
+            }
+
+            if (arg0->sessionTeams->tagTeamSize == 2) {
+                for (i = 0; i < BattleScene_GetPartnerTeamSize(arg0); i++) {
+                    temp_v0 = &arg0->sessionTeams->teamMember[!ptr1->teamMemberIndex]->pokemonPicked[i];
+                    var_s2 += temp_v0->hp;
+                }
+            }
+
+            if (var_s2 == 0) {
+                ptr1->unk_2D = 0x12;
+                return 1;
+            }
+            Battle_HandleFaint(arg0);
+        }
+        return 1;
+    }
+    return 0;
+}
 
 s32 Battle_CheckFaintAfterMove(void) {
     if (sBattleTarget->unk_0C == 0) {

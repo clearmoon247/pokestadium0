@@ -87,11 +87,40 @@ void func_82107428(s32 arg0, s8 *arg1, s32 arg2, s8 *arg3) {
     func_82107408(arg3);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107470; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107470.s")
-#endif
+s32 func_80032890(s32);
+void func_80032840(s32);
+
+void BattleThumbnail_TickOwnerSlideIn(ActivePokemon* active_pokemon, s32 delta) {
+    s16 var_a0; // FAKE
+    CameraNode* camera_node;
+
+    active_pokemon->thumbnail.camera->node.flags |= 1;
+    active_pokemon->thumbnail.displayObject.node.flags |= 1;
+
+    if (active_pokemon->thumbnail.side == 1) {
+        // This Substitute condition can never actually fire as switching out a pokemon destroys the substitute.
+        if ((active_pokemon->thumbnail.camera->viewport.x == -72) && !(active_pokemon->state.flags & 0x2000)) {
+            BattleThumbnail_TriggerOwnerModelAnimation(active_pokemon);
+        }
+
+        if ((func_80032890(0) != 0) && (active_pokemon->thumbnail.status == 0)) {
+            active_pokemon->thumbnail.status = 2;
+            func_80032840(0);
+        }
+        active_pokemon->thumbnail.camera->viewport.x = Math_StepToS32(active_pokemon->thumbnail.camera->viewport.x, 0x17, delta, delta);
+    } else {
+        if ((active_pokemon->thumbnail.camera->viewport.x == 351) && !(active_pokemon->state.flags & 0x2000)) {
+            BattleThumbnail_TriggerOwnerModelAnimation(active_pokemon);
+        }
+
+        active_pokemon->thumbnail.camera->viewport.x = Math_StepToS32(active_pokemon->thumbnail.camera->viewport.x, 0x103, delta, delta);
+
+        if ((func_80032890(1) != 0) && (active_pokemon->thumbnail.status == 0)) {
+            active_pokemon->thumbnail.status = 2;
+            func_80032840(1);
+        }
+    }
+}
 
 s16 func_8000F1FC(s16, M2C_UNK, M2C_UNK, M2C_UNK);  /* extern */
 
