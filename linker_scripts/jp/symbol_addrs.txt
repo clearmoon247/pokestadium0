@@ -3180,3 +3180,5 @@ D_2006820 = 0x02006820; // learned from func_81600334
 D_20068A0 = 0x020068A0; // learned from func_81600334
 D_2006920 = 0x02006920; // learned from func_81600334
 D_20069A0 = 0x020069A0; // learned from func_81600334
+BattleAnim_DrawAsset19I4AtlasYScaled = 0x82132D3C; // type:func stadium1
+BattleAnim_DrawI4AtlasYScaled = 0x82135894; // learned from func_82132D3C

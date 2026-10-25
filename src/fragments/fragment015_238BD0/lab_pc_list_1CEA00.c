@@ -57,7 +57,9 @@ typedef struct unk_D_88218070 {
     /* 0x10 */ Color_RGBA8* unk_10;
 } unk_D_88218070;
 
+#include "fragments/particle_math/particle_math.h"
 #include "m2c_macros.h"
+void func_8002ED18(s8*, s32, s8*);
 
 void func_8900020C(void);
 s32 LabItem_ComputeRemainingCapacity(s32 arg0, unk_func_8820BE14_06C* arg1);
@@ -310,11 +312,9 @@ void func_89000F5C(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89001018.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89001230; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89001230.s")
-#endif
+void func_89001230(s8* arg0, s32 arg1) {
+    func_8002ED18(arg0, arg1, arg0 + 0x44);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89001250; signature not recovered. */
@@ -420,7 +420,6 @@ void func_89001B10(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89002248.s")
 #endif
 
-M2C_UNK func_89001230(s8 *, s32, s8 *);         /* extern */
 
 void func_890022D0(s8 *arg0) {
     s32 temp_v0;
@@ -429,7 +428,7 @@ void func_890022D0(s8 *arg0) {
     temp_v0 = M2C_FIELD(arg0, s32 *, 0x1A4);
     temp_a0 = arg0 + 0x2F8;
     M2C_FIELD(temp_a0, s32 *, -0x120) = temp_v0;
-    func_89001230(temp_a0, M2C_FIELD(arg0, s32 *, 0x490) + (temp_v0 * 0x10), arg0);
+    func_89001230(temp_a0, M2C_FIELD(arg0, s32 *, 0x490) + (temp_v0 * 0x10));
     M2C_FIELD(arg0, s32 *, 0) = 4;
 }
 

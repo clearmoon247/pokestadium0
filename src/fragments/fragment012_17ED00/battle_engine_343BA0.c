@@ -95,11 +95,10 @@ void func_82132AC4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132CDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132D3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132D3C.s")
-#endif
+// Zero's version takes only the particle; the header keeps Stadium 1's callback signature.
+void func_82132D3C(Particle* arg0) {
+    BattleAnim_DrawI4AtlasYScaled(arg0, D_8219A580);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82132D60; signature not recovered. */

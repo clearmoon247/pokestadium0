@@ -80,7 +80,7 @@ func_80035E48,0x80035E48,src/33FE0_4.c,func_80035E48,s1,stadium1:src/33FE0.c,c
 func_80036064,0x80036064,src/33FE0_4.c,func_80036064,s1,stadium1:src/33FE0.c,c
 func_8003642C,0x8003642C,src/33FE0_4.c,Model_WriteVtxBuffer,s1,stadium1:src/33FE0.c,c
 func_80036544,0x80036544,src/33FE0_4.c,Model_Draw,s1,stadium1:src/33FE0.c,c
-func_8003A6F0,0x8003A6F0,src/3B2F0.c,,asm,,asm
+func_8003A6F0,0x8003A6F0,src/3B2F0.c,func_8003A6F0,hand,,c
 func_8003A710,0x8003A710,src/3B2F0.c,,asm,,asm
 func_8003A7AC,0x8003A7AC,src/3B2F0.c,,asm,,asm
 func_8003A890,0x8003A890,src/3D140.c,,asm,,asm
@@ -368,8 +368,8 @@ func_81110C6C,0x81110C6C,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
 func_81110CA8,0x81110CA8,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
 func_81110D6C,0x81110D6C,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
 func_81110E3C,0x81110E3C,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
-func_81111090,0x81111090,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
-func_811110B0,0x811110B0,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
+func_81111090,0x81111090,src/fragments/fragment000_80C00/81110210.c,func_81111090,hand,,c
+func_811110B0,0x811110B0,src/fragments/fragment000_80C00/81110210.c,func_811110B0,hand,,c
 func_811110D0,0x811110D0,src/fragments/fragment000_80C00/81110210.c,func_811110D0,m2c,m2c,c
 func_811110E0,0x811110E0,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
 func_81111130,0x81111130,src/fragments/fragment000_80C00/81110210.c,,asm,,asm
@@ -2239,7 +2239,7 @@ func_82132B54,0x82132B54,src/fragments/fragment012_17ED00/battle_engine_343BA0.c
 func_82132B90,0x82132B90,src/fragments/fragment012_17ED00/battle_engine_343BA0.c,,asm,,asm
 func_82132C14,0x82132C14,src/fragments/fragment012_17ED00/battle_engine_343BA0.c,,asm,,asm
 func_82132CDC,0x82132CDC,src/fragments/fragment012_17ED00/battle_engine_343BA0.c,,asm,,asm
-func_82132D3C,0x82132D3C,src/fragments/fragment012_17ED00/battle_engine_343BA0.c,,asm,,asm
+func_82132D3C,0x82132D3C,src/fragments/fragment012_17ED00/battle_engine_343BA0.c,func_82132D3C,hand,,c
 func_82132D60,0x82132D60,src/fragments/fragment012_17ED00/battle_engine_343BA0.c,,asm,,asm
 func_82132E20,0x82132E20,src/fragments/fragment012_17ED00/battle_engine_343BA0_2.c,func_82132E20,s1,stadium1:src/fragments/battle_engine/battle_engine_343BA0.c,c
 func_82132E28,0x82132E28,src/fragments/fragment012_17ED00/battle_engine_343BA0_2.c,,asm,,asm
@@ -2393,9 +2393,9 @@ func_82174C30,0x82174C30,src/fragments/fragment012_17ED00/battle_engine_34A420.c
 func_82174E64,0x82174E64,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_VariantB,hand,,c
 func_82175068,0x82175068,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_82175440,0x82175440,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
-func_82175828,0x82175828,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_VariantE,s1,stadium1:src/fragments/battle_engine/battle_engine_34A420.c,asm
+func_82175828,0x82175828,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_VariantE,s1,stadium1:src/fragments/battle_engine/battle_engine_34A420.c,c
 func_82175BE0,0x82175BE0,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_RotateVertexOffset,s1,stadium1:src/fragments/battle_engine/battle_engine_34A420.c,c
-func_82175C74,0x82175C74,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
+func_82175C74,0x82175C74,src/fragments/fragment012_17ED00/battle_engine_34A420.c,func_82175C74,hand,,c
 func_821764E0,0x821764E0,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_IsComplete,hand,,c
 func_821765B4,0x821765B4,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_82177DA0,0x82177DA0,src/fragments/fragment012_17ED00/battle_engine_34E1A0.c,Trail40_Init,s1,stadium1:src/fragments/battle_engine/battle_engine_34E1A0.c,c
@@ -3590,7 +3590,7 @@ func_89000E98,0x89000E98,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,
 func_89000F5C,0x89000F5C,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,func_89000F5C,m2c,m2c,c
 func_89000FA4,0x89000FA4,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_89001018,0x89001018,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
-func_89001230,0x89001230,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
+func_89001230,0x89001230,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,func_89001230,hand,,c
 func_89001250,0x89001250,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_890012C4,0x890012C4,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_890013F8,0x890013F8,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
@@ -3643,7 +3643,7 @@ func_89004AD4,0x89004AD4,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,
 func_89004B98,0x89004B98,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,func_89004B98,m2c,m2c,c
 func_89004BE0,0x89004BE0,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,asm,,asm
 func_89004C54,0x89004C54,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,asm,,asm
-func_89004E1C,0x89004E1C,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,asm,,asm
+func_89004E1C,0x89004E1C,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,func_89004E1C,hand,,c
 func_89004E3C,0x89004E3C,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,asm,,asm
 func_89004EB0,0x89004EB0,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,asm,,asm
 func_89004FE4,0x89004FE4,src/fragments/fragment015_238BD0/lab_pc_list_1D7B40.c,,asm,,asm
