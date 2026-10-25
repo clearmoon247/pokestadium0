@@ -150,11 +150,53 @@ void func_8A2008F4(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A201D3C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A201EAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A201EAC.s")
-#endif
+M2C_UNK func_80019008(s32, s32, M2C_UNK);           /* extern */
+M2C_UNK func_80029658(s32, s32, s32, M2C_UNK *);    /* extern */
+M2C_UNK func_80029864(s32, s32, s32, M2C_UNK *);    /* extern */
+s32 func_8002AB84();                                /* extern */
+M2C_UNK func_8A2009CC(s32, s32, s32);               /* extern */
+M2C_UNK func_8A200B78(s32, s32, s32);               /* extern */
+M2C_UNK func_8A200DE0(s32, s32, s32);               /* extern */
+M2C_UNK func_8A2010C8(s32, s32, s32, s32);          /* extern */
+M2C_UNK func_8A201394(s32, s32, s32);               /* extern */
+M2C_UNK func_8A2018E0(s32, s32, s32, s32);          /* extern */
+M2C_UNK func_8A201C08(M2C_UNK, M2C_UNK, s32);       /* extern */
+extern s8 D_8007356C;
+extern s32 D_8A21DA4C;
+void func_8A201EAC(s8 *arg0, s32 arg1)
+{
+  s32 temp_v0;
+  if (((*((s32 *) (((s8 *) arg0) + 0x28))) != 2) && (func_8002AB84() == 0))
+  {
+    if (arg1 == 0)
+    {
+      func_80029864((*((s32 *) (((s8 *) arg0) + 0))) + 0xF9, *((s32 *) (((s8 *) arg0) + 4)), *((s32 *) (((s8 *) arg0) + 0xC)), &D_8007356C);
+      func_80029658(*((s32 *) (((s8 *) arg0) + 0)), (*((s32 *) (((s8 *) arg0) + 4))) + 0xD7, 0x100, &D_8007356C);
+      func_80029658((*((s32 *) (((s8 *) arg0) + 0))) + 0xFA, (*((s32 *) (((s8 *) arg0) + 4))) + 0x95, 0x12E, &D_8007356C);
+      func_8A2009CC((*((s32 *) (((s8 *) arg0) + 0))) + 6, (*((s32 *) (((s8 *) arg0) + 4))) + 0xDE, *((s32 *) (((s8 *) arg0) + 0x2C)));
+      func_8A200B78((*((s32 *) (((s8 *) arg0) + 0))) + 0x100, (*((s32 *) (((s8 *) arg0) + 4))) + 6, *((s32 *) (((s8 *) arg0) + 0x2C)));
+      func_8A200DE0((*((s32 *) (((s8 *) arg0) + 0))) + 0x100, (*((s32 *) (((s8 *) arg0) + 4))) + 0x9C, *((s32 *) (((s8 *) arg0) + 0x2C)));
+    }
+    else
+    {
+      func_80029658(*((s32 *) (((s8 *) arg0) + 0)), (*((s32 *) (((s8 *) arg0) + 4))) + 0xD7, *((s32 *) (((s8 *) arg0) + 8)), &D_8007356C);
+      func_80029864((*((s32 *) (((s8 *) arg0) + 0))) + 0xF9, *((s32 *) (((s8 *) arg0) + 4)), 0xDE, &D_8007356C);
+      func_8A201394((*((s32 *) (((s8 *) arg0) + 0))) + 0x100, (*((s32 *) (((s8 *) arg0) + 4))) + 6, *((s32 *) (((s8 *) arg0) + 0x2C)));
+      func_8A2010C8((*((s32 *) (((s8 *) arg0) + 0))) + 6, (*((s32 *) (((s8 *) arg0) + 4))) + 0xDE, *((s32 *) (((s8 *) arg0) + 0x2C)), *((s32 *) (((s8 *) arg0) + 0x30)));
+      func_8A2018E0((*((s32 *) (((s8 *) arg0) + 0))) + 0x100, (*((s32 *) (((s8 *) arg0) + 4))) + 0x54, *((s32 *) (((s8 *) arg0) + 0x2C)), *((s32 *) (((s8 *) arg0) + 0x30)));
+    }
+  }
+  temp_v0 = *((s32 *) (((s8 *) arg0) + 0x28));
+  if (((temp_v0 ^ 0) == 1) || (temp_v0 == 2))
+  {
+    if ((*((s32 *) (((s8 *) arg0) + 0x34))) == 0)
+    {
+      *((s32 *) (((s8 *) arg0) + 0x34)) = 1;
+      func_80019008(D_8A21DA4C, *((s32 *) (((s8 *) arg0) + 0x2C)), 0x108D);
+    }
+    func_8A201C08(0x32, 0x5A, *((s32 *) (((s8 *) arg0) + 0x2C)));
+  }
+}
 
 s32 func_80022B40();                                /* extern */
 s32 func_8002D454(s32, s32, s8 *);                /* extern */

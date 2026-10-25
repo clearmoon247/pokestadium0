@@ -128,11 +128,19 @@ void ParticleGfx_NoopStub2(void) {
 void ParticleGfx_NoopStub3(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82168F54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82168F54.s")
-#endif
+s32 func_82168F54(s32 arg0)
+{
+  s32 var_v1;
+  arg0 = arg0;
+  var_v1 = 0;
+  do
+  {
+    arg0 = arg0 / 2;
+    var_v1 += 1;
+  }
+  while (arg0 != 1);
+  return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82168F7C; signature not recovered. */

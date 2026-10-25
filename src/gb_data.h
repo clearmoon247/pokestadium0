@@ -223,7 +223,7 @@ void Text_UntranscodeNameWrapper(char* arg0, char* arg1);
 char* Text_TranscodeName(char* arg0, char* arg1);
 char* Text_TranscodeNameWrapper(char* arg0, char* arg1);
 char* Text_UntranscodeFixedName(char* arg0, char* arg1);
-char* Text_CopyString(char* arg0, char* arg1);
+s8* Text_CopyString(s8* arg0, s8* arg1);
 char* Text_CopySpeciesName(char* arg0, s32 arg1);
 char* Text_GetTmHmName(s32 arg0, char* arg1);
 void Pokemon_FromGbRecord(BattleMon* arg0, GbPokemonRecord* arg1);

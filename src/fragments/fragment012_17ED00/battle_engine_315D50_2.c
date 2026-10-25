@@ -785,8 +785,28 @@ void BattleAnim_DrawEffectCallbacks(UNUSED CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821370DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821370DC.s")
-#endif
+M2C_UNK func_82135FD0(s32);                         /* extern */
+M2C_UNK func_82137000(s32);                         /* extern */
+M2C_UNK func_82137160();                            /* extern */
+M2C_UNK func_8216D720(s32);                         /* extern */
+extern s32 D_8219A878;
+s32 func_821370DC(u32 arg0, s32 arg1) {
+    switch (arg0) {
+    case 1:
+    case 3:
+    case 4:
+        break;
+    case 0:
+        func_82137160();
+        break;
+    case 2:
+        D_8219A878 = arg1;
+        func_82135FD0(arg1);
+        func_82137000(arg1);
+        break;
+    case 5:
+        func_8216D720(arg1);
+        break;
+    }
+    return 0;
+}

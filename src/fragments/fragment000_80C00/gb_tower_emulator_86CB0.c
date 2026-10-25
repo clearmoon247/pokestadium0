@@ -306,11 +306,18 @@ void func_81218104_jp(UNUSED s32 arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112E00.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112EAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112EAC.s")
-#endif
+void func_81112EAC(s8 *arg0, s8 *arg1)
+{
+  if ((*((s8 **) (((s8 *) arg1) + 0))) == 0)
+  {
+    *((s8 **) (((s8 *) (*((s8 **) (((s8 *) arg0) + 0)))) + 4)) = arg1;
+    *((s8 **) (((s8 *) arg1) + 0)) = (s8 *) (*((s8 **) (((s8 *) arg0) + 0)));
+    *((s8 **) (((s8 *) arg1) + 4)) = arg0;
+    *((s8 **) (((s8 *) arg0) + 0)) = arg1;
+    *((s32 *) (((s8 *) arg0) + 8)) = ((s32) ((*((s32 *) (((s8 *) arg0) + 8))) + 1)) ^ 0;
+    *((s32 *) (((s8 *) arg1) + 0xC)) = (s32) (*((s32 *) (((s8 *) arg0) + 0xC)));
+  }
+}
 
 s32 func_81112EEC(s8 *arg0) {
     s8 *temp_v1;
@@ -332,11 +339,15 @@ s32 func_81112EEC(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112F2C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112FB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112FB0.s")
-#endif
+u8 func_81112FB0(u8 **arg0)
+{
+  u8 new_var;
+  u8 *temp_a1;
+  new_var = *(*arg0);
+  temp_a1 = *arg0;
+  *arg0 = temp_a1 + 1;
+  return new_var;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112FC4; signature not recovered. */
@@ -428,11 +439,25 @@ s32 func_81112EEC(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811151C8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81115254; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81115254.s")
-#endif
+M2C_UNK func_81111DC8(s8 *);                      /* extern */
+M2C_UNK func_81114B54(s8 *);                      /* extern */
+void func_81115254(s8 *arg0)
+{
+  s8 *new_var;
+  s32 temp_t8;
+  if ((*((s32 *) (((s8 *) arg0) + 0xD8))) > 0)
+  {
+    do
+    {
+      func_81114B54(arg0);
+      func_81111DC8(arg0);
+      new_var = (s8 *) arg0;
+      temp_t8 = (unsigned long long) ((*((s32 *) (new_var + 0xD8))) - 1);
+      *((s32 *) (((s8 *) arg0) + 0xD8)) = temp_t8;
+    }
+    while (temp_t8 > 0);
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811152A4; signature not recovered. */
@@ -527,8 +552,6 @@ void GbApu_SetNoisePeriodBounds(s32 arg0, s32 arg1) {
     D_81138AD4 = arg1;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 GbApu_FreqToStep(u16 arg0) {
   u32 temp;
   if (arg0 == 0) {
@@ -537,12 +560,7 @@ u32 GbApu_FreqToStep(u16 arg0) {
   temp = ((65536.0f / (0x800 - arg0)) / 1500.0f) * 65536;
   return temp;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81115818.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 func_811158F4(u16 arg0, u16 arg1, u16 arg2) {
     u32 temp;
     s32 temp2;
@@ -554,26 +572,16 @@ u32 func_811158F4(u16 arg0, u16 arg1, u16 arg2) {
     D_81138AD0 = D_81138ADC[arg0 * 2 + arg1];
     return temp;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811158F4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u32 GbApu_FreqToStep2x(u16 arg0) {
   u32 temp;
   temp = ((131072.0f / (0x800 - arg0)) / 1500.0f) * 65536;
   return temp;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81115A20.s")
-#endif
 
 void func_81115AF0(void) {
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 func_81115AF8(u32 arg0, s32 arg1) {
     switch (arg0) {
     case 0:
@@ -605,9 +613,6 @@ s32 func_81115AF8(u32 arg0, s32 arg1) {
         return (u8)(D_81182468[arg1] << 3);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81115AF8.s")
-#endif
 
 u16 GbApu_UpdateSquare1Channel(void) {
     u16 var_t0;
@@ -837,8 +842,6 @@ u16 func_81207C5C_Empty(void) {
     
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 u16 func_81116258(void) {
     static s32 D_8120EB6C = 0;
     u16 temp_v0;
@@ -915,12 +918,7 @@ u16 func_81116258(void) {
     
     return (temp_v0 << 1);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81116258.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_811164CC(u16 reg, u8 value) {
     s32 pad;
     s32 i;
@@ -1128,12 +1126,7 @@ void func_811164CC(u16 reg, u8 value) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811164CC.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_81116C88(s32 numSamples, s16* out) {
     s32 i;
     u32 sq1R;
@@ -1252,12 +1245,7 @@ void func_81116C88(s32 numSamples, s16* out) {
     D_811824B8.unk_02 = 0;
     D_811824B8.unk_03 = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81116C88.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_81117068(u16 arg0, u8 arg1, u16 arg2) {
     s32 temp_v1;
 
@@ -1312,9 +1300,6 @@ void func_81117068(u16 arg0, u8 arg1, u16 arg2) {
         break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81117068.s")
-#endif
 
 void GbApu_ResetChannels(void) {
   s32 pad[6];

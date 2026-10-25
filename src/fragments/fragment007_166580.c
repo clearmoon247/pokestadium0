@@ -417,8 +417,40 @@ void func_82005958(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820059EC.s")
 #endif
 
+M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
+M2C_UNK func_80002620(M2C_UNK);                     /* extern */
+M2C_UNK func_80025BA0(s32, M2C_UNK *, M2C_UNK *, M2C_UNK, s32); /* extern */
+M2C_UNK func_820059EC();                            /* extern */
+M2C_UNK func_82008F14();                            /* extern */
+extern s8 D_00235D70;
+extern s8 D_00238BD0;
+extern s8 D_800AE8F0;
+extern s32 D_82008F84;
+extern M2C_UNK *D_8200ACF8;
+extern s8 D_88000000;
 #ifdef NON_MATCHING
-/* TODO: decompile func_82005CCC; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+s32 func_82005CCC(s32 arg0, M2C_UNK arg1)
+{
+  s32 temp_v1;
+  func_8000256C(0x4D454E54);
+  D_8200ACF8 = &D_800AE8F0;
+  if (arg0 == 1)
+  {
+    func_82008F14();
+  }
+  else
+  {
+    func_820059EC();
+  }
+  func_80002620(0x4D454E54);
+  temp_v1 = D_82008F84;
+  if (temp_v1 == 0x8040)
+  {
+    func_80025BA0((((u32) (((s32) (&D_88000000)) & 0x0FF00000)) >> 0x14) - 0x10, &D_00235D70, &D_00238BD0, 0, 0);
+  }
+  return D_82008F84;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82005CCC.s")
 #endif
@@ -459,11 +491,19 @@ void func_82005958(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820061F0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82006348; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82006348.s")
-#endif
+s32 func_8002AE6C();                                /* extern */
+M2C_UNK func_8002D9B8(s32, s32, s32, s32, s8 *);  /* extern */
+void func_82006348(s8 *arg0, s32 arg1)
+{
+  s8 *new_var;
+  if (func_8002AE6C() == 0)
+  {
+    if (arg0 && arg0)
+    {
+    }
+    func_8002D9B8(new_var = arg0 + 0x2C, (*((s32 *) (((s8 *) arg0) + 0))) + 6, (*((s32 *) (((s8 *) arg0) + 4))) + 0xC, arg1 | 0xFFED, arg0);
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8200639C; signature not recovered. */

@@ -66,11 +66,12 @@ u8 func_82107A30(s8 *arg0) {
     return M2C_FIELD(M2C_FIELD(arg0, s8 **, 0x860), u8 *, 2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107A3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107A3C.s")
-#endif
+u8 func_82107A3C(s8 *arg0)
+{
+  int new_var;
+  new_var = (*((u8 *) (((s8 *) arg0) + 0x7B7))) == 0;
+  return *((u8 *) (((s8 *) (*((s8 **) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x85C))) + (new_var * 4))) + 8)))) + 2));
+}
 
 s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon) {
     if (active_pokemon == sSide1ActivePokemon) {
@@ -204,11 +205,11 @@ s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F68.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F88.s")
-#endif
+s32 func_82107F88(s8 *arg0)
+{
+  unsigned int new_var;
+  return ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x85C))) + ((*((u8 *) (((s8 *) arg0) + 0x7B9))) * 4))) + 8))) + ((*((s32 *) (((s8 *) arg0) + 0x794))) * 0x50)) + (new_var = 0x4C);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82107FB8; signature not recovered. */
@@ -326,11 +327,15 @@ void func_82108A88(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108C0C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108D68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108D68.s")
-#endif
+void Battle_SetModelToHitAnim(ActivePokemon* active_pokemon) {
+    extern PokemonBattleCues* D_82189180[];
+    MovePresentationCue* hit_cue = &D_82189180[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;
+
+    if (active_pokemon->displayObject.transformAnim.animationId != -1) {
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+        ModelAnim_SetAnimation(&active_pokemon->displayObject, hit_cue->id);
+    }
+}
 
 void func_82108DC8(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x860) = (s32) M2C_FIELD((M2C_FIELD(arg0, s32 *, 0x85C) + (arg1 * 4)), s32 *, 8);

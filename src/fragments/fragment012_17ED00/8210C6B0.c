@@ -72,11 +72,18 @@ s32 func_8210C708(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210CBD4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210CCDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210CCDC.s")
-#endif
+M2C_UNK func_8210CBD4();                            /* extern */
+s32 func_8210CCDC(s8 *arg0, M2C_UNK arg1)
+{
+  *((s8 *) (((s8 *) arg0) + 0x7B6)) = 1;
+  if (1)
+  {
+    *((s8 *) (((s8 *) arg0) + 0x7B6)) = 1;
+    func_8210CBD4();
+    *((s8 *) (((s8 *) arg0) + 0x7B6)) = 1;
+  }
+  return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210CD18; signature not recovered. */
@@ -209,17 +216,35 @@ void func_8210CFE4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E118.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E318; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E318.s")
-#endif
+extern s8 D_82199DE0;
+void func_8210E318(void)
+{
+  s8 *temp_v1;
+  s8 **new_var;
+  s8 *temp_a1;
+  int pad;
+  temp_a1 = (s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x9CC)));
+  temp_v1 = *((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x9CC));
+  *((u8 *) (temp_a1 + 1)) = (u8) ((*((u8 *) (((s8 *) temp_v1) + 1))) | 1);
+  *((u8 *) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x865)) = (u8) ((*((u8 *) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x865))) | 1);
+  new_var = (s8 **) (((s8 *) (&D_82199DE0)) + 4);
+  ;
+  *((u8 *) (((s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 4)))) + 0x9CC)))) + 1)) = (u8) ((*((u8 *) (((s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 4)))) + 0x9CC)))) + 1))) | 1);
+  *((u8 *) (((s8 *) (*new_var)) + 0x865)) = (u8) ((*((u8 *) (((s8 *) (*new_var)) + 0x865))) | 1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E36C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E36C.s")
-#endif
+extern s8 D_82199DE0;
+void func_8210E36C(void)
+{
+  s8 *temp_a1;
+  s8 *temp_v1;
+  ;
+  *((u8 *) (((s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x9CC)))) + 1)) = (u8) ((*((u8 *) (((s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x9CC)))) + 1))) & 0xFFFE);
+  *((u8 *) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x865)) = (u8) ((*((u8 *) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 0)))) + 0x865))) & 0xFFFE);
+  ;
+  *((u8 *) (((s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 4)))) + 0x9CC)))) + 1)) = (u8) ((*((u8 *) (((s8 *) (*((s8 **) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 4)))) + 0x9CC)))) + 1))) & 0xFFFE);
+  *((u8 *) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 4)))) + 0x865)) = (u8) ((*((u8 *) (((s8 *) (*((s8 **) (((s8 *) (&D_82199DE0)) + 4)))) + 0x865))) & 0xFFFE);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210E3C0; signature not recovered. */

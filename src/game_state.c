@@ -327,11 +327,16 @@ void Display_DisableBlackout(void) {
     D_800733F0 = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80027140; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027140.s")
-#endif
+extern s32 D_800733F0;
+volatile long long func_80027140(s32 arg0, s8 *arg1)
+{
+  s32 new_var;
+  new_var = arg0;
+  if ((new_var == 2) && (D_800733F0 != 0))
+  {
+    *((s32 *) (((s8 *) arg1) + 0x18)) = (s32) D_800733F0;
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80027168; signature not recovered. */

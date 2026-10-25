@@ -139,11 +139,22 @@ void func_8002ED50(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002ED70; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002ED70.s")
-#endif
+void func_8002ED70(s8 *arg0)
+{
+  s32 *new_var3;
+  s32 *new_var2;
+  int temp_v0;
+  s8 *new_var;
+  s32 *new_var4;
+  new_var = (s8 *) arg0;
+  new_var4 = (s32 *) (new_var + 0x34);
+  new_var3 = &(*new_var4);
+  temp_v0 = ((*(new_var2 = new_var3)) - ((*((s32 *) (((s8 *) arg0) + 0x24))) * (*((s32 *) (((s8 *) arg0) + 0x10))))) + 1;
+  if ((*((s32 *) (((s8 *) arg0) + 0x2C))) < temp_v0)
+  {
+    *((s32 *) (new_var + 0x2C)) = temp_v0;
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002EDA8; signature not recovered. */
@@ -235,11 +246,17 @@ void func_800309FC(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80030A1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80030A1C.s")
-#endif
+void func_80030A1C(s8 *arg0)
+{
+  s32 temp_v0;
+  s8 *new_var;
+  temp_v0 = ((*((s32 *) (((s8 *) arg0) + 0x34))) - ((*((s32 *) (((s8 *) arg0) + 0x24))) * (*((s32 *) (((s8 *) arg0) + 0x10))))) + 1;
+  new_var = ((s8 *) arg0) + 0x2C;
+  if ((*((s32 *) (((s8 *) arg0) + 0x2C))) < temp_v0)
+  {
+    *((s32 *) new_var) = temp_v0;
+  }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80030A54; signature not recovered. */

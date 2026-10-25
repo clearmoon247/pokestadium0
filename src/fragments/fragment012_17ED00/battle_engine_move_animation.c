@@ -758,17 +758,17 @@ void func_821054A8(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105D3C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105E38; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105E38.s")
-#endif
+void func_82105E38(s8 *arg0, unsigned short arg1)
+{
+  s8 *new_var;
+  new_var = (s8 *) arg0;
+  *((u16 *) (new_var + 0x7C2)) = (u16) ((*((u16 *) (new_var + 0x7C2))) | arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105E4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105E4C.s")
-#endif
+void func_82105E4C(s8 *arg0, unsigned short arg1)
+{
+  *((u16 *) (((s8 *) arg0) + 0x7C2)) = (u16) ((*((u16 *) (((s8 *) arg0) + 0x7C2))) & (~arg1));
+}
 
 /**
  * Empty callback. Not referenced by any state row.

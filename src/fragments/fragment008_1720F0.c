@@ -26,11 +26,36 @@ loop_1:
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100078.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100100; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100100.s")
-#endif
+s32 func_80020B94(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s8 *, s32); /* extern */
+M2C_UNK func_80020C60(s32);                         /* extern */
+s32 func_80020DF0(s32, M2C_UNK, s32);               /* extern */
+void func_88100100(s8 *arg0, M2C_UNK arg1)
+{
+  s32 temp_s3;
+  s32 var_s0;
+  s32 var_s1;
+  var_s1 = *((s32 *) (((s8 *) arg0) + 0x18));
+  if ((!arg0) && (!arg0))
+  {
+  }
+  temp_s3 = func_80020B94(0x10, 0, arg1, 0, arg0 + 8, *((s32 *) (((s8 *) arg0) + 4)));
+  var_s0 = 0;
+  if ((*((s32 *) (((s8 *) arg0) + 0x20))) > 0)
+  {
+    loop_1:
+    if (func_80020DF0(var_s1 + 4, 1, temp_s3) != 0)
+    {
+      var_s0 += 1;
+      var_s1 += 0x54;
+      if (var_s0 < (*((s32 *) (((s8 *) arg0) + 0x20))))
+      {
+        goto loop_1;
+      }
+    }
+
+  }
+  func_80020C60(temp_s3);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_881001A8; signature not recovered. */
@@ -171,11 +196,11 @@ void func_88101670(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0) = (s32) (arg1 * 0xF);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88101690; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88101690.s")
-#endif
+s32 func_88101690(s8 *arg0)
+{
+ if (0) { }
+  return (*((s32 *) (((s8 *) arg0) + 0))) >= ((*((s32 *) (((s8 *) arg0) + 4))) * (*((s32 *) (((s8 *) arg0) + 8))));
+}
 
 s32 func_881016B0(s32 *arg0) {
     return *arg0 == 0;

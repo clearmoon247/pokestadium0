@@ -71,7 +71,7 @@ DeckHandle* Deck_OpenAndSetName(s32 arg0, s32 arg1, s32 arg2, s32 arg3, char* ar
 s32 Deck_CloseAndFlushBox(DeckHandle* arg0);
 
 char* Text_UntranscodeName(char* arg0, char* arg1);
-char* Text_CopyString(char* arg0, char* arg1);
+s8* Text_CopyString(s8* arg0, s8* arg1);
 void Pokemon_FromGbRecord(BattleMon* arg0, GbPokemonRecord* arg1);
 void Pokemon_ToGbRecord(BattleMon* arg0, GbPokemonRecord* arg1);
 s32 Deck_WriteEntries(u8* arg0, s32 arg1, DeckHandle* arg2);
@@ -160,11 +160,24 @@ char* Text_UntranscodeFixedName(char* arg0, char* arg1) {
     return Text_UntranscodeName(arg0, sp18);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001FD00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001FD00.s")
-#endif
+s8* Text_CopyString(s8* arg0, s8* arg1) {
+    s8* ret = arg0;
+    u16 c;
+
+    while (*arg1 != 0) {
+        c = (((u8*)arg1)[0] << 8) | ((u8*)arg1)[1];
+        if ((c == 0xA5EA) || ((c >= 0xA5D8) && (c < 0xA5DA))) {
+            *arg0++ = *arg1++ & 0xFE;
+        } else {
+            *arg0++ = *arg1++;
+        }
+        *arg0++ = *arg1++;
+    }
+
+    *arg0 = 0;
+
+    return ret;
+}
 
 char* Text_CopySpeciesName(char* arg0, s32 arg1) {
     Text_CopyString(arg0, (char*)*(u32*)D_80064C44[arg1]);

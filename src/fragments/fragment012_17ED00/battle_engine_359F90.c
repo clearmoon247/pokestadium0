@@ -185,11 +185,15 @@ void ApplyBurnAttackCut(ActivePokemon* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110BDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110EAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110EAC.s")
-#endif
+s32 func_82110EAC(s8 *arg0)
+{
+  int new_var;
+  if ((*((u16 *) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x860))) + ((*((s32 *) (((s8 *) arg0) + 0x7A4))) * 0x50))) + (new_var = -0x32)))) != 0)
+  {
+    return 1;
+  }
+  return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82110EE4; signature not recovered. */

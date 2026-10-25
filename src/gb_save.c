@@ -37,11 +37,34 @@ s32 Ui_AdjustNumericSelection(unk_func_8830867C_044_038_030* arg0, s32 arg1);
 void Particle_Field50_SetXZFromField7C_09BB4(Particle* arg0);
 void Particle_Field7C_SetXZFromField74AngleY_0B278(Particle* arg0);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80027F20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027F20.s")
-#endif
+M2C_UNK func_8001AA9C(u8, u8, u8, u8);              /* extern */
+extern s8 D_800734A8;
+extern s8 D_800734B0;
+extern s8 D_800734B8;
+void func_80027F20(s32 arg0)
+{
+  s8 *new_var;
+  if (arg0 & 0x18)
+  {
+    new_var = &D_800734B8;
+  }
+  else
+    if (arg0 & 1)
+  {
+    new_var = &D_800734B0;
+    new_var = new_var;
+  }
+  else
+  {
+    new_var = &D_800734A8;
+  }
+  if (!(arg0 & 2))
+  {
+    new_var += 4;
+  }
+  new_var = (s8 *) new_var;
+  func_8001AA9C(*((u8 *) (new_var + 0)), *((u8 *) (new_var + 1)), *((u8 *) (new_var + 2)), *((u8 *) (((s8 *) new_var) + 3)));
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80027F8C; signature not recovered. */
@@ -156,11 +179,16 @@ void GbSave_BuildPortSummary(unk_func_8002D860* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A550.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002A8C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A8C4.s")
-#endif
+void func_8002A8C4(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
+{
+  s8 *new_var;
+  *((s32 *) (((s8 *) arg0) + 0)) = arg1;
+  *((s32 *) (((s8 *) arg0) + 4)) = arg2;
+  new_var = arg0;
+  *((s32 *) (((s8 *) arg0) + 8)) = arg3;
+  *((s32 *) (((s8 *) new_var) + 0xC)) = arg4;
+  *((s32 *) (((s8 *) arg0) + 0x10)) = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002A8E0; signature not recovered. */

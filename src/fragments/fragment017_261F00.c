@@ -62,11 +62,39 @@ s32 func_8A00009C(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment017_261F00/func_8A0001F0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A000278; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment017_261F00/func_8A000278.s")
-#endif
+M2C_UNK func_80025BA0(s32, M2C_UNK *, M2C_UNK *, M2C_UNK, s32); /* extern */
+extern s8 D_00235D70;
+extern s8 D_00238BD0;
+extern s8 D_00262620;
+extern s8 D_00293410;
+extern s8 D_002B1360;
+extern s8 D_88000000;
+extern s8 D_8A100000;
+extern s8 D_8A200000;
+void func_8A000278(void) {
+    switch (D_8A0005F0) {
+    case 0:
+        func_80025BA0(((u32) ((s32) &D_8A100000 & 0x0FF00000) >> 0x14) - 0x10, &D_00262620, &D_00293410, 0, 0);
+        return;
+    case 1:
+        func_80025BA0(((u32) ((s32) &D_8A200000 & 0x0FF00000) >> 0x14) - 0x10, &D_00293410, &D_002B1360, 1, 0);
+        return;
+    case 2:
+        func_80025BA0(((u32) ((s32) &D_88000000 & 0x0FF00000) >> 0x14) - 0x10, &D_00235D70, &D_00238BD0, 0, 0);
+        return;
+    case 3:
+        func_80025BA0(((u32) ((s32) &D_88000000 & 0x0FF00000) >> 0x14) - 0x10, &D_00235D70, &D_00238BD0, 0, 0);
+        return;
+    case 4:
+        func_80025BA0(((u32) ((s32) &D_88000000 & 0x0FF00000) >> 0x14) - 0x10, &D_00235D70, &D_00238BD0, 0, 0);
+        return;
+    case 5:
+        func_80025BA0(((u32) ((s32) &D_88000000 & 0x0FF00000) >> 0x14) - 0x10, &D_00235D70, &D_00238BD0, 0, 0);
+        /* fallthrough */
+    default:
+        return;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A000418; signature not recovered. */

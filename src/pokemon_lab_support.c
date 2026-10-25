@@ -3,6 +3,7 @@
 
 #include "fragments/pokemon_lab_support/pokemon_lab_support.h"
 #include "gb_save.h"
+#include "m2c_macros.h"
 
 s32 LabPC_StatusToIconIndex(s32 arg0);
 
@@ -29,8 +30,12 @@ s32 LabPC_StatusToIconIndex(s32 arg0) {
     return v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001FA8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001FA8C.s")
-#endif
+s32 func_8001FA8C(s32 arg0)
+{
+  arg0 = arg0;
+  if (arg0 >= 0x14)
+  {
+    arg0 -= 0xB;
+  }
+  return arg0;
+}

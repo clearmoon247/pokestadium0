@@ -3,6 +3,7 @@
 
 #include "fragments/battle_engine/battle_engine.h"
 #include "gfx_buffer.h"
+#include "m2c_macros.h"
 
 void OwnerAnchoredFourStream_Update(f32 arg0, Vec3f* arg1, f32 arg2);
 void OwnerAnchoredFourStream_UpdateNodeChain(OwnerAnchoredFourStream* arg0);
@@ -78,11 +79,36 @@ void OwnerAnchoredFourStream_UpdateNodeChain(OwnerAnchoredFourStream* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8217E34C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8217E34C.s")
-#endif
+M2C_UNK func_8217E0C0(M2C_UNK *);                   /* extern */
+extern s8 D_821B6F00;
+s32 func_8217E34C(void)
+{
+  s8 *new_var;
+  s32 var_s1;
+  new_var = &D_821B6F00;
+  var_s1 = 0;
+  do
+  {
+    new_var = (s8 *) ((0, new_var));
+    if ((*((s16 *) (new_var + 0))) == 1)
+    {
+      new_var = new_var;
+      *((s16 *) (new_var + 2)) = (s16) ((*((s16 *) (new_var + 2))) + 1);
+      if ((*((s16 *) (new_var + 4))) < (*((s16 *) (new_var + 2))))
+      {
+        *((s16 *) (new_var + 0)) = 0;
+      }
+      else
+      {
+        func_8217E0C0(new_var);
+      }
+    }
+    var_s1 += 1;
+    new_var += 0x418;
+  }
+  while (var_s1 != 4);
+  return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8217E3E0; signature not recovered. */

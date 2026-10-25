@@ -33,11 +33,30 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_812007B0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81200970; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_81200970.s")
-#endif
+extern s32 D_81201018;
+s32 func_81200970(s32 arg0)
+{
+  s32 var_v1_2;
+  var_v1_2 = arg0 == 5;
+  if (var_v1_2 == 0)
+  {
+    var_v1_2 = arg0 == 0;
+    if (var_v1_2 == 0)
+    {
+      var_v1_2 = arg0 == 1;
+      if (var_v1_2 == 0)
+      {
+        var_v1_2 = arg0 == 3;
+      }
+    }
+  }
+  var_v1_2 = var_v1_2 != 0;
+  if (var_v1_2 != 0)
+  {
+    var_v1_2 = D_81201018 >= 0x10;
+  }
+  return var_v1_2;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_812009C4; signature not recovered. */

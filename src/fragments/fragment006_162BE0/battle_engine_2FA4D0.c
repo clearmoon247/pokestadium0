@@ -173,11 +173,28 @@ void func_88400B70(void) {
     } while (var_s2 != 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88400C48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88400C48.s")
-#endif
+extern s32 D_88403364;
+void func_88400C48(s16 arg0, s16 arg1) {
+    s32 var_a3;
+
+    if (D_88403364 < 0x10) {
+        var_a3 = D_88403364 * 0x10;
+    } else if (D_88403364 < 0x23) {
+        var_a3 = 0xFF;
+    } else if (D_88403364 < 0x32) {
+        var_a3 = (-D_88403364 * 0x10) + 0x320;
+    } else {
+        var_a3 = 0;
+    }
+
+    D_88403364++;
+    if (D_88403364 >= 0x3D) {
+        D_88403364 = 0;
+    }
+
+    Gfx_SetEnvColor(0xFF, 0xFF, 0xFF, var_a3);
+    Font_DrawCharAt(arg0, arg1, 0x2177);
+}
 
 M2C_UNK func_80006780();                            /* extern */
 M2C_UNK func_8001A384(M2C_UNK, M2C_UNK);            /* extern */
@@ -187,7 +204,6 @@ M2C_UNK func_8001AB6C();                            /* extern */
 M2C_UNK func_8001ABBC();                            /* extern */
 M2C_UNK func_8003F6AC(M2C_UNK);                     /* extern */
 M2C_UNK func_88400108(M2C_UNK);                     /* extern */
-M2C_UNK func_88400C48(M2C_UNK, M2C_UNK);            /* extern */
 extern s8 *D_800603C0;
 extern s32 D_88402D70;
 extern s32 D_88403364;

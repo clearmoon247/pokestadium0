@@ -570,8 +570,8 @@ void BattleAnim_SetQueuedEffectList(u8 effect_list_index) {
     sBattleAnimQueuedEffectList = effect_list_index;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82136430; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82136430.s")
-#endif
+extern s8 D_8219A808;
+void func_82136430(unsigned short arg0)
+{
+  D_8219A808 = arg0;
+}
