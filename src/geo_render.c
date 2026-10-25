@@ -479,11 +479,50 @@ void func_80012CC0(s8 *arg0, s8 *arg1) {
 
 extern s16 D_8006F2A4[];
 extern unk_D_800ABB28* D_800ABCB8;
-#ifdef NON_MATCHING
-/* TODO: decompile func_80012EAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80012EAC.s")
-#endif
+extern s16 D_80060624[];
+
+void GeoRender_BindTexture(unk_D_800ABB28* arg0, unk_D_800ABB10* arg1) {
+    unk_D_86002F34_alt11_018* temp_t0;
+    s32 var_a3;
+
+    if (M2C_FIELD(arg0, void**, 0xC) == NULL) {
+        gSPTexture(gDisplayListHead++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    }
+
+    if ((M2C_FIELD(arg0, void**, 0xC) != M2C_FIELD(arg1, void**, 0x18)) || (M2C_FIELD(arg0, Gfx**, 0x14) != M2C_FIELD(arg1, Gfx**, 0x20))) {
+        temp_t0 = M2C_FIELD(arg1, unk_D_86002F34_alt11_018**, 0x18);
+        if (M2C_FIELD(arg1, void**, 0x1C) != NULL) {
+            gSPDisplayList(gDisplayListHead++, M2C_FIELD(M2C_FIELD(arg1, void**, 0x1C), Gfx**, 8));
+        } else {
+            gDPSetTextureLUT(gDisplayListHead++, G_TT_NONE);
+        }
+
+        if (temp_t0->unk_01 == 0) {
+            if ((temp_t0->unk_02 % D_80060624[0]) == 0) {
+                gDPSetTextureImage(gDisplayListHead++, temp_t0->fmt, G_IM_SIZ_16b, 1, temp_t0->texture);
+            } else {
+                gDPSetTextureImage(gDisplayListHead++, temp_t0->fmt, G_IM_SIZ_8b, temp_t0->unk_02 >> 1,
+                                   temp_t0->texture);
+            }
+        } else if ((temp_t0->unk_02 % D_80060624[temp_t0->unk_01]) == 0) {
+            if (temp_t0->unk_01 == 3) {
+                var_a3 = 3;
+            } else {
+                var_a3 = 2;
+            }
+
+            gDPSetTextureImage(gDisplayListHead++, temp_t0->fmt, var_a3, 1, temp_t0->texture);
+        } else {
+            gDPSetTextureImage(gDisplayListHead++, temp_t0->fmt, temp_t0->unk_01, temp_t0->unk_02, temp_t0->texture);
+        }
+
+        gSPDisplayList(gDisplayListHead++, M2C_FIELD(arg1, Gfx**, 0x20));
+    }
+
+    M2C_FIELD(arg0, void**, 0xC) = M2C_FIELD(arg1, void**, 0x18);
+    M2C_FIELD(arg0, void**, 0x10) = M2C_FIELD(arg1, void**, 0x1C);
+    M2C_FIELD(arg0, void**, 0x14) = M2C_FIELD(arg1, void**, 0x20);
+}
 
 extern unk_D_800ABB28* D_800ABCB8;
 #ifdef NON_MATCHING

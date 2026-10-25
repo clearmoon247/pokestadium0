@@ -240,6 +240,12 @@
   "src/libleo/leoc2ecc.c": {
     ".rodata": "0x8007F3D0"
   },
+  "src/libleo/leocmdex.c": {
+    ".rodata": {
+      "address": "0x8007ED08",
+      "size": "0xA8"
+    }
+  },
   "src/libleo/leomecha.c": {
     ".rodata": "0x8007EDC0"
   },

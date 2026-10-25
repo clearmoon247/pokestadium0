@@ -2740,7 +2740,7 @@ func_8210568C,0x8210568C,src/fragments/fragment012_17ED00/battle_engine_move_ani
 func_82105724,0x82105724,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_821057D4,0x821057D4,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_821058E8,0x821058E8,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
-func_82105AB0,0x82105AB0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
+func_82105AB0,0x82105AB0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,func_82105AB0,hand,,c
 func_82105C8C,0x82105C8C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82105D3C,0x82105D3C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82105E38,0x82105E38,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,func_82105E38,m2c,m2c+permuter,c
@@ -2753,7 +2753,7 @@ func_821061A8,0x821061A8,src/fragments/fragment012_17ED00/battle_engine_move_ani
 func_82106220,0x82106220,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_8210626C,0x8210626C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82106354,0x82106354,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,func_82106354,m2c,m2c,c
-func_82106374,0x82106374,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
+func_82106374,0x82106374,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,BattleScene_CleanupParticipantEffectMode,hand,,asm
 func_821065B4,0x821065B4,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82106AC0,0x82106AC0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_82106B48,0x82106B48,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
@@ -4467,7 +4467,7 @@ func_80012CC0,0x80012CC0,src/geo_render.c,func_80012CC0,m2c,m2c,c
 func_80012D04,0x80012D04,src/geo_render.c,,asm,,asm
 func_80012DC8,0x80012DC8,src/geo_render.c,,asm,,asm
 func_80012E68,0x80012E68,src/geo_render.c,,asm,,asm
-func_80012EAC,0x80012EAC,src/geo_render.c,,asm,,asm
+func_80012EAC,0x80012EAC,src/geo_render.c,GeoRender_BindTexture,hand,,c
 func_80013148,0x80013148,src/geo_render.c,,asm,,asm
 func_800132C8,0x800132C8,src/geo_render.c,,asm,,asm
 func_80013398,0x80013398,src/geo_render.c,,asm,,asm
@@ -4567,7 +4567,7 @@ func_8001BE88,0x8001BE88,src/input.c,,asm,,asm
 func_8001C058,0x8001C058,src/input.c,,asm,,asm
 func_8001C22C,0x8001C22C,src/input.c,,asm,,asm
 func_8001C400,0x8001C400,src/input.c,,asm,,asm
-func_8001C5D0,0x8001C5D0,src/input.c,,asm,,asm
+func_8001C5D0,0x8001C5D0,src/input.c,Gfx_DrawTextureRgba16Ia8,hand,,c
 func_8001C97C,0x8001C97C,src/input.c,,asm,,asm
 func_8001CC90,0x8001CC90,src/input.c,,asm,,asm
 func_8001CE20,0x8001CE20,src/input.c,,asm,,asm
@@ -4645,7 +4645,7 @@ func_8004AA40,0x8004AA40,src/libleo/leoc2ecc.c,leoC2_3_ecc,s1,stadium1:src/lible
 func_8004AE28,0x8004AE28,src/libleo/leoc2ecc.c,leoC2_4_ecc,s1,stadium1:src/libleo/leoc2ecc.c,c
 func_8004B6C4,0x8004B6C4,src/libleo/leoc2ecc.c,leoAlpha_mult,s1,stadium1:src/libleo/leoc2ecc.c,c
 func_8004B708,0x8004B708,src/libleo/leoc2ecc.c,leoAlpha_div,s1,stadium1:src/libleo/leoc2ecc.c,c
-func_800491A0,0x800491A0,src/libleo/leocmdex.c,,asm,,asm
+func_800491A0,0x800491A0,src/libleo/leocmdex.c,leomain,hand,,c
 func_800495FC,0x800495FC,src/libleo/leocmdex.c,leoRead_system_area,s1,stadium1:src/libleo/leocmdex.c,c
 func_80052060,0x80052060,src/libleo/leodiskinit.c,osLeoDiskInit,s1,stadium1:src/libleo/leodiskinit.c,c
 func_800483E0,0x800483E0,src/libleo/leofunc.c,func_800483E0,m2c,m2c,c
@@ -5172,7 +5172,7 @@ func_80018E24,0x80018E24,src/poke_icon.c,PokeIcon_AreSlotsIdle,s1,stadium1:src/p
 func_80018E70,0x80018E70,src/poke_icon_2.c,PokeIcon_CapturePreviewGeoNode,s1,stadium1:src/poke_icon.c,c
 func_80018E84,0x80018E84,src/poke_icon_2.c,PokeIcon_InitPreviewScene,s1,stadium1:src/poke_icon.c,asm
 func_80018F2C,0x80018F2C,src/poke_icon_2.c,PokeIcon_CreateModelPreview,s1,stadium1:src/poke_icon.c,c
-func_80019008,0x80019008,src/poke_icon_2.c,,asm,,asm
+func_80019008,0x80019008,src/poke_icon_2.c,PokeIcon_SetPreviewMon,hand,,c
 func_800191B0,0x800191B0,src/poke_icon_2.c,PokeIcon_SetPreviewSpecies,hand,,c
 func_80019340,0x80019340,src/poke_icon_2.c,PokeIcon_HandlePreviewInput,s1,stadium1:src/poke_icon.c,c
 func_800193EC,0x800193EC,src/poke_icon_2.c,func_800193EC,s1,stadium1:src/poke_icon.c,c

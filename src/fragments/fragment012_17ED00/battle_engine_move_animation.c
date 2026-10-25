@@ -740,9 +740,7 @@ void func_821054A8(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821058E8.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
-s32 BattleScene_IsMoveKeyedRowWaitComplete(ActivePokemon* active_pokemon, s32 frame_limit) {
+s32 func_82105AB0(ActivePokemon* active_pokemon, s32 frame_limit) {
     MovePresentationCue* idle_cue;
     BattleMon* party_pokemon;
     UNUSED s32 pad;
@@ -790,9 +788,6 @@ s32 BattleScene_IsMoveKeyedRowWaitComplete(ActivePokemon* active_pokemon, s32 fr
     }
     return ModelAnim_IsAnimationDone(&active_pokemon->displayObject);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105AB0.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82105C8C; signature not recovered. */
@@ -872,8 +867,70 @@ void func_82106354(void) {
     func_82107A5C();
 }
 
+extern f32 D_FLT_82189354[];
+
+typedef struct { f32 v; f32 pad[3]; } RestHeightRow;
+
 #ifdef NON_MATCHING
-/* TODO: decompile func_82106374; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
+    switch (active_pokemon->modelTransformId) {
+        case 14:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            BattleScene_PositionParticipantModel(active_pokemon);
+            break;
+
+        case 13:
+        case 15:
+        case 16:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            if (active_pokemon->state.runtime.scaleResize == 0) {
+                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
+            } else {
+                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.8f, 0.8f, 0.8f);
+            }
+            break;
+
+        case 12:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            if (active_pokemon->state.runtime.scaleResize == 0) {
+                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
+            } else {
+                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.8f, 0.8f, 0.8f);
+            }
+            break;
+
+        case 10:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            active_pokemon->displayObject.position.y = ((RestHeightRow*)D_FLT_82189354)[M2C_FIELD(active_pokemon, s16*, 0x1A)].v;
+            active_pokemon->displayObject.rotation.x = 0;
+            break;
+
+        case 9:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.8f, 0.8f, 0.8f);
+            BattleScene_HideParticipantSecondaryModels(active_pokemon);
+            break;
+
+        case 7:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            BattleScene_HideParticipantSecondaryModels(active_pokemon);
+            break;
+
+        case 6:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            BattleScene_HideParticipantSecondaryModels(active_pokemon);
+            BattleScene_PositionParticipantModel(active_pokemon);
+            Vec3s_SetComponents(&active_pokemon->displayObject.rotation, 0, active_pokemon->facingDirection << 0xE, 0);
+            break;
+
+        case 4:
+            BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
+            active_pokemon->displayObject.rotation.y = active_pokemon->facingDirection << 0xE;
+            BattleScene_HideParticipantSecondaryModels(active_pokemon);
+            break;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106374.s")
 #endif

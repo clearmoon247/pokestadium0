@@ -734,7 +734,7 @@ M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32,
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B6AC(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_8213BC7C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E7A0;
 extern M2C_UNK func_82152FB0;
 extern M2C_UNK func_821624FC;
@@ -865,7 +865,7 @@ void BattleAnim_AllocateEffect125DisplayList(s32 arg0, arg1_func_84344CE8* arg1)
 }
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82144750;
 extern M2C_UNK func_82154EA4;
 
@@ -1114,7 +1114,7 @@ void func_821558F4(s8 *arg0) {
 }
 
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E7D0;
 extern s16 D_8219A80A;
 extern M2C_UNK func_82155724;
@@ -1258,7 +1258,7 @@ void func_82155EF0(s8 *arg0) {
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B8EC(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 
 void func_82155FD0(void) {
     func_8213B644(0, 0x10, 0x33);
@@ -1270,7 +1270,7 @@ M2C_UNK func_8213B458(M2C_UNK);                     /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213BE70(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E650;
 extern M2C_UNK D_8218E7A0;
 extern M2C_UNK D_8218E7D0;
@@ -1539,7 +1539,7 @@ void BattleAnim_CallbackStartEffect40ModelFadeCycle(Particle* arg0) {
 }
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82156B0C;
 
 void func_82156B90(void) {
@@ -2470,13 +2470,50 @@ void func_82159060(s8 *arg0) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8215917C; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_StartEffects50And82TintRampAndModelScaleFade(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, 6);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffects50And82ModelDelay, &gDefaultParticleDescriptor, 0x19, 1, 0xE, 0, 0x27, 0);
+    BattleAnim_SpawnDescriptor25AlphaFadeInHold(0, 0, 4, 8, 0x80);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x16, BattleAnim_CallbackStartEffects50And82ScalePulse, &D_8218E580[0x54], 0, 1, 0xC, 0, 0x33, 0);
+    BattleAnim_SpawnDescriptor25AlphaHoldFadeOut(0x1A, 3, 0x20, 8, 0xC8);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x1B, BattleAnim_CallbackStartEffects50And82CenterModelScalePaletteFade, &gDefaultParticleDescriptor, 0, 1, 9, 0, 0x21, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x1E, BattleAnim_CallbackStartEffects50And82OffsetModelsScalePaletteFade, &gDefaultParticleDescriptor, 0, 1, 9, 0, 0x21, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x22, BattleAnim_CallbackStartEffects50And82OffsetModelsScalePaletteFade, &gDefaultParticleDescriptor, 0, 1, 9, 0, 0x21, 1);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x26, BattleAnim_CallbackStartEffects50And82OffsetModelsScalePaletteFade, &gDefaultParticleDescriptor, 0, 1, 9, 0, 0x21, 2);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x28, BattleAnim_CallbackStartEffects50And82Descriptor48AnimatedScaleFade, &D_8218E580[0x48], 0, 6, 0x10, 9, 0x1A, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x32, 2, 2, BattleAnim_CallbackStartEffects50And82Descriptor4AAnimatedVerticalFade, &D_8218E580[0x4A], 0, 1, 9, 0, 0x1A, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x33, 2, 2, BattleAnim_CallbackStartEffects50And82Descriptor4AAnimatedVerticalFade, &D_8218E580[0x4A], 0, 1, 9, 0, 0x1A, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x34, 2, 2, BattleAnim_CallbackStartEffects50And82Descriptor4AAnimatedVerticalFade, &D_8218E580[0x4A], 0, 1, 9, 0, 0x1A, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x36, 2, 2, BattleAnim_CallbackStartEffects50And82Descriptor4AAnimatedVerticalFade, &D_8218E580[0x4A], 0, 1, 9, 0, 0x1A, 0);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x16, 8, 0, 0xFF, 0x40);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x24, 8, 0xFF, 0xDC, 0xC);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactiveAlt(0x28, 8, 0x17, 0x10, 0xDC);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactiveAlt(0x38, 0x17, 0x11, 0x10, 0xDC);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactiveAlt(0x40, 0x11, 0xE, 0x10, 0xDC);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x48, 0xE, 0xDC, 0xB4, 6);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215917C.s")
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82159548; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_EndEffects81And82TintRampAndModelScaleFade(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0xFF, 6);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackEndEffects81And82ModelScalePaletteFade, &gDefaultParticleDescriptor, 0, 1, 0xB, 0, 0x21, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(4, BattleAnim_CallbackEndEffects81And82ModelScalePaletteFade, &gDefaultParticleDescriptor, 0, 1, 0xB, 0, 0x21, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xA, 8, 4, BattleAnim_CallbackInitModelAnimWait, &gDefaultParticleDescriptor, 0, 1, 0xC, 0, 0x8, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xC, 8, 5, BattleAnim_CallbackEndEffects81And82Descriptor46AnimatedFade, &D_8218E580[0x46], 0, 5, 0x10, 9, 0x48, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xC, 4, 0xA, BattleAnim_CallbackEndEffects81And82Descriptor4AAnimatedColorFade, &D_8218E580[0x4A], 0, 4, 0xB, 9, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xC, 4, 0xA, BattleAnim_CallbackEndEffects81And82Descriptor4FAnimatedPaletteFade, &D_8218E580[0x4F], 0, 4, 0xE, 9, 0x1A, 0);
+    BattleAnim_SpawnOwnerModelTintRampDetach(3, 0x8, 0, 0xFF, 0x40);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0xA, 0x8, 0xFF, 0xE6, 5);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactiveAlt(0x10, 0x8, 0x17, 0x10, 0xDC);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactiveAlt(0x18, 0x17, 0x9, 0x10, 0xD2);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactiveAlt(0x28, 0x9, 0xE, 0x10, 0xC8);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x30, 0xE, 0xC8, 0xB4, 6);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82159548.s")
 #endif
@@ -2678,7 +2715,7 @@ void BattleAnim_CallbackStartEffect69ModelPhaseWait(Particle* arg0) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E708;
 extern M2C_UNK D_8218E7D0;
 extern M2C_UNK func_82159F70;
@@ -2697,7 +2734,7 @@ void BattleAnim_StartEffect52ModelAnim(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E708;
 extern M2C_UNK D_8218E728;
 extern M2C_UNK D_8218E7D0;
@@ -2721,7 +2758,7 @@ void BattleAnim_StartEffect55ModelAnimWaitMarkerSlotAndScaleFall(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82152F44;
 
 void func_8215A2DC(void) {
@@ -3116,7 +3153,7 @@ M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_8213C1BC(M2C_UNK);                     /* extern */
 M2C_UNK func_82168504();                            /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82152FB0;
 
 void func_8215B2B8(void) {
@@ -3130,7 +3167,7 @@ M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_8213C1BC(M2C_UNK);                     /* extern */
 M2C_UNK func_82168504();                            /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82152FB0;
 
 void func_8215B338(void) {
@@ -3181,7 +3218,7 @@ void ParticleEffect_PortraitBurstNode(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 s32 func_8213C4D0(M2C_UNK);                         /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern s16 D_8219A80A;
 extern M2C_UNK func_82152F44;
 
@@ -3199,7 +3236,7 @@ void func_8215B63C(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82152F44;
 
 void func_8215B764(void) {
@@ -3209,7 +3246,7 @@ void func_8215B764(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213BC7C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82152F44;
 
 void func_8215B7C8(void) {
@@ -3515,7 +3552,7 @@ void Gfx_PaletteParticleDLCallback(s32 arg0, arg1_func_84344CE8* arg1) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_82153040;
 extern M2C_UNK func_8215B904;
 
@@ -3573,7 +3610,7 @@ M2C_UNK func_8213B464(M2C_UNK);                     /* extern */
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_8215B904;
 
 void func_8215C7AC(void) {
@@ -3587,7 +3624,7 @@ M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E728;
 extern M2C_UNK func_8215B904;
 extern M2C_UNK func_82162C68;
@@ -3706,7 +3743,7 @@ M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8213B878(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E728;
 extern M2C_UNK func_82162C68;
 
@@ -3726,7 +3763,7 @@ M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E728;
 extern M2C_UNK func_82162C68;
 
@@ -3781,7 +3818,7 @@ M2C_UNK func_8213B464(M2C_UNK);                     /* extern */
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8214DA90();                            /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E5D8;
 extern M2C_UNK func_821530F4;
 extern M2C_UNK func_82164AD0;
@@ -3813,7 +3850,7 @@ void func_8215D520(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern s16 D_8219A80A;
 extern M2C_UNK func_82152F44;
 
@@ -4027,7 +4064,7 @@ void ParticleEffect_SimpleNodeEntry(void) {
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213BC7C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E728;
 extern M2C_UNK func_8215DCE8;
 extern M2C_UNK func_82162C68;
@@ -4071,7 +4108,7 @@ M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B6AC(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_8213BC7C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_821530F4;
 
 void func_8215E050(void) {
@@ -4085,7 +4122,7 @@ M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B6AC(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_8213BC7C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_821530F4;
 
 void func_8215E0FC(void) {
@@ -4101,7 +4138,7 @@ M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32,
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E728;
 extern M2C_UNK func_8215DFB4;
 extern M2C_UNK func_82162C68;
@@ -4123,7 +4160,7 @@ M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32,
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E728;
 extern M2C_UNK func_8215DFB4;
 extern M2C_UNK func_82162C68;
@@ -4171,7 +4208,7 @@ M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32,
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_8213C0D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK D_8218E770;
 extern s16 D_8219A80A;
 extern M2C_UNK func_82152FE0;
@@ -4327,7 +4364,7 @@ void BattleAnim_EndEffect72Descriptor20ModelAnimWaitSequence(void) {
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_82168A50();                            /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_821530F4;
 
 void func_8215EC9C(void) {
@@ -4359,7 +4396,7 @@ void BattleAnim_CallbackEndEffect76DefaultDescriptorModelFade(Particle* arg0) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_8215ED1C;
 
 void func_8215EDC0(void) {
@@ -4382,7 +4419,7 @@ void ParticleEffect_TriggerDefaultPalette1BWithTintFade(void) {
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213BC00(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern s16 D_8219A80A;
 extern M2C_UNK func_82152F44;
 
@@ -4421,7 +4458,7 @@ void BattleAnim_CallbackStartEffects118And119ModelPalettePulse(Particle* arg0) {
 }
 
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_8215EFF8;
 
 void func_8215F0F0(void) {
@@ -4429,7 +4466,7 @@ void func_8215F0F0(void) {
 }
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
-extern M2C_UNK D_8218E580;
+extern ParticleDescriptor D_8218E580[];
 extern M2C_UNK func_8215EFF8;
 
 void func_8215F154(void) {

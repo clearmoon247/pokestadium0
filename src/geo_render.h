@@ -115,7 +115,7 @@ void GeoRender_RestoreRenderMode(UNUSED unk_D_800ABB10* arg0);
 void GeoRender_SetPrimitiveColor(unk_D_800ABB10* arg0);
 void GeoRender_SetCombineTableEntry(unk_D_800ABB10* arg0);
 void GeoRender_DisableTexture(UNUSED unk_D_800ABB10* arg0);
-void GeoRender_BindTexture(unk_D_800ABB10* arg0);
+void GeoRender_BindTexture(unk_D_800ABB28* arg0, unk_D_800ABB10* arg1);
 void GeoRender_EnableTextureGeneration(UNUSED unk_D_800ABB10* arg0);
 void GeoRender_SelectMaterialSlot(s16 arg0);
 void GeoRender_SetTextureMode(s16 arg0);
