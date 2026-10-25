@@ -19,11 +19,26 @@ void FatalError_DrawMessagePanel(s32 arg0);
 void FatalError_DrawPortDiagram(s32 arg0);
 
 void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
-#ifdef NON_MATCHING
-/* TODO: decompile func_81600020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment025_2B16A0/func_81600020.s")
-#endif
+void FatalError_DrawBackgroundPattern(s32 arg0, s32 arg1, s32 arg2) {
+    s32 i;
+    s32 j;
+    s32 idx;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_COPY);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetCombineMode(gDisplayListHead++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_NOOP, G_RM_NOOP2);
+
+    for (i = 0; i < 0xF0; i += 0x10) {
+        for (j = 0; j < 0x140; j += 0x40) {
+            idx = (i % 64) * 32;
+            Gfx_DrawTextureRgba16(j, i, 0x40, 0x10, &D_2000000[idx * 4], 0x40, 0x200000);
+        }
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 void FatalError_DrawIcon(s32 arg0, s32 arg1) {
     gDPPipeSync(gDisplayListHead++);

@@ -24,11 +24,27 @@ s32 BattleAnim_GetOwnerSpecies(ActivePokemon* active_pokemon);
 u8 BattleScene_IsParticipantModelVisible(ActivePokemon* active_pokemon);
 void BattleScene_GetParticipantModelPosition(ActivePokemon* pokemon, Vec3f* dest);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107790; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107790.s")
-#endif
+extern f32 D_FLT_82189354[][4];
+
+void BattleScene_PositionParticipantModel(ActivePokemon* active_pokemon) {
+    if (BattleScene_GetParticipantSideIndex(active_pokemon) == 0) {
+        if (active_pokemon->displayObject.objectType == GYARADOS) {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -200.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+        } else if ((active_pokemon->displayObject.objectType == VENUSAUR) || (active_pokemon->displayObject.objectType == LAPRAS)) {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -175.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+        } else if (active_pokemon->displayObject.objectType == ONIX) {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -200.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 7.5000005f);
+        } else {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -150.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+        }
+    } else if ((active_pokemon->displayObject.objectType == GYARADOS) || (active_pokemon->displayObject.objectType == ONIX)) {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, 200.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+    } else if ((active_pokemon->displayObject.objectType == VENUSAUR) || (active_pokemon->displayObject.objectType == LAPRAS)) {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, 175.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+    } else {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, 150.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+    }
+}
 
 f32 BattleScene_GetParticipantModelXOffset(ActivePokemon* active_pokemon) {
     if (BattleScene_GetParticipantSideIndex(active_pokemon) == 0) {
@@ -317,11 +333,43 @@ void BattleScene_InitializeParticipantAuxiliaryModel(ActivePokemon* active_pokem
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210840C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210840C.s")
-#endif
+void BattleScene_ReinitParticipantBodyModel(ActivePokemon* owner, ActivePokemon* pokemon, s16 object_type) {
+    UNUSED s32 pad;
+    ModelNodeView* model_node = Battle_GetLoadedModelNode(owner, 0);
+    s32 side = BattleScene_GetParticipantSideIndex(owner);
+    UNUSED s32 pad2;
+
+    ModelRenderer_ClearDisplayObject(&pokemon->displayObject);
+
+    if (owner == sActivePokemon[0]) {
+        pokemon->displayObject.effectSlot = 0;
+    } else {
+        pokemon->displayObject.effectSlot = 1;
+    }
+
+    Model_InitDisplayObject(&pokemon->displayObject, 0, object_type, model_node);
+    func_8210213C(owner);
+    ModelAnim_SetFrame(&pokemon->displayObject, 0);
+    ModelAnim_SetAnimation(&pokemon->displayObject, 0);
+
+    owner->sessionTeams->unk_04 = &owner->teamRoster->pokemonPicked[owner->state.rosterIndex];
+    if ((pokemon->displayObject.objectType == DIGLETT) || (pokemon->displayObject.objectType == DUGTRIO)) {
+        pokemon->displayObject.node.renderFlags &= 0xFFBF;
+    } else {
+        pokemon->displayObject.node.renderFlags |= 0x40;
+    }
+
+    if (!(owner->state.flags & ACTIVE_AIRBORNE)) {
+        if (owner == sActivePokemon[0]) {
+            BattleScene_PositionParticipantModel(owner);
+            pokemon->displayObject.rotation.y = 0x4000;
+        } else {
+            BattleScene_PositionParticipantModel(owner);
+            pokemon->displayObject.rotation.y = -0x4000;
+        }
+    }
+    func_8000D41C(&M2C_FIELD(owner, Vec3f*, 0x5DC), M2C_FIELD(owner, s32*, 0x60C) * D_82199DF0[side][0], D_82199DF0[side][1], D_82199DF0[side][2]);
+}
 
 void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, ThumbnailState* thumbnail, s16 object_type) {
     ModelNodeView* model_node;

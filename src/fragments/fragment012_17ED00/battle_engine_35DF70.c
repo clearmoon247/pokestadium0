@@ -228,11 +228,32 @@ void Battle_Effect_Paralyze(void) {
     func_8211EF74(D_8219A520 + 0x88, -0x41, D_8218C8B8, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821155DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821155DC.s")
-#endif
+extern s32 D_8218C910;
+extern s32 D_8218C914;
+extern s32 D_8218C918;
+void func_82105E38(ActivePokemon*, s32);
+
+void Battle_Effect_Substitute(void) {
+    s32 temp_v1;
+
+    sBattleScene.scene->unk_48 = 0x19;
+    if (sBattleUser->unk_4D & 0x10) {
+        func_8211EF74(D_8219A520 + 0x88, -0x2B, D_8218C910, func_82107F88(sActivePokemon[sBattleScene.scene->unk_2C]));
+        return;
+    }
+
+    temp_v1 = sBattleUser->unk_28 >> 2;
+    if (sBattleUser->unk_0C < temp_v1) {
+        func_8211EF74(D_8219A520 + 0x88, -0x2A, D_8218C914);
+        return;
+    }
+
+    func_82105E38(sActivePokemon[sBattleScene.scene->unk_2C], 0x2800);
+    sBattleUser->unk_59 = temp_v1;
+    sBattleUser->unk_0C -= temp_v1;
+    sBattleUser->unk_4D |= 0x10;
+    func_8211EF74(D_8219A520 + 0x88, -0x29, D_8218C918, func_82107F88(sActivePokemon[sBattleScene.scene->unk_2C]));
+}
 
 void Battle_Effect_Recharge(void) {
     sBattleUser->unk_4D |= 0x20;
@@ -306,11 +327,48 @@ void Battle_Effect_Conversion(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82115C68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115C68.s")
-#endif
+extern s32 D_8218C8E4;
+
+void Battle_Effect_Haze(void) {
+    s32 i;
+    BattleMonRuntime* temp_t0 = &sActivePokemon[0]->state.runtime;
+    BattleMonRuntime* temp_a3 = &sActivePokemon[1]->state.runtime;
+
+    sBattleScene.scene->unk_48 = 0x1D;
+
+    for (i = 0; i < 8; i++) {
+        temp_t0->unk_5C[i] = 7;
+        temp_a3->unk_5C[i] = 7;
+    }
+
+    temp_t0->unk_2A = temp_t0->unk_38;
+    temp_t0->unk_2C = temp_t0->unk_3A;
+    temp_t0->speed = temp_t0->unk_3C;
+    temp_t0->unk_30 = temp_t0->unk_3E;
+    temp_a3->unk_2A = temp_a3->unk_38;
+    temp_a3->unk_2C = temp_a3->unk_3A;
+    temp_a3->speed = temp_a3->unk_3C;
+    temp_a3->unk_30 = temp_a3->unk_3E;
+
+    if (sBattleTarget->unk_15 & 0x27) {
+        sBattleTarget->usedMove = 0xFF;
+    }
+
+    sBattleTarget->unk_15 = 0;
+
+    temp_t0->unk_52 = temp_a3->unk_52 = 0;
+    temp_t0->unk_57 = temp_a3->unk_57 = 0;
+    temp_t0->unk_4C &= ~0x80;
+    temp_t0->unk_4D &= 0x78;
+    temp_t0->unk_4E &= 8;
+    temp_a3->unk_4C &= ~0x80;
+    temp_a3->unk_4D &= 0x78;
+    temp_a3->unk_4E &= 8;
+    sBattleUser->scaleResize = 0;
+    sBattleTarget->scaleResize = 0;
+
+    func_8211EF74(D_8219A520 + 0x88, -0x36, D_8218C8E4);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82115DE0; signature not recovered. */

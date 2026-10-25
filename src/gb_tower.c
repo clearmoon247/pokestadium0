@@ -119,11 +119,48 @@ void GbTower_PowerOffAllPaks(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000BDC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000BDC0.s")
-#endif
+extern u8 D_800A82A6;
+extern u8 D_800AB1F6;
+
+s32 GbTower_ScanPaks(void) {
+    s32 i;
+    s32 temp_v0;
+    u8 status;
+    OSGbpakId sp4C;
+
+    D_800AB1F5 = 0;
+    D_800AB1F4 = 0;
+    D_800AB1F7 = 0;
+    D_800AB1F8 = 0;
+    osPfsIsPlug(&gSIEventMesgQueue, &D_800AB1F6);
+
+    for (i = 0; i < 4; i++) {
+        if (D_800AB1F6 & (1 << i)) {
+            if (osGbpakInit(&gSIEventMesgQueue, &D_800AB050[i], i) == 0) {
+                D_800AB1F4 |= (1 << i);
+                temp_v0 = osGbpakReadId(&D_800AB050[i], &sp4C, &status);
+                if (temp_v0 == 0) {
+                    if (!(status & 8)) {
+                        Game_ShutdownAndLoadFragment(i, 2);
+                    }
+                    if (osGbpakCheckConnector(&D_800AB050[i], &status) == 0) {
+                        osGbmbcRamEnable(&D_800AB050[i]);
+                        D_800AB1F5 |= (1 << i);
+                        D_800AB1F0[i] = 1;
+                    } else {
+                        Game_ShutdownAndLoadFragment(i, 2);
+                    }
+                } else {
+                    D_800AB1F0[i] = 0;
+                    if (temp_v0 == 4) {
+                        Game_ShutdownAndLoadFragment(i, 2);
+                    }
+                }
+            }
+        }
+    }
+    return (D_800AB1F5 << 0x10) | D_800AB1F4;
+}
 
 s32 GbPak_IsCartOff(s32 arg0) {
     u8 status;

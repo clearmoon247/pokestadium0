@@ -334,11 +334,65 @@ void Ui_AdjustSteppedScrollSelection(unk_func_8002DE78_arg0* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002B4B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002B4B4.s")
-#endif
+s32 Ui_AdjustNumericSelection(unk_func_8830867C_044_038_030* arg0, s32 arg1) {
+    s32 var_t1;
+    s32 var_a2;
+    s32 i;
+
+    var_a2 = 1;
+
+    for (i = arg0->unk_10; i > 0; i--) {
+        var_a2 *= 10;
+    }
+
+    switch (arg1) {
+        case 0x200:
+            if (arg0->unk_10 + 1 < arg0->unk_0C) {
+                arg0->unk_10 = arg0->unk_10 + 1;
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+
+        case 0x100:
+            if (arg0->unk_10 > 0) {
+                arg0->unk_10--;
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+
+        case 0x800:
+            if (arg0->unk_00 == arg0->unk_08) {
+                arg0->unk_00 = arg0->unk_00 - ((arg0->unk_00 / var_a2) * var_a2);
+                if (arg0->unk_00 < arg0->unk_04) {
+                    arg0->unk_00 = arg0->unk_04;
+                }
+            } else {
+                arg0->unk_00 += var_a2;
+                if (arg0->unk_08 < arg0->unk_00) {
+                    arg0->unk_00 = arg0->unk_08;
+                }
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+
+        case 0x400:
+            if (arg0->unk_00 == arg0->unk_04) {
+                arg0->unk_00 = arg0->unk_08;
+            } else {
+                arg0->unk_00 -= var_a2;
+                if (arg0->unk_00 < arg0->unk_04) {
+                    arg0->unk_00 = arg0->unk_04;
+                }
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+    }
+    return var_t1;
+}
 
 s32 Ui_HandleNumericSelectionInput(unk_func_8820E99C_030_030* arg0) {
     s32 sp1C = Input_GetRepeatedDPad() & 0xFFFF;

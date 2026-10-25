@@ -87,11 +87,29 @@ void ModelRenderer_ClearSlotModels(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80032A6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032A6C.s")
-#endif
+extern s16 D_800AFB28;
+extern unk_D_800B2EA8 D_800B3218[];
+extern u8 D_80075C10[];
+extern u8 D_80075A68[];
+
+void ModelRenderer_UpdateSlotModel(void) {
+    u8 index;
+    s32 mode;
+
+    mode = ModelRenderer_GetActiveMode();
+    index = (u8)mode;
+    if (mode < 2) {
+        ModelRenderer_CacheSlotMatrices(index);
+        ModelRenderer_RebuildSlotMatrix(index);
+        ModelRenderer_ApplySlotScale(index);
+
+        if (D_8006049C->objectType == 0x92) {
+            func_800339CC(&D_800B0338[index][D_800AFB28].model, D_800B3218, D_800AFB38[index].mtx, D_80075C10);
+            return;
+        }
+        func_800339CC(&D_800B0338[index][D_800AFB28].model, D_800B3218, D_800AFB38[index].mtx, D_80075A68);
+    }
+}
 
 extern s16 D_800AF7C0[4];
 extern s16 D_800AFB30[];

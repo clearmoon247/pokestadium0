@@ -3564,3 +3564,7 @@ BattleScene_PhaseMoveFailedMessage = 0x8212F440; // type:func stadium1
 Battle_Effect_Haze = 0x82115C68; // type:func stadium1
 BattleScene_ApplyCameraShake = 0x82121F8C; // type:func stadium1
 BattleAnim_IsSessionBusy = 0x82101FC4; // learned from func_82108C0C
+BattleScene_ReinitParticipantBodyModel = 0x8210840C; // type:func stadium1
+GbTower_ScanPaks = 0x8000BDC0; // type:func stadium1
+D_3002220 = 0x03002220; // learned from func_82300020
+D_3002820 = 0x03002820; // learned from func_82300020

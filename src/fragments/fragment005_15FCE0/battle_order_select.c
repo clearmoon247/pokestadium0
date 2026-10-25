@@ -30,11 +30,32 @@ void BattleMenu_HandleOrderSelectPanel_LevelCapNoticeInput(Controller* arg0, unk
 void BattleMenu_RearrangeLeadPokemon(BattleSessionTeams* arg0, unk_D_84803760* arg1);
 void BattleMenu_FillDefaultOrder(s8* arg0, s32 arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82300020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82300020.s")
-#endif
+extern void* D_84803784;
+extern char** D_84803790;
+void func_8001CC90(s32, s32, s32, s32, s32);
+extern char D_82302A08[];
+extern char D_82302A0C[];
+extern char D_82302A10[];
+extern char D_82302A20[];
+
+void BattleMenu_DrawBottomActionButtons(void) {
+    func_8001CC90(0, 0x1E0, 0xAB, 0x49, 0x66);
+
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+
+    Gfx_DrawTextureRgba16(0x71, 0x1A8, 0x20, 0x18, D_3002220, 0x20, 0x200000);
+    Gfx_DrawTextureRgba16(0x162, 0x1A8, 0x20, 0x18, D_3002820, 0x20, 0x200000);
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(8, 0);
+    Font_Printf(0x5A, 0x1AA, D_82302A08);
+    Font_Printf(0x149, 0x1AA, D_82302A0C);
+    Font_Printf(0x91, 0x1A8, D_82302A10);
+    Font_Printf(0x180, 0x1A8, D_82302A20);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8230016C; signature not recovered. */
@@ -569,11 +590,37 @@ void BattleMenu_CommitOrderSelection(void) {
     BattleMenu_RearrangeLeadPokemon(&D_82302BD0->battleSides[1], &D_82302B20[1]);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82302288; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82302288.s")
-#endif
+
+void BattleMenu_AddOrderSelectPanel(s16 arg0, s16 arg1, TeamRoster* arg2, s32 arg3, s32 arg4) {
+    s32 i;
+    unk_D_848037A0* temp_v1;
+    s32 j;
+
+    j = D_82302B44;
+    temp_v1 = &((unk_D_848037A0*)&D_82302B48)[D_82302B44];
+    temp_v1->unk_0000 = D_82302B44;
+    temp_v1->unk_0001 = arg2->controllerPort;
+    temp_v1->unk_0002 = arg4;
+    temp_v1->unk_0003 = arg3;
+    temp_v1->unk_0005 = 0;
+    temp_v1->unk_000B = 0;
+    temp_v1->unk_0006 = 2;
+    temp_v1->unk_0007 = 0;
+    temp_v1->unk_0009 = 0;
+    temp_v1->unk_000A = 0;
+    temp_v1->unk_0012 = arg0;
+    temp_v1->unk_0014 = arg1;
+    temp_v1->unk_0016 = arg2->rosterInfo->numberOfPokemonCanBePicked;
+    temp_v1->unk_0018 = arg2->rosterInfo->unk_028;
+    temp_v1->unk_001C = arg2;
+
+    for (i = 0; i < arg2->rosterInfo->numberOfPokemonCanBePicked; i++, j += 4) {
+        Pokemon_PrepareBattleMon(&arg2->rosterInfo->unk_028[i]);
+        func_8001833C((unk_func_8001A024*)D_82302BCC, j, &arg2->rosterInfo->unk_028[i], D_82302800[arg2->controllerPort]);
+    }
+
+    D_82302B44++;
+}
 
 extern s32 D_82302BFC;
 extern s16 D_82302B42;

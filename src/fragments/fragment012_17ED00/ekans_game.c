@@ -219,11 +219,22 @@ void BattleAnim_StartEffect7TexturedRibbonSheet_Draw(void) {
     gDisplayListHead = TexturedRibbonSheet_Draw(gDisplayListHead);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216E680; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E680.s")
-#endif
+void BattleAnim_StartEffect33Radial20_EmitVariantC(void) {
+    f32 sp74;
+    f32 sp70;
+    f32 sp6C;
+    f32 sp68;
+    f32 sp64;
+    f32 sp60;
+
+    BattleAnim_CalcVectorAtToDm(&sp74, &sp70, &sp6C, &sp68, &sp64, &sp60);
+    sp68 *= 8.0f;
+    sp64 *= 4.0f;
+    sp60 = 0.0f;
+    sp64 += 6.0f;
+    Radial20_VariantC(sp74, sp70, sp6C, sp68, (((guRandom() % 5) * 0.1) + sp64) - 0.2,
+                      (sp60 - ((guRandom() % 5) * 0.3)) + 0.6, 3, 0xFF, 0xFF, 0xFF, 0x64, 0.1f, 1.0f, 3.0f, 0x3C);
+}
 
 void BattleAnim_StartEffect33Radial20_Init(void) {
     D_8219CB12 = 0;

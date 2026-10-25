@@ -669,11 +669,41 @@ void Geo_NodeType3Pass(GraphNode* arg0) {
     D_8006048C = NULL;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80013C68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80013C68.s")
-#endif
+extern u8 D_800AC690;
+extern u8 D_800AC6A8;
+
+void Geo_NodeModelRoot(GraphNode* arg0) {
+    unk_D_86002F34_alt1* arg = (unk_D_86002F34_alt1*)arg0;
+
+    if (arg->node.children != NULL) {
+        arg->unk_1D = 0;
+        arg->lights = Gfx_AllocDisplayList(sizeof(Lights7));
+        arg->unk_1C = 0;
+        arg->lights->a.l.col[0] = 0;
+        arg->lights->a.l.col[1] = 0;
+        arg->lights->a.l.col[2] = 0;
+
+        gSPClearGeometryMode(gDisplayListHead++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING |
+                                                     G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH);
+        gSPSetGeometryMode(gDisplayListHead++, G_SHADE | G_CULL_BACK | G_SHADING_SMOOTH);
+        gSPTexture(gDisplayListHead++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
+        gDPSetCycleType(gDisplayListHead++, G_CYC_2CYCLE);
+
+        D_800AC690 = 0;
+        D_800AC6A8 = 0;
+        GeoRender_InitMatrixStack();
+        GeoRender_ResetTransformStack();
+
+        gSPMatrix(gDisplayListHead++, (u32)D_800AB460.unk_1000[D_800AB460.unk_10A0] & 0x1FFFFFFF,
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        D_80060490 = arg;
+        Geo_ProcessNodeChildren(arg0);
+        D_80060490 = NULL;
+    }
+
+    arg->unk_1A = D_80060484;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80013DC8; signature not recovered. */
