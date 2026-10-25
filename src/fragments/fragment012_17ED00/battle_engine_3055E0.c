@@ -350,11 +350,26 @@ void BattleScene_SetDamageShakeAmplitude(ActivePokemon* arg0) {
     M2C_FIELD(sBattleScene.scene, s16*, 0x6C) = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82121F8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82121F8C.s")
-#endif
+void BattleScene_ApplyCameraShake(CameraNode* arg0) {
+    UNUSED s32 pad;
+    f32 sp30;
+    f32 temp_fv0;
+    s16 sp2A;
+    s16 sp28;
+
+    BattleAnim_CalculateDistanceAngles(&arg0->view.eyePosition, &arg0->view.targetPosition, &sp30, &sp28, &sp2A);
+    M2C_FIELD(sBattleScene.scene, s16*, 0x6C) += 0x4000;
+    BattleAnim_ApproachF(&M2C_FIELD(sBattleScene.scene, f32*, 0x68), 0.0f, 0.15f);
+
+    temp_fv0 = M2C_FIELD(sBattleScene.scene, f32*, 0x68) * COSS(M2C_FIELD(sBattleScene.scene, s16*, 0x6C));
+
+    arg0->view.eyePosition.y += temp_fv0 / 3.0f;
+    arg0->view.targetPosition.y += temp_fv0 / 3.0f;
+    arg0->view.eyePosition.x += temp_fv0 * SINS(sp2A + 0x4000);
+    arg0->view.eyePosition.z += temp_fv0 * COSS(sp2A + 0x4000);
+    arg0->view.targetPosition.x += temp_fv0 * SINS(sp2A + 0x4000);
+    arg0->view.targetPosition.z += temp_fv0 * COSS(sp2A + 0x4000);
+}
 
 extern s8 *D_8219A5A0;
 

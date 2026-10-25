@@ -459,11 +459,34 @@ void func_82108A88(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108A94.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108C0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108C0C.s")
-#endif
+void Battle_ResetModelToIdleAnim(ActivePokemon* active_pokemon) {
+    s32 idx;
+    ActivePokemonState* state;
+    u8* idle_cue;
+    u8* flying_idle_cue;
+    u8* sleep_idle_cue;
+
+    state = &active_pokemon->state;
+    idx = BattleScene_GetParticipantSideIndex(active_pokemon);
+    idle_cue = (u8*)sSideBattleCues[idx] + 0x717;
+    idx = BattleScene_GetParticipantSideIndex(active_pokemon);
+    flying_idle_cue = (u8*)sSideBattleCues[idx] + 0x790;
+    idx = BattleScene_GetParticipantSideIndex(active_pokemon);
+    sleep_idle_cue = (u8*)sSideBattleCues[idx] + 0x785;
+
+    if (!(state->flags & 0x4002) && (BattleAnim_IsSessionBusy(active_pokemon) == 0) && (active_pokemon->displayObject.transformAnim.animationId != -1)) {
+        if (state->flags & 0x200) {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, *flying_idle_cue);
+        } else if ((state->flags & 1) && ((active_pokemon->displayObject.objectType == 0x39) || (active_pokemon->displayObject.objectType == 0x67))) {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, *sleep_idle_cue);
+        } else if (active_pokemon->displayObject.objectType == 0x84) {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, BattleAnim_RandomRange(5) + 13);
+        } else {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, *idle_cue);
+        }
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+    }
+}
 
 void Battle_SetModelToHitAnim(ActivePokemon* active_pokemon) {
     extern PokemonBattleCues* D_82189180[];

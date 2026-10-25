@@ -800,17 +800,57 @@ void BattleAnim_MeditateStart(UNUSED ActivePokemon* owner, ActivePokemon* animat
     animated_pokemon->modelTransformTimer++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210B2C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B2C4.s")
-#endif
+void BattleAnim_MeditateContinue(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    f32 scale_resize;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210B3F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B3F0.s")
-#endif
+    // clang-format off
+    if ((animated_pokemon->oscillationVelocityEasePhase >= 0) && (animated_pokemon->oscillationVelocityEasePhase <= 0x8000)) { animated_pokemon->oscillationVelocityEasePhase += 45; }
+    // clang-format on
+
+    animated_pokemon->oscillationAngularVelocity = SINS(animated_pokemon->oscillationVelocityEasePhase) * 182.0f * 15.0f;
+
+    if ((animated_pokemon->oscillationPhase >= 0) && (animated_pokemon->oscillationPhase <= NINETY_DEGREES)) {
+        animated_pokemon->oscillationPhase += animated_pokemon->oscillationAngularVelocity;
+    }
+
+    scale_resize = 1.0f;
+
+    owner->displayObject.scale.x = scale_resize - (SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude);
+    owner->displayObject.scale.y = (SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude) + scale_resize;
+    owner->displayObject.scale.z = scale_resize - (SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude);
+
+    if ((animated_pokemon->oscillationPhase >= NINETY_DEGREES) && (animated_pokemon->oscillationPhase >= NINETY_DEGREES)) {
+        animated_pokemon->oscillationAngularVelocity = 5460;
+        animated_pokemon->modelTransformTimer++;
+    }
+}
+
+void BattleAnim_MeditateEnd(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    f32 scale_resize;
+    f32 sin_value;
+
+    animated_pokemon->oscillationPhase += animated_pokemon->oscillationAngularVelocity;
+    sin_value = SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude;
+    if (sin_value <= 0.01f) {
+        animated_pokemon->oscillationAngularVelocity += 1092;
+        animated_pokemon->oscillationAmplitude *= 0.8f;
+        if (1) {} //karodo
+        sin_value = SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude;
+    }
+
+    scale_resize = 1.0f;
+
+    owner->displayObject.scale.x = scale_resize - sin_value;
+    owner->displayObject.scale.y = (SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude) + scale_resize;
+    owner->displayObject.scale.z = scale_resize - (SINS(animated_pokemon->oscillationPhase) * animated_pokemon->oscillationAmplitude);
+
+    if (animated_pokemon->oscillationAmplitude <= 0.01f) {
+        owner->displayObject.scale.x = animated_pokemon->modelTransform.rotation.x;
+        owner->displayObject.scale.y = animated_pokemon->modelTransform.rotation.y;
+        owner->displayObject.scale.z = animated_pokemon->modelTransform.rotation.z;
+        BattleScene_ResetParticipantModelFlags(animated_pokemon);
+    }
+}
 
 void func_8210B2C4(ActivePokemon* owner, ActivePokemon* animated_pokemon);
 void func_8210B3F0(UNUSED ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon);
@@ -830,8 +870,6 @@ void func_8210B520(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_SquishHitReactionStart(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
     animated_pokemon->oscillationAngularVelocity = 1820;
     animated_pokemon->oscillationAmplitude = 0.4f;
@@ -840,9 +878,6 @@ void BattleAnim_SquishHitReactionStart(ActivePokemon* owner, ActivePokemon* anim
     animated_pokemon->modelTransform.rotation.z = owner->displayObject.scale.z;
     animated_pokemon->modelTransformTimer++;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B58C.s")
-#endif
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
