@@ -292,11 +292,11 @@ void func_8213D4D4(s8 *arg0, f32 arg1) {
     M2C_FIELD(arg0, f32 *, 0x3C) = (f32) (arg1 * D_FLT_8219A824);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D4EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D4EC.s")
-#endif
+void Particle_Field38_AddVecScaledFromVec3f_08D78(Particle* arg0, Vec3f arg1) {
+    arg0->unk_38.x += arg1.x * gParticleRenderContext.unk_00.y;
+    arg0->unk_38.y += arg1.y * gParticleRenderContext.unk_00.y;
+    arg0->unk_38.z += arg1.z * gParticleRenderContext.unk_00.y;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213D54C; signature not recovered. */
@@ -778,11 +778,20 @@ s32 Particle_Field50_AddNegField74Y_CheckField2CYNonPositive_09F84(Particle* arg
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E7F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E7F4.s")
-#endif
+
+s32 Particle_Field74_AdvanceAndAddNegY_CheckField2CYNonPositive_09FD8(Particle* arg0) {
+    s32 sp1C = 0;
+
+    arg0->unk_74 += arg0->unk_78;
+    arg0->unk_7C.y = -arg0->unk_74;
+
+    func_8213E488(arg0);
+
+    if (arg0->unk_2C.y <= 0.0f) {
+        sp1C = 1;
+    }
+    return sp1C;
+}
 
 void Particle_SetVelocityTarget(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
     arg0->unk_5C.x = arg1 * gParticleRenderContext.unk_00.y;
@@ -1244,11 +1253,19 @@ s32 Particle_Field7C_IncrementYUntilAtLeast_0AFA8(Particle* arg0, f32 arg1, f32 
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F8EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F8EC.s")
-#endif
+s32 func_8213F8EC(Particle* arg0, f32 arg1, f32 arg2) {
+    s32 var_v1 = 0;
+    f32 temp_fv0;
+
+    arg0->unk_7C.x -= arg2 * gParticleRenderContext.unk_00.y;
+
+    temp_fv0 = arg1 * gParticleRenderContext.unk_00.y;
+    if (arg0->unk_7C.x <= temp_fv0) {
+        arg0->unk_7C.x = temp_fv0;
+        var_v1 = 1;
+    }
+    return var_v1;
+}
 
 s32 Particle_Field7C_DecrementXUntilAtMost_0B050(Particle* arg0, f32 arg1, f32 arg2) {
     f32 temp_fv0;

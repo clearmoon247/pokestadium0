@@ -530,11 +530,13 @@ void func_82136010(void) {
 void func_82136018(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82136020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82136020.s")
-#endif
+void BattleAnim_RunEffectInitStart(s16 arg0) {
+    sMoveAnimEffectStartInitFuncs[arg0]();
+    if (sBattleAnimAlternateAnchor != 0xFF) {
+        gBattleAnimCurrentAnchor = sBattleAnimAlternateAnchor;
+        sMoveAnimEffectStartInitFuncs[arg0]();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213608C; signature not recovered. */

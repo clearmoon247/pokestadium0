@@ -159,11 +159,17 @@ s32 func_80036A54(s8 *arg0, s32 arg1) {
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036A64; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036A64.s")
-#endif
+u8* Audio_SetVoiceFinePitch(channel_t* cp, u8* ptr) {
+    s32 value = *ptr++;
+
+    if (value & 0x80) {
+        value |= ~0xFF;
+    }
+    cp->freqoffset -= cp->distort;
+    cp->distort = (f32)value / 100.0;
+    cp->freqoffset += cp->distort;
+    return ptr;
+}
 
 u8* Audio_SetVoiceEnvelopeFromTable(channel_t* cp, u8* ptr) {
     s32 value = *ptr++;

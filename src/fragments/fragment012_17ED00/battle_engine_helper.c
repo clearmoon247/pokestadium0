@@ -83,17 +83,23 @@ s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107A80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107A80.s")
-#endif
+u8 BattleScene_GetMoveCueDefaultAnchor(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    UNUSED s16 pad2;
+    s16 move_index = active_pokemon->state.runtime.usedMove - 1;
+    MovePresentationCue* move_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[move_index];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107AD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107AD0.s")
-#endif
+    return move_cue->defaultAnchor;
+}
+
+u8 BattleScene_GetMoveCueAlternateAnchor(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    UNUSED s16 pad2;
+    s16 move_index = active_pokemon->state.runtime.usedMove - 1;
+    MovePresentationCue* move_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[move_index];
+
+    return move_cue->alternateAnchor;
+}
 
 s16 BattleScene_GetHitCueDefaultAnchor(ActivePokemon* active_pokemon) {
     MovePresentationCue* hit_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;

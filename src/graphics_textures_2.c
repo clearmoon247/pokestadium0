@@ -15,6 +15,8 @@
 extern FontContext* font_context;
 
 #include "m2c_macros.h"
+extern Gfx D_80060950[];
+extern Gfx D_800609A8[];
 
 void Font_ResetContext(UNUSED s32 arg0, UNUSED s32 arg1);
 s32 Font_GetSetIndexFromMask(s32 mask);
@@ -64,11 +66,13 @@ void Font_Free(void) {
     main_pool_try_free(font_context);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001A384; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001A384.s")
-#endif
+void Font_SetActive(s32 mask, s32 arg1) {
+    if (font_context != NULL) {
+        font_context->unk_50 = Font_GetSetIndexFromMask(mask);
+        font_context->unk_51 = arg1;
+        font_context->line_break_flag &= ~2;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8001A3E4; signature not recovered. */
@@ -116,21 +120,24 @@ void func_8001AB54(void) {
     M2C_FIELD(D_800AD200, u8 *, 0x3B) = (u8) (M2C_FIELD(D_800AD200, u8 *, 0x3B) & 0xFFFB);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001AB6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001AB6C.s")
-#endif
+void Font_BeginTranslucentTextRendering(void) {
+    font_context->line_break_flag = 0;
+    font_context->line_height = 0x28;
+    font_context->unk_4C = 0;
+
+    gSPDisplayList(gDisplayListHead++, D_80060950);
+}
 
 void Font_EndTexturedTextRendering(void) {
     gSPDisplayList(gDisplayListHead++, D_80060990);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001ABE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001ABE8.s")
-#endif
+void Font_EnableTwoCycleTexturing(void) {
+    font_context->line_break_flag |= 1;
+    font_context->line_break_flag &= ~2;
+
+    gSPDisplayList(gDisplayListHead++, D_800609A8);
+}
 
 extern Gfx D_800609D8[];
 

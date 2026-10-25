@@ -460,11 +460,18 @@ void func_89104818(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104854.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89104998; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104998.s")
-#endif
+void func_80027FF8(void*, s32);
+void func_891044F0(void*);
+extern M2C_UNK D_8910E380;
+extern M2C_UNK D_8910E3D0;
+
+void func_89104998(void) {
+    D_8910E37C = func_80025BD8();
+    if (D_8910E37C != -1) {
+        func_80027FF8(&D_8910E380, D_8910E37C);
+    }
+    func_891044F0(&D_8910E3D0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_891049E8; signature not recovered. */

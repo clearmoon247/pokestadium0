@@ -1045,11 +1045,11 @@ s32 BattleScene_DispatchLifecycle(s32 lifecycle_stage, BattleSessionTeams* sessi
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107160; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107160.s")
-#endif
+void BattleThumbnail_TriggerOwnerModelAnimation(ActivePokemon* active_pokemon) {
+    ModelAnim_SetFrame(&active_pokemon->thumbnail.displayObject, active_pokemon->thumbnail.idleTimer);
+    ModelAnim_SetAnimation(&active_pokemon->thumbnail.displayObject, active_pokemon->thumbnail.idleAnimation);
+    BattleThumbnail_SetFlagToUpdatePokemonThumbnail(active_pokemon->thumbnail.camera);
+}
 
 void func_821071AC(s8 *arg0) {
     M2C_FIELD(arg0, s32 *, 0x9D8) = 0;

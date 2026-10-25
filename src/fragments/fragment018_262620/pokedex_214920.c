@@ -424,11 +424,16 @@ void Pokedex_InitFramebuffers(void) {
     GfxImage_AttachDepthBuffer(D_8A12FFA0->renderTargets[1], sp28);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A101E84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101E84.s")
-#endif
+void func_80027FF8(void*, s32);
+void func_8A101154(void*);
+
+void func_8A101E84(void) {
+    D_8A130230 = func_80025BD8();
+    if (D_8A130230 != -1) {
+        func_80027FF8(&D_8A130238, D_8A130230);
+    }
+    func_8A101154(&D_8A12FFC0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A101ED4; signature not recovered. */

@@ -56,11 +56,12 @@ void ParticleGfx_LoadTextureCallbackIa8WrapST_64x64(UNUSED Particle* arg0, u8* t
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141128.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821411B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821411B4.s")
-#endif
+extern Vtx D_82190FC0[];
+
+void ParticleGfx_DrawBillboardTextureAlphaRotatedQuad(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetTextureAlphaCombine(arg0->prim_a);
+    ParticleGfx_DrawModelQuadRotated(arg1, arg0->unk_2C, arg0->unk_1C, D_82190FC0, arg0->unk_94.z);
+}
 
 extern Vtx D_82190E90[];
 

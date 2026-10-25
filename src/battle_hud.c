@@ -29,11 +29,22 @@ u8 ModelRenderer_GetActiveMode(void) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800325B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800325B0.s")
-#endif
+extern s16 D_800AF7AE;
+extern s16 D_800AFB26;
+extern s16 D_800AFB30[];
+extern u8 D_8100060C[];
+
+void func_800325B0(u32 arg0) {
+    void (*func)(u32);
+
+    D_800AFB26 = 0;
+    D_800AFB30[arg0 & 1] = 0;
+    if (arg0 < 2) {
+        ModelRenderer_ClearSlotModels(arg0);
+        func = Util_ConvertAddrToVirtAddr(D_8100060C);
+        func(arg0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003260C; signature not recovered. */
