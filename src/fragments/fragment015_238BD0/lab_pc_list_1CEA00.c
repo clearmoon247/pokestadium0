@@ -595,11 +595,25 @@ void func_890022D0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003A88.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89003D40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003D40.s")
-#endif
+extern Color_RGBA8 D_8900A6E8;
+extern Color_RGBA8 D_80073520;
+void func_8002A354(s32, s32, s32, s32, Color_RGBA8);
+void func_80029A64(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+void func_89003D40(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5) {
+    s32 temp_v0 = *arg5;
+
+    if (arg4 & 8) {
+        func_8002A354(arg0 + 3, arg1 + 3, temp_v0 - 6, 0x1A, D_8900A6E8);
+    } else if (arg4 & 2) {
+        func_80029A64(arg0 + 2, arg1 + 2, temp_v0 - 4, 0x1C, D_80073520);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89003E2C; signature not recovered. */

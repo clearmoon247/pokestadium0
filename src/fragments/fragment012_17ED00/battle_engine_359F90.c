@@ -295,11 +295,26 @@ void Battle_ExecuteMoveAnimation(void) {
     sBattleUser->moveCache.unk_05 = gMoveData[sBattleUser->usedMove - 1].unk_05;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111080; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111080.s")
-#endif
+extern s32 D_8218C780;
+void Battle_ApplyRageContinuation(void) {
+    BattleMonRuntime* sp1C;
+
+    if ((sBattleTarget->unk_4D & 0x40) && ((sBattleTarget->unk_5C[0]) != 0xD)) {
+        sp1C = sBattleUser;
+
+        sBattleUser = sBattleTarget;
+        sBattleUser->moveCache.lastMove = 0;
+        sBattleUser->moveCache.unk_01 = 10;
+
+        func_8211EF74(D_8219A520 + 0x348, 0x1F, D_8218C780, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+        Battle_ApplyRageStatBoost();
+
+        sBattleUser->moveCache.lastMove = RAGE;
+        sBattleUser->moveCache.unk_01 = 0;
+
+        sBattleUser = sp1C;
+    }
+}
 
 extern u8 D_843C4DB3;
 extern u8 D_82199F3F;

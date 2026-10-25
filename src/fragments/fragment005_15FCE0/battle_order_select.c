@@ -383,6 +383,7 @@ void BattleMenu_HandleOrderSelectPanel_PartyInput(Controller* arg0, unk_D_848037
     }
 }
 
+extern unk_D_848037A0 D_848037A0[4];
 #ifdef NON_MATCHING
 /* TODO: decompile func_82301CCC; signature not recovered. */
 #else

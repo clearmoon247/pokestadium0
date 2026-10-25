@@ -792,11 +792,13 @@ void func_82124194(CameraNode* arg0, ActivePokemon* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821243DC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124544; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124544.s")
-#endif
+void func_82124544(CameraNode* arg0, ActivePokemon* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6) {
+    BattleAnim_GetOwnerDefaultAnchorPosition(arg1, &M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0));
+    M2C_FIELD(sBattleScene.scene, f32*, 0x74) = BattleScene_ScaleCameraDistance(arg1, arg2, 50.0f * arg3);
+    M2C_FIELD(sBattleScene.scene, f32*, 0x5C) = BattleScene_ScaleCameraDistance(arg1, arg4, 50.0f * arg5);
+    BattleScene_SetCameraAtFromAnchor(arg1, arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, BattleScene_GetParticipantFacingAngle(arg1), 0.0f, 0.0f);
+    BattleScene_SetCameraEyeFromAt(arg0, arg6, BattleScene_GetParticipantFacingAngle(arg1), M2C_FIELD(sBattleScene.scene, f32*, 0x74), 0.0f);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82124664; signature not recovered. */

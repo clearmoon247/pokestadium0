@@ -570,11 +570,26 @@ void BattleScene_Row13PlaySequences14And21(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104208.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821043C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821043C0.s")
-#endif
+void BattleScene_TickQueueList3Selector2OrCFromB10(ActivePokemon* active_pokemon) {
+    u8* cue = (u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x79B;
+    s32 first_effect_frame;
+
+    if (cue[9] == 1) {
+        first_effect_frame = cue[0xA] - 76;
+    } else {
+        first_effect_frame = cue[0xA] - 35;
+    }
+
+    if ((BattleAnim_IsAssetLoadBusy(active_pokemon) == 0) && ((first_effect_frame <= 0) || (first_effect_frame == M2C_FIELD(active_pokemon, s32*, 0x620)))) {
+        if (cue[9] == 1) {
+            BattleAnim_QueueEffectList3(2, active_pokemon, active_pokemon, 0xFF, 0xFF);
+        } else {
+            BattleAnim_QueueEffectList3(12, active_pokemon, active_pokemon, 0xFF, 0xFF);
+        }
+        Audio_PlayCommand(3, 0, 0);
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821044C8; signature not recovered. */
@@ -854,11 +869,31 @@ void func_8210568C(ActivePokemon* active_pokemon, s32 cue_index, s32 event_state
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105724.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821057D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821057D4.s")
-#endif
+s32 BattleScene_IsRowWaitCompleteWithEventCount(ActivePokemon* active_pokemon, s32 frame_limit) {
+    UNUSED u8 unused_value;
+    BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[M2C_FIELD(active_pokemon, s32*, 0x9D0)];
+    u8* cue = (u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x722;
+
+    if ((M2C_FIELD(active_pokemon, u16*, 0x7C2) & 2) || (M2C_FIELD(party_pokemon, u8*, 5) & 7) || ((M2C_FIELD(active_pokemon, u16*, 0x7C2) & 0x200) && !(M2C_FIELD(active_pokemon, u16*, 0x7C2) & 0x400)) || (M2C_FIELD(active_pokemon, u16*, 0x7C2) & 0x4000)) {
+        if (BattleScene_AdvanceCameraFrameCounter(frame_limit) != 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    if ((cue[0xA] < 11) || (cue[0xA] == 0xFF)) {
+        if (active_pokemon->displayObject.transformAnim.animationId == -1) {
+            return 1;
+        }
+        return ModelAnim_IsAnimationDone(&active_pokemon->displayObject);
+    }
+
+    if (BattleScene_AdvanceCameraFrameCounter(cue[0xA] + 1) != 0) {
+        return 1;
+    }
+
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821058E8; signature not recovered. */

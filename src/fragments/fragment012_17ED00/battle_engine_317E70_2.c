@@ -267,11 +267,32 @@ void BattleAnim_InitializeParticleChain(Particle* arg0, Vec3f arg1, Vec3s arg2, 
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139D84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139D84.s")
-#endif
+void BattleAnim_CloneParticleState(Particle* arg0, Particle* arg1, ParticleUpdateCallback arg2, ParticleDescriptor* arg3,
+                   s32 arg4) {
+    arg0->unk_08 = arg2;
+    arg0->unk_0C = arg3;
+    arg0->unk_10 = arg1->unk_10;
+    arg0->unk_CF = arg1->unk_CF;
+    arg0->unk_CA = arg1->unk_CA;
+    arg0->unk_CC = 0x1C;
+    arg0->unk_CD = 0xFF;
+    arg0->unk_CE = arg1->unk_CE;
+    arg0->unk_CB = arg1->unk_CB;
+    arg0->unk_74 = arg1->unk_74;
+
+    Particle_FieldAC_SetS16_0BED8(arg0, arg4);
+
+    ParticleMath_CopyVec3f(&arg0->unk_38, &arg1->unk_38);
+    ParticleMath_CopyVec3f(&arg0->unk_50, &arg1->unk_50);
+    ParticleMath_CopyVec3f(&arg0->unk_68, &arg1->unk_68);
+    ParticleMath_CopyVec3f(&arg0->unk_7C, &arg1->unk_7C);
+    ParticleMath_CopyVec3s(&arg0->unk_94, &arg1->unk_94);
+    ParticleMath_CopyVec3s(&arg0->unk_9A, &arg1->unk_9A);
+
+    if (arg1->unk_CA == 4) {
+        arg0->unk_CA = 0;
+    }
+}
 
 void BattleAnim_EmitParticleBurst(Particle* arg0, ParticleUpdateCallback arg1, ParticleDescriptor* arg2, s16 arg3) {
     s16 i;

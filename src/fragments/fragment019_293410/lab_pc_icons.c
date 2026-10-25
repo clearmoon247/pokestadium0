@@ -39,8 +39,6 @@ s32 LabPC_ComputeExpForLevel(s32 arg0, s32 arg1);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A20009C.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 extern s8* D_8A21DA50;
 void UI_DrawTextureRgba16(s32 arg0, s32 arg1, s32 arg2) {
     gSPDisplayList(gDisplayListHead++, D_80060290);
@@ -49,9 +47,6 @@ void UI_DrawTextureRgba16(s32 arg0, s32 arg1, s32 arg2) {
 
     gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A2001C0.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A200274; signature not recovered. */
