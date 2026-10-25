@@ -942,11 +942,44 @@ void func_82105E4C(s8 *arg0, unsigned short arg1)
 void func_82105E64(ActivePokemon* active_pokemon) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105E6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105E6C.s")
-#endif
+void BattleScene_ResetBothParticipantsAnimationState(void) {
+    ActivePokemonState* side1_pokemon_state;
+    ActivePokemonState* side2_pokemon_state;
+    UNUSED s32 pad[2];
+    ActivePokemon* side1_pokemon;
+    ActivePokemon* side2_pokemon;
+    MovePresentationCue* cue;
+
+    side1_pokemon_state = &sActivePokemon[0]->state;
+    side2_pokemon_state = &sActivePokemon[1]->state;
+    side1_pokemon = sActivePokemon[0];
+    side2_pokemon = sActivePokemon[1];
+
+    if (side1_pokemon_state->flags & ACTIVE_AIR_SETTLE) {
+        sActivePokemon[0]->displayObject.position.y = 200.0f;
+        func_82105E38(sActivePokemon[0], ACTIVE_AIRBORNE);
+        Battle_ClearRuntimeFlags(sActivePokemon[0], ACTIVE_AIR_SETTLE);
+    }
+
+    if (side2_pokemon_state->flags & ACTIVE_AIR_SETTLE) {
+        sActivePokemon[1]->displayObject.position.y = 200.0f;
+        func_82105E38(sActivePokemon[1], ACTIVE_AIRBORNE);
+        Battle_ClearRuntimeFlags(sActivePokemon[1], ACTIVE_AIR_SETTLE);
+    }
+
+    if ((side1_pokemon_state->flags & ACTIVE_UNDERGROUND) && (side1_pokemon->displayObject.objectType == DUGTRIO)) {
+        cue = (MovePresentationCue*)((u8*)sSideBattleCues[0] + 0x3DE);
+        ModelAnim_SetFrame(&sActivePokemon[0]->displayObject, 0);
+        ModelAnim_SetAnimation(&sActivePokemon[0]->displayObject, cue->id);
+    }
+
+    if ((side2_pokemon_state->flags & ACTIVE_UNDERGROUND) && (side2_pokemon->displayObject.objectType == DUGTRIO)) {
+        cue = (MovePresentationCue*)((u8*)sSideBattleCues[1] + 0x3DE);
+        ModelAnim_SetFrame(&sActivePokemon[1]->displayObject, 0);
+        ModelAnim_SetAnimation(&sActivePokemon[1]->displayObject, cue->id);
+    }
+
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82105FCC; signature not recovered. */

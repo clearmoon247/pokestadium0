@@ -737,6 +737,7 @@ s32 func_890043BC(s32 arg0) {
     return sp1C;
 }
 
+extern FontContext* D_86A06200;
 #ifdef NON_MATCHING
 /* TODO: decompile func_89004560; signature not recovered. */
 #else

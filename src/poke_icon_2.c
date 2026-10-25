@@ -225,11 +225,37 @@ void PokeIcon_UpdatePreview(unk_func_8001B1FC* arg0) {
     Vec3f_SetComponentsDuplicate(&D_800AD1C0->scale, arg0->unk_18, arg0->unk_18, arg0->unk_18);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019564; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019564.s")
-#endif
+void PokeIcon_DrawPreview(unk_func_8001B1FC* arg0) {
+    s32 var_v0;
+    s32 var_s2;
+    s32 i;
+
+    if (arg0->unk_0C == 0) {
+        GfxImage_FillCurrent(&gDisplayListHead, arg0->unk_02);
+        return;
+    }
+
+    var_s2 = arg0->unk_0C;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_COPY);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_NOOP, G_RM_NOOP2);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+
+    for (i = 0; i < arg0->unk_0A; i += 8) {
+        var_v0 = arg0->unk_0A - i;
+        if (var_v0 >= 9) {
+            var_v0 = 8;
+        }
+        Gfx_DrawTextureRgba16(0, i, arg0->unk_08, var_v0, var_s2, arg0->unk_04, 0x200000);
+        var_s2 += arg0->unk_04 * 0x10;
+    }
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_PERSP);
+
+    GfxImage_ClearDepthRectangle(&gDisplayListHead, 0, 0, arg0->unk_08, arg0->unk_0A);
+}
 
 extern s32 D_800AC834;
 extern s32 D_800AD1C4;

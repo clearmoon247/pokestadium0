@@ -254,8 +254,50 @@ void BattleScene_InitializeParticipantOwnerModel(ActivePokemon* active_pokemon) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108090.s")
 #endif
 
+extern f32 D_82199DF0[][4];
+void func_8000D41C(Vec3f*, f32, f32, f32);
+void func_8210213C(ActivePokemon*);
 #ifdef NON_MATCHING
-/* TODO: decompile func_821081D0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleScene_InitializeParticipantModel(ActivePokemon* active_pokemon) {
+    s32 side;
+    UNUSED s32 pad;
+    ModelNodeView* model_view;
+    s16 model_id;
+
+    side = BattleScene_GetParticipantSideIndex(active_pokemon);
+    model_view = Battle_GetLoadedModelNode(active_pokemon, 0);
+    model_id = Battle_GetDisplayModelId(active_pokemon, 0);
+    ModelRenderer_AttachDisplayObject(&active_pokemon->displayObject);
+
+    if (active_pokemon == sActivePokemon[0]) {
+        active_pokemon->displayObject.effectSlot = 0;
+    } else {
+        active_pokemon->displayObject.effectSlot = 1;
+    }
+
+    Model_InitDisplayObject(&active_pokemon->displayObject, 0, model_id, model_view);
+    func_8210213C(active_pokemon);
+    ModelAnim_SetAnimation(&active_pokemon->displayObject, 0);
+    ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+
+    active_pokemon->sessionTeams->unk_04 = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
+    if ((active_pokemon->displayObject.objectType == DIGLETT) || (active_pokemon->displayObject.objectType == DUGTRIO)) {
+        active_pokemon->displayObject.node.renderFlags &= ~0x40;
+    } else {
+        active_pokemon->displayObject.node.renderFlags |= 0x40;
+    }
+
+    if (active_pokemon == sActivePokemon[0]) {
+        BattleScene_PositionParticipantModel(active_pokemon);
+        active_pokemon->displayObject.rotation.y = 0x4000;
+    } else {
+        BattleScene_PositionParticipantModel(active_pokemon);
+        active_pokemon->displayObject.rotation.y = -0x4000;
+    }
+
+    func_8000D41C(&M2C_FIELD(active_pokemon, Vec3f*, 0x5DC), M2C_FIELD(active_pokemon, s32*, 0x60C) * D_82199DF0[side][0], D_82199DF0[side][1], D_82199DF0[side][2]);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821081D0.s")
 #endif

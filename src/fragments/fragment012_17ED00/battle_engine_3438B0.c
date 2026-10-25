@@ -238,6 +238,9 @@ void func_8212C530(s32 arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212E350.s")
 #endif
 
+extern s32 D_84390220;
+extern ActivePokemon* D_84390204;
+extern s32 D_84390224;
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212E634; signature not recovered. */
 #else
