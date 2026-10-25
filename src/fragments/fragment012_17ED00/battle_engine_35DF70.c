@@ -9,6 +9,10 @@ extern func_D_8438AE50 sMoveEffectHandlers[];
 
 #include "m2c_macros.h"
 
+s32 func_8211EF74(s32, s32, s32, ...);
+extern s32 D_8219A520;
+s32 func_82107F88(ActivePokemon*);
+
 void Battle_Effect_Bide(void);
 void Battle_Effect_Thrash(void);
 void Battle_Effect_MultiHit(void);
@@ -32,11 +36,18 @@ void Battle_Effect_Thrash(void) {
     sBattleUser->unk_4F = (Battle_Random() & 1) + 2;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82114A8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82114A8C.s")
-#endif
+extern s32 D_8218C870;
+extern s32 D_8218C874;
+
+void Battle_Effect_ForceSwitchOrFlee(void) {
+    if (sBattleUser->moveCache.lastMove == TELEPORT) {
+        sBattleScene.scene->unk_48 = 8;
+        func_8211EF74(D_8219A520 + 0x88, -0x53, D_8218C870);
+        return;
+    }
+    sBattleScene.scene->unk_48 = 8;
+    func_8211EF74(D_8219A520 + 0x88, -0x52, D_8218C874, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+}
 
 void Battle_Effect_MultiHit(void) {
     s32 var_v1;
@@ -102,11 +113,18 @@ void Battle_Effect_OHKO(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115024.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821150EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821150EC.s")
-#endif
+extern s32 D_8218C898;
+extern s32 D_8218C89C;
+
+void Battle_Effect_FocusEnergy(void) {
+    sBattleScene.scene->unk_48 = 7;
+    if (sBattleUser->unk_4D & 4) {
+        func_8211EF74(D_8219A520 + 0x88, -0x49, D_8218C898);
+        return;
+    }
+    sBattleUser->unk_4D |= 4;
+    func_8211EF74(D_8219A520 + 0x88, -0x48, D_8218C89C, func_82107F88(sActivePokemon[sBattleScene.scene->unk_2C]));
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82115194; signature not recovered. */
@@ -158,7 +176,7 @@ void Battle_Effect_Rage(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821158C8.s")
 #endif
 
-M2C_UNK func_8211EF74(s32, M2C_UNK, s32);           /* extern */
+s32 func_8211EF74(s32, s32, s32, ...);
 extern s32 D_8218C8CC;
 extern s32 D_8219A520;
 extern s8 *D_8219A5A0;
@@ -174,7 +192,7 @@ void func_821159D0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115A14.s")
 #endif
 
-M2C_UNK func_8211EF74(s32, M2C_UNK, s32);           /* extern */
+s32 func_8211EF74(s32, s32, s32, ...);
 extern s32 D_8218C8D8;
 extern s32 D_8219A520;
 

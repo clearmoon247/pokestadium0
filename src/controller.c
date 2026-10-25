@@ -80,11 +80,19 @@ void Cont_AdjustAnalogStick(Controller* controller) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000AFE4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000B170; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000B170.s")
-#endif
+extern u8 D_800AAFFA;
+extern u8 D_800AAFF8;
+s32 func_80053A90(OSMesgQueue*);
+
+u8 Cont_SetupControllers(u8 arg0) {
+    D_800AAFFA = arg0;
+    osCreateMesgQueue(&gSIEventMesgQueue, gSIEventMesgBuf, 1);
+    osSetEventMesg(OS_EVENT_SI, &gSIEventMesgQueue, NULL);
+    osContInit(&gSIEventMesgQueue, &D_800AAFF8, &gControllerStatuses[0]);
+    gEepromProbe = func_80053A90(&gSIEventMesgQueue);
+    Cont_InitControllers();
+    return D_800AAFF8;
+}
 
 M2C_UNK func_80051C70(M2C_UNK *);                   /* extern */
 extern M2C_UNK D_800AAFE0;

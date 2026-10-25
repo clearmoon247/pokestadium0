@@ -127,11 +127,36 @@ void Audio_SetDiskReadyPolling(s32 arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003A890.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003AE2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003AE2C.s")
-#endif
+s32 n_alEnvmixerParam(N_PVoice* filter, s32 paramID, void* param) {
+    N_PVoice* e = filter;
+
+    switch (paramID) {
+        case (AL_FILTER_ADD_UPDATE):
+            if (e->em_ctrlTail) {
+                e->em_ctrlTail->next = (ALParam*)param;
+            } else {
+                e->em_ctrlList = (ALParam*)param;
+            }
+            e->em_ctrlTail = (ALParam*)param;
+            break;
+        case (AL_FILTER_RESET):
+            e->em_first = 1;
+            e->em_motion = AL_STOPPED;
+            e->em_volume = 1;
+            e->rs_delta = 0.0;
+            e->rs_first = 1;
+            e->rs_upitch = 0;
+            n_alLoadParam(e, AL_FILTER_RESET, param);
+            break;
+        case (AL_FILTER_START):
+            e->em_motion = AL_PLAYING;
+            break;
+        default:
+            n_alLoadParam(e, paramID, param);
+            break;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003AECC; signature not recovered. */

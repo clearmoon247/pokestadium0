@@ -436,11 +436,10 @@ void func_82122374(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82122458.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821224F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821224F4.s")
-#endif
+void BattleScene_ClearCameraOffsetVectors(void) {
+    Vec3f_SetComponentsDuplicate(&sBattleScene.scene->unk_94, 0.0f, 0.0f, 0.0f);
+    Vec3f_SetComponentsDuplicate(&sBattleScene.scene->unk_A0, 0.0f, 0.0f, 0.0f);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212254C; signature not recovered. */

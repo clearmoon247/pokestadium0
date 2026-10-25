@@ -90,11 +90,19 @@ void func_81101FA0(void *arg0, s32 arg1, s32 arg2) {
     func_8005C670(M2C_FIELD(arg0, s32 *, 0x50), 1, arg1, &D_81156480, 0x20);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81101FE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81101FE8.s")
-#endif
+s32 GbPak_InitializeCartridgeMapper(unk_D_8122B2C0* arg0) {
+  s32 ret;
+
+  if (!(ret = GbPak_WriteFilledRegisterBlock(arg0, 0, 0xA))    && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 1))
+   && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, 0)) && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 0))
+   && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, 0)) && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x2100, 1))) {
+      *((u8*)arg0 + 0x9D) = 1;
+      *((u8*)arg0 + 0x9E) = 0;
+      *((u8*)arg0 + 0x9F) = 0;
+  }
+  
+  return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811020A8; signature not recovered. */

@@ -41,8 +41,7 @@ void func_8213436C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134374.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821344B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821344B4.s")
-#endif
+void BattleScene_AllocateMemory(void) {
+    sBattleScene.scene = main_pool_alloc(sizeof(BattleScene), 0);
+    bzero(sBattleScene.scene, sizeof(BattleScene));
+}

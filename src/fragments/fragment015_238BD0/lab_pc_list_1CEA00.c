@@ -68,11 +68,9 @@ s32 LabItem_FindOrAllocateGamePakBoxSlot(unk_func_8821421C_07C* arg0, s32 arg1, 
 void LabItem_LoadGamePakBoxSlots(unk_func_8821421C_07C* arg0);
 void LabItem_ReadDeckEntries(s32 arg0, s32 arg1, s32 arg2, unk_func_8820BE14_06C* arg3);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89000020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000020.s")
-#endif
+void func_89000020(unk_func_8830867C_02C_0CC* arg0, s32 (*arg1)(s32, s32)) {
+    func_800274E0(arg0->unk_00, arg1, arg0->unk_08);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89000048; signature not recovered. */
@@ -86,11 +84,29 @@ void LabItem_ReadDeckEntries(s32 arg0, s32 arg1, s32 arg2, unk_func_8820BE14_06C
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890000A4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890001B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890001B4.s")
-#endif
+typedef struct LabItemGrid {
+    /* 0x00 */ u8* unk_00;
+    /* 0x04 */ char unk04[0x8];
+    /* 0x0C */ s32 unk_0C;
+} LabItemGrid;
+
+typedef struct LabItemCursor {
+    /* 0x00 */ LabItemGrid* unk_00;
+    /* 0x04 */ char unk04[0x4];
+    /* 0x08 */ s32 unk_08;
+} LabItemCursor;
+
+void func_89000048(LabItemCursor* arg0);
+
+void func_890001B4(LabItemCursor* arg0, s32 arg1) {
+    u8* temp_v1 = &arg0->unk_00->unk_00[arg0->unk_00->unk_0C * arg0->unk_08];
+
+    if (arg1 >= temp_v1[1]) {
+        func_89000048(arg0);
+        return;
+    }
+    temp_v1[1] -= arg1;
+}
 
 void func_8900020C(void) {
 }
@@ -163,11 +179,24 @@ void LabItem_ReadDeckEntries(s32 arg0, s32 arg1, s32 arg2, unk_func_8820BE14_06C
     Deck_CloseAndFlush(sp1C);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89000494; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000494.s")
-#endif
+void LabItem_WriteDeckBack(s32 arg0, s32 arg1, s32 arg2, unk_func_8820BE14_06C* arg3, s32 arg4, char* arg5, s32 arg6) {
+    DeckHandle* sp2C;
+
+    if (arg6 != -1) {
+        if (1) {}
+        sp2C = Deck_OpenAndSetName(arg0, arg1, arg2, arg4, arg5, arg6);
+    } else {
+        sp2C = Deck_Open(arg0, arg1, arg2, 1);
+    }
+
+    Deck_WriteEntries(arg3->unk_00, arg3->unk_08, sp2C);
+
+    if ((arg0 == 0x10) || (arg0 == 0x11) || (arg0 == 0x12) || (arg0 == 0x13)) {
+        Deck_CloseAndFlushBox(sp2C);
+    } else {
+        Deck_CloseAndFlush(sp2C);
+    }
+}
 
 M2C_UNK func_8002C064(M2C_UNK, M2C_UNK, u8, u8, s32); /* extern */
 extern M2C_UNK D_8900A5B8;

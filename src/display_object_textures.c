@@ -452,11 +452,16 @@ s32 PokeIcon_PollFrameLoad(ModelLoadContext* arg0) {
     return sp18;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017CB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017CB0.s")
-#endif
+s32 func_80017CB0(ModelLoadContext* arg0) {
+    sp18_func_800198E4* sp1C;
+    s32 sp18 = 0;
+
+    if (osRecvMesg((OSMesgQueue*)((u8*)arg0 + 0x44), &sp1C, 0) != -1) {
+        sp18 = PokeIcon_ApplyLoadResult(arg0, sp1C);
+    }
+
+    return sp18;
+}
 
 M2C_UNK func_80017BA0(s32, s32);                    /* extern */
 M2C_UNK func_8004D1C0(s32, s32 *, M2C_UNK);         /* extern */

@@ -50,11 +50,17 @@ s32 LabPCList_FilterByExactTypePair(unk_func_8830867C_02C_0CC* arg0, unk_func_88
 
 s32 LabPCList_CompareByPointer(unk_func_88316128* arg0, unk_func_88316128* arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_891091C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891091C0.s")
-#endif
+s32 func_891091C0(unk_func_8830867C_02C_0CC* arg0, unk_func_8830867C_02C_0CC* arg1) {
+    s32 var_v1 = M2C_FIELD(arg0->unk_00[0], s32*, 0xC) - M2C_FIELD(arg1->unk_00[0], s32*, 0xC);
+
+    if (var_v1 == 0) {
+        var_v1 = (s32)arg0->unk_00[1] - (s32)arg1->unk_00[1];
+        if (var_v1 == 0) {
+            var_v1 = arg0->unk_04 - arg1->unk_04;
+        }
+    }
+    return var_v1;
+}
 
 s32 LabPCList_CompareByLevelAsc(unk_func_88316128* arg0, unk_func_88316128* arg1) {
     s32 var_v0 = arg0->unk_2C - arg1->unk_2C;
@@ -212,17 +218,23 @@ s32 LabPCList_CompareById(unk_func_88316128* arg0, unk_func_88316128* arg1) {
     return ret;
 }
 
-M2C_UNK func_891091C0();                            /* extern */
 
-void func_89109580(void) {
-    func_891091C0();
+s32 func_89109580(unk_func_8830867C_02C_0CC* arg0, unk_func_8830867C_02C_0CC* arg1) {
+    return func_891091C0(arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_891095A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891095A0.s")
-#endif
+s32 func_891095A0(unk_func_88316128* arg0, unk_func_88316128* arg1) {
+    s32 var_v0;
+    s32 ret;
+
+    var_v0 = Text_CompareGlyphCodes((u8*)arg0 + 0x48, (u8*)arg1 + 0x48);
+    if (var_v0 != 0) {
+        ret = var_v0;
+    } else {
+        ret = LabPCList_CompareByPointer(arg0, arg1);
+    }
+    return ret;
+}
 
 s32 LabPCList_CompareByNickname(unk_func_88316128* arg0, unk_func_88316128* arg1) {
     s32 var_v0;

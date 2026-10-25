@@ -99,6 +99,9 @@
   "src/fragments/fragment012_17ED00/battle_engine_3438B0.c": {
     ".rodata": "0x821965B4"
   },
+  "src/fragments/fragment012_17ED00/battle_engine_343BA0.c": {
+    ".rodata": "0x821966E0"
+  },
   "src/fragments/fragment012_17ED00/battle_engine_343BA0_8.c": {
     ".rodata": {
       "address": "0x8219792C",
@@ -316,6 +319,9 @@
   "src/profiler.c": {
     ".data": "0x80060250",
     ".rodata": "0x800798B0"
+  },
+  "src/rom_device.c": {
+    ".rodata": "0x8007EC70"
   },
   "src/rsp.c": {
     ".bss": "0x80087050"

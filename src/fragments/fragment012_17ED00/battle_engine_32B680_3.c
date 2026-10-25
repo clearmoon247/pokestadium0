@@ -498,11 +498,15 @@ void ParticleEffect_AllocateGfxAndDraw(s32 arg0, arg1_func_84344CE8* arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82153BE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82153BE0.s")
-#endif
+void BattleAnim_SetupMove86EndDescriptor24(Particle* arg0) {
+    Particle_Field1C_SetScaled_0B938(arg0, 3.0f);
+    Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
+    Particle_Field38_AddXZFromField94Y_08ED0(arg0, 15.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, -5.0f);
+    ParticleGfx_RecolorPrim(arg0, 8);
+    ParticleGfx_RecolorEnv(arg0, 0x17);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 void BattleAnim_CallbackMove86EndDescriptor24(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -772,11 +776,18 @@ void BattleAnim_AllocateReflectiveTextureDisplayList(s32 arg0, arg1_func_84344CE
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154C9C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82154E28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154E28.s")
-#endif
+void BattleAnim_InitEffect125Model(Particle* arg0, UNUSED s16 arg1) {
+    arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);
+    if (arg0->unk_14 != NULL) {
+        BattleAnim_InitModelWithAnim(arg0->unk_14, 0x25, 0x26);
+        Particle_Field94_AddY_0A594(arg0, -0x8000);
+        BattleAnim_ApplyEffect125ModelScaleOffset(arg0);
+        Particle_FieldA6_SetS16_0BCA8(arg0, 0x20);
+        Particle_AdvanceLifecycle(arg0);
+    } else {
+        Particle_DisableAndDetach(arg0);
+    }
+}
 
 void BattleAnim_CallbackStartEffect125ModelBurstEmitter(Particle* arg0) {
     s16 temp_a1 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -1027,11 +1038,17 @@ void BattleAnim_CallbackStartEffect8ModelBurstEmitter(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82155878; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82155878.s")
-#endif
+void BattleAnim_InitEffect31Model(Particle* arg0) {
+    arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);
+    if (arg0->unk_14 != NULL) {
+        BattleAnim_InitModelWithAnim(arg0->unk_14, 0x2B, 0x2C);
+        Particle_Field1C_SetScaled_0B938(arg0, 0.25f);
+        Particle_Field94_SetY_0A2B8(arg0, ParticleMath_RandomRange(0x10000));
+        Particle_AdvanceLifecycle(arg0);
+    } else {
+        Particle_DisableAndDetach(arg0);
+    }
+}
 
 s32 func_8001104C(s32);                             /* extern */
 s16 func_82137D74(M2C_UNK);                         /* extern */

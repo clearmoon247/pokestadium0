@@ -253,11 +253,19 @@ void func_821853F4(void);
 void func_821853FC(void);
 void JigglypuffGame_UpdateEffects(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183AF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183AF0.s")
-#endif
+extern s32 D_821CF2B0;
+extern u32 D_821CF2B4;
+u32 Audio_NextRandom(void) {
+    D_821CF2B0 = (D_821CF2B0 * 0x41C64E6D) + 0x3039;
+
+    if (D_821CF2B4 & 1) {
+        D_821CF2B4 ^= 0x11020;
+    }
+
+    D_821CF2B4 >>= 1;
+
+    return (u8)((D_821CF2B0 ^ D_821CF2B4) % 100);
+}
 
 s32 func_80053A80();                                /* extern */
 M2C_UNK func_82183AF0();                            /* extern */

@@ -132,11 +132,12 @@ void Font_EndTexturedTextRendering(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001ABE8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001AC3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001AC3C.s")
-#endif
+extern Gfx D_800609D8[];
+
+void Font_DisableTwoCycleTexturing(void) {
+    M2C_FIELD(font_context, u8*, 0x3B) &= ~3;
+    gSPDisplayList(gDisplayListHead++, D_800609D8);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8001AC7C; signature not recovered. */

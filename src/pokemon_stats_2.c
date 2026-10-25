@@ -9,6 +9,22 @@
 #include "hal_libc.h"
 #include "util.h"
 #include "m2c_macros.h"
+
+// Zero's per-port Game Boy save state; Stadium 1's GbSavePort is 0x58 bytes.
+typedef struct GbSavePortZero {
+    /* 0x00 */ u16 unk_00;
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
+    /* 0x04 */ u8 unk_04;
+    /* 0x05 */ u8 unk_05[0x13];
+    /* 0x18 */ u8 unk_18[0x20];
+    /* 0x38 */ u16 unk_38;
+    /* 0x3A */ u8 unk_3A[6];
+    /* 0x40 */ u8* unk_40;
+    /* 0x44 */ u8* unk_44;
+} GbSavePortZero; // size = 0x48
+extern s8 D_800AD210;
+#define sGbSavePorts ((GbSavePortZero*)&D_800AD210)
 extern u8 D_8006B8C4[];
 typedef struct unk_func_800228F0_sp24 {
     /* 0x00 */ u8 unk_00;
@@ -92,11 +108,16 @@ s32 GbSave_VerifyWriteback(u8* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021100.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800211C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800211C4.s")
-#endif
+s32 GbSave_CheckMainDataUnchanged(s32 arg0) {
+    UNUSED s32 pad;
+    s32 sp18 = 0;
+
+    if ((GbPak_MbcRead(arg0, &D_800AD338, 0x2580, 0x1020) == 0) &&
+        (GbSave_VerifyChecksum(&D_800AD338.unk_018, (u8*)&D_800AD338 + 0x1014) != 0)) {
+        sp18 = ((u8*)&D_800AD338)[0x1014] == sGbSavePorts[arg0].unk_04;
+    }
+    return sp18;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021248; signature not recovered. */
@@ -136,11 +157,13 @@ loop_1:
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021410.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800214F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800214F0.s")
-#endif
+extern GbSavePort D_800AC910[4];
+s32 GbSave_ReadBoxBank(s32 arg0, s32 arg1) {
+    UNUSED s32 pad[2];
+    u8* sp1C = sGbSavePorts[arg0].unk_44 + arg1 * 0x15A0;
+
+    return GbPak_MbcRead(arg0, sp1C, (arg1 == 0) ? 0x4000 : 0x6000, 0x15A0) == 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021570; signature not recovered. */
@@ -166,11 +189,21 @@ void func_80021678(s32 arg0, u32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021720; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021720.s")
-#endif
+void GbSave_CheckLocationFlag(s32 arg0) {
+    extern u8 D_8006BB90[12];
+
+    s32 i;
+    s32 temp_t1 = sGbSavePorts[arg0].unk_40[0x80];
+
+    sGbSavePorts[arg0].unk_00 &= ~0x4000;
+
+    for (i = 0; i < 12; i++) {
+        if (D_8006BB90[i] == temp_t1) {
+            sGbSavePorts[arg0].unk_00 |= 0x4000;
+            break;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002178C; signature not recovered. */
@@ -178,11 +211,18 @@ void func_80021678(s32 arg0, u32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002178C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021894; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021894.s")
-#endif
+s32 GbSave_EnsureMainDataLoaded(s32 arg0) {
+    s32 sp1C = 0;
+
+    if (((1 << arg0) & D_800AD330) && (sGbSavePorts[arg0].unk_03 == 0)) {
+        sp1C = GbSave_OpenMainData(arg0);
+        if (sp1C == 0) {
+            Game_ShutdownAndLoadFragment(arg0, 2);
+        }
+    }
+
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021910; signature not recovered. */
@@ -221,11 +261,24 @@ extern GbSavePort D_800AC910[4];
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021E64.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021F50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021F50.s")
-#endif
+s32 GbSave_WriteBoxBanks(s32 arg0) {
+    u8 sp2F;
+    s32 sp28 = 0;
+
+    if (sGbSavePorts[arg0].unk_00 & 2) {
+        if (GbTower_ProbePak(arg0, &sp2F, sGbSavePorts[arg0].unk_18) == 0) {
+            Game_ShutdownAndLoadFragment(arg0, 2);
+        }
+
+        sp28 = GbSave_WriteBoxBank(arg0, 0);
+
+        if (sp28 != 0) {
+            sp28 = GbSave_WriteBoxBank(arg0, 1);
+        }
+        sp28 &= GbTower_CheckPakRemoved(arg0, sp2F);
+    }
+    return sp28;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021FF4; signature not recovered. */
@@ -233,17 +286,38 @@ extern GbSavePort D_800AC910[4];
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021FF4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002207C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002207C.s")
-#endif
+s32 GbSave_RebuildAndWriteSave(s32 arg0) {
+    u8 sp2F;
+    s32 sp28;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022118; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022118.s")
-#endif
+    if (GbTower_ProbePak(arg0, &sp2F, sGbSavePorts[arg0].unk_18) == 0) {
+        Game_ShutdownAndLoadFragment(arg0, 2);
+    }
+
+    sp28 = GbSave_InvalidateMainDataChecksum(arg0);
+
+    if (sp28 != 0) {
+        sp28 = GbSave_WriteBoxBanks(arg0);
+        if (sp28 != 0) {
+            sp28 = GbSave_CommitMainData(arg0);
+        }
+    }
+
+    sp28 &= GbTower_CheckPakRemoved(arg0, sp2F);
+    return sp28;
+}
+
+void GbSave_ValidateBeforeWrite(s32 arg0) {
+    u8 sp27;
+
+    if (GbTower_ProbePak(arg0, &sp27, sGbSavePorts[arg0].unk_18) == 0) {
+        Game_ShutdownAndLoadFragment(arg0, 2);
+    }
+
+    if (GbSave_CheckMainDataUnchanged(arg0) == 0) {
+        Game_ShutdownAndLoadFragment(arg0, 1);
+    }
+}
 
 void GbSave_RequirePakPresent(s32 arg0) {
     if (GbTower_CheckPakRemoved(arg0, 0) == 0) {
@@ -344,11 +418,29 @@ s32 Deck_GetEntrySize(s32 arg0) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800226BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800226BC.s")
-#endif
+s32 Deck_GetCount(s32 arg0, s32 arg1, s32 arg2) {
+    s32 var_v1 = 0;
+    u8* ptr = sGbSavePorts[arg1].unk_40;
+
+    switch (arg0) {
+        case 32:
+            var_v1 = ptr[0x955];
+            break;
+
+        case 33:
+            var_v1 = GbSave_GetBoxEntryCount(arg1, arg2);
+            break;
+
+        case 34:
+            var_v1 = ptr[0x25C];
+            break;
+
+        case 35:
+            var_v1 = ptr[0x44];
+            break;
+    }
+    return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002274C; signature not recovered. */
@@ -426,17 +518,26 @@ s32 func_80022C70(s32 arg0) {
     return func_8001FAB0(M2C_FIELD(temp_v0, s32 *, 0x40) + 0x7B);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022CC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022CC4.s")
-#endif
+void GbSave_SetTrainerId(s32 arg0, u16 arg1) {
+    if (sGbSavePorts[arg0].unk_00 & 1) {
+        GbData_WriteU16BE(sGbSavePorts[arg0].unk_40 + 0x7B, arg1);
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022D18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022D18.s")
-#endif
+s32 GbSave_GetBoxCount(s32 arg0) {
+    s32 temp_a0;
+    s32 phi_v1 = -1;
+
+    if (sGbSavePorts[arg0].unk_00 & 1) {
+        temp_a0 = GbData_ReadU16BE(sGbSavePorts[arg0].unk_40 + 0x2C2) >> 8;
+        if (temp_a0 & 0x80) {
+            phi_v1 = (temp_a0 & 0x7F) + 1;
+        } else {
+            phi_v1 = 0;
+        }
+    }
+    return phi_v1;
+}
 
 s32 func_8001FCC0(M2C_UNK, s32, M2C_UNK);           /* extern */
 extern s8 D_800AD210;
@@ -524,11 +625,19 @@ s32 func_80022F48(s32 arg0) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022F90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022F90.s")
-#endif
+s32 GbSave_CopyPortSnapshot(s32 arg0, GbSavePortSnapshot* arg1) {
+    s32 temp_v1 = (sGbSavePorts[arg0].unk_00 & 1) != 0;
+
+    if (temp_v1 != 0) {
+        arg1->unk_000 = sGbSavePorts[arg0].unk_02;
+        arg1->unk_001 = sGbSavePorts[arg0].unk_04;
+        arg1->unk_002 = sGbSavePorts[arg0].unk_38;
+
+        _bcopy(sGbSavePorts[arg0].unk_3A, arg1->unk_004, 6);
+        _bcopy(sGbSavePorts[arg0].unk_40 + 0x955, (u8*)arg1 + 0xA, 0x158);
+    }
+    return temp_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002302C; signature not recovered. */
@@ -542,11 +651,24 @@ s32 func_80022F48(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800230C4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800231C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800231C8.s")
-#endif
+s32 GbSave_GetSpeciesProgressLevel(s32 arg0, s32 arg1) {
+    s32 temp_t1;
+    s32 temp_t2;
+    u8* ptr23;
+    u8* ptr36;
+
+    if ((arg1 > 0) && (arg1 < 0x98)) {
+        ptr23 = sGbSavePorts[arg0].unk_40 + 0x1E;
+        ptr36 = sGbSavePorts[arg0].unk_40 + 0x31;
+
+        temp_t1 = (arg1 - 1) / 8;
+        temp_t2 = (arg1 - 1) % 8;
+
+        return ((ptr23[temp_t1] >> temp_t2) & 1) + ((ptr36[temp_t1] >> temp_t2) & 1) +
+               ((sGbSavePorts[arg0].unk_05[temp_t1] >> temp_t2) & 1);
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80023268; signature not recovered. */

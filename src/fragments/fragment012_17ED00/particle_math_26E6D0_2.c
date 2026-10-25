@@ -62,11 +62,11 @@ void ParticleGfx_LoadTextureCallbackIa8WrapST_64x64(UNUSED Particle* arg0, u8* t
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821411B4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141220; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141220.s")
-#endif
+extern Vtx D_82190E90[];
+
+void func_82141220(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E90);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8214127C; signature not recovered. */

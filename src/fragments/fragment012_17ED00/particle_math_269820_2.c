@@ -1028,11 +1028,9 @@ void Particle_ApproachRotationXTo(Particle* arg0, s16 arg1, s16 arg2) {
     ParticleMath_ApproachAngle(&arg0->unk_94.x, arg1, arg2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EFC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EFC0.s")
-#endif
+void func_8213EFC0(Particle* arg0, s16 arg1, s16 arg2) {
+    ParticleMath_ApproachAngle(&arg0->unk_94.y, arg1, arg2);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213EFF8; signature not recovered. */
@@ -1085,11 +1083,16 @@ void Particle_AddRotationRandomSignedXWithFixedYQuarterTurn(Particle* arg0) {
     Particle_Field94_AddY_0A594(arg0, 0x4000);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F1E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F1E4.s")
-#endif
+extern struct ActivePokemon* D_8219A818;
+
+s16 BattleAnim_GetParticleAngleYToTertiaryOwner(Particle* arg0) {
+    Vec3f sp24;
+    s16 ret;
+
+    BattleAnim_GetOwnerDefaultAnchorPosition(D_8219A818, &sp24);
+    ret = ParticleMath_AngleYBetweenPoints(arg0->unk_68, sp24) + arg0->unk_94.y;
+    return ret;
+}
 
 void Particle_ComputeVectorFromRotationY(Particle* arg0, f32 arg1, Vec3f* arg2) {
     arg2->x = SINS(arg0->unk_94.y) * arg1;
@@ -1137,17 +1140,13 @@ void func_8213F640(s8 *arg0, f32 arg1) {
     M2C_FIELD(arg0, f32 *, 0x74) = (f32) (arg1 * D_FLT_8219A824);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F658; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F658.s")
-#endif
+s32 func_8213F658(Particle* arg0, f32 arg1, f32 arg2) {
+    return ParticleMath_ApproachFloat(&arg0->unk_74, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F69C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F69C.s")
-#endif
+s32 func_8213F69C(Particle* arg0, f32 arg1) {
+    return ParticleMath_ApproachFloat(&arg0->unk_74, arg1 * gParticleRenderContext.unk_00.y, arg0->unk_78);
+}
 
 s32 Particle_Field74_Approach_0ADBC(Particle* arg0, f32 arg1, f32 arg2) {
     return ParticleMath_ApproachFloat(&arg0->unk_78, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
@@ -1265,11 +1264,9 @@ void func_8213F9E8(s8 *arg0, f32 arg1) {
     M2C_FIELD(arg0, f32 *, 0x80) = (f32) (M2C_FIELD(arg0, f32 *, 0x80) * arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FA1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FA1C.s")
-#endif
+s32 func_8213FA1C(Particle* arg0, f32 arg1, f32 arg2) {
+    return ParticleMath_ApproachFloat(&arg0->unk_7C.y, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213FA60; signature not recovered. */

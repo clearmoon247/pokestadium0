@@ -293,11 +293,11 @@ u8* Audio_SetRandomVoiceVolume(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036EE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036EE0.s")
-#endif
+u8* func_80036EE0(channel_t* cp, u8* ptr) {
+    M2C_FIELD(cp, u8*, 0xCB) = Audio_RandomScale(*ptr++);
+    M2C_FIELD(cp, u8*, 0xCB) += *ptr++;
+    return ptr;
+}
 
 s8 *func_80036F30(s8 *arg0, u8 *arg1) {
     M2C_FIELD(arg0, u8 *, 0xCA) = (u8) *arg1;
@@ -381,11 +381,28 @@ void func_800374E0(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037AC4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037B7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037B7C.s")
-#endif
+s32 func_80037B7C(s32 handle) {
+    channel_t* cp;
+    s32 i;
+    s32 count;
+    u32 mask;
+
+    if (handle == 0) {
+        return 0;
+    }
+
+    mask = osSetIntMask(1);
+
+    for (i = 0, count = 0, cp = mus_channels; i < (s32)max_channels; i++, cp++) {
+        if (handle == cp->handle) {
+            count++;
+        }
+    }
+
+    osSetIntMask(mask);
+
+    return count;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80037C04; signature not recovered. */

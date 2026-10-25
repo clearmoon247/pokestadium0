@@ -163,11 +163,12 @@ void func_8211F3E4(void) {
 void func_8211F3EC(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F3F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F3F4.s")
-#endif
+extern void* D_8219A520;
+
+void func_8211F3F4(void) {
+    D_8219A520 = main_pool_alloc(0x4C8, 0);
+    bzero(D_8219A520, 0x4C8);
+}
 
 void BattleScene_ResetMessageQueue(void) {
     gBattleMessageQueues->unk_004 = 0;

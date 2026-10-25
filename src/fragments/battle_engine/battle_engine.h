@@ -223,16 +223,14 @@ typedef struct BattleScene {
     /* 0x78 */ u8 unk_78;
     /* 0x7A */ s16 unk_7A;
     /* 0x7C */ char unk7C[0x8];
-    /* 0x84 */ f32 unk_84;
-    /* 0x88 */ char unk88[0xC];
-    /* 0x94 */ Vec3f unk_94;
-    /* 0xA0 */ Vec3f unk_A0;
-    /* 0xAC */ char unkAC[0xC];
-    /* 0xB8 */ Vec3f unk_B8;
-    /* 0xC4 */ Vec3f unk_C4;
-    /* 0xD0 */ Vec3f unk_D0;
-    /* 0xDC */ CameraNode* camera;
-} BattleScene; // size = 0xE0
+    /* 0x84 */ Vec3f unk_94;
+    /* 0x90 */ Vec3f unk_A0;
+    /* 0x9C */ char unkAC[0xC];
+    /* 0xA8 */ Vec3f unk_B8;
+    /* 0xB4 */ Vec3f unk_C4;
+    /* 0xC0 */ Vec3f unk_D0;
+    /* 0xCC */ CameraNode* camera;
+} BattleScene; // size = 0xD0 (Stadium 1: 0xE0)
 
 typedef struct unk_D_84390240 {
     /* 0x00 */ BattleScene* scene;

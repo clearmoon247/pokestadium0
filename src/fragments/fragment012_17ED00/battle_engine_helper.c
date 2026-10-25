@@ -12,6 +12,9 @@
 
 #include "m2c_macros.h"
 
+void func_8210840C(ActivePokemon*, ActivePokemon*, s32);
+void func_82108648(ActivePokemon*, s32);
+
 f32 BattleScene_GetParticipantModelXOffset(ActivePokemon* active_pokemon);
 void BattleScene_SetParticipantModelScale(ActivePokemon* active_pokemon, f32 scale);
 s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon);
@@ -292,23 +295,31 @@ void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821088BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108960; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108960.s")
-#endif
+void Battle_ResetOwnerModelToSubstituteDoll(ActivePokemon* active_pokemon) {
+    Model_SetMaterialColor(&active_pokemon->displayObject, 0xFF, 0xFF, 0xFF, active_pokemon->state.alpha = 0xFF);
+    active_pokemon->state.model = active_pokemon->displayObject.objectType;
+    func_8210840C(active_pokemon, active_pokemon, SUBSTITUTE_DOLL);
+    func_82108648(active_pokemon, SUBSTITUTE_DOLL);
+    Battle_ResetEventTrack(active_pokemon);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821089D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821089D0.s")
-#endif
+void Battle_ReloadSubstituteDoll(ActivePokemon* active_pokemon) {
+    func_8210840C(active_pokemon, active_pokemon, SUBSTITUTE_DOLL);
+    func_82108648(active_pokemon, SUBSTITUTE_DOLL);
+    Battle_ResetEventTrack(active_pokemon);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108A0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108A0C.s")
-#endif
+void Battle_ReloadDisplayModel(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[3];
+    ActivePokemonState* state = &active_pokemon->state;
+    s16 object_type = Battle_GetDisplayModelId(active_pokemon, 0);
+
+    state->alpha = 0xFF;
+    Model_SetMaterialColor(&active_pokemon->displayObject, 0xFF, 0xFF, 0xFF, state->alpha);
+    func_8210840C(active_pokemon, active_pokemon, object_type);
+    func_82108648(active_pokemon, object_type);
+    Battle_ResetEventTrack(active_pokemon);
+}
 
 void func_82108A88(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0x610) = arg1;

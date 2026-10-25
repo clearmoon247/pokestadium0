@@ -417,11 +417,27 @@ void func_82160230(s8 *arg0) {
     func_82140518(arg0, 0, 0x10);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216031C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216031C.s")
-#endif
+void BattleAnim_CallbackSharedOwnerKeyedAnimGrowFade_InitParticle(Particle* arg0) {
+    s16 sp26 = Particle_FieldCE_GetS32_0C040(arg0);
+    s16 sp24 = Particle_FieldCF_GetS16_0C058(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+    Particle_Field94_AddX_0A578(arg0, 0x2000);
+    Particle_Field94_AddY_0A594(arg0, 0x4000);
+
+    switch (sp26) {
+        case 0:
+            Particle_Field38_AddYScaled_08E90(arg0, -10.0f);
+            break;
+
+        case 2:
+            Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
+            break;
+    }
+
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp24);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C938(s8 *);                      /* extern */
 M2C_UNK func_8213CA80(s8 *, M2C_UNK);             /* extern */

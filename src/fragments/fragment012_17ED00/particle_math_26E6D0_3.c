@@ -333,18 +333,17 @@ void func_82143C10(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143CE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143CE0.s")
-#endif
+void func_82143CE0(Particle* arg0) {
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_FieldAE_SetS16_0BF4C(arg0, arg0->unk_A6);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_80019B28(s32, u8, u8, u8, s32);        /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213C9D0(s8 *);                      /* extern */
 M2C_UNK func_82140828(s8 *, M2C_UNK);             /* extern */
-M2C_UNK func_82143CE0(s8 *);                      /* extern */
 
 void func_82143D28(s8 *arg0) {
     s16 temp_v0;
@@ -369,17 +368,16 @@ void func_82143D28(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143DE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143DE8.s")
-#endif
+void func_82143DE8(Particle* arg0) {
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_FieldAE_SetS16_0BF4C(arg0, arg0->unk_A6);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_80019B28(s32, u8, u8, u8, s32);        /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213C9D0(s8 *);                      /* extern */
-M2C_UNK func_82143DE8(s8 *);                      /* extern */
 
 void func_82143E30(s8 *arg0) {
     s16 temp_v0;
@@ -439,18 +437,17 @@ void BattleAnim_CallbackOwnerModelTintPaletteCycle(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82144010; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144010.s")
-#endif
+void func_82144010(Particle* arg0) {
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_FieldAE_SetS16_0BF4C(arg0, arg0->unk_A6);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_80019B28(s32, u8, u8, u8, s32);        /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213C9D0(s8 *);                      /* extern */
 M2C_UNK func_82140874(s8 *, M2C_UNK, u8);         /* extern */
-M2C_UNK func_82144010(s8 *);                      /* extern */
 
 void func_82144058(s8 *arg0) {
     s16 temp_v0;

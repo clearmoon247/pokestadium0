@@ -336,11 +336,14 @@ s32 func_82125E5C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82125F54.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82125FD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82125FD0.s")
-#endif
+void BattleScene_UpdateActiveOwnerPointers(void) {
+    s32 idx;
+
+    D_8219A544 = sActivePokemon[sBattleScene.scene->unk_2C];
+    idx = sBattleScene.scene->unk_2C == 0;
+    D_8219A540 = sActivePokemon[idx];
+    sBattleScene.scene->unk_50 = 0;
+}
 
 M2C_UNK func_800419F8(M2C_UNK);                     /* extern */
 M2C_UNK func_82108C0C(s32);                         /* extern */
@@ -405,17 +408,41 @@ void func_8212601C(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821264E4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82126738; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126738.s")
-#endif
+void func_821229AC(CameraNode* arg0, ActivePokemon* arg1);
+s32 func_8211EE8C();
+void func_80040738(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821267A8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821267A8.s")
-#endif
+void BattleScene_AdvanceSendOutCameraClose(CameraNode* arg0) {
+    func_821229AC(arg0, sActivePokemon[!sBattleScene.scene->unk_2C]);
+    if (BattleScene_AdvanceCameraFrameCounter(0x19) != 0) {
+        func_8211EE8C();
+        func_80040738();
+        sBattleScene.scene->unk_20++;
+    }
+}
+
+s32 func_80041374(s32, u32);
+
+void BattleScene_FinishSendOutCameraClose(CameraNode* arg0) {
+    ActivePokemonState* temp_s0 = &sActivePokemon[!sBattleScene.scene->unk_2C]->state;
+
+    func_821229AC(arg0, sActivePokemon[!sBattleScene.scene->unk_2C]);
+
+    if (BattleScene_AdvanceCameraFrameCounter(5) != 0) {
+        BattleAnim_CleanupEffects(1);
+        func_80041374(3, 0);
+
+        if (temp_s0->unk_2D != 0x12) {
+            temp_s0->unk_2D = 0x10;
+        }
+
+        if (temp_s0->unk_2D == 0x12) {
+            temp_s0->unk_2D = 0x13;
+        }
+
+        sBattleScene.scene->unk_20++;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212684C; signature not recovered. */

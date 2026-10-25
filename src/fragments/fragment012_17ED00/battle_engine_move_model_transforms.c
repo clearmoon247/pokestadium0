@@ -608,11 +608,15 @@ void BattleAnim_PokeBallThrow(ActivePokemon* owner, ActivePokemon* animated_poke
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210AD44; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210AD44.s")
-#endif
+void BattleAnim_ResetOwnerFacingAndExitStatusIdle(ActivePokemon* arg0) {
+    UNUSED s32 pad;
+    CameraNode* sp18 = sBattleScene.scene->camera;
+
+    BattleScene_PositionParticipantModel(arg0);
+    Vec3s_SetComponents(&arg0->displayObject.rotation, 0, arg0->facingDirection << 0xE, 0);
+    Vec3f_SetComponentsDuplicate(&sp18->view.upDirection, 0.0f, 1.0f, 0.0f);
+    BattleScene_ResetParticipantModelFlags(arg0);
+}
 
 M2C_UNK func_8000D700(s32, M2C_UNK, s16, M2C_UNK);  /* extern */
 M2C_UNK func_82107790(s8 *);                      /* extern */

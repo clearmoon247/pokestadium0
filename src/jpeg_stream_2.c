@@ -101,11 +101,25 @@ void Dma_ReadChunks(u8* arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80003824; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80003824.s")
-#endif
+void Dma_WriteChunks(u32 write_start, u32 buffer_start, u32 buffer_end, s32 arg3) {
+    s32 chunk_size;
+    s32 buffer;
+    OSMesgQueue* mesq = &D_800A96F0;
+
+    for (buffer = ALIGN16(buffer_end - buffer_start); buffer > 0; buffer -= chunk_size) {
+        if (buffer >= 0x1000) {
+            chunk_size = 0x1000;
+        } else {
+            chunk_size = buffer;
+        }
+
+        Storage_QueueRomRead(arg3, write_start, buffer_start, chunk_size, mesq, 0);
+        osRecvMesg(mesq, NULL, 1);
+
+        write_start += chunk_size;
+        buffer_start += chunk_size;
+    }
+}
 
 void* Jpeg_LoadDecodedImage(u8* addr, PRESJPEG* arg1, s32 side) {
     s32 new_addr = main_pool_alloc(arg1->unk_0C + 0x100, side);
