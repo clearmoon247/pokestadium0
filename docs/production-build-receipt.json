@@ -582,7 +582,7 @@
     "tools/cflags_overrides.json": "e52ad2e4b74dc7c2433b105f9f1d8d54bcb183175dcb0d9b89149d08bb933482",
     "tools/asm-processor/asm_processor.py": "4351bbaf43ad1862a73dd81bce9c445f354cfe62b4a02b647afb0d788156dec3",
     "tools/asm-processor/build.py": "fa6a16c5c4d43b65b51f086274a50a6d4867c42189ef6053076b751523c16c5c",
-    "docs/function-matches.csv": "4df864517a12f45750e3be72f8ff83331fbe2cd938ca70f5555e3f96dede037f",
+    "docs/function-matches.csv": "16841da19c33ab47cabba46da352fdea84526b2338fa40eaca532f50914c9291",
     "linker_scripts/jp/symbol_addrs.txt": "e68437a3676e73d2118dc4ecf5e753f76b5d7b5c7d5e2d09988a986607e07e8e"
   },
   "binutils": {

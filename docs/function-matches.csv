@@ -3187,7 +3187,7 @@ func_8213D260,0x8213D260,src/fragments/fragment012_17ED00/particle_math_269820_2
 func_8213D284,0x8213D284,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D284,m2c,m2c,c
 func_8213D294,0x8213D294,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_TickPhaseTimer,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213D30C,0x8213D30C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
-func_8213D3FC,0x8213D3FC,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_SetPosition,hand,,c
+func_8213D3FC,0x8213D3FC,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D3FC,hand,,c
 func_8213D43C,0x8213D43C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field38_SetVecFromVec3fScaled_08C20,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213D484,0x8213D484,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D484,m2c,m2c,c
 func_8213D4A4,0x8213D4A4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D4A4,m2c,m2c,c
@@ -3264,7 +3264,7 @@ func_8213E6BC,0x8213E6BC,src/fragments/fragment012_17ED00/particle_math_269820_2
 func_8213E71C,0x8213E71C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_AddVelocityXZFromRotationYPlusHalfTurnFromArgument,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213E77C,0x8213E77C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213E77C,m2c,m2c,c
 func_8213E7A0,0x8213E7A0,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field50_AddNegField74Y_CheckField2CYNonPositive_09F84,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
-func_8213E7F4,0x8213E7F4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213E7F4,hand,,c
+func_8213E7F4,0x8213E7F4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field74_AdvanceAndAddNegY_CheckField2CYNonPositive_09FD8,hand,,c
 func_8213E858,0x8213E858,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_SetVelocityTarget,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213E898,0x8213E898,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field50_SetZScaled_09918,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213E8B0,0x8213E8B0,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213E8B0,m2c,m2c,c
