@@ -64,11 +64,23 @@ void func_89007264(s8 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3)
   }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890072E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890072E4.s")
-#endif
+typedef struct LabPCBoxEntry {
+    /* 0x0 */ s8* box;
+    /* 0x4 */ s32 unk_04;
+} LabPCBoxEntry; // size = 0x8
+
+s32 func_890072E4(s8* arg0) {
+    s32 i;
+    LabPCBoxEntry* var_a0 = M2C_FIELD(arg0, LabPCBoxEntry**, 0);
+
+    for (i = 0; i < M2C_FIELD(arg0, s32*, 8); i++, var_a0++) {
+        if (M2C_FIELD(var_a0->box, s32*, 0x960) == 0) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8900732C; signature not recovered. */

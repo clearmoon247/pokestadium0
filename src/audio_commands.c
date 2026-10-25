@@ -152,11 +152,14 @@ void func_80041834(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800418A4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800418CC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800418CC.s")
-#endif
+extern M2C_UNK D_800FD6B4;
+
+s32 func_800418CC(u32 arg0) {
+    if (arg0 >= 2) {
+        return -1;
+    }
+    return ((u8*)&D_800FD6B4)[arg0];
+}
 
 extern s8 D_80077538;
 

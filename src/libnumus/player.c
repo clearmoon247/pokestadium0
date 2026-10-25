@@ -71,11 +71,13 @@ u8* Audio_SetVoiceSampleIndex(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036698; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036698.s")
-#endif
+u8* Audio_EnableVoicePitchSlide(channel_t* cp, u8* ptr) {
+    cp->port = *ptr++;
+    if (cp->port) {
+        cp->port_base = cp->base_note;
+    }
+    return ptr;
+}
 
 s32 func_800366BC(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s8 *, 0xC6) = 0;

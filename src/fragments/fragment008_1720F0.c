@@ -212,11 +212,12 @@ s32 func_881016B0(s32 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_881016BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88101704; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88101704.s")
-#endif
+void Audio_QueueSoundAvoidingRecent(s32* arg0) {
+    if (*arg0 > 0) {
+        *arg0 -= 1;
+    }
+    func_881016B0(arg0);
+}
 
 s32 func_88101734(s32 *arg0) {
     return *arg0;

@@ -534,11 +534,13 @@ s32 func_8218540C(s8 *arg0, s8 *arg1)
   return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82185450; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82185450.s")
-#endif
+extern u8 D_8438B0C4[];
+s32 BattleAI_IsRestrictedRandomMove(s32 arg0, s8* arg1) {
+    if ((M2C_FIELD(arg1, u8*, 0x58) & 0x40) && (func_8218540C(arg0, arg1) != 0)) {
+        return 1;
+    }
+    return 0;
+}
 
 extern s8 *D_821CF2A0;
 

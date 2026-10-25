@@ -90,11 +90,14 @@ s32 func_8210CCDC(s8 *arg0, M2C_UNK arg1)
   return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210CD18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210CD18.s")
-#endif
+void BattleScene_ConfirmForcedMoveRepeat(ActivePokemon* arg0) {
+    ActivePokemonState* ptr = &arg0->state;
+
+    BattleScene_ApplyForcedActionDelay(arg0);
+    ptr->unk_2A = 1;
+    ptr->unk_10 = 3;
+    ptr->unk_0C = ptr->unk_14;
+}
 
 void func_8210CD58(s8 *arg0) {
     M2C_FIELD(arg0, s32 *, 0x794) = (s32) M2C_FIELD(arg0, s32 *, 0x7A4);
@@ -222,11 +225,15 @@ void BattleScene_CollectPlayerAction(ActivePokemon* arg0, ActivePokemon* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210DAEC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210DC9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210DC9C.s")
-#endif
+void BattleScene_CompleteCpuForcedAction(ActivePokemon* arg0, UNUSED ActivePokemon* arg1) {
+    ActivePokemonState* ptr = &arg0->state;
+
+    BattleScene_ApplyForcedActionDelay(arg0);
+    ptr->unk_2A = 1;
+    ptr->unk_04 = 1;
+    ptr->unk_0C = ptr->unk_14;
+    ptr->unk_10 = 3;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210DCE4; signature not recovered. */

@@ -538,11 +538,11 @@ void BattleAnim_RunEffectInitStart(s16 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213608C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213608C.s")
-#endif
+extern func_D_84390320 D_8218EA6C[];
+
+void BattleAnim_RunEffectInitEnd(s16 arg0) {
+    D_8218EA6C[arg0]();
+}
 
 void BattleAnim_RegisterEffectSlot(func_D_84390300 arg0, func_D_84390320 arg1) {
     if (sBattleAnimEffectCallbackIndex >= 8) {
