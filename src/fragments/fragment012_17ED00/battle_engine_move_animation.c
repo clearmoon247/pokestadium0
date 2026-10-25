@@ -785,11 +785,19 @@ s32 BattleAnim_TrySetModelEventTrackFromRow(ActivePokemon* active_pokemon, s32 c
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210568C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210568C.s")
-#endif
+void func_8210568C(ActivePokemon* active_pokemon, s32 cue_index, s32 event_state) {
+    UNUSED s32 pad;
+    s32 event_track;
+
+    if (func_82101FC4(active_pokemon) == 0) {
+        event_track = sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[cue_index].unk_01;
+        if (event_track != 0xFF) {
+            ModelAnim_SetEventFrame(&active_pokemon->displayObject, 0);
+            ModelAnim_SetEventTrack(&active_pokemon->displayObject, event_track);
+            active_pokemon->state.unk_36 = event_state;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82105724; signature not recovered. */

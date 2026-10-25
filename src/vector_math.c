@@ -88,11 +88,33 @@ void Vec3f_CrossProductArrays(const f32* a, const f32* b, f32* out) {
     out[2] = (ax * by) - (ay * bx);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80031FF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80031FF8.s")
-#endif
+extern char D_8007DB30[];
+void func_8005666C(char*, ...);
+
+void Vec3f_NormalizeSafe(Vec3f* vec) {
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 len;
+
+    x = vec->x;
+    y = vec->y;
+    z = vec->z;
+
+    len = sqrtf((x * x) + (y * y) + (z * z));
+
+    if (len > 0.0f) {
+        x = x / len;
+        y = y / len;
+        z = z / len;
+    } else {
+        func_8005666C(D_8007DB30);
+    }
+
+    vec->x = x;
+    vec->y = y;
+    vec->z = z;
+}
 
 void Mtx_BuildTranslatedDirectionRotation(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     f32 sp10C;

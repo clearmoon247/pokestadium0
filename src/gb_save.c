@@ -468,11 +468,20 @@ Color_RGBA8 Color_InterpolateFromGray(Color_RGBA8 arg0, f32 arg1) {
     return sp4;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002C998; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002C998.s")
-#endif
+extern Color_RGBA8 D_800736A8;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+
+void BattleInfoWidget_DrawLabel(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4) {
+    if (arg4 & 0x18) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, 0xE6, 0x16, D_800736A8);
+    }
+
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002CA34; signature not recovered. */

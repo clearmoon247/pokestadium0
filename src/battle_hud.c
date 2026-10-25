@@ -46,11 +46,35 @@ void func_800325B0(u32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003260C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003260C.s")
-#endif
+extern s16 D_800AF7B0[2];
+extern s16 D_800AFB28;
+extern u8 D_8100065C[];
+void ModelAnim_UpdateDisplayObjectAnimation(u32 arg0, u32 arg1) {
+    s32 (*func)(void);
+
+    D_800AFB28 = 0;
+    func = Util_ConvertAddrToVirtAddr(D_8100065C);
+    func();
+
+    if (arg0 < 2) {
+        switch (D_800AFB30[arg0]) {
+            default:
+                D_800AFB30[arg0] = 1;
+                return;
+            case 0:
+                D_800AFB30[arg0] = 1;
+                return;
+            case 1:
+                D_800AFB30[arg0] = 2;
+                return;
+            case 2:
+                D_800AFB30[arg0] = 3;
+                break;
+            case 3:
+                break;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800326B4; signature not recovered. */

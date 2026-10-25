@@ -277,11 +277,22 @@ void func_821255EC(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212562C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212577C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212577C.s")
-#endif
+void func_80040738(void);
+s32 BattleScene_HandleFaintStatusCompletion(void) {
+    s8* temp_v0 = (s8*)D_8219A540 + 0x7C6;
+
+    if (((M2C_FIELD(temp_v0, u8*, 0x4D) & 0x80) || (M2C_FIELD(temp_v0, u8*, 0x15) & 0x18)) && (M2C_FIELD(temp_v0, u8*, 0x5A) == 0xFF)) {
+        BattleAnim_ClearRockThrowingMoveFlag(sActivePokemon[sBattleScene.scene->unk_2C]);
+        func_80040738();
+        BattleScene_ResetAnimationStep();
+        func_821254B0();
+        sBattleScene.scene->unk_20 = 0;
+        sBattleScene.scene->unk_14 = 0;
+        M2C_FIELD(sBattleScene.scene, s32*, 0x38) = 3;
+        return 1;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82125838; signature not recovered. */

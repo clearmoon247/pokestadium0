@@ -220,11 +220,38 @@ void func_8002ED70(s8 *arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80030744.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800307D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800307D4.s")
-#endif
+void WidgetTree_SetPagedGridSelectionWithOffset(s8* arg0, s32 arg1, s32 arg2) {
+    s32 temp_a2;
+    s32 temp_a2_2;
+    s32 temp_lo;
+    s32 temp_v1;
+    s32 var_v0_2;
+    s8* temp_v0 = M2C_FIELD(arg0, s8**, 0);
+
+    if (M2C_FIELD(temp_v0, s32*, 8) != 0) {
+        M2C_FIELD(arg0, s32*, 0x40) = 0;
+        temp_v1 = M2C_FIELD(temp_v0, s32*, 8) - 1;
+        if (arg1 >= temp_v1) {
+            arg1 = temp_v1;
+        }
+        M2C_FIELD(arg0, s32*, 8) = arg1;
+        M2C_FIELD(arg0, s32*, 0x34) = M2C_FIELD(arg0, s32*, 0x10) * arg1;
+
+        temp_a2 = M2C_FIELD(temp_v0, s32*, 8) - M2C_FIELD(arg0, s32*, 0x24);
+        temp_lo = M2C_FIELD(arg0, s32*, 0x10) * ((temp_a2 > 0) ? temp_a2 : 0);
+
+        temp_a2_2 = -(arg2 * M2C_FIELD(arg0, s32*, 0x10)) + M2C_FIELD(arg0, s32*, 0x34);
+        if (temp_a2_2 > 0) {
+            var_v0_2 = temp_a2_2;
+        } else {
+            var_v0_2 = 0;
+        }
+
+        temp_v1 = (var_v0_2 < temp_lo) ? var_v0_2 : temp_lo;
+        M2C_FIELD(arg0, s32*, 0x2C) = temp_v1;
+        M2C_FIELD(arg0, s32*, 0x30) = temp_v1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80030894; signature not recovered. */

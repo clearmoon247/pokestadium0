@@ -168,11 +168,17 @@ void BattleScene_UpdateSecondaryModelOrbit(ActivePokemon* pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821095B4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82109764; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109764.s")
-#endif
+void BattleScene_ShowSecondaryModelsAtMainPose(ActivePokemon* active_pokemon) {
+    s32 i;
+
+    for (i = 0; i < 2; i++) {
+        active_pokemon->afterimages[i].minimized = 0;
+        active_pokemon->afterimages[i].displayObject.lodFraction = 0x3C;
+        active_pokemon->afterimages[i].displayObject.node.flags |= 1;
+        Vec3f_SetComponentsDuplicate(&active_pokemon->afterimages[i].displayObject.scale, 1.0f, 1.0f, 1.0f);
+        BattleAnim_Vec3fCopy(&active_pokemon->afterimages[i].displayObject.position, &active_pokemon->displayObject.position);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82109824; signature not recovered. */

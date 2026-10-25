@@ -4,8 +4,8 @@
   "output_sha256": "ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b",
   "full_rom_identical": true,
   "compare": true,
-  "c_owners": 3732,
-  "asm_owners": 1712,
+  "c_owners": 3748,
+  "asm_owners": 1696,
   "linked_images": 260,
   "compiler_sha256": "76d796c9591c9f5504949f85b29c32a6039a663791afe2f36f34ca18425b64d0",
   "source_compilers_sha256": {
@@ -573,7 +573,7 @@
   ],
   "source_registry_sha256": "04953e75c8b2d21400d7e408a76bb9f43fe31887fac209e2382995f643a7fe81",
   "section_registry_sha256": "03f1f5ed786e52db3e6bbab2df835d20a0971d1ce5cfe06ab71a84565956db44",
-  "headers_sha256": "3bc8dfe660a1e295b3a133618e9874e1d34e80a92d5a861dccc5db818465e29f",
+  "headers_sha256": "cf06591de7e41d3201d7fbfc62862ec5b691917fb6cfc2d095bd3265ce3e6465",
   "matching_registry_sha256": "d8bcc14a2a0db281cf30dcb9ddbd94d59e1afe84c70b4c8c017ea27ce60a251c",
   "build_tools_sha256": {
     "tools/production.py": "13bd4104349f746a65d54bf42f9d3386cdf58a0f8f83bb1910a48d411ee2338f",
@@ -582,8 +582,8 @@
     "tools/cflags_overrides.json": "e52ad2e4b74dc7c2433b105f9f1d8d54bcb183175dcb0d9b89149d08bb933482",
     "tools/asm-processor/asm_processor.py": "4351bbaf43ad1862a73dd81bce9c445f354cfe62b4a02b647afb0d788156dec3",
     "tools/asm-processor/build.py": "fa6a16c5c4d43b65b51f086274a50a6d4867c42189ef6053076b751523c16c5c",
-    "docs/function-matches.csv": "d83933bd49612d422c44a78e7c952014584d84576bf3545bff35991b5b8e2367",
-    "linker_scripts/jp/symbol_addrs.txt": "159e8e06d245b3b76acd40acf4e0dd915395d9c4e7debe907889f24c8ca16013"
+    "docs/function-matches.csv": "49bc0491d60b8520d679298e443f2cfcd42d846175d91f7126a01aab67a05f00",
+    "linker_scripts/jp/symbol_addrs.txt": "fe160678344c2b22d6ab460814a6bd681bce6f13bf95bf3162cb39c1b1074bb2"
   },
   "binutils": {
     "as": "GNU assembler (GNU Binutils for Ubuntu) 2.42",
@@ -593,7 +593,7 @@
   "c_sources_sha256": {
     "src/1060.c": "8dbe2ec29a3709a1fcbdd3e375a0682f936e9a8997a7b8d26f3baf66ec372272",
     "src/26130.c": "7d361b2f4c70564ee0c0de719d480d2875349933c6a23687e6adbca75164978e",
-    "src/2E480.c": "86b98e4faa58b455b396db5abd32e74eb021cebae278b3e0342d6dacb49921a2",
+    "src/2E480.c": "5a462799b1927036f6448c74927f6dc7717151337c86618d2654fc80de480134",
     "src/33E30.c": "565d82460fcfcff346b5bbf3afb7302137661a14e58f99e5f7f977e611a32f37",
     "src/33FE0.c": "92773fa7984062880967c0df329407356d190467569e29469275ee7e90a7b269",
     "src/33FE0_2.c": "b2085e874773b9bbc6b33765654809e01faecc3318efd3d367f07ecd2a95081e",
@@ -673,7 +673,7 @@
     "src/audio_commands_2.c": "c91e6cdebc44fba1b3ba5784b839e7f8ca3f542aa9502c656b56481edf5799c6",
     "src/audio_sfx_wrapper.c": "0e651c54fc05e930f48a5433e92fd7f7b3ea6d7cf047cf9938f1a163f78e5de6",
     "src/audio_sound_state.c": "b93ba2fbca9de7f11f792bbd15706e5cf90355bbe7b6fb460d8383ff4cabc8fa",
-    "src/battle_hud.c": "097481f4415b69f743b508f2ebdad0239eb72e2c79fef6574c0af8b7fe4dbc72",
+    "src/battle_hud.c": "7a8afed85ad21be54108126ca3cb12c645f5ae651880a78f89f802423b7be207",
     "src/controller.c": "a68e1a0078b1a7e721d442d06e5f10ff158de014f8bc791a849a0214e7655e8f",
     "src/crash_screen.c": "a63d324bbb06204dbdb80d96a7c1e6e2cbb693cd69217be6de112ee9d6801e46",
     "src/display_object_textures.c": "214c1ae3a879d33c836053262170ca8023f02ac7b0dfca6921ada25d55ea8f9b",
@@ -710,7 +710,7 @@
     "src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c": "85e0b9c17ba5375a0c03841bd2c72c0f0e6e70fd6913ac834693ce45150dc5fa",
     "src/fragments/fragment012_17ED00/battle_engine_3020D0.c": "375ea1f3e1717729e357a2c5bee34ceecd3ffdf82f71ba24b7b5d3d13ec101e0",
     "src/fragments/fragment012_17ED00/battle_engine_3055E0.c": "877bdf24a0c53d4d8867679af1dfb8a122731a63067e2b0afc30ef2b47321675",
-    "src/fragments/fragment012_17ED00/battle_engine_309ED0.c": "d587acb50192ebe0923a8c6ade5236ed9f833e603fd029d327efed8e7c47aa6c",
+    "src/fragments/fragment012_17ED00/battle_engine_309ED0.c": "7643c1d2b3f661ff2a775e9420b80d25528a5d3f746dfb7ac0a2f1929ae656fd",
     "src/fragments/fragment012_17ED00/battle_engine_313D60.c": "7f6edc001351eedfc8acf93d04c4350f5b480d14453067c12d513626b05a82d6",
     "src/fragments/fragment012_17ED00/battle_engine_313D60_2.c": "5641df9cf848138a2a793555cda1db157603b7dd55153d7cdf0cb31f97c00115",
     "src/fragments/fragment012_17ED00/battle_engine_315D50.c": "39a4f7bac8a0808cb3be9c6d7ff505ff41f366a52d90a995960cebe765ae0aa8",
@@ -764,8 +764,8 @@
     "src/fragments/fragment012_17ED00/battle_engine_361050_2.c": "526dec36748e9c2d6963df341be268e5971e832c63d14ed92cbd5d70b160c440",
     "src/fragments/fragment012_17ED00/battle_engine_helper.c": "de96a6fd05054aa4a0d0cf51f556b5325f11b5f4a415a50cdd59bfc33d8340d9",
     "src/fragments/fragment012_17ED00/battle_engine_main.c": "b11808508706080c62ef92fe9b672b06fbd7a7880951bcd6a20cb6077ad87660",
-    "src/fragments/fragment012_17ED00/battle_engine_move_animation.c": "2d1ca17b28b56c7456a87837f1f3cdeac51427b1dce06315ddf8ed2f023d6618",
-    "src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c": "eb617e282fde66676d18f1c646237592ca98987ec36dba4f7afad4f2d8ebae4b",
+    "src/fragments/fragment012_17ED00/battle_engine_move_animation.c": "46cb56b2fcfab859637426dea823e19b4ffc64d63a4835c8ab2a3e5ec62aacc2",
+    "src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c": "dc610b3094ae9bdf44c5ea890d9b5ac34a596a8546fbe808a7561deed5f86b81",
     "src/fragments/fragment012_17ED00/battle_engine_thumbnail.c": "d2717cbc20d699d329f5a4f108f3264dc2d89e6c06a1aa40df896680f2a479f7",
     "src/fragments/fragment012_17ED00/ekans_game.c": "1fbe36c4408ea271a6c5a86ec56db798dfb00af579c907e8564ea9db7ca93403",
     "src/fragments/fragment012_17ED00/ekans_game_2.c": "a843a8dcfda50b5c239239d42815db53bc72ffbf18dc042d5f01b364bcc4ffbd",
@@ -776,7 +776,7 @@
     "src/fragments/fragment012_17ED00/particle_math_269820.c": "b59b6dadfb852fd47c8bef932a3c72d2256ae4e621b8978ddda151bb4060e426",
     "src/fragments/fragment012_17ED00/particle_math_269820_2.c": "f940f2ddf29ed5f318283f723ae0c1dc903553b2a5a16b165a3bf5d17d4ce08d",
     "src/fragments/fragment012_17ED00/particle_math_26E6D0.c": "db0eea2fb8a1213b96f9b7fe293faf96dab17fda49f25b90465aca62b04ca039",
-    "src/fragments/fragment012_17ED00/particle_math_26E6D0_2.c": "9d4a5dd53a7852355fff0a796fd16656a9506e55b4c69c9f86cfe8d9d2e77ab3",
+    "src/fragments/fragment012_17ED00/particle_math_26E6D0_2.c": "3f224465f6a774f97bae0bca4529e165237020aa32b6630dadc52304b4b853a6",
     "src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c": "f0a6213871cd4e3baae1d9b905e8ff098d5e5059c92250264da0269018343318",
     "src/fragments/fragment013_232510/demo_scenes_161E60.c": "f81aa5f737c403c6e8b998bb12cb058bc1a7780b489a7f55a888eab629f2e1c1",
     "src/fragments/fragment014_235D70/lab_pc_icons.c": "91e898eedbd1529ed18b4719bb7436fbf031c3e8aa97e50ca8d3604ca570bcb0",
@@ -964,7 +964,7 @@
     "src/gb_audio_render.c": "0fff118e77fa82381154a56e875ee741e1fdff04b03ecff9a2bb14771221d51e",
     "src/gb_data.c": "38e026d47ec44d5de127778395cddf3c932ccdda434bef8628ea81336cce3ba3",
     "src/gb_mbc.c": "1ed5ad571c7b2f9ada6c5b47251450d75b7247527837bb602c67a4eddfd69f02",
-    "src/gb_save.c": "9db68224b52677c72163e0e7a044ee64a4a95f3cefed2dfaa79bc83a148dd437",
+    "src/gb_save.c": "81cc61a09f24282192c44a099141a62b9113491d0a23f8d5e1cc541bb1c7c8c2",
     "src/gb_tower.c": "754fc0b58ba57456ba80e508f3aa2ee90d909cebada3ae7c62d1a2508fab0db2",
     "src/geo_layout.c": "cd22cfc78b438f75ba379097e38e64b8e773c73701f536774d4a9c9fbe313f0d",
     "src/geo_node.c": "4b117247e69f5030a02753148e827dc7179b9c497a8af94b2feb264947aa287a",
@@ -1147,6 +1147,6 @@
     "src/table_view.c": "4a67f8dc68c21337c16f26e192ec15fd4cacaf4a03eff4a1d9aa0cbf119894f9",
     "src/ui_graphics.c": "d59e26ddd8dc2c879a713b7014705e2f1ec285156911680be6d3e0cc4140a07f",
     "src/util.c": "0ac6c21549a3d5e3bc88369c3fe020f238d5e8180efcdfb0988ff479b1e04df3",
-    "src/vector_math.c": "4caf3fd8bc9aff74b70f78b0a6e70197b5a982c77b9aeebece146046eb62df0a"
+    "src/vector_math.c": "6ab00dfd70597d9acd4a21c3ddac7f1c7d83a1cd6f57248ff67b4262896e8950"
   }
 }
