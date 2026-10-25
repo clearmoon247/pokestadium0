@@ -135,11 +135,35 @@ s32 func_81102168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811021D4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102280; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102280.s")
-#endif
+s32 GbPak_SelectRomAddress(unk_D_8122B2C0* arg0, s32 arg1) {
+    s32 temp_a2;
+    s32 var_v1;
+
+    var_v1 = 0;
+    M2C_FIELD(arg0, u8*, 0x9E) = 0xFF;
+    if (M2C_FIELD(arg0, u8*, 0x9F) != 0) {
+        M2C_FIELD(arg0, u8*, 0x9D) = 0xFF;
+        var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 0);
+        if (var_v1 == 0) {
+            M2C_FIELD(arg0, u8*, 0x9F) = 0;
+        }
+    }
+    if (var_v1 == 0) {
+        if (arg1 != M2C_FIELD(arg0, u8*, 0x9D)) {
+            temp_a2 = arg1 / 32;
+            if (temp_a2 != ((s32)M2C_FIELD(arg0, u8*, 0x9D) / 32)) {
+                var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, temp_a2);
+            }
+            if (var_v1 == 0) {
+                var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x2100, arg1);
+                if (var_v1 == 0) {
+                    M2C_FIELD(arg0, u8*, 0x9D) = arg1;
+                }
+            }
+        }
+    }
+    return var_v1;
+}
 
 s32 GbPak_SelectRamBank(unk_D_8122B2C0* arg0, s32 arg1) {
     s32 var_v1;

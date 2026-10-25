@@ -507,11 +507,16 @@ void func_82005D90(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820060AC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82006154; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82006154.s")
-#endif
+void func_82006154(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s8* arg5) {
+    if (arg4 & 0x18) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, M2C_FIELD(arg5, s32*, 8) - 0x12, 0x1E, M2C_FIELD(arg5, Color_RGBA8*, 0x18));
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 0xC, arg1 + 6, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_820061F0; signature not recovered. */

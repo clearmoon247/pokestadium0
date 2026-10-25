@@ -731,8 +731,6 @@ s32 Audio_ComputeVoiceVolume(channel_t* cp) {
     return volume;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
     f32 temp_fv1;
     f32 var_fv1;
@@ -767,9 +765,6 @@ f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
 
     return temp_fv1;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800393F8.s")
-#endif
 
 void Audio_UpdateVoicePlaybackEnd(channel_t* arg0) {
     if (M2C_FIELD(arg0, u16*, 0xA6) != 0x7FFF) {
@@ -842,11 +837,16 @@ void Audio_AdvancePanModulation(channel_t* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039B2C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039B7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039B7C.s")
-#endif
+f32 Audio_ComputeSinePitchModulation(channel_t* arg0) {
+    s32 temp_v0 = M2C_FIELD(arg0, u16*, 0xB6) - M2C_FIELD(arg0, u8*, 0xC4);
+    f32 tmp;
+
+    if (temp_v0 > 0) {
+        tmp = M2C_FIELD(arg0, f32*, 0x40) * __sinf(((temp_v0 / (f32)(u32)M2C_FIELD(arg0, u8*, 0xE8)) * 2) * 3.14159260000000007);
+        M2C_FIELD(arg0, f32*, 0x78) = tmp;
+    }
+    return M2C_FIELD(arg0, f32*, 0x78);
+}
 
 void Audio_AdvancePitchEnvelope(channel_t* arg0) {
     s32 tmp;

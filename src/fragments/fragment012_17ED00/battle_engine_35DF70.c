@@ -163,11 +163,17 @@ void Battle_Effect_Recoil(void) {
     sBattleScene.scene->unk_48 = 9;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82115278; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115278.s")
-#endif
+extern u8 D_82199FCD;
+extern s32 D_8218C8A4;
+void Battle_Effect_ConfuseChance(void) {
+    if ((Battle_Random() < 0x1A) && !(sBattleTarget->unk_4C & 0x80)) {
+        sBattleScene.scene->unk_1A = 3;
+        D_82199FCD = 0;
+        sBattleTarget->unk_4C |= 0x80;
+        sBattleTarget->unk_50 = (Battle_Random() & 3) + 2;
+        func_8211EF74(D_8219A520 + 0x208, -0x46, D_8218C8A4, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+    }
+}
 
 extern s32 D_8218C8A8;
 extern s32 D_8218C8AC;

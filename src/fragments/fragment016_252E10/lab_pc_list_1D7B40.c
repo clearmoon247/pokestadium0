@@ -148,11 +148,16 @@ s32 func_891053B0(s8 *arg0) {
 void func_891053E0(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_891053E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891053E8.s")
-#endif
+void BattleInfoWidget_UpdateEntryFlags(unk_func_8830867C_034* arg0) {
+    s32 i;
+    s8** sub = &M2C_FIELD(arg0, s8**, 0x20);
+    s8* var_s2 = M2C_FIELD(*sub, s8**, 0);
+
+    for (i = 0; i < M2C_FIELD(*sub, s32*, 8); i++, var_s2 += 0x20) {
+        M2C_FIELD(arg0, u16**, 0x24)[i] = 0;
+        M2C_FIELD(arg0, u16**, 0x24)[i] |= func_891053B0(var_s2);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8910548C; signature not recovered. */
@@ -250,11 +255,18 @@ void BattleInfoWidget_ApplyEntrySelection(unk_func_8830867C_034* arg0, s32 arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106254.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89106384; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106384.s")
-#endif
+void func_89106384(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s8* arg5) {
+    s32 temp_v0 = M2C_FIELD(arg5, s32*, 8) - 0xC;
+
+    if (arg4 & 0x10) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, temp_v0 - 6, 0x16, M2C_FIELD(arg5, Color_RGBA8*, 0x18));
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89106424; signature not recovered. */

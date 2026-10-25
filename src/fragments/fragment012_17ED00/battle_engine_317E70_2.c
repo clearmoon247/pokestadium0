@@ -546,11 +546,27 @@ void func_8213A858(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A904.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213A9C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A9C4.s")
-#endif
+typedef void (*ParticleDrawFn2)(Particle*, s32);
+typedef void (*ParticleDrawFnCam)(Particle*, CameraNode*);
+void Particle_DispatchDraw(Particle* arg0, CameraNode* arg1) {
+    s8* desc = (s8*)arg0->unk_0C;
+    s8* sp18 = M2C_FIELD(desc, s8**, 4);
+
+    switch (M2C_FIELD(desc, s16*, 0)) {
+        case 1:
+            if (M2C_FIELD(sp18, s16*, 0) == 2) {
+                M2C_FIELD(sp18, ParticleDrawFn2*, 4)(arg0, M2C_FIELD(M2C_FIELD(sp18, s8**, 0xC), s32*, 0));
+                M2C_FIELD(sp18, ParticleDrawFnCam*, 8)(arg0, arg1);
+            } else {
+                M2C_FIELD(sp18, ParticleDrawFnCam*, 8)(arg0, arg1);
+            }
+            break;
+
+        case 3:
+            M2C_FIELD(desc, ParticleDrawFnCam*, 4)(arg0, arg1);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213AA78; signature not recovered. */
@@ -655,8 +671,6 @@ void BattleAnim_TickEffectSlots(void) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 s32 Particle_CountActive(void) {
     s32 i;
     s32 var_v1 = 0;
@@ -670,9 +684,6 @@ s32 Particle_CountActive(void) {
 
     return var_v1;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AF50.s")
-#endif
 
 s32 Particle_CountActiveAlias(void) {
     return Particle_CountActive();

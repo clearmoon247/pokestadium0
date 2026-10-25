@@ -35,11 +35,17 @@ void func_8002ED18(s8*, s32, s8*);
 void func_89004708(void);
 void func_89004710(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89004680; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89004680.s")
-#endif
+void func_89004680(s32 arg0, s32 arg1, s32 arg2, u8* arg3) {
+    DeckHandle* sp1C = Deck_Open(arg0, arg1, arg2, 1);
+
+    Deck_WriteEntries(M2C_FIELD(arg3, u8**, 0), M2C_FIELD(arg3, s32*, 8), sp1C);
+
+    if ((arg0 == 0x10) || (arg0 == 0x11) || (arg0 == 0x12) || (arg0 == 0x13)) {
+        Deck_CloseAndFlushBox(sp1C);
+    } else {
+        Deck_CloseAndFlush(sp1C);
+    }
+}
 
 void func_89004708(void) {
 }

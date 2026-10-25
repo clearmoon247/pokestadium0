@@ -151,11 +151,33 @@ s32 Audio_CountCategorySounds(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FF74.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FFC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FFC8.s")
-#endif
+extern u8* D_86B0E5E8;
+extern GraphNode* D_86B0E5D0;
+void func_8110FF74(void);
+void func_8110FD6C(s32, s32);
+s32 func_8110FDF0(void);
+extern volatile u8 D_81184657;
+extern u8 D_81184658;
+s32 func_8110FFC8(s32 arg0) {
+    s32 v;
+    u32 sp18;
+
+    func_8110FF74();
+    v = D_81184657;
+    if (v != 0) {
+        func_8110FE74();
+        if (arg0 == D_81184658) {
+            return 0;
+        }
+        if (v >= 3) {
+            return 0;
+        }
+        func_8004D1C0(D_81186250, &sp18, 1);
+    }
+    func_8110FF74();
+    func_8110FD6C(0xF9000000, arg0);
+    return func_8110FDF0();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81110060; signature not recovered. */

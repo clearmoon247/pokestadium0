@@ -265,7 +265,7 @@
     ".rodata": "0x8007ECC0"
   },
   "src/libnumus/player.c": {
-    ".rodata": "0x8007DC68"
+    ".rodata": "0x8007DC58"
   },
   "src/libultra/audio/drvrnew.c": {
     ".data": "0x80077C30",

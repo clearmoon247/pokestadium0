@@ -178,6 +178,8 @@ void GeoRender_PushScale(Vec3f* arg0) {
     D_800AC508.unk_180++;
 }
 
+extern s32 D_800ABCF0;
+extern unk_D_800ABCC0 D_800ABCC0[2];
 #ifdef NON_MATCHING
 /* TODO: decompile func_8001148C; signature not recovered. */
 #else
