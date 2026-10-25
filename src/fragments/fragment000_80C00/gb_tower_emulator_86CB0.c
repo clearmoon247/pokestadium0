@@ -276,11 +276,24 @@ void func_81218104_jp(UNUSED s32 arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112B34.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112B84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112B84.s")
-#endif
+typedef struct Particle31Flags {
+    u8 b80 : 1;
+    u8 b40 : 1;
+} Particle31Flags;
+
+void func_811111E0(s8*);
+
+void func_81112B34();
+void Particle31_ResetAllSlots(DisplayObject* arg0) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        func_81112B34(arg0, i);
+    }
+    func_811111E0((s8*)arg0 + 0x84);
+    ((Particle31Flags*)arg0)->b80 = 0;
+    ((Particle31Flags*)arg0)->b40 = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112BF0; signature not recovered. */

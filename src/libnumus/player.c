@@ -278,11 +278,27 @@ u8* Audio_SkipVoiceCommandByte(UNUSED channel_t* cp, u8* ptr) {
     #endif
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036DCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036DCC.s")
-#endif
+u8* Audio_SetVoiceEnvelopePointers(channel_t* cp, u8* ptr) {
+    s32 tmp0;
+    s32 tmp2;
+
+    tmp0 = *ptr++ << 8;
+    tmp0 += *ptr++;
+
+    tmp2 = *ptr++ << 8;
+    tmp2 += *ptr++;
+
+    cp->pvolumebase = &cp->pvolumebase_offset[tmp2];
+    cp->cont_vol_repeat_count = 1;
+
+    tmp2 = *ptr++ << 8;
+    tmp2 += *ptr++;
+
+    cp->ppitchbendbase = &cp->ppitchbendbase_offset[tmp2];
+    cp->cont_pb_repeat_count = 1;
+
+    return &cp->pbase[tmp0];
+}
 
 s8 *func_80036E30(s8 *arg0, u8 *arg1) {
     M2C_FIELD(arg0, u8 *, 0xDE) = (u8) *arg1;

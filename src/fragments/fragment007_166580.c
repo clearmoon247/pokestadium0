@@ -405,11 +405,18 @@ void func_82005958(void) {
     func_80002DC0(D_8200AD28);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8200597C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_8200597C.s")
-#endif
+extern s32 D_8200AD08[8];
+extern s32 D_8200AC40;
+extern s32 D_820090DC[8];
+s32 func_800044AC(s32, s32);
+
+void func_8200597C(void) {
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        D_8200AD08[i] = func_800044AC(D_8200AC40, D_820090DC[i]);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_820059EC; signature not recovered. */

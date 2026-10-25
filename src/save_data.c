@@ -306,17 +306,49 @@ void Save_ResetAndCommitTypedRecord(s32 arg0, s32 arg1) {
     Save_CommitTypedRecord(arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80024610; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80024610.s")
-#endif
+s32 func_80024610(s32 arg0) {
+    s32 ret = 0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002465C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002465C.s")
-#endif
+    switch (arg0) {
+        case 16:
+            ret = 6;
+            break;
+
+        case 17:
+            ret = 0x1E;
+            break;
+
+        case 18:
+            ret = 0x64;
+            break;
+
+        case 19:
+            ret = 0x64;
+            break;
+    }
+
+    return ret;
+}
+
+s32 func_8002465C(s32 arg0) {
+    s32 ret = 0;
+
+    switch (arg0) {
+        case 16:
+            ret = 0x50;
+            break;
+        case 17:
+            ret = 0x50;
+            break;
+        case 18:
+            ret = 2;
+            break;
+        case 19:
+            ret = 80;
+            break;
+    }
+    return ret;
+}
 
 s32 Deck_IsSaveEntryPresent(s32 arg0, s32 arg1) {
     return Save_IsTypedRecordFlagSet(arg0, arg1, 1);

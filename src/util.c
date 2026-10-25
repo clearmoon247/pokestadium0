@@ -111,8 +111,11 @@ void Util_Memclear(u64* dest, u32 size) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800030EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800030EC.s")
-#endif
+s32 Util_CheckStubMemArea(u64* ptr) {
+    s32 ret = 0;
+
+    while (*(ptr++) == 0x1234567812345678) {
+        ret++;
+    }
+    return ret * sizeof(*ptr);
+}

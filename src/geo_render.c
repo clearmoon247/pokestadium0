@@ -252,11 +252,25 @@ s32 ModelAnim_ResolveEventIndex(s32 arg0, unk_func_80017540_arg1* arg1, s32 arg2
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80011914; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80011914.s")
-#endif
+s16 ModelAnim_AdvanceEventFrame(EventTrackState* arg0) {
+    s16 var_v1;
+    EventTrackData* temp_v0;
+
+    var_v1 = arg0->frame;
+    temp_v0 = arg0->data;
+
+    if (arg0->lastRenderFrame != D_80060484) {
+        var_v1 += 1;
+        if (var_v1 >= temp_v0->endFrame) {
+            if (temp_v0->flags & 2) {
+                var_v1 = temp_v0->endFrame - 1;
+            } else {
+                var_v1 = temp_v0->loopStart;
+            }
+        }
+    }
+    return var_v1;
+}
 
 Vtx* GeoOverlay_BuildFadeQuad(CameraOverlay* arg0, CameraOrthographic* arg1) {
     u8 sp47;

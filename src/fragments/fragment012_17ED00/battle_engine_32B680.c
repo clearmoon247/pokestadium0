@@ -147,7 +147,14 @@ void BattleScene_IntroCameraStep2(CameraNode* arg0) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82120A34; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleScene_IntroCameraRollStep(CameraNode* arg0) {
+    if (BattleScene_ApproachCameraRoll(arg0, 0xB6, 0x78DC) != 0) {
+        BattleScene_SelectNextIntroCameraShot(arg0);
+    } else {
+        arg0->view.eyePosition.z *= 0.6;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82120A34.s")
 #endif

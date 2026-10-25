@@ -17,7 +17,7 @@ typedef struct unk_func_80017540_arg1 {
 } unk_func_80017540_arg1; // size = 0x4
 
 s32 ModelAnim_ResolveEventIndex(s32 arg0, unk_func_80017540_arg1* arg1, s32 arg2);
-s16 ModelAnim_AdvanceEventFrame(EventTrackState* arg0, u16 arg1);
+s16 ModelAnim_AdvanceEventFrame(EventTrackState* arg0);
 void ModelAnim_ResetEventContext(void);
 void ModelAnim_BeginEventContext(EventTrackState* arg0, u16 arg1, s32 arg2);
 void ModelAnim_EndEventContext(void);
