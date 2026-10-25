@@ -458,8 +458,54 @@ void func_8A101E84(void) {
     func_8A101154(&D_8A12FFC0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A101ED4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101ED4.s")
-#endif
+extern u32 D_86806CD0[];
+extern s32 D_8A12FFB4;
+extern s32 D_8A12FFB8;
+extern u8 D_81000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_01000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_04000000[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_88000000[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+void func_8A101E84(void);
+s32 func_8A101B30(u8);
+
+s32 func_8A101ED4(s32 arg0, s32 arg1) {
+    D_8A12FFB0 = GbSave_GetActivePort();
+    D_8A12FFB4 = Pokedex_GetHighestSeenSpeciesIndex() - 1;
+    D_8A12FFB8 = 0;
+
+    main_pool_push_state('BOOK');
+
+    D_8A12FF9C = StageContext_GetCurrent();
+    D_8A12FFA0 = StageContext_Allocate(0, 1, 2, 1, 2, 0);
+    Pokedex_InitFramebuffers();
+    GbSave_RebuildSeenBitfield(D_8A12FFB0);
+    func_8001A194(0x3D, 0);
+    D_8A12FFA4 = PokeIcon_AllocFramebuffers(1);
+    PokeIcon_OpenModelArchives();
+
+    Fragment_Load(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+
+    StageLoader_UpdateSegments();
+    ModelRenderer_InitDisplayRoots();
+    func_8A101E84();
+    BgStage_RunUntilCondition(8, func_8A101B30);
+    Pokedex_RunEntryFlow();
+    BgStage_RunUntilCondition(8, func_8A101B30);
+    StageLoader_WaitForRetrace();
+    Font_Free();
+
+    main_pool_pop_state('BOOK');
+
+    Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 0, 0);
+    return 0x8040;
+}

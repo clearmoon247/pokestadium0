@@ -949,7 +949,33 @@ void func_8210B7E4(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8210B824; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_LassoMoveHitReactionContinue(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    BattleMonRuntime* runtime = &animated_pokemon->state.runtime;
+    f32 scale_delta;
+    UNUSED s32 pad;
+
+    if (runtime->scaleResize == 0) {
+        scale_delta = (1.0f - Strip400_GetTailFadeRatio()) * 0.6f;
+        BattleAnim_ApproachF(&owner->displayObject.scale.x, 1.0f - scale_delta, 0.5f);
+        BattleAnim_ApproachF(&owner->displayObject.scale.y, 1.0f + scale_delta, 0.5f);
+        BattleAnim_ApproachF(&owner->displayObject.scale.z, 1.0f - scale_delta, 0.5f);
+    } else {
+        scale_delta = (1.0f - Strip400_GetTailFadeRatio()) * 0.3f;
+        BattleAnim_ApproachF(&owner->displayObject.scale.x, 0.65 - scale_delta, 0.5f);
+        BattleAnim_ApproachF(&owner->displayObject.scale.y, scale_delta + 0.65, 0.5f);
+        BattleAnim_ApproachF(&owner->displayObject.scale.z, 0.65 - scale_delta, 0.5f);
+    }
+
+    if (M2C_FIELD(animated_pokemon, s32*, 0x608)++ == 0x96) {
+        if (runtime->scaleResize == 0) {
+            Vec3f_SetComponentsDuplicate(&owner->displayObject.scale, 1.0f, 1.0f, 1.0f);
+        } else {
+            Vec3f_SetComponentsDuplicate(&owner->displayObject.scale, 0.65f, 0.65f, 0.65f);
+        }
+        BattleScene_ResetParticipantModelFlags(animated_pokemon);
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210B824.s")
 #endif

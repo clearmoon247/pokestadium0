@@ -258,11 +258,88 @@ void ApplyBurnAttackCut(ActivePokemon* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110BDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110BDC.s")
-#endif
+void func_8210F24C(ActivePokemon*);
+void func_80041940(s32, s32, s32);
+
+void Battle_InitPokemonRuntimeState(ActivePokemon* arg0) {
+    ActivePokemonState* sp28;
+    BattleMonRuntime* sp24;
+    BattleMon* sp34;
+    s32 i;
+    s32 j;
+
+    sp28 = &arg0->state;
+    sp24 = &arg0->state.runtime;
+    sp34 = &arg0->sessionTeams->teamMember[sp28->unk_2D_zero]->pokemonPicked[sp28->rosterIndex];
+
+    sp24->unk_14 = sp28->rosterIndex;
+    sp24->id = sp34->unk_00.unk_00;
+    sp24->unk_0C = sp34->hp;
+    sp24->unk_15 = sp34->statusCondition;
+    sp24->roster[6] = sp34->unk_06;
+    sp24->roster[7] = sp34->unk_07;
+    sp24->roster[8] = sp34->unk_08;
+
+    sp24->moves[0] = sp34->unk_09[0];
+    sp24->moves[1] = sp34->unk_09[1];
+    sp24->moves[2] = sp34->unk_09[2];
+    sp24->moves[3] = sp34->unk_09[3];
+    sp24->unk_24 = sp34->unk_1E;
+
+    sp24->unk_32[0] = sp34->unk_20[0];
+    sp24->unk_32[1] = sp34->unk_20[1];
+    sp24->unk_32[2] = sp34->unk_20[2];
+    sp24->unk_32[3] = sp34->unk_20[3];
+
+    if ((sp34->unk_09[0] == 0) || (sp34->unk_09[0] >= 0xA6)) {
+        sp24->unk_32[0] = 0;
+    }
+
+    if ((sp34->unk_09[1] == 0) || (sp34->unk_09[1] >= 0xA6)) {
+        sp24->unk_32[1] = 0;
+    }
+
+    if ((sp34->unk_09[2] == 0) || (sp34->unk_09[2] >= 0xA6)) {
+        sp24->unk_32[2] = 0;
+    }
+
+    if ((sp34->unk_09[3] == 0) || (sp34->unk_09[3] >= 0xA6)) {
+        sp24->unk_32[3] = 0;
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (sp34->unk_09[i] == 0) {
+            for (j = i; j < 4; j++) {
+                sp24->unk_32[j] = 0;
+                sp24->moves[j] = sp34->unk_09[j] = 0;
+            }
+            break;
+        }
+    }
+
+    sp24->unk_26 = sp34->unk_24;
+    sp24->unk_28 = sp34->unk_26;
+    sp24->unk_2A = sp34->unk_28;
+    sp24->unk_2C = sp34->unk_2A;
+    sp24->speed = sp34->unk_2C;
+    sp24->unk_30 = sp34->unk_2E;
+
+    ApplyParalysisSpeedCut(arg0);
+    ApplyBurnAttackCut(arg0);
+
+    sp24->unk_36 = gBaseStats[sp24->id].baseHP;
+    sp24->unk_38 = sp34->unk_28;
+    sp24->unk_3A = sp34->unk_2A;
+    sp24->unk_3C = sp34->unk_2C;
+    sp24->unk_3E = sp34->unk_2E;
+
+    // clang-format off
+    for (i = 0; i < 8; i++) { sp24->unk_5C[i] = 7; }
+    // clang-format on
+
+    func_8210F24C(arg0);
+    func_80041940(BattleScene_GetParticipantSideIndex(arg0), sp34->hp, sp34->unk_26);
+}
 
 s32 func_82110EAC(s8 *arg0)
 {

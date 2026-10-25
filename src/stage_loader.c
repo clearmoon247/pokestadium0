@@ -152,11 +152,52 @@ void StageLoader_ResetGraphicsState(void) {
     Gfx_SetDefaultGeometryState();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80005F50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80005F50.s")
-#endif
+extern Mtx D_800AA188;
+extern Mtx D_8005F688;
+extern Vp D_8005F6C8;
+extern Vp D_8005F6D8;
+void func_80005980(void);
+void func_80002EC8(Gfx**);
+
+void StageLoader_SetupFrame(void) {
+    GfxImage_SetRenderTarget(&gDisplayListHead, stage->renderTargets[stage->renderTargetIndex]);
+    guOrtho(&D_800AA188, 0.0f, 320.0f, 0.0f, 240.0f, -2.0f, 2.0f, 1.0f);
+    Gfx_SetDefaultRenderState();
+    Gfx_SetDefaultGeometryState();
+
+    gSPMatrix(gDisplayListHead++, (u32)&D_8005F688 & 0x1FFFFFFF, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(gDisplayListHead++, (u32)&D_800AA188 & 0x1FFFFFFF, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPPerspNormalize(gDisplayListHead++, 0xFFFF);
+
+    if (stage->zoom == 1) {
+        gSPViewport(gDisplayListHead++, (u32)&D_8005F6D8 & 0x1FFFFFFF);
+        gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, stage->width, stage->height);
+    } else {
+        gSPViewport(gDisplayListHead++, (u32)&D_8005F6C8 & 0x1FFFFFFF);
+        gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, stage->width, stage->height);
+    }
+
+    func_80005980();
+
+    if (gShowCPUProfiler != 0) {
+        print_profiler_metrics();
+    }
+
+    TextRenderer_FlushQueuedStrings(&gDisplayListHead, StageContext_IsHighResolution());
+
+    if (gShowCPUProfiler != 0) {
+        draw_profiler(gShowCPUProfiler - 1);
+    }
+
+    if ((gShowCPUProfiler != 0) && (gShowMEMProfiler != 0)) {
+        func_80002EC8(&gDisplayListHead);
+    }
+
+    gDPFullSync(gDisplayListHead++);
+    gSPEndDisplayList(gDisplayListHead++);
+
+    Gfx_AllocDisplayList(0);
+}
 
 void StageLoader_SwapDisplayListAndReset(void) {
     Gfx_SwapDisplayListBuffer();

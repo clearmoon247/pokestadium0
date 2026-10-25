@@ -110,11 +110,61 @@ void func_800012AC(s8 *arg0) {
     M2C_FIELD(&D_800870D0, u8 *, 0xA87) = (u8) M2C_FIELD(arg0, u8 *, 3);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80001328; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80001328.s")
-#endif
+void func_8000460C(void*);
+void func_80004920(void*);
+void func_8000494C(void*);
+M2C_UNK func_80001234(s8, s8);
+
+#define DW(type, off) M2C_FIELD(&D_800870D0, type*, off)
+
+void DisplayWorker_ProcessFrame(void) {
+    s32 i;
+    s32 sp20 = 0;
+
+    if (DW(s32, 0xA98) != 0) {
+        func_8000460C(&DW(u8, 0xA18));
+    }
+
+    if ((DW(s32, 0xA88) != 0) && (DW(s32, 0xA90) != DW(s32, 0xAB0)) && (DW(u8, 0xA87) != DW(u8, 0xAA7))) {
+        DisplayTask_Submit((UnkStruct80001380*)&DW(u8, 0xA18), &DW(UnkArray4, 0xA84), 1);
+        sp20 = 1;
+    }
+
+    for (i = 1; i < DW(u8, 0xAA4); i++) {
+        func_80004920(&DW(u8, 0x9EC));
+    }
+
+    while (DW(s32, 0xA04) > 0) {
+        func_8000494C(&DW(u8, 0x9EC));
+    }
+
+    if (DW(struct unk_D_80068BB0*, 0xAA0) != NULL) {
+        osViSwapBuffer(DW(struct unk_D_80068BB0*, 0xAA0)->img_p);
+        osViRepeatLine(0);
+        if ((DW(u8, 0xAA5) != DW(u8, 0xA95)) || (DW(u8, 0xAA6) != DW(u8, 0xA96))) {
+            func_80001234((s8)DW(u8, 0xA95), (s8)DW(u8, 0xA96));
+        }
+        osViBlack(0U);
+        crash_screen_set_draw_info((u16*)DW(struct unk_D_80068BB0*, 0xAA0)->img_p, DW(struct unk_D_80068BB0*, 0xAA0)->width, 0x10);
+    } else {
+        osViRepeatLine(1);
+        osViSwapBuffer(DW(struct unk_D_80068BB0*, 0x9B0)->img_p);
+        if ((DW(u8, 0xAA5) != DW(u8, 0xA95)) || (DW(u8, 0xAA6) != DW(u8, 0xA96))) {
+            func_80001234((s8)DW(u8, 0xA95), (s8)DW(u8, 0xA96));
+        }
+    }
+
+    if ((sp20 == 0) && (DW(s32, 0xA88) != 0)) {
+        DisplayTask_Submit((UnkStruct80001380*)&DW(u8, 0xA18), &DW(UnkArray4, 0xA84), 0);
+    }
+
+    DW(UnkArray4, 0xAA4) = DW(UnkArray4, 0xA94);
+    DW(UnkArray4, 0xA94) = DW(UnkArray4, 0xA84);
+    profiler_log_thread5_time(THREAD5_END);
+    func_80004920(&DW(u8, 0x9EC));
+}
+
+#undef DW
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80001558; signature not recovered. */

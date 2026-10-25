@@ -447,8 +447,81 @@ void func_884029FC(void) {
     func_800052E8(M2C_FIELD(D_8840336C, s32 *, 0x1C), sp2C);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88402AF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88402AF0.s")
-#endif
+#include "stage_loader.h"
+extern u16 D_800AF986;
+extern u8 D_01000000[];
+extern u8 D_04000000[];
+extern u8 D_8F400000[];
+extern u8 D_8E800000[];
+extern u8 D_8E900000[];
+extern u8 D_88000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_0038A540[];
+extern u8 D_003C5200[];
+extern u8 D_003CE090[];
+extern u8 D_003D64A0[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+void func_88402538(void);
+void func_884025E4(void);
+void func_884026A4(s32);
+s32 func_88402334(void);
+s32 func_884023F0(void);
+s32 func_8840248C(void);
+
+s32 ClefairyGame_Main(s32 arg0, s32 arg1) {
+    s32 result;
+    s32 ret;
+
+    main_pool_push_state('BCMP');
+
+    D_88403368 = (s8*)StageContext_GetCurrent();
+    D_8840336C = (s8*)StageContext_Allocate(0, 1, 2, 1, 2, 0);
+    func_884029FC();
+
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+    Fragment_Load(((((u32)D_8F400000) & 0x0FF00000) >> 0x14) - 0x10, D_0038A540, D_003C5200);
+    if (D_800AF986 & 8) {
+        Fragment_Load(((((u32)D_8E800000) & 0x0FF00000) >> 0x14) - 0x10, D_003C5200, D_003CE090);
+    }
+    if (D_800AF986 & 0x10) {
+        Fragment_Load(((((u32)D_8E900000) & 0x0FF00000) >> 0x14) - 0x10, D_003CE090, D_003D64A0);
+    }
+
+    func_8001A194(0xF, 0);
+    func_88402538();
+    func_884025E4();
+    func_884026A4(arg0);
+    StageLoader_UpdateSegments();
+    StageContext_SaveAndSwitch((StageContext*)D_8840336C);
+    Audio_PlayCommand(0x46, 3, 0);
+
+    if (arg0 == 0) {
+        if (D_800AF986 == 0) {
+            result = func_88402334();
+        } else {
+            result = func_884023F0();
+        }
+    } else {
+        result = func_8840248C();
+    }
+
+    StageContext_SaveAndSwitch((StageContext*)D_88403368);
+    StageLoader_RunFrames(1);
+    StageLoader_WaitForRetrace();
+    Font_Free();
+
+    main_pool_pop_state('BCMP');
+
+    if (result == 1) {
+        Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 1, arg1);
+        ret = 0x8040;
+    } else {
+        ret = 0x8010;
+    }
+    return ret;
+}

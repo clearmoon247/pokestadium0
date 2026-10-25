@@ -320,7 +320,7 @@ func_80001140,0x80001140,src/dp_intro.c,DisplayTask_Initialize,s1,stadium1:src/d
 func_80001204,0x80001204,src/dp_intro.c,DisplayTask_Submit,s1,stadium1:src/dp_intro.c,c
 func_80001234,0x80001234,src/dp_intro.c,,asm,,asm
 func_800012AC,0x800012AC,src/dp_intro.c,func_800012AC,m2c,m2c,c
-func_80001328,0x80001328,src/dp_intro.c,,asm,,asm
+func_80001328,0x80001328,src/dp_intro.c,DisplayWorker_ProcessFrame,hand,,c
 func_80001558,0x80001558,src/dp_intro.c,,asm,,asm
 func_800016C4,0x800016C4,src/dp_intro.c,,asm,,asm
 func_80001868,0x80001868,src/dp_intro.c,DisplayWorker_Initialize,hand,,c
@@ -730,7 +730,7 @@ func_88402538,0x88402538,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c
 func_884025E4,0x884025E4,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,,asm,,asm
 func_884026A4,0x884026A4,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,,asm,,asm
 func_884029FC,0x884029FC,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,func_884029FC,m2c,m2c,c
-func_88402AF0,0x88402AF0,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,,asm,,asm
+func_88402AF0,0x88402AF0,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,ClefairyGame_Main,hand,,c
 func_82000020,0x82000020,src/fragments/fragment007_166580.c,,asm,,asm
 func_82000058,0x82000058,src/fragments/fragment007_166580.c,,asm,,asm
 func_82000140,0x82000140,src/fragments/fragment007_166580.c,,asm,,asm
@@ -912,7 +912,7 @@ func_81700588,0x81700588,src/fragments/fragment010_17BE70/pikachu_reward.c,Pikac
 func_81700630,0x81700630,src/fragments/fragment010_17BE70/pikachu_reward.c,PikachuReward_ShowTextWaitForA,hand,,c
 func_8170070C,0x8170070C,src/fragments/fragment010_17BE70/pikachu_reward.c,PikachuReward_ScrollTextIn,s1,stadium1:src/fragments/pikachu_reward/pikachu_reward.c,c
 func_817008B4,0x817008B4,src/fragments/fragment010_17BE70/pikachu_reward.c,PikachuReward_ConfirmYesNoPrompt,hand,,c
-func_81700A80,0x81700A80,src/fragments/fragment010_17BE70/pikachu_reward.c,,asm,,asm
+func_81700A80,0x81700A80,src/fragments/fragment010_17BE70/pikachu_reward.c,PikachuReward_SelectMoveToForget,hand,,c
 func_81700D7C,0x81700D7C,src/fragments/fragment010_17BE70/pikachu_reward.c,func_81700D7C,m2c,m2c,c
 func_81700E04,0x81700E04,src/fragments/fragment010_17BE70/pikachu_reward.c,func_81700E04,m2c,m2c,c
 func_81700E98,0x81700E98,src/fragments/fragment010_17BE70/pikachu_reward.c,PikachuReward_PlayIntroCamera,s1,stadium1:src/fragments/pikachu_reward/pikachu_reward.c,c
@@ -2497,7 +2497,7 @@ func_82110A10,0x82110A10,src/fragments/fragment012_17ED00/battle_engine_359F90.c
 func_82110B44,0x82110B44,src/fragments/fragment012_17ED00/battle_engine_359F90.c,func_82110B44,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
 func_82110B6C,0x82110B6C,src/fragments/fragment012_17ED00/battle_engine_359F90.c,ApplyParalysisSpeedCut,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
 func_82110BA4,0x82110BA4,src/fragments/fragment012_17ED00/battle_engine_359F90.c,ApplyBurnAttackCut,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
-func_82110BDC,0x82110BDC,src/fragments/fragment012_17ED00/battle_engine_359F90.c,,asm,,asm
+func_82110BDC,0x82110BDC,src/fragments/fragment012_17ED00/battle_engine_359F90.c,Battle_InitPokemonRuntimeState,hand,,c
 func_82110EAC,0x82110EAC,src/fragments/fragment012_17ED00/battle_engine_359F90.c,func_82110EAC,m2c,m2c+permuter,c
 func_82110EE4,0x82110EE4,src/fragments/fragment012_17ED00/battle_engine_359F90.c,,asm,,asm
 func_82110FB0,0x82110FB0,src/fragments/fragment012_17ED00/battle_engine_359F90.c,func_82110FB0,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
@@ -2739,7 +2739,7 @@ func_821055D0,0x821055D0,src/fragments/fragment012_17ED00/battle_engine_move_ani
 func_8210568C,0x8210568C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,func_8210568C,hand,,c
 func_82105724,0x82105724,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
 func_821057D4,0x821057D4,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,BattleScene_IsRowWaitCompleteWithEventCount,hand,,c
-func_821058E8,0x821058E8,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
+func_821058E8,0x821058E8,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,func_821058E8,hand,,c
 func_82105AB0,0x82105AB0,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,func_82105AB0,hand,,c
 func_82105C8C,0x82105C8C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,BattleScene_IsRowAnimWaitComplete,hand,,c
 func_82105D3C,0x82105D3C,src/fragments/fragment012_17ED00/battle_engine_move_animation.c,,asm,,asm
@@ -2835,7 +2835,7 @@ func_8210B58C,0x8210B58C,src/fragments/fragment012_17ED00/battle_engine_move_mod
 func_8210B5C8,0x8210B5C8,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleAnim_SquishHitReactionContinue,s1,stadium1:src/fragments/battle_engine/battle_engine_move_model_transforms.c,asm
 func_8210B790,0x8210B790,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,func_8210B790,m2c,m2c,c
 func_8210B7E4,0x8210B7E4,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
-func_8210B824,0x8210B824,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
+func_8210B824,0x8210B824,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleAnim_LassoMoveHitReactionContinue,hand,,asm
 func_8210B9F8,0x8210B9F8,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,func_8210B9F8,m2c,m2c,c
 func_8210BA4C,0x8210BA4C,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,func_8210BA4C,m2c,m2c,c
 func_8210BA64,0x8210BA64,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
@@ -3874,7 +3874,7 @@ func_8A101C50,0x8A101C50,src/fragments/fragment018_262620/pokedex_214920.c,Poked
 func_8A101CE4,0x8A101CE4,src/fragments/fragment018_262620/pokedex_214920.c,Pokedex_GetHighestSeenSpeciesIndex,s1,stadium1:src/fragments/pokedex/pokedex_214920.c,c
 func_8A101D38,0x8A101D38,src/fragments/fragment018_262620/pokedex_214920.c,Pokedex_InitFramebuffers,s1,stadium1:src/fragments/pokedex/pokedex_214920.c,c
 func_8A101E84,0x8A101E84,src/fragments/fragment018_262620/pokedex_214920.c,func_8A101E84,hand,,c
-func_8A101ED4,0x8A101ED4,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
+func_8A101ED4,0x8A101ED4,src/fragments/fragment018_262620/pokedex_214920.c,func_8A101ED4,hand,,c
 func_8A1020B0,0x8A1020B0,src/fragments/fragment018_262620/pokedex_2190D0.c,Pokedex_FindNextMapArea,s1,stadium1:src/fragments/pokedex/pokedex_2190D0.c,c
 func_8A1023FC,0x8A1023FC,src/fragments/fragment018_262620/pokedex_2190D0.c,Pokedex_FindPrevMapArea,s1,stadium1:src/fragments/pokedex/pokedex_2190D0.c,c
 func_8A102748,0x8A102748,src/fragments/fragment018_262620/pokedex_2190D0.c,Pokedex_BuildMapMarkerDisplayList,s1,stadium1:src/fragments/pokedex/pokedex_2190D0.c,c
@@ -5360,7 +5360,7 @@ func_80005C90,0x80005C90,src/stage_loader.c,Profiler_SetDisplayModes,s1,stadium1
 func_80005CB8,0x80005CB8,src/stage_loader.c,Gfx_SetDefaultRenderState,s1,stadium1:src/stage_loader.c,c
 func_80005E9C,0x80005E9C,src/stage_loader.c,Gfx_SetDefaultGeometryState,s1,stadium1:src/stage_loader.c,c
 func_80005F00,0x80005F00,src/stage_loader.c,StageLoader_ResetGraphicsState,s1,stadium1:src/stage_loader.c,c
-func_80005F50,0x80005F50,src/stage_loader.c,,asm,,asm
+func_80005F50,0x80005F50,src/stage_loader.c,StageLoader_SetupFrame,hand,,c
 func_8000624C,0x8000624C,src/stage_loader.c,StageLoader_SwapDisplayListAndReset,s1,stadium1:src/stage_loader.c,c
 func_80006274,0x80006274,src/stage_loader.c,StageLoader_BeginFrame,s1,stadium1:src/stage_loader.c,c
 func_8000631C,0x8000631C,src/stage_loader.c,StageLoader_FillFrame,s1,stadium1:src/stage_loader.c,c
