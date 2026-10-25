@@ -231,7 +231,7 @@ void func_80023D3C(s32 arg0, s32 arg1) {
 void func_80024044(void) {
 }
 
-M2C_UNK func_800238D8(s32, M2C_UNK, s32);           /* extern */
+M2C_UNK func_800238D8(); // Called with two or three arguments.
 void func_8002404C(s32 arg0, s32 arg1) {
     switch (arg0) {
     case 16:
@@ -289,11 +289,20 @@ void func_80024170(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80024294.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800243B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800243B8.s")
-#endif
+void func_800243B8(void) {
+    s32 i;
+
+    for (i = 0; i < 0x2500; i += 0x250) {
+        func_800238D8(*(s32*)&D_800AE8E0 + i, 0x128);
+    }
+    for (i = 0; i < 0x2B00; i += 0xAC0) {
+        func_800238D8(*(s32*)&D_800AE8E0 + i + 0x2500, 0x560);
+    }
+    for (i = 0; i < 0x700; i += 0x1C0) {
+        func_800238D8(*(s32*)&D_800AE8E0 + i + 0x5000, 0xE0);
+    }
+    func_800238D8(*(s32*)&D_800AE8E0 + 0x5700, 0x11A0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80024470; signature not recovered. */

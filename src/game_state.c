@@ -201,11 +201,25 @@ void GbSave_SetActivePort(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025C0C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025D8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025D8C.s")
-#endif
+void Ui_DrawGradientPanel(s32 x1, s32 y1, s32 width, s32 height, Color_RGB8* top_color, Color_RGB8* bottom_color);
+extern Color_RGB8 D_800733E4;
+extern Color_RGB8 D_800733E8;
+extern char D_8007B8B4[];
+
+void func_80025D8C(void) {
+    Color_RGB8 sp2C = D_800733E4;
+    Color_RGB8 sp28 = D_800733E8;
+    UNUSED s32 pad[2];
+
+    BgStage_DrawFrame();
+    GfxImage_FillCurrent(&gDisplayListHead, 1);
+    Ui_DrawGradientPanel(0x90, 0x96, 0x160, 0x38, &sp2C, &sp28);
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(0x10, -2);
+    Font_Printf(0xDD, 0xA6, D_8007B8B4);
+    Font_EndTexturedTextRendering();
+    BgStage_AdvanceFrame();
+}
 
 M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
 M2C_UNK func_80002620(M2C_UNK);                     /* extern */
@@ -216,7 +230,7 @@ M2C_UNK func_8001A194(M2C_UNK, M2C_UNK);            /* extern */
 M2C_UNK func_8001A360();                            /* extern */
 s32 func_80021B30(s32);                             /* extern */
 M2C_UNK func_80025C0C(M2C_UNK);                     /* extern */
-M2C_UNK func_80025D8C();                            /* extern */
+void func_80025D8C(void);
 extern M2C_UNK D_002E0BE0;
 extern M2C_UNK D_002E2B90;
 extern M2C_UNK D_01000000;

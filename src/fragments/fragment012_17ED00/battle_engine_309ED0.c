@@ -903,11 +903,33 @@ void func_821272C0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82129414.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212954C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212954C.s")
-#endif
+extern s32 D_8219A568;
+void func_82128FBC(s32);
+void func_821290CC(s32);
+void func_821291E4(s32);
+
+void func_8212954C(s32 arg0) {
+    if (sBattleScene.scene->unk_3C == 0) {
+        D_8219A568 = BattleAnim_RandomRange(3);
+        if (D_8219A568 >= 4) {
+            D_8219A568 = 0;
+        }
+    }
+    switch (D_8219A568) {
+        case 0:
+            func_82128FBC(arg0);
+            break;
+        case 1:
+            func_821290CC(arg0);
+            break;
+        case 2:
+            func_821291E4(arg0);
+            break;
+        default:
+            func_82128FBC(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212960C; signature not recovered. */

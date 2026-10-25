@@ -280,11 +280,48 @@ void BattleMenu_DrawConfirmButtonLabel(unk_D_848037A0* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823016FC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_823017EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823017EC.s")
-#endif
+extern s32 D_84816450;
+extern Controller D_84816428;
+extern unk_D_84803548* D_848035E0[];
+extern unk_D_848037A0 D_848037A0[4];
+extern SessionContext* D_84816420;
+extern s32 D_8481644C;
+extern unk_D_848037A0 D_82302B48[];
+extern SessionContext* D_82302BD0;
+extern Controller D_82302BD8;
+extern s32 D_82302BFC;
+extern s32 D_82302C00;
+extern unk_D_84803548* D_823028A8[];
+
+void func_823017EC(void) {
+    s32 var_v0;
+    unk_D_84803548* ptr;
+
+    if (D_82302B48[1].unk_001C->unk_000 & 2) {
+        if (D_82302BD0->ruleCategory != 0) {
+            var_v0 = 3;
+        } else {
+            var_v0 = D_82302B48[1].unk_0016;
+            if (D_82302B48[0].unk_0016 < var_v0) {
+                var_v0 = D_82302B48[0].unk_0016;
+            }
+        }
+        D_82302BD8.buttonPressed = 0;
+        if (D_82302C00 == 0) {
+            ptr = D_823028A8[var_v0];
+
+            D_82302C00 = ptr[D_82302BFC].unk_00;
+            if (D_82302C00 != 0) {
+                D_82302BD8.buttonPressed = ptr[D_82302BFC].unk_02;
+                D_82302BFC++;
+            }
+        }
+
+        if (D_82302C00 > 0) {
+            D_82302C00--;
+        }
+    }
+}
 
 s32 BattleMenu_IsSlotAlreadySelected(unk_D_848037A0* arg0, s8 arg1) {
     s32 i;
@@ -350,7 +387,7 @@ void func_82301A2C(unk_D_848037A0* arg0, s8 arg1) {
 
 M2C_UNK func_8003F6AC(M2C_UNK, s8 *);             /* extern */
 M2C_UNK func_82300B30(s8, s8 *);                  /* extern */
-extern s8 D_82302B48;
+extern unk_D_848037A0 D_82302B48[];
 void func_82301B2C(s8 *arg0) {
     s8 temp_v1;
     s8 *temp_v0;
@@ -364,7 +401,7 @@ void func_82301B2C(s8 *arg0) {
         func_8003F6AC(3, arg0);
         temp_v1 = M2C_FIELD(arg0, s8 *, 2);
         if (temp_v1 != -1) {
-            temp_v0 = (temp_v1 << 5) + &D_82302B48;
+            temp_v0 = (temp_v1 << 5) + (s8*)D_82302B48;
             M2C_FIELD(temp_v0, s8 *, 5) = 0;
             M2C_FIELD(temp_v0, s8 *, 0xB) = 0;
             M2C_FIELD(temp_v0, s8 *, 9) = 0;
@@ -483,7 +520,7 @@ s32 BattleMenu_UpdateOrderSelect(s32 arg0) {
     GeoRender_AdvanceFrameCounter();
     i = PokeIcon_ProcessAllSlots((unk_func_8001A024*)D_82302BCC, 0);
     if (i != -1) {
-        ((unk_D_848037A0*)&D_82302B48)[i % 4].unk_0006 = 3;
+        (D_82302B48)[i % 4].unk_0006 = 3;
     }
     BgStage_DrawFrame();
 
@@ -492,8 +529,8 @@ s32 BattleMenu_UpdateOrderSelect(s32 arg0) {
     }
 
     for (i = 0; i < D_82302B44; i++) {
-        var_s2 += BattleMenu_UpdateOrderSelectPanel(arg0, &((unk_D_848037A0*)&D_82302B48)[i]);
-        BattleMenu_DrawOrderSelectPanel(&((unk_D_848037A0*)&D_82302B48)[i]);
+        var_s2 += BattleMenu_UpdateOrderSelectPanel(arg0, &(D_82302B48)[i]);
+        BattleMenu_DrawOrderSelectPanel(&(D_82302B48)[i]);
     }
 
     BattleMenu_DrawTeamOrderSidebarTeam0();
@@ -567,7 +604,7 @@ void BattleMenu_CommitOrderSelection(void) {
     TeamRoster* temp_s1;
     OrderSelectSlot* var_s2;
 
-    var_s2 = (OrderSelectSlot*)&D_82302B48;
+    var_s2 = (OrderSelectSlot*)D_82302B48;
     var_s4 = D_82302B44;
 
     while (var_s4-- > 0) {
@@ -597,7 +634,7 @@ void BattleMenu_AddOrderSelectPanel(s16 arg0, s16 arg1, TeamRoster* arg2, s32 ar
     s32 j;
 
     j = D_82302B44;
-    temp_v1 = &((unk_D_848037A0*)&D_82302B48)[D_82302B44];
+    temp_v1 = &(D_82302B48)[D_82302B44];
     temp_v1->unk_0000 = D_82302B44;
     temp_v1->unk_0001 = arg2->controllerPort;
     temp_v1->unk_0002 = arg4;

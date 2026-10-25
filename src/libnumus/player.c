@@ -509,11 +509,29 @@ s32 func_80037B7C(s32 handle) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037CA4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037D4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037D4C.s")
-#endif
+s32 func_80037D4C(s32 handle, f32 offset) {
+    channel_t* cp;
+    s32 i;
+    s32 count;
+    u32 mask;
+
+    if (handle == 0) {
+        return 0;
+    }
+
+    mask = osSetIntMask(1);
+
+    for (i = 0, count = 0, cp = mus_channels; i < (s32)max_channels; i++, cp++) {
+        if (handle == cp->handle) {
+            count++;
+            cp->freqoffset = cp->distort + offset;
+        }
+    }
+
+    osSetIntMask(mask);
+
+    return count;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80037DF4; signature not recovered. */

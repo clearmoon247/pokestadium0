@@ -347,11 +347,19 @@ void Battle_HandleStatBoostingMoveAnimation(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82102A34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102A34.s")
-#endif
+void func_82102A34(ActivePokemon* active_pokemon) {
+    BattleMonRuntime* runtime;
+    MovePresentationCue* cue;
+
+    runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[runtime->usedMove - 1];
+    if ((active_pokemon->animationTimer == (cue->unk_09 + 0x1F)) && (BattleAnim_IsAssetLoadBusy(active_pokemon) == 0)) {
+        if (runtime->usedMove == 0x6A) {
+            Model_SetMaterialTextureMode(&active_pokemon->displayObject, 1);
+        }
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82102AEC; signature not recovered. */
@@ -455,11 +463,19 @@ void BattleScene_TickRow1PlayOwnerCry(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210384C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82103998; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103998.s")
-#endif
+void func_82103998(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[2];
+    s32 row_index = active_pokemon->animationState;
+
+    if (BattleAnim_TryRegisterAssetTables(active_pokemon) != 0) {
+        active_pokemon->sessionTeams->displayModel = active_pokemon->state.runtime.id;
+        active_pokemon->sessionTeams->unk_04 = (TeamRoster*)&active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
+        active_pokemon->animationTimer = 0;
+        BattleScene_QueueRowEffectList3(active_pokemon, sBattleSceneStateRowTable[row_index].mode);
+        Audio_PlayCommand(3, 0, 0);
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+    }
+}
 
 void BattleScene_TickQueueRowEffectList3OnFirstFrame(ActivePokemon* active_pokemon) {
     BattleScene_GetParticipantSideIndex(active_pokemon);

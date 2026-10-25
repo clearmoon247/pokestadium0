@@ -163,11 +163,30 @@ void func_8212C530(s32 arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212C60C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212C6E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212C6E8.s")
-#endif
+void func_821247F0(void*, void*);
+s32 func_82124810(void*, void*);
+void func_82124830(void*, void*);
+void func_82124874(void*, void*);
+
+void func_8212C6E8(ActivePokemon* arg0, CameraNode* arg1, s32 arg2) {
+    switch (arg2) {
+        case 0:
+            func_821247F0(arg1, arg0);
+            break;
+        case 1:
+            func_82124810(arg1, arg0);
+            break;
+        case 2:
+            func_82124830(arg1, arg0);
+            break;
+        case 3:
+            func_82124874(arg1, arg0);
+            break;
+        default:
+            func_82124874(arg1, arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212C78C; signature not recovered. */
@@ -333,11 +352,32 @@ void BattleScene_PhaseFaint(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212ECC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212EEC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212EEC0.s")
-#endif
+extern s32 D_8219A568;
+void func_821247F0(void*, void*);
+s32 func_82124810(void*, void*);
+void func_82124830(void*, void*);
+void func_82124874(void*, void*);
+
+void func_8212EEC0(ActivePokemon* arg0, CameraNode* arg1) {
+    D_8219A568 = BattleAnim_RandomRange(3);
+    if (D_8219A568 >= 4) {
+        D_8219A568 = 0;
+    }
+    switch (D_8219A568) {
+        case 0:
+            func_821247F0(arg1, arg0);
+            break;
+        case 1:
+            func_82124810(arg1, arg0);
+            break;
+        case 2:
+            func_82124830(arg1, arg0);
+            break;
+        default:
+            func_82124874(arg1, arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212EF74; signature not recovered. */

@@ -410,11 +410,30 @@ s32 func_884023F0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_8840248C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88402538; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88402538.s")
-#endif
+typedef struct GbPortSummaryZ {
+    /* 0x00 */ u8 saveState;
+    /* 0x01 */ u8 game;
+    /* 0x02 */ u16 trainerId;
+    /* 0x04 */ char name[0xE];
+} GbPortSummaryZ; // size = 0x12
+extern GbPortSummaryZ D_88403310[4];
+typedef struct GbIdentityZ {
+    /* 0x00 */ u16 trainerId;
+    /* 0x02 */ char name[10];
+} GbIdentityZ;
+
+void func_88402538(void) {
+    s32 i;
+    GbIdentityZ identity;
+
+    for (i = 0; i < 4; i++) {
+        GbSave_CopyPlayerIdentity(i, (GbSavePlayerIdentity*)&identity);
+        Text_UntranscodeName(D_88403310[i].name, identity.name);
+        D_88403310[i].trainerId = identity.trainerId;
+        D_88403310[i].game = GbSave_GetPortGame(i);
+        D_88403310[i].saveState = GbSave_GetSaveState(i);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_884025E4; signature not recovered. */

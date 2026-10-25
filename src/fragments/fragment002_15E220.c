@@ -9,11 +9,27 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_81200020.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81200190; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_81200190.s")
-#endif
+u32 osGetCount(void);
+f32 MathUtil_Random_ZeroOne(void);
+void func_80025758(s32, s32, s32);
+extern u8 D_81200DAC[];
+
+void func_81200190(void) {
+    s32 temp_s0;
+    s32 sp38;
+
+    temp_s0 = osGetCount() & 0xFF;
+    while (temp_s0-- > 0) {
+        MathUtil_Random_ZeroOne();
+    }
+
+    temp_s0 = MathUtil_Random_ZeroOne() * 40.0f;
+    do {
+        sp38 = MathUtil_Random_ZeroOne() * 40.0f;
+    } while (temp_s0 == sp38);
+
+    func_80025758(3, D_81200DAC[temp_s0], D_81200DAC[sp38]);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8120023C; signature not recovered. */

@@ -425,11 +425,28 @@ void func_891035E4(u8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891041D8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89104314; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104314.s")
-#endif
+u8 Move_GetIdFromTableIndex(s32 arg0);
+void LabPCList_ConsumeUsedTmItem(u8** arg0);
+
+void func_89104314(u8** arg0, u8** arg1, s32 arg2) {
+    u8* ptr;
+    s32 var_a0;
+
+    if (*arg1[0] >= 0xC9) {
+        var_a0 = *arg1[0] - 0xC9;
+    } else {
+        var_a0 = *arg1[0] - 0x92;
+    }
+
+    ptr = (u8*)arg0 + arg2 + 8;
+    ptr[9] = Move_GetIdFromTableIndex(var_a0);
+    ptr[0x20] = gMoveData[ptr[9] - 1].unk_05;
+
+    if (*arg1[0] >= 0xC9) {
+        LabPCList_ConsumeUsedTmItem(arg1);
+    }
+    *(s32*)(arg0[0] + 0x10) = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_891043BC; signature not recovered. */
