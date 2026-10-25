@@ -3484,7 +3484,7 @@ func_82200E2C,0x82200E2C,src/fragments/fragment013_232510/demo_scenes_161E60.c,f
 func_82200F08,0x82200F08,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82200F08,hand,,c
 func_82201084,0x82201084,src/fragments/fragment013_232510/demo_scenes_161E60.c,,asm,,asm
 func_82201348,0x82201348,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82201348,hand,,c
-func_82201444,0x82201444,src/fragments/fragment013_232510/demo_scenes_161E60.c,,asm,,asm
+func_82201444,0x82201444,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82201444,hand,,c
 func_82201600,0x82201600,src/fragments/fragment013_232510/demo_scenes_161E60.c,,asm,,asm
 func_822017F0,0x822017F0,src/fragments/fragment013_232510/demo_scenes_161E60.c,,asm,,asm
 func_822018EC,0x822018EC,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_822018EC,m2c,m2c,c
@@ -3496,7 +3496,7 @@ func_822020FC,0x822020FC,src/fragments/fragment013_232510/demo_scenes_161E60.c,f
 func_82202228,0x82202228,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82202228,hand,,c
 func_822023D4,0x822023D4,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_822023D4,hand,,c
 func_82202494,0x82202494,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82202494,hand,,c
-func_82202728,0x82202728,src/fragments/fragment013_232510/demo_scenes_161E60.c,,asm,,asm
+func_82202728,0x82202728,src/fragments/fragment013_232510/demo_scenes_161E60.c,func_82202728,hand,,c
 func_88000020,0x88000020,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
 func_8800023C,0x8800023C,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm
 func_880002D8,0x880002D8,src/fragments/fragment014_235D70/lab_pc_icons.c,,asm,,asm

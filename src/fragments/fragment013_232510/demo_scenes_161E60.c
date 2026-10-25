@@ -26,6 +26,7 @@
 #include "stage_loader.h"
 #include "fragments/minigame_actor_framework/minigame_actor_framework.h"
 #include "gb_save.h"
+#include "m2c_macros.h"
 extern u8 D_30074E0[];
 extern u8 D_30092E0[];
 extern u8 D_300B6E0[];
@@ -65,10 +66,41 @@ typedef struct unk_D_82203170 {
     /* 0x38 */ TeamRoster* unk_38[2];
     /* 0x40 */ ExtendedRosterInfo* unk_40[2];
 } unk_D_82203170; // size = 0x48
+
+extern u8* D_82202C1C[];
+extern u8* D_82202C3C[];
+extern u8 D_82202C60[];
+extern u8 D_82202C7C[];
+extern u8 D_82202CD0[];
+extern u8 D_82202CEC[];
+extern u8 D_82202D40[];
+extern u8 D_82202DDC[];
+extern u8 D_82202E9C[];
+extern u8 D_82202F5C[];
+extern u8 D_8220301C[];
 extern unk_D_82203170 D_82203170[2];
+extern DisplayObject* D_82203200;
+extern DepthBuffer* D_82203208;
+extern DepthBuffer* D_82203210[12];
+extern GraphNode* D_82203240;
+extern GraphNode* D_82203244;
+extern GraphNode* D_82203248;
+extern GraphNode* D_8220324C;
+extern ModelNodeView* D_82203250;
+extern ModelNodeView* D_82203254;
+extern ModelNodeView* D_82203258;
+extern BinArchive* D_8220325C;
+extern s32 D_82203264;
+extern DisplayObject D_82203268;
+extern DisplayObject D_822033D0;
+extern s16 D_822033E8;
+extern DisplayObject D_82203538;
+extern s32 D_8220354C;
+extern s16 D_82203550;
+extern Color_RGBA8 D_822036A0;
 extern s8* D_822036A4;
 extern s32 D_822036A8;
-extern DepthBuffer* D_82203210[12];
+M2C_UNK func_800407B0(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 Completion_LightAngleCallbackA(s32, GraphNode*);
 s32 Completion_LightAngleCallbackB(s32, GraphNode*);
 typedef struct unk_D_86B0DBCC {
@@ -156,7 +188,6 @@ typedef struct unk_D_86301730 {
     /* 0x17E */ char pad17E[6];
 } unk_D_86301730;
 
-#include "m2c_macros.h"
 
 s32 Completion_LightAngleCallbackA(s32 arg0, GraphNode* arg1);
 void func_82200848(void);
@@ -204,7 +235,6 @@ s32 func_82200108(void) {
     return 0;
 }
 
-extern BinArchive* D_8220325C;
 
 void func_8220013C(void) {
     unk_D_82203170* team;
@@ -243,10 +273,6 @@ void func_8220013C(void) {
 
 extern u8* D_86B10828;
 extern GraphNode* D_86B106B4;
-extern DepthBuffer* D_82203208;
-extern GraphNode* D_82203240;
-extern GraphNode* D_82203244;
-extern s32 D_82203264;
 void func_82200278(void);
 
 s32 func_82200510(s32 arg0) {
@@ -311,14 +337,9 @@ void func_82200858(unk_D_82203170* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment013_232510/func_8220091C.s")
 #endif
 
-extern u8 D_82202C60[];
-extern u8 D_82202C7C[];
-extern u8 D_82202CD0[];
-extern u8 D_82202CEC[];
 extern u8 D_82400000[];
 extern u8 D_00175570[];
 extern u8 D_0017BE70[];
-extern DisplayObject D_82203268;
 void func_82200618(void);
 void func_8220091C(void);
 void func_82200714(void);
@@ -358,7 +379,6 @@ void func_82200C04(void) {
 
 M2C_UNK func_80025100(s8 *, M2C_UNK);               /* extern */
 M2C_UNK func_80025168(s8);                          /* extern */
-extern s8 *D_822036A4;
 
 void func_82200DA4(void) {
     s8 sp1F;
@@ -470,7 +490,6 @@ void func_82201348(DepthBuffer* arg0) {
     gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
 }
 
-#ifdef NON_MATCHING
 void func_82201444(unk_D_82203170* arg0, s32 arg1) {
     s32 slot = arg1 * 6;
     s32 i;
@@ -498,9 +517,6 @@ void func_82201444(unk_D_82203170* arg0, s32 arg1) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment013_232510/func_82201444.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82201600; signature not recovered. */
@@ -522,8 +538,6 @@ M2C_UNK func_822005A8(M2C_UNK);                     /* extern */
 M2C_UNK func_82201084(s32);                         /* extern */
 M2C_UNK func_82201600(s32);                         /* extern */
 s32 func_822017F0();                                /* extern */
-extern s32 D_82203264;
-extern s8 *D_822036A4;
 
 void func_822018EC(void) {
     s32 var_s0;
@@ -568,8 +582,6 @@ void func_822018EC(void) {
 
 M2C_UNK func_8001107C(M2C_UNK *, M2C_UNK, M2C_UNK *); /* extern */
 M2C_UNK func_800407B0(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
-extern DisplayObject D_82203268;
-extern s8 *D_822036A4;
 extern M2C_UNK D_8F6256E0;
 
 void func_82201A3C(void) {
@@ -589,13 +601,6 @@ void func_82201A3C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment013_232510/func_82201AC4.s")
 #endif
 
-extern DisplayObject D_822033D0;
-extern DisplayObject D_82203538;
-extern ModelNodeView* D_82203254;
-extern ModelNodeView* D_82203258;
-extern u8* D_82202C1C[];
-extern u8* D_82202C3C[];
-extern s32 D_8220354C;
 void func_82200F08(void);
 s32 func_82201AC4(void);
 
@@ -626,8 +631,6 @@ s32 func_82201DF8(void) {
     return sp24;
 }
 
-extern DisplayObject D_82203268;
-extern ModelNodeView* D_82203250;
 extern u8 D_8F625614[];
 extern u8 D_8F61F87C[];
 void func_82201444(unk_D_82203170* arg0, s32 arg1);
@@ -663,12 +666,9 @@ void func_82201F90(void) {
     ((DemoState*)D_822036A4)->unk_1096 |= 1;
 }
 
-extern DisplayObject D_82203268;
 extern u8 D_82400000[];
 extern u8 D_00175570[];
 extern u8 D_0017BE70[];
-extern s16 D_822033E8;
-extern s16 D_82203550;
 void func_8220013C(void);
 void func_8220091C(void);
 
@@ -747,21 +747,6 @@ void func_822023D4(void) {
     }
 }
 
-extern DisplayObject* D_82203200;
-extern GraphNode* D_82203248;
-extern GraphNode* D_8220324C;
-extern ModelNodeView* D_82203250;
-extern ModelNodeView* D_82203254;
-extern ModelNodeView* D_82203258;
-extern DisplayObject D_82203268;
-extern DisplayObject D_822033D0;
-extern DisplayObject D_82203538;
-extern Color_RGBA8 D_822036A0;
-extern u8 D_8220301C[];
-extern u8 D_82202DDC[];
-extern u8 D_82202E9C[];
-extern u8 D_82202F5C[];
-extern u8 D_82202D40[];
 extern u8 D_8EC13F98[];
 extern u8 D_8ED0E1A0[];
 extern u8 D_8EE0F378[];
@@ -821,8 +806,136 @@ void func_82202494(s32 arg0) {
     Color_SetRGB(&D_822036A0, 0xFF, 0xFF, 0xFF);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82202728; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment013_232510/func_82202728.s")
-#endif
+extern StageContext* D_82203204;
+extern ModelLoadContext* D_82203260;
+extern u8 D_01000000[];
+extern u8 D_81000000[];
+extern u8 D_8EB00000[];
+extern u8 D_8EC00000[];
+extern u8 D_8ED00000[];
+extern u8 D_8EE00000[];
+extern u8 D_8F200000[];
+extern u8 D_8F300000[];
+extern u8 D_8F500000[];
+extern u8 D_8F600000[];
+extern u8 D_8F900000[];
+extern u8 D_8FA00000[];
+extern u8 D_8FB00000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_002F5940[];
+extern u8 D_003139C0[];
+extern u8 D_00317EF0[];
+extern u8 D_0031C300[];
+extern u8 D_00320820[];
+extern u8 D_00326700[];
+extern u8 D_003553C0[];
+extern u8 D_0035C390[];
+extern u8 D_0035E790[];
+extern u8 D_00369F50[];
+extern u8 D_0037B090[];
+extern u8 D_00380D60[];
+extern u8 D_00385D60[];
+extern u8 D_0038A540[];
+s32 func_80023C30(void);
+void func_8001A194(s32 arg0, s32 arg1);
+
+#define DEMO_FRAGMENT_ID(vram) ((((u32)(vram) & 0x0FF00000) >> 0x14) - 0x10)
+
+s32 func_82202728(s32 arg0, s8* arg1) {
+    s32 round;
+    s32 sp24;
+
+    D_822036A4 = arg1;
+    round = 0;
+    ((DemoState*)D_822036A4)->unk_1096 = 0;
+
+    if (arg0 == 0) {
+        round = ((DemoState*)D_822036A4)->unk_0003;
+    } else if (arg0 == 2) {
+        round = ((DemoState*)D_822036A4)->unk_0003 + 1;
+        if (round >= 9) {
+            round = 8;
+        }
+    }
+
+    if (((DemoState*)D_822036A4)->unk_0000 == 0) {
+        D_822036A8 = 0;
+    } else if (round < 7) {
+        D_822036A8 = 1;
+    } else if (round == 7) {
+        D_822036A8 = 2;
+    } else if (round >= 8) {
+        D_822036A8 = 3;
+    }
+    sp24 = round;
+
+    main_pool_push_state('BTLS');
+    func_80023C30();
+    Gfx_InitDisplayListBuffers(0x10000, 0);
+    D_82203204 = StageContext_Allocate(0, 1, 3, 1, 2, 1);
+    D_82203208 = GfxImage_Allocate(0, 2, 0x140, 0xF0, 1);
+    GfxImage_AttachDepthBuffer(D_82203208, D_82203204->renderTargets[0]->depth_p);
+    func_8001A194(0x2A, 0);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Fragment_Load(DEMO_FRAGMENT_ID(D_81000000), D_0015B1A0, D_0015E220);
+    Fragment_Load(DEMO_FRAGMENT_ID(D_8F200000), D_003553C0, D_0035C390);
+    Fragment_Load(DEMO_FRAGMENT_ID(D_8F500000), D_0035C390, D_0035E790);
+    Fragment_Load(DEMO_FRAGMENT_ID(D_8F600000), D_0035E790, D_00369F50);
+    Fragment_Load(DEMO_FRAGMENT_ID(D_8EB00000), D_00369F50, D_0037B090);
+
+    switch (D_822036A8) {
+        case 0:
+            Fragment_Load(DEMO_FRAGMENT_ID(D_8F300000), D_00320820, D_00326700);
+            break;
+
+        case 1:
+            Fragment_Load(DEMO_FRAGMENT_ID(D_8F900000), D_003139C0, D_00317EF0);
+            break;
+
+        case 2:
+            Fragment_Load(DEMO_FRAGMENT_ID(D_8FA00000), D_00317EF0, D_0031C300);
+            break;
+
+        case 3:
+            Fragment_Load(DEMO_FRAGMENT_ID(D_8FB00000), D_0031C300, D_00320820);
+            break;
+    }
+
+    if ((sp24 > 0) && (sp24 < 7)) {
+        Fragment_Load(DEMO_FRAGMENT_ID(D_8EC00000), D_0037B090, D_00380D60);
+    } else if (sp24 == 7) {
+        Fragment_Load(DEMO_FRAGMENT_ID(D_8ED00000), D_00380D60, D_00385D60);
+    } else if (sp24 == 8) {
+        Fragment_Load(DEMO_FRAGMENT_ID(D_8EE00000), D_00385D60, D_0038A540);
+    }
+
+    D_82203260 = PokeIcon_AllocFramebuffers(5);
+    D_82203264 = (s32)PokeIcon_CreateRenderList(D_82203260, 0xC, 0x40, 0x40);
+    D_8220325C = BinArchive_Open(D_002F5940, D_003139C0, 1, 1);
+    PokeIcon_OpenModelArchives();
+    func_82202494(sp24);
+    StageContext_Activate(D_82203204);
+
+    switch (arg0) {
+        case 0:
+            func_82200C04();
+            break;
+
+        case 1:
+            func_82201F90();
+            break;
+
+        case 2:
+            func_82202228();
+            break;
+    }
+
+    StageContext_Deactivate();
+    Display_DisableBlackout();
+    Gfx_FreeDisplayListBuffers();
+    main_pool_pop_state('BTLS');
+    return 0;
+}

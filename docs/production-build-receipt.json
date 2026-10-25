@@ -4,8 +4,8 @@
   "output_sha256": "ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b",
   "full_rom_identical": true,
   "compare": true,
-  "c_owners": 3380,
-  "asm_owners": 2064,
+  "c_owners": 3382,
+  "asm_owners": 2062,
   "linked_images": 260,
   "compiler_sha256": "76d796c9591c9f5504949f85b29c32a6039a663791afe2f36f34ca18425b64d0",
   "source_compilers_sha256": {
@@ -582,7 +582,7 @@
     "tools/cflags_overrides.json": "9c8b5a1c28b12daa75c62a05c76972eb90f1e4d9b21f1d5e4605bb0f2c625ea9",
     "tools/asm-processor/asm_processor.py": "4351bbaf43ad1862a73dd81bce9c445f354cfe62b4a02b647afb0d788156dec3",
     "tools/asm-processor/build.py": "fa6a16c5c4d43b65b51f086274a50a6d4867c42189ef6053076b751523c16c5c",
-    "docs/function-matches.csv": "0e20758d675df8b8d0baa9877fb8b43f44de9c487af6ea68a44582805bf46bfa",
+    "docs/function-matches.csv": "40040a633ac9f05ab6e8817ca9f7b8ee95828c0e0ab3190e228a7e44c6419065",
     "linker_scripts/jp/symbol_addrs.txt": "f55d72f7e9ffc72a82cdbebdc36a7fd35f48144dc11ad30fcf3f7b8edb6eb3b9"
   },
   "binutils": {
@@ -778,7 +778,7 @@
     "src/fragments/fragment012_17ED00/particle_math_26E6D0.c": "db0eea2fb8a1213b96f9b7fe293faf96dab17fda49f25b90465aca62b04ca039",
     "src/fragments/fragment012_17ED00/particle_math_26E6D0_2.c": "013daf74f834d66cca6bb6d2f50be97d9ff35f4a8ded453c9ac4987a0cd52c28",
     "src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c": "1b878c46f66566083552ecee086270d175e1fbf01c5b82767be5fbd321c89c1d",
-    "src/fragments/fragment013_232510/demo_scenes_161E60.c": "e50366e505e67a679c57a0e2efbcb88d803c94eeacd2056163351bb6e119b914",
+    "src/fragments/fragment013_232510/demo_scenes_161E60.c": "f81aa5f737c403c6e8b998bb12cb058bc1a7780b489a7f55a888eab629f2e1c1",
     "src/fragments/fragment014_235D70/lab_pc_icons.c": "91e898eedbd1529ed18b4719bb7436fbf031c3e8aa97e50ca8d3604ca570bcb0",
     "src/fragments/fragment015_238BD0/89006FC0.c": "d889d54f6d422fdfc288cb31cf2c06feef0daa782d88161c930533f03210a5e2",
     "src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c": "003c48535e08782727b3003f01925f880c458a5a16d7eb2c523238c9c6aa6ef2",
