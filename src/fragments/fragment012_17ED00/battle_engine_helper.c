@@ -190,11 +190,9 @@ void func_82107EA0(s8 *arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F18.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F3C.s")
-#endif
+ModelNodeView* Battle_GetLoadedModelNode(ActivePokemon* active_pokemon, s32 node_index) {
+    return active_pokemon->sessionTeams->loadedModel->unk_00[2]->unk_00[node_index];
+}
 
 s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
     return M2C_FIELD(M2C_FIELD(arg0, s8 **, 0x85C), s16 *, 2);
@@ -271,11 +269,15 @@ void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, Thumbna
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108648.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821087C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821087C4.s")
-#endif
+void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
+    if (active_pokemon->state.flags & ACTIVE_SLEEP) {
+        BattleAnim_TrySetModelEventTrackFromRow(active_pokemon, 0xAF, 2);
+    } else {
+        active_pokemon->state.unk_36 = 0;
+        ModelAnim_SetEventFrame(&active_pokemon->displayObject, 0);
+        ModelAnim_SetEventTrack(&active_pokemon->displayObject, -1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210881C; signature not recovered. */
@@ -334,21 +336,17 @@ void func_82108DC8(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x860) = (s32) M2C_FIELD((M2C_FIELD(arg0, s32 *, 0x85C) + (arg1 * 4)), s32 *, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108DE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DE0.s")
-#endif
+void func_82108DE0(void *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s8 *, 0x7B7) = arg1;
+}
 
 void func_82108DE8(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x858) = arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108DF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DF0.s")
-#endif
+void func_82108DF0(void *arg0, s32 arg1) {
+    M2C_FIELD(arg0, s8 *, 0x7B9) = arg1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82108DF8; signature not recovered. */
@@ -356,14 +354,54 @@ void func_82108DE8(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DF8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108E40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108E40.s")
-#endif
+s32 Battle_FreezeClauseInEffect(ActivePokemon* active_pokemon) {
+    s32 i;
+    ActivePokemonState* state;
+    BattleMon* pokemon;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108FB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108FB4.s")
-#endif
+    state = &active_pokemon->state;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(active_pokemon); i++) {
+        pokemon = &active_pokemon->teamRoster->pokemonPicked[i];
+        if ((pokemon->statusCondition & STATUS_FREEZE) && (active_pokemon->state.runtime.roster[state->rosterIndex + state->teamMemberIndex * 3] == 0)) {
+            return 1;
+        }
+    }
+
+    if (active_pokemon->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(active_pokemon); i++) {
+            pokemon = &active_pokemon->sessionTeams->teamMember[state->teamMemberIndex == 0]->pokemonPicked[i];
+            if ((pokemon->statusCondition & STATUS_FREEZE) &&
+                (active_pokemon->state.runtime.roster[state->rosterIndex + (state->teamMemberIndex == 0) * 3] == 0)) {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+s32 Battle_SleepClauseInEffect(ActivePokemon* active_pokemon) {
+    s32 i;
+    ActivePokemonState* state;
+    BattleMon* pokemon;
+
+    state = &active_pokemon->state;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(active_pokemon); i++) {
+        pokemon = &active_pokemon->teamRoster->pokemonPicked[i];
+        if ((pokemon->statusCondition & STATUS_SLEEP_MASK) && (active_pokemon->state.runtime.roster[state->rosterIndex + state->teamMemberIndex * 3] == 0)) {
+            return 1;
+        }
+    }
+
+    if (active_pokemon->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(active_pokemon); i++) {
+            pokemon = &active_pokemon->sessionTeams->teamMember[state->teamMemberIndex == 0]->pokemonPicked[i];
+            if ((pokemon->statusCondition & STATUS_SLEEP_MASK) && (active_pokemon->state.runtime.roster[state->rosterIndex + (state->teamMemberIndex == 0) * 3] == 0)) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

@@ -130,29 +130,42 @@ ModelAnimationBank* ModelAnim_GetAnimationRecord(DisplayObject* arg0, s32 arg1) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019D08.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019DE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019DE0.s")
-#endif
+void PokeIcon_PollFrameLoadForObject(unk_func_8001C248* arg0) {
+    if (PokeIcon_PollFrameLoad(arg0->node.callback)) {
+        arg0->node.callbackArg = arg0->node.callback->loadedModel;
+        arg0->node.type &= ~0xE0;
+        arg0->node.type |= 0x10;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019E30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019E30.s")
-#endif
+void PokeIcon_WaitFrameLoadForObject(unk_func_8001C248* arg0) {
+    if (arg0->node.type & 0x40 && PokeIcon_WaitFrameLoad(arg0->node.callback) != 0) {
+        arg0->node.callbackArg = arg0->node.callback->loadedModel;
+        arg0->node.type &= ~0xE0;
+        arg0->node.type |= 0x10;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019E90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019E90.s")
-#endif
+void PokeIcon_RequestBackgroundForObject(unk_func_8001C248* arg0) {
+    if (!(arg0->unk_01D & 0x40) && (arg0->unk_01D & 0x80)) {
+        PokeIcon_RequestBackgroundLoad(arg0->node.callback, arg0->unk_020, arg0->unk_024);
+        arg0->unk_01D |= 0x40;
+        arg0->unk_01D &= ~0x10;
+        if (arg0->unk_01D & 0x20) {
+            PokeIcon_WaitBackgroundLoad(arg0->node.callback);
+            arg0->unk_024 = arg0->node.callback->loadedBackground;
+            arg0->unk_01D &= ~0xE0;
+        }
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019F20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019F20.s")
-#endif
+void PokeIcon_PollBackgroundForObject(unk_func_8001C248* arg0) {
+    if (PokeIcon_PollBackgroundLoad(arg0->node.callback) != 0) {
+        arg0->unk_024 = arg0->node.callback->loadedBackground;
+        arg0->unk_01D &= ~0xE0;
+        arg0->unk_01D |= 0x10;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80019F70; signature not recovered. */

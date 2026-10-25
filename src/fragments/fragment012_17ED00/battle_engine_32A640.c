@@ -138,11 +138,18 @@ void BattleAnim_CallbackOrphanDescriptor2BSpinFade(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821519AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821519AC.s")
-#endif
+void BattleAnim_SetupOrphanDescriptor2EScatterFade(Particle* arg0) {
+    s16 sp2E = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 10.0f);
+    Particle_Field94_AddVec_0A52C(arg0, ParticleMath_RandomSigned(0x1000), ParticleMath_RandomSigned(0x1000), 0);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp2E * 4);
+    ParticleGfx_RecolorPrim(arg0, 0x22);
+    ParticleGfx_RecolorEnv(arg0, 0x22);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C938(s8 *);                      /* extern */
 M2C_UNK func_8213CA80(s8 *, M2C_UNK);             /* extern */

@@ -13,7 +13,7 @@ typedef s32 (*func_D_84390300)(void);
 typedef void (*func_D_84390320)(void);
 
 typedef struct unk_D_84390010_654_09C {
-    /* 0x00 */ char unk00[0x10];
+    /* 0x00 */ s32 unk00[4];
 } unk_D_84390010_654_09C; // size = 0x10
 
 typedef struct unk_D_84390010_654_0AC {
@@ -44,40 +44,42 @@ typedef struct ActivePokemonState {
     /* 0x2A */ u8 unk_2A;
     /* 0x2B */ u8 teamMemberIndex;
     /* 0x2C */ u8 ownerTeamMemberIndex;
-    /* 0x2D */ u8 unk_2D;
-    /* 0x2E */ u8 alpha;
-    /* 0x2F */ u8 unk_2F;
-    /* 0x30 */ u16 unk_30;
-    /* 0x32 */ char unk32[0x2];
-    /* 0x34 */ u16 flags;
-    /* 0x36 */ u16 unk_36;
-    /* 0x38 */ BattleMonRuntime runtime;
-    /* 0x9C */ unk_D_84390010_654_09C unk_9C;
-    /* 0xAC */ unk_D_84390010_654_0AC unk_AC;
-    /* 0xBC */ s16 model;
-    /* 0xBE */ s16 unk_BE;
-    /* 0xC0 */ char unkC0[1];
-    /* 0xC1 */ u8 moveSlotIllegality[4];
-    /* 0xC8 */ Controller* controller;
-} ActivePokemonState; // size = 0xCC
+    /* 0x2D */ u8 unk_2D_zero;
+    /* 0x2E */ u8 unk_2D;
+    /* 0x2F */ u8 alpha;
+    /* 0x30 */ u8 unk_2F;
+    /* 0x32 */ u16 unk_30;
+    /* 0x34 */ char unk32[0x2];
+    /* 0x36 */ u16 flags;
+    /* 0x38 */ u16 unk_36;
+    /* 0x3A */ BattleMonRuntime runtime;
+    /* 0xA0 */ unk_D_84390010_654_09C unk_9C;
+    /* 0xB0 */ unk_D_84390010_654_0AC unk_AC;
+    /* 0xC0 */ s16 model;
+    /* 0xC2 */ s16 unk_BE;
+    /* 0xC4 */ char unkC0[1];
+    /* 0xC5 */ u8 moveSlotIllegality[4];
+    /* 0xCC */ Controller* controller;
+} ActivePokemonState; // size = 0xD0
 
 typedef struct ThumbnailState {
     /* 0x000 */ DisplayObject displayObject;
     /* 0x168 */ CameraNode* camera;
     /* 0x16C */ s32 tagTeam;
-    /* 0x170 */ s32 showing;
-    /* 0x174 */ char unk174[0x4];
-    /* 0x178 */ s32 side;
-    /* 0x17C */ s32 idleAnimation;
-    /* 0x180 */ s32 idleTimer;
-    /* 0x184 */ s16 rotationX;
-    /* 0x186 */ s16 rotationY;
-    /* 0x188 */ f32 x;
-    /* 0x18C */ s32 status;
-    /* 0x190 */ f32 z;
-    /* 0x194 */ f32 y;
-    /* 0x198 */ char unk198[0x4];
-} ThumbnailState; // size = 0x19C
+    /* 0x170 */ char unk170_zero[0x4];
+    /* 0x174 */ s32 showing;
+    /* 0x178 */ char unk174[0x4];
+    /* 0x17C */ s32 side;
+    /* 0x180 */ s32 idleAnimation;
+    /* 0x184 */ s32 idleTimer;
+    /* 0x188 */ s16 rotationX;
+    /* 0x18A */ s16 rotationY;
+    /* 0x18C */ f32 x;
+    /* 0x190 */ s32 status;
+    /* 0x194 */ f32 z;
+    /* 0x198 */ f32 y;
+    /* 0x19C */ char unk198[0x4];
+} ThumbnailState; // size = 0x1A0
 
 typedef struct MonCaptionState {
     /* 0x00 */ s32 unk_00;
@@ -108,45 +110,35 @@ typedef struct SwayState {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ Vec3f rotation;
     /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ SwayLayoutConfig layoutConfig;
-    /* 0x44 */ s16 unk_44;
-    /* 0x46 */ s16 unk_46;
-    /* 0x48 */ char unk48[0x4];
-    /* 0x4C */ f32 unk_4C;
-} SwayState; // size >= 0x50
+    /* 0x24 */ char unk24[0x18];
+} SwayState; // size = 0x3C
 
 typedef struct ActivePokemon {
     /* 0x000 */ DisplayObject displayObject;
-    /* 0x168 */ PokemonAfterimage afterimages[2];
-    /* 0x448 */ SwayState modelTransform;
-    /* 0x498 */ f32 y;
-    /* 0x49C */ f32 rotationZ;
-    /* 0x4A0 */ f32 oscillationAmplitude;
-    /* 0x4A4 */ s16 oscillationVelocityEasePhase;
-    /* 0x4A6 */ s16 oscillationPhase;
-    /* 0x4A8 */ s16 oscillationAngularVelocity;
-    /* 0x4AC */ s32 doubleTeamTimer;
-    /* 0x4B0 */ s32 facingDirection;
-    /* 0x4B4 */ s32 modelTransformId;
-    /* 0x4B8 */ s32 modelTransformTimer;
-    /* 0x4BC */ char unk4BC[0x4];
-    /* 0x4C0 */ s32 animationState;
-    /* 0x4C4 */ s32 animationTimer;
-    /* 0x4C8 */ s32 unk_4C8;
-    /* 0x4CC */ Vec3f unk_4CC;
-    /* 0x4D8 */ Vec3f unk_4D8;
-    /* 0x4E4 */ f32 unk_4E4;
-    /* 0x4E8 */ u8 unk_4E8;
-    /* 0x4E9 */ u8 unk_4E9;
-    /* 0x4EC */ DisplayObject pokeBall;
-    /* 0x654 */ ActivePokemonState state;
-    /* 0x720 */ BattleSessionTeams* sessionTeams;
-    /* 0x724 */ TeamRoster* teamRoster;
-    /* 0x728 */ ThumbnailState thumbnail;
-    /* 0x8C4 */ MonCaptionState captionState;
-    /* 0x94C */ SpeciesLearnsetBuffer redBlueLearnsets[3];
-    /* 0x9AC */ SpeciesLearnsetBuffer yellowLearnsets[3];
-} ActivePokemon; // size = 0xA0C
+    /* 0x168 */ PokemonAfterimage afterimages[3];
+    /* 0x5B8 */ SwayState modelTransform;
+    /* 0x5F4 */ f32 y;
+    /* 0x5F8 */ f32 rotationZ;
+    /* 0x5FC */ f32 oscillationAmplitude;
+    /* 0x600 */ s16 oscillationVelocityEasePhase;
+    /* 0x602 */ s16 oscillationPhase;
+    /* 0x604 */ s16 oscillationAngularVelocity;
+    /* 0x608 */ s32 doubleTeamTimer;
+    /* 0x60C */ s32 facingDirection;
+    /* 0x610 */ s32 modelTransformId;
+    /* 0x614 */ s32 modelTransformTimer;
+    /* 0x618 */ char unk4BC[0x4];
+    /* 0x61C */ s32 animationState;
+    /* 0x620 */ s32 animationTimer;
+    /* 0x624 */ DisplayObject pokeBall;
+    /* 0x78C */ ActivePokemonState state;
+    /* 0x85C */ BattleSessionTeams* sessionTeams;
+    /* 0x860 */ TeamRoster* teamRoster;
+    /* 0x864 */ ThumbnailState thumbnail;
+    /* 0xA04 */ MonCaptionState captionState;
+    /* 0xA8C */ SpeciesLearnsetBuffer redBlueLearnsets[3];
+    /* 0xAEC */ SpeciesLearnsetBuffer yellowLearnsets[3];
+} ActivePokemon; // size = 0xB4C
 
 typedef struct MovePresentationCue {
     /* 0x00 */ u8 id;

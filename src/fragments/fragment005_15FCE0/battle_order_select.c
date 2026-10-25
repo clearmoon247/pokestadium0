@@ -17,6 +17,7 @@
 #include "controller.h"
 #include "memory.h"
 #include "stage_loader.h"
+#include "m2c_macros.h"
 extern unk_D_84803760 D_82302B20[2];
 extern u16 D_82302800[];
 
@@ -166,11 +167,30 @@ s32 BattleMenu_IsSlotAlreadySelected(unk_D_848037A0* arg0, s8 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301A2C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82301B2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301B2C.s")
-#endif
+M2C_UNK func_8003F6AC(M2C_UNK, s8 *);             /* extern */
+M2C_UNK func_82300B30(s8, s8 *);                  /* extern */
+extern s8 D_82302B48;
+void func_82301B2C(s8 *arg0) {
+    s8 temp_v1;
+    s8 *temp_v0;
+
+    if (M2C_FIELD(arg0, s8 *, 0xB) > 0) {
+        M2C_FIELD(arg0, s8 *, 0xB) = 0;
+        func_82300B30(M2C_FIELD(arg0, s8 *, 3), arg0);
+        if (M2C_FIELD(arg0, s8 *, 9) != 0) {
+            M2C_FIELD(arg0, s8 *, 6) = 2;
+        }
+        func_8003F6AC(3, arg0);
+        temp_v1 = M2C_FIELD(arg0, s8 *, 2);
+        if (temp_v1 != -1) {
+            temp_v0 = (temp_v1 << 5) + &D_82302B48;
+            M2C_FIELD(temp_v0, s8 *, 5) = 0;
+            M2C_FIELD(temp_v0, s8 *, 0xB) = 0;
+            M2C_FIELD(temp_v0, s8 *, 9) = 0;
+            M2C_FIELD(temp_v0, s8 *, 6) = 2;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82301BBC; signature not recovered. */

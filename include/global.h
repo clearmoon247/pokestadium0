@@ -49,20 +49,20 @@ typedef struct ModelLoadContext {
     /* 0x00 */ u8 flags;
     /* 0x01 */ u8 pendingLoads;
     /* 0x02 */ u8 bufferIndex;
-    /* 0x04 */ s32 modelBuffers[5];
-    /* 0x18 */ s32 backgroundBuffer;
-    /* 0x1C */ s32 modelSize;
-    /* 0x20 */ s32 backgroundSize;
-    /* 0x24 */ ModelLoadResult* loadedModel;
-    /* 0x28 */ s32 loadedBackground;
-    /* 0x2C */ arg1_func_80010CA8 colorVariant;
-    /* 0x30 */ OSMesgQueue modelQueue;
-    /* 0x48 */ OSMesg modelMessage;
-    /* 0x4C */ char pad4C[0x4];
-    /* 0x50 */ OSMesgQueue backgroundQueue;
-    /* 0x68 */ OSMesg backgroundMessage;
-    /* 0x6C */ char pad6C[0x4];
-} ModelLoadContext; // size = 0x70
+    /* 0x04 */ s32 modelBuffers[2];
+    /* 0x0C */ s32 backgroundBuffer;
+    /* 0x10 */ s32 modelSize;
+    /* 0x14 */ s32 backgroundSize;
+    /* 0x18 */ ModelLoadResult* loadedModel;
+    /* 0x1C */ s32 loadedBackground;
+    /* 0x20 */ arg1_func_80010CA8 colorVariant;
+    /* 0x24 */ OSMesgQueue modelQueue;
+    /* 0x3C */ OSMesg modelMessage;
+    /* 0x40 */ char pad4C[0x4];
+    /* 0x44 */ OSMesgQueue backgroundQueue;
+    /* 0x5C */ OSMesg backgroundMessage;
+    /* 0x60 */ char pad6C[0x4];
+} ModelLoadContext; // size = 0x64
 
 typedef struct ModelNodeView {
     // Legacy graph-header view: preserve pointer declarations for matching.

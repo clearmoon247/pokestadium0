@@ -13,6 +13,7 @@
 #include "audio_sound_state.h"
 #include "audio_channel.h"
 #include "audio_loop_point.h"
+#include "m2c_macros.h"
 typedef struct unk_D_800A8480 {
   /* 0x0000 */ OSThread thread;
   /* 0x01B0 */ char unk01B0[0x2030];
@@ -80,8 +81,46 @@ void Audio_Enable(void) {
     D_800AAE30 = 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000A92C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000A92C.s")
-#endif
+M2C_UNK func_80004920(M2C_UNK *);                   /* extern */
+M2C_UNK func_80004EA8(M2C_UNK *);                   /* extern */
+M2C_UNK func_80004F34(s8 *, M2C_UNK);             /* extern */
+M2C_UNK func_800082D0();                            /* extern */
+M2C_UNK func_8003B868(s8 *);                      /* extern */
+M2C_UNK func_8003BC9C(M2C_UNK);                     /* extern */
+M2C_UNK func_8003E1F8();                            /* extern */
+M2C_UNK func_80046170(M2C_UNK, M2C_UNK);            /* extern */
+M2C_UNK func_8004CFB0(M2C_UNK *, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK func_800567E0(M2C_UNK *, M2C_UNK *, M2C_UNK); /* extern */
+extern s32 D_800AAE30;
+extern s8 D_800AAE38;
+extern s8 D_800AAE48;
+extern s8 D_800AAE68;
+extern s8 D_800AAE6C;
+extern s8 D_800AAED0;
+extern s8 D_800AAED4;
+extern s32 D_800AAF38;
+extern s32 D_800AAF3C;
+void func_8000A92C(s32 arg0) {
+    func_800567E0(&D_800AAE48, &D_800AAE38, 1);
+    func_80004EA8(&D_800AAE38);
+    D_800AAE30 = 1;
+    D_800AAF3C = -1;
+    D_800AAF38 = 0;
+    func_800567E0(&D_800AAE6C, &D_800AAE68, 1);
+    func_800567E0(&D_800AAED4, &D_800AAED0, 1);
+    func_8004CFB0(&D_800AAE6C, 0x444F4E45, 0);
+    func_8004CFB0(&D_800AAED4, 0x444F4E45, 0);
+    func_8003E1F8();
+    func_8003BC9C(1);
+    func_80046170(3, 4);
+loop_1:
+    func_80004920(&D_800AAE38);
+    func_800082D0();
+    if ((D_800AAE30 != 0) && (M2C_FIELD(&D_800A9710, s16 *, 0xA38) < 0x15)) {
+        func_8003B868(&D_800AAE68 + (D_800AAF38 * 0x68) + 0x20);
+        func_80004F34(&D_800AAE68 + (D_800AAF38 * 0x68), 0);
+    }
+    D_800AAF38 ^= 1;
+    func_800082D0();
+    goto loop_1;
+}

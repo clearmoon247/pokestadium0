@@ -146,11 +146,35 @@ s32 func_82111DC4(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821129E4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82112ADC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82112ADC.s")
-#endif
+void Battle_CheckAllBroughtFainted_HP(ActivePokemon* arg0) {
+    ActivePokemonState* ptr1 = &arg0->state;
+    BattleMon* temp_v0;
+    s32 i;
+    s32 var_s2 = 0;
+
+    for (i = 0; i < BattleScene_GetTeamMemberTeamSize(arg0); i++) {
+        if (i == ptr1->rosterIndex) {
+            var_s2 += arg0->state.runtime.unk_0E;
+        } else {
+            temp_v0 = &arg0->teamRoster->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
+
+    if (arg0->sessionTeams->tagTeamSize == 2) {
+        for (i = 0; i < BattleScene_GetPartnerTeamSize(arg0); i++) {
+            temp_v0 = &arg0->sessionTeams->teamMember[!ptr1->teamMemberIndex]->pokemonPicked[i];
+            var_s2 += temp_v0->hp;
+        }
+    }
+
+    if (var_s2 == 0) {
+        Battle_ResetEntityState(arg0);
+        ptr1->unk_2D = 0x12;
+    } else {
+        Battle_HandleFaint(arg0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82112C1C; signature not recovered. */
@@ -205,8 +229,41 @@ s32 Battle_CheckFaintAfterMove(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821132C8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113524; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113524.s")
-#endif
+void BeginBattleForEntity(ActivePokemon* arg0) {
+    ActivePokemonState* sp24;
+    ActivePokemonState* sp20;
+    BattleMonRuntime* ptr1;
+    BattleMonRuntime* ptr2;
+
+    ptr1 = &arg0->state.runtime;
+
+    sp24 = &sActivePokemon[0]->state;
+    sp20 = &sActivePokemon[1]->state;
+
+    ptr2 = &sActivePokemon[BattleScene_GetParticipantSideIndex(arg0) == 0]->state.runtime;
+
+    sp24->unk_2A = 0;
+    sp20->unk_2A = 0;
+    ptr1->unk_12 = 0xFFFF;
+    ptr2->unk_12 = 0xFFFF;
+
+    sConfused = 1;
+    sStatCanBeChangedFurther = 1;
+
+    sBattleScene.scene->unk_48 = 0;
+    sBattleScene.scene->unk_4C = 0;
+
+    sBattleUser = ptr1;
+    sBattleTarget = ptr2;
+
+    Battle_ResetEntityState(arg0);
+    Vec3f_SetComponentsDuplicate(&arg0->modelTransform.unk_00, 0.0f, 0.0f, 0.0f);
+    Vec3f_SetComponentsDuplicate(&arg0->modelTransform.rotation, 0.0f, 0.0f, 0.0f);
+    Battle_InitPokemonRuntimeState(arg0);
+
+    if (arg0 == sActivePokemon[0]) {
+        Battle_ResetTransientRuntimeState(0, 1);
+    } else {
+        Battle_ResetTransientRuntimeState(1, 0);
+    }
+}

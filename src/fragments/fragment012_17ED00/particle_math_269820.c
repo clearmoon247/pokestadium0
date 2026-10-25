@@ -148,18 +148,14 @@ s16 func_8213C4A4(s8 *arg0) {
     return M2C_FIELD(arg0, s16 *, 0xA4);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C4AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C4AC.s")
-#endif
+void func_8213C4AC(s32 arg0) {
+    (*(s32 *)&D_8219A82C) = arg0;
+}
 
 void FirstClearBonus_HideDialogBox(void) {
     D_8219A82C.unk_00 = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C4C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C4C4.s")
-#endif
+s32 func_8213C4C4(void) {
+    return (*(s32 *)&D_8219A82C);
+}

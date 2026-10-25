@@ -409,11 +409,35 @@ void BattleAnim_SetupOwnerModelTintPaletteCycle(Particle* arg0) {
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143F28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143F28.s")
-#endif
+void BattleAnim_CallbackOwnerModelTintPaletteCycle(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_SetupOwnerModelTintPaletteCycle(arg0);
+            break;
+
+        case 2:
+            Particle_FieldAE_ApproachAndStepState_0BF98(arg0, arg0->unk_A6, arg0->unk_CE);
+            break;
+
+        case 3:
+            if (ParticleGfx_ApproachPrimPalette(arg0, arg0->unk_CD, arg0->unk_AA) != 0) {
+                Particle_AdvanceLifecycle(arg0);
+            }
+            break;
+
+        case 4:
+            Particle_FieldAE_ApproachAndStepState_0BF98(arg0, 0, arg0->unk_CE);
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRunning(arg0) != 0) {
+        Model_SetMaterialColor(&arg0->unk_10->displayObject, arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->unk_AE);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82144010; signature not recovered. */

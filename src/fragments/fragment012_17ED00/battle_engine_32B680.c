@@ -35,11 +35,15 @@ void func_8211F580(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F588.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F644; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F644.s")
-#endif
+s32 BattleScene_SkipIntroIfFainted(UNUSED ActivePokemon* arg0, CameraNode* arg1) {
+    ActivePokemonState* ptr = &sActivePokemon[sBattleScene.scene->unk_2C]->state;
+
+    if ((ptr->unk_2D == 0x10) || ((ptr->flags & 0x4000) != 0)) {
+        BattleScene_SelectNextIntroCameraShot(arg1);
+        return 1;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211F6B8; signature not recovered. */

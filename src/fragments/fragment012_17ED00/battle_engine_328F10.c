@@ -489,11 +489,19 @@ void func_82150EB0(void) {
     func_82150DEC();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82150ED0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82150ED0.s")
-#endif
+void BattleAnim_StartEffect135ExpandingFlashAndRisingScaleFade(void) {
+    UNUSED s32 pad;
+
+    BattleAnim_SpawnDescriptor25AlphaHoldFadeOutFullAlpha(0, 0, 0x10, 8);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0, 0x8, 0xFF, 0xFF, 0xFF);
+    BattleAnim_SpawnOwnerModelAlphaFade(0, 0xFF, 0xFF, 0xFF);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x14, 0x8, 0xFF, 0, 8);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect135ExpandingFlashFade, &gBattleAnimParticleDescriptors[0x21], 8, 1, 2, 0, 0x3C, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect135ExpandingFlashFade, &gBattleAnimParticleDescriptors[0x23], 8, 1, 2, 0, 0x3C, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect135ExpandingFlashFade, &gBattleAnimParticleDescriptors[0x17], 8, 1, 2, 0, 0x3C, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 1, 4, BattleAnim_CallbackStartEffect135Descriptor1CRisingScaleFade, &gBattleAnimParticleDescriptors[0x1C], 5, 0x10, 7, 0, 0x36, 0);
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0x32, 0x10, 0x8);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82151054; signature not recovered. */

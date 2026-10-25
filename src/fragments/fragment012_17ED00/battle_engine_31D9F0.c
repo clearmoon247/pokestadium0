@@ -45,11 +45,30 @@ void func_82116D28(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82116EB4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82116FF4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82116FF4.s")
-#endif
+M2C_UNK func_8001A384(M2C_UNK, M2C_UNK);            /* extern */
+M2C_UNK func_8001A944(s32, s32, s32);               /* extern */
+M2C_UNK func_8001AA9C(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK func_8001AB6C();                            /* extern */
+M2C_UNK func_8001ABBC();                            /* extern */
+u32 func_800566BC(s32);                             /* extern */
+M2C_UNK func_82116CF4(s16, s16, M2C_UNK, M2C_UNK, s8 *, s8 *); /* extern */
+extern s8 D_8218B008;
+extern s8 D_8218B014;
+void func_82116FF4(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    u32 sp24;
+    s32 temp_v0;
+
+    temp_v0 = arg2 * 3;
+    func_82116CF4(arg0, arg1, 0x46, 0x11, temp_v0 + &D_8218B008, temp_v0 + &D_8218B014);
+    func_8001AB6C();
+    if (arg4 != 0) {
+        func_8001AA9C(0xFF, 0x64, 0xFF, 0xFF);
+    }
+    sp24 = func_800566BC(arg3) >> 1;
+    func_8001A384(2, 0);
+    func_8001A944((arg0 - (sp24 * 5)) + 0x1E, arg1 + 2, arg3);
+    func_8001ABBC();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821170D0; signature not recovered. */
@@ -57,11 +76,23 @@ void func_82116D28(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821170D0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211724C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211724C.s")
-#endif
+void BattleHud_DrawSpeciesNameLabelAuto(ActivePokemon* arg0, TeamRoster* arg1, s16 arg2, s16 arg3, s32 arg4, u16 arg5, s32 arg6) {
+    ActivePokemonState* ptr = &arg0->state;
+    s32 var_t0 = 0;
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (ptr->moveSlotIllegality[i] == 1) {
+            var_t0 = 1;
+        }
+    }
+
+    if (arg6 == 0) {
+        BattleHud_DrawSpeciesNameLabel(arg2, arg3, arg4, &arg1->unk_008, var_t0);
+    } else {
+        BattleHud_DrawSpeciesNameLabelBlink(arg2, arg3, arg4, &arg1->unk_008, arg5, var_t0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821172F0; signature not recovered. */

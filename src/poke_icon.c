@@ -115,29 +115,174 @@ void func_80018168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80018550.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001882C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001882C.s")
-#endif
+s32 PokeIcon_ProcessNextSlot(unk_func_8001A024* arg0, s32 arg1) {
+    s32 i;
+    s32 var_v0;
+    s32 sp24;
+    s32 sp20;
+    unk_func_8001A024_008* temp_v0_2;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800189C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800189C0.s")
-#endif
+    sp24 = -1;
+    sp20 = arg0->unk_02;
+    if (arg0->unk_00 & 1) {
+        if (arg1 == 1) {
+            var_v0 = PokeIcon_WaitFrameLoad(arg0->unk_04);
+        } else {
+            var_v0 = PokeIcon_PollFrameLoad(arg0->unk_04);
+        }
+        if (var_v0 != 0) {
+            arg0->unk_00 &= 0xFFFE;
+            arg0->unk_08[sp20].unk_00 &= 0xFFFE;
+            PokeIcon_RenderSlot(arg0, sp20);
+            arg0->unk_03 = sp20;
+            sp24 = sp20;
+            arg0->unk_02++;
+            if (arg0->unk_02 >= arg0->unk_01) {
+                arg0->unk_02 = 0;
+            }
+        }
+    } else {
+        for (i = 0; i < arg0->unk_01; i++) {
+            temp_v0_2 = &arg0->unk_08[sp20];
+            if (temp_v0_2->unk_00 & 1) {
+                arg0->unk_00 |= 1;
+                if (temp_v0_2->unk_00 & 2) {
+                    PokeIcon_RequestFrameLoad(arg0->unk_04, *temp_v0_2->unk_14.ptr, temp_v0_2->unk_10);
+                } else {
+                    PokeIcon_RequestFrameLoad(arg0->unk_04, temp_v0_2->unk_14.unk_02, temp_v0_2->unk_10);
+                }
+                arg0->unk_02 = sp20;
+                break;
+            } else {
+                sp20 += 1;
+                if (sp20 >= arg0->unk_01) {
+                    sp20 = 0;
+                }
+            }
+        }
+    }
+    return sp24;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80018BA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80018BA4.s")
-#endif
+s32 PokeIcon_ProcessAllSlots(unk_func_8001A024* arg0, s32 arg1) {
+    UNUSED s32 pad;
+    arg1_func_80010CA8 sp48;
+    s32 sp44;
+    s32 var_s1;
+    unk_func_8001A024_008* temp_s0;
+    unk_func_8001A024_008* temp_s1;
+    s32 i;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80018D00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80018D00.s")
-#endif
+    sp44 = -1;
+    var_s1 = arg0->unk_02;
+    if (arg0->unk_03 >= 0) {
+        temp_s0 = &arg0->unk_08[arg0->unk_03];
+        if (temp_s0->unk_00 & 4) {
+            while (Display_IsFrameReady() == 0) {}
+            PokeIcon_AdjustImageColorBuffer(temp_s0->unk_0C, temp_s0->unk_10);
+            temp_s0->unk_00 &= ~4;
+        }
+    }
+
+    for (i = 0; i < arg0->unk_01; i++) {
+        temp_s1 = &arg0->unk_08[var_s1];
+        if (temp_s1->unk_00 & 1) {
+            if (Display_IsFrameReady() == 0) {
+                do { } while (Display_IsFrameReady() == 0); }
+
+            sp48.raw = 0;
+            if (temp_s1->unk_00 & 2) {
+                PokeIcon_RequestFrameLoad(arg0->unk_04, *temp_s1->unk_14.ptr, sp48);
+                if (temp_s1->unk_10.raw != 0) {
+                    temp_s1->unk_00 |= 4;
+                }
+            } else {
+                PokeIcon_RequestFrameLoad(arg0->unk_04, temp_s1->unk_14.unk_02, sp48);
+            }
+
+            PokeIcon_WaitFrameLoad(arg0->unk_04);
+            arg0->unk_08[var_s1].unk_00 &= ~1;
+            PokeIcon_RenderSlot(arg0, var_s1);
+            sp44 = var_s1;
+            arg0->unk_02 = var_s1;
+            arg0->unk_03 = var_s1;
+            arg0->unk_02++;
+            if (arg0->unk_02 >= arg0->unk_01) {
+                arg0->unk_02 = 0;
+            }
+            break;
+        }
+
+        var_s1 += 1;
+        if (var_s1 >= arg0->unk_01) {
+            var_s1 = 0;
+        }
+    }
+
+    return sp44;
+}
+
+s32 PokeIcon_RenderNextSlotBlocking(unk_func_8001A024* arg0, s32 arg1) {
+    s32 i;
+    s32 var_a2;
+    s32 var_s0;
+    unk_func_8001A024_008* temp_a0;
+    unk_func_8001A024_008* temp_s1;
+
+    var_a2 = -1;
+    var_s0 = arg0->unk_02;
+    temp_a0 = arg0->unk_08;
+
+    for (i = 0; i < arg0->unk_01; i++) {
+        temp_s1 = &arg0->unk_08[var_s0];
+        if (temp_s1->unk_00 & 1) {
+            while (Display_IsFrameReady() == 0) {}
+
+            if (temp_s1->unk_00 & 2) {
+                PokeIcon_RequestFrameLoad(arg0->unk_04, *temp_s1->unk_14.ptr, temp_s1->unk_10);
+            } else {
+                PokeIcon_RequestFrameLoad(arg0->unk_04, temp_s1->unk_14.unk_02, temp_s1->unk_10);
+            }
+            PokeIcon_WaitFrameLoad(arg0->unk_04);
+            arg0->unk_08[var_s0].unk_00 &= ~1;
+            PokeIcon_RenderSlot(arg0, var_s0);
+            arg0->unk_02 = var_s0;
+            var_a2 = var_s0;
+            arg0->unk_02++;
+            arg0->unk_03 = var_s0;
+            if (arg0->unk_02 >= arg0->unk_01) {
+                arg0->unk_02 = 0;
+            }
+            break;
+        } else {
+            var_s0 += 1;
+            if (var_s0 >= arg0->unk_01) {
+                var_s0 = 0;
+            }
+        }
+    }
+    return var_a2;
+}
+
+void PokeIcon_RedrawSlot(unk_func_8001A024* arg0, s32 arg1) {
+    s32 i;
+
+    if (arg1 == arg0->unk_03) {
+        GfxImage_SetRenderTarget(&gDisplayListHead, arg0->unk_08[arg1].unk_0C);
+        GfxImage_FillCurrent(&gDisplayListHead, arg0->unk_08[arg1].unk_02);
+        GeoRender_SetMode(1);
+        Geo_RenderRootNode(arg0->unk_0C);
+        return;
+    }
+    for (i = arg0->unk_01; i > 0; i--) {
+        if (arg0->unk_08[i - 1].unk_00 & 1) {
+            break;
+        }
+    }
+    if (i == 0) {
+        arg0->unk_08[arg1].unk_00 |= 1;
+    }
+}
 
 s32 func_80018DEC(s8 *arg0, s32 arg1) {
     s32 var_v1;
@@ -149,8 +294,13 @@ s32 func_80018DEC(s8 *arg0, s32 arg1) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80018E24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80018E24.s")
-#endif
+s32 PokeIcon_AreSlotsIdle(unk_func_8001A024* arg0) {
+    s32 i;
+
+    for (i = 0; i < arg0->unk_01; i++) {
+        if (arg0->unk_08[i].unk_00 & 5) {
+            return 0;
+        }
+    }
+    return 1;
+}

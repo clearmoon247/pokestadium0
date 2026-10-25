@@ -8,6 +8,7 @@
 #include "gb_tower.h"
 #include "hal_libc.h"
 #include "util.h"
+#include "m2c_macros.h"
 extern u8 D_8006B8C4[0x420];
 typedef struct unk_func_800228F0_sp24 {
     /* 0x00 */ u8 unk_00;
@@ -44,11 +45,11 @@ s32 Deck_CloseAndFlush(DeckHandle* arg0) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80020CC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80020CC8.s")
-#endif
+void func_80020CC8(s32 *arg0, s32 arg1) {
+    if (M2C_FIELD(arg0, s16 *, 8) >= arg1) {
+        M2C_FIELD(arg0, s16 *, 0xA) = arg1;
+    }
+}
 
 s32 Deck_ReadEntries(u8* arg0, s32 arg1, DeckHandle* arg2) {
     s32 var_s3;

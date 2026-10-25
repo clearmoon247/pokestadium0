@@ -96,11 +96,17 @@ void func_821075B4(s8 *arg0, M2C_UNK arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107684; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107684.s")
-#endif
+void BattleThumbnail_TickOwnerSlideAnimation(ActivePokemon* active_pokemon) {
+    switch (active_pokemon->thumbnail.showing) {
+        case 0:
+            BattleThumbnail_TickOwnerSlideOut(active_pokemon, 9);
+            break;
+
+        case 1:
+            BattleThumbnail_TickOwnerSlideIn(active_pokemon, 9);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821076D4; signature not recovered. */

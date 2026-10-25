@@ -83,11 +83,12 @@ void func_8110427C(u16* dst, u8* alpha_map, s32 color, s32 width, s32 height, u3
 void GbEmu_Delay(OSTime arg0);
 void func_81107128(u16* arg0, u16* arg1, s16* arg2, s32 arg3, s32 arg4);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81101FA0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81101FA0.s")
-#endif
+M2C_UNK func_8005C670(s32, M2C_UNK, u16, M2C_UNK *, s32); /* extern */
+extern M2C_UNK D_81156480;
+void func_81101FA0(void *arg0, s32 arg1, s32 arg2) {
+    M2C_FIELD(&D_81156480, s8 *, 0x1F) = arg2;
+    func_8005C670(M2C_FIELD(arg0, s32 *, 0x50), 1, arg1, &D_81156480, 0x20);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81101FE8; signature not recovered. */

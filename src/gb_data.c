@@ -464,17 +464,15 @@ u8 func_80020994(s32 arg0) {
     return D_8006B993[arg0];
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800209A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800209A4.s")
-#endif
+extern s8 D_8006BA53;
+u8 func_800209A4(s32 arg0) {
+    return *(&D_8006BA53 + arg0);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800209B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800209B4.s")
-#endif
+extern s8 D_8006BAEB;
+u8 func_800209B4(s32 arg0) {
+    return *(&D_8006BAEB + arg0);
+}
 
 void Deck_InitializeSaveBackend(DeckHandle* arg0) {
     if (arg0->unk_00 == 1) {
