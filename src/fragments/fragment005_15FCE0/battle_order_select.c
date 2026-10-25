@@ -369,11 +369,40 @@ void BattleMenu_HandleOrderSelectPanel_LevelCapNoticeInput(Controller* arg0, unk
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82301E28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301E28.s")
-#endif
+extern Controller D_84816428;
+extern Controller D_82302BD8;
+void func_82301CCC(Controller* arg0, unk_D_848037A0* arg1);
+s32 BattleMenu_UpdateOrderSelectPanel(s32 arg0, unk_D_848037A0* arg1) {
+    Controller* var_a0;
+    s32 sp18 = 0;
+
+    if (arg1->unk_001C->unk_000 & 2) {
+        var_a0 = &D_82302BD8;
+    } else {
+        var_a0 = &gControllers[arg1->unk_0001];
+    }
+
+    if (arg0 == 0) {
+        switch (arg1->unk_0005) {
+            case 0:
+                BattleMenu_HandleOrderSelectPanel_PartyInput(var_a0, arg1);
+                break;
+
+            case 1:
+                func_82301CCC(var_a0, arg1);
+                break;
+
+            case 2:
+                BattleMenu_HandleOrderSelectPanel_LevelCapNoticeInput(var_a0, arg1);
+                break;
+
+            case 3:
+                sp18 = 1;
+                break;
+        }
+    }
+    return sp18;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82301EF4; signature not recovered. */

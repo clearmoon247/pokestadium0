@@ -222,11 +222,35 @@ s16 ModelAnim_EvaluateRotationChannel(unk_D_800ABCC0* arg0, s32 arg1) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80011690; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80011690.s")
-#endif
+f32 ModelAnim_EvaluateScaleChannel(unk_D_800ABCC0* arg0, s32 arg1) {
+    f32 var_fv1;
+    s16 var_a2;
+    s32 var_a1;
+    unk_D_800ABCC0_008* temp_v0 = &arg0->unk_08[arg1];
+
+    if (temp_v0->unk_02 == 1) {
+        if (arg0->unk_01 != 0) {
+            var_fv1 = (s16)temp_v0->unk_08;
+        } else {
+            var_a2 = temp_v0->unk_08 * 0x10;
+            var_fv1 = var_a2 >> 4;
+        }
+    } else {
+        if (arg0->unk_02 < temp_v0->unk_02) {
+            var_a1 = temp_v0->unk_08 + arg0->unk_02;
+        } else {
+            var_a1 = (temp_v0->unk_08 + temp_v0->unk_02) - 1;
+        }
+
+        if (arg0->unk_01 != 0) {
+            var_fv1 = PackedBits_ReadSigned(arg0->unk_14, var_a1, 0x10);
+        } else {
+            var_fv1 = PackedBits_ReadSigned(arg0->unk_14, var_a1, 0xC);
+        }
+    }
+
+    return var_fv1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80011774; signature not recovered. */

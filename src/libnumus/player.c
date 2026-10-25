@@ -90,11 +90,29 @@ s32 func_800366BC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800366C8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036818; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036818.s")
-#endif
+extern u32 D_800B364C;
+u8* Audio_SetVoiceSequenceTempo(channel_t* cp, u8* ptr) {
+    s32 i;
+    s32 temp_lo;
+    s32 temp2;
+    channel_t* sp;
+
+    temp_lo = ((*ptr++ * 0x6000) / 120) / (s32)D_800B364C;
+    temp2 = (cp->temscale * temp_lo) >> 7;
+
+    if (cp->IsFX != 0) {
+        cp->channel_tempo = temp_lo;
+    } else {
+        for (i = 0, sp = mus_channels; i < (s32)max_channels; i++, sp++) {
+            if (sp->song_addr == cp->song_addr) {
+                sp->channel_tempo_save = temp_lo;
+                sp->channel_tempo = temp2;
+            }
+        }
+    }
+
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800368E4; signature not recovered. */
@@ -205,11 +223,38 @@ s32 func_80036B54(s8 *arg0, s32 arg1) {
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036B60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036B60.s")
-#endif
+// Zero's channel_t keeps its for/next stack four bytes lower than Stadium 1's.
+typedef struct ChannelForStackZero {
+    /* 0x000 */ char unk_000[0xEE];
+    /* 0x0EE */ u8 for_stack_count;
+    /* 0x0F0 */ u8* for_stack[FORNEXT_DEPTH];
+    /* 0x100 */ u8* for_stackvol[FORNEXT_DEPTH];
+    /* 0x110 */ u8* for_stackpb[FORNEXT_DEPTH];
+    /* 0x120 */ u16 for_vol_count[FORNEXT_DEPTH];
+    /* 0x128 */ u16 for_pb_count[FORNEXT_DEPTH];
+    /* 0x130 */ u8 for_count[FORNEXT_DEPTH];
+    /* 0x134 */ u8 for_volume[FORNEXT_DEPTH];
+    /* 0x138 */ u8 for_pitchbend[FORNEXT_DEPTH];
+} ChannelForStackZero;
+
+u8* Audio_PushVoiceLoopState(channel_t* cp, u8* ptr) {
+    u8 index = ((ChannelForStackZero*)cp)->for_stack_count;
+
+    ((ChannelForStackZero*)cp)->for_count[index] = *ptr++;
+
+    ((ChannelForStackZero*)cp)->for_stack[index] = ptr;
+    ((ChannelForStackZero*)cp)->for_stackvol[index] = cp->pvolumebase;
+    ((ChannelForStackZero*)cp)->for_stackpb[index] = cp->ppitchbendbase;
+
+    ((ChannelForStackZero*)cp)->for_volume[index] = cp->volume;
+    ((ChannelForStackZero*)cp)->for_pitchbend[index] = cp->pitchbend;
+
+    ((ChannelForStackZero*)cp)->for_vol_count[index] = cp->cont_vol_repeat_count;
+    ((ChannelForStackZero*)cp)->for_pb_count[index] = cp->cont_pb_repeat_count;
+
+    ((ChannelForStackZero*)cp)->for_stack_count++;
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80036C4C; signature not recovered. */

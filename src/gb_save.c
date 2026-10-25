@@ -101,11 +101,13 @@ void GbSave_BuildPortSummary(unk_func_8002D860* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028E5C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80029028; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80029028.s")
-#endif
+void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 arg4) {
+    s32 color = RGBA5551(arg4.r, arg4.g, arg4.b, 1);
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetFillColor(gDisplayListHead++, (color << 0x10) | color);
+    gDPFillRectangle(gDisplayListHead++, arg0, arg1, (arg0 + arg2) - 1, (arg1 + arg3) - 1);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800290F0; signature not recovered. */

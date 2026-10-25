@@ -107,11 +107,20 @@ void Battle_Effect_OHKO(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82114F9C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82115024; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115024.s")
-#endif
+extern s32 D_8218C890;
+extern s32 D_8218C894;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_Effect_Mist(void) {
+    if (sBattleUser->unk_4D & 2) {
+        sBattleScene.scene->unk_48 = 7;
+        func_8211EF74(D_8219A520 + 0x88, -0x4B, D_8218C890);
+        return;
+    }
+    sBattleScene.scene->unk_48 = 7;
+    sBattleUser->unk_4D |= 2;
+    func_8211EF74(D_8219A520 + 0x88, -0x4A, D_8218C894, func_82107F88(sActivePokemon[sBattleScene.scene->unk_2C]));
+}
 
 extern s32 D_8218C898;
 extern s32 D_8218C89C;

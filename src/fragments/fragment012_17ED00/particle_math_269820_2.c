@@ -165,11 +165,36 @@ void func_8213CBFC(s8 *arg0, s16 arg1) {
     M2C_FIELD(arg0, s8 *, 0xC3) = (s8) arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CC10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CC10.s")
-#endif
+s32 func_8213CC10(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp1C = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+
+            arg0->unk_C7 += arg3;
+            if (arg2 < arg0->unk_C7) {
+                if (arg0->unk_C6 > 0) {
+                    arg0->unk_C6--;
+                }
+
+                if (arg0->unk_C6 == 0) {
+                    arg0->unk_C7 = arg2;
+                    sp1C = 1;
+                } else {
+                    arg0->unk_C7 = arg1;
+                }
+            }
+        }
+    }
+    return sp1C;
+}
 
 s32 func_8213CC10(Particle*, s16, s16, s16, s16, s16);
 
@@ -184,11 +209,37 @@ s32 func_8213CCEC(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 ar
     return sp24;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CD60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CD60.s")
-#endif
+s32 func_8213CD60(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp1C = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+
+            arg0->unk_C7 -= arg3;
+            if (arg0->unk_C7 < arg2) {
+                if (arg0->unk_C6 > 0) {
+                    arg0->unk_C6--;
+                }
+
+                if (arg0->unk_C6 == 0) {
+                    arg0->unk_C7 = arg2;
+                    sp1C = 1;
+                } else {
+                    arg0->unk_C7 = arg1;
+                }
+            }
+        }
+    }
+
+    return sp1C;
+}
 
 s32 func_8213CD60(Particle*, s16, s16, s16, s16, s16);
 

@@ -93,11 +93,24 @@ void ModelRenderer_ClearSlotModels(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032A6C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80032BA8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032BA8.s")
-#endif
+extern s16 D_800AF7C0[4];
+extern s16 D_800AFB30[];
+extern s16 D_800AFB28;
+
+void ModelRenderer_UpdateSlotVertices(void) {
+    u8 index;
+    s32 mode;
+
+    mode = ModelRenderer_GetActiveMode();
+    index = (u8)mode;
+    if ((mode < 2) && (ModelPhase_IsIdle() == 0) && (D_800AFB30[index] >= 2)) {
+        ModelRenderer_CacheSlotMatrices(index);
+        ModelRenderer_RebuildSlotMatrix(index);
+        ModelRenderer_ApplySlotScale(index);
+        // Zero model slots are 0x7D0 bytes.
+        func_80036064((void*)((u8 (*)[3][0x7D0])D_800B0338)[index][D_800AFB28], &D_800AFB38[index].mtx);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80032C74; signature not recovered. */

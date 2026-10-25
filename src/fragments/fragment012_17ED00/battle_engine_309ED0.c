@@ -44,11 +44,43 @@ void BattleScene_ResetAnimationStep(void) {
     sBattleScene.scene->unk_24 = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124A50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124A50.s")
-#endif
+void func_82105E4C(ActivePokemon*, s32);
+
+void func_8210211C(ActivePokemon* active_pokemon);
+void func_82108A0C(ActivePokemon* active_pokemon);
+s32 func_82124A50(ActivePokemon* arg0) {
+    UNUSED s32 pad[2];
+    s32 sp1C = 0;
+
+    if (!(arg0->state.flags & 0x2000)) {
+        return 0;
+    }
+
+    if (sBattleScene.scene->unk_48 == 0x19) {
+        return 0;
+    }
+
+    switch (sBattleScene.scene->unk_24) {
+        case 0:
+            func_8210211C(arg0);
+            sp1C = 1;
+            sBattleScene.scene->unk_24++;
+            break;
+
+        case 1:
+            sp1C = 1;
+            if (arg0->sessionTeams->uniqueStatusFlags & 0x10) {
+                arg0->sessionTeams->uniqueStatusFlags &= ~0x90;
+                func_82108A0C(arg0);
+                sBattleScene.scene->unk_24++;
+            }
+            break;
+
+        case 2:
+            break;
+    }
+    return sp1C;
+}
 
 void func_821020FC(ActivePokemon*);
 
@@ -82,11 +114,36 @@ s32 BattleScene_AdvanceOwnerAnimation98(ActivePokemon* arg0) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124BF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124BF8.s")
-#endif
+s32 func_82124BF8(ActivePokemon* arg0) {
+    UNUSED s32 pad[2];
+    s32 sp1C = 0;
+
+    if (!(arg0->state.flags & 0x1000)) {
+        return 0;
+    }
+
+    switch (sBattleScene.scene->unk_24) {
+        case 0:
+            func_8210211C(arg0);
+            sp1C = 1;
+            sBattleScene.scene->unk_24++;
+            break;
+
+        case 1:
+            sp1C = 1;
+            if (arg0->sessionTeams->uniqueStatusFlags & 0x10) {
+                arg0->sessionTeams->uniqueStatusFlags &= ~0x90;
+                func_82108A0C(arg0);
+                func_82105E4C(arg0, 0x3800);
+                sBattleScene.scene->unk_24++;
+            }
+            break;
+
+        case 2:
+            break;
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
@@ -321,11 +378,29 @@ s32 BattleScene_TransitionToPhase(s32 arg0) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821259E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821259E8.s")
-#endif
+extern s32 D_84390220;
+extern s32 D_84390224;
+s32 func_8211EE8C();
+
+extern s32 D_8219A560;
+extern s32 D_8219A564;
+u16 func_82107CA0(ActivePokemon* active_pokemon);
+void func_82125838(void);
+void BattleScene_ResolveDisplayedHpCompletion(CameraNode* arg0) {
+    if ((D_8219A560 == 1) && (D_8219A564 == 1)) {
+        BattleScene_ResetCameraFrameCounter();
+        func_8211EE8C();
+        BattleScene_ClearPhaseFlag();
+        if (func_82107CA0(sActivePokemon[sBattleScene.scene->unk_2C]) == 0) {
+            BattleScene_SetPhase(arg0, 5);
+            sBattleScene.scene->unk_2C = !sBattleScene.scene->unk_2C;
+        } else if (func_82107CA0(sActivePokemon[!sBattleScene.scene->unk_2C]) == 0) {
+            BattleScene_SetPhase(arg0, 5);
+        } else {
+            func_82125838();
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82125AC8; signature not recovered. */

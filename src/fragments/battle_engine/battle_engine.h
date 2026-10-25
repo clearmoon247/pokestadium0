@@ -1550,7 +1550,7 @@ s32 BattleScene_FrameCamera(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_ApproachCameraTargetFromOwner(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_UpdateCameraVerticalFraming(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_RecenterCameraOnOwner(CameraNode* arg0, ActivePokemon* arg1);
-void BattleScene_ApproachCameraTarget(CameraNode* arg0, ActivePokemon* arg1, UNUSED s32 arg2);
+void BattleScene_ApproachCameraTarget(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_ApproachCameraZoom(CameraNode* arg0, ActivePokemon* arg1);
 s32 BattleScene_ApproachCloseCameraShot(CameraNode* arg0, ActivePokemon* arg1);
 s32 BattleScene_AnimateCameraPreset(CameraNode* arg0, ActivePokemon* arg1, s32 arg2, s32 arg3);

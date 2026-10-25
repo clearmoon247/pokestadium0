@@ -172,11 +172,38 @@ void func_8210CFE4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210D6BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210D838; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210D838.s")
-#endif
+s32 func_8210C778(ActivePokemon*);
+
+void func_8210D6BC(ActivePokemon* active_pokemon);
+void func_8210D1B0(ActivePokemon* active_pokemon);
+void func_8210D4B4(ActivePokemon* active_pokemon);
+s32 BattleScene_HandlePlayerActionInput(ActivePokemon* arg0) {
+    ActivePokemonState* opponent_state = &sActivePokemon[BattleScene_GetParticipantSideIndex(arg0) == 0]->state;
+
+    if (M2C_FIELD(opponent_state, u8*, 0x2E) == 0x10) {
+        if (func_8210C708(arg0) != 0) {
+            return 1;
+        }
+    } else if (func_8210C778(arg0) != 0) {
+        return 1;
+    }
+
+    func_8210D6BC(arg0);
+
+    switch (arg0->state.unk_04) {
+        case 2:
+            func_8210D1B0(arg0);
+            return 1;
+
+        case 3:
+            func_8210D4B4(arg0);
+            return 1;
+
+        case 1:
+            break;
+    }
+    return 0;
+}
 
 void BattleScene_CollectPlayerAction(ActivePokemon* arg0, ActivePokemon* arg1) {
     UNUSED s32 pad;

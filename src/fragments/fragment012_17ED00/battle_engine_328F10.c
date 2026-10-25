@@ -502,11 +502,14 @@ void Gallery_ResetActiveScene(void) {
     Gallery_ClearActiveScene();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82150DEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82150DEC.s")
-#endif
+extern M2C_UNK D_8218E668;
+
+void func_82150DEC(void) {
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xB, 1, 5, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, (ParticleDescriptor*)&D_8218E798, 0, 5, 0x1E, 0, 0x3B, 8);
+    BattleAnim_SetSpawnDelay(0x10);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect141Descriptor1CGridRiseFade, (ParticleDescriptor*)&D_8218E668, 0, 0x40, 0x1E, 0, 8, 0);
+    BattleAnim_SpawnDescriptor25AlphaFadeInHold(0, 2, 0x2C, 8, 0xFF);
+}
 
 void func_82150EB0(void) {
     func_82150DEC();

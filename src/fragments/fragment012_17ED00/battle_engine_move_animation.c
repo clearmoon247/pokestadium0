@@ -932,11 +932,31 @@ void BattleScene_CleanupOpponentSpecialAnimFlag(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106220.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210626C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210626C.s")
-#endif
+extern f32 D_FLT_82189354[];
+
+typedef struct { f32 v; f32 pad[3]; } RestHeightRow;
+
+void BattleScene_CleanupOpponentAnimationFlags(ActivePokemon* active_pokemon) {
+    ActivePokemon* target = sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0];
+    ActivePokemonState* target_state = &target->state;
+
+    if (target_state->flags & ACTIVE_UNDERGROUND) {
+        target->displayObject.node.renderFlags |= 0x20;
+        target->displayObject.node.flags |= 1;
+        BattleAnim_StopOwnerCategoryParticles(4, target);
+        Battle_ClearRuntimeFlags(target, 0x4000);
+    }
+
+    if (target_state->flags & ACTIVE_RETURN_RESET) {
+        target->displayObject.position.y = ((RestHeightRow*)D_FLT_82189354)[M2C_FIELD(target, s16*, 0x1A)].v;
+        Battle_ClearRuntimeFlags(target, 0x608);
+    }
+
+    if ((active_pokemon->state.flags & 0x80) && !(M2C_FIELD(target, u8*, 0x812) & 0x20)) {
+        Battle_ClearRuntimeFlags(active_pokemon, 0x80);
+        BattleAnim_StopOwnerCategoryParticles(2, active_pokemon);
+    }
+}
 
 M2C_UNK func_82107A5C();                            /* extern */
 
@@ -944,9 +964,6 @@ void func_82106354(void) {
     func_82107A5C();
 }
 
-extern f32 D_FLT_82189354[];
-
-typedef struct { f32 v; f32 pad[3]; } RestHeightRow;
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
