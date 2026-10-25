@@ -291,7 +291,7 @@ func_80017428,0x80017428,src/display_object_textures.c,Fragment_ProcessGeoLayout
 func_80017520,0x80017520,src/display_object_textures.c,Fragment_ProcessGeoLayoutList,s1,stadium1:src/display_object_textures.c,c
 func_80017584,0x80017584,src/display_object_textures.c,PokeIcon_LoadModelArchive,s1,stadium1:src/display_object_textures.c,c
 func_80017614,0x80017614,src/display_object_textures.c,PokeIcon_LoadMultipleModels,s1,stadium1:src/display_object_textures.c,c
-func_80017700,0x80017700,src/display_object_textures.c,,asm,,asm
+func_80017700,0x80017700,src/display_object_textures.c,PokeIcon_ThreadMain,hand,,c
 func_800177DC,0x800177DC,src/display_object_textures.c,PokeIcon_StartThread,s1,stadium1:src/display_object_textures.c,c
 func_80017860,0x80017860,src/display_object_textures.c,func_80017860,m2c,m2c,c
 func_80017934,0x80017934,src/display_object_textures.c,func_80017934,m2c,m2c,c
@@ -657,7 +657,7 @@ func_815003A4,0x815003A4,src/fragments/fragment003_15F390/n64_logo.c,N64Logo_Mai
 func_81300020,0x81300020,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,GbTower_LoadPartyFromDeck,s1,stadium1:src/fragments/gb_tower_team_prep/gb_tower_team_prep.c,c
 func_813000F0,0x813000F0,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,GbTower_TeamPrepFrameCallback,s1,stadium1:src/fragments/gb_tower_team_prep/gb_tower_team_prep.c (VERSION_JP),c
 func_81300144,0x81300144,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,,asm,,asm
-func_81300228,0x81300228,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,,asm,,asm
+func_81300228,0x81300228,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,GbTower_TeamPrep,hand,,c
 func_82300020,0x82300020,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
 func_8230016C,0x8230016C,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
 func_823003B8,0x823003B8,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
@@ -965,8 +965,8 @@ func_8210DA30,0x8210DA30,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210DAEC,0x8210DAEC,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210DC9C,0x8210DC9C,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210DCE4,0x8210DCE4,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
-func_8210DE18,0x8210DE18,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
-func_8210DF64,0x8210DF64,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
+func_8210DE18,0x8210DE18,src/fragments/fragment012_17ED00/8210C6B0.c,BattleScene_ApplyCpuChoice,hand,,c
+func_8210DF64,0x8210DF64,src/fragments/fragment012_17ED00/8210C6B0.c,BattleScene_ApplyCpuSwitchChoice,hand,,c
 func_8210E0A4,0x8210E0A4,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210E118,0x8210E118,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210E318,0x8210E318,src/fragments/fragment012_17ED00/8210C6B0.c,func_8210E318,m2c,m2c+permuter,c
@@ -1503,7 +1503,7 @@ func_82146F34,0x82146F34,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2
 func_82147050,0x82147050,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,BattleAnim_CallbackEndEffect56Descriptor46RisingScaleAlphaFade_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_31D9F0.c,c
 func_821471D8,0x821471D8,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,func_821471D8,m2c,m2c,c
 func_821472BC,0x821472BC,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_31D9F0.c,c
-func_821473B8,0x821473B8,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,,asm,,asm
+func_821473B8,0x821473B8,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise,hand,,c
 func_821474CC,0x821474CC,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,BattleAnim_CallbackEndEffects54And56Descriptor3DRisingColorScaleFade_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_31D9F0.c,c
 func_821475F4,0x821475F4,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,func_821475F4,m2c,m2c,c
 func_82147710,0x82147710,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,BattleAnim_CallbackEndEffects40And54Descriptor46SpreadScaleFade_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_31D9F0.c,c
@@ -1523,7 +1523,7 @@ func_821483A0,0x821483A0,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2
 func_8214851C,0x8214851C,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,BattleAnim_CallbackEndEffect59Descriptor4FColorScaleFade_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_31D9F0.c,c
 func_821485C8,0x821485C8,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,func_821485C8,m2c,m2c,c
 func_821486FC,0x821486FC,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,func_821486FC,m2c,m2c,c
-func_821487F0,0x821487F0,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,,asm,,asm
+func_821487F0,0x821487F0,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,ParticleEffect_InitSetTintRampRisingSpread,hand,,c
 func_82148948,0x82148948,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,func_82148948,m2c,m2c,c
 func_82148A58,0x82148A58,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,func_82148A58,m2c,m2c,c
 func_82148B70,0x82148B70,src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c,,asm,,asm
@@ -1606,7 +1606,7 @@ func_8214CD28,0x8214CD28,src/fragments/fragment012_17ED00/battle_engine_3223B0.c
 func_8214CE00,0x8214CE00,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,BattleAnim_StartEffect15Descriptor08IndexedScaleDelayFade,s1,stadium1:src/fragments/battle_engine/battle_engine_3223B0.c,c
 func_8214CE58,0x8214CE58,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,func_8214CE58,m2c,m2c,c
 func_8214CEB0,0x8214CEB0,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,func_8214CEB0,m2c,m2c,c
-func_8214CF14,0x8214CF14,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,,asm,,asm
+func_8214CF14,0x8214CF14,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,InitParticleEffectGroup_Basic,hand,,c
 func_8214CFE8,0x8214CFE8,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,BattleAnim_StartEffect6AnimatedScaleAndBurstEmitter,s1,stadium1:src/fragments/battle_engine/battle_engine_3223B0.c,c
 func_8214D0C8,0x8214D0C8,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,,asm,,asm
 func_8214D238,0x8214D238,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,InitExplosionEffectSet,s1,stadium1:src/fragments/battle_engine/battle_engine_3223B0.c,c
@@ -1621,7 +1621,7 @@ func_8214DA08,0x8214DA08,src/fragments/fragment012_17ED00/battle_engine_3223B0.c
 func_8214DA90,0x8214DA90,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,func_8214DA90,m2c,m2c,c
 func_8214DBA8,0x8214DBA8,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,func_8214DBA8,m2c,m2c,c
 func_8214DDC0,0x8214DDC0,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,func_8214DDC0,m2c,m2c,c
-func_8214DEDC,0x8214DEDC,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,,asm,,asm
+func_8214DEDC,0x8214DEDC,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,InitParticleEffectSet_WithCustomCallback,hand,,c
 func_8214E028,0x8214E028,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,func_8214E028,m2c,m2c,c
 func_8214E140,0x8214E140,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,,asm,,asm
 func_8214E2C0,0x8214E2C0,src/fragments/fragment012_17ED00/battle_engine_3223B0.c,,asm,,asm
@@ -1654,7 +1654,7 @@ func_8214FAA4,0x8214FAA4,src/fragments/fragment012_17ED00/battle_engine_3274D0.c
 func_8214FCBC,0x8214FCBC,src/fragments/fragment012_17ED00/battle_engine_3274D0.c,func_8214FCBC,m2c,m2c,c
 func_8214FDEC,0x8214FDEC,src/fragments/fragment012_17ED00/battle_engine_3274D0.c,BattleAnim_CreateCollisionRandomEffect,s1,stadium1:src/fragments/battle_engine/battle_engine_3274D0.c,c
 func_8214FEA4,0x8214FEA4,src/fragments/fragment012_17ED00/battle_engine_3274D0.c,BattleAnim_EndEffect70Descriptor0F_13SprayColumnSequence,s1,stadium1:src/fragments/battle_engine/battle_engine_3274D0.c,c
-func_8214FFD0,0x8214FFD0,src/fragments/fragment012_17ED00/battle_engine_328F10.c,,asm,,asm
+func_8214FFD0,0x8214FFD0,src/fragments/fragment012_17ED00/battle_engine_328F10.c,BattleAnim_InitStartEffect135Descriptor1CRisingScale,hand,,c
 func_821500CC,0x821500CC,src/fragments/fragment012_17ED00/battle_engine_328F10.c,BattleAnim_CallbackStartEffect135Descriptor1CRisingScaleFade,s1,stadium1:src/fragments/battle_engine/battle_engine_328F10.c,c
 func_821501B4,0x821501B4,src/fragments/fragment012_17ED00/battle_engine_328F10.c,func_821501B4,m2c,m2c+permuter,c
 func_82150210,0x82150210,src/fragments/fragment012_17ED00/battle_engine_328F10.c,BattleAnim_CallbackStartEffect135ExpandingFlashFade,s1,stadium1:src/fragments/battle_engine/battle_engine_328F10.c,c
@@ -1802,7 +1802,7 @@ func_821554F8,0x821554F8,src/fragments/fragment012_17ED00/battle_engine_32B680_3
 func_8215558C,0x8215558C,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_InitEffect8Descriptor4A,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_821555D4,0x821555D4,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_821555D4,m2c,m2c,c
 func_82155688,0x82155688,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_InitEffect8ModelBurst,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
-func_82155724,0x82155724,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
+func_82155724,0x82155724,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_CallbackStartEffect8ModelBurstEmitter,hand,,c
 func_82155878,0x82155878,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
 func_821558F4,0x821558F4,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_821558F4,m2c,m2c,c
 func_821559E4,0x821559E4,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_821559E4,m2c,m2c,c
@@ -1968,7 +1968,7 @@ func_8215CF14,0x8215CF14,src/fragments/fragment012_17ED00/battle_engine_32B680_3
 func_8215D144,0x8215D144,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,Gfx_WaterAnimDLCallback,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_8215D18C,0x8215D18C,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
 func_8215D31C,0x8215D31C,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_8215D31C,m2c,m2c,c
-func_8215D3D0,0x8215D3D0,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
+func_8215D3D0,0x8215D3D0,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,ParticleEffect_BasicMultiBurstDelayedSprayOnly,hand,,c
 func_8215D520,0x8215D520,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
 func_8215D6B4,0x8215D6B4,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,func_8215D6B4,m2c,m2c,c
 func_8215D724,0x8215D724,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_CallbackStartEffect101EndEffect65Descriptor4ABurstChild_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
@@ -2019,7 +2019,7 @@ func_8215F558,0x8215F558,src/fragments/fragment012_17ED00/battle_engine_32B680_3
 func_8215F5A8,0x8215F5A8,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,ParticleEffect_CreateSmoke,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_8215F600,0x8215F600,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,ParticleEffect_CreateSmokeHighPriority,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_8215F658,0x8215F658,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_CallbackStartEffect132Descriptor39DelayedRiseFade_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
-func_8215F790,0x8215F790,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,,asm,,asm
+func_8215F790,0x8215F790,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,BattleAnim_CallbackStartEffect132Descriptor39DelayedRiseFade,hand,,asm
 func_8215F898,0x8215F898,src/fragments/fragment012_17ED00/battle_engine_32B680_3.c,ParticleEffect_CreateDual,s1,stadium1:src/fragments/battle_engine/battle_engine_32B680.c,c
 func_8215F930,0x8215F930,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackSharedDescriptor29ScaleAnimFade_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_8215FAA4,0x8215FAA4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_8215FAA4,m2c,m2c,c
@@ -2058,9 +2058,9 @@ func_821616BC,0x821616BC,src/fragments/fragment012_17ED00/battle_engine_339CA0.c
 func_8216177C,0x8216177C,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackEndEffects37And38Descriptor38BurstChild_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82161890,0x82161890,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,func_82161890,m2c,m2c,c
 func_82161968,0x82161968,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion_InitParticle,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
-func_82161C4C,0x82161C4C,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
+func_82161C4C,0x82161C4C,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82161DA4,0x82161DA4,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
-func_82161E78,0x82161E78,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
+func_82161E78,0x82161E78,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackEndEffect52Descriptor42BurstChild,hand,,c
 func_82161F90,0x82161F90,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_SetupEndEffect52DefaultBurstChild,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_82161FCC,0x82161FCC,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,BattleAnim_CallbackEndEffect52DefaultBurstEmitter,s1,stadium1:src/fragments/battle_engine/battle_engine_339CA0.c,c
 func_8216201C,0x8216201C,src/fragments/fragment012_17ED00/battle_engine_339CA0.c,,asm,,asm
@@ -2388,7 +2388,7 @@ func_82174130,0x82174130,src/fragments/fragment012_17ED00/battle_engine_34A420.c
 func_82174270,0x82174270,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Strip400_GetTailFadeRatio,s1,stadium1:src/fragments/battle_engine/battle_engine_34A420.c,c
 func_821742F0,0x821742F0,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_821748CC,0x821748CC,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
-func_82174B20,0x82174B20,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
+func_82174B20,0x82174B20,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_ResetPool,s1,stadium1:src/fragments/battle_engine/battle_engine_34A420.c,c
 func_82174C30,0x82174C30,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_82174E64,0x82174E64,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_82175068,0x82175068,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
@@ -2396,7 +2396,7 @@ func_82175440,0x82175440,src/fragments/fragment012_17ED00/battle_engine_34A420.c
 func_82175828,0x82175828,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_82175BE0,0x82175BE0,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_RotateVertexOffset,s1,stadium1:src/fragments/battle_engine/battle_engine_34A420.c,c
 func_82175C74,0x82175C74,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
-func_821764E0,0x821764E0,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
+func_821764E0,0x821764E0,src/fragments/fragment012_17ED00/battle_engine_34A420.c,Radial20_IsComplete,hand,,c
 func_821765B4,0x821765B4,src/fragments/fragment012_17ED00/battle_engine_34A420.c,,asm,,asm
 func_82177DA0,0x82177DA0,src/fragments/fragment012_17ED00/battle_engine_34E1A0.c,Trail40_Init,s1,stadium1:src/fragments/battle_engine/battle_engine_34E1A0.c,c
 func_82177F1C,0x82177F1C,src/fragments/fragment012_17ED00/battle_engine_34E1A0.c,Trail40_Start,s1,stadium1:src/fragments/battle_engine/battle_engine_34E1A0.c,c
@@ -2487,7 +2487,7 @@ func_82183408,0x82183408,src/fragments/fragment012_17ED00/battle_engine_3597B0.c
 func_82183A84,0x82183A84,src/fragments/fragment012_17ED00/battle_engine_3597B0.c,BattleScene_DrawStripWipe,s1,stadium1:src/fragments/battle_engine/battle_engine_3597B0.c,c
 func_8210FD70,0x8210FD70,src/fragments/fragment012_17ED00/battle_engine_359F90.c,ComputeAllPokemonStats,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
 func_8210FDD0,0x8210FDD0,src/fragments/fragment012_17ED00/battle_engine_359F90.c,,asm,,asm
-func_8210FF40,0x8210FF40,src/fragments/fragment012_17ED00/battle_engine_359F90.c,,asm,,asm
+func_8210FF40,0x8210FF40,src/fragments/fragment012_17ED00/battle_engine_359F90.c,Battle_CalcDamage,hand,,c
 func_8211009C,0x8211009C,src/fragments/fragment012_17ED00/battle_engine_359F90.c,,asm,,asm
 func_821102F0,0x821102F0,src/fragments/fragment012_17ED00/battle_engine_359F90.c,,asm,,asm
 func_821107F0,0x821107F0,src/fragments/fragment012_17ED00/battle_engine_359F90.c,Battle_DecrementPP,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
@@ -3932,7 +3932,7 @@ func_8E200020,0x8E200020,src/fragments/fragment022_2B1480.c,func_8E200020,m2c,m2
 func_8E300020,0x8E300020,src/fragments/fragment023_2B1510.c,func_8E300020,m2c,m2c,c
 func_8E400020,0x8E400020,src/fragments/fragment024_2B15A0.c,func_8E400020,m2c,m2c,c
 func_81600020,0x81600020,src/fragments/fragment025_2B16A0/fatal_error_screen.c,,asm,,asm
-func_816001A8,0x816001A8,src/fragments/fragment025_2B16A0/fatal_error_screen.c,,asm,,asm
+func_816001A8,0x816001A8,src/fragments/fragment025_2B16A0/fatal_error_screen.c,FatalError_DrawIcon,hand,,c
 func_816002AC,0x816002AC,src/fragments/fragment025_2B16A0/fatal_error_screen.c,,asm,,asm
 func_81600334,0x81600334,src/fragments/fragment025_2B16A0/fatal_error_screen.c,,asm,,asm
 func_81600778,0x81600778,src/fragments/fragment025_2B16A0/fatal_error_screen.c,FatalError_DrawFrame,s1,stadium1:src/fragments/fatal_error_screen/fatal_error_screen.c,c
@@ -4663,7 +4663,7 @@ func_8004FDC0,0x8004FDC0,src/libleo/leointerrupt.c,,asm,,asm
 func_80050340,0x80050340,src/libleo/leointerrupt.c,__osLeoAbnormalResume,s1,stadium1:src/libleo/leointerrupt.c,c
 func_800503F4,0x800503F4,src/libleo/leointerrupt.c,__osLeoResume,s1,stadium1:src/libleo/leointerrupt.c,c
 func_80049DC0,0x80049DC0,src/libleo/leomecha.c,leoAnalize_asic_status,s1,stadium1:src/libleo/leomecha.c,c
-func_80049ECC,0x80049ECC,src/libleo/leomecha.c,,asm,,asm
+func_80049ECC,0x80049ECC,src/libleo/leomecha.c,leoChk_asic_ready,hand,,c
 func_80049FB4,0x80049FB4,src/libleo/leomecha.c,leoChk_done_status,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A168,0x8004A168,src/libleo/leomecha.c,leoSend_asic_cmd_i,hand,,c
 func_8004A210,0x8004A210,src/libleo/leomecha.c,func_8004A210,m2c,m2c,c

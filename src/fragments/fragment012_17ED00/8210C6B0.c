@@ -1,7 +1,11 @@
 /* Stadium Zero fragment012_17ED00. */
 
 #include "global.h"
+#include "fragments/battle_engine/battle_engine.h"
 #include "m2c_macros.h"
+
+extern f32 D_82199EB0;
+extern s32 D_82199EB8;
 
 extern f32 D_FLT_82199EB0;
 
@@ -192,17 +196,74 @@ void func_8210CFE4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210DCE4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210DE18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210DE18.s")
-#endif
+s32 func_8210DA30(ActivePokemon* arg0);
+void BattleScene_ApplyCpuChoice(ActivePokemon* arg0, ActivePokemon* arg1) {
+    ActivePokemonState* sp18;
+    ActivePokemonState* sp14;
+    s32 var_v0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210DF64; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210DF64.s")
-#endif
+    sp18 = &arg0->state;
+    sp14 = &arg1->state;
+
+    if ((D_82199EB0 == 30.0f) && (D_82199EB8 < 4)) {
+        BattleAnim_PlaySoundEffect2();
+    }
+
+    if (D_82199EB8 < 4) {
+        if (D_82199EB0 >= 30.0f) {
+            sp18->unk_10 = 1;
+            sp18->unk_04 = 1;
+        }
+    }
+
+    if ((D_82199EB0 >= 90.0f) || ((sp14->unk_10 == 3) && (D_82199EB0 >= 10.0f))) {
+        if (D_82199EB8 < 4) {
+            BattleAnim_PlaySoundEffect2();
+            sp18->unk_04 = 1;
+            sp18->unk_10 = 3;
+            if (func_8210DA30(arg0) != 0) {
+                sp18->unk_14 = 4;
+                sp18->unk_0C = 4;
+            } else {
+                var_v0 = D_82199EB8;
+                sp18->unk_14 = var_v0;
+                sp18->unk_0C = var_v0;
+            }
+        }
+    }
+}
+
+s32 BattleScene_ApplyCpuSwitchChoice(ActivePokemon* arg0, ActivePokemon* arg1) {
+    ActivePokemonState* sp1C = &arg0->state;
+    ActivePokemonState* sp18 = &arg1->state;
+
+    if ((D_82199EB0 == 30.0f) && (D_82199EB8 >= 4)) {
+        BattleAnim_PlaySoundEffect2();
+    }
+
+    if (D_82199EB0 >= 30.0f) {
+        if (D_82199EB8 >= 4) {
+            sp1C->unk_10 = 2;
+            sp1C->unk_04 = 2;
+        }
+    }
+
+    if ((D_82199EB0 >= 90.0f) || ((sp18->unk_10 == 3) && (D_82199EB0 >= 10.0f))) {
+        if (D_82199EB8 >= 4) {
+            BattleAnim_PlaySoundEffect2();
+            sp1C->unk_1C = 0;
+            sp1C->unk_18 = D_82199EB8 - 4;
+            sp1C->unk_1E = 0;
+            sp1C->unk_10 = 3;
+            sp1C->unk_04 = 2;
+        }
+    }
+
+    if (D_82199EB8 >= 4) {
+        return 1;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210E0A4; signature not recovered. */

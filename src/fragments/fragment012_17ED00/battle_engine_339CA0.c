@@ -527,7 +527,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E1FC(s8 *, s32);                 /* extern */
 M2C_UNK func_8213E4D8(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_82140548(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 
@@ -542,7 +542,7 @@ void func_82160704(s8 *arg0) {
     case 2:
         func_8213CCEC(arg0, 0, 7, 1, 2, 0);
         func_82140228(arg0, 0x3F400000, 0x3CCCCCCD);
-        func_8213F658(arg0, 0x3F000000, 0x3E800000);
+        func_8213F658(arg0, 0.5f, 0.25f);
         func_8213E1FC(arg0, M2C_FIELD(arg0, s32 *, 0x5C));
         func_8213E4D8(arg0);
         return;
@@ -586,7 +586,7 @@ M2C_UNK func_8213C9D0(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E1FC(s8 *, s32);                 /* extern */
 M2C_UNK func_8213E4D8(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
 
@@ -601,7 +601,7 @@ void func_821608FC(s8 *arg0) {
     case 2:
         func_8213CCEC(arg0, 0, 7, 1, 3, 0);
         func_82140228(arg0, 0x3F800000, 0x3D4CCCCD);
-        func_8213F658(arg0, 0x3F000000, 0x3E800000);
+        func_8213F658(arg0, 0.5f, 0.25f);
         func_8213E1FC(arg0, M2C_FIELD(arg0, s32 *, 0x5C));
         break;
     case 3:
@@ -687,7 +687,7 @@ M2C_UNK func_8213C9D0(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E1FC(s8 *, s32);                 /* extern */
 M2C_UNK func_8213E4D8(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
 
@@ -702,7 +702,7 @@ void func_82160CCC(s8 *arg0) {
     case 2:
         func_8213CCEC(arg0, 0, 7, 1, 2, 0);
         func_82140228(arg0, 0x3F400000, 0x3CCCCCCD);
-        func_8213F658(arg0, 0x3F000000, 0x3E4CCCCD);
+        func_8213F658(arg0, 0.5f, 0.2f);
         func_8213E1FC(arg0, M2C_FIELD(arg0, s32 *, 0x5C));
         func_8213E4D8(arg0);
         return;
@@ -947,7 +947,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213C9D0(s8 *);                      /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
 s32 func_82140690(s8 *);                          /* extern */
 M2C_UNK func_821615F8(s8 *);                      /* extern */
@@ -961,7 +961,7 @@ void func_821616BC(s8 *arg0) {
         func_821615F8(arg0);
         break;
     case 2:
-        func_8213F658(arg0, 0x40000000, 0x3F000000);
+        func_8213F658(arg0, 2.0f, 0.5f);
         if ((func_82140690(arg0) != 0) && (func_82140518(arg0, 0, 0x40) != 0)) {
             func_8213C9D0(arg0);
         }
@@ -1008,7 +1008,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213C9D0(s8 *);                      /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_82140518(s8 *, M2C_UNK, M2C_UNK);        /* extern */
 s32 func_82140690(s8 *);                          /* extern */
@@ -1024,7 +1024,7 @@ void func_82161890(s8 *arg0) {
         break;
     case 2:
         func_82140228(arg0, 0x3DCCCCCD, 0x3C23D70A);
-        func_8213F658(arg0, 0x40400000, 0x3F400000);
+        func_8213F658(arg0, 3.0f, 0.75f);
         if ((func_82140690(arg0) != 0) && (func_82140518(arg0, 0, 0x40) != 0)) {
             func_8213C9D0(arg0);
         }
@@ -1102,11 +1102,45 @@ void BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion_InitParticle(Parti
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82161C4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82161C4C.s")
-#endif
+void BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion(Particle* arg0) {
+    s16 sp2E = Particle_FieldCF_GetS16_0C058(arg0);
+
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion_InitParticle(arg0);
+            break;
+        case 2:
+            func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+
+            switch (sp2E) {
+                case 3:
+                    Particle_PrimR_Approach_0BAE4(arg0, 0, 9);
+                    func_8213F658(arg0, 1.0f, 0.75f);
+                    Particle_PrimAlpha_Approach_0BC2C(arg0, 0x32, 6);
+                    break;
+
+                case 4:
+                    func_8213F658(arg0, 1.0f, 0.75f);
+                    Particle_Field38_AddYScaled_08E90(arg0, 0.5f);
+                    Particle_PrimAlpha_Approach_0BC2C(arg0, 0x32, 6);
+                    break;
+
+                default:
+                    Particle_PrimG_Approach_0BB14(arg0, 0x64, 6);
+                    func_8213F658(arg0, 2.0f, 0.5f);
+                    break;
+            }
+            break;
+
+        case 3:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRunning(arg0) != 0) {
+        Particle_AddVelocityFromRotationTemplate1(arg0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82161DA4; signature not recovered. */
@@ -1114,11 +1148,43 @@ void BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion_InitParticle(Parti
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82161DA4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82161E78; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82161E78.s")
-#endif
+M2C_UNK func_8213E3F8(s8 *);
+void BattleAnim_CallbackEndEffect52Descriptor42BurstChild(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffect52Descriptor42BurstChild_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_Field1C_ApproachAndStepState_0B9D0(arg0, 0.3f, 0.05f);
+            func_8213F658(arg0, 3.0f, 1.0f);
+            break;
+
+        case 4:
+            Particle_TickDelayAndAdvanceLifecycle(arg0, 2);
+            break;
+
+        case 5:
+            Particle_Field1C_ApproachAndStepState_0B9D0(arg0, 0.05f, 0.05f);
+            break;
+
+        case 6:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRenderingEnabled(arg0) != 0) {
+        Particle_Field94_AddZFromField9A_0A4DC(arg0);
+        Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(arg0);
+        func_8213E3F8(arg0);
+    }
+}
 
 void BattleAnim_SetupEndEffect52DefaultBurstChild(Particle* arg0) {
     BattleAnim_EmitParticleBurst(arg0, BattleAnim_CallbackEndEffect52Descriptor42BurstChild, &gBattleAnimParticleDescriptors[0x42], 0xC);
@@ -1677,7 +1743,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CB3C(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E4D8(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821403E0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
@@ -1701,7 +1767,7 @@ void func_8216374C(s8 *arg0) {
         return;
     case 3:
         func_8213CCEC(arg0, 0, 7, 1, 1, 0);
-        func_8213F658(arg0, 0x3E4CCCCD, 0x3E800000);
+        func_8213F658(arg0, 0.2f, 0.25f);
         func_82140228(arg0, 0x3F000000, 0x3CA3D70A);
         func_821403E0(arg0, 0, 0x20);
         func_821404DC(arg0, 0, 0x20);
@@ -1754,7 +1820,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CB3C(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E4D8(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821403B0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821403E0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
@@ -1778,7 +1844,7 @@ void func_821639EC(s8 *arg0) {
         return;
     case 3:
         func_8213CCEC(arg0, 0, 7, 1, 1, 0);
-        func_8213F658(arg0, 0x3E4CCCCD, 0x3E800000);
+        func_8213F658(arg0, 0.2f, 0.25f);
         func_82140228(arg0, 0x3F000000, 0x3CA3D70A);
         func_821403E0(arg0, 0, 0x20);
         func_821404DC(arg0, 0, 0x20);

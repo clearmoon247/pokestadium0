@@ -18,17 +18,24 @@ void FatalError_DrawBackgroundPattern(s32 arg0, s32 arg1, s32 arg2);
 void FatalError_DrawMessagePanel(s32 arg0);
 void FatalError_DrawPortDiagram(s32 arg0);
 
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
 #ifdef NON_MATCHING
 /* TODO: decompile func_81600020; signature not recovered. */
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment025_2B16A0/func_81600020.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_816001A8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment025_2B16A0/func_816001A8.s")
-#endif
+void FatalError_DrawIcon(s32 arg0, s32 arg1) {
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_COPY);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_NOOP, G_RM_NOOP2);
+    gDPSetCombineMode(gDisplayListHead++, G_CC_DECALRGBA, G_CC_DECALRGBA);
+
+    func_8001B884(arg0, arg1, 0x18, 0x18, D_2002000, 0x18, 0x200000);
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_816002AC; signature not recovered. */

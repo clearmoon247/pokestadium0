@@ -105,11 +105,40 @@ f32 Strip400_GetTailFadeRatio(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821748CC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82174B20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82174B20.s")
-#endif
+extern Radial20 D_821A3490[10];
+void Radial20_ResetPool(void) {
+    s16 temp_v0;
+    s32 i;
+    s32 j;
+    Radial20* var_a2;
+    Radial20Node* var_v1;
+
+    temp_v0 = AuxiliaryEffect_Alloc();
+    var_a2 = &D_821A3490[0];
+
+    for (i = 0; i < 10; i++) {
+        var_a2->unk_000 = 0;
+        var_a2->unk_004 = 0;
+        var_a2->unk_006 = 0;
+
+        var_v1 = &var_a2->unk_048[0];
+        for (j = 0; j < 20; j++, var_v1++) {
+            var_v1->unk_00 = 0.0f;
+            var_v1->unk_04 = 0;
+            var_v1->unk_08 = 1.0f;
+            var_v1->unk_0C = 0.0f;
+            var_v1->unk_10.x = 0.0f;
+            var_v1->unk_10.y = 0.0f;
+            var_v1->unk_10.z = 0.0f;
+            var_v1->unk_1C.x = 0.0f;
+            var_v1->unk_1C.y = 0.0f;
+            var_v1->unk_1C.z = 0.0f;
+        }
+
+        var_a2->unk_002 = temp_v0;
+        var_a2++;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82174C30; signature not recovered. */
@@ -157,11 +186,31 @@ void Radial20_RotateVertexOffset(f32 arg0, UNUSED Vec3f* arg1, Vec3f* arg2, f32 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82175C74.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821764E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821764E0.s")
-#endif
+extern Radial20 D_821A3490[10];
+s32 Radial20_IsComplete(void) {
+    s32 i;
+    s32 var_s2 = 0;
+    Radial20* var_s0 = D_821A3490;
+
+    for (i = 0; i < 10; i++, var_s0++) {
+        if (var_s0->unk_000 == 1) {
+            var_s0->unk_004++;
+            if (var_s0->unk_006 < var_s0->unk_004) {
+                var_s0->unk_000 = 0;
+                if (var_s0->unk_008 == 9) {}
+            } else {
+                Radial20_UpdateNode(var_s0);
+                var_s2++;
+            }
+            AuxiliaryEffect_Update(var_s0->unk_002);
+        }
+    }
+
+    if (var_s2 > 0) {
+        return 0;
+    }
+    return -1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821765B4; signature not recovered. */

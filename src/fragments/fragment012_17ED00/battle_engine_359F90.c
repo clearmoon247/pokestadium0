@@ -81,11 +81,38 @@ void ComputeAllPokemonStats(BattleMon* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210FDD0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210FF40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210FF40.s")
-#endif
+extern u16 D_82199F52;
+extern u16 D_82199F56;
+extern u16 D_82199F58;
+extern u16 D_82199F54;
+s32 Battle_CalcDamage(void) {
+    s32 temp_v0 = sBattleUser->moveCache.unk_01;
+
+    if (temp_v0 == 7) {
+        D_82199F56 >>= 1;
+        if (D_82199F56 == 0) {
+            D_82199F56 = 1;
+        }
+    }
+
+    if ((temp_v0 != 0x1D) && (temp_v0 != 0x1E)) {
+        if (temp_v0 == 0x26) {
+            return Battle_CheckMoveSuccess();
+        }
+
+        if (D_82199F52 == 0) {
+            return 0;
+        }
+    }
+
+    sBattleDamage += (((((D_82199F58 * 2) / 5) + 2) * D_82199F52 * D_82199F54) / D_82199F56) / 50;
+    if (sBattleDamage > 0x3E4) {
+        sBattleDamage = 0x3E4;
+    }
+    sBattleDamage += 2;
+
+    return 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211009C; signature not recovered. */

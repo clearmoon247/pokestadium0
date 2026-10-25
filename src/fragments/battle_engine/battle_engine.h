@@ -455,11 +455,10 @@ typedef struct Radial20 {
     /* 0x014 */ f32 unk_014;
     /* 0x018 */ f32 unk_018;
     /* 0x01C */ Vtx* unk_01C;
-    /* 0x020 */ char unk020[0x18];
-    /* 0x038 */ s32 unk_038[3];
-    /* 0x044 */ char unk044[0x4];
-    /* 0x048 */ Radial20Node unk_048[20];
-} Radial20; // size = 0x5E8
+    /* 0x020 */ char unk020[0x14];
+    /* 0x034 */ s32 unk_038[3];
+    /* 0x040 */ Radial20Node unk_048[20];
+} Radial20; // size = 0x5E0 (Stadium 1: 0x5E8)
 
 typedef struct Trail40Node {
     /* 0x00 */ f32 unk_00;

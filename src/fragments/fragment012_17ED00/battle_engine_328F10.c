@@ -111,11 +111,22 @@ void BattleAnim_StartEffect122GlobalAndOwnerTintFade(void);
 
 void Gallery_ClearActiveScene(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214FFD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214FFD0.s")
-#endif
+void BattleAnim_InitStartEffect135Descriptor1CRisingScale(Particle* arg0) {
+    Vec3s sp28;
+    s16 sp26 = Particle_FieldCF_GetS16_0C058(arg0);
+    s16 sp24 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field38_SetYScaled_08CA0(arg0, 2.5f);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.065789476f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+    sp28.x = ParticleMath_RandomSigned(0x5000);
+    sp28.y = sp24 * (0x10000 / arg0->unk_AA);
+    sp28.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp28);
+    ParticleGfx_RecolorPrim(arg0, sp26);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 void BattleAnim_CallbackStartEffect135Descriptor1CRisingScaleFade(Particle* arg0) {
     switch (arg0->unk_B2) {

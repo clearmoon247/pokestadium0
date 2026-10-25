@@ -196,6 +196,7 @@ void func_80021678(s32 arg0, u32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021A8C.s")
 #endif
 
+extern GbSavePort D_800AC910[4];
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021B30; signature not recovered. */
 #else

@@ -1122,11 +1122,36 @@ void BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise_InitParticle
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821473B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821473B8.s")
-#endif
+s32 func_8213F658(Particle* arg0, f32 arg1, f32 arg2);
+void BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise_InitParticle(arg0);
+            break;
+
+        case 2:
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_FieldA6_SetS16_0BCA8(arg0, 5);
+                Particle_EnableRendering(arg0);
+            }
+            break;
+
+        case 3:
+            func_8213CCEC(arg0, 0, 7, 1, 2, 0);
+            Particle_Field1C_Approach_0B98C(arg0, 1.05f, 0.075f);
+            func_8213F658(arg0, 0.5, 0.5f);
+            Particle_AddVelocityFromRotationTemplate1(arg0);
+            if (Particle_FieldA6_DecrementToZeroStep1_0BDAC(arg0) != 0) {
+                func_8213E1FC(arg0, 0x3F000000);
+                Particle_PrimAlpha_Approach_0BC2C(arg0, 0x64, 0x10);
+            }
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+}
 
 void BattleAnim_CallbackEndEffects54And56Descriptor3DRisingColorScaleFade_InitParticle(Particle* arg0) {
     s16 sp36 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -1612,11 +1637,16 @@ void func_821486FC(void) {
     func_8213B560(4, &func_8214622C, &D_8218E7B0, 0, 1, 0x11, (s32) D_8219A80A, 0, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821487F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821487F0.s")
-#endif
+extern ParticleDescriptor D_8218E588[86];
+extern ParticleDescriptor D_8218E7B8;
+void ParticleEffect_InitSetTintRampRisingSpread(void) {
+    BattleAnim_SpawnDescriptor25AlphaHoldFadeOut(2, 0, 0x40, 0x8, 0xC8);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0, 0xA, 0xFF, 0, 0x30);
+    BattleAnim_CreateEffectSlotForCurrentOwner(4, BattleAnim_CallbackEndEffect56Descriptor46RisingScaleAlphaFade, &D_8218E7B0, 0, 6, 0x10, 9, 0, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(8, BattleAnim_CallbackEndEffect56Descriptor46RisingScaleAlphaFade, &D_8218E7B0, 0, 6, 0x10, 9, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 2, 2, BattleAnim_CallbackEndEffects54And56Descriptor3DRisingColorScaleFade, &D_8218E770, 0, 4, 0x10, 9, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 2, 2, BattleAnim_CallbackEndEffect56Descriptor47SpreadScaleAlphaRise, &D_8218E7B8, 0, 4, 0x10, 9, 0, 0);
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B5D8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK *, M2C_UNK *, s32, s32, s32, s32, s32, s32); /* extern */
