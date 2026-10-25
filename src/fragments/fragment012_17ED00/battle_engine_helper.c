@@ -327,11 +327,15 @@ void func_82108A88(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108C0C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108D68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108D68.s")
-#endif
+void Battle_SetModelToHitAnim(ActivePokemon* active_pokemon) {
+    extern PokemonBattleCues* D_82189180[];
+    MovePresentationCue* hit_cue = &D_82189180[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;
+
+    if (active_pokemon->displayObject.transformAnim.animationId != -1) {
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+        ModelAnim_SetAnimation(&active_pokemon->displayObject, hit_cue->id);
+    }
+}
 
 void func_82108DC8(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0x860) = (s32) M2C_FIELD((M2C_FIELD(arg0, s32 *, 0x85C) + (arg1 * 4)), s32 *, 8);

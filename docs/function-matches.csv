@@ -703,7 +703,7 @@ func_8840079C,0x8840079C,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c
 func_88400A1C,0x88400A1C,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,Trade_DrawSaveSeqMessageBackdrop,s1,stadium1:src/fragments/trade_machine/trade_machine_291D60.c,asm
 func_88400A98,0x88400A98,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,func_88400A98,m2c,m2c,c
 func_88400B70,0x88400B70,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,func_88400B70,m2c,m2c,c
-func_88400C48,0x88400C48,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,,asm,,asm
+func_88400C48,0x88400C48,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,func_88400C48,s1,,c
 func_88400CE8,0x88400CE8,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,func_88400CE8,m2c,m2c,c
 func_88400DAC,0x88400DAC,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,,asm,,asm
 func_88400F4C,0x88400F4C,src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c,,asm,,asm
@@ -1147,7 +1147,7 @@ func_82126D20,0x82126D20,src/fragments/fragment012_17ED00/battle_engine_309ED0.c
 func_82126E34,0x82126E34,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,func_82126E34,s1,stadium1:src/fragments/battle_engine/battle_engine_309ED0.c,c
 func_82126EE0,0x82126EE0,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
 func_82126F70,0x82126F70,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
-func_82127250,0x82127250,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
+func_82127250,0x82127250,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,BattleScene_Phase2,s1,,c
 func_821272C0,0x821272C0,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,func_821272C0,m2c,m2c,c
 func_821272CC,0x821272CC,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
 func_82127354,0x82127354,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,,asm,,asm
@@ -1308,7 +1308,7 @@ func_8213AFC4,0x8213AFC4,src/fragments/fragment012_17ED00/battle_engine_317E70_2
 func_8213AFE4,0x8213AFE4,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,BattleAnim_ReleaseParticleModel,s1,stadium1:src/fragments/battle_engine/battle_engine_317E70.c,c
 func_8213B038,0x8213B038,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,BattleAnim_CleanupEffectsRetainingCategories47,s1,stadium1:src/fragments/battle_engine/battle_engine_317E70.c,c
 func_8213B108,0x8213B108,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,BattleAnim_CleanupEffectsRetainingCategory4,s1,stadium1:src/fragments/battle_engine/battle_engine_317E70.c,c
-func_8213B234,0x8213B234,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,,asm,,asm
+func_8213B234,0x8213B234,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,BattleAnim_ClearEffectCallbacks,s1,,c
 func_8213B2C0,0x8213B2C0,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,BattleAnim_IsEffectSpawningEnabled,s1,stadium1:src/fragments/battle_engine/battle_engine_317E70.c,c
 func_8213B2E0,0x8213B2E0,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,func_8213B2E0,m2c,m2c,c
 func_8213B2F0,0x8213B2F0,src/fragments/fragment012_17ED00/battle_engine_317E70_2.c,BattleAnim_EnableEffectSpawning,s1,stadium1:src/fragments/battle_engine/battle_engine_317E70.c,c
@@ -2620,7 +2620,7 @@ func_82108A0C,0x82108A0C,src/fragments/fragment012_17ED00/battle_engine_helper.c
 func_82108A88,0x82108A88,src/fragments/fragment012_17ED00/battle_engine_helper.c,func_82108A88,m2c,m2c,c
 func_82108A94,0x82108A94,src/fragments/fragment012_17ED00/battle_engine_helper.c,,asm,,asm
 func_82108C0C,0x82108C0C,src/fragments/fragment012_17ED00/battle_engine_helper.c,,asm,,asm
-func_82108D68,0x82108D68,src/fragments/fragment012_17ED00/battle_engine_helper.c,,asm,,asm
+func_82108D68,0x82108D68,src/fragments/fragment012_17ED00/battle_engine_helper.c,Battle_SetModelToHitAnim,s1,,c
 func_82108DC8,0x82108DC8,src/fragments/fragment012_17ED00/battle_engine_helper.c,func_82108DC8,m2c,m2c,c
 func_82108DE0,0x82108DE0,src/fragments/fragment012_17ED00/battle_engine_helper.c,func_82108DE0,m2c,m2c,c
 func_82108DE8,0x82108DE8,src/fragments/fragment012_17ED00/battle_engine_helper.c,func_82108DE8,m2c,m2c,c
@@ -4235,7 +4235,7 @@ func_8001FAF8,0x8001FAF8,src/gb_data.c,GbData_WriteU24BE,s1,stadium1:src/gb_data
 func_8001FB10,0x8001FB10,src/gb_data.c,Text_UntranscodeName,s1,stadium1:src/gb_data.c,c
 func_8001FBE4,0x8001FBE4,src/gb_data.c,Text_TranscodeName,s1,stadium1:src/gb_data.c,c
 func_8001FCC0,0x8001FCC0,src/gb_data.c,Text_UntranscodeFixedName,s1,stadium1:src/gb_data.c (VERSION_JP),c
-func_8001FD00,0x8001FD00,src/gb_data.c,,asm,,asm
+func_8001FD00,0x8001FD00,src/gb_data.c,Text_CopyString,s1,,c
 func_8001FD8C,0x8001FD8C,src/gb_data.c,Text_CopySpeciesName,s1,stadium1:src/gb_data.c (VERSION_JP),c
 func_8001FDC8,0x8001FDC8,src/gb_data.c,Text_GetTmHmName,s1,stadium1:src/gb_data.c (VERSION_JP),c
 func_8001FE84,0x8001FE84,src/gb_data.c,func_8001FE84,m2c,m2c,c
@@ -4394,9 +4394,9 @@ func_8000FDCC,0x8000FDCC,src/geo_node.c,GeoNode_CreateContainer,s1,stadium1:src/
 func_8000FE18,0x8000FE18,src/geo_node.c,GeoNode_CreateWithReference,s1,stadium1:src/geo_node.c,c
 func_8000FE70,0x8000FE70,src/geo_node.c,GeoNode_CreateCamera,s1,stadium1:src/geo_node.c,c
 func_8000FF34,0x8000FF34,src/geo_node.c,GeoNode_CreateType3,s1,stadium1:src/geo_node.c,c
-func_8000FF8C,0x8000FF8C,src/geo_node.c,,asm,,asm
-func_8000FFE8,0x8000FFE8,src/geo_node.c,,asm,,asm
-func_8001004C,0x8001004C,src/geo_node.c,,asm,,asm
+func_8000FF8C,0x8000FF8C,src/geo_node.c,GeoNode_CreateType4,s1,,c
+func_8000FFE8,0x8000FFE8,src/geo_node.c,GeoNode_CreateOrtho,s1,,c
+func_8001004C,0x8001004C,src/geo_node.c,GeoNode_CreatePerspective,hand,,c
 func_800100B0,0x800100B0,src/geo_node.c,GeoNode_CreateBackground,s1,stadium1:src/geo_node.c,c
 func_8001013C,0x8001013C,src/geo_node.c,GeoNode_CreateClearDepth,s1,stadium1:src/geo_node.c,c
 func_80010188,0x80010188,src/geo_node.c,GeoNode_CreateFog,s1,stadium1:src/geo_node.c,c
@@ -4665,7 +4665,7 @@ func_800503F4,0x800503F4,src/libleo/leointerrupt.c,__osLeoResume,s1,stadium1:src
 func_80049DC0,0x80049DC0,src/libleo/leomecha.c,leoAnalize_asic_status,s1,stadium1:src/libleo/leomecha.c,c
 func_80049ECC,0x80049ECC,src/libleo/leomecha.c,,asm,,asm
 func_80049FB4,0x80049FB4,src/libleo/leomecha.c,leoChk_done_status,s1,stadium1:src/libleo/leomecha.c,c
-func_8004A168,0x8004A168,src/libleo/leomecha.c,,asm,,asm
+func_8004A168,0x8004A168,src/libleo/leomecha.c,leoSend_asic_cmd_i,hand,,c
 func_8004A210,0x8004A210,src/libleo/leomecha.c,func_8004A210,m2c,m2c,c
 func_8004A260,0x8004A260,src/libleo/leomecha.c,leoSend_asic_cmd_w,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A298,0x8004A298,src/libleo/leomecha.c,leoDetect_index_w,s1,stadium1:src/libleo/leomecha.c,c

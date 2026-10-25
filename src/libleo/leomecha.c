@@ -134,11 +134,19 @@ u8 leoChk_done_status(u32 asic_cmd) {
     return code;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8004A168; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004A168.s")
-#endif
+u8 leoSend_asic_cmd_i(u32 asic_cmd, u32 asic_data) {
+    u8 status = leoChk_asic_ready(asic_cmd);
+
+    if (status != 0) {
+        return LEOcur_command->header.sense = status;
+    }
+    osEPiWriteIo(LEOPiInfo, LEO_DATA, asic_data);
+    if (leoRecv_event_mesg(0) != 0) {
+        return LEOcur_command->header.sense = 0x2B;
+    }
+    osEPiWriteIo(LEOPiInfo, LEO_STATUS, asic_cmd);
+    return 0;
+}
 
 s32 func_80049FB4(s32);                             /* extern */
 s32 func_8004A3B0(M2C_UNK);                         /* extern */

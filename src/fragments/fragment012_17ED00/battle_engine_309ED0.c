@@ -515,11 +515,25 @@ void func_82126E34(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126F70.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82127250; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82127250.s")
-#endif
+void func_82126EE0(CameraNode* arg0);
+void func_82126F70(CameraNode* arg0);
+void func_82125594(CameraNode* arg0, s32 arg1);
+
+void BattleScene_Phase2(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            func_82126EE0(arg0);
+            break;
+
+        case 1:
+            func_82126F70(arg0);
+            break;
+
+        case 2:
+            func_82125594(arg0, 2);
+            break;
+    }
+}
 
 void func_821272C0(s8 *arg0) {
     M2C_FIELD(arg0, s16 *, 0x7BE) = 0x800;

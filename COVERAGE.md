@@ -4,14 +4,14 @@
 
 <!-- AUTO_COVERAGE:START -->
 - Code owners (first-pass function inventory): **5,444** covering **1,303,636** text bytes
-- Built from C in the full-ROM build: **3,338 / 5,444 (61.3%)**, **503,000** bytes (38.6%)
-  - ported from the Stadium 1 decomp: **2,262**
+- Built from C in the full-ROM build: **3,347 / 5,444 (61.5%)**, **504,108** bytes (38.7%)
+  - ported from the Stadium 1 decomp: **2,269**
   - m2c output: **924**
-  - matched by hand: **1**
+  - matched by hand: **3**
   - unmodified ultralib 2.0I sources (`lib/ultralib`): **151**
 - Matching C held behind `NON_MATCHING` until its file's data is placed: **61**
 - Identified libultra functions still built from assembly: **24**, **4,840** bytes
-- Remaining assembly owners: **2,106**
+- Remaining assembly owners: **2,097**
 - Complete ROM comparison: **PASS**, SHA-256 `ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b`
 <!-- AUTO_COVERAGE:END -->
 

@@ -623,11 +623,17 @@ void BattleAnim_CleanupEffectsRetainingCategory4(void) {
     gSavedPrimColorR = gSavedPrimColorG;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213B234; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213B234.s")
-#endif
+extern s32 D_84390340;
+void BattleAnim_ClearEffectCallbacks(void) {
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        if (gBattleAnimEffectUpdateFuncs[i] != NULL) {
+            gBattleAnimEffectUpdateFuncs[i] = NULL;
+            gBattleAnimEffectDrawFuncs[i] = NULL;
+        }
+    }
+}
 
 s32 BattleAnim_IsEffectSpawningEnabled(void) {
     s32 var_v1 = 0;

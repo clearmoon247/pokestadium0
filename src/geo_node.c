@@ -169,23 +169,45 @@ unk_D_86002F34_alt13* GeoNode_CreateType3(MemoryBlock* arg0, unk_D_86002F34_alt1
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000FF8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000FF8C.s")
-#endif
+unk_D_86002F34_alt1* GeoNode_CreateType4(MemoryBlock* arg0, unk_D_86002F34_alt1* arg1, s16 arg2) {
+    if (arg0 != NULL) {
+        arg1 = MainPool_AllocAligned(arg0, 0x24, 4);
+    }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000FFE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000FFE8.s")
-#endif
+    if (arg1 != NULL) {
+        arg1->unk_18 = arg2;
+        arg1->unk_1A = 0;
+        GeoNode_Init(arg1, 4);
+    }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001004C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001004C.s")
-#endif
+    return arg1;
+}
+
+unk_D_86002F34_alt14* GeoNode_CreateOrtho(MainPoolState* arg0, unk_D_86002F34_alt14* arg1, s16 arg2) {
+    if (arg0 != NULL) {
+        arg1 = MainPool_AllocAligned(arg0, 0x60, 4);
+    }
+
+    if (arg1 != NULL) {
+        GeoNode_Init(arg1, 5);
+        arg1->node.renderFlags |= arg2 & 3;
+    }
+
+    return arg1;
+}
+
+unk_D_86002F34_alt15* GeoNode_CreatePerspective(MainPoolState* arg0, unk_D_86002F34_alt15* arg1, s16 arg2) {
+    if (arg0 != NULL) {
+        arg1 = MainPool_AllocAligned(arg0, 0x60 /* sizeof(unk_D_86002F34_alt15) */, 4);
+    }
+
+    if (arg1 != NULL) {
+        GeoNode_Init(arg1, 6);
+        arg1->node.renderFlags |= arg2 & 3;
+    }
+
+    return arg1;
+}
 
 unk_D_86002F34_alt16* GeoNode_CreateBackground(MainPoolState* arg0, unk_D_86002F34_alt16* arg1, u8 arg2, u8 arg3, u8 arg4) {
     u32 temp_v0;

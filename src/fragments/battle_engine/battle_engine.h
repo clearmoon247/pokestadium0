@@ -152,37 +152,32 @@ typedef struct MovePresentationCue {
     /* 0x08 */ u8 unk_08;
     /* 0x09 */ u8 unk_09;
     /* 0x0A */ u8 frameCounter;
-    /* 0x0B */ u8 animationTimer;
-    /* 0x0C */ u8 checkpointFrame;
-    /* 0x0D */ u8 unk_0D;
-    /* 0x0E */ u8 unk_0E;
-    /* 0x0F */ u8 unk_0F;
-} MovePresentationCue; // size = 0x10
+} MovePresentationCue; // size = 0xB (Stadium 1: 0x10)
 
 typedef struct unk_D_8438E7B0 {
     /* 0x000 */ MovePresentationCue moveCues[165];
-    /* 0xA50 */ MovePresentationCue idleCues;
-    /* 0xA60 */ char unkA60[0x10];
-    /* 0xA70 */ MovePresentationCue faintCue;
-    /* 0xA80 */ MovePresentationCue hitCue;
-    /* 0xA90 */ char chargeCues[0x60];
-    /* 0xAF0 */ MovePresentationCue sleepIdleCue;
-    /* 0xB00 */ MovePresentationCue flyingIdleCue;
-    /* 0xB10 */ MovePresentationCue unk_B10;
-    /* 0xB20 */ MovePresentationCue hitReactionOverride;
-    /* 0xB30 */ char unkB30[0x51];
-    /* 0xB81 */ u8 wakeUpEventTrack;
-    /* 0xB82 */ char unkB82[0x5E];
-} PokemonBattleCues; // size = 0xBE0
+    /* 0x717 */ MovePresentationCue idleCues;
+    /* 0x722 */ MovePresentationCue unkA60;
+    /* 0x72D */ MovePresentationCue faintCue;
+    /* 0x738 */ MovePresentationCue hitCue;
+    /* 0x743 */ MovePresentationCue chargeCues[6];
+    /* 0x785 */ MovePresentationCue sleepIdleCue;
+    /* 0x790 */ MovePresentationCue flyingIdleCue;
+    /* 0x79B */ MovePresentationCue unk_B10;
+    /* 0x7A6 */ MovePresentationCue hitReactionOverride;
+    /* 0x7B1 */ MovePresentationCue unkB30[5];
+    /* 0x7E8 */ u8 unkB30_tail;
+    /* 0x7E9 */ u8 wakeUpEventTrack;
+} PokemonBattleCues; // size >= 0x7EA
 
 // moveCues[] has one entry per move, so cue indices past the last move alias the
-// named cues that follow it (each MovePresentationCue is 0x10 bytes).
-#define BATTLE_CUE_IDLE 165       // idleCues (0xA50)
-#define BATTLE_CUE_A60 166        // unkA60 (0xA60)
-#define BATTLE_CUE_FAINT 167      // faintCue (0xA70)
-#define BATTLE_CUE_HIT 168        // hitCue (0xA80)
-#define BATTLE_CUE_SLEEP_IDLE 175 // sleepIdleCue (0xAF0)
-#define BATTLE_CUE_B00 176        // unk_B00 (0xB00)
+// named cues that follow it (each MovePresentationCue is 0xB bytes in Zero).
+#define BATTLE_CUE_IDLE 165       // idleCues (0x717)
+#define BATTLE_CUE_A60 166        // unkA60 (0x722)
+#define BATTLE_CUE_FAINT 167      // faintCue (0x72D)
+#define BATTLE_CUE_HIT 168        // hitCue (0x738)
+#define BATTLE_CUE_SLEEP_IDLE 175 // sleepIdleCue (0x785)
+#define BATTLE_CUE_B00 176        // flyingIdleCue (0x790)
 
 // Gen 1 type-effectiveness multipliers, in tenths; see sTypeEffectiveness.
 #define TYPE_EFFECTIVENESS_NONE 0
