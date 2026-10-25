@@ -94,6 +94,7 @@ extern char** sBattleControllerDisconnectedMessage;
 #include "matrix.h"
 #include "memory.h"
 #include "util.h"
+#include "m2c_macros.h"
 
 u16 BattleAI_ApplyMoveEffectDamageOverride(BattleMonRuntime* arg0, BattleMonRuntime* arg1);
 void BattleAI_ClampDamageRatio(void);
@@ -257,11 +258,16 @@ s32 BattleScene_FindU16InByteArray(u16 lookup_value, u8* array, s32 array_length
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F24C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F2F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F2F4.s")
-#endif
+void func_8210F2F4(s8 *arg0)
+{
+  int new_var2;
+  u16 *new_var;
+  ;
+  new_var = ((s8 *) arg0) + 0x7D2;
+  new_var2 = ((*((s32 *) (((s8 *) arg0) + 0x860))) + ((*((s32 *) (((s8 *) arg0) + 0x794))) * 0x50)) + ((0, 0x1C));
+  *((u16 *) (((s8 *) new_var2) + 2)) = (u16) (*((u16 *) new_var));
+ if (1) { }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210F31C; signature not recovered. */

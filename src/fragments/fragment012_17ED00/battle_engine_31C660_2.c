@@ -221,11 +221,19 @@ void BattleAnim_CallbackDescriptor25AlphaFadeInHoldOut(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821448D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821448D4.s")
-#endif
+s32 func_8213C484();                                /* extern */
+M2C_UNK func_8213C9D0(s8 *);                      /* extern */
+M2C_UNK func_8214050C(s8 *, u8);                  /* extern */
+M2C_UNK func_82143408(s8 *, s32);                 /* extern */
+void func_821448D4(s8 *arg0)
+{
+  func_82143408(arg0, func_8213C484() & 0xFFFF);
+  if (arg0)
+  {
+  }
+  func_8214050C(arg0, *((u8 *) (((s8 *) arg0) + 0xC9)));
+  func_8213C9D0(arg0);
+}
 
 void BattleAnim_CallbackDescriptor25AlphaHoldFadeOut(Particle* arg0) {
     switch (arg0->unk_B2) {

@@ -134,11 +134,12 @@ s16 func_8213C47C(s8 *arg0) {
     return M2C_FIELD(arg0, s16 *, 0xA8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C484; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C484.s")
-#endif
+s16 func_8213C484(s8 *arg0)
+{
+  u8 new_var;
+  new_var = *((u8 *) (((s8 *) arg0) + 0xCB));
+  return (s16) new_var;
+}
 
 s16 Particle_FieldA6_GetS16_0BCBC(Particle* arg0) {
     return arg0->unk_AA;

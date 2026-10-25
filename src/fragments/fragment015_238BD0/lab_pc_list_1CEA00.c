@@ -248,11 +248,27 @@ s32 func_89000BEC(s8 *arg0) {
     return sp2C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89000CF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000CF0.s")
-#endif
+void func_89000CF0(s8 *arg0, s8 *arg1)
+{
+  s32 var_v0;
+  u16 *temp_a1;
+  s8 *var_v1;
+  s8 *new_var;
+  var_v0 = 0;
+  new_var = ((s8 *) arg0) + 0x30;
+  var_v1 = arg1;
+  do
+  {
+    if ((*((s32 *) (((s8 *) var_v1) + 8))) == 0)
+    {
+      temp_a1 = (*((s32 *) new_var)) + (var_v0 * 2);
+      *temp_a1 |= 0x100;
+    }
+    var_v0 += 1;
+    var_v1 += 0x10;
+  }
+  while (var_v0 != 3);
+}
 
 void func_89000D34(s8 *arg0, s32 arg1) {
     u16 *temp_v0;

@@ -236,11 +236,32 @@ s32 func_89101D80(s8 *arg0, s32 arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89102700.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_891028CC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891028CC.s")
-#endif
+M2C_UNK func_89101D94(s8 *);                      /* extern */
+s32 func_89106254(s32);                             /* extern */
+M2C_UNK func_89109C6C(s32, s32);                    /* extern */
+s32 func_891028CC(s8 *arg0)
+{
+  s8 *new_var2;
+  s32 temp_v0;
+  s8 *new_var;
+  temp_v0 = func_89106254(arg0 + 0x230);
+  new_var2 = arg0 + 0x9648;
+  if (temp_v0 == (-1))
+  {
+    goto block_4;
+  }
+  if (temp_v0 == 1)
+  {
+    new_var = arg0 + 0x420;
+    func_89109C6C(new_var2, new_var);
+    func_89101D94(arg0);
+    *((s32 *) (((s8 *) arg0) + 0x88)) = 0;
+    block_4:
+    *((s32 *) (((s8 *) arg0) + 0x88)) = 0;
+
+  }
+  return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89102930; signature not recovered. */

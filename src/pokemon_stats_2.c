@@ -437,11 +437,18 @@ s32 func_80022C70(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022D18.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022D84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022D84.s")
-#endif
+s32 func_8001FCC0(M2C_UNK, s32, M2C_UNK);           /* extern */
+extern s8 D_800AD210;
+s32 func_80022D84(s32 arg0, M2C_UNK arg1)
+{
+  s8 *temp_v0;
+  temp_v0 = (arg0 * 0x48) + (&D_800AD210);
+  if (!((*((u16 *) (((s8 *) temp_v0) + 0))) & 1))
+  {
+    return 0;
+  }
+  return func_8001FCC0(arg1 & 0xFFFFFFFFFFFFFFFF, (*((s32 *) (((s8 *) temp_v0) + 0x40))) + 0x18, arg1);
+}
 
 s32 func_8001FBE4(s32);                             /* extern */
 extern s8 D_800AD210;
@@ -455,11 +462,18 @@ s32 func_80022DDC(s32 arg0) {
     return func_8001FBE4(M2C_FIELD(temp_v0, s32 *, 0x40) + 0x18);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022E30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022E30.s")
-#endif
+s32 func_8001FCC0(M2C_UNK, s32, M2C_UNK);           /* extern */
+extern s8 D_800AD210;
+s32 func_80022E30(s32 arg0, M2C_UNK arg1)
+{
+  s8 *temp_v0;
+  temp_v0 = (arg0 * 0x48) + (&D_800AD210);
+  if (!((*((u16 *) (((s8 *) temp_v0) + 0))) & 1))
+  {
+    return 0;
+  }
+  return func_8001FCC0(arg1 ^ 0, (*((s32 *) (((s8 *) temp_v0) + 0x40))) + 0x71, arg1);
+}
 
 s32 func_8001FBE4(s32);                             /* extern */
 extern s8 D_800AD210;

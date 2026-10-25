@@ -458,11 +458,21 @@ void func_8110CB40(s32 arg0, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CB70; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CB70.s")
-#endif
+void func_8110CB70(s8 *arg0, s32 arg1, unsigned short arg2)
+{
+  s32 var_v0;
+  s8 *var_a2;
+  *((s16 *) (((s8 *) arg0) + 2)) = arg2;
+  *((s32 *) (((s8 *) arg0) + 4)) = arg1;
+  var_v0 = 0;
+  if ((*((s16 *) (((s8 *) arg0) + 0))) > 0)
+  {
+ var_a2 = arg0; do { var_v0 += 1; if (((*((s32 *) (((s8 *) var_a2) + 0x14))) != 0) && ((*((s8 *) (((s8 *) var_a2) + 0x18))) == 2)) {
+        *((s32 *) (((s8 *) var_a2) + 0x10)) = (s32) ((*((s32 *) (((s8 *) var_a2) + 0x10))) + arg1);
+      }
+      var_a2 += 0x10;
+ } while (var_v0 < (*((s16 *) (((s8 *) arg0) + 0)))); }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110CBD0; signature not recovered. */

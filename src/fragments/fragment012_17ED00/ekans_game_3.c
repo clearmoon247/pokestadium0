@@ -313,11 +313,22 @@ s32 func_82183BB0(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183CC0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183CE4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183CE4.s")
-#endif
+s32 func_82183CE4(s8 *arg0)
+{
+  s32 var_v1;
+  u16 temp_v0;
+  temp_v0 = *((u16 *) (((s8 *) arg0) + 0x18));
+  if (!temp_v0)
+  {
+    return 0;
+  }
+  var_v1 = ((s32) (temp_v0 * 0x64)) / ((s32) (*((u16 *) (((s8 *) arg0) + 0x34))));
+  if (var_v1 == 0)
+  {
+    var_v1 = 1;
+  }
+  return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82183D50; signature not recovered. */

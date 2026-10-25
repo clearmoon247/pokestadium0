@@ -25,11 +25,16 @@ void func_800569E8(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80056A48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80056A48.s")
-#endif
+extern s8 *D_80077BE0;
+void func_80056A48(M2C_UNK *arg0)
+{
+  M2C_UNK **new_var;
+  s8 *new_var2;
+  new_var2 = D_80077BE0;
+  new_var = (M2C_UNK **) (((s8 *) new_var2) + 0x2C);
+  *arg0 = *new_var;
+  *new_var = arg0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80056A60; signature not recovered. */

@@ -147,11 +147,23 @@ void BattleAnim_CallbackStartEffect135Descriptor1CRisingScaleFade(Particle* arg0
     Particle_AddVelocityFromRotationTemplate1(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821501B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821501B4.s")
-#endif
+u16 func_8213C484();                                /* extern */
+M2C_UNK func_8213C9D0(s32);                         /* extern */
+M2C_UNK func_8213CBFC(s32, M2C_UNK);                /* extern */
+M2C_UNK func_821401D4(s32, M2C_UNK);                /* extern */
+M2C_UNK func_82143478(s32, u16);                    /* extern */
+void func_821501B4(s32 arg0)
+{
+  u16 sp26;
+  sp26 = func_8213C484();
+  func_821401D4(arg0, 0x3F286BCA);
+  func_82143478(arg0, sp26);
+  if (!arg0)
+  {
+  }
+  func_8213CBFC(arg0, 2);
+  func_8213C9D0(arg0);
+}
 
 void BattleAnim_CallbackStartEffect135ExpandingFlashFade(Particle* arg0) {
     switch (arg0->unk_B2) {

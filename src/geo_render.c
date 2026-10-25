@@ -673,11 +673,18 @@ void Geo_NodeType12Empty(UNUSED GraphNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001465C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001473C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001473C.s")
-#endif
+M2C_UNK func_8001380C();                            /* extern */
+void func_8001473C(s8 *arg0)
+{
+  unsigned char temp_f6;
+ goto dummy_label_201075; dummy_label_201075: ;
+ do { } while (0);
+  ;
+  if ((((s16) ((s32) (*((f32 *) (((s8 *) ((&(*((s8 *) (&D_800AB460)))) + ((*((s32 *) (((s8 *) (&(*((s8 *) (&D_800AB460))))) + 0x10A0))) << 6))) + 0x38))))) >= (*((s16 *) (((s8 *) arg0) + 0x18)))) && (((s16) ((s32) (*((f32 *) (((s8 *) ((&(*((s8 *) (&D_800AB460)))) + ((*((s32 *) (((s8 *) (&(*((s8 *) (&D_800AB460))))) + 0x10A0))) << 6))) + 0x38))))) < (*((s16 *) (((s8 *) arg0) + 0x1A)))))
+  {
+    func_8001380C();
+  }
+}
 
 void Geo_NodeSwitchCase(GraphNode* arg0) {
     unk_D_86002F34_alt3* arg = (unk_D_86002F34_alt3*)arg0;
