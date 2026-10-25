@@ -142,7 +142,12 @@ void BattleScene_GetParticipantModelRotation(ActivePokemon* pokemon, Vec3s* dest
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82107CA0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+u16 Battle_GetActiveMonHp(ActivePokemon* active_pokemon) {
+    BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
+
+    return party_pokemon->hp;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107CA0.s")
 #endif

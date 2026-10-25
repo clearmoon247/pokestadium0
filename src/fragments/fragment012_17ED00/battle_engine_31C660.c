@@ -136,8 +136,125 @@ void Battle_Effect_Explosion(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821142B8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211459C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211459C.s")
-#endif
+extern StatStageMultiplier D_8218ADF4[];
+extern u8 D_82199F36;
+extern s32 D_8218C824;
+extern s32 D_8218C83C;
+extern s32 D_8218C854;
+extern s32 D_8218C858;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_Effect_LowerStat(void) {
+    s32 sp24;
+    s32 sp20;
+    u16* sp1C;
+    u16* sp18;
+
+    if (sBattleUser->moveCache.unk_01 < 0x44) {
+        sBattleScene.scene->unk_48 = 0x1A;
+    } else {
+        sBattleScene.scene->unk_1A = 3;
+    }
+
+    if (sBattleTarget->unk_4D & 0x10) {
+        goto end;
+    }
+
+    sp24 = sBattleUser->moveCache.unk_01;
+    sp20 = 1;
+
+    if (sp24 >= 0x44) {
+        if (Battle_Random() < 0x55) {
+            sp24 -= 0x44;
+            goto block_14;
+        }
+    } else {
+        HandleMoveEffectFlags();
+
+        if (sBattleMoveFailed != 0) {
+            goto end;
+        }
+
+        if (sBattleTarget->unk_4C & 0x40) {
+            goto end;
+        }
+
+        sp24 -= 0x12;
+        if (sp24 >= 9) {
+            sp20 = 2;
+            sp24 -= 0x28;
+        }
+
+    block_14:
+        if (sBattleTarget->unk_5C[sp24] != 1) {
+            sBattleTarget->unk_5C[sp24] -= sp20;
+            if (sBattleTarget->unk_5C[sp24] <= 0) {
+                sBattleTarget->unk_5C[sp24] = 1;
+            }
+
+            if (sp24 < 4) {
+                switch (sp24) {
+                    case 0:
+                        sp18 = &sBattleTarget->unk_38;
+                        sp1C = &sBattleTarget->unk_2A;
+                        break;
+
+                    case 1:
+                        sp18 = &sBattleTarget->unk_3A;
+                        sp1C = &sBattleTarget->unk_2C;
+                        break;
+
+                    case 2:
+                        sp18 = &sBattleTarget->unk_3C;
+                        sp1C = &sBattleTarget->speed;
+                        break;
+
+                    case 3:
+                        sp18 = &sBattleTarget->unk_3E;
+                        sp1C = &sBattleTarget->unk_30;
+                        break;
+                }
+
+                if (*sp1C != 1) {
+                    *sp1C = (*sp18 * D_8218ADF4[sBattleTarget->unk_5C[sp24] - 1].unk_00) /
+                            D_8218ADF4[sBattleTarget->unk_5C[sp24] - 1].unk_01;
+                    if (*sp1C == 0) {
+                        *sp1C = 1;
+                    }
+                } else {
+                    goto block_39;
+                }
+            }
+
+            if (sp20 == 2) {
+                func_8211EF74(D_8219A520 + 0x208, (s8)(sp24 + 0x9A), (&D_8218C824)[sp24], func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+            } else {
+                func_8211EF74(D_8219A520 + 0x208, (s8)(sp24 + 0xA0), (&D_8218C83C)[sp24], func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+            }
+
+            ApplyParalysisSpeedCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+
+            ApplyBurnAttackCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+            return;
+        }
+    }
+
+block_39:
+    if (sBattleUser->moveCache.unk_01 < 0x44) {
+        sConfused = 0;
+        sStatCanBeChangedFurther = 0;
+        func_8211EF74(D_8219A520 + 0x208, -0x5A, D_8218C854);
+        return;
+    }
+
+end:
+    if (sBattleUser->moveCache.unk_01 < 0x44) {
+        sConfused = 0;
+        sStatCanBeChangedFurther = 0;
+        if (D_82199F36 == 0) {
+            func_8211EF74(D_8219A520 + 0x208, -0x59, D_8218C858);
+        }
+    } else {
+        sStatCanBeChangedFurther = 0;
+    }
+}

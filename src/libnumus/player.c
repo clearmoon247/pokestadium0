@@ -114,11 +114,11 @@ u8* Audio_SetVoiceSequenceTempo(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800368E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800368E4.s")
-#endif
+u8* Audio_SetVoiceReleaseDuration(channel_t* cp, u8* ptr) {
+    cp->endit = *ptr++;
+    cp->cutoff = 0;
+    return ptr;
+}
 
 u8* Audio_SetVoiceFixedDuration(channel_t* cp, u8* ptr) {
     s16 tmp = *ptr++ << 8;
@@ -284,11 +284,11 @@ u8* Audio_DisableVoicePeriodicPitchModulation(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036D4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036D4C.s")
-#endif
+u8* Audio_SetVoiceDefaultVelocity(channel_t* cp, u8* ptr) {
+    M2C_FIELD(cp, u8*, 0xE6) = *ptr++;
+    M2C_FIELD(cp, u8*, 0xE5) = 0;
+    return ptr;
+}
 
 s8 *func_80036D60(s8 *arg0, u8 *arg1) {
     M2C_FIELD(arg0, s8 *, 0xCB) = (s8) ((s32) *arg1 / 2);

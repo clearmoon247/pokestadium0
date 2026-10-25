@@ -387,8 +387,6 @@ s32 Particle_TickPhaseTimer(Particle* arg0, s16 arg1) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Particle_UpdateWorldTransform(Particle* arg0) {
     arg0->unk_2C.x = arg0->unk_68.x + arg0->unk_38.x + arg0->unk_50.x;
     arg0->unk_2C.y = arg0->unk_68.y + arg0->unk_38.y + arg0->unk_50.y;
@@ -411,9 +409,6 @@ void Particle_UpdateWorldTransform(Particle* arg0) {
         arg0->unk_14->lodFraction = arg0->prim_a;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D30C.s")
-#endif
 
 void func_8213D3FC(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
     M2C_FIELD(arg0, f32*, 0x34) = arg1 * gParticleRenderContext.unk_00.y;
@@ -457,11 +452,11 @@ void Particle_Field38_AddVecScaledFromVec3f_08D78(Particle* arg0, Vec3f arg1) {
     arg0->unk_38.z += arg1.z * gParticleRenderContext.unk_00.y;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D54C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D54C.s")
-#endif
+void Particle_Field38_AddVecFromVec3f_08DD8(Particle* arg0, Vec3f arg1) {
+    arg0->unk_38.x += arg1.x;
+    arg0->unk_38.y += arg1.y;
+    arg0->unk_38.z += arg1.z;
+}
 
 void Particle_Field38_AddVecScaled_08E18(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
     arg0->unk_38.x += arg1 * gParticleRenderContext.unk_00.y;
@@ -1115,11 +1110,11 @@ void Particle_Field94_AddXFromField9A_0A4B4(Particle* arg0) {
     arg0->unk_94.z += arg0->unk_9A.z;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213ED0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213ED0C.s")
-#endif
+void Particle_Field94_AddVecFromVec3s_0A4F0(Particle* arg0, Vec3s arg1) {
+    arg0->unk_94.x += arg1.x;
+    arg0->unk_94.y += arg1.y;
+    arg0->unk_94.z += arg1.z;
+}
 
 void func_8213ED48(s8 *arg0, s16 arg1, s16 arg2, s16 arg3) {
     M2C_FIELD(arg0, s16 *, 0x90) = (s16) (M2C_FIELD(arg0, s16 *, 0x90) + arg1);
@@ -1144,11 +1139,11 @@ void func_8213EDE8(s8 *arg0, s16 arg1, s16 arg2) {
     M2C_FIELD(arg0, s16 *, 0x9E) = (s16) (M2C_FIELD(arg0, s16 *, 0x9E) + arg2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EE1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EE1C.s")
-#endif
+void Particle_Field94_SubVecFromVec3s_0A600(Particle* arg0, Vec3s arg1) {
+    arg0->unk_94.x -= arg1.x;
+    arg0->unk_94.y -= arg1.y;
+    arg0->unk_94.z -= arg1.z;
+}
 
 void func_8213EE58(s8 *arg0, s16 arg1) {
     M2C_FIELD(arg0, s16 *, 0x90) = (s16) (M2C_FIELD(arg0, s16 *, 0x90) - arg1);
@@ -1625,11 +1620,11 @@ s32 Particle_Field20_Approach_0BA84(Particle* arg0, f32 arg1, f32 arg2) {
     return ParticleMath_ApproachFloat(&arg0->unk_20, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140364; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140364.s")
-#endif
+void Particle_SetPrimColor(Particle* arg0, u8 arg1, u8 arg2, u8 arg3) {
+    arg0->prim_r = arg1;
+    arg0->prim_g = arg2;
+    arg0->prim_b = arg3;
+}
 
 M2C_UNK func_82137804(s32, s32, s32);               /* extern */
 
@@ -1669,11 +1664,11 @@ void func_82140438(s8 *arg0) {
     M2C_FIELD(arg0, s8 *, 0xBC) = (s8) D_8219A8B6;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140460; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140460.s")
-#endif
+void func_82140460(Particle* arg0, u8 arg1, u8 arg2, u8 arg3) {
+    M2C_FIELD(arg0, u8*, 0xBD) = arg1;
+    M2C_FIELD(arg0, u8*, 0xBE) = arg2;
+    M2C_FIELD(arg0, u8*, 0xBF) = arg3;
+}
 
 M2C_UNK func_82137804(s32, s32, s32);               /* extern */
 

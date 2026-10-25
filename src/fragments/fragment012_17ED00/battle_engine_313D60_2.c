@@ -108,11 +108,88 @@ void BattleScene_TickCameraSubstateDefault(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821347E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821347E8.s")
-#endif
+void BattleScene_TickCameraSubstateStripWipe(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_30) {
+        case 0:
+            sBattleScene.scene->unk_18 = 0;
+            break;
+
+        case 1:
+            if (sBattleScene.scene->unk_44 == 2) {
+                BattleThumbnail_ClearBothOwnerIdleFlags();
+            }
+            sBattleScene.scene->unk_30++;
+            break;
+
+        case 2:
+            if (sActivePokemon[0]->thumbnail.camera->viewport.x == -0x48) {
+                sBattleScene.scene->unk_30++;
+            }
+            break;
+
+        case 3:
+            BattleScene_SetStripWipeState(3, 0x1E);
+            BattleScene_UpdateStripWipe();
+            sBattleScene.scene->unk_18 = 0;
+            sBattleScene.scene->unk_30 += 1;
+
+        case 4:
+            BattleScene_UpdateStripWipe();
+            if (BattleScene_GetStripWipeState() == 1) {
+                func_82105E6C();
+                BattleScene_CleanupParticipantEffectMode(sActivePokemon[0]);
+                BattleScene_CleanupParticipantEffectMode(sActivePokemon[1]);
+                sBattleScene.scene->unk_30 += 1;
+                sBattleScene.scene->unk_18 = 1;
+            }
+            break;
+
+        case 5:
+            sBattleScene.scene->unk_18 = 1;
+            sBattleScene.scene->unk_30 += 1;
+            break;
+
+        case 6:
+            sBattleScene.scene->unk_18 = 1;
+            sBattleScene.scene->unk_30 += 1;
+            break;
+
+        case 7:
+            sBattleScene.scene->unk_18 = 1;
+            sBattleScene.scene->unk_30 += 1;
+            break;
+
+        case 8:
+            if (BattleScene_AdvanceBothOwnerAnimations() == 0) {
+                if ((sBattleScene.scene->unk_44 == 1) || (sBattleScene.scene->unk_44 == 5) || (sBattleScene.scene->unk_44 == 9)) {
+                    BattleAnim_CleanupEffects(2);
+                }
+                func_821054A8(sActivePokemon[0]);
+                func_821054A8(sActivePokemon[1]);
+                sBattleScene.scene->unk_18 = 2;
+                BattleScene_SetStripWipeState(2, 0x1E);
+                BattleScene_UpdateStripWipe();
+                arg0->perspective.verticalFieldOfView = 30.0f;
+                sBattleScene.scene->unk_60 = 30.0f;
+                sBattleScene.scene->unk_30 += 1;
+            }
+            break;
+
+        case 9:
+            func_82124A40();
+            arg0->perspective.verticalFieldOfView = 30.0f;
+            sBattleScene.scene->unk_60 = 30.0f;
+            sBattleScene.scene->unk_18 = 0;
+            BattleScene_UpdateStripWipe();
+            if (BattleScene_GetStripWipeState() == 0) {
+                sBattleScene.scene->unk_30 = 0;
+                if (sBattleScene.scene->unk_44 == 1) {
+                    BattleThumbnail_SetBothOwnerIdleFlags();
+                }
+            }
+            break;
+    }
+}
 
 void BattleScene_TickCameraSubstate(CameraNode* arg0) {
     if (sBattleScene.scene->unk_2E == 0) {

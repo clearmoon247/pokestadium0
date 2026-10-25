@@ -404,23 +404,41 @@ s8 *func_8110BF28(s32 arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110C618.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CA2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CA2C.s")
-#endif
+extern s8 D_81184655;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CA68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CA68.s")
-#endif
+s32 func_8110CA2C(s32 arg0) {
+    if (arg0 == 0xFF) {
+        return 1;
+    }
+    if (((u8*)&D_81184655)[arg0] >= 2) {
+        return 1;
+    }
+    return 0;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CAA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CAA4.s")
-#endif
+extern s8 D_81184656;
+
+s32 func_8110CA68(s32 arg0) {
+    if (arg0 == 0xFF) {
+        return 1;
+    }
+    if (((u8*)&D_81184656)[arg0] >= 2) {
+        return 1;
+    }
+    return 0;
+}
+
+extern s8 D_81184654;
+
+s32 func_8110CAA4(s32 arg0) {
+    if (arg0 == 0xFF) {
+        return 1;
+    }
+    if (((u8*)&D_81184654)[arg0] >= 2) {
+        return 1;
+    }
+    return 0;
+}
 
 extern s8 D_81184655;
 void func_8110CAE0(s32 arg0, s32 arg1) {

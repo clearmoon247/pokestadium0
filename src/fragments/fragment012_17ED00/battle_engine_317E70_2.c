@@ -315,11 +315,94 @@ Particle* BattleAnim_CreateProceduralParticle(s16 arg0, s16 arg1, s32 arg2, f32 
     return temp_v0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213A07C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A07C.s")
-#endif
+void func_80015908(ActivePokemon*, s32, Vec3f*);
+void func_82107BFC(ActivePokemon* arg0, Vec3f* arg1);
+void BattleAnim_InitializeParticleAnchor(Particle* arg0) {
+    Vec3f sp3C;
+    Vec3f sp30;
+    Vec3s sp28;
+
+    switch (M2C_FIELD(arg0, u8*, 0xC8)) {
+        case 0:
+            BattleScene_GetParticipantModelPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 1:
+            BattleAnim_GetOwnerDefaultAnchorPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 27:
+            BattleAnim_GetOwnerDefaultAnchorPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            break;
+
+        case 9:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 10:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            break;
+
+        case 11:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            break;
+
+        case 12:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y + 0x8000);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            break;
+
+        case 13:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            func_82107BFC(arg0->unk_10, &sp30);
+            M2C_FIELD(arg0, Vec3f*, 0x64).y += sp30.y * 25.0f;
+            break;
+
+        case 14:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            func_82107BFC(arg0->unk_10, &sp30);
+            M2C_FIELD(arg0, Vec3f*, 0x64).y -= sp30.y * 25.0f;
+            if (M2C_FIELD(arg0, Vec3f*, 0x64).y <= 0.0f) {
+                M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            }
+            break;
+
+        case 15:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            break;
+
+        case 17:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, M2C_FIELD(arg0, u8*, 0xC9), &M2C_FIELD(arg0, Vec3f*, 0x64));
+            func_80015908(arg0->unk_10, M2C_FIELD(arg0, u8*, 0xC9), &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 19:
+            func_80015908(arg0->unk_10, M2C_FIELD(arg0, u8*, 0xC9), &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            break;
+
+        case 30:
+            BattleScene_GetParticipantPokeBallPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+    }
+}
 
 void func_82107BFC(ActivePokemon* arg0, Vec3f* arg1);
 void BattleAnim_UpdateParticleAnchor(Particle* arg0) {
