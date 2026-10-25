@@ -1,9 +1,31 @@
 /* Stadium Zero resident code. */
 
 #include "global.h"
+#include "libnaudio/n_synthInternals.h"
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80046860; signature not recovered. */
+void func_80046860(N_ALVoice* v, u8 pan) {
+    ALParam* update;
+
+    if (v->pvoice) {
+
+        /*
+         * get new update struct from the free list
+         */
+        update = __n_allocParam();
+        ALFailIf(update == 0, ERR_ALSYN_NO_UPDATE);
+
+        /*
+         * set offset and pan data
+         */
+#ifdef SAMPLE_ROUND
+        update->delta = SAMPLE184(n_syn->paramSamples + v->pvoice->offset);
 #else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80046860.s")
+        update->delta = n_syn->paramSamples + v->pvoice->offset;
 #endif
+        update->type = 0x10;
+        update->data.i = (pan < 0) ? -pan : pan;
+        update->next = 0;
+
+        n_alEnvmixerParam(v->pvoice, AL_FILTER_ADD_UPDATE, update);
+    }
+}

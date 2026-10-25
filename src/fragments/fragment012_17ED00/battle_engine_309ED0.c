@@ -50,11 +50,37 @@ void BattleScene_ResetAnimationStep(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124A50.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124B30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124B30.s")
-#endif
+void func_821020FC(ActivePokemon*);
+
+s32 BattleScene_AdvanceOwnerAnimation98(ActivePokemon* arg0) {
+    UNUSED s32 pad[2];
+    s32 sp1C = 0;
+
+    if (!(arg0->state.flags & 0x2000)) {
+        return 0;
+    }
+
+    switch (sBattleScene.scene->unk_24) {
+        case 0:
+            func_821020FC(arg0);
+            sp1C = 1;
+            sBattleScene.scene->unk_24++;
+            break;
+
+        case 1:
+            sp1C = 1;
+            if (arg0->sessionTeams->uniqueStatusFlags & 0x10) {
+                arg0->sessionTeams->uniqueStatusFlags &= ~0x90;
+                Battle_ReloadSubstituteDoll(arg0);
+                sBattleScene.scene->unk_24++;
+            }
+            break;
+
+        case 2:
+            break;
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82124BF8; signature not recovered. */

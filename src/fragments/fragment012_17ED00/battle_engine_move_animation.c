@@ -440,11 +440,17 @@ void BattleScene_ResetOwnerModelIfLoaded(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82103BCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103BCC.s")
-#endif
+void BattleScene_EnterRow8StartMappedMoveAnim(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[2];
+    s32 charge_move_cue = sChargeMoveCues[active_pokemon->state.runtime.usedMove - 1];
+    MovePresentationCue* cue;
+
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[charge_move_cue];
+    active_pokemon->animationTimer = 0;
+    ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+    ModelAnim_SetAnimation(&active_pokemon->displayObject, cue->id);
+    BattleAnim_SetModelEventTrackFromRow(active_pokemon, charge_move_cue);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82103C64; signature not recovered. */
@@ -710,11 +716,28 @@ void func_821054A8(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821054C4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821055D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821055D0.s")
-#endif
+s32 func_82101FC4();
+
+s32 BattleAnim_TrySetModelEventTrackFromRow(ActivePokemon* active_pokemon, s32 cue_index, s32 event_state) {
+    UNUSED s32 pad;
+    s32 event_track;
+
+    if (func_82101FC4(active_pokemon) != 0) {
+        return 0;
+    }
+
+    event_track = sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[cue_index].unk_01;
+    if (event_track == 0xFF) {
+        return 1;
+    }
+
+    ModelAnim_SetEventFrame(&active_pokemon->displayObject, 0);
+    ModelAnim_SetEventTrack(&active_pokemon->displayObject, event_track);
+    ModelAnim_SetEventFrame(&active_pokemon->displayObject, active_pokemon->displayObject.eventTrack.data->endFrame);
+
+    active_pokemon->state.unk_36 = event_state;
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210568C; signature not recovered. */

@@ -697,11 +697,16 @@ void BattleAnim_CleanupEffects(s32 cleanup_mode) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213B3A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213B3A4.s")
-#endif
+void BattleAnim_StopParticlesForOwnerCategory(u8 arg0, ActivePokemon* arg1) {
+    s32 i;
+    Particle* var_s0 = gParticlePool;
+
+    for (i = 0; i < 300; i++, var_s0++) {
+        if ((var_s0->unk_D0 != 0) && (var_s0->unk_CA == 4) && (var_s0->unk_CB == arg0) && (arg1 == var_s0->unk_10)) {
+            Particle_AdvanceLifecycle(var_s0);
+        }
+    }
+}
 
 void BattleAnim_ResetSpawnDelay(void) {
     gBattleAnimSpawnDelay = 0;

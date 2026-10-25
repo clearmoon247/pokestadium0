@@ -404,11 +404,20 @@ block_7:
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821222A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821222A0.s")
-#endif
+s32 BattleScene_ApproachCameraRollNoEyeUpdate(UNUSED CameraNode* arg0, s16 arg1, s16 arg2) {
+    M2C_FIELD(sBattleScene.scene, s16*, 0x5A) -= arg1;
+
+    if (arg1 > 0) {
+        if ((arg2 >= M2C_FIELD(sBattleScene.scene, s16*, 0x5A)) && (M2C_FIELD(sBattleScene.scene, s16*, 0x5A) >= (arg2 - arg1))) {
+            M2C_FIELD(sBattleScene.scene, s16*, 0x5A) = arg2;
+            return 1;
+        }
+    } else if ((M2C_FIELD(sBattleScene.scene, s16*, 0x5A) >= arg2) && ((arg2 - arg1) >= M2C_FIELD(sBattleScene.scene, s16*, 0x5A))) {
+        M2C_FIELD(sBattleScene.scene, s16*, 0x5A) = arg2;
+        return 1;
+    }
+    return 0;
+}
 
 extern s8 *D_8219A5A0;
 

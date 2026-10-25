@@ -311,17 +311,36 @@ void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210881C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210881C.s")
-#endif
+void Battle_LoadOwnerModelForSpecies(ActivePokemon* active_pokemon) {
+    ActivePokemonState* state = &active_pokemon->state;
+    UNUSED s32 pad[3];
+    s16 object_type;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821088BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821088BC.s")
-#endif
+    Battle_GetLoadedModelNode(active_pokemon, 0);
+    object_type = Battle_GetDisplayModelId(active_pokemon, 0);
+    func_8210840C(active_pokemon, active_pokemon, object_type);
+    BattleScene_ReinitParticipantThumbnailModel(active_pokemon, &active_pokemon->thumbnail, object_type);
+    func_82108648(active_pokemon, object_type);
+    Battle_ResetEventTrack(active_pokemon);
+    state->flags &= 0x3800;
+    Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
+}
+
+void func_821088BC(ActivePokemon* active_pokemon) {
+    ActivePokemonState* state = &active_pokemon->state;
+    UNUSED s32 pad[3];
+    s16 object_type;
+
+    Battle_GetLoadedModelNode(active_pokemon, 0);
+    object_type = Battle_GetDisplayModelId(active_pokemon, 0);
+    func_8210840C(active_pokemon, active_pokemon, object_type);
+    BattleScene_ReinitParticipantThumbnailModel(active_pokemon, &active_pokemon->thumbnail, object_type);
+    func_82108648(active_pokemon, object_type);
+    Battle_ResetEventTrack(active_pokemon);
+    M2C_FIELD(state, u8*, 0x2E) = 0;
+    state->flags &= 0x3800;
+    Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
+}
 
 void Battle_ResetOwnerModelToSubstituteDoll(ActivePokemon* active_pokemon) {
     Model_SetMaterialColor(&active_pokemon->displayObject, 0xFF, 0xFF, 0xFF, active_pokemon->state.alpha = 0xFF);

@@ -224,20 +224,37 @@ void BattleScene_ResetParticipantModelFlags(ActivePokemon* active_pokemon) {
     BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82109CAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109CAC.s")
-#endif
+void func_82109CAC(UNUSED ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    animated_pokemon->pokeBall.node.flags |= 1;
+    if (animated_pokemon == sActivePokemon[0]) {
+        Vec3f_SetComponentsDuplicate(&animated_pokemon->pokeBall.position, 35.0f, 50.0f, -250.0f);
+    } else {
+        Vec3f_SetComponentsDuplicate(&animated_pokemon->pokeBall.position, -35.0f, 50.0f, -250.0f);
+    }
+    BattleAnim_InitSwayOffset(animated_pokemon, 20.0f, 0x1FFE);
+    animated_pokemon->modelTransformTimer++;
+    animated_pokemon->pokeBall.node.renderFlags &= ~0x20;
+    ModelAnim_SetFrame(&animated_pokemon->pokeBall, 0);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82109D50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109D50.s")
-#endif
+void func_82109D50(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    if (animated_pokemon == sSide1ActivePokemon) {
+        BattleAnim_UpdateSwayPhysicsToTarget(owner, animated_pokemon, 0, 0, 0x1FFE, 0x4440);
+    } else {
+        BattleAnim_UpdateSwayPhysicsToTarget(owner, animated_pokemon, 0, 0, 0x1FFE, 0x3BB8);
+    }
 
-M2C_UNK func_82109CAC(s32);                         /* extern */
-M2C_UNK func_82109D50(s32, s8 *);                 /* extern */
+    animated_pokemon->pokeBall.rotation.x += 5461;
+    animated_pokemon->pokeBall.rotation.z += 3640;
+
+    if (animated_pokemon->pokeBall.position.y < 0) {
+        animated_pokemon->pokeBall.node.flags &= ~1;
+        animated_pokemon->pokeBall.position.y = 0.0f;
+        animated_pokemon->modelTransform.rotation.y = 0.0f;
+        BattleScene_ResetParticipantModelFlags(animated_pokemon);
+    }
+}
+
 
 void func_82109E0C(s32 arg0, s8 *arg1) {
     s32 temp_v0;
@@ -245,7 +262,7 @@ void func_82109E0C(s32 arg0, s8 *arg1) {
     temp_v0 = M2C_FIELD(arg1, s32 *, 0x614);
     switch (temp_v0) {                              /* irregular */
     case 0:
-        func_82109CAC(arg0);
+        func_82109CAC((ActivePokemon*)arg0, (ActivePokemon*)arg1);
         /* fallthrough */
     case 1:
         func_82109D50(arg0, arg1);
@@ -253,19 +270,36 @@ void func_82109E0C(s32 arg0, s8 *arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82109E60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109E60.s")
-#endif
+void BattleAnim_PokeBallLandStart(UNUSED ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    Vec3f_SetComponentsDuplicate(&animated_pokemon->pokeBall.position, animated_pokemon->facingDirection * -150.0f, 100.0f, 0.0f);
+    animated_pokemon->modelTransformTimer++;
+    BattleAnim_InitSwayOffset(animated_pokemon, 0.0f, 16380);
+    animated_pokemon->pokeBall.node.flags |= 1;
+    animated_pokemon->pokeBall.node.renderFlags &= ~0x20;
+    ModelAnim_SetFrame(&animated_pokemon->pokeBall, 0);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82109EF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109EF8.s")
-#endif
+void BattleAnim_PokeBallLandContinue(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    animated_pokemon->pokeBall.rotation.x += 5461;
+    animated_pokemon->pokeBall.rotation.z += 3640;
 
-M2C_UNK func_82109E60(s32);                         /* extern */
+    BattleAnim_UpdateSwayPhysicsToTarget(owner, animated_pokemon, 0.0f, 0.0f, NINETY_DEGREES, 0);
+
+    if (animated_pokemon->pokeBall.position.y < 0) {
+        animated_pokemon->pokeBall.rotation.x = 0;
+        animated_pokemon->pokeBall.rotation.z = 0;
+        if (animated_pokemon == sSide1ActivePokemon) {
+            animated_pokemon->pokeBall.rotation.y = NINETY_DEGREES;
+        } else {
+            animated_pokemon->pokeBall.rotation.y = -NINETY_DEGREES;
+        }
+        animated_pokemon->modelTransform.rotation.y = 0.0f;
+        animated_pokemon->pokeBall.position.y = 2.5f;
+        BattleScene_ResetParticipantModelFlags(animated_pokemon);
+    }
+}
+
+M2C_UNK func_82109E60();                         /* extern */
 M2C_UNK func_82109EF8(s32, s8 *);                 /* extern */
 
 void func_82109FA8(s32 arg0, s8 *arg1) {
@@ -274,7 +308,7 @@ void func_82109FA8(s32 arg0, s8 *arg1) {
     temp_v0 = M2C_FIELD(arg1, s32 *, 0x614);
     switch (temp_v0) {                              /* irregular */
     case 0:
-        func_82109E60(arg0);
+        func_82109E60((ActivePokemon*)arg0, (ActivePokemon*)arg1);
         /* fallthrough */
     case 1:
         func_82109EF8(arg0, arg1);

@@ -202,11 +202,25 @@ void BattleMenu_DrawBorderedPanel(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 ar
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301448.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82301658; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301658.s")
-#endif
+void BattleMenu_DrawConfirmButtonLabel(unk_D_848037A0* arg0) {
+    s16 sp26;
+    s16 sp24;
+
+    if (arg0->unk_0003 == 0) {
+        // clang-format off
+        sp26 = 0x50; sp24 = 0x81;
+        // clang-format on
+    } else {
+        sp26 = 0x1B1;
+        sp24 = 0x123;
+    }
+
+    BattleMenu_DrawBorderedPanel(sp26, sp24, 0x76, 0x20, arg0->unk_0001);
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(8, 0);
+    Font_Printf(sp26 + 9, sp24 + 5, arg0->unk_001C->unk_008);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_823016FC; signature not recovered. */

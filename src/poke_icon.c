@@ -103,11 +103,27 @@ void func_80018168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001833C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800184C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800184C0.s")
-#endif
+void PokeIcon_AdjustImageColors(u8* arg0, arg1_func_80010CA8 arg1) {
+    s32 cond;
+    u16* pixels = M2C_FIELD(arg0, u16**, 8);
+    s32 count = M2C_FIELD(arg0, u16*, 6) * M2C_FIELD(arg0, u16*, 4);
+    s32 size = count;
+
+    if (!arg0) {}
+
+    size *= 2;
+
+    osInvalDCache(pixels, size);
+
+    cond = size >= 2;
+    size -= 2;
+    // clang-format off
+    while (cond != 0) {
+        *pixels = Color_AdjustRGB5551(*pixels, arg1);        cond = size >= 2;        size -= 2;
+        pixels++;
+    }
+    // clang-format on
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80018550; signature not recovered. */
