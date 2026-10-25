@@ -361,11 +361,27 @@ void func_82102A34(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82102AEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102AEC.s")
-#endif
+void func_82102AEC(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[3];
+    s16 species;
+    u8* cues;
+    u8* state;
+
+    state = (u8*)active_pokemon + 0x78C;
+    species = active_pokemon->displayObject.objectType - 1;
+    cues = (u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)];
+    if (!(M2C_FIELD(state, u16*, 0x36) & 2)) {
+        active_pokemon->animationTimer = 0;
+        if ((M2C_FIELD(state, u16*, 0x36) & 0x4000) && (species == 0x32)) {
+            Battle_ClearRuntimeFlags(active_pokemon, 8);
+            M2C_FIELD(active_pokemon, u8*, 2) |= 0x20;
+            Battle_ClearRuntimeFlags(active_pokemon, 0x4000);
+        }
+        ModelAnim_SetAnimation(&active_pokemon->displayObject, cues[0]);
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+        BattleAnim_SetModelEventTrackFromRow(active_pokemon, 4);
+    }
+}
 
 void BattleScene_TickRow21PlaySpeciesSound(ActivePokemon* active_pokemon) {
     s8* cue = (s8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)];
@@ -378,11 +394,29 @@ void BattleScene_TickRow21PlaySpeciesSound(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82102C3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102C3C.s")
-#endif
+void func_82102C3C(ActivePokemon* active_pokemon) {
+    ActivePokemonState* state;
+    MovePresentationCue* cue;
+    s32 side;
+    UNUSED s32 pad[2];
+
+    state = &active_pokemon->state;
+    side = BattleScene_GetParticipantSideIndex(active_pokemon);
+    cue = &sSideBattleCues[side]->moveCues[active_pokemon->state.runtime.usedMove - 1];
+    if (!(state->flags & 2)) {
+        active_pokemon->animationTimer = cue->unk_06;
+        if (!(state->flags & 0x4000)) {
+            BattleAnim_SetFlagForRockThrowingMoves(active_pokemon);
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, cue->id);
+            ModelAnim_SetFrame(&active_pokemon->displayObject, cue->unk_06);
+            if (cue->unk_01 != 0xFF) {
+                ModelAnim_SetEventTrack(&active_pokemon->displayObject, cue->unk_01);
+                ModelAnim_SetEventFrame(&active_pokemon->displayObject, cue->unk_06);
+                state->unk_36 = 1;
+            }
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82102D10; signature not recovered. */
@@ -531,11 +565,30 @@ void BattleScene_EnterRow8StartMappedMoveAnim(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103C64.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82103DA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103DA4.s")
-#endif
+void func_82103DA4(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[2];
+    MovePresentationCue* entry;
+    BattleMon* mon;
+    s32 cue;
+    UNUSED s32 pad2;
+
+    mon = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->thumbnail.tagTeam];
+    active_pokemon->animationTimer = 0;
+    if (!(active_pokemon->state.flags & 2)) {
+        if (mon->statusCondition & 7) {
+            if ((active_pokemon->displayObject.objectType == 0x39) || (active_pokemon->displayObject.objectType == 0x67)) {
+                cue = 0xAF;
+            } else {
+                cue = 0xA5;
+            }
+        } else {
+            cue = 0xA5;
+        }
+        entry = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[cue];
+        ModelAnim_SetAnimation(&active_pokemon->displayObject, entry->id);
+        BattleAnim_SetModelEventTrackFromRow(active_pokemon, cue);
+    }
+}
 
 void BattleScene_EnterRow9QueueEffectList6(ActivePokemon* active_pokemon) {
     BattleMonRuntime* runtime = &sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->state.runtime;

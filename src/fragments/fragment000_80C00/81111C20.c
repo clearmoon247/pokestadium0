@@ -15,11 +15,22 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81111DC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81111F0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81111F0C.s")
-#endif
+extern f32 D_FLT_81136178[];
+
+f32 func_81111F0C(arg0)
+    s8* arg0;
+{
+    u32 idx;
+    f32 ret;
+
+    M2C_FIELD(arg0, f32*, 4) += M2C_FIELD(arg0, f32*, 8);
+    idx = M2C_FIELD(arg0, f32*, 4);
+    if (idx >= 0x80) {
+        idx = 0x7F;
+    }
+    ret = (M2C_FIELD(arg0, f32*, 0xC) * (D_FLT_81136178[idx] - 1.0f)) + 1.0f;
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81111FE0; signature not recovered. */
@@ -33,7 +44,7 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112024.s")
 #endif
 
-f32 func_81111F0C(s8 *, s8 *);                  /* extern */
+f32 func_81111F0C(); // The caller passes a second argument the callee ignores.
 f32 func_81112024(s8 *, s8 *);                  /* extern */
 
 void func_8111220C(s8 *arg0) {

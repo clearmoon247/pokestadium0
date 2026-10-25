@@ -1074,11 +1074,33 @@ void func_8212A074(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212A190; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212A190.s")
-#endif
+extern s32 D_8219A568;
+void func_82129C1C(s32);
+void func_82129D10(s32);
+void func_82129E30(s32);
+
+void func_8212A190(s32 arg0) {
+    if (sBattleScene.scene->unk_3C == 0) {
+        D_8219A568 = BattleAnim_RandomRange(3);
+        if (D_8219A568 >= 4) {
+            D_8219A568 = 0;
+        }
+    }
+    switch (D_8219A568) {
+        case 0:
+            func_82129C1C(arg0);
+            break;
+        case 1:
+            func_82129D10(arg0);
+            break;
+        case 2:
+            func_82129E30(arg0);
+            break;
+        default:
+            func_82129C1C(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212A250; signature not recovered. */

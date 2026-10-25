@@ -468,11 +468,40 @@ s32 func_82184D9C(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82184DC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82185044; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82185044.s")
-#endif
+extern u8 D_80065CF8[];
+
+s32 func_82185044(s32 species, s32 bit) {
+    s32 byteIndex;
+    s32 bits;
+
+    if (species == 0) {
+        return 0;
+    }
+
+    bits = D_80065CF8[species * 0x17 + bit / 8];
+    switch (species) {
+        case 6:
+            if (bit / 8 == 6) {
+                bits |= 8;
+            }
+            break;
+        case 0xC:
+        case 0x30:
+        case 0x31:
+            if (bit / 8 == 6) {
+                bits |= 0x40;
+            }
+            break;
+        case 0x32:
+        case 0x33:
+        case 0x8D:
+            if (bit / 8 == 6) {
+                bits |= 4;
+            }
+            break;
+    }
+    return (1 << (bit & 7)) & bits;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82185108; signature not recovered. */

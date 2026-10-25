@@ -243,11 +243,33 @@ void func_890069C0(s32 arg0) {
     func_80002620(0x4F545043);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890069E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890069E8.s")
-#endif
+void func_8002C064(s32, s32, s32, s32, s32);
+void func_89005AE0(void*);
+void func_8002CAD0(void*);
+void func_89007678(void*);
+extern Color_RGB8 D_8900A5B8;
+
+void func_890069E8(s32* arg0) {
+    BgStage_DrawFrame();
+    func_8002C064(0x38, 0x1E0, D_8900A5B8.r, D_8900A5B8.g, D_8900A5B8.b);
+    switch (*arg0) {
+        case 1:
+            func_89005AE0(arg0 + 4);
+            break;
+        case 2:
+            func_89005AE0(arg0 + 4);
+            func_8002CAD0((u8*)arg0 + 0x408);
+            break;
+        case 3:
+            func_89005AE0(arg0 + 4);
+            func_89007678((u8*)arg0 + 0x46C);
+            break;
+        case 4:
+            func_89005AE0(arg0 + 4);
+            func_89007678((u8*)arg0 + 0x46C);
+            break;
+    }
+}
 
 M2C_UNK func_80023268(s32, u8, M2C_UNK);            /* extern */
 extern s32 D_89019108;

@@ -3233,11 +3233,28 @@ void func_8215B63C(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215B6A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215B6A4.s")
-#endif
+f32 func_8215B6A4(Particle* arg0) {
+    f32 a = 0.0f;
+    f32 b = 1.0f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0x5F:
+            Particle_Field38_AddXZFromField94YOffsetMinus90_0901C(arg0, 15.0f);
+            a = 10.0f;
+            b = 0.5f;
+            break;
+        case 0x82:
+            a = 10.0f;
+            b = 0.4f;
+            break;
+        case 0x83:
+            a = 10.0f;
+            b = 0.4f;
+            break;
+    }
+    Particle_Field38_AddYScaled_08E90(arg0, a);
+    return b;
+}
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
@@ -3310,8 +3327,6 @@ void BattleAnim_CallbackStartEffects95To97EndEffects62And63ModelFadeIn(Particle*
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void Gfx_PaletteParticleDL(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
     u8* a1;
     Particle* spC8;
@@ -3544,9 +3559,6 @@ void Gfx_PaletteParticleDL(Gfx* arg0, u8* arg1, UNUSED u16 arg2) {
 
     gSPEndDisplayList(arg0++);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215B9A0.s")
-#endif
 
 void Gfx_PaletteParticleDLCallback(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -3906,8 +3918,6 @@ void BattleAnim_CallbackStartEffect101ModelBurstEmitter_InitParticle(Particle* a
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 extern M2C_UNK D_8218E770;
 void BattleAnim_CallbackStartEffect101ModelBurstEmitter(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -3947,9 +3957,6 @@ void BattleAnim_CallbackStartEffect101ModelBurstEmitter(Particle* arg0) {
         Particle_AddVelocityFromRotationTemplate1(arg0);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215D89C.s")
-#endif
 
 void ParticleEffect_RotationEntry(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect101ModelBurstEmitter, &gDefaultParticleDescriptor, 0, 1, 0x11, gBattleAnimCurrentAnchor, 0, 0);
@@ -4080,8 +4087,6 @@ void func_8215DEF4(void) {
     func_8213B5D8(4, 4, 4, &func_82162C68, &D_8218E728, 0, 3, 9, 0, 0x18, 0xD);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackEndEffects73And74DefaultDescriptorFade(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
@@ -4105,9 +4110,6 @@ void BattleAnim_CallbackEndEffects73And74DefaultDescriptorFade(Particle* arg0) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215DFB4.s")
-#endif
 
 M2C_UNK func_8213B560(M2C_UNK, M2C_UNK *, M2C_UNK *, M2C_UNK, s32, s32, s32, s32, s32); /* extern */
 M2C_UNK func_8213B644(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
@@ -4233,8 +4235,6 @@ void ParticleEffect_PlaySoundAndReset(void) {
     BattleAnim_EndEffect25Descriptor13DelegateSequence();
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void ParticleEffect_DrawQuad(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
     Particle* temp_v0;
     UNUSED s32 pad;
@@ -4351,9 +4351,6 @@ void ParticleEffect_DrawQuad(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg
 
     gSPEndDisplayList(arg0++);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215E76C.s")
-#endif
 
 void ParticleEffect_AllocateDisplayList(s32 arg0, arg1_func_84344CE8* arg1) {
     if (arg0 == 2) {
@@ -4630,8 +4627,6 @@ void BattleAnim_CallbackStartEffect132Descriptor39DelayedRiseFade_InitParticle(P
 
 void func_8213E1FC(Particle* arg0, f32 arg1);
 void func_8213E1FC(Particle* arg0, f32 arg1);
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CallbackStartEffect132Descriptor39DelayedRiseFade(Particle* arg0) {
     switch (arg0->unk_B2) {
         case 1:
@@ -4667,9 +4662,6 @@ void BattleAnim_CallbackStartEffect132Descriptor39DelayedRiseFade(Particle* arg0
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215F790.s")
-#endif
 
 void ParticleEffect_CreateDual(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect132Descriptor39DelayedRiseFade, &gBattleAnimParticleDescriptors[0x39], 8, 3, 2, 0, 0x46, 0);

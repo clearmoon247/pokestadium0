@@ -30,11 +30,30 @@ void BattleAnim_RenderNop2(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212BA28.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212BF28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212BF28.s")
-#endif
+void func_821255EC(CameraNode*);
+void func_82110B44(ActivePokemon*);
+void func_8212A850(CameraNode*, void*);
+void func_8212AD10(CameraNode*, void*);
+void func_8212B270(CameraNode*, void*);
+void func_8212BA28(CameraNode*, void*);
+
+void func_8212BF28(CameraNode* arg0, void* arg1) {
+    s32 other;
+
+    func_821255EC(arg0);
+    sBattleScene.scene->unk_50 = 2;
+    other = sBattleScene.scene->unk_2C == 0;
+    func_82110B44(sActivePokemon[other]);
+    if (sBattleScene.scene->unk_1A == 3) {
+        func_8212BA28(arg0, arg1);
+    } else if (sBattleScene.scene->unk_1A == 1) {
+        func_8212B270(arg0, arg1);
+    } else if (sBattleScene.scene->unk_1A == 2) {
+        func_8212AD10(arg0, arg1);
+    } else {
+        func_8212A850(arg0, arg1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212BFF0; signature not recovered. */

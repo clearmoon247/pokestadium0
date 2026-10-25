@@ -479,11 +479,34 @@ void func_89001B10(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89001CB0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890020C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890020C0.s")
-#endif
+typedef struct LabItemGridZ {
+    /* 0x00 */ u8* data;
+    /* 0x04 */ s32 pad04[2];
+    /* 0x0C */ s32 stride;
+} LabItemGridZ;
+typedef struct LabItemCursorZ {
+    /* 0x00 */ LabItemGridZ* grid;
+    /* 0x04 */ s32 pad04;
+    /* 0x08 */ s32 selected;
+} LabItemCursorZ;
+
+#define CURSOR(p) ((LabItemCursorZ*)((p) + 0x1E4))
+
+void func_890020C0(u8* arg0) {
+    u8* item;
+
+    item = CURSOR(arg0)->grid->data + CURSOR(arg0)->selected * 2;
+    M2C_FIELD(arg0, s32**, 0x494)[M2C_FIELD(arg0, s32*, 0x1A4)] = 1;
+    M2C_FIELD(arg0, s32**, 0x494)[M2C_FIELD(arg0, s32*, 0x140)] = M2C_FIELD(arg0, s32**, 0x494)[M2C_FIELD(arg0, s32*, 0x1A4)];
+    if (LabItem_IsQuantitylessItemForOperation(item[0]) != 0) {
+        func_89000020((unk_func_8830867C_02C_0CC*)(arg0 + 0x2F8), (void*)(CURSOR(arg0)->grid->data + CURSOR(arg0)->grid->stride * CURSOR(arg0)->selected));
+        func_89000048((LabItemCursor*)CURSOR(arg0));
+    } else {
+        func_890000A4((s32*)(arg0 + 0x2F8), item[0], M2C_FIELD(arg0, s32*, 0x444));
+        LabItem_SubtractSelectedItemQuantity((unk_func_8820BE14_02C_038*)CURSOR(arg0), M2C_FIELD(arg0, s32*, 0x444));
+    }
+}
+#undef CURSOR
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8900219C; signature not recovered. */

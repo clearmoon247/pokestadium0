@@ -254,11 +254,37 @@ f32 ModelAnim_EvaluateScaleChannel(unk_D_800ABCC0* arg0, s32 arg1) {
     return var_fv1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80011774; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80011774.s")
-#endif
+s32 func_80011774(TransformAnimRaw* arg0) {
+    AnimFixedFrame spC;
+    AnimFixedFrame* ptr;
+    TransformAnimData* temp_v0;
+
+    ptr = &spC;
+    temp_v0 = arg0->data;
+    spC.raw = arg0->frameFixed.raw;
+    if (arg0->lastRenderFrame != D_80060484) {
+        spC.raw += arg0->speedFixed;
+        if (arg0->speedFixed >= 0) {
+            if (ptr->whole >= temp_v0->endFrame) {
+                if (temp_v0->flags & 2) {
+                    ptr->whole = temp_v0->endFrame - 1;
+                } else {
+                    ptr->whole = temp_v0->loopStart;
+                }
+            }
+        } else {
+            if (ptr->whole < temp_v0->loopStart) {
+                if (temp_v0->flags & 2) {
+                    ptr->whole = temp_v0->loopStart;
+                } else {
+                    ptr->whole = temp_v0->endFrame - 1;
+                }
+            }
+        }
+    }
+
+    return spC.raw;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80011838; signature not recovered. */

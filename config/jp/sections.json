@@ -99,7 +99,7 @@
   "src/fragments/fragment012_17ED00/battle_engine_32B680_3.c": {
     ".rodata": {
       "address": "0x821973C4",
-      "size": "0xC4"
+      "size": "0x15C"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_339CA0.c": {
