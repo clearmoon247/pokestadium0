@@ -470,11 +470,14 @@ void BattleScene_Phase10(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82130B10.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82130D48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82130D48.s")
-#endif
+void func_82130D48(ActivePokemon* active_pokemon) {
+    BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[M2C_FIELD(active_pokemon, s32*, 0x9D0)];
+
+    if (M2C_FIELD(party_pokemon, u8*, 5) & 0x20) {
+        BattleAnim_StopOwnerCategoryParticles(1, active_pokemon);
+        active_pokemon->displayObject.node.renderFlags |= 0x20;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82130DAC; signature not recovered. */

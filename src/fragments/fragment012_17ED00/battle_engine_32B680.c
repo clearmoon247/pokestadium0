@@ -74,11 +74,17 @@ void BattleScene_IntroCameraStep2(CameraNode* arg0) {
     sBattleScene.scene->unk_20++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F9C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F9C4.s")
-#endif
+void func_821224F4(CameraNode*);
+void func_82121D78(CameraNode*, f32, f32);
+void func_8212187C(s32);
+void func_821351F8(CameraNode*, ActivePokemon*);
+void BattleScene_InitializeBattlePresentation(CameraNode* arg0) {
+    func_821224F4(arg0);
+    func_82121D78(arg0, 20.0f, 4000.0f);
+    func_8212187C(0);
+    func_821351F8(arg0, sActivePokemon[sBattleScene.scene->unk_2C]);
+    sBattleScene.scene->unk_20++;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211FA34; signature not recovered. */
@@ -134,11 +140,17 @@ void BattleScene_IntroCameraStep2(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212054C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212068C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212068C.s")
-#endif
+void func_8212054C(CameraNode*);
+s32 func_8212068C(UNUSED s32 arg0, CameraNode* arg1) {
+    ActivePokemon* p = sActivePokemon[sBattleScene.scene->unk_2C];
+
+    if ((p->displayObject.objectType == 0x71) || (p->displayObject.objectType == 0x79)) {
+        sBattleScene.scene->unk_20 = 0x16;
+        func_8212054C(arg1);
+        return 1;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821206F4; signature not recovered. */
@@ -207,11 +219,15 @@ void BattleScene_IntroCameraRollStepNoFov(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821210E4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212116C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212116C.s")
-#endif
+void func_82135734(CameraNode*, ActivePokemon*);
+void func_8212188C(void);
+void func_8212116C(CameraNode* arg0) {
+    func_82135734(arg0, sActivePokemon[sBattleScene.scene->unk_2C]);
+    if (M2C_FIELD(sBattleScene.scene, s8*, 1) == 0x10) {
+        func_8212188C();
+        sBattleScene.scene->unk_20 = 0x1B;
+    }
+}
 
 s32 func_821217DC(M2C_UNK);                         /* extern */
 extern s8 *D_8219A5A0;

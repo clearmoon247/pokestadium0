@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "m2c_macros.h"
+#include "pokemon_stats.h"
 
 M2C_UNK func_80023268(s32, u8, M2C_UNK);            /* extern */
 extern s32 D_89019108;
@@ -21,11 +22,17 @@ void func_89006FC0(u8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89007038; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007038.s")
-#endif
+void LabPC_WriteBoxEntries(s32 arg0, s32 arg1, s32 arg2, u8* arg3) {
+    DeckHandle* sp1C = Deck_Open(arg0, arg1, arg2, 1);
+
+    Deck_WriteEntries(arg3, M2C_FIELD(arg3, s32*, 0x960), sp1C);
+
+    if ((arg0 == 0x10) || (arg0 == 0x11) || (arg0 == 0x12) || (arg0 == 0x13)) {
+        Deck_CloseAndFlushBox(sp1C);
+    } else {
+        Deck_CloseAndFlush(sp1C);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_890070BC; signature not recovered. */

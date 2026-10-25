@@ -522,11 +522,23 @@ void func_81106820(void) {
     D_81156546 = 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81106830; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81106830.s")
-#endif
+extern s16 D_82608542;
+extern s16 D_82608544;
+extern s16 D_8260854C;
+extern s16 D_8260854E;
+extern s16 D_800AA148;
+extern s32 D_81156550;
+void func_811174D8(void);
+void osViBlack(u8);
+void VictoryPalace_ResetPillarGlow(UNUSED s32 arg0) {
+    if ((*(u8*)&D_81156546 == 0) && (D_800AA148 == 0)) {
+        func_811174D8();
+        ((u8*)D_81156550)[0xFF26] = GbMem_ReadIoRegister(0xFF26);
+    }
+    if (D_800AA148 != 0) {
+        osViBlack(1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811068A0; signature not recovered. */

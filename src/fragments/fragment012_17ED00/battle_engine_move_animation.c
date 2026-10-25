@@ -74,6 +74,8 @@ extern char** sBattleControllerDisconnectedMessage;
 
 #include "m2c_macros.h"
 
+void func_8003FE58(u8, s16, s32);
+
 void BattleScene_ClearStateTickCallbacks(void);
 void BattleScene_QueueRowEffectList3(ActivePokemon* actor, s32 effect_entry);
 void BattleAnim_PlayMoveEffectScript(ActivePokemon* user, s32 move_id);
@@ -357,11 +359,16 @@ void Battle_HandleStatBoostingMoveAnimation(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102AEC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82102BB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102BB4.s")
-#endif
+void BattleScene_TickRow21PlaySpeciesSound(ActivePokemon* active_pokemon) {
+    s8* cue = (s8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)];
+
+    if ((M2C_FIELD(cue, u8*, 4) + 1) == M2C_FIELD(active_pokemon, s32*, 0x620)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            func_8003FE58(1, active_pokemon->displayObject.objectType, 0);
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82102C3C; signature not recovered. */
@@ -699,17 +706,24 @@ void BattleScene_StartHitCueAnimation(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821050D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821050D0.s")
-#endif
+extern s32 D_8219A74C;
+void func_821050D0(ActivePokemon* active_pokemon) {
+    if (D_8219A74C == M2C_FIELD(active_pokemon, s32*, 0x620)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            func_8003FE58(M2C_FIELD(active_pokemon, u8*, 0x820), active_pokemon->displayObject.objectType, 1);
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105140; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105140.s")
-#endif
+void func_82105140(ActivePokemon* active_pokemon) {
+    if (D_8219A74C == M2C_FIELD(active_pokemon, s32*, 0x620)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            func_8003FE58(M2C_FIELD(active_pokemon, u8*, 0x820), active_pokemon->displayObject.objectType, 0);
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821051B0; signature not recovered. */

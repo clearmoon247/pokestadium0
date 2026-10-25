@@ -337,11 +337,19 @@ s32 BattleScene_ApplyCpuSwitchChoice(ActivePokemon* arg0, ActivePokemon* arg1) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E0A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E0A4.s")
-#endif
+extern f32 D_84390120;
+extern s32 D_8439013C;
+extern s32 D_84390138;
+extern s32 D_82199EBC;
+s32 func_82188770(s32, s32, s32, s32, s8*);
+void BattleScene_TriggerCpuChoice(s32 arg0, s32 arg1, s8* arg2, s8* arg3, ActivePokemon* arg4) {
+    if (D_FLT_82199EB0 == 1.0f) {
+        if (D_82199EBC == 0) {
+            D_82199EBC = 1;
+            D_82199EB8 = func_82188770(arg0, arg1, M2C_FIELD(arg2, s32*, 8), M2C_FIELD(arg3, s32*, 8), M2C_FIELD(arg4, s8**, 0x860));
+        }
+    }
+}
 
 extern f32 D_82199EB0;
 extern s32 D_82199EBC;

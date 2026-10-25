@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "m2c_macros.h"
+#include "graphics_textures.h"
 
 s32 func_800246A8(M2C_UNK, s32);                    /* extern */
 
@@ -134,11 +135,21 @@ void func_88100428(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100BA4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100C24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100C24.s")
-#endif
+s32 func_8002AE6C();
+extern u8 D_800734A8[4];
+void Gallery_AlbumDrawStatusText(s8* arg0) {
+    u8* c;
+
+    if (func_8002AE6C() == 0) {
+        Font_BeginTranslucentTextRendering();
+        c = D_800734A8;
+        Gfx_SetEnvColor(c[0], c[1], c[2], c[3]);
+        Font_SetActive(8, 0);
+        Font_SetLineHeight(0x1C);
+        Font_Printf(M2C_FIELD(arg0, s32*, 0) + 0xE, M2C_FIELD(arg0, s32*, 4) + 0xE, M2C_FIELD(arg0, char**, 0x2C));
+        Font_EndTexturedTextRendering();
+    }
+}
 
 M2C_UNK func_8002BC14(s32);                         /* extern */
 extern s32 D_800603C0;

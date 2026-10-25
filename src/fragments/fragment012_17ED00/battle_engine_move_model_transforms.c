@@ -397,13 +397,14 @@ void func_8210A2F4(UNUSED ActivePokemon* owner, ActivePokemon* animated_pokemon)
     animated_pokemon->modelTransformTimer++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210A374; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A374.s")
-#endif
+void func_8210A374(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    BattleAnim_UpdateTransform(owner, animated_pokemon, 9.0f, 0.9f, 0x2AAA);
+    if (owner->displayObject.position.y < 0.0f) {
+        animated_pokemon->modelTransform.rotation.y = 0;
+        BattleScene_ResetParticipantModelFlags(animated_pokemon);
+    }
+}
 
-M2C_UNK func_8210A374(s32, s8 *);                 /* extern */
 
 void func_8210A3DC(s32 arg0, s8 *arg1) {
     s32 temp_v0;
@@ -899,7 +900,6 @@ void func_8210B790(s32 arg0, s8 *arg1) {
 }
 
 #ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_8210B7E4(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
     animated_pokemon->oscillationAngularVelocity = 0x4000;
     animated_pokemon->oscillationAmplitude = 0.1f;
