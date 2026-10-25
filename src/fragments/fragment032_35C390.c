@@ -1,9 +1,16 @@
-/* Stadium Zero fragment032_35C390. */
+/* Stadium Zero fragment032_35C390: geo callbacks for the demo scene models. */
 
 #include "global.h"
+#include "geo_render.h"
+#include "gfx_buffer.h"
+#include "fragments/demo_scenes/demo_geo.h"
 #include "m2c_macros.h"
 
-s32 func_8004D300(s32);                             /* extern */
+extern Gfx D_8F505570[];
+extern Gfx D_8F5056B0[];
+extern u8 D_8F505770[];
+
+s32 func_8004D300(s32);
 s32 func_8F500020(s32 arg0) {
     s32 temp_a0;
 
@@ -15,43 +22,60 @@ s32 func_8F500020(s32 arg0) {
     return arg0;
 }
 
-extern s8 *D_80060490;
-
-void func_8F500088(s32 arg0, s8 *arg1) {
+void func_8F500088(s32 arg0, unk_D_86002F34_alt1* arg1) {
     if (arg0 == 2) {
-        M2C_FIELD(arg1, s16 *, 0x1A) = (s16) (M2C_FIELD(D_80060490, s16 *, 0x18) - 1);
+        arg1->unk_1A = D_80060490->unk_18 - 1;
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F5000AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F5000AC.s")
-#endif
+Gfx* func_8F5000AC(Gfx* gfx, void* segment) {
+    gSPSegment(gfx++, 0x0F, osVirtualToPhysical(segment));
+    gSPBranchList(gfx++, D_8F505570);
+    return gfx;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F50010C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F50010C.s")
-#endif
+void func_8F50010C(s32 arg0, DemoGeoNode* arg1) {
+    s32 pad;
+    DemoGeoTeam* teams;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F500188; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F500188.s")
-#endif
+    if (arg0 == 2) {
+        teams = D_80060490->node.callbackArg;
+        arg1->unk_18 = Gfx_AllocDisplayList(0x10);
+        func_8F5000AC(arg1->unk_18, teams[(s32)arg1->node.callbackArg].unk_04);
+        arg1->unk_18 = (Gfx*)func_8F500020((s32)arg1->unk_18);
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F5001C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F5001C4.s")
-#endif
+void func_8F500188(s32 arg0, DemoGeoNode* arg1) {
+    DemoGeoTeam* teams;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F500238; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F500238.s")
-#endif
+    if (arg0 == 2) {
+        teams = D_80060490->node.callbackArg;
+        arg1->unk_24 = teams[(s32)arg1->node.callbackArg].unk_40[0] + 4;
+    }
+}
+
+void func_8F5001C4(s32 arg0, DemoGeoNode* arg1) {
+    DemoGeoTeam* teams;
+
+    if (arg0 == 2) {
+        teams = D_80060490->node.callbackArg;
+        arg1->unk_24 = teams[(s32)arg1->node.callbackArg].unk_40[0] + 0x14;
+        if (*(s16*)teams[(s32)arg1->node.callbackArg].unk_40[0] & 1) {
+            arg1->unk_20 = 0xD2;
+        } else if (*(s16*)teams[(s32)arg1->node.callbackArg].unk_40[0] & 2) {
+            arg1->unk_22 = -0xF0;
+        } else {
+            arg1->unk_22 = -0x12C;
+        }
+    }
+}
+
+Gfx* func_8F500238(Gfx* gfx, void* segment) {
+    gSPSegment(gfx++, 0x0F, osVirtualToPhysical(segment));
+    gSPBranchList(gfx++, D_8F5056B0);
+    return gfx;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8F500298; signature not recovered. */
@@ -59,8 +83,21 @@ void func_8F500088(s32 arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F500298.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F500358; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment032_35C390/func_8F500358.s")
-#endif
+void func_8F500358(s32 arg0, DemoGeoNode* arg1) {
+    DemoGeoTeam* teams;
+    s32 team;
+    s32 slot;
+
+    if (arg0 == 2) {
+        teams = D_80060490->node.callbackArg;
+        team = ((u32)arg1->node.callbackArg >> 16) & 0xFFFF;
+        slot = (u32)arg1->node.callbackArg & 0xFFFF;
+        if (slot < teams[team].unk_40[0][2]) {
+            D_8F505770[0] = 9;
+            _bcopy(teams[team].unk_40[0] + slot * 0x50 + 0x58, &D_8F505770[1], 0xC);
+            arg1->unk_24 = D_8F505770;
+        } else {
+            arg1->unk_24 = NULL;
+        }
+    }
+}

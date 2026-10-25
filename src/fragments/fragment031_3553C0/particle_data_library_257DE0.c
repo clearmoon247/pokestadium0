@@ -8,27 +8,31 @@
 
 #include "m2c_macros.h"
 
+extern Gfx D_8F2128D0[];
+extern void* D_8F212910[];
+extern s32 D_8F212930;
+extern s32 D_8F212934;
+extern u16 D_80060484;
+
 void DisplayList_InitRotationMatrixSegment(s32 arg0, DisplayListState* state);
+Gfx* func_8F200160(Gfx* gfx, s32 frame, Gfx* next);
+Gfx* func_8F200290(Gfx* gfx, Gfx* next);
 
 void DisplayList_BuildRotationMatrixSegment(Gfx* gfx);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F200160; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment031_3553C0/func_8F200160.s")
-#endif
+Gfx* func_8F200160(Gfx* gfx, s32 frame, Gfx* next) {
+    gSPDisplayList(gfx++, D_8F2128D0);
+    gDPLoadTextureBlock(gfx++, D_8F212910[frame], G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_CLAMP, G_TX_CLAMP, 5,
+                        5, 1, 1);
+    gSPDisplayList(gfx++, next);
+    gSPEndDisplayList(gfx++);
+    return gfx;
+}
 
-s32 func_8000515C(M2C_UNK);                         /* extern */
-M2C_UNK func_8F200160(s32, s32, s32, s8 *);       /* extern */
-extern u16 D_80060484;
-
-void func_8F200244(s32 arg0, s8 *arg1) {
-    s32 temp_v0;
-
+void func_8F200244(s32 arg0, s8* arg1) {
     if (arg0 == 2) {
-        temp_v0 = func_8000515C(0x50);
-        M2C_FIELD(arg1, s32 *, 0x18) = temp_v0;
-        func_8F200160(temp_v0, D_80060484 & 7, M2C_FIELD(arg1, s32 *, 0x14), arg1);
+        M2C_FIELD(arg1, Gfx**, 0x18) = Gfx_AllocDisplayList(0x50);
+        func_8F200160(M2C_FIELD(arg1, Gfx**, 0x18), D_80060484 & 7, M2C_FIELD(arg1, Gfx**, 0x14));
     }
 }
 
@@ -38,16 +42,10 @@ void func_8F200244(s32 arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment031_3553C0/func_8F200290.s")
 #endif
 
-s32 func_8000515C(M2C_UNK);                         /* extern */
-M2C_UNK func_8F200290(s32, s32, s8 *);            /* extern */
-
-void func_8F2003AC(s32 arg0, s8 *arg1) {
-    s32 temp_v0;
-
+void func_8F2003AC(s32 arg0, s8* arg1) {
     if (arg0 == 2) {
-        temp_v0 = func_8000515C(0x58);
-        M2C_FIELD(arg1, s32 *, 0x18) = temp_v0;
-        func_8F200290(temp_v0, M2C_FIELD(arg1, s32 *, 0x14), arg1);
+        M2C_FIELD(arg1, Gfx**, 0x18) = Gfx_AllocDisplayList(0x58);
+        func_8F200290(M2C_FIELD(arg1, Gfx**, 0x18), M2C_FIELD(arg1, Gfx**, 0x14));
     }
 }
 
