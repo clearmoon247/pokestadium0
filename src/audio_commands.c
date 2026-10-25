@@ -63,11 +63,24 @@ void Audio_RelocateOffsets(u32* arg0, u32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003EECC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003F654; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003F654.s")
-#endif
+extern s32 D_800FD608;
+extern u8 D_8007752C;
+s32 func_80037AC4(s32, s32);
+void func_800419F8(s32);
+
+s32 func_8003F654(s32 arg0) {
+    s32 ret;
+
+    if (arg0 == 0) {
+        arg0 = 1;
+    }
+    ret = func_80037AC4(D_800FD608, arg0);
+
+    if (D_8007752C == 0) {
+        func_800419F8(0);
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003F6AC; signature not recovered. */

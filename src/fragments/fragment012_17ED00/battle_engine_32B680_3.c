@@ -3068,11 +3068,24 @@ void ParticleEffect_PaletteMultiBurst(void) {
     BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(7, 8, 5, BattleAnim_CallbackSharedAnimatedVerticalFade, &gBattleAnimParticleDescriptors[0x3D], 0, 1, 9, 0, sp4A, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215AEA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215AEA4.s")
-#endif
+f32 func_8215AEA4(Particle* arg0) {
+    f32 sp1C = 0.5f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0x5F:
+            sp1C = 0.3f;
+            break;
+
+        case 0x82:
+            sp1C = 0.25f;
+            break;
+
+        case 0x83:
+            sp1C = 0.4f;
+            break;
+    }
+    return sp1C;
+}
 
 void Gfx_ParticleTextureTileCallback(Gfx* arg0, arg1_func_8434E21C* arg1, UNUSED u16 arg2) {
     BattleAnim_GetOwnerContextParticle(D_8006049C);

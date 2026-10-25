@@ -1059,14 +1059,20 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106AC0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82106B48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106B48.s")
-#endif
+void func_821366B0(u8 category, ActivePokemon* owner);
+
+
+void BattleAnim_ResetFreezeStatusAndRestoreAnimation(ActivePokemon* arg0) {
+    u8* ptr = (u8*)&arg0->teamRoster->pokemonPicked[M2C_FIELD(arg0, s32*, 0x9D0)];
+
+    if (!(M2C_FIELD(arg0, u16*, 0x7C2) & 2) && (ptr[5] & 0x20)) {
+        func_821366B0(1, arg0);
+        M2C_FIELD(arg0, u8*, 2) &= ~0x20;
+        func_82105E38((s8*)arg0, 2);
+    }
+}
 
 void func_8210568C(ActivePokemon* active_pokemon, s32 cue_index, s32 event_state);
-void func_821366B0(s32, ActivePokemon*);
 void func_82134EBC(ActivePokemon*, s32);
 
 void BattleAnim_TriggerStatusAfflictionCry(ActivePokemon* active_pokemon) {

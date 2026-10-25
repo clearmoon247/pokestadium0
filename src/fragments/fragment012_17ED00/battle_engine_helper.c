@@ -141,16 +141,11 @@ void BattleScene_GetParticipantModelRotation(ActivePokemon* pokemon, Vec3s* dest
     dest->z = pokemon->displayObject.rotation.z;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u16 Battle_GetActiveMonHp(ActivePokemon* active_pokemon) {
     BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
 
     return party_pokemon->hp;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107CA0.s")
-#endif
 
 s16 func_82107CC4(s8 *arg0) {
     return (s16) (M2C_FIELD(arg0, s32 *, 0x60C) << 0xE);
@@ -460,11 +455,14 @@ void func_82108DF0(void *arg0, s32 arg1) {
     M2C_FIELD(arg0, s8 *, 0x7B9) = arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108DF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DF8.s")
-#endif
+void BattleScene_RebindParticipantTeamMember(ActivePokemon* pokemon, s32 team_member_index) {
+    ActivePokemonState* state = &pokemon->state;
+
+    BattleScene_BindParticipantTeamRoster(pokemon, team_member_index);
+    BattleScene_SetParticipantTeamMember(pokemon, team_member_index);
+    M2C_FIELD(pokemon, s32*, 0x9D0) = M2C_FIELD(state, s32*, 0x8);
+    M2C_FIELD(pokemon, s32*, 0x9D4) = M2C_FIELD(state, u8*, 0x2B);
+}
 
 s32 Battle_FreezeClauseInEffect(ActivePokemon* active_pokemon) {
     s32 i;

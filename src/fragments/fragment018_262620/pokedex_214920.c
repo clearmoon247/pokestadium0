@@ -241,11 +241,25 @@ s32 func_8A1011A4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A1014EC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A10164C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A10164C.s")
-#endif
+extern s32 D_8A12FF98;
+extern u8 D_8A130204[];
+s32 func_800196F8(s32);
+s32 func_8002AAC4(void*);
+void func_8A101020(void*, s32, s32);
+
+s32 func_8A10164C(s32 arg0, s32 arg1) {
+    UNUSED s32 pad[4];
+    s32 sp1C;
+
+    GeoRender_AdvanceFrameCounter();
+    sp1C = func_800196F8(D_8A12FF98);
+    BgStage_DrawFrame();
+    if (func_8002AAC4(D_8A130204) != 0) {
+        func_8A101118();
+    }
+    func_8A101020(D_8A130204, sp1C, arg1);
+    return 0;
+}
 
 void Pokedex_LoadIcon(u8* arg0, s32 arg1) {
     unk_func_8001A024* sp1C;

@@ -656,7 +656,20 @@ void BattleAnim_TickEffectSlots(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8213AF50; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+s32 Particle_CountActive(void) {
+    s32 i;
+    s32 var_v1 = 0;
+    Particle* ptr = gParticlePool;
+
+    for (i = 0; i < 0x12C; i++, ptr++) {
+        if (ptr->unk_D0 != 0) {
+            var_v1++;
+        }
+    }
+
+    return var_v1;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AF50.s")
 #endif

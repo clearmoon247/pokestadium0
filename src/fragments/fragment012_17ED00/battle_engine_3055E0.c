@@ -293,11 +293,13 @@ void BattleScene_SetCameraAtAndEyeFromAngles(CameraNode* camera, f32 x, f32 y, f
     Camera_ComputeEyeFromAngles(&camera->view.targetPosition, &camera->view.eyePosition, distance, rotation_x, rotation_y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82121908; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82121908.s")
-#endif
+void func_82121908(ActivePokemon* arg0, Vec3f* arg1) {
+    if ((M2C_FIELD(arg0, s16*, 0x1A) == 0x52) || (M2C_FIELD(arg0, s16*, 0x1A) == 0x5F)) {
+        GeoRender_FindAnchorPosition((DisplayObject*)arg0, 9, arg1);
+    } else {
+        GeoRender_FindAnchorPosition((DisplayObject*)arg0, 0x64, arg1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82121954; signature not recovered. */

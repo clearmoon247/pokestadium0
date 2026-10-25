@@ -76,11 +76,21 @@ void ModelAnim_UpdateDisplayObjectAnimation(u32 arg0, u32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800326B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800326B4.s")
-#endif
+extern s16 D_800AF7B4[2];
+extern s16 D_800AFB2C[2];
+void ModelAnim_FinalizeDisplayObjectAnimation(u32 arg0, u32 arg1) {
+    if (ModelPhase_IsIdle() == 0) {
+        D_800AFB26++;
+    }
+
+    if ((arg1 != 0) && (arg0 < 2)) {
+        if (D_800AFB28 == 0) {
+            D_800AFB2C[arg0] = 0;
+        } else {
+            D_800AFB2C[arg0] = 1;
+        }
+    }
+}
 
 void Gfx_SetCombineMode(Gfx* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 arg10, s32 arg11, s32 arg12, s32 arg13, s32 arg14, s32 arg15, s32 arg16) {
     gDPSetCombine(arg0++, GCCc0w0(arg1, arg3, arg5, arg7) | GCCc1w0(arg9, arg11), GCCc0w1(arg2, arg4, arg6, arg8) | GCCc1w1(arg10, arg13, arg15, arg12, arg14, arg16));

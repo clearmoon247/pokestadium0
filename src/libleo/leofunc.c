@@ -71,11 +71,15 @@ void func_800483E0(s32 arg0, s32 arg1, M2C_UNK *arg2, M2C_UNK arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80048530.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80048650; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80048650.s")
-#endif
+void LeoReset(void) {
+    osRecvMesg((OSMesgQueue*)&D_80100E58, NULL, 1);
+    LEOclr_que_flag = 0xFF;
+    leoClr_queue();
+    LEOclr_que_flag = 0;
+    osRecvMesg(&LEOevent_que, NULL, 0);
+    osSendMesg(&LEOevent_que, (OSMesg)ASIC_SOFT_RESET_CODE, 1);
+    osSendMesg(&LEOcommand_que, (OSMesg)LEO_ZERO_MESG, 1);
+}
 
 s32 __leoSetReset(void) {
     leoDrive_reset();

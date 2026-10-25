@@ -545,11 +545,28 @@ void func_80038014(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003807C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800380D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800380D0.s")
-#endif
+typedef struct PlayerChannelZero_1E {
+    /* 0x00 */ char unk00[0x1E];
+    /* 0x1E */ u8 unk_1E;
+    /* 0x1F */ char unk1F[0x5];
+} PlayerChannelZero_1E; // size = 0x24
+
+extern u8 D_800B368E;
+extern PlayerChannelZero_1E D_800B3694[44];
+
+s32 func_800380D0(void) {
+    s32 i;
+
+    if (D_800B368E) {
+        return 1;
+    }
+    for (i = 0; i < 44; i++) {
+        if (D_800B3694[i].unk_1E) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003815C; signature not recovered. */
