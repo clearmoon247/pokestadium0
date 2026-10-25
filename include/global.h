@@ -266,9 +266,8 @@ typedef struct unk_D_86002F34_alt1 {
     /* 0x1A */ u16 unk_1A;
     /* 0x1C */ s8 unk_1C;
     /* 0x1D */ s8 unk_1D;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ Lights7* lights;
-} unk_D_86002F34_alt1; // size >= 0x28
+    /* 0x20 */ Lights7* lights; // Stadium 1 has an s32 before this, at 0x20
+} unk_D_86002F34_alt1; // size >= 0x24
 
 typedef struct unk_D_86002F34_alt2 {
     /* 0x00 */ GraphNode node;

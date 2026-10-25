@@ -661,11 +661,31 @@ void Geo_NodeType9Empty(UNUSED GraphNode* arg0) {
 void Geo_NodeType12Empty(UNUSED GraphNode* arg0) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800144BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800144BC.s")
-#endif
+void Geo_NodeAmbientLight(GraphNode* arg0) {
+    unk_D_86002F34_alt4* arg = (unk_D_86002F34_alt4*)arg0;
+    s32 i;
+    Lights7* lights;
+
+    lights = D_80060490->lights;
+    if ((arg->unk_18.r == 0xFF) && (arg->unk_18.g == 0xFF) && (arg->unk_18.b == 0xFF)) {
+        lights->a.l.colc[0] = lights->a.l.col[0];
+        lights->a.l.colc[1] = lights->a.l.col[1];
+        lights->a.l.colc[2] = lights->a.l.col[2];
+    } else {
+        lights->a.l.colc[0] = lights->a.l.col[0] = arg->unk_18.r;
+        lights->a.l.colc[1] = lights->a.l.col[1] = arg->unk_18.g;
+        lights->a.l.colc[2] = lights->a.l.col[2] = arg->unk_18.b;
+    }
+
+    gSPSetGeometryMode(gDisplayListHead++, G_LIGHTING);
+    gMoveWd(gDisplayListHead++, 2, 0, D_80060490->unk_1C * 0x18);
+
+    for (i = 0; i < D_80060490->unk_1C; i++) {
+        gSPLight(gDisplayListHead++, &D_80060490->lights->l[i], i + 1);
+    }
+
+    gSPLight(gDisplayListHead++, D_80060490->lights, i + 1);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8001465C; signature not recovered. */

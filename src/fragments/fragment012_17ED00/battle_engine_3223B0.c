@@ -66,7 +66,7 @@ M2C_UNK func_8213CB3C(s8 *);                      /* extern */
 s32 func_8213CB7C(s8 *);                          /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E488(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, s32, M2C_UNK);        /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);        /* extern */
 M2C_UNK func_82140064(s8 *, s32, s16);            /* extern */
 M2C_UNK func_82140594(s8 *, M2C_UNK);             /* extern */
 s32 func_82140690(s8 *);                          /* extern */
@@ -98,7 +98,7 @@ void func_821497DC(s8 *arg0) {
     }
     if (func_8213CB7C(arg0) != 0) {
         func_8213E488(arg0);
-        func_8213F658(arg0, M2C_FIELD(arg0, s32 *, 0x74), 0x3F000000);
+        func_8213F658(arg0, M2C_FIELD(arg0, f32 *, 0x74), 0.5f);
         func_82140064(arg0, M2C_FIELD(arg0, s32 *, 0x70), M2C_FIELD(arg0, s16 *, 0xAA));
     }
 }
@@ -495,7 +495,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CA80(s8 *, M2C_UNK);             /* extern */
 M2C_UNK func_8213D604(s8 *, M2C_UNK);             /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140228(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_8214A634(s8 *);                      /* extern */
@@ -511,7 +511,7 @@ void func_8214A6B4(s8 *arg0) {
     case 2:
         func_82140228(arg0, 0x3E99999A, 0x3D4CCCCD);
         func_82140518(arg0, 0x20, 0x10);
-        func_8213F658(arg0, 0x3F000000, 0x3D4CCCCD);
+        func_8213F658(arg0, 0.5f, 0.05f);
         func_8213E528(arg0);
         func_8213D604(arg0, 0xBF800000);
         func_8213CA80(arg0, 0x10);
@@ -1008,7 +1008,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_8214B84C(s8 *);                      /* extern */
 
@@ -1029,7 +1029,7 @@ void func_8214B8E4(s8 *arg0) {
         break;
     }
     if (func_8213C9B0(arg0) != 0) {
-        func_8213F658(arg0, 0x4059999A, 0x3F800000);
+        func_8213F658(arg0, 3.4f, 1.0f);
         func_8213E528(arg0);
     }
 }
@@ -1048,7 +1048,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_8214B9A8(s8 *);                      /* extern */
 
@@ -1069,7 +1069,7 @@ void func_8214BA3C(s8 *arg0) {
         break;
     }
     if (func_8213C9B0(arg0) != 0) {
-        func_8213F658(arg0, 0x40200000, 0x3F400000);
+        func_8213F658(arg0, 2.5f, 0.75f);
         func_8213E528(arg0);
     }
 }
@@ -1088,7 +1088,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_8214BAFC(s8 *);                      /* extern */
 
@@ -1109,7 +1109,7 @@ void func_8214BB94(s8 *arg0) {
         break;
     }
     if (func_8213C9B0(arg0) != 0) {
-        func_8213F658(arg0, 0x3FC00000, 0x3ECCCCCD);
+        func_8213F658(arg0, 1.5f, 0.4f);
         func_8213E528(arg0);
     }
 }
@@ -1145,7 +1145,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 s32 func_8213C9B0(s8 *);                          /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821434FC(s8 *, s16);                 /* extern */
 M2C_UNK func_82143530(s8 *, s16);                 /* extern */
@@ -1173,7 +1173,7 @@ void func_8214BD78(s8 *arg0) {
         break;
     }
     if (func_8213C9B0(arg0) != 0) {
-        func_8213F658(arg0, 0x3FC00000, 0x3F000000);
+        func_8213F658(arg0, 1.5f, 0.5f);
         func_8213E528(arg0);
         switch (sp2E) {                             /* switch 2; irregular */
         case 0:                                     /* switch 2 */
@@ -1234,7 +1234,7 @@ M2C_UNK func_8213C930(s8 *);                      /* extern */
 M2C_UNK func_8213CB3C(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E528(s8 *);                      /* extern */
-M2C_UNK func_8213F658(s8 *, M2C_UNK, M2C_UNK);    /* extern */
+M2C_UNK func_8213F658(s8 *, f32, f32);    /* extern */
 M2C_UNK func_821402B8(s8 *);                      /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_821406B4(s8 *);                          /* extern */
@@ -1259,7 +1259,7 @@ void func_8214C048(s8 *arg0) {
         func_821402B8(arg0);
         func_82140518(arg0, 0x20, 0x16);
         func_8213CCEC(arg0, 0, 7, 1, 2, 0);
-        func_8213F658(arg0, 0x3FC00000, 0x3DCCCCCD);
+        func_8213F658(arg0, 1.5f, 0.1f);
         func_8213E528(arg0);
         return;
     case 4:
@@ -1447,14 +1447,47 @@ void BattleAnim_CallbackEndEffects34And53Descriptor45RotatingBounceFade_InitPart
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214C770; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214C770.s")
-#endif
+void BattleAnim_CallbackEndEffects34And53Descriptor45RotatingBounceFade(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackEndEffects34And53Descriptor45RotatingBounceFade_InitParticle(arg0);
+            break;
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+        case 2:
+            Particle_Field1C_Approach_0B98C(arg0, 0.15f, 0.01f);
+            func_8213F658(arg0, 1.0f, 0.7f);
+            Particle_ApproachRotationTargetY(arg0);
+            if (Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0) != 0) {
+                Particle_FieldA6_SetS16_0BCA8(arg0, ParticleMath_RandomRangeOffset(0xC, 0x20));
+                if (arg0->unk_94.y >= arg0->unk_A0.y) {
+                    Particle_FieldA0_SetX_0A400(arg0, -0x4000);
+                } else {
+                    Particle_FieldA0_SetX_0A400(arg0, 0x4000);
+                }
+            }
+            break;
+
+        case 3:
+            Particle_ApproachRotationTargetX(arg0);
+            func_8213F658(arg0, 0.5f, 0.2f);
+            Particle_FieldA6_DecrementToZeroStep1AndStepState_0BDD0(arg0);
+            break;
+
+        case 4:
+            Particle_ApproachRotationTargetX(arg0);
+            func_8213CCEC(arg0, 0, 3, 1, 1, 0);
+            break;
+
+        case 5:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRunning(arg0) != 0) {
+        Particle_AddVelocityFromRotationTemplate3(arg0);
+    }
+}
+
 void BattleAnim_CallbackEndEffect27Descriptor4BGrowColorShiftFade_InitParticle(Particle* arg0) {
     Particle_Field1C_SetScaled_0B938(arg0, 0.2f);
     ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
@@ -1463,9 +1496,6 @@ void BattleAnim_CallbackEndEffect27Descriptor4BGrowColorShiftFade_InitParticle(P
     arg0->unk_74 = 0.02f;
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214C8E0.s")
-#endif
 
 M2C_UNK func_82137AB4(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
@@ -1660,11 +1690,16 @@ void BattleAnim_StartEffect6AnimatedScaleAndBurstEmitter(void) {
     BattleAnim_CreateEffectSlotForCurrentOwner(4, BattleAnim_CallbackStartEffect6DefaultDescriptorBurstEmitter, &gDefaultParticleDescriptor, 0, 1, 0x11, gBattleAnimCurrentAnchor, 0, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214D0C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214D0C8.s")
-#endif
+extern M2C_UNK D_8218E650;
+extern M2C_UNK D_8218E7D8;
+extern M2C_UNK D_8218E5D8;
+void InitComplexParticleSequence(void) {
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 1, 0xF, BattleAnim_CallbackEndEffect2Descriptor19AnimatedAlphaFade, &D_8218E650, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x26, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0xC, BattleAnim_CallbackEndEffect2Descriptor4BModeColorShiftFade, &D_8218E7D8, 0, 1, 0xA, 0, 0x4C, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0xC, BattleAnim_CallbackEndEffect2Descriptor4BModeColorShiftFade, &D_8218E7D8, 0, 1, 0xA, 0, 0x4C, 1);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0xC, BattleAnim_CallbackEndEffect2Descriptor4BModeColorShiftFade, &D_8218E7D8, 0, 1, 0xA, 0, 0x4C, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(4, 1, 0x10, BattleAnim_CallbackEndEffects2And27Descriptor0AFallingSparkFade, &D_8218E5D8, 0, 2, 0x11, gBattleAnimCurrentAnchor, 0x4C, 0);
+}
 
 void InitExplosionEffectSet(void) {
     BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x40, 6);
@@ -1880,17 +1915,32 @@ void func_8214E028(void) {
     func_8213B644(0x16, 0x20, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214E140; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214E140.s")
-#endif
+extern ParticleDescriptor D_8218E588[86];
+extern ParticleDescriptor D_8218E588[86];
+void InitParticleEffectSet_WithComplex(void) {
+    UNUSED s32 pad;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214E2C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214E2C0.s")
-#endif
+    BattleAnim_SpawnOwnerModelTintRampDetach(0, 0x17, 0xFF, 0, 8);
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactive(4, 0x17, 0x17, 0x10, 0xFF);
+    BattleAnim_CreateEffectSlotForCurrentOwner(3, BattleAnim_CallbackSharedDescriptor04GrowFade, &D_8218E5A8, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x17, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackSharedExpandingScaleAlphaFade, &D_8218E728, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x2C, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(4, 8, 1, BattleAnim_CallbackSharedExpandingScaleAlphaFade, &D_8218E820, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x2C, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(3, 5, 2, BattleAnim_CallbackSharedDescriptor19AnimatedFadeMotion, &D_8218E650, 0, 8, 0x10, gBattleAnimCurrentAnchor, 0xF, 0);
+    BattleAnim_EndEffect70Descriptor0F_13SprayColumnSequence();
+}
+
+extern ParticleDescriptor D_8218E588[86];
+void BattleAnim_EndEffect71PaletteApproachWithExpandingScaleFades(void) {
+    UNUSED s32 pad;
+
+    BattleAnim_SpawnOwnerModelTintPaletteApproachInactive(4, 0x8, 0x17, 0x10, 0xFF);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackSharedExpandingScaleAlphaFade, &D_8218E728, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x17, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(4, 4, 1, BattleAnim_CallbackSharedExpandingScaleAlphaFade, &D_8218E820, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x17, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(3, BattleAnim_CallbackSharedDescriptor04GrowFade, &D_8218E5A8, 0, 1, 0x10, gBattleAnimCurrentAnchor, 0x18, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(3, 5, 3, BattleAnim_CallbackSharedDescriptor19AnimatedFadeMotion, &D_8218E650, 0, 8, 0x10, gBattleAnimCurrentAnchor, 0x17, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xC, 1, 3, BattleAnim_CallbackSharedDescriptor19DelayedAnimatedGrowFade, &D_8218E650, 0, 8, 0x11, gBattleAnimCurrentAnchor, 0x17, 0);
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0x16, 0x20, 0x8);
+}
 
 void InitParticleEffectSet_ThreeInstances(void) {
     BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 2, 8, BattleAnim_CallbackEndEffect86Descriptor19ModePositionedAnimFade, &gBattleAnimParticleDescriptors[0x19], 0, 1, 0x11, gBattleAnimCurrentAnchor, 0x49, 0);

@@ -104,11 +104,31 @@ void func_821398A0(void) {
     D_8219CA58 = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213990C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213990C.s")
-#endif
+void func_8213990C(Particle* arg0) {
+    Particle_InitLifecycle(arg0);
+    Particle_SetPosition(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetOrigin(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetVelocity(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetVelocityTarget(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetVelocityImpulse(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+    Particle_Field78_SetScaled_0ADA4(arg0, 0.0f);
+    Particle_SetRotation(arg0, 0, 0, 0);
+    Particle_SetRotationSpeed(arg0, 0, 0, 0);
+    Particle_SetTextureFrame(arg0, 0);
+    Particle_FieldA6_SetS16_0BCA8(arg0, 0);
+    Particle_FieldA8_SetS16_0BE14(arg0, 0);
+    Particle_FieldCD_SetS16_0BF38(arg0, 0);
+    Particle_FieldCE_SetS16_0BF24(arg0, 0);
+    Particle_FieldAA_SetS16_0BF10(arg0, 0);
+    Particle_FieldAC_SetS16_0BED8(arg0, 0);
+    Particle_FieldCF_SetU8_0BEEC(arg0, 0);
+    Particle_SetPrimColor(arg0, 0xFF, 0xFF, 0xFF);
+    Particle_SetEnvColor(arg0, 0xFF, 0xFF, 0xFF);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+
+    arg0->unk_1C = 1.0f;
+}
 
 Particle* Particle_Alloc(void) {
     s32 i;

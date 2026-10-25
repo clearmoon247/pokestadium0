@@ -259,11 +259,47 @@ void BattleMenu_FillDefaultOrder(s8* arg0, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82302114; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82302114.s")
-#endif
+extern s32 D_82302B44;
+extern u8* D_82302BD0;
+
+// Zero's order-select slot keeps only the first 0x20 bytes of Stadium 1's unk_D_848037A0.
+typedef struct OrderSelectSlot {
+    /* 0x00 */ char unk00[0xB];
+    /* 0x0B */ s8 unk_000B;
+    /* 0x0C */ s8 unk_000C[6];
+    /* 0x12 */ char unk12[0x6];
+    /* 0x18 */ BattleMon* unk_0018;
+    /* 0x1C */ TeamRoster* unk_001C;
+} OrderSelectSlot; // size = 0x20
+
+void BattleMenu_CommitOrderSelection(void) {
+    s32 i;
+    s32 var_s4;
+    TeamRoster* temp_s1;
+    OrderSelectSlot* var_s2;
+
+    var_s2 = (OrderSelectSlot*)&D_82302B48;
+    var_s4 = D_82302B44;
+
+    while (var_s4-- > 0) {
+        temp_s1 = var_s2->unk_001C;
+        if (temp_s1->unk_000 & 2) {
+            temp_s1->numberOfPokemonBrought = temp_s1->rosterInfo->numberOfPokemonCanBePicked;
+            _bcopy(temp_s1->rosterInfo->unk_028, temp_s1->pokemonPicked, sizeof(temp_s1->pokemonPicked));
+        } else {
+            BattleMenu_FillDefaultOrder(var_s2->unk_000C, var_s2->unk_000B);
+            temp_s1->numberOfPokemonBrought = var_s2->unk_000B;
+
+            for (i = 0; i < temp_s1->rosterInfo->numberOfPokemonCanBePicked; i++) {
+                temp_s1->pokemonPicked[i] = var_s2->unk_0018[var_s2->unk_000C[i]];
+            }
+        }
+        var_s2++;
+    }
+
+    BattleMenu_RearrangeLeadPokemon((BattleSessionTeams*)(D_82302BD0 + 0x1034), &D_82302B20[0]);
+    BattleMenu_RearrangeLeadPokemon((BattleSessionTeams*)(D_82302BD0 + 0x105C), &D_82302B20[1]);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82302288; signature not recovered. */

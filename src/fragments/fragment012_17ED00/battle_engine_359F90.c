@@ -75,16 +75,63 @@ void ComputeAllPokemonStats(BattleMon* arg0) {
     ComputePokemonStat(4, arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210FDD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210FDD0.s")
-#endif
+extern u16 D_82199F54;
+extern u16 D_82199F58;
+extern u16 D_82199F56;
+extern u16 D_82199F52;
+extern u16 D_843C4DCC;
+void InitBattleParameters(void) {
+    sBattleDamage = 0;
+    D_82199F52 = sBattleUser->moveCache.unk_02;
+    if (D_82199F52) {
+        if (sBattleUser->moveCache.unk_03 < 0x14) {
+            D_82199F56 = sBattleTarget->unk_2C;
+            if (sBattleTarget->unk_4E & 4) {
+                D_82199F56 *= 2;
+            }
+
+            if (sBattleCritFlag != 0) {
+                D_82199F56 = sBattleTarget->unk_3A;
+                D_82199F54 = sBattleUser->unk_38;
+            } else {
+                D_82199F54 = sBattleUser->unk_2A;
+            }
+        } else {
+            D_82199F56 = sBattleTarget->unk_30;
+            if (sBattleTarget->unk_4E & 2) {
+                D_82199F56 *= 2;
+            }
+
+            if (sBattleCritFlag != 0) {
+                D_82199F56 = sBattleTarget->unk_3E;
+                D_82199F54 = sBattleUser->unk_3E;
+            } else {
+                D_82199F54 = sBattleUser->unk_30;
+            }
+        }
+
+        if (D_82199F54 & 0xFF00) {
+            if (D_82199F56 & 0xFF00) {
+                D_82199F54 >>= 2;
+                D_82199F56 >>= 2;
+                if (D_82199F54 == 0) {
+                    D_82199F54 = 1;
+                }
+            }
+        }
+
+        D_82199F58 = sBattleUser->unk_26;
+        if (sBattleCritFlag != 0) {
+            D_82199F58 *= 2;
+        }
+    }
+}
 
 extern u16 D_82199F52;
 extern u16 D_82199F56;
 extern u16 D_82199F58;
 extern u16 D_82199F54;
+extern u16 D_82199F58;
 s32 Battle_CalcDamage(void) {
     s32 temp_v0 = sBattleUser->moveCache.unk_01;
 

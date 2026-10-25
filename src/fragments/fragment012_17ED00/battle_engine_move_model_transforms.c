@@ -140,7 +140,30 @@ void BattleScene_HideParticipantSecondaryModels(ActivePokemon* active_pokemon) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_821095B4; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleScene_UpdateSecondaryModelOrbit(ActivePokemon* pokemon) {
+    s32 i;
+    f32 tmp;
+    Vec3f sp5C = { 0.0f, 0.0f, 0.0f };         // D_84384610
+    f32 sp4C[] = { 0.3f, -0.4f, -0.2f, 0.4f }; // D_8438461C
+
+    for (i = 0; i < 3; i++) {
+        pokemon->afterimages[i].displayObject.lodFraction = Math_StepToS32(pokemon->afterimages[i].displayObject.lodFraction, 0x3C, 5, 5);
+        pokemon->afterimages[i].unk_16C = Math_StepToS32(pokemon->afterimages[i].unk_16C, 0x38E, 0x64, 0x64);
+        pokemon->afterimages[i].unk_16C = Math_StepToS32(pokemon->afterimages[i].unk_16C, 0x38E, 0x64, 0x64);
+        pokemon->afterimages[i].unk_16A += pokemon->afterimages[i].unk_16C;
+
+        tmp = SINS(pokemon->afterimages[i].unk_16A) * (BattleScene_GetParticipantModelRadiusScaled(pokemon) * sp4C[i]);
+        BattleAnim_Vec3fSetPolarXZ(&sp5C, tmp, pokemon->displayObject.rotation.y);
+
+        pokemon->afterimages[i].displayObject.position.x = pokemon->displayObject.position.x + sp5C.x;
+        pokemon->afterimages[i].displayObject.position.y = pokemon->displayObject.position.y + sp5C.y;
+        pokemon->afterimages[i].displayObject.position.z = pokemon->displayObject.position.z + sp5C.z;
+
+        ModelAnim_SetFrame(&pokemon->afterimages[i].displayObject, pokemon->displayObject.transformAnim.frameFixed >> 0x10);
+        ModelAnim_SetAnimation(&pokemon->afterimages[i].displayObject, pokemon->displayObject.transformAnim.animationId);
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821095B4.s")
 #endif
@@ -839,7 +862,69 @@ void BattleAnim_DrawParticleNoop(UNUSED Particle* arg0, UNUSED CameraNode* arg1)
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8210BB88; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_PlayTransformInducingAnimation(s32 side_index) {
+    ActivePokemon* owner = sActivePokemon[side_index];
+    ActivePokemon* animated_pokemon = sActivePokemon[side_index];
+
+    // Zero renumbers the transforms, so the cases call the Zero functions by address.
+    switch (sActivePokemon[side_index]->modelTransformId) {
+        case 0:
+            BattleAnim_DrawParticleNoop((Particle*)owner, (CameraNode*)animated_pokemon);
+            break;
+        case 1:
+            func_82109E0C((s32)owner, (s8*)animated_pokemon);
+            break;
+        case 2:
+            func_82109FA8((s32)owner, (s8*)animated_pokemon);
+            break;
+        case 3:
+            func_8210A120((s32)owner, (s8*)animated_pokemon);
+            break;
+        case 4:
+            func_8210A694(owner, animated_pokemon);
+            break;
+        case 5:
+            func_8210A8CC(owner, animated_pokemon);
+            break;
+        case 6:
+            func_8210ABC4(owner, animated_pokemon);
+            break;
+        case 7:
+            BattleAnim_PokeBallThrow(owner, animated_pokemon);
+            break;
+        case 8:
+            func_8210AFB8(owner, animated_pokemon);
+            break;
+        case 9:
+            func_8210B0FC(owner, animated_pokemon);
+            break;
+        case 10:
+            func_8210BB28(owner, animated_pokemon);
+            break;
+        case 11:
+            func_8210A3DC((s32)owner, (s8*)animated_pokemon);
+            break;
+        case 12:
+            func_8210B22C(owner, animated_pokemon);
+            break;
+        case 13:
+            func_8210B520(owner, animated_pokemon);
+            break;
+        case 14:
+            BattleAnim_Waterfall(owner, animated_pokemon);
+            break;
+        case 15:
+            func_8210B790((s32)owner, (s8*)animated_pokemon);
+            break;
+        case 16:
+            func_8210B9F8((s32)owner, (s8*)animated_pokemon);
+            break;
+        default:
+            BattleScene_ResetParticipantModelFlags(animated_pokemon);
+            break;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210BB88.s")
 #endif

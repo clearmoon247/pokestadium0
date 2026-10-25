@@ -67,16 +67,10 @@
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c": {
-    ".rodata": {
-      "address": "0x82196A60",
-      "size": "0x14"
-    }
+    ".rodata": "0x821969FC"
   },
   "src/fragments/fragment012_17ED00/battle_engine_3223B0.c": {
-    ".rodata": {
-      "address": "0x82196A90",
-      "size": "0x44"
-    }
+    ".rodata": "0x82196A90"
   },
   "src/fragments/fragment012_17ED00/battle_engine_3274D0.c": {
     ".rodata": "0x82196AF0"
