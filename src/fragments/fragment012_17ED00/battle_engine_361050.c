@@ -155,11 +155,31 @@ void BattleAI_ClampDamageRatio(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210EB28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210EB28.s")
-#endif
+extern u8 D_8219A497;
+typedef struct TypeMatchupZ {
+    /* 0x00 */ u8 attackType;
+    /* 0x01 */ u8 defendType;
+    /* 0x02 */ u8 multiplier;
+} TypeMatchupZ; // size = 0x3
+extern TypeMatchupZ D_8218AC50[];
+
+void func_8210EB28(u8* attacker, u8* defender) {
+    TypeMatchupZ* entry;
+    u8 attType1 = attacker[0x1C];
+    u8 attType2 = attacker[0x1D];
+    u8 defType1 = defender[0x1C];
+    u8 defType2 = defender[0x1D];
+    u8 moveType = D_8219A497;
+
+    if ((moveType == attType1) || (moveType == attType2)) {
+        D_82199F50 += D_82199F50 >> 1;
+    }
+    for (entry = D_8218AC50; entry->attackType != 0xFF; entry++) {
+        if ((entry->attackType == moveType) && ((entry->defendType == defType1) || (entry->defendType == defType2))) {
+            D_82199F50 = (D_82199F50 * entry->multiplier) / 10;
+        }
+    }
+}
 
 void BattleAI_PrepareDamageCalcState(BattleMonRuntime* arg0, BattleMonRuntime* arg1, u8 arg2) {
     MoveData* temp_v0 = &gMoveData[arg2 - 1];

@@ -207,11 +207,34 @@ void func_8212C6E8(ActivePokemon* arg0, CameraNode* arg1, s32 arg2) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212C78C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212C78C.s")
-#endif
+typedef struct MoveAnimInfoZ {
+    /* 0x00 */ u8 pad00[2];
+    /* 0x02 */ u16 unk_02;
+    /* 0x04 */ u8 pad04[2];
+    /* 0x06 */ u16 unk_06;
+    /* 0x08 */ u8 pad08[2];
+} MoveAnimInfoZ; // size = 0xA
+extern MoveAnimInfoZ D_80073D90[];
+void func_8212C60C(s32, s32);
+
+void func_8212C78C(s32 arg0) {
+    BattleMonRuntime* runtime;
+
+    runtime = &((ActivePokemon*)D_8219A544)->state.runtime;
+    M2C_FIELD(sBattleScene.scene, s32*, 0x54) = 0;
+    if (D_80073D90[runtime->usedMove - 1].unk_02 == 5) {
+        func_8212C398(arg0);
+    } else if (D_80073D90[runtime->usedMove - 1].unk_02 == 6) {
+        func_8212C454(arg0);
+    } else if (D_80073D90[runtime->usedMove - 1].unk_02 == 7) {
+        func_8212C530(arg0);
+    } else if (D_80073D90[runtime->usedMove - 1].unk_02 == 4) {
+        M2C_FIELD(sBattleScene.scene, s32*, 0x54) = 1;
+        func_8212C60C(arg0, D_80073D90[runtime->usedMove - 1].unk_02);
+    } else {
+        func_8212C60C(arg0, D_80073D90[runtime->usedMove - 1].unk_02);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212C874; signature not recovered. */
@@ -404,11 +427,23 @@ void func_8212EEC0(ActivePokemon* arg0, CameraNode* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212EF74.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212F044; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212F044.s")
-#endif
+void func_8212EF74(ActivePokemon*, CameraNode*);
+
+void func_8212F044(CameraNode* arg0) {
+    s32 other = sBattleScene.scene->unk_2C == 0;
+    ActivePokemon* opp = sActivePokemon[other];
+    BattleMonRuntime* runtime = &opp->state.runtime;
+
+    if (D_80073D90[runtime->usedMove - 1].unk_06 == 5) {
+        func_8212C6E8(opp, arg0, D_8219A568);
+    } else if (D_80073D90[runtime->usedMove - 1].unk_06 == 4) {
+        func_8212EEC0(opp, arg0);
+    } else if (D_80073D90[runtime->usedMove - 1].unk_06 == 6) {
+        func_8212EF74(opp, arg0);
+    } else {
+        func_8212C6E8(opp, arg0, D_80073D90[runtime->usedMove - 1].unk_06);
+    }
+}
 
 M2C_UNK func_8211EE8C();                            /* extern */
 M2C_UNK func_82125384();                            /* extern */

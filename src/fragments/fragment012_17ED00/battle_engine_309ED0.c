@@ -873,29 +873,125 @@ void func_821272C0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82128F2C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82128FBC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82128FBC.s")
-#endif
+void func_82124984(ActivePokemon* arg0, CameraNode* arg1, s32 arg2);
+void func_8212239C(ActivePokemon* arg0, CameraNode* arg1);
+void func_821228B0(CameraNode* arg0, ActivePokemon* arg1);
+s32 func_821058E8(ActivePokemon* arg0, s32 arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821290CC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821290CC.s")
-#endif
+void func_82128FBC(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            if (BattleScene_AdvanceCameraFrameCounter(0x14) != 0) {
+                BattleScene_SetPhaseFlag();
+                func_82124984((ActivePokemon*)D_8219A544, arg0, 0);
+                func_8212239C((ActivePokemon*)D_8219A544, arg0);
+                BattleScene_ResetCameraSubstepCounter();
+            }
+            break;
+        case 1:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            func_821228B0(arg0, (ActivePokemon*)D_8219A544);
+            if (BattleScene_AdvanceCameraSubstepCounter(0xF) != 0) {
+                Battle_ClearMessageCursor();
+            }
+            if (func_821058E8((ActivePokemon*)D_8219A544, 0x32) != 0) {
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraFrameCounter();
+                BattleScene_ClearPhaseFlag();
+                M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 0;
+                sBattleScene.scene->unk_20++;
+            }
+            break;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821291E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821291E4.s")
-#endif
+void func_821290CC(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            if (BattleScene_AdvanceCameraFrameCounter(0x14) != 0) {
+                BattleScene_SetPhaseFlag();
+                func_82124984((ActivePokemon*)D_8219A544, arg0, 1);
+                func_8212239C((ActivePokemon*)D_8219A544, arg0);
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraSubstepCounter();
+            }
+            break;
+        case 1:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            func_821228B0(arg0, (ActivePokemon*)D_8219A544);
+            if (BattleScene_AdvanceCameraSubstepCounter(0xF) != 0) {
+                Battle_ClearMessageCursor();
+            }
+            if (func_821058E8((ActivePokemon*)D_8219A544, 0x32) != 0) {
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraFrameCounter();
+                BattleScene_ClearPhaseFlag();
+                M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 0;
+                sBattleScene.scene->unk_20++;
+            }
+            break;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821292FC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821292FC.s")
-#endif
+void func_821291E4(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            if (BattleScene_AdvanceCameraFrameCounter(0x14) != 0) {
+                BattleScene_SetPhaseFlag();
+                func_82124984((ActivePokemon*)D_8219A544, arg0, 2);
+                func_8212239C((ActivePokemon*)D_8219A544, arg0);
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraSubstepCounter();
+            }
+            break;
+        case 1:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            func_821228B0(arg0, (ActivePokemon*)D_8219A544);
+            if (BattleScene_AdvanceCameraSubstepCounter(0xF) != 0) {
+                Battle_ClearMessageCursor();
+            }
+            if (func_821058E8((ActivePokemon*)D_8219A544, 0x32) != 0) {
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraFrameCounter();
+                BattleScene_ClearPhaseFlag();
+                M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 0;
+                sBattleScene.scene->unk_20++;
+            }
+            break;
+    }
+}
+
+void func_821292FC(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            if (BattleScene_AdvanceCameraFrameCounter(0x14) != 0) {
+                BattleScene_SetPhaseFlag();
+                func_82124984((ActivePokemon*)D_8219A544, arg0, 3);
+                func_8212239C((ActivePokemon*)D_8219A544, arg0);
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraSubstepCounter();
+            }
+            break;
+        case 1:
+            M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 4;
+            func_821228B0(arg0, (ActivePokemon*)D_8219A544);
+            if (BattleScene_AdvanceCameraSubstepCounter(0xF) != 0) {
+                Battle_ClearMessageCursor();
+            }
+            if (func_821058E8((ActivePokemon*)D_8219A544, 0x32) != 0) {
+                Battle_ClearMessageCursor();
+                BattleScene_ResetCameraFrameCounter();
+                BattleScene_ClearPhaseFlag();
+                M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 0;
+                sBattleScene.scene->unk_20++;
+            }
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82129414; signature not recovered. */
@@ -904,11 +1000,11 @@ void func_821272C0(s8 *arg0) {
 #endif
 
 extern s32 D_8219A568;
-void func_82128FBC(s32);
-void func_821290CC(s32);
-void func_821291E4(s32);
+void func_82128FBC(CameraNode*);
+void func_821290CC(CameraNode*);
+void func_821291E4(CameraNode*);
 
-void func_8212954C(s32 arg0) {
+void func_8212954C(CameraNode* arg0) {
     if (sBattleScene.scene->unk_3C == 0) {
         D_8219A568 = BattleAnim_RandomRange(3);
         if (D_8219A568 >= 4) {
@@ -987,11 +1083,33 @@ void BattleScene_ActionSetupAnimationVariantB(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82129D10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82129D10.s")
-#endif
+extern s32 D_8219A540;
+M2C_UNK func_82124284(s32, s32, f32);
+M2C_UNK func_821243DC(s32, s32, f32);
+f32 func_82107EC8(s32);
+
+void func_82129D10(CameraNode* arg0) {
+    M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 2;
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            BattleAnim_CleanupEffects(1);
+            BattleScene_ClearCameraOffsetVectors();
+            BattleScene_SetPhaseFlag();
+            func_82124284((s32)arg0, D_8219A540, func_82107EC8(D_8219A540) * 2.0f);
+            break;
+        case 1:
+            if (BattleAnim_IsSessionBusy((ActivePokemon*)D_8219A540) == 0) {
+                func_821243DC((s32)arg0, D_8219A540, func_82107EC8(D_8219A540) * 2.0f);
+                if (M2C_FIELD(sBattleScene.scene, f32*, 0x74) <= 1.0f) {
+                    BattleScene_CleanupParticipantEffectMode((ActivePokemon*)D_8219A544);
+                    sBattleScene.scene->unk_20++;
+                    BattleScene_ClearPhaseFlag();
+                    BattleScene_ResetCameraFrameCounter();
+                }
+            }
+            break;
+    }
+}
 
 M2C_UNK func_82106374(s32);                         /* extern */
 f32 func_82107EC8(s32);                             /* extern */
@@ -1075,11 +1193,11 @@ void func_8212A074(s32 arg0) {
 }
 
 extern s32 D_8219A568;
-void func_82129C1C(s32);
-void func_82129D10(s32);
+void func_82129C1C(CameraNode*);
+void func_82129D10(CameraNode*);
 void func_82129E30(s32);
 
-void func_8212A190(s32 arg0) {
+void func_8212A190(CameraNode* arg0) {
     if (sBattleScene.scene->unk_3C == 0) {
         D_8219A568 = BattleAnim_RandomRange(3);
         if (D_8219A568 >= 4) {
@@ -1094,7 +1212,7 @@ void func_8212A190(s32 arg0) {
             func_82129D10(arg0);
             break;
         case 2:
-            func_82129E30(arg0);
+            func_82129E30((s32)arg0);
             break;
         default:
             func_82129C1C(arg0);
@@ -1176,11 +1294,41 @@ void func_8212A554(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212A67C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212A768; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212A768.s")
-#endif
+void func_8212A5AC(ActivePokemon* arg0, CameraNode* arg1);
+void func_8212A67C(ActivePokemon* arg0, CameraNode* arg1);
+void func_821247F0(void*, void*);
+s32 func_82124810(void*, void*);
+void func_82124830(void*, void*);
+void func_82124874(void*, void*);
+
+void func_8212A768(ActivePokemon* arg0, CameraNode* arg1, s32 arg2) {
+    if (arg2 == 4) {
+        func_8212A5AC(arg0, arg1);
+    } else if (arg2 == 6) {
+        func_8212A67C(arg0, arg1);
+    } else {
+        if (arg2 == 5) {
+            arg2 = D_8219A568;
+        }
+        switch (arg2) {
+            case 0:
+                func_821247F0(arg1, arg0);
+                break;
+            case 1:
+                func_82124810(arg1, arg0);
+                break;
+            case 2:
+                func_82124830(arg1, arg0);
+                break;
+            case 3:
+                func_82124874(arg1, arg0);
+                break;
+            default:
+                func_82124874(arg1, arg0);
+                break;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212A850; signature not recovered. */

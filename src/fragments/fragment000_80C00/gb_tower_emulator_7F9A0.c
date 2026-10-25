@@ -407,11 +407,19 @@ void func_8110427C(u16* dst, u8* alpha_map, s32 color, s32 width, s32 height, u3
   }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110445C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110445C.s")
-#endif
+extern u16 D_811205F8[];
+extern u16 D_811206F8[];
+extern u16 D_811207F8[];
+
+void func_8110445C(u8* arg0, s32 arg1, s32 arg2) {
+    s32 i;
+
+    for (i = 8; i < arg2 - 8; i += 8) {
+        func_81103D60((u16*)arg0 + i, D_811206F8, arg1, 8, 0x10);
+    }
+    func_81103D60((u16*)arg0, D_811205F8, arg1, 8, 0x10);
+    func_81103D60((u16*)(arg0 + arg2 * 2 - 0x10), D_811207F8, arg1, 8, 0x10);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81104540; signature not recovered. */
