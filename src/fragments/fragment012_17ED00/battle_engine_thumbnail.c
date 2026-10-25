@@ -41,11 +41,33 @@ void BattleThumbnail_SetupOwnerCameraFraming(ActivePokemon* side1_pokemon, Activ
 void BattleThumbnail_OwnerCameraLifecycleNop(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821072F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821072F8.s")
-#endif
+void BattleThumbnail_ApplyOwnerCameraFraming(ActivePokemon* active_pokemon) {
+    s32 side;
+    CameraNode* camera;
+    f32 tmp_z;
+    f32 tmp_y;
+
+    camera = active_pokemon->thumbnail.camera;
+    side = BattleScene_GetParticipantSideIndex(active_pokemon);
+
+    active_pokemon->thumbnail.rotationX = sSidePresentationTransform[side]->unk_0C;
+    if (sSidePresentationTransform[side]->unk_10 == 0xFF) {
+        active_pokemon->thumbnail.rotationY = sSidePresentationTransform[side]->unk_0E * active_pokemon->thumbnail.side;
+        tmp_z = sSidePresentationTransform[side]->coordinates.z * active_pokemon->thumbnail.side;
+    } else {
+        active_pokemon->thumbnail.rotationY = sSidePresentationTransform[side]->unk_0E;
+        tmp_z = sSidePresentationTransform[side]->coordinates.z;
+    }
+
+    active_pokemon->thumbnail.z = tmp_z;
+    active_pokemon->thumbnail.x = sSidePresentationTransform[side]->coordinates.x;
+    active_pokemon->thumbnail.idleTimer = sSidePresentationTransform[side]->idleTimer;
+    tmp_y = sSidePresentationTransform[side]->coordinates.y;
+    active_pokemon->thumbnail.y = tmp_y;
+
+    BattleScene_SetCameraAtAndEyeFromAngles(camera, active_pokemon->thumbnail.displayObject.position.x + active_pokemon->thumbnail.z, active_pokemon->thumbnail.displayObject.position.y + tmp_y,
+                  active_pokemon->thumbnail.displayObject.position.z, active_pokemon->thumbnail.x, active_pokemon->thumbnail.rotationX, active_pokemon->thumbnail.rotationY);
+}
 
 /*
     Updates the camera coordinates for the owner's thumbnail.

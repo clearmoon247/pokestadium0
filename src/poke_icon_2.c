@@ -231,8 +231,33 @@ void PokeIcon_UpdatePreview(unk_func_8001B1FC* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019564.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800196F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800196F8.s")
-#endif
+extern s32 D_800AC834;
+extern s32 D_800AD1C4;
+void func_80019564();
+extern char D_80079A60[];
+extern char D_80079A70[];
+
+u8* PokeIcon_RenderPreview(unk_func_8001B1FC* arg0) {
+    PokeIcon_UpdatePreview(arg0);
+    GfxImage_SetRenderTarget(&gDisplayListHead, arg0->unk_28);
+    func_80019564(arg0);
+    GeoRender_AdvanceFrameCounter();
+    Geo_RenderRootNode(arg0->unk_20);
+
+    if (D_800AD1C4 > 0) {
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(8, -4);
+
+        switch (D_800AD1C4) {
+            case 1:
+                Font_Printf(0, 0x64, D_80079A60, arg0->unk_18, (s32)arg0->unk_24->position.y);
+                break;
+
+            case 2:
+                Font_Printf(0, 0x64, D_80079A70, (s32)arg0->unk_24->position.x, (s32)arg0->unk_24->position.z);
+                break;
+        }
+        Font_EndTexturedTextRendering();
+    }
+    return arg0->unk_28->img_p;
+}

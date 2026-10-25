@@ -393,11 +393,26 @@ void BattleScene_TickRow10CleanupAndEnterState18(ActivePokemon* active_pokemon) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210343C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82103600; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103600.s")
-#endif
+void func_82134DEC(s16);
+
+void BattleScene_TickRow1PlayOwnerCry(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    ActivePokemonState* state = &active_pokemon->state;
+    BattleMon* party_pokemon_ptr = &active_pokemon->teamRoster->pokemonPicked[M2C_FIELD(active_pokemon, s32*, 0x9D0)];
+
+    if ((state->flags & ACTIVE_UNDERGROUND) || (state->flags & ACTIVE_FREEZE) || (party_pokemon_ptr->statusCondition & STATUS_SLEEP_MASK)) {
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+    } else if (active_pokemon->animationTimer == 1) {
+        if (BattleAnim_IsAssetLoadBusy(active_pokemon) == 0) {
+            if (active_pokemon->displayObject.objectType >= SUBSTITUTE_DOLL) {
+                func_82134DEC(state->model);
+            } else {
+                func_82134DEC(active_pokemon->displayObject.objectType);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821036F4; signature not recovered. */
@@ -723,11 +738,29 @@ void func_821054A8(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821054C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821054C4.s")
-#endif
+void BattleAnim_SetModelEventTrackFromRow(ActivePokemon* pokemon, s32 cue_index) {
+    s32 random_offset;
+    s32 event_track;
+    ActivePokemonState* pokemon_state = &pokemon->state;
+
+    if (func_82101FC4(pokemon) == 0) {
+        event_track = sSideBattleCues[BattleScene_GetParticipantSideIndex(pokemon)]->moveCues[cue_index].unk_01;
+        if ((event_track != 0xFF) && (pokemon_state->unk_36 != 2)) {
+            if ((cue_index == BATTLE_CUE_IDLE) && (pokemon->displayObject.objectType == DUGTRIO)) {
+                ModelAnim_SetEventFrame(&pokemon->displayObject, 0);
+                random_offset = BattleAnim_RandomRange(3);
+                if (random_offset >= 3) {
+                    random_offset = 2;
+                }
+                ModelAnim_SetEventTrack(&pokemon->displayObject, event_track + random_offset);
+            } else {
+                ModelAnim_SetEventFrame(&pokemon->displayObject, 0);
+                ModelAnim_SetEventTrack(&pokemon->displayObject, event_track);
+                pokemon_state->unk_36 = 1;
+            }
+        }
+    }
+}
 
 s32 func_82101FC4();
 

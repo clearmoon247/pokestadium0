@@ -18,6 +18,7 @@
 #include "memory.h"
 #include "stage_loader.h"
 #include "m2c_macros.h"
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
 extern unk_D_84803760 D_82302B20[2];
 extern u16 D_82302800[];
 
@@ -47,14 +48,43 @@ void BattleMenu_FillDefaultOrder(s8* arg0, s32 arg1);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823003B8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82300488; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82300488.s")
-#endif
+extern u8* D_84803698[];
+extern u8* D_84803690[];
+extern u8* D_84803684[];
+extern u8* D_8480369C[][3];
+extern u8 D_03008880[];
+extern u8* D_823028CC[];
+extern u8* D_823028D8[];
+extern u8* D_823028E0[];
+extern u8* D_823028E4[][3];
+void BattleMenu_DrawSidebarLeadIcon(s32 arg0, s32 arg1, unk_D_84803760* arg2) {
+    u8* sp2C;
+
+    if (arg2->unk_0F == -1) {
+        if (arg2->unk_01 != 0) {
+            func_8001B884(arg0, arg1, 0x24, 0x1A, D_03008880, 0x24, 0x200000);
+        } else {
+            func_8001B884(arg0, arg1, 0x24, 0x1A, D_823028CC[arg2->unk_0E], 0x24, 0x200000);
+        }
+    } else {
+        switch (arg2->unk_0E) {
+            case 0:
+                sp2C = D_823028D8[arg2->unk_0F];
+                break;
+
+            case 1:
+                sp2C = D_823028E0[arg2->unk_0F];
+                break;
+
+            case 2:
+                sp2C = D_823028E4[0][arg2->unk_0F];
+                break;
+        }
+        func_8001B884(arg0, arg1, 0x24, 0x2D, sp2C, 0x24, 0x200000);
+    }
+}
 
 extern u8* D_823028E4[][3];
-void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
 
 s32 BattleMenu_DrawSidebarRowTypeIcon(s32 arg0, s32 arg1, s8 arg2, s8 arg3) {
     s32 sp34;
@@ -291,11 +321,36 @@ void func_82301B2C(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82301BBC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301BBC.s")
-#endif
+void func_82301A2C(unk_D_848037A0*, s32);
+
+void BattleMenu_HandleOrderSelectPanel_PartyInput(Controller* arg0, unk_D_848037A0* arg1) {
+    if (BTN_IS_PRESSED(arg0, BTN_R)) {
+        // clang-format off
+        arg1->unk_0009 = 1; arg1->unk_0006 = 2;
+        // clang-format on
+    }
+
+    if (arg0->unk_0A & 0x10) {
+        arg1->unk_0009 = 0;
+        arg1->unk_0006 = 2;
+    }
+
+    if (BTN_IS_PRESSED(arg0, BTN_L)) {
+        func_82301B2C(arg1);
+    } else if (BTN_IS_PRESSED(arg0, BTN_B)) {
+        func_82301A2C(arg1, 0);
+    } else if (BTN_IS_PRESSED(arg0, BTN_CLEFT)) {
+        func_82301A2C(arg1, 1);
+    } else if (BTN_IS_PRESSED(arg0, BTN_CUP)) {
+        func_82301A2C(arg1, 2);
+    } else if (BTN_IS_PRESSED(arg0, BTN_A)) {
+        func_82301A2C(arg1, 3);
+    } else if (BTN_IS_PRESSED(arg0, BTN_CDOWN)) {
+        func_82301A2C(arg1, 4);
+    } else if (BTN_IS_PRESSED(arg0, BTN_CRIGHT)) {
+        func_82301A2C(arg1, 5);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82301CCC; signature not recovered. */

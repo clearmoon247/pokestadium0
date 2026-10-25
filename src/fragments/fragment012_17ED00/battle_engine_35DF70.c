@@ -288,11 +288,28 @@ void Battle_Effect_Conversion(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115FCC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821162C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821162C4.s")
-#endif
+extern s32 D_8218C900;
+extern s32 D_8218C904;
+extern s32 D_8218C908;
+extern s32 D_8218C90C;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_Effect_ReflectLightScreen(void) {
+    sBattleScene.scene->unk_48 = 7;
+    if (sBattleUser->moveCache.unk_01 == 0x40) {
+        if (!(sBattleUser->unk_4E & 2)) {
+            sBattleUser->unk_4E |= 2;
+            func_8211EF74(D_8219A520 + 0x88, -0x2F, D_8218C900, func_82107F88(sActivePokemon[sBattleScene.scene->unk_2C]));
+        } else {
+            func_8211EF74(D_8219A520 + 0x88, -0x2E, D_8218C904);
+        }
+    } else if (!(sBattleUser->unk_4E & 4)) {
+        sBattleUser->unk_4E |= 4;
+        func_8211EF74(D_8219A520 + 0x88, -0x2D, D_8218C908, func_82107F88(sActivePokemon[sBattleScene.scene->unk_2C]));
+    } else {
+        func_8211EF74(D_8219A520 + 0x88, -0x2C, D_8218C90C);
+    }
+}
 
 void Battle_RunMoveEffect(void) {
     BattleMonRuntime* ptr = &sActivePokemon[sBattleScene.scene->unk_2C]->state.runtime;

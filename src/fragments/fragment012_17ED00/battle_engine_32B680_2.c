@@ -207,11 +207,19 @@ void func_82142048(Particle* arg0, u8* arg1) {
     ParticleGfx_DrawI4TextureAtlas(sBattleAnimAssetPointers[0x5E], D_82191480, 0x40, 0x40, 0x40, 0x40);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82142124; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82142124.s")
-#endif
+extern Vtx D_8140E018[];
+extern Vtx D_84385CC0[];
+extern Vtx D_84385D00[];
+void BattleAnim_DrawAsset1AFrameI4Quad(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_82190548);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x1A] + (arg0->unk_C7 << 9), 0x20, 0x20);
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuad(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82190E50);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
 
 void BattleAnim_DrawAsset1CRgba16Quad(Particle* arg0, UNUSED CameraNode* arg1) {
     gSPDisplayList(gDisplayListHead++, D_821903D0);
@@ -255,23 +263,45 @@ void func_8214243C(Particle* arg0, UNUSED CameraNode* arg1) {
 void func_82142678(UNUSED ActivePokemon* active_pokemon, UNUSED s32 unused) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82142684; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82142684.s")
-#endif
+extern Vtx D_82191100[];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821427BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821427BC.s")
-#endif
+void BattleAnim_DrawAsset13FrameI4YScaledQuadA(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_82190548);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821428F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821428F8.s")
-#endif
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x13] + (gParticleFrameMod8 * 0x600), 0x20, 0x60);
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_DrawTransformedQuadYScaled(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82191100);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
+
+extern Vtx D_82191140[];
+
+void BattleAnim_DrawAsset13FrameI4YScaledQuadB(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_82190548);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x13] + (gParticleFrameMod8 * 0x600), 0x20, 0x60);
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuadYScaled(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82191140);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
+
+extern Vtx D_82191180[];
+void func_821428F8(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPDisplayList(gDisplayListHead++, D_82190548);
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_LoadTextureI4Alias(sBattleAnimAssetPointers[0x13] + (gParticleFrameMod8 * 0x600), 0x20, 0x60);
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuadYScaled(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82191180);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
 
 extern Vtx D_82191100[];
 

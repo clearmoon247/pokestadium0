@@ -430,11 +430,27 @@ void func_82134DC8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134E18.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134EBC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134EBC.s")
-#endif
+void BattleAnim_PlayBattleSequenceById(ActivePokemon* active_pokemon, s32 sequence_id) {
+    s16 species = active_pokemon->displayObject.objectType;
+
+    if (sequence_id == 0x14) {
+        Audio_PlayCommand(0x14, 0, 0);
+    } else if (sequence_id == 0x12) {
+        Audio_PlayCommand(0x12, 0, 0);
+    } else if (sequence_id == 0x32) {
+        Audio_PlayCommand(0x32, species, 0);
+    } else if (sequence_id == 0x21) {
+        Audio_PlayCommand(0x21, 0, 0);
+    } else if (sequence_id == 0x13) {
+        Audio_PlayCommand(0x13, 0, 0);
+    } else if (sequence_id == 0x1E) {
+        Audio_PlayCommand(0x1E, 0, 0);
+    } else if (sequence_id == 0x1F) {
+        Audio_PlayCommand(0x1F, 0, 0);
+    } else if (sequence_id == 0x20) {
+        Audio_PlayCommand(0x20, 0, 0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82134FD0; signature not recovered. */

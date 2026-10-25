@@ -159,11 +159,46 @@ s32 func_81102168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102460.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102690; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102690.s")
-#endif
+s32 func_811021D4(u8*);
+s32 func_81102344(u8*, s32);
+s32 func_811023DC(OSPfs*);
+
+s32 GbPak_TransferBankedRam(u8* arg0, s32 arg1) {
+    s32 temp_v0;
+    s32 var_s0;
+    s32 var_s1;
+    u8* var_s3;
+    s32 var_v0;
+    s32 var_v1;
+    s32 var_s2;
+
+    var_v0 = func_811021D4(arg0);
+    var_v1 = var_v0;
+    var_s3 = M2C_FIELD(arg0, u8**, 0x54);
+    var_s2 = M2C_FIELD(arg0, s32*, 0x8C);
+    var_s1 = M2C_FIELD(arg0, s32*, 0x80);
+    while ((var_v0 == 0) && (var_s1 != 0)) {
+        var_v0 = func_81102344(arg0, var_s2 / 0x2000);
+        var_v1 = var_v0;
+        if (var_v0 == 0) {
+            temp_v0 = var_s2 & 0x1FFF;
+            if ((temp_v0 + var_s1) >= 0x2001) {
+                var_s0 = 0x2000 - temp_v0;
+            } else {
+                var_s0 = var_s1;
+            }
+            var_v0 = osGbpakReadWrite(M2C_FIELD(arg0, OSPfs**, 0x50), arg1, (temp_v0 | 0xA000) & 0xFFFF, var_s3, var_s0);
+            var_v1 = var_v0;
+            var_s3 += var_s0;
+            var_s1 -= var_s0;
+            var_s2 = (var_s2 + 0x2000) & ~0x1FFF;
+        }
+    }
+    if (var_v0 == 0) {
+        var_v1 = func_811023DC(M2C_FIELD(arg0, OSPfs**, 0x50));
+    }
+    return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811027A8; signature not recovered. */
