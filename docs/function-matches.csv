@@ -4,7 +4,7 @@ func_80000550,0x80000550,src/1060.c,func_80000550,m2c,m2c,c
 func_80025530,0x80025530,src/26130.c,,asm,,asm
 func_8002D880,0x8002D880,src/2E480.c,,asm,,asm
 func_8002D8D8,0x8002D8D8,src/2E480.c,func_8002D8D8,m2c,m2c,c
-func_8002D900,0x8002D900,src/2E480.c,,asm,,asm
+func_8002D900,0x8002D900,src/2E480.c,func_8002D900,hand,,c
 func_8002D948,0x8002D948,src/2E480.c,,asm,,asm
 func_8002D9B8,0x8002D9B8,src/2E480.c,,asm,,asm
 func_8002DAD8,0x8002DAD8,src/2E480.c,,asm,,asm
@@ -13,7 +13,7 @@ func_8002DCE0,0x8002DCE0,src/2E480.c,,asm,,asm
 func_8002DDFC,0x8002DDFC,src/2E480.c,,asm,,asm
 func_8002DECC,0x8002DECC,src/2E480.c,,asm,,asm
 func_8002DF2C,0x8002DF2C,src/2E480.c,func_8002DF2C,m2c,m2c,c
-func_8002DF54,0x8002DF54,src/2E480.c,,asm,,asm
+func_8002DF54,0x8002DF54,src/2E480.c,func_8002DF54,hand,,c
 func_8002DF9C,0x8002DF9C,src/2E480.c,,asm,,asm
 func_8002E078,0x8002E078,src/2E480.c,,asm,,asm
 func_8002E230,0x8002E230,src/2E480.c,,asm,,asm
@@ -940,7 +940,7 @@ func_81800634,0x81800634,src/fragments/fragment011_17E340/area_select.c,,asm,,as
 func_8210C6B0,0x8210C6B0,src/fragments/fragment012_17ED00/8210C6B0.c,func_8210C6B0,m2c,m2c,c
 func_8210C6F8,0x8210C6F8,src/fragments/fragment012_17ED00/8210C6B0.c,func_8210C6F8,m2c,m2c,c
 func_8210C708,0x8210C708,src/fragments/fragment012_17ED00/8210C6B0.c,func_8210C708,m2c,m2c,c
-func_8210C738,0x8210C738,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
+func_8210C738,0x8210C738,src/fragments/fragment012_17ED00/8210C6B0.c,BattleScene_SelectActiveController,hand,,c
 func_8210C778,0x8210C778,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210C82C,0x8210C82C,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
 func_8210C8A0,0x8210C8A0,src/fragments/fragment012_17ED00/8210C6B0.c,,asm,,asm
@@ -3187,7 +3187,7 @@ func_8213D260,0x8213D260,src/fragments/fragment012_17ED00/particle_math_269820_2
 func_8213D284,0x8213D284,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D284,m2c,m2c,c
 func_8213D294,0x8213D294,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_TickPhaseTimer,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213D30C,0x8213D30C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
-func_8213D3FC,0x8213D3FC,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
+func_8213D3FC,0x8213D3FC,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_SetPosition,hand,,c
 func_8213D43C,0x8213D43C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field38_SetVecFromVec3fScaled_08C20,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213D484,0x8213D484,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D484,m2c,m2c,c
 func_8213D4A4,0x8213D4A4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213D4A4,m2c,m2c,c
@@ -3223,7 +3223,7 @@ func_8213DE50,0x8213DE50,src/fragments/fragment012_17ED00/particle_math_269820_2
 func_8213DF24,0x8213DF24,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_SetRandomRotatedVelocityXY,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213DFF4,0x8213DFF4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213DFF4,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213E0A4,0x8213E0A4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213E0A4,m2c,m2c,c
-func_8213E0C4,0x8213E0C4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
+func_8213E0C4,0x8213E0C4,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213E0C4,hand,,c
 func_8213E104,0x8213E104,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213E104,m2c,m2c,c
 func_8213E11C,0x8213E11C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field50_SetXScaled_098E8,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213E134,0x8213E134,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field50_SetYScaled_09900,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
@@ -3331,8 +3331,8 @@ func_8213F640,0x8213F640,src/fragments/fragment012_17ED00/particle_math_269820_2
 func_8213F658,0x8213F658,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F658,hand,,c
 func_8213F69C,0x8213F69C,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F69C,hand,,c
 func_8213F6DC,0x8213F6DC,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field74_Approach_0ADBC,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
-func_8213F720,0x8213F720,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
-func_8213F768,0x8213F768,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
+func_8213F720,0x8213F720,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F720,hand,,c
+func_8213F768,0x8213F768,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F768,hand,,c
 func_8213F7A8,0x8213F7A8,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F7A8,m2c,m2c,c
 func_8213F7C0,0x8213F7C0,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F7C0,m2c,m2c,c
 func_8213F7D8,0x8213F7D8,src/fragments/fragment012_17ED00/particle_math_269820_2.c,func_8213F7D8,m2c,m2c,c
@@ -3348,7 +3348,7 @@ func_8213FA60,0x8213FA60,src/fragments/fragment012_17ED00/particle_math_269820_2
 func_8213FA88,0x8213FA88,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
 func_8213FAB0,0x8213FAB0,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field7C_SetYFromField74AngleX_0B1C4,hand,,c
 func_8213FAD8,0x8213FAD8,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
-func_8213FB14,0x8213FB14,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
+func_8213FB14,0x8213FB14,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field7C_SetXYFromField74AngleZ_0B23C,hand,,c
 func_8213FB50,0x8213FB50,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field7C_SetVecFromField74AnglesXY_0B2B4,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
 func_8213FBCC,0x8213FBCC,src/fragments/fragment012_17ED00/particle_math_269820_2.c,,asm,,asm
 func_8213FC48,0x8213FC48,src/fragments/fragment012_17ED00/particle_math_269820_2.c,Particle_Field7C_SetVecFromField74AnglesXYAlt_0B3AC,s1,stadium1:src/fragments/particle_math/particle_math_269820.c,c
@@ -3434,8 +3434,8 @@ func_821415CC,0x821415CC,src/fragments/fragment012_17ED00/particle_math_26E6D0_2
 func_821416BC,0x821416BC,src/fragments/fragment012_17ED00/particle_math_26E6D0_2.c,,asm,,asm
 func_82143380,0x82143380,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,ParticleGfx_CopyPaletteRgb,s1,stadium1:src/fragments/particle_math/particle_math_26E6D0.c,c
 func_821433B8,0x821433B8,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,ParticleGfx_CopyPalettePairRgb,s1,stadium1:src/fragments/particle_math/particle_math_26E6D0.c,c
-func_82143408,0x82143408,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,,asm,,asm
-func_82143440,0x82143440,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,,asm,,asm
+func_82143408,0x82143408,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,func_82143408,hand,,c
+func_82143440,0x82143440,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,func_82143440,hand,,c
 func_82143478,0x82143478,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,ParticleGfx_RecolorPrimEnvFromPalettePair,s1,stadium1:src/fragments/particle_math/particle_math_26E6D0.c,c
 func_821434C8,0x821434C8,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,ParticleGfx_RecolorPrimFromPaletteSetA,s1,stadium1:src/fragments/particle_math/particle_math_26E6D0.c,c
 func_821434FC,0x821434FC,src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c,ParticleGfx_RecolorEnvFromPaletteSetA,s1,stadium1:src/fragments/particle_math/particle_math_26E6D0.c,c
@@ -3710,7 +3710,7 @@ func_891031B8,0x891031B8,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
 func_89103274,0x89103274,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
 func_89103370,0x89103370,src/fragments/fragment016_252E10/89100020.c,func_89103370,m2c,m2c,c
 func_891033A0,0x891033A0,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
-func_891035E4,0x891035E4,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
+func_891035E4,0x891035E4,src/fragments/fragment016_252E10/89100020.c,func_891035E4,hand,,c
 func_89103620,0x89103620,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
 func_89103740,0x89103740,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
 func_89103858,0x89103858,src/fragments/fragment016_252E10/89100020.c,,asm,,asm
@@ -5349,7 +5349,7 @@ func_80004CC8,0x80004CC8,src/scheduler.c,Sched_HandleRdpEvent,s1,stadium1:src/sc
 func_80004D14,0x80004D14,src/scheduler.c,,asm,,asm
 func_80004E34,0x80004E34,src/scheduler.c,Sched_Init,s1,stadium1:src/scheduler.c,c
 func_80004EA8,0x80004EA8,src/scheduler.c,func_80004EA8,m2c,m2c+permuter,c
-func_80004EF0,0x80004EF0,src/scheduler.c,,asm,,asm
+func_80004EF0,0x80004EF0,src/scheduler.c,Sched_RemoveClient,hand,,c
 func_80004F34,0x80004F34,src/scheduler.c,Sched_SubmitTask,s1,stadium1:src/scheduler.c,c
 func_80005014,0x80005014,src/scheduler.c,func_80005014,m2c,m2c,c
 func_80005980,0x80005980,src/stage_loader.c,,asm,,asm
@@ -5431,7 +5431,7 @@ func_80002D98,0x80002D98,src/util.c,Util_Malloc,s1,stadium1:src/util.c,c
 func_80002DC0,0x80002DC0,src/util.c,Util_Free,s1,stadium1:src/util.c,c
 func_80002DE8,0x80002DE8,src/util.c,Util_DrawRect,s1,stadium1:src/util.c,c
 func_80002EC8,0x80002EC8,src/util.c,,asm,,asm
-func_800030B0,0x800030B0,src/util.c,,asm,,asm
+func_800030B0,0x800030B0,src/util.c,Util_Memclear,hand,,c
 func_800030EC,0x800030EC,src/util.c,,asm,,asm
 func_80031D20,0x80031D20,src/vector_math.c,Mtx_BuildDirectionRotation,s1,stadium1:src/vector_math.c,c
 func_80031E7C,0x80031E7C,src/vector_math.c,Math_AbsF32,s1,stadium1:src/vector_math.c,c

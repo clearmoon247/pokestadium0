@@ -256,11 +256,11 @@ s32 Particle_TickPhaseTimer(Particle* arg0, s16 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D30C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D3FC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D3FC.s")
-#endif
+void func_8213D3FC(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x34) = arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x34 + 4) = arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x34 + 8) = arg3 * gParticleRenderContext.unk_00.y;
+}
 
 void Particle_Field38_SetVecFromVec3fScaled_08C20(Particle* arg0, Vec3f arg1) {
     arg0->unk_38.x = arg1.x * gParticleRenderContext.unk_00.y;
@@ -533,11 +533,11 @@ void func_8213E0A4(s8 *arg0, f32 arg1, f32 arg2, f32 arg3) {
     M2C_FIELD(arg0, f32 *, 0x6C) = arg3;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E0C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E0C4.s")
-#endif
+void func_8213E0C4(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x4C) = arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x4C + 4) = arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x4C + 8) = arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -1172,17 +1172,17 @@ s32 Particle_Field74_Approach_0ADBC(Particle* arg0, f32 arg1, f32 arg2) {
     return ParticleMath_ApproachFloat(&arg0->unk_78, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F720; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F720.s")
-#endif
+void func_8213F720(Particle* arg0, Vec3f arg1) {
+    M2C_FIELD(arg0, f32*, 0x78) = arg1.x * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x7C) = arg1.y * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x80) = arg1.z * gParticleRenderContext.unk_00.y;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F768; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F768.s")
-#endif
+void func_8213F768(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x78) = arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x78 + 4) = arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x78 + 8) = arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -1308,11 +1308,10 @@ void Particle_Field7C_SetYFromField74AngleX_0B1C4(Particle* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FAD8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FB14; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FB14.s")
-#endif
+void Particle_Field7C_SetXYFromField74AngleZ_0B23C(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x78) = SINS(M2C_FIELD(arg0, u16*, 0x92)) * arg0->unk_74;
+    M2C_FIELD(arg0, f32*, 0x80) = COSS(M2C_FIELD(arg0, u16*, 0x92)) * arg0->unk_74;
+}
 
 void Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(Particle* arg0) {
     arg0->unk_7C.x = arg0->unk_74 * COSS(arg0->unk_94.x) * SINS(arg0->unk_94.y);

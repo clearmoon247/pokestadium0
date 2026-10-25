@@ -372,11 +372,14 @@ s32 func_89103370(s8 **arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891033A0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_891035E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891035E4.s")
-#endif
+void func_891035E4(u8* arg0) {
+    s32 i;
+    s32** ptr = M2C_FIELD(arg0, s32***, 0x14);
+
+    for (i = 0; i < M2C_FIELD(arg0, s32*, 0x1C); i++) {
+        (*ptr++)[1] = i;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89103620; signature not recovered. */

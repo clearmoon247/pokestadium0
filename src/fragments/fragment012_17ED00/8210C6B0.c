@@ -34,11 +34,12 @@ s32 func_8210C708(s8 *arg0) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210C738; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C738.s")
-#endif
+void BattleScene_SelectActiveController(ActivePokemon* arg0) {
+    ActivePokemonState* ptr = &arg0->state;
+
+    M2C_FIELD(arg0, u8*, 0x7B9) = M2C_FIELD(arg0, u8*, 0x7B8);
+    ptr->controller = &gControllers[arg0->sessionTeams->teamMember[M2C_FIELD(arg0, u8*, 0x7B9)]->controllerPort];
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210C778; signature not recovered. */

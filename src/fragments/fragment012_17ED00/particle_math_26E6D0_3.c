@@ -71,17 +71,17 @@ void ParticleGfx_CopyPalettePairRgb(u8* arg0, u8* arg1, u16 arg2) {
     ParticleGfx_CopyPaletteRgb(arg1, sp1E);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143408; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143408.s")
-#endif
+void func_82143408(u8* arg0, u16 arg1) {
+    arg0[0xBA] = gParticlePalette[arg1][0];
+    arg0[0xBB] = gParticlePalette[arg1][1];
+    arg0[0xBC] = gParticlePalette[arg1][2];
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82143440; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82143440.s")
-#endif
+void func_82143440(u8* arg0, u16 arg1) {
+    arg0[0xBD] = gParticlePalette[arg1][0];
+    arg0[0xBE] = gParticlePalette[arg1][1];
+    arg0[0xBF] = gParticlePalette[arg1][2];
+}
 
 void ParticleGfx_RecolorPrimEnvFromPalettePair(Particle* arg0, u16 arg1) {
     u8 sp1C = gParticlePalettePairs[arg1][0];
