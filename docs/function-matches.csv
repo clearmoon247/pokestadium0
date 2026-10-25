@@ -663,8 +663,8 @@ func_8230016C,0x8230016C,src/fragments/fragment005_15FCE0/battle_order_select.c,
 func_823003B8,0x823003B8,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
 func_82300488,0x82300488,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
 func_823005B4,0x823005B4,src/fragments/fragment005_15FCE0/battle_order_select.c,BattleMenu_DrawSidebarRowTypeIcon,hand,,c
-func_823006D8,0x823006D8,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
-func_823008DC,0x823008DC,src/fragments/fragment005_15FCE0/battle_order_select.c,,asm,,asm
+func_823006D8,0x823006D8,src/fragments/fragment005_15FCE0/battle_order_select.c,BattleMenu_DrawTeamOrderSidebarTeam0,hand,,c
+func_823008DC,0x823008DC,src/fragments/fragment005_15FCE0/battle_order_select.c,BattleMenu_DrawTeamOrderSidebarTeam1,hand,,c
 func_82300AE0,0x82300AE0,src/fragments/fragment005_15FCE0/battle_order_select.c,BattleMenu_AppendOrderSlotIcon,s1,stadium1:src/fragments/battle_order_select/battle_order_select.c,c
 func_82300B30,0x82300B30,src/fragments/fragment005_15FCE0/battle_order_select.c,BattleMenu_ResetOrderSlotIcons,s1,stadium1:src/fragments/battle_order_select/battle_order_select.c,c
 func_82300B6C,0x82300B6C,src/fragments/fragment005_15FCE0/battle_order_select.c,BattleMenu_DrawBorderedPanel,s1,stadium1:src/fragments/battle_order_select/battle_order_select.c,c
@@ -1383,7 +1383,7 @@ func_82140AB4,0x82140AB4,src/fragments/fragment012_17ED00/battle_engine_31A7E0.c
 func_82140B0C,0x82140B0C,src/fragments/fragment012_17ED00/battle_engine_31A7E0.c,BattleAnim_ConfigureSecondaryOwnerParticleVariant,s1,stadium1:src/fragments/battle_engine/battle_engine_31A7E0.c,c
 func_82113660,0x82113660,src/fragments/fragment012_17ED00/battle_engine_31C660.c,func_82113660,s1,stadium1:src/fragments/battle_engine/battle_engine_31C660.c,c
 func_82113668,0x82113668,src/fragments/fragment012_17ED00/battle_engine_31C660.c,,asm,,asm
-func_821138A0,0x821138A0,src/fragments/fragment012_17ED00/battle_engine_31C660.c,,asm,,asm
+func_821138A0,0x821138A0,src/fragments/fragment012_17ED00/battle_engine_31C660.c,Battle_Effect_Poison,hand,,c
 func_82113B74,0x82113B74,src/fragments/fragment012_17ED00/battle_engine_31C660.c,Battle_Effect_DrainHP,hand,,c
 func_82113C94,0x82113C94,src/fragments/fragment012_17ED00/battle_engine_31C660.c,Battle_Effect_Explosion,s1,stadium1:src/fragments/battle_engine/battle_engine_35DF70.c,c
 func_82113CD0,0x82113CD0,src/fragments/fragment012_17ED00/battle_engine_31C660.c,,asm,,asm

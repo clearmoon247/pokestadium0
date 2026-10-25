@@ -334,6 +334,7 @@ void Battle_PlayMoveSound(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821112AC.s")
 #endif
 
+extern u8 D_82199F3F;
 #ifdef NON_MATCHING
 /* TODO: decompile func_821113E8; signature not recovered. */
 #else

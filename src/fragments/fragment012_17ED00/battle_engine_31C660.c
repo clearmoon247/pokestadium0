@@ -26,11 +26,67 @@ void func_82113660(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113668.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821138A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821138A0.s")
-#endif
+extern s32 D_8218C7C8;
+extern s32 D_8218C7CC;
+extern s32 D_8218C7D0;
+extern s32 D_8218C7D4;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_Effect_Poison(void) {
+    s32 sp1C = D_8219A520 + 0x88;
+
+    if (!(sBattleTarget->unk_4D & 0x10) && (sBattleTarget->unk_15 == 0) && (sBattleTarget->roster[6] != 3) &&
+        (sBattleTarget->roster[7] != 3)) {
+        switch (sBattleUser->moveCache.unk_01) {
+            case 2:
+                if (sBattleScene.scene->unk_48 != 0x18) {
+                    sBattleScene.scene->unk_48 = 0;
+                    sp1C = D_8219A520 + 0x208;
+                } else {
+                    sp1C = D_8219A520 + 0x308;
+                }
+
+                if (Battle_Random() >= 0x34) {
+                    return;
+                }
+                break;
+
+            case 33:
+                sBattleScene.scene->unk_48 = 0;
+                sp1C = D_8219A520 + 0x208;
+                if (Battle_Random() >= 0x67) {
+                    return;
+                }
+                break;
+
+            default:
+                sBattleScene.scene->unk_48 = 0x16;
+                sTypeEffectiveness = 0xA;
+                HandleMoveEffectFlags();
+                if (sBattleMoveFailed != 0) {
+                    func_8211EF74(sp1C, -0x7D, D_8218C7C8, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                    return;
+                }
+                break;
+        }
+
+        sBattleTarget->unk_15 |= 8;
+        if (sBattleUser->moveCache.lastMove == TOXIC) {
+            sBattleTarget->unk_4E |= 1;
+            sBattleTarget->unk_51 = 0;
+            func_8211EF74(sp1C, -0x7C, D_8218C7CC, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+        } else {
+            func_8211EF74(sp1C, -0x7B, D_8218C7D0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+        }
+    } else if (sBattleUser->moveCache.unk_01 == 0x42) {
+        if (sBattleScene.scene->unk_48 != 0x18) {
+            sBattleMoveFailed = 1;
+            sBattleScene.scene->unk_48 = 0x16;
+            sConfused = 0;
+        }
+        func_8211EF74(sp1C, -0x7A, D_8218C7D4, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+    }
+}
 
 extern s32 D_8218C7D8;
 extern s32 D_8218C7DC;

@@ -477,6 +477,8 @@ void func_80012CC0(s8 *arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80012E68.s")
 #endif
 
+extern s16 D_8006F2A4[];
+extern unk_D_800ABB28* D_800ABCB8;
 #ifdef NON_MATCHING
 /* TODO: decompile func_80012EAC; signature not recovered. */
 #else

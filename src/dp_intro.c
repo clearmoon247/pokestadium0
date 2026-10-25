@@ -122,6 +122,24 @@ void func_800012AC(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80001558.s")
 #endif
 
+extern u8 D_80087B74[];
+extern u8 D_80087B64[];
+extern OSMesgQueue D_80087ACC;
+extern OSMesg D_80087ABC;
+extern u8 D_80087AE8[];
+extern OSMesgQueue D_80087A8C;
+extern OSMesgQueue D_80087AA4;
+void func_800594D0(u32);
+void func_80001A30(void*, u8, u8, u8, u8, s32, s32, s32);
+void func_80004EA8(OSMesg*);
+void func_80001140(void*);
+void func_800081E0(s32);
+s32 func_8004D1C0(OSMesgQueue*, OSMesg*, s32);
+s32 func_8004CFB0(OSMesgQueue*, OSMesg, s32);
+void func_800012AC(s8* arg0);
+void func_80001328(void);
+void func_80001558(void);
+
 #ifdef NON_MATCHING
 /* TODO: decompile func_800016C4; signature not recovered. */
 #else

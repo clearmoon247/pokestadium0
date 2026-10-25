@@ -741,7 +741,55 @@ void func_821054A8(s8 *arg0) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82105AB0; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+s32 BattleScene_IsMoveKeyedRowWaitComplete(ActivePokemon* active_pokemon, s32 frame_limit) {
+    MovePresentationCue* idle_cue;
+    BattleMon* party_pokemon;
+    UNUSED s32 pad;
+    s32 charge_move;
+    MovePresentationCue* move_cue;
+
+    party_pokemon = &active_pokemon->teamRoster->pokemonPicked[M2C_FIELD(active_pokemon, s32*, 0x9D0)];
+    charge_move = sChargeMoveCues[active_pokemon->state.runtime.usedMove - 1];
+    move_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[charge_move];
+    idle_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->idleCues;
+
+    if ((active_pokemon->state.flags & ACTIVE_FREEZE) || (party_pokemon->statusCondition & STATUS_SLEEP_MASK) ||
+        ((active_pokemon->state.flags & ACTIVE_AIRBORNE) && !(active_pokemon->state.flags & ACTIVE_AIR_ACTION)) || (active_pokemon->state.flags & ACTIVE_UNDERGROUND)) {
+        if (BattleScene_AdvanceCameraFrameCounter(frame_limit) != 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    if (active_pokemon->displayObject.transformAnim.animationId == -1) {
+        return 1;
+    }
+
+    if (move_cue->id == idle_cue->id) {
+        if (move_cue->frameCounter != 0xFF) {
+            sBattleScene.scene->unk_14++;
+            if (move_cue->frameCounter == active_pokemon->animationTimer) {
+                return 1;
+            }
+            return 0;
+        }
+        if (BattleScene_AdvanceCameraFrameCounter(frame_limit) != 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    sBattleScene.scene->unk_14++;
+
+    if (move_cue->frameCounter != 0xFF) {
+        if (move_cue->frameCounter == active_pokemon->animationTimer) {
+            return 1;
+        }
+        return 0;
+    }
+    return ModelAnim_IsAnimationDone(&active_pokemon->displayObject);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105AB0.s")
 #endif

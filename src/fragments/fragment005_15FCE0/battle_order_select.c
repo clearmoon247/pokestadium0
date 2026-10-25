@@ -86,17 +86,75 @@ s32 BattleMenu_DrawSidebarRowTypeIcon(s32 arg0, s32 arg1, s8 arg2, s8 arg3) {
     return arg2;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_823006D8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823006D8.s")
-#endif
+void BattleMenu_DrawTeamOrderSidebarTeam0(void) {
+    unk_D_84803760* temp_v0 = &D_82302B20[0];
+    s32 i;
+    s16 var_s2;
+    s32 var_s1;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_823008DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823008DC.s")
-#endif
+    if (temp_v0->unk_0F == -1) {
+        var_s2 = 0x3F;
+    } else {
+        var_s2 = 0x4A;
+    }
+
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+
+    func_8001B884(0x2D, var_s2, 0x20, 0xC, D_3003C80, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0xC, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x23, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x3A, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x51, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x25, var_s2 + 0x68, 0x28, 0x2E, D_3002E20, 0x28, 0x200000);
+
+    if (temp_v0->unk_0F == -1) {
+        BattleMenu_DrawSidebarLeadIcon(0x2D, 0x21, &D_82302B20[0]);
+    } else {
+        BattleMenu_DrawSidebarLeadIcon(0x2D, 0x1D, &D_82302B20[0]);
+    }
+
+    var_s1 = var_s2 + 0x76;
+    for (i = 0; i < 6; i++) {
+        temp_v0->unk_02[i] = BattleMenu_DrawSidebarRowTypeIcon(0x2D, var_s1 - i * 0x17, temp_v0->unk_02[i], temp_v0->unk_08[i]);
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
+
+void BattleMenu_DrawTeamOrderSidebarTeam1(void) {
+    unk_D_84803760* temp_v0 = &D_82302B20[1];
+    s32 i;
+    s16 var_s2;
+    s32 var_s1;
+
+    if (temp_v0->unk_0F == -1) {
+        var_s2 = 0xF1;
+    } else {
+        var_s2 = 0xE6;
+    }
+
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+
+    func_8001B884(0x2D, var_s2, 0x28, 0x2C, D_3003F80, 0x28, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x2C, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x43, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x5A, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x71, 0x20, 0x17, D_30050C0, 0x20, 0x200000);
+    func_8001B884(0x2D, var_s2 + 0x88, 0x20, 0xE, D_3004D40, 0x20, 0x200000);
+
+    if (temp_v0->unk_0F == -1) {
+        BattleMenu_DrawSidebarLeadIcon(0x2D, 0x189, &D_82302B20[1]);
+    } else {
+        BattleMenu_DrawSidebarLeadIcon(0x2D, 0x17C, &D_82302B20[1]);
+    }
+
+    var_s1 = var_s2 + 0xC;
+    for (i = 0; i < 6; i++) {
+        temp_v0->unk_02[i] = BattleMenu_DrawSidebarRowTypeIcon(0x2D, var_s1 + i * 0x17, temp_v0->unk_02[i], temp_v0->unk_08[i]);
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 void BattleMenu_AppendOrderSlotIcon(s32 arg0, s32 arg1) {
     unk_D_84803760* temp_v0 = &D_82302B20[arg0];
