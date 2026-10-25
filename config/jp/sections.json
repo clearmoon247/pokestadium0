@@ -54,6 +54,12 @@
       "size": "0x8"
     }
   },
+  "src/fragments/fragment012_17ED00/battle_engine_315D50_2.c": {
+    ".rodata": {
+      "address": "0x82196848",
+      "size": "0x18"
+    }
+  },
   "src/fragments/fragment012_17ED00/battle_engine_317E70_2.c": {
     ".rodata": {
       "address": "0x821968DC",
@@ -167,6 +173,12 @@
   "src/fragments/fragment016_252E10/lab_pc_list_1E46B0_2.c": {
     ".data": "0x8910D9E0"
   },
+  "src/fragments/fragment017_261F00.c": {
+    ".rodata": {
+      "address": "0x8A000648",
+      "size": "0x18"
+    }
+  },
   "src/fragments/fragment018_262620/pokedex_214920.c": {
     ".rodata": {
       "address": "0x8A12FD4C",
@@ -212,6 +224,9 @@
   },
   "src/libleo/leoc2ecc.c": {
     ".rodata": "0x8007F3D0"
+  },
+  "src/libleo/leomecha.c": {
+    ".rodata": "0x8007EDC0"
   },
   "src/libnaudio/n_drvrNew.c": {
     ".rodata": "0x8007EC90"
@@ -301,6 +316,9 @@
   },
   "src/rsp.c": {
     ".bss": "0x80087050"
+  },
+  "src/save_data.c": {
+    ".rodata": "0x8007B748"
   },
   "src/vector_math.c": {
     ".rodata": "0x8007DB58"

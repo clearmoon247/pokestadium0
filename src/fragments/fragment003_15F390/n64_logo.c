@@ -68,8 +68,51 @@ void N64Logo_ScanGbSavePorts(void) {
     main_pool_pop_state('GPAK');
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_815003A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment003_15F390/func_815003A4.s")
-#endif
+void func_80023C30(void);
+u8 func_80025214(void);
+void func_8003BC9C(s32);
+void func_800418F0(s32);
+
+s32 N64Logo_Main(UNUSED s32 arg0, UNUSED s32 arg1) {
+    u8 sp37;
+    u64 sp28;
+    StageContext* sp24;
+
+    main_pool_push_state('LOGO');
+
+    Gfx_InitDisplayListBuffers(0x10000, 0);
+    sp24 = StageContext_Allocate(0, 1, 2, 0, 2, 1);
+
+    ASSET_LOAD(D_1000000, common_menu1_ui, 0);
+    ASSET_LOAD(D_2000000, n64_logo_texture, 0);
+
+    func_80023C30();
+    StageContext_Activate(sp24);
+    StageFade_Start(1);
+    BgStage_RunUntilCondition(3, N64Logo_DrawFrame);
+    sp37 = func_80025214();
+
+    if (sp37 & 1) {
+        func_8003BC9C(0);
+    } else {
+        func_8003BC9C(1);
+    }
+
+    if (sp37 & 2) {
+        func_800418F0(0);
+    } else {
+        func_800418F0(1);
+    }
+
+    Audio_PlaySoundEffectById(SFX_N64_LOGO);
+    sp28 = osGetTime();
+    N64Logo_ScanGbSavePorts();
+    N64Logo_WaitForElapsed(sp28);
+    StageFade_Start(0x10);
+    BgStage_RunUntilCondition(0x10, N64Logo_DrawFrame);
+    StageContext_Deactivate();
+    Gfx_FreeDisplayListBuffers();
+
+    main_pool_pop_state('LOGO');
+    return 0x8010;
+}

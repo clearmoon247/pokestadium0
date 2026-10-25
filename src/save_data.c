@@ -231,17 +231,57 @@ void func_80023D3C(s32 arg0, s32 arg1) {
 void func_80024044(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002404C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002404C.s")
-#endif
+M2C_UNK func_800238D8(s32, M2C_UNK, s32);           /* extern */
+void func_8002404C(s32 arg0, s32 arg1) {
+    switch (arg0) {
+    case 16:
+        func_800238D8((*(s32 *)&D_800AE8E0) + (arg1 * 0x250), 0x128, arg1);
+        return;
+    case 17:
+        func_800238D8((*(s32 *)&D_800AE8E0) + (arg1 * 0xAC0) + 0x2500, 0x560, arg1);
+        return;
+    case 18:
+        func_800238D8((*(s32 *)&D_800AE8E0) + (arg1 * 0x1C0) + 0x5000, 0xE0, arg1);
+        return;
+    case 19:
+        func_800238D8((*(s32 *)&D_800AE8E0) + 0x5700, 0x11A0, arg1);
+        return;
+    case 20:
+        func_800238D8((*(s32 *)&D_800AE8E0) + 0x7A40, 0x10, arg1);
+        return;
+    case 21:
+        func_800238D8((*(s32 *)&D_800AE8E0) + 0x7A60, 0x288, arg1);
+        /* fallthrough */
+    default:
+        return;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80024170; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80024170.s")
-#endif
+M2C_UNK func_80023954(s32, M2C_UNK, s32);           /* extern */
+void func_80024170(s32 arg0, s32 arg1) {
+    switch (arg0) {
+    case 16:
+        func_80023954((*(s32 *)&D_800AE8E0) + (arg1 * 0x250), 0x128, arg1);
+        return;
+    case 17:
+        func_80023954((*(s32 *)&D_800AE8E0) + (arg1 * 0xAC0) + 0x2500, 0x560, arg1);
+        return;
+    case 18:
+        func_80023954((*(s32 *)&D_800AE8E0) + (arg1 * 0x1C0) + 0x5000, 0xE0, arg1);
+        return;
+    case 19:
+        func_80023954((*(s32 *)&D_800AE8E0) + 0x5700, 0x11A0, arg1);
+        return;
+    case 20:
+        func_80023954((*(s32 *)&D_800AE8E0) + 0x7A40, 0x10, arg1);
+        return;
+    case 21:
+        func_80023954((*(s32 *)&D_800AE8E0) + 0x7A60, 0x288, arg1);
+        /* fallthrough */
+    default:
+        return;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80024294; signature not recovered. */

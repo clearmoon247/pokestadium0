@@ -653,7 +653,7 @@ func_81500020,0x81500020,src/fragments/fragment003_15F390/n64_logo.c,N64Logo_Dra
 func_815002B4,0x815002B4,src/fragments/fragment003_15F390/n64_logo.c,N64Logo_DrawFrame,s1,stadium1:src/fragments/n64_logo/n64_logo.c,c
 func_815002F0,0x815002F0,src/fragments/fragment003_15F390/n64_logo.c,N64Logo_WaitForElapsed,s1,stadium1:src/fragments/n64_logo/n64_logo.c,c
 func_8150036C,0x8150036C,src/fragments/fragment003_15F390/n64_logo.c,N64Logo_ScanGbSavePorts,s1,stadium1:src/fragments/n64_logo/n64_logo.c,c
-func_815003A4,0x815003A4,src/fragments/fragment003_15F390/n64_logo.c,,asm,,asm
+func_815003A4,0x815003A4,src/fragments/fragment003_15F390/n64_logo.c,N64Logo_Main,s1,,c
 func_81300020,0x81300020,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,GbTower_LoadPartyFromDeck,s1,stadium1:src/fragments/gb_tower_team_prep/gb_tower_team_prep.c,c
 func_813000F0,0x813000F0,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,GbTower_TeamPrepFrameCallback,s1,stadium1:src/fragments/gb_tower_team_prep/gb_tower_team_prep.c (VERSION_JP),c
 func_81300144,0x81300144,src/fragments/fragment004_15F8F0/gb_tower_team_prep.c,,asm,,asm
@@ -1255,7 +1255,7 @@ func_82136E2C,0x82136E2C,src/fragments/fragment012_17ED00/battle_engine_315D50_2
 func_82136E48,0x82136E48,src/fragments/fragment012_17ED00/battle_engine_315D50_2.c,,asm,,asm
 func_82137000,0x82137000,src/fragments/fragment012_17ED00/battle_engine_315D50_2.c,BattleAnim_UpdateEffectCallbacks,s1,stadium1:src/fragments/battle_engine/battle_engine_315D50.c,c
 func_82137084,0x82137084,src/fragments/fragment012_17ED00/battle_engine_315D50_2.c,BattleAnim_DrawEffectCallbacks,s1,stadium1:src/fragments/battle_engine/battle_engine_315D50.c,c
-func_821370DC,0x821370DC,src/fragments/fragment012_17ED00/battle_engine_315D50_2.c,,asm,,asm
+func_821370DC,0x821370DC,src/fragments/fragment012_17ED00/battle_engine_315D50_2.c,func_821370DC,m2c,m2c,c
 func_82137160,0x82137160,src/fragments/fragment012_17ED00/battle_engine_315D50_3.c,BattleAnim_Initialize,s1,stadium1:src/fragments/battle_engine/battle_engine_315D50.c,c
 func_82137188,0x82137188,src/fragments/fragment012_17ED00/battle_engine_315D50_3.c,,asm,,asm
 func_821119F0,0x821119F0,src/fragments/fragment012_17ED00/battle_engine_317E70.c,BattleAnim_EffectEndNop,s1,stadium1:src/fragments/battle_engine/battle_engine_317E70.c,c
@@ -3833,7 +3833,7 @@ func_8910A764,0x8910A764,src/fragments/fragment016_252E10/lab_pc_list_1E46B0_2.c
 func_8A000020,0x8A000020,src/fragments/fragment017_261F00.c,func_8A000020,m2c,m2c,c
 func_8A00009C,0x8A00009C,src/fragments/fragment017_261F00.c,func_8A00009C,m2c,m2c,c
 func_8A0001F0,0x8A0001F0,src/fragments/fragment017_261F00.c,,asm,,asm
-func_8A000278,0x8A000278,src/fragments/fragment017_261F00.c,,asm,,asm
+func_8A000278,0x8A000278,src/fragments/fragment017_261F00.c,func_8A000278,m2c,m2c,c
 func_8A000418,0x8A000418,src/fragments/fragment017_261F00.c,,asm,,asm
 func_8A000514,0x8A000514,src/fragments/fragment017_261F00.c,func_8A000514,m2c,m2c,c
 func_8A100020,0x8A100020,src/fragments/fragment018_262620/pokedex_214920.c,,asm,,asm
@@ -4674,7 +4674,7 @@ func_8004A2E8,0x8004A2E8,src/libleo/leomecha.c,leoRecal_w,s1,stadium1:src/libleo
 func_8004A310,0x8004A310,src/libleo/leomecha.c,leoSeek_i,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A374,0x8004A374,src/libleo/leomecha.c,leoSeek_w,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A3B0,0x8004A3B0,src/libleo/leomecha.c,leoRecv_event_mesg,s1,stadium1:src/libleo/leomecha.c,c
-func_8004A404,0x8004A404,src/libleo/leomecha.c,,asm,,asm
+func_8004A404,0x8004A404,src/libleo/leomecha.c,func_8004A404,m2c,m2c,c
 func_8004A490,0x8004A490,src/libleo/leomecha.c,leoChk_cur_drvmode,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A4D0,0x8004A4D0,src/libleo/leomecha.c,leoDrive_reset,s1,stadium1:src/libleo/leomecha.c,c
 func_8004A500,0x8004A500,src/libleo/leomecha.c,leoChkUnit_atten,s1,stadium1:src/libleo/leomecha.c,c
@@ -5301,8 +5301,8 @@ func_80023DB8,0x80023DB8,src/save_data.c,,asm,,asm
 func_80023E28,0x80023E28,src/save_data.c,,asm,,asm
 func_80023F38,0x80023F38,src/save_data.c,,asm,,asm
 func_80024044,0x80024044,src/save_data.c,func_80024044,s1,stadium1:src/DDC0.c,c
-func_8002404C,0x8002404C,src/save_data.c,,asm,,asm
-func_80024170,0x80024170,src/save_data.c,,asm,,asm
+func_8002404C,0x8002404C,src/save_data.c,func_8002404C,m2c,m2c,c
+func_80024170,0x80024170,src/save_data.c,func_80024170,m2c,m2c,c
 func_80024294,0x80024294,src/save_data.c,,asm,,asm
 func_800243B8,0x800243B8,src/save_data.c,,asm,,asm
 func_80024470,0x80024470,src/save_data.c,,asm,,asm

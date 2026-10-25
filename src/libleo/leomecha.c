@@ -208,11 +208,27 @@ s32 leoRecv_event_mesg(s32 control) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8004A404; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004A404.s")
-#endif
+extern s8 D_80100E94;
+extern s32 D_80100EF4;
+s32 func_8004A404(u32 arg0) {
+    switch (arg0) {                                 /* irregular */
+    case 43:
+        D_80100EF4 |= 2;
+        /* fallthrough */
+    case 47:
+        D_80100EF4 |= 1;
+        /* fallthrough */
+    case 2:
+    case 3:
+    case 41:
+    case 42:
+    case 49:
+        D_80100E94 = 0;
+        return -1;
+    default:
+        return 0;
+    }
+}
 
 u8 leoChk_cur_drvmode(void) {
     u8 devstat = 0;
