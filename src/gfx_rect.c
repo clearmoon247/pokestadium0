@@ -24,11 +24,36 @@ void GfxImage_Initialize(DepthBuffer* arg0, s32 fmt, s32 size, s32 width, s32 he
     arg0->depth_p = NULL;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800051F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800051F0.s")
-#endif
+DepthBuffer* GfxImage_Allocate(s32 fmt, s32 size, s32 width, s32 height, s32 side) {
+    DepthBuffer* sp34;
+    s32 size_bytes;
+    s32 num_pixels = width * height;
+
+    switch (size) {
+        case IMAGE_SIZE_BITS_4b:
+            size_bytes = (num_pixels + 1) / 2;
+            break;
+
+        case IMAGE_SIZE_BITS_8b:
+            size_bytes = num_pixels;
+            break;
+
+        case IMAGE_SIZE_BITS_16b:
+            size_bytes = num_pixels * 2;
+            break;
+
+        case IMAGE_SIZE_BITS_32b:
+            size_bytes = num_pixels * 4;
+            break;
+    }
+
+    // header + image size + rounding up to 64
+    sp34 = main_pool_alloc(sizeof(DepthBuffer) + size_bytes + 64, side);
+    // image data follows the header struct
+    GfxImage_Initialize(sp34, fmt, size, width, height, (u8*)sp34 + sizeof(DepthBuffer));
+
+    return sp34;
+}
 
 void GfxImage_AttachDepthBuffer(DepthBuffer* img, DepthBuffer* depth) {
     if ((depth->size == IMAGE_SIZE_BITS_16b) && (img->width == depth->width) && (img->height == depth->height)) {

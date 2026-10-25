@@ -560,11 +560,32 @@ void BattleAnim_RegisterEffectSlot(func_D_84390300 arg0, func_D_84390320 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82136114.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82136338; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82136338.s")
-#endif
+extern s16 D_8219A80A;
+extern s16 D_8219A80C;
+
+void BattleAnim_ProcessQueuedEffects(void) {
+    if (sBattleAnimQueuedEffectListMode != BATTLE_ANIMATION_QUEUE_INACTIVE) {
+        BattleAnim_ResetSpawnDelayAlias();
+        D_8219A80A = D_8219A80C;
+        BattleAnim_RunEffectList(sBattleAnimQueuedMoveId, sBattleAnimQueuedEffectList, sBattleAnimQueuedEffectListMode);
+        sBattleAnimQueuedEffectListMode = BATTLE_ANIMATION_QUEUE_INACTIVE;
+    }
+
+    if (sBattleAnimQueuedAlternatePending != 0) {
+        BattleAnim_RunEffectList(sBattleAnimQueuedAlternateMoveId, sBattleAnimQueuedAlternateList, sBattleAnimQueuedAlternatePending);
+        sBattleAnimQueuedAlternatePending = 0;
+    }
+
+    if (sBattleAnimQueuedExtraPending != 0) {
+        BattleAnim_RunEffectList(sBattleAnimQueuedExtraMoveId, sBattleAnimQueuedExtraList, sBattleAnimQueuedExtraPending);
+        sBattleAnimQueuedExtraPending = 0;
+    }
+
+    if (sBattleAnimQueuedResourceListPending != 0) {
+        BattleAnim_RunEffectList(sBattleAnimQueuedResourceListId, 4, sBattleAnimQueuedResourceListPending);
+        sBattleAnimQueuedResourceListPending = 0;
+    }
+}
 
 void BattleAnim_SetQueuedEffectList(u8 effect_list_index) {
     sBattleAnimQueuedEffectList = effect_list_index;

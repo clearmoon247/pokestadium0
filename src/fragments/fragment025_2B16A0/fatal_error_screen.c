@@ -90,6 +90,7 @@ s32 FatalError_DrawFrame(u8 arg0) {
     return 0;
 }
 
+extern char** D_81100938;
 #ifdef NON_MATCHING
 /* TODO: decompile func_816007C4; signature not recovered. */
 #else

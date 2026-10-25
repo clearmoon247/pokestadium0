@@ -53,11 +53,38 @@ void BattleMenu_FillDefaultOrder(s8* arg0, s32 arg1);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82300488.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_823005B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823005B4.s")
-#endif
+extern u8* D_823028E4[][3];
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
+
+s32 BattleMenu_DrawSidebarRowTypeIcon(s32 arg0, s32 arg1, s8 arg2, s8 arg3) {
+    s32 sp34;
+    s32 sp30;
+
+    if (arg2 != 0) {
+        if (arg2 == -1) {
+            func_8001B884(arg0, arg1, 0x20, 0x14, D_3005680, 0x20, 0x200000);
+        } else {
+            sp34 = (arg2 >> 4) & 0xF;
+            sp30 = arg2 & 0xF;
+
+            if (arg3 > 0) {
+                if (sp30 < 3) {
+                    sp30++;
+                }
+            } else if (sp30 > 0) {
+                sp30--;
+            }
+
+            if (sp30 > 0) {
+                func_8001B884(arg0 + 6, arg1, 0x18, 0x14, D_823028E4[sp34][sp30], 0x18, 0x200000);
+                arg2 = (sp34 * 0x10) | sp30;
+            } else {
+                arg2 = 0;
+            }
+        }
+    }
+    return arg2;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_823006D8; signature not recovered. */

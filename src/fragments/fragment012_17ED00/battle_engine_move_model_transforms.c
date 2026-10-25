@@ -632,11 +632,40 @@ void func_8210ADBC(s32 arg0, s8 *arg1) {
     M2C_FIELD(arg1, s32 *, 0x614) = (s32) (M2C_FIELD(arg1, s32 *, 0x614) + 1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210AE34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210AE34.s")
-#endif
+void BattleAnim_SeismicTossContinue(UNUSED ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    CameraNode* camera = sBattleScene.scene->camera;
+    f32 normal_x;
+    f32 normal_z;
+    f32 flip_angle;
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 norm;
+    f32 normal_y;
+
+    BattleAnim_StepToS16(&animated_pokemon->oscillationVelocityEasePhase, 1456, 60);
+    BattleAnim_StepToS16(&animated_pokemon->oscillationAngularVelocity, -32768, animated_pokemon->oscillationVelocityEasePhase);
+
+    x = camera->view.targetPosition.x - camera->view.eyePosition.x;
+    y = camera->view.targetPosition.y - camera->view.eyePosition.y;
+    z = camera->view.targetPosition.z - camera->view.eyePosition.z;
+
+    norm = sqrtf(SQ(x) + SQ(y) + SQ(z));
+
+    normal_x = x / norm;
+    normal_y = y / norm;
+    normal_z = z / norm;
+
+    flip_angle = 1.0 - COSS(animated_pokemon->oscillationAngularVelocity);
+
+    camera->view.upDirection.x = (flip_angle * normal_x * normal_y) - (SINS(animated_pokemon->oscillationAngularVelocity) * normal_z);
+    camera->view.upDirection.y = COSS(animated_pokemon->oscillationAngularVelocity) + ((flip_angle * normal_y) * normal_y);
+    camera->view.upDirection.z = (SINS(animated_pokemon->oscillationAngularVelocity) * normal_x) + ((flip_angle * normal_y) * normal_z);
+
+    if (animated_pokemon->displayObject.position.y < 0.0f) {
+        animated_pokemon->displayObject.position.y = 0.0f;
+    }
+}
 
 void func_8210AE34(ActivePokemon* owner, ActivePokemon* animated_pokemon);
 void func_8210AFB8(ActivePokemon* owner, ActivePokemon* animated_pokemon) {

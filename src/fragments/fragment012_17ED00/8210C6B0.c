@@ -166,11 +166,40 @@ void func_8210CFE4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210D838.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210D90C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210D90C.s")
-#endif
+void BattleScene_CollectPlayerAction(ActivePokemon* arg0, ActivePokemon* arg1) {
+    UNUSED s32 pad;
+    BattleMonRuntime* sp20 = &arg0->state.runtime;
+    BattleMonRuntime* sp1C = &arg1->state.runtime;
+
+    if (BattleScene_HandlePlayerForcedActionState(arg0, arg1) == 0) {
+        if (!(sp20->unk_4D & 0x60)) {
+            sp20->unk_4C &= ~8;
+            sp1C->unk_4C &= ~8;
+            if (!(sp20->unk_4C & 0x12)) {
+                if (BattleScene_HandlePlayerActionInput(arg0) == 0) {
+                    if (!(sp20->unk_15 & 0x27)) {
+                        if (!(sp20->unk_4C & 0x21)) {
+                            if (sp1C->unk_4C & 0x20) {
+                                BattleScene_HandlePlayerMoveSelectionLocked(arg0, arg0->state.controller);
+                                sp20->usedMove = 0xFF;
+                            } else {
+                                BattleScene_HandlePlayerMoveSelection(arg0);
+                            }
+                        } else {
+                            BattleScene_HandlePlayerMoveSelectionLocked(arg0, arg0->state.controller);
+                        }
+                    } else {
+                        BattleScene_HandlePlayerMoveSelectionLocked(arg0, arg0->state.controller);
+                    }
+                }
+            } else {
+                BattleScene_ConfirmForcedMoveRepeat(arg0);
+            }
+        } else {
+            BattleScene_ConfirmForcedMoveRepeat(arg0);
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210DA30; signature not recovered. */

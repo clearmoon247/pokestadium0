@@ -128,11 +128,19 @@ void func_800012AC(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800016C4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80001868; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80001868.s")
-#endif
+void func_800016C4(void*);
+
+void DisplayWorker_Initialize(void) {
+    osCreateThread((OSThread*)&D_800870D0, 5, func_800016C4, NULL, &M2C_FIELD(&D_800870D0, s32*, 0x9B0), 0x28);
+    osStartThread((OSThread*)&D_800870D0);
+    osCreateMesgQueue(&M2C_FIELD(&D_800870D0, OSMesgQueue*, 0x9BC), &M2C_FIELD(&D_800870D0, OSMesg*, 0x9B4), 1);
+    osCreateMesgQueue(&M2C_FIELD(&D_800870D0, OSMesgQueue*, 0x9D4), &M2C_FIELD(&D_800870D0, OSMesg*, 0x9B8), 1);
+    M2C_FIELD(&D_800870D0, s16*, 0xA80) = 0;
+    M2C_FIELD(&D_800870D0, u8*, 0xA82) = 0;
+    M2C_FIELD(&D_800870D0, s32*, 0x9B0) = (s32)GfxImage_Allocate(0, IMAGE_SIZE_BITS_16b, 0x280, 1, MEMORY_POOL_RIGHT);
+    Display_ClearFramebufferLine(1);
+    Dma_WriteChunks(&D_80087B88, 0xB0000B70, 0xB0000C70, 0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80001948; signature not recovered. */

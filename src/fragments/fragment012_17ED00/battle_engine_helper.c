@@ -214,11 +214,28 @@ s32 func_82107F88(s8 *arg0)
   return ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x85C))) + ((*((u8 *) (((s8 *) arg0) + 0x7B9))) * 4))) + 8))) + ((*((s32 *) (((s8 *) arg0) + 0x794))) * 0x50)) + (new_var = 0x4C);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107FB8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107FB8.s")
-#endif
+void BattleScene_InitializeParticipantOwnerModel(ActivePokemon* active_pokemon) {
+    ThumbnailState* presentation = &active_pokemon->thumbnail;
+    ModelNodeView* model_view;
+    s16 model_id;
+
+    model_view = Battle_GetLoadedModelNode(active_pokemon, 0);
+    model_id = Battle_GetDisplayModelId(active_pokemon, 0);
+    ModelRenderer_AttachDisplayObject(&presentation->displayObject);
+
+    if (active_pokemon == sActivePokemon[0]) {
+        presentation->displayObject.effectSlot = 2;
+        Model_InitDisplayObject(&presentation->displayObject, 1, model_id, model_view);
+    } else {
+        presentation->displayObject.effectSlot = 3;
+        Model_InitDisplayObject(&presentation->displayObject, 2, model_id, model_view);
+    }
+
+    ModelAnim_SetAnimation(&presentation->displayObject, 0);
+    ModelAnim_SetFrame(&presentation->displayObject, 0);
+    presentation->displayObject.node.renderFlags &= ~0x40;
+    Vec3f_SetComponentsDuplicate(&presentation->displayObject.position, 0.0f, 0.0f, 0.0f);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82108090; signature not recovered. */

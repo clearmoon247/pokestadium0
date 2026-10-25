@@ -1158,11 +1158,22 @@ void BattleAnim_CallbackSharedDescriptor3DAnimatedColorMotion(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82161DA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82161DA4.s")
-#endif
+void BattleAnim_CallbackEndEffect52Descriptor42BurstChild_InitParticle(Particle* arg0) {
+    s16 sp2E = Particle_FieldAC_GetS16_0C038(arg0);
+    Vec3s sp28;
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.1f);
+    sp28.x = ParticleMath_RandomRange(0x10000);
+    sp28.y = ParticleMath_RandomRange(0x10000);
+    sp28.z = 0;
+    Particle_Field94_SetVecFromVec3s_0A24C(arg0, sp28);
+    Particle_Field9A_SetZ_0A3EC(arg0, ParticleMath_RandomSignedOffsetBySign(0x400, 0x400));
+    Particle_Field74_SetScaled_0AD8C(arg0, 8.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, 0x17);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp2E * 0);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213E3F8(s8 *);
 void BattleAnim_CallbackEndEffect52Descriptor42BurstChild(Particle* arg0) {

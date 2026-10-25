@@ -37,11 +37,68 @@ void func_821323D0(UNUSED s32 arg0) {
 void BattleAnim_NoopUpdateHook(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821323E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821323E0.s")
-#endif
+void func_82131880(CameraNode* arg0);
+void func_821319FC(CameraNode* arg0);
+void func_82131A3C(CameraNode* arg0);
+void func_82131C64(CameraNode* arg0);
+void func_82131D24(CameraNode* arg0);
+void func_82131EC4(CameraNode* arg0);
+void func_8213201C(CameraNode* arg0);
+void func_82132088(CameraNode* arg0);
+void func_821321A4(CameraNode* arg0);
+void func_82132238(CameraNode* arg0);
+void func_8213233C(CameraNode* arg0);
+
+void BattleScene_UpdateIntroSequence(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            func_82131880(arg0);
+
+        case 1:
+            func_821319FC(arg0);
+            break;
+
+        case 2:
+            func_82131A3C(arg0);
+            break;
+
+        case 3:
+            func_82131C64(arg0);
+            break;
+
+        case 4:
+            func_82131D24(arg0);
+            break;
+
+        case 5:
+            func_82131EC4(arg0);
+            break;
+
+        case 6:
+            func_8213201C(arg0);
+            break;
+
+        case 7:
+            func_82132088(arg0);
+            break;
+
+        case 8:
+            func_821321A4(arg0);
+            break;
+
+        case 9:
+            func_82132238(arg0);
+            break;
+
+        case 10:
+            func_8213233C(arg0);
+            break;
+
+        case 11:
+            func_821323D0((s32)arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821324D8; signature not recovered. */
@@ -72,7 +129,65 @@ void func_821325E8(s32 arg0) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_821328DC; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_821324D8(CameraNode* arg0);
+void func_82132628(CameraNode* arg0);
+void func_821326E4(CameraNode* arg0);
+
+void func_821328DC(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            func_821324D8(arg0);
+
+        case 1:
+            func_821325E8((s32)arg0);
+            break;
+
+        case 2:
+            func_82132628(arg0);
+            break;
+
+        case 3:
+            func_821326E4(arg0);
+            break;
+
+        case 4:
+            func_82131C64(arg0);
+            break;
+
+        case 5:
+            func_82131D24(arg0);
+            break;
+
+        case 6:
+            func_82131EC4(arg0);
+            break;
+
+        case 7:
+            func_8213201C(arg0);
+            break;
+
+        case 8:
+            func_82132088(arg0);
+            break;
+
+        case 9:
+            func_821321A4(arg0);
+            break;
+
+        case 10:
+            func_82132238(arg0);
+            break;
+
+        case 11:
+            func_8213233C(arg0);
+            break;
+
+        case 12:
+            func_821323D0((s32)arg0);
+            break;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821328DC.s")
 #endif

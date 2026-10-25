@@ -69,6 +69,12 @@
       "size": "0x94"
     }
   },
+  "src/fragments/fragment012_17ED00/battle_engine_31D9F0.c": {
+    ".rodata": {
+      "address": "0x82195974",
+      "size": "0x8"
+    }
+  },
   "src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c": {
     ".rodata": "0x821969C0"
   },
@@ -166,6 +172,9 @@
       "address": "0x82194930",
       "size": "0x1C"
     }
+  },
+  "src/fragments/fragment012_17ED00/fragment1_89010.c": {
+    ".rodata": "0x82196670"
   },
   "src/fragments/fragment012_17ED00/particle_math_269820_2.c": {
     ".rodata": "0x82196970"
@@ -315,6 +324,9 @@
   },
   "src/matrix.c": {
     ".rodata": "0x80079A50"
+  },
+  "src/pokemon_stats_2.c": {
+    ".rodata": "0x8007B6D0"
   },
   "src/profiler.c": {
     ".data": "0x80060250",

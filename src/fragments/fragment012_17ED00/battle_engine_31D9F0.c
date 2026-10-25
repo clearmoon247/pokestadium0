@@ -20,6 +20,8 @@
 
 #include "m2c_macros.h"
 
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
+
 void func_82116D20(void);
 void func_82116D28(void);
 s32 BattleHud_DrawBorderTile(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u8* arg4);
@@ -39,11 +41,43 @@ void func_82116D28(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82116D30.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82116EB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82116EB4.s")
-#endif
+void BattleHud_DrawHpFractionText(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    UNUSED s32 pad[2];
+    s8 sp70[7];
+    UNUSED s32 pad2;
+    u8** temp_s2;
+    u8* var_v0;
+    s32 i;
+
+    temp_s2 = Memmap_GetSegmentVaddr(D_300B870);
+    sprintf(sp70, "%3d/%3d", arg2, arg3);
+
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    for (i = 0; i < sizeof(sp70); i++) {
+        switch (sp70[i]) {
+            case ' ':
+                var_v0 = NULL;
+                break;
+
+            case '/':
+                var_v0 = temp_s2[10];
+                break;
+
+            default:
+                var_v0 = temp_s2[sp70[i] - '0'];
+                break;
+        }
+
+        if (var_v0 != NULL) {
+            func_8001B884(arg0, arg1, 8, 6, var_v0, 8, 0);
+        }
+
+        arg0 += 8;
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 M2C_UNK func_8001A384(M2C_UNK, M2C_UNK);            /* extern */
 M2C_UNK func_8001A944(s32, s32, s32);               /* extern */
@@ -180,13 +214,99 @@ void func_82119994(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_821199E4; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+s32 BattleHud_DrawMovePpTextLTR(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    UNUSED s32 pad[2];
+    s8 sp70[7];
+    s32 i;
+    u8** temp_s2;
+    u8* var_v1;
+
+    temp_s2 = Memmap_GetSegmentVaddr(D_300B870);
+    sprintf(sp70, "%3d/%3d", arg2 & 0x3F, arg3);
+
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    for (i = 0; i < 7; i++) {
+        s32 c = sp70[i];
+
+        switch (c) {
+            case ' ':
+                var_v1 = NULL;
+                break;
+
+            case '/':
+                var_v1 = temp_s2[10];
+                break;
+
+            default:
+                if ((c >= 0x30) && (c < 0x3A)) {
+                    var_v1 = temp_s2[c - '0'];
+                } else {
+                    var_v1 = NULL;
+                }
+                break;
+        }
+
+        if (var_v1 != NULL) {
+            func_8001B884(arg0, arg1, 8, 6, var_v1, 8, 0);
+            arg0 += 8;
+        }
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+
+    return arg0;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821199E4.s")
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82119B48; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+s32 BattleHud_DrawMovePpTextRTL(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    UNUSED s32 pad[2];
+    s8 sp70[7];
+    s32 i;
+    u8** temp_s2;
+    u8* var_v1;
+
+    temp_s2 = Memmap_GetSegmentVaddr(D_300B870);
+    sprintf(sp70, "%3d/%3d", arg2 & 0x3F, arg3);
+
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    for (i = 7; i > 0; i--) {
+        s32 c = sp70[i];
+
+        switch (c) {
+            case ' ':
+                var_v1 = NULL;
+                break;
+
+            case '/':
+                var_v1 = temp_s2[10];
+                break;
+
+            default:
+                if ((c >= 0x30) && (c < 0x3A)) {
+                    var_v1 = temp_s2[c - '0'];
+                } else {
+                    var_v1 = NULL;
+                }
+                break;
+        }
+
+        if (var_v1 != NULL) {
+            func_8001B884(arg0, arg1, 8, 6, var_v1, 8, 0);
+            arg0 -= 8;
+        }
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+
+    return arg0;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82119B48.s")
 #endif

@@ -531,11 +531,40 @@ void BattleAnim_CallbackMove86EndDescriptor24(Particle* arg0) {
     Particle_AddVelocityXZFromRotationYViaImpulse(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82153D00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82153D00.s")
-#endif
+void BattleAnim_SetupMove86StartDescriptor24(Particle* arg0) {
+    Vec3f sp34;
+    UNUSED s32 pad[2];
+    s16 sp2A = Particle_FieldCD_GetU8_0C048(arg0);
+
+    Particle_Field1C_SetScaled_0B938(arg0, 0.05f);
+
+    switch (sp2A) {
+        case 0:
+            sp34.x = 0;
+            sp34.y = -5.0f;
+            sp34.z = 0.0f;
+            break;
+
+        case 1:
+            sp34.x = 0;
+            sp34.y = 5.0f;
+            sp34.z = 10.0f;
+            break;
+
+        case 2:
+            sp34.x = 0;
+            sp34.y = 5.0f;
+            sp34.z = -10.0f;
+            break;
+    }
+
+    Particle_Field38_AddVecScaledFromVec3f_08D78(arg0, sp34);
+    Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+    ParticleGfx_RecolorPrim(arg0, 8);
+    ParticleGfx_RecolorEnv(arg0, 0x17);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C938(s8 *);                      /* extern */
 M2C_UNK func_8213E4D8(s8 *);                      /* extern */
@@ -1307,11 +1336,36 @@ void ParticleEffect_CreateSimpleOffsetTileNoCameraDL(s32 arg0, arg1_func_84344CE
 void BattleAnim_DefaultEndEffect_Draw(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82156430; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82156430.s")
-#endif
+void BattleAnim_InitMove146Model(Particle* arg0) {
+    s16 sp26 = Particle_FieldCF_GetS16_0C058(arg0);
+    s16 sp24;
+
+    arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);
+
+    if (arg0->unk_14 != NULL) {
+        BattleAnim_InitModelWithAnim(arg0->unk_14, 0x31, 0x32);
+        Particle_Field1C_SetScaled_0B938(arg0, 0.25f);
+        Particle_Field38_SetYScaled_08CA0(arg0, 5.0f);
+        switch (sp26) {
+            case 0:
+                sp24 = 0;
+                break;
+
+            case 1:
+                sp24 = 0x5555;
+                break;
+
+            case 2:
+                sp24 = -0x5556;
+                break;
+        }
+
+        Particle_Field94_AddY_0A594(arg0, sp24);
+        Particle_AdvanceLifecycle(arg0);
+    } else {
+        Particle_DisableAndDetach(arg0);
+    }
+}
 
 void BattleAnim_CallbackMove146EndEffect6ModelAnimWait(Particle* arg0) {
     switch (arg0->unk_B2) {

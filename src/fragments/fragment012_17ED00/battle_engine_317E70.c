@@ -64,6 +64,8 @@ extern u8 sHighCritMoves[];
 
 #include "m2c_macros.h"
 
+s32 func_8211EF74(s32, s32, s32, ...);
+
 void BattleAnim_EffectEndNop(void);
 s32 func_82111DC4(void);
 s32 Battle_CheckFaintAfterMove(void);
@@ -78,7 +80,6 @@ void BattleAnim_EffectEndNop(void) {
 
 M2C_UNK func_82110FC0();                            /* extern */
 M2C_UNK func_821115F4();                            /* extern */
-M2C_UNK func_8211EF74(s32, M2C_UNK, s32);           /* extern */
 extern s32 D_8218C784;
 extern s8 *D_8219A3C0;
 extern s8 *D_8219A3C4;
@@ -112,11 +113,38 @@ s32 func_821119F8(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111AC4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111C00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111C00.s")
-#endif
+s32 Battle_Effect_Counter(void) {
+    if (sBattleUser->usedMove != 0x44) {
+        return 1;
+    }
+
+    sBattleMoveFailed = 1;
+
+    if (sBattleTarget->usedMove == 0x44) {
+        return 0;
+    }
+
+    if (sBattleTarget->moveCache.unk_02 == 0) {
+        return 0;
+    }
+
+    if ((sBattleTarget->moveCache.unk_03 == 0) || (sBattleTarget->moveCache.unk_03 == 1)) {
+        if (sBattleDamage == 0) {
+            return 0;
+        }
+
+        if (sBattleDamage >= 0x8000) {
+            sBattleDamage = 0xFFFF;
+        } else {
+            sBattleDamage *= 2;
+        }
+
+        sBattleMoveFailed = 0;
+        HandleMoveEffectFlags();
+        return 0;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82111CD4; signature not recovered. */

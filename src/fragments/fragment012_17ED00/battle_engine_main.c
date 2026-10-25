@@ -328,11 +328,48 @@ s32 BattleScene_UpdatePausedFrame(s32 fade_mode) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100ED4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82100FD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100FD4.s")
-#endif
+extern SessionContext* D_82198D10;
+void func_8000A7FC(s32);
+
+s32 Battle_FrameCallback(s32 fade_mode) {
+    s32 battle_result = 0;
+
+    Cont_StartReadInputs();
+    Trainer_RequestPokeIcon(&sBattleSides[0]);
+    PokeIcon_WaitFrameLoadForObject(&sBattleSides[0]);
+    Trainer_RequestPokeIcon(&sBattleSides[1]);
+    PokeIcon_WaitFrameLoadForObject(&sBattleSides[1]);
+    Cont_ReadInputs();
+    Input_ResetRepeatState();
+
+    switch (sIsPaused) {
+        case 0:
+            battle_result = BattleScene_UpdateFrame(fade_mode);
+            break;
+
+        case 1:
+            battle_result = BattleScene_UpdatePausedFrame(fade_mode);
+            break;
+    }
+
+    if ((battle_result != 0) && (sCompletionGate <= 0)) {
+        sCompletionGate = 1;
+    }
+
+    Battle_UpdateCompletionGate();
+    PokeIcon_RequestBackgroundForObject(&sBattleSides[0]);
+    PokeIcon_RequestBackgroundForObject(&sBattleSides[1]);
+
+    if ((fade_mode != 2) && (sCompletionGate == 1)) {
+        sCompletionGate = 2;
+        AudioFrameUpdate(0);
+        if (D_82198D10->mode != 4) {
+            func_8000A7FC(0x1E);
+        }
+        return 1;
+    }
+    return 0;
+}
 
 // triggers on battle start: bug boy in glc
 // Preserve the picked prefix and append missing roster indices 0..5 in order.

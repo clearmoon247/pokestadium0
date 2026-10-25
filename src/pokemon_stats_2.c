@@ -102,11 +102,47 @@ s32 GbSave_VerifyWriteback(u8* arg0, s32 arg1) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021100; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021100.s")
-#endif
+s8 GbCart_IdentifyGame(s32 arg0) {
+    // Only part of the rom header,
+    // osGbpakReadId reads from 0x100 but this reads from 0x120
+    typedef struct RomHeader {
+        /* 0x00 */ char nintendo_chr[0x14];
+        /* 0x14 */ char game_title[16];
+        /* 0x24 */ u16 company_code;
+        /* 0x26 */ u8 body_code;
+        /* 0x27 */ u8 cart_type;
+        /* 0x28 */ u8 rom_size;
+        /* 0x29 */ u8 ram_size;
+        /* 0x2A */ s8 country_code;
+        /* 0x2B */ u8 fixed2;
+        /* 0x2C */ u8 version;
+        /* 0x2D */ u8 isum;
+        /* 0x2E */ u16 sum;
+        /* 0x30 */ char unk30[0x10];
+    } RomHeader; // size = 0x40
+
+    RomHeader sp28;
+    s8 var_s0 = POKEMON_ROM_NONE;
+
+    if (GbPak_ReadRom(arg0, &sp28, 0x120, sizeof(RomHeader)) == 0) {
+        sp28.game_title[7] = '\x0';
+        sp28.game_title[16] = '\x0';
+
+        if (HAL_Strcmp(&sp28.game_title[0], "POKEMON") == 0) {
+            if (HAL_Strcmp(&sp28.game_title[8], "RED") == 0) {
+                var_s0 = POKEMON_ROM_RED;
+            } else if (HAL_Strcmp(&sp28.game_title[8], "GREEN") == 0) {
+                var_s0 = POKEMON_ROM_GREEN;
+            } else if (HAL_Strcmp(&sp28.game_title[8], "BLUE") == 0) {
+                var_s0 = POKEMON_ROM_BLUE;
+            } else if (HAL_Strcmp(&sp28.game_title[8], "YELLOW") == 0) {
+                var_s0 = POKEMON_ROM_YELLOW;
+            }
+        }
+    }
+
+    return var_s0;
+}
 
 s32 GbSave_CheckMainDataUnchanged(s32 arg0) {
     UNUSED s32 pad;
@@ -119,11 +155,30 @@ s32 GbSave_CheckMainDataUnchanged(s32 arg0) {
     return sp18;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021248; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021248.s")
-#endif
+s32 GbSave_ReadMainData(s32 arg0) {
+    s32 i;
+    s32 sp30;
+    u8* temp_s4 = sGbSavePorts[arg0].unk_40;
+
+    sp30 = NULL;
+
+    if (GbPak_MbcRead(arg0, temp_s4, 0x2580, 0x1020) == 0) {
+        for (i = 0; i < 3; i++) {
+            sp30 = GbSave_VerifyChecksum(temp_s4 + 0x18, temp_s4 + 0x1014);
+            if (sp30 != 0) {
+                if (sGbSavePorts[arg0].unk_00 & 0x20) {
+                    sGbSavePorts[arg0].unk_04 = temp_s4[0x1014];
+                    sGbSavePorts[arg0].unk_00 = sGbSavePorts[arg0].unk_00 & ~0x20;
+                } else {
+                    sp30 = temp_s4[0x1014] == sGbSavePorts[arg0].unk_04;
+                }
+                return sp30;
+            }
+        }
+    }
+
+    return sp30;
+}
 
 s32 func_8000C1B4(s32, M2C_UNK *, M2C_UNK, M2C_UNK); /* extern */
 s32 func_8000C238(s32, s8 *, M2C_UNK, M2C_UNK);   /* extern */
@@ -224,11 +279,54 @@ s32 GbSave_EnsureMainDataLoaded(s32 arg0) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021910; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021910.s")
-#endif
+s32 func_80021910(s32 arg0) {
+    u8 sp37;
+    s32 i;
+    s32 sp2C;
+
+    sp2C = 0;
+
+    if (!(sGbSavePorts[arg0].unk_00 & 1)) {
+        return 0;
+    }
+
+    if (sGbSavePorts[arg0].unk_00 & 2) {
+        return 1;
+    }
+
+    sGbSavePorts[arg0].unk_44 = main_pool_alloc_with_func(0x2B40, 0, arg0 + 'BOX0', GbSave_ReleasePortBuffers);
+
+    if (sGbSavePorts[arg0].unk_44 != NULL) {
+        sGbSavePorts[arg0].unk_00 |= 2;
+        if (GbSave_GetBoxCount(arg0) > 0) {
+            if (GbTower_ProbePak(arg0, &sp37, sGbSavePorts[arg0].unk_18) == 0) {
+                Game_ShutdownAndLoadFragment(arg0, 2);
+            }
+
+            if (GbSave_ReadBoxBank(arg0, 0) != 0) {
+                sp2C = GbSave_ReadBoxBank(arg0, 1);
+            }
+
+            if (GbTower_CheckPakRemoved(arg0, sp37) == 0) {
+                Game_ShutdownAndLoadFragment(arg0, 2);
+            }
+
+            if (sp2C == 0) {
+                main_pool_try_free(sGbSavePorts[arg0].unk_44);
+            }
+        } else {
+            HAL_Memset(sGbSavePorts[arg0].unk_44, 0xFF, 0x2B40);
+
+            for (i = 0; i < 4; i++) {
+                sGbSavePorts[arg0].unk_44[i * 0x566] = 0;
+                sGbSavePorts[arg0].unk_44[0x15A0 + i * 0x566] = 0;
+            }
+
+            sp2C = 1;
+        }
+    }
+    return sp2C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021A8C; signature not recovered. */
@@ -325,11 +423,21 @@ void GbSave_RequirePakPresent(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800221BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800221BC.s")
-#endif
+GbSaveBoxEntry* GbSave_GetBoxEntry(s32 arg0, s32 arg1) {
+    GbSaveBoxEntry* sp1C = NULL;
+    s32 temp_v0 = GbSave_GetBoxCount(arg0);
+
+    if (temp_v0 > 0) {
+        if (arg1 == (temp_v0 - 1)) {
+            sp1C = (GbSaveBoxEntry*)(sGbSavePorts[arg0].unk_40 + 0xAAD);
+        } else if (arg1 < 4) {
+            sp1C = (GbSaveBoxEntry*)(sGbSavePorts[arg0].unk_44 + arg1 * 0x566);
+        } else {
+            sp1C = (GbSaveBoxEntry*)(sGbSavePorts[arg0].unk_44 + arg1 * 0x566 + 8);
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80022284; signature not recovered. */
@@ -645,11 +753,26 @@ s32 GbSave_CopyPortSnapshot(s32 arg0, GbSavePortSnapshot* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002302C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800230C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800230C4.s")
-#endif
+void GbSave_RebuildSeenBitfield(s32 arg0) {
+    GbSavePortZero* ptr = &sGbSavePorts[arg0];
+    u8* temp_s0 = ptr->unk_40;
+    u8* ptr6 = ptr->unk_05;
+    u8* ptr541 = ptr->unk_44;
+    u8* ptr542 = ptr->unk_44 + 0x15A0;
+    s32 i;
+
+    for (i = 0; i < 19; i++) {
+        ptr6[i] = 0;
+    }
+
+    GbSave_MarkSeenBits(ptr6, temp_s0[0x955], temp_s0 + 0x956);
+    GbSave_MarkSeenBits(ptr6, temp_s0[0xAAD], temp_s0 + 0xAAE);
+
+    for (i = 0; i < 4; i++) {
+        GbSave_MarkSeenBits(ptr6, ptr541[i * 0x566], ptr541 + i * 0x566 + 1);
+        GbSave_MarkSeenBits(ptr6, ptr542[i * 0x566], ptr542 + i * 0x566 + 1);
+    }
+}
 
 s32 GbSave_GetSpeciesProgressLevel(s32 arg0, s32 arg1) {
     s32 temp_t1;
@@ -670,11 +793,40 @@ s32 GbSave_GetSpeciesProgressLevel(s32 arg0, s32 arg1) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80023268; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80023268.s")
-#endif
+void func_80023268(s32 arg0, s32 arg1, s32 arg2) {
+    u8* temp_a3;
+    u8* temp_v0;
+    s32 var_a2;
+    s32 var_a3;
+    u8* temp_v1;
+
+    if ((arg1 > 0) && (arg1 < 0x98)) {
+        temp_v0 = (sGbSavePorts[arg0].unk_40 + 0x1E);
+        temp_a3 = (sGbSavePorts[arg0].unk_40 + 0x31);
+        temp_v1 = sGbSavePorts[arg0].unk_05;
+
+        var_a2 = (arg1 - 1) / 8;
+        var_a3 = (arg1 - 1) % 8;
+
+        if (arg2 > 0) {
+            temp_a3[var_a2] |= (1 << var_a3);
+        } else {
+            temp_a3[var_a2] &= ~(1 << var_a3);
+        }
+
+        if (arg2 >= 2) {
+            temp_v0[var_a2] |= (1 << var_a3);
+        } else {
+            temp_v0[var_a2] &= ~(1 << var_a3);
+        }
+
+        if (arg2 >= 3) {
+            temp_v1[var_a2] |= (1 << var_a3);
+        } else {
+            temp_v1[var_a2] &= ~(1 << var_a3);
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800233AC; signature not recovered. */
@@ -688,8 +840,13 @@ s32 GbSave_GetSpeciesProgressLevel(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800234EC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002362C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002362C.s")
-#endif
+s32 func_8002362C(s32 arg0) {
+    s32 i;
+    s32 temp_v1 = 0;
+
+    for (i = 0; i < 0x97; i++) {
+        temp_v1 += (sGbSavePorts[arg0].unk_05[i / 8] >> (i % 8)) & 1;
+    }
+
+    return temp_v1;
+}
