@@ -760,11 +760,32 @@ void Geo_NodeAmbientLight(GraphNode* arg0) {
     gSPLight(gDisplayListHead++, D_80060490->lights, i + 1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001465C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001465C.s")
-#endif
+extern unk_D_86002F34_alt11* D_800604A0;
+extern Gfx D_01002580[];
+M2C_UNK func_800135FC(u8, s32, M2C_UNK, s32);
+void Geo_NodeShadowContext(GraphNode* arg0) {
+    unk_D_86002F34_alt11* arg = (unk_D_86002F34_alt11*)arg0;
+    MtxF* temp_v0 = &D_800AB460.unk_0000[D_800AB460.unk_10A0];
+    Vec3f sp2C;
+    Vec3s sp24;
+
+    if (D_8006049C->node.renderFlags & 2) {
+        Vec3f_SetComponentsDuplicate(&sp2C, temp_v0->xw, 0.0f, temp_v0->zw);
+        Vec3s_SetComponents(&sp24, 0, D_8006049C->rotation.y, 0);
+        MtxF_SetRotationTranslationF(&D_800AB460.unk_0000[D_800AB460.unk_10A0 + 1], &sp2C, &sp24);
+
+        D_800AB460.unk_10A0++;
+
+        GeoRender_CommitMatrix();
+        func_800135FC(0, (s32)D_01002580, 0, 1);
+
+        D_800AB460.unk_10A0--;
+    }
+
+    D_800604A0 = arg;
+    Geo_ProcessNodeChildren(arg0);
+    D_800604A0 = NULL;
+}
 
 M2C_UNK func_8001380C();                            /* extern */
 void func_8001473C(s8 *arg0)

@@ -260,11 +260,26 @@ void BattleScene_InitializeParticipantOwnerModel(ActivePokemon* active_pokemon) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821081D0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108340; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108340.s")
-#endif
+void BattleScene_InitializeParticipantAuxiliaryModel(ActivePokemon* active_pokemon) {
+    DisplayObject* auxiliary_model = &active_pokemon->pokeBall;
+    ModelNodeView* model_view = active_pokemon->sessionTeams->unk_18;
+
+    ModelRenderer_AttachDisplayObject(auxiliary_model);
+    auxiliary_model->effectSlot = 2;
+    Model_InitDisplayObject(auxiliary_model, 0, 153, model_view);
+    ModelAnim_SetAnimation(auxiliary_model, 0);
+
+    auxiliary_model->node.renderFlags &= ~0x20;
+    auxiliary_model->node.flags &= ~1;
+
+    if (active_pokemon == sActivePokemon[0]) {
+        Vec3f_SetComponentsDuplicate(&auxiliary_model->position, -50.0f, 2.0f, 0.0f);
+        M2C_FIELD(auxiliary_model, s16*, 0x20) = 0x4000;
+    } else {
+        Vec3f_SetComponentsDuplicate(&auxiliary_model->position, 50.0f, 2.0f, 0.0f);
+        M2C_FIELD(auxiliary_model, s16*, 0x20) = -0x4000;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210840C; signature not recovered. */

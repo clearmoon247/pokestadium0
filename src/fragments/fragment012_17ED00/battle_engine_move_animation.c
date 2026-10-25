@@ -170,11 +170,24 @@ void BattleScene_TickClearAnimRecordIfLoaded(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82101CD8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82101CD8.s")
-#endif
+s32 func_82101FD4(ActivePokemon*);
+void func_8210568C(ActivePokemon*, s32, s32);
+
+void BattleScene_TickStartRowAnimRecord(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    s32 row_index = active_pokemon->animationState;
+    s32 cue_index = sBattleSceneStateRowTable[row_index].unk_20;
+    MovePresentationCue* cue;
+
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[cue_index];
+    if (func_82101FD4(active_pokemon) != 0) {
+        func_8210568C(active_pokemon, cue_index, 2);
+        active_pokemon->animationTimer = 0;
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+        ModelAnim_SetAnimation(&active_pokemon->displayObject, cue->id);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82101DB0; signature not recovered. */
@@ -990,11 +1003,21 @@ void BattleAnim_TriggerStatusAfflictionCry(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82106C44; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106C44.s")
-#endif
+void BattleScene_AllocateParticipantRecord(BattleSessionTeams* session_teams, s32 side_index) {
+    ActivePokemon* active_pokemon = main_pool_alloc(0xA8C, 0);
+
+    sActivePokemon[side_index] = active_pokemon;
+
+    bzero(active_pokemon, 0xA8C);
+    bzero(&sActivePokemon[side_index]->state, sizeof(ActivePokemonState));
+    bzero(&sActivePokemon[side_index]->state.runtime, sizeof(BattleMonRuntime));
+    bzero(&sActivePokemon[side_index]->thumbnail, sizeof(ThumbnailState));
+    bzero(&sActivePokemon[side_index]->state.runtime.moveCache, sizeof(CachedMoveData));
+    bzero(&sActivePokemon[side_index]->state.unk_9C, sizeof(unk_D_84390010_654_09C));
+    bzero(&sActivePokemon[side_index]->state.unk_AC, sizeof(unk_D_84390010_654_0AC));
+    bzero(&sActivePokemon[side_index]->captionState, sizeof(MonCaptionState));
+    sActivePokemon[side_index]->sessionTeams = session_teams;
+}
 
 M2C_UNK func_8211F3F4();                            /* extern */
 

@@ -593,11 +593,28 @@ void func_80038880(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039010.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039328; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039328.s")
-#endif
+s32 Audio_ComputeVoiceVolume(channel_t* cp) {
+    u32 volume = cp->volume * cp->env_current_vol * cp->velocity * cp->volume_scale;
+
+    volume >>= 0xD;
+    if (volume >= 0x8000) {
+        volume = 0x7FFF;
+    }
+
+    if (cp->IsFX == 0) {
+        volume *= mus_master_volume_songs;
+    } else {
+        volume *= mus_master_volume_effects;
+    }
+
+    volume >>= 0xF;
+
+    if (cp->duration != -1) {
+        volume = (cp->duration * volume) / cp->duration_scale;
+    }
+
+    return volume;
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.

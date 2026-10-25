@@ -255,11 +255,20 @@ void func_82115B64(void) {
     func_8211EF74(D_8219A520 + 0x88, -0x39, D_8218C8D8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82115B98; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115B98.s")
-#endif
+extern s32 D_8218C8DC;
+extern s32 D_8218C8E0;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_Effect_Conversion(void) {
+    sBattleScene.scene->unk_48 = 7;
+    if (!(sBattleTarget->unk_4C & 0x40)) {
+        sBattleUser->roster[6] = sBattleTarget->roster[6];
+        sBattleUser->roster[7] = sBattleTarget->roster[7];
+        func_8211EF74(D_8219A520 + 0x88, -0x38, D_8218C8DC, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+    } else {
+        func_8211EF74(D_8219A520 + 0x88, -0x37, D_8218C8E0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82115C68; signature not recovered. */

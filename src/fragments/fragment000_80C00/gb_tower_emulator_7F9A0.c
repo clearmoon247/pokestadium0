@@ -189,11 +189,33 @@ s32 func_81102168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102C20.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102EB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102EB0.s")
-#endif
+void func_80058260(u32*);
+u32 func_80053A80(void);
+M2C_UNK func_8005C0A0();
+
+void GbPak_PrepareProbeBlock(u32* arg0, s32 arg1) {
+    s32 i;
+
+    switch (arg1) {
+        case 3:
+            for (i = 0; i < 8; i++) {
+                arg0[i] = 0;
+            }
+            break;
+        case 2:
+            for (i = 0; i < 8; i++) {
+                arg0[i] = -1;
+            }
+            break;
+        case 1:
+            func_80058260(arg0);
+            arg0[3] = func_80053A80();
+            func_8005C0A0();
+            func_80058260(arg0 + 4);
+            arg0[7] = func_80053A80();
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81102F7C; signature not recovered. */

@@ -250,11 +250,29 @@ void PikachuReward_ShowTextForFrames(char* arg0, s32 arg1) {
     D_81701B08 = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81700630; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81700630.s")
-#endif
+M2C_UNK func_81700160();
+
+void PikachuReward_ShowTextWaitForA(char* arg0, s32 arg1) {
+    D_817025C0.unk_00 = 0x10;
+
+    do {
+        func_81700160();
+        PikachuReward_RenderFrame(0);
+        PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x104, 0x30);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(2, 0);
+        Font_SetLineHeight(0x10);
+        Font_Printf(0x2E, 0x28, arg0);
+        if (arg1 != 0) {
+            PikachuReward_DrawBlinkingStarIcon(0x104, 0x38);
+        }
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    } while (!BTN_IS_PRESSED(gPlayer1Controller, BTN_A));
+
+    Audio_PlaySoundEffectById(1);
+    D_81701B08 = arg0;
+}
 
 void PikachuReward_ScrollTextIn(s8* arg0) {
     s32 i;
