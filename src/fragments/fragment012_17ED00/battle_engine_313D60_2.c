@@ -37,11 +37,76 @@ void BattleScene_AvoidDegenerateCameraLookAt(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134560; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134560.s")
-#endif
+void func_82105E6C(void);
+void func_82124A40(void);
+void func_82106374(ActivePokemon*);
+void func_821054A8(ActivePokemon*);
+
+void BattleScene_TickCameraSubstateDefault(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_30) {
+        case 0:
+            sBattleScene.scene->unk_18 = 0;
+            break;
+
+        case 1:
+            if (sBattleScene.scene->unk_44 == 2) {
+                BattleThumbnail_ClearBothOwnerIdleFlags();
+            }
+            sBattleScene.scene->unk_30++;
+            break;
+
+        case 2:
+            if (sActivePokemon[0]->thumbnail.camera->viewport.x == -0x48) {
+                sBattleScene.scene->unk_30++;
+            }
+            break;
+
+        case 3:
+            GeoCamera_SetBackgroundTexture(arg0, 0x12C, 0xA, 2, Util_ConvertAddrToVirtAddr((u32)D_1000000));
+            GeoCamera_SetBackground(arg0, 5, 0xA, 0, 0, 0);
+            sBattleScene.scene->unk_18 = 0;
+            sBattleScene.scene->unk_30 += 1;
+
+        case 4:
+            if (arg0->overlay.stepIndex == 0xA) {
+                func_82105E6C();
+                func_82106374(sActivePokemon[0]);
+                func_82106374(sActivePokemon[1]);
+                sBattleScene.scene->unk_30 += 1;
+                sBattleScene.scene->unk_18 = 1;
+            }
+            break;
+
+        case 5:
+            if (BattleScene_AdvanceBothOwnerAnimations() == 0) {
+                if ((sBattleScene.scene->unk_44 == 1) || (sBattleScene.scene->unk_44 == 5) || (sBattleScene.scene->unk_44 == 9)) {
+                    BattleAnim_CleanupEffects(2);
+                }
+                func_821054A8(sActivePokemon[0]);
+                func_821054A8(sActivePokemon[1]);
+                sBattleScene.scene->unk_18 = 2;
+                GeoCamera_SetBackgroundTexture(arg0, 0xA, 0x12C, 2, Util_ConvertAddrToVirtAddr((u32)D_1000000));
+                GeoCamera_SetBackground(arg0, 4, 0xA, 0, 0, 0);
+                arg0->perspective.verticalFieldOfView = 30.0f;
+                sBattleScene.scene->unk_60 = 30.0f;
+                sBattleScene.scene->unk_30 += 1;
+            }
+            break;
+
+        case 6:
+            func_82124A40();
+            arg0->perspective.verticalFieldOfView = 30.0f;
+            sBattleScene.scene->unk_60 = 30.0f;
+            sBattleScene.scene->unk_18 = 0;
+            if (arg0->overlay.stepIndex == 0xA) {
+                sBattleScene.scene->unk_30 = 0;
+                if (sBattleScene.scene->unk_44 == 1) {
+                    BattleThumbnail_SetBothOwnerIdleFlags();
+                }
+            }
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821347E8; signature not recovered. */

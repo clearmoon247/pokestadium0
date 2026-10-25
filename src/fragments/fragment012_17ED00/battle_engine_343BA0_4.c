@@ -556,11 +556,72 @@ void BattleAnim_RegisterEffectSlot(func_D_84390300 arg0, func_D_84390320 arg1) {
     sBattleAnimEffectCallbackIndex++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82136114; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82136114.s")
-#endif
+
+void func_82136430(u8);
+
+extern u8* D_8218F154[];
+extern u8* D_8218F198[];
+extern func_D_84390320 D_821920B8[];
+extern func_D_84390320 D_821924A0[];
+extern func_D_84390320 D_82191CD0[];
+extern u8* D_8218F184[];
+extern func_D_84390320 D_821926F8[];
+extern func_D_84390320 D_82191F28[];
+extern func_D_84390320 D_82192310[];
+void func_8213608C(s16 arg0);
+void BattleAnim_RunEffectList(s32 arg0, s32 arg1, s32 arg2) {
+    u8* sp2C;
+
+    func_82136430(arg1);
+
+    if (arg2 == 1) {
+        switch (arg1) {
+            case 0:
+                sp2C = sMoveAnimEffectScripts[arg0][0];
+                break;
+
+            case 1:
+                sp2C = sMoveAnimEffectScripts[arg0][1];
+                break;
+
+            case 3:
+                sp2C = sD_84386D44[arg0][0];
+                break;
+
+            case 4:
+                sp2C = D_8218F154[arg0];
+                break;
+
+            case 9:
+                sp2C = D_8218F198[arg0];
+                break;
+        }
+
+        while (*sp2C != 0) {
+            BattleAnim_RunEffectInitStart(*sp2C);
+            D_82191CD0[*sp2C]();
+            BattleAnim_RegisterEffectSlot(D_821920B8[*sp2C], D_821924A0[*sp2C]);
+            sp2C++;
+        }
+    } else {
+        switch (arg1) {
+            case 2:
+                sp2C = sMoveAnimEffectScripts[arg0][2];
+                break;
+
+            case 6:
+                sp2C = D_8218F184[arg0];
+                break;
+        }
+
+        while (*sp2C != 0) {
+            func_8213608C(*sp2C);
+            D_82191F28[*sp2C]();
+            BattleAnim_RegisterEffectSlot(D_82192310[*sp2C], D_821926F8[*sp2C]);
+            sp2C++;
+        }
+    }
+}
 
 extern s16 D_8219A80A;
 extern s16 D_8219A80C;
@@ -594,7 +655,7 @@ void BattleAnim_SetQueuedEffectList(u8 effect_list_index) {
 }
 
 extern s8 D_8219A808;
-void func_82136430(unsigned short arg0)
+void func_82136430(u8 arg0)
 {
   D_8219A808 = arg0;
 }
