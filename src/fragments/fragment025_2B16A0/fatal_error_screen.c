@@ -37,11 +37,18 @@ void FatalError_DrawIcon(s32 arg0, s32 arg1) {
     gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_816002AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment025_2B16A0/func_816002AC.s")
-#endif
+extern char** D_81100938;
+extern char* D_816008DC[];
+
+void FatalError_DrawMessagePanel(s32 arg0) {
+    Ui_DrawBorderedPanel(0x16, 0x10, 0x114, 0x76, 0x11C5);
+    FatalError_DrawIcon(0x27, 0x22);
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(2, 0);
+    Font_SetLineHeight(0x10);
+    Font_Printf(0x52, 0x21, D_816008DC[arg0]);
+    Font_EndTexturedTextRendering();
+}
 
 void FatalError_DrawPortDiagram(s32 arg0) {
     u16 sp80[] = {

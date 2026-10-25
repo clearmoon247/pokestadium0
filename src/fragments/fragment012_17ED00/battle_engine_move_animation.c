@@ -953,11 +953,19 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106B48.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82106BC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106BC4.s")
-#endif
+void func_8210568C(ActivePokemon* active_pokemon, s32 cue_index, s32 event_state);
+void func_821366B0(s32, ActivePokemon*);
+void func_82134EBC(ActivePokemon*, s32);
+
+void BattleAnim_TriggerStatusAfflictionCry(ActivePokemon* active_pokemon) {
+    BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[M2C_FIELD(active_pokemon, s32*, 0x9D0)];
+
+    if ((party_pokemon->statusCondition & STATUS_SLEEP_MASK) && !(active_pokemon->state.flags & ACTIVE_SLEEP)) {
+        func_8210568C(active_pokemon, BATTLE_CUE_SLEEP_IDLE, 2);
+        func_821366B0(3, active_pokemon);
+        func_82134EBC(active_pokemon, 50);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82106C44; signature not recovered. */
@@ -1081,8 +1089,22 @@ void BattleThumbnail_SetFlagToUpdatePokemonThumbnail(CameraNode* camera) {
     camera->node.flags |= 0x10;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210720C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210720C.s")
-#endif
+void BattleThumbnail_LoadOwnerCameraFramingConstants(ActivePokemon* active_pokemon) {
+    s32 side;
+
+    if (active_pokemon == sActivePokemon[0]) {
+        side = 0;
+    } else {
+        side = 1;
+    }
+
+    active_pokemon->thumbnail.camera->viewport.width = sSideThumbnailSettings[side].width;
+    active_pokemon->thumbnail.camera->viewport.x = sSideThumbnailSettings[side].x;
+    active_pokemon->thumbnail.camera->viewport.y = sSideThumbnailSettings[side].y;
+
+    active_pokemon->thumbnail.side = sSideThumbnailSettings[side].unk_14;
+
+    active_pokemon->thumbnail.camera->perspective.nearPlane = sSideThumbnailSettings[side].nearPlane;
+    active_pokemon->thumbnail.camera->perspective.farPlane = sSideThumbnailSettings[side].farPlane;
+    active_pokemon->thumbnail.camera->perspective.verticalFieldOfView = sSideThumbnailSettings[side].verticalFieldOfView;
+}

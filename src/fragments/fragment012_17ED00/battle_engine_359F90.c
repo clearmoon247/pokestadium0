@@ -301,11 +301,21 @@ void Battle_ExecuteMoveAnimation(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111080.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111150; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111150.s")
-#endif
+extern u8 D_843C4DB3;
+extern u8 D_82199F3F;
+
+extern s32 D_8218C7A8;
+extern s32 D_8218C7AC;
+
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void Battle_UpdateBattleLog(void) {
+    sTypeEffectiveness = D_82199F3F & 0x7F;
+    if (sTypeEffectiveness >= 0xB) {
+        func_8211EF74(D_8219A520 + 0x88, 0x29, D_8218C7A8);
+    } else if (sTypeEffectiveness < 0xA) {
+        func_8211EF74(D_8219A520 + 0x88, 0x2A, D_8218C7AC);
+    }
+}
 
 extern s32 D_8218C778;
 extern s32 D_8218C77C;

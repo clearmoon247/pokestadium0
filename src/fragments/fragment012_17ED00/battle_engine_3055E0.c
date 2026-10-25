@@ -441,11 +441,14 @@ void BattleScene_ClearCameraOffsetVectors(void) {
     Vec3f_SetComponentsDuplicate(&sBattleScene.scene->unk_A0, 0.0f, 0.0f, 0.0f);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212254C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212254C.s")
-#endif
+typedef struct { f32 v; f32 pad[3]; } CameraTargetOffsetRow;
+extern f32 D_FLT_82189358[];
+
+void BattleScene_SetCameraAtFromAnchor(ActivePokemon* arg0, CameraNode* arg1, Vec3f arg2, s16 arg3, s16 arg4, f32 arg5, f32 arg6) {
+    Camera_ComputeEyeFromAngles(&arg2, &arg1->view.targetPosition, arg5, arg3, arg4);
+    arg1->view.targetPosition.y += arg6;
+    arg1->view.targetPosition.y += ((CameraTargetOffsetRow*)D_FLT_82189358)[M2C_FIELD(arg0, s16*, 0x1A)].v;
+}
 
 void BattleScene_SetCameraAtFromPosition(CameraNode* arg0, Vec3f arg1, s16 arg2, s16 arg3, f32 arg4, f32 arg5) {
     Camera_ComputeEyeFromAngles(&arg1, &arg0->view.targetPosition, arg4, arg2, arg3);

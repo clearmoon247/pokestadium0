@@ -32,11 +32,12 @@ void ParticleGfx_LoadTextureCallbackIa8WrapST_64x64(UNUSED Particle* arg0, u8* t
     ParticleGfx_LoadTextureIa8WrapST(texture, 64, 64);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140F38; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140F38.s")
-#endif
+extern Vtx D_82190E50[];
+
+void ParticleGfx_DrawBillboardPrim(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimColorTextureCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E50);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82140FAC; signature not recovered. */

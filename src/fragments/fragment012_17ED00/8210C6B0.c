@@ -103,11 +103,19 @@ void func_8210CD58(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210CD7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210CD7C.s")
-#endif
+M2C_UNK func_8211F274();
+M2C_UNK func_8211F288();
+extern s32 D_8218C6FC;
+
+s32 BattleScene_ValidateSelectedPartyMember(ActivePokemon* arg0) {
+    if (arg0->sessionTeams->teamMember[M2C_FIELD(arg0, u8*, 0x7B9)]->pokemonPicked[arg0->state.unk_18].hp != 0) {
+        return 1;
+    }
+
+    func_8211F274(arg0);
+    func_8211F288(arg0, D_8218C6FC);
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210CDEC; signature not recovered. */

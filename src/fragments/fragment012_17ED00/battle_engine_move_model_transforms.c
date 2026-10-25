@@ -344,11 +344,12 @@ void BattleAnim_Waterfall(ActivePokemon* owner, ActivePokemon* animated_pokemon)
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210A2F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A2F4.s")
-#endif
+void func_8210A2F4(UNUSED ActivePokemon* owner, ActivePokemon* animated_pokemon) {
+    Vec3f_SetComponentsDuplicate(&animated_pokemon->modelTransform, 0.0f, 0.0f, 0.0f);
+    Vec3f_SetComponentsDuplicate(&animated_pokemon->modelTransform.rotation, 0.0f, 0.0f, 0.0f);
+    BattleAnim_InitSwayOffset(animated_pokemon, sModelTransformConstants[0], 0x2AAA);
+    animated_pokemon->modelTransformTimer++;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210A374; signature not recovered. */
@@ -356,7 +357,6 @@ void BattleAnim_Waterfall(ActivePokemon* owner, ActivePokemon* animated_pokemon)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A374.s")
 #endif
 
-M2C_UNK func_8210A2F4(s32);                         /* extern */
 M2C_UNK func_8210A374(s32, s8 *);                 /* extern */
 
 void func_8210A3DC(s32 arg0, s8 *arg1) {
@@ -365,7 +365,7 @@ void func_8210A3DC(s32 arg0, s8 *arg1) {
     temp_v0 = M2C_FIELD(arg1, s32 *, 0x614);
     switch (temp_v0) {                              /* irregular */
     case 0:
-        func_8210A2F4(arg0);
+        func_8210A2F4((ActivePokemon*)arg0, (ActivePokemon*)arg1);
         /* fallthrough */
     case 1:
         func_8210A374(arg0, arg1);

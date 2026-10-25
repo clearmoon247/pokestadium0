@@ -330,11 +330,15 @@ s32 func_82125E5C(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82125F54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82125F54.s")
-#endif
+s32 BattleScene_PrepareResidualStatusPresentation(void) {
+    s32 idx = sBattleScene.scene->unk_2C;
+    BattleMonRuntime* temp_v1_2 = &sActivePokemon[idx]->state.runtime;
+
+    if (((temp_v1_2->unk_4D & 0x80) || (temp_v1_2->unk_15 & 0x18)) && (temp_v1_2->usedMove == 0xFF)) {
+        return BattleScene_TransitionToPhaseFull(0x23);
+    }
+    return 0;
+}
 
 void BattleScene_UpdateActiveOwnerPointers(void) {
     s32 idx;

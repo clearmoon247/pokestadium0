@@ -373,11 +373,15 @@ void func_821600E0(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821601C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821601C0.s")
-#endif
+void func_8213D3FC(Particle* arg0, f32 arg1, f32 arg2, f32 arg3);
+
+void func_821601C0(Particle* arg0) {
+    Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+    func_8213D3FC(arg0, 320.0f, 0.0f, 0.0f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_Field94_AddZ_0A5B0(arg0, -0x2800);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 s16 func_8213C464();                                /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
@@ -388,7 +392,6 @@ M2C_UNK func_821403E0(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821404AC(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821404DC(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
-M2C_UNK func_821601C0(s8 *);                      /* extern */
 
 void func_82160230(s8 *arg0) {
     s16 sp26;
