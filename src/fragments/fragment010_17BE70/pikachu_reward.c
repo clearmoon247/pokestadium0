@@ -484,11 +484,57 @@ loop_3:
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817010E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_817012C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817012C0.s")
-#endif
+extern char* D_81701B44;
+extern char D_81701F0C[];
+extern char D_81701F20[];
+extern char D_81701F30[];
+extern char D_81701F54[];
+extern char D_81701F74[];
+extern char D_81701F94[];
+extern char D_81701FA8[];
+extern char D_81701FC4[];
+extern char D_81701FE4[];
+void PikachuReward_ShowSaveStatusScreen(s32 arg0) {
+    PikachuReward_RenderFrame(0);
+    PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x104, 0x30);
+
+    if (arg0 == 0) {
+        PikachuReward_DrawTextBoxPanel(0x4C, 0x64, 0xA8, 0x28);
+    } else {
+        PikachuReward_DrawTextBoxPanel(0x30, 0x54, 0xE0, 0x78);
+    }
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(2, 0);
+    Font_SetLineHeight(0x10);
+    Font_Printf(0x2E, 0x28, D_81701B44);
+
+    if (arg0 == 0) {
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(4, -1);
+        Font_Printf(0x5C, 0x70, D_81701F0C);
+        Font_EndTexturedTextRendering();
+    } else {
+        Font_Printf(0x40, 0x84, D_81701F20);
+        Font_Printf(0x40, 0x94, D_81701F30);
+        Font_Printf(0x40, 0xA4, D_81701F54);
+        Font_Printf(0x40, 0xB4, D_81701F74);
+        Gfx_SetEnvColor(0xFF, 0xFF, 0, 0xFF);
+        Font_Printf(0x94, 0x84, D_81701F94);
+        Gfx_SetEnvColor(0xFF, 0xFF, 0x64, 0xFF);
+
+        if (arg0 == 2) {
+            Font_SetActive(4, -2);
+            Font_Printf(0x4C, 0x64, D_81701FA8);
+        } else if (arg0 == 3) {
+            Font_Printf(0x40, 0x5C, D_81701FC4);
+            Font_Printf(0x40, 0x6C, D_81701FE4);
+        }
+    }
+
+    Font_EndTexturedTextRendering();
+    BgStage_AdvanceFrame();
+}
 
 s32 func_80020AFC(M2C_UNK, s32, M2C_UNK, M2C_UNK);  /* extern */
 M2C_UNK func_80020C60(s32);                         /* extern */

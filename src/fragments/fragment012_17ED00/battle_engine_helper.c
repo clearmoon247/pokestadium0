@@ -257,9 +257,7 @@ void BattleScene_InitializeParticipantOwnerModel(ActivePokemon* active_pokemon) 
 extern f32 D_82199DF0[][4];
 void func_8000D41C(Vec3f*, f32, f32, f32);
 void func_8210213C(ActivePokemon*);
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
-void BattleScene_InitializeParticipantModel(ActivePokemon* active_pokemon) {
+void func_821081D0(ActivePokemon* active_pokemon) {
     s32 side;
     UNUSED s32 pad;
     ModelNodeView* model_view;
@@ -295,12 +293,8 @@ void BattleScene_InitializeParticipantModel(ActivePokemon* active_pokemon) {
         BattleScene_PositionParticipantModel(active_pokemon);
         active_pokemon->displayObject.rotation.y = -0x4000;
     }
-
     func_8000D41C(&M2C_FIELD(active_pokemon, Vec3f*, 0x5DC), M2C_FIELD(active_pokemon, s32*, 0x60C) * D_82199DF0[side][0], D_82199DF0[side][1], D_82199DF0[side][2]);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821081D0.s")
-#endif
 
 void BattleScene_InitializeParticipantAuxiliaryModel(ActivePokemon* active_pokemon) {
     DisplayObject* auxiliary_model = &active_pokemon->pokeBall;

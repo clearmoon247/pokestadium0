@@ -107,11 +107,40 @@ void Battle_ResetTransientRuntimeState(s32 arg0, s32 arg1) {
     D_82199F30 = 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F730; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F730.s")
-#endif
+s32 func_8211EF74(s32, s32, s32, ...);
+extern s32 D_8219A520;
+extern s32 D_8218C798;
+extern s32 D_8218C79C;
+extern s32 D_8218C7A0;
+extern s32 D_8218C7A4;
+extern char D_8219544C[];
+void Battle_ResetEntityState(ActivePokemon* active_pokemon) {
+    ActivePokemonState* sp1C = &sActivePokemon[0]->state;
+    ActivePokemonState* sp18 = &sActivePokemon[1]->state;
+    BattleMonRuntime* temp_a1 = &sActivePokemon[0]->state.runtime;
+    BattleMonRuntime* temp_a2 = &sActivePokemon[1]->state.runtime;
+    s32 var_v0;
+
+    if (active_pokemon == sActivePokemon[0]) {
+        var_v0 = ((sp1C->unk_28 - temp_a2->unk_0C) * 0x19) / (temp_a2->unk_28 >> 2);
+    } else {
+        var_v0 = ((sp18->unk_28 - temp_a1->unk_0C) * 0x19) / (temp_a1->unk_28 >> 2);
+    }
+
+    if (var_v0 == 0) {
+        func_8211EF74(D_8219A520 + 0x1C8, 0x25, D_8218C798);
+    } else if (var_v0 < 0x1E) {
+        func_8211EF74(D_8219A520 + 0x1C8, 0x26, D_8218C79C);
+    } else if (var_v0 < 0x46) {
+        func_8211EF74(D_8219A520 + 0x1C8, 0x27, D_8218C7A0);
+    } else {
+        func_8211EF74(D_8219A520 + 0x1C8, 0x28, D_8218C7A4);
+    }
+
+    if (active_pokemon->state.unk_2D == 0x10) {
+        func_8211EF74(D_8219A520 + 0x1C8, 0, (s32)D_8219544C);
+    }
+}
 
 s32 func_8210F3F0();                                /* extern */
 extern u16 D_82199F50;

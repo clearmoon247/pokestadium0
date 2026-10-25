@@ -230,11 +230,11 @@ void func_82110984(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110A10.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110B44; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110B44.s")
-#endif
+void func_82110B44(ActivePokemon* arg0) {
+    BattleMon* ptr = &arg0->teamRoster->pokemonPicked[arg0->state.rosterIndex];
+
+    ptr->statusCondition = arg0->state.runtime.unk_15;
+}
 
 void ApplyParalysisSpeedCut(ActivePokemon* arg0) {
     BattleMonRuntime* temp_v0 = &arg0->state.runtime;

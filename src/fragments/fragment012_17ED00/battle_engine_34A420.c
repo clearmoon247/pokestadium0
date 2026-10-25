@@ -140,6 +140,7 @@ void Radial20_ResetPool(void) {
     }
 }
 
+extern Radial20 D_84398F50[10];
 #ifdef NON_MATCHING
 /* TODO: decompile func_82174C30; signature not recovered. */
 #else

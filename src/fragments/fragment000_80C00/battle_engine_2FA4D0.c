@@ -94,17 +94,18 @@ void func_8110FC48(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FD6C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FD90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FD90.s")
-#endif
+void func_8110FCF0(DisplayObject* arg0, s32* arg1);
+void func_8110FD90(DisplayObject* arg0, s8 arg1) {
+    s32 sp1C = arg1 << 24;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FDC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FDC0.s")
-#endif
+    func_8110FCF0(arg0, &sp1C);
+}
+
+void func_8110FDC0(DisplayObject* arg0, s16 arg1) {
+    s32 sp1C = arg1 << 16;
+
+    func_8110FCF0(arg0, &sp1C);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110FDF0; signature not recovered. */

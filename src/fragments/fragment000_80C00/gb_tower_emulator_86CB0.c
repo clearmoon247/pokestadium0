@@ -362,11 +362,12 @@ u8 func_81112FB0(u8 **arg0)
   return new_var;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112FC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112FC4.s")
-#endif
+s16 func_81112FC4(u8** arg0) {
+    s16 tmp = *(*arg0)++ << 8;
+
+    tmp = *(*arg0)++ | tmp;
+    return tmp;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112FFC; signature not recovered. */
