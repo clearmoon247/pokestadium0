@@ -300,11 +300,33 @@ void func_8A202390(s8 *arg0) {
     func_80020C60(sp18);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A2023F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A2023F4.s")
-#endif
+void func_80022118(s32);
+void func_80020DF0(s32, s32, s32);
+s32 func_8002207C(s32);
+void func_8002D7D4(s32);
+void func_80022188(s32);
+M2C_UNK func_8A20261C(M2C_UNK *);
+
+void func_8A2023F4(s32* arg0, s32 arg1) {
+    s32* sp2C;
+    s32 i;
+    s32 temp_s3;
+
+    sp2C = (s32*)arg0[0];
+    func_80022118(D_8A21DA40);
+    temp_s3 = func_80020AFC(0x20, D_8A21DA40, 0, 1);
+
+    for (i = 0; i < arg0[2]; i++) {
+        func_80020DF0(sp2C[i], 1, temp_s3);
+    }
+
+    func_80020C60(temp_s3);
+    if (func_8002207C(D_8A21DA40) == 0) {
+        func_8002D7D4(D_8A21DA40);
+        func_8A20261C((M2C_UNK*)arg1);
+    }
+    func_80022188(D_8A21DA40);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A2024D0; signature not recovered. */

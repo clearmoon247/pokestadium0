@@ -897,11 +897,26 @@ s32 func_82105AB0(ActivePokemon* active_pokemon, s32 frame_limit) {
     return ModelAnim_IsAnimationDone(&active_pokemon->displayObject);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105C8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105C8C.s")
-#endif
+s32 BattleScene_IsRowAnimWaitComplete(ActivePokemon* active_pokemon, s32 frame_limit) {
+    MovePresentationCue* cue = (MovePresentationCue*)((u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x738);
+
+    if ((active_pokemon->state.flags & ACTIVE_FREEZE) || ((active_pokemon->state.flags & ACTIVE_AIRBORNE) && !(active_pokemon->state.flags & ACTIVE_AIR_ACTION))) {
+        if (BattleScene_AdvanceCameraFrameCounter(frame_limit) != 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    if (M2C_FIELD(active_pokemon, s16*, 0x40) == -1) {
+        return 1;
+    }
+
+    if (M2C_FIELD(active_pokemon, s16*, 0x40) != cue->id) {
+        return 1;
+    }
+
+    return ModelAnim_IsAnimationDone(&active_pokemon->displayObject);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82105D3C; signature not recovered. */

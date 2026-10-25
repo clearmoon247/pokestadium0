@@ -256,11 +256,33 @@ u8* Audio_PushVoiceLoopState(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036C4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036C4C.s")
-#endif
+u8* Audio_PopVoiceLoopState(channel_t* cp, u8* ptr) {
+    s32 index = M2C_FIELD(cp, u8*, 0xEE) - 1;
+
+    if (((u8*)((u8*)cp + 0x130))[index] != 0xFF) {
+        ((u8*)((u8*)cp + 0x130))[index]--;
+        if (!((u8*)((u8*)cp + 0x130))[index]) {
+            M2C_FIELD(cp, u8*, 0xEE) = index;
+            index = -1;
+        }
+    }
+
+    if (index >= 0) {
+        ptr = ((u8**)((u8*)cp + 0xF0))[index];
+
+        cp->pvolumebase = ((u8**)((u8*)cp + 0x100))[index];
+        cp->ppitchbendbase = ((u8**)((u8*)cp + 0x110))[index];
+        cp->volume = ((u8*)((u8*)cp + 0x134))[index];
+
+        cp->pitchbend = ((u8*)((u8*)cp + 0x138))[index];
+        cp->cont_vol_repeat_count = ((u16*)((u8*)cp + 0x120))[index];
+        cp->cont_pb_repeat_count = ((u16*)((u8*)cp + 0x128))[index];
+        cp->bendrange = 0.03125f;
+        cp->pitchbend_calc = cp->pitchbend * cp->bendrange;
+    }
+
+    return ptr;
+}
 
 s8 *func_80036D04(s8 *arg0, s8 *arg1) {
     M2C_FIELD(arg0, u8 *, 0xEB) = (u8) M2C_FIELD(arg1, u8 *, 0);
@@ -764,11 +786,42 @@ void Audio_UpdateVoicePlaybackEnd(channel_t* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039A44.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039A60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039A60.s")
-#endif
+void Audio_AdvancePanModulation(channel_t* arg0) {
+    u32 temp_v1;
+    u32 var_v0;
+
+    do {
+        arg0->sweep_frame += 0x100;
+
+        temp_v1 = (M2C_FIELD(arg0, u8*, 0xE7) * 2) + M2C_FIELD(arg0, u8*, 0xEC);
+        if (temp_v1 < 0x80) {
+            M2C_FIELD(arg0, u8*, 0xEC) = temp_v1;
+            continue;
+        }
+
+        M2C_FIELD(arg0, u8*, 0xEC) = temp_v1 & 0x7F;
+        temp_v1 >>= 7;
+        if (M2C_FIELD(arg0, u8*, 0xED) == 0) {
+            var_v0 = arg0->sweep_amount;
+            var_v0 += temp_v1;
+            if (var_v0 >= 0xFF) {
+                var_v0 = 0xFE;
+                M2C_FIELD(arg0, u8*, 0xED) = 1;
+            }
+            arg0->sweep_amount = var_v0;
+        } else {
+            var_v0 = arg0->sweep_amount;
+            var_v0 -= temp_v1;
+            if ((var_v0 >= 0xFF) || (var_v0 == 0)) {
+                var_v0 = 1;
+                M2C_FIELD(arg0, u8*, 0xED) = 0;
+            }
+            arg0->sweep_amount = var_v0;
+        }
+    } while (arg0->sweep_frame < M2C_FIELD(arg0, u64*, 0x0));
+
+    arg0->pan_current = 0xFF;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80039B2C; signature not recovered. */

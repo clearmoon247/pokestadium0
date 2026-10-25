@@ -78,11 +78,55 @@ void func_89000020(unk_func_8830867C_02C_0CC* arg0, s32 (*arg1)(s32, s32)) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000048.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890000A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890000A4.s")
-#endif
+void func_800275E4(s32, s32);
+int func_800274E0();
+void func_80030744(s32*, s32);
+
+void func_890000A4(s32* arg0, s32 arg1, s32 arg2) {
+    s32 i;
+    s32 var_s3;
+    s32 var_v0;
+    s32* temp_s4;
+    u8 sp3C[2];
+    u8* var_s2;
+    u8* temp_v1;
+
+    temp_s4 = (s32*)arg0[0];
+    temp_v1 = (u8*)temp_s4[0];
+    i = 0;
+
+    if (temp_s4[2] > 0) {
+        var_s2 = temp_v1;
+        do {
+            if (arg1 == var_s2[0]) {
+                arg2 += var_s2[1];
+                func_800275E4(arg0[0], i);
+                if (i < arg0[2]) {
+                    arg0[2]--;
+                }
+            } else {
+                i++;
+                var_s2 += 2;
+            }
+        } while (i < temp_s4[2]);
+    }
+
+    sp3C[0] = arg1;
+    var_s3 = arg0[2];
+
+    while (arg2 > 0) {
+        if (arg2 < 0x63) {
+            var_v0 = arg2;
+        } else {
+            var_v0 = 0x63;
+        }
+        arg2 -= var_v0;
+        sp3C[1] = var_v0;
+        func_800274E0(temp_s4, sp3C, var_s3++);
+    }
+
+    func_80030744(arg0, arg0[2]);
+}
 
 typedef struct LabItemGrid {
     /* 0x00 */ u8* unk_00;

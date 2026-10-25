@@ -248,11 +248,29 @@ void func_80025F3C(void) {
     D_800733C8 = 0x8010;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025FDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025FDC.s")
-#endif
+extern M2C_UNK D_81200000;
+extern M2C_UNK D_0015E220;
+extern s32 D_800AF988;
+
+void State_FastN64Logo(void) {
+    D_800733C8 = func_80025B60(((u32) ((s32) &D_81200000 & 0x0FF00000) >> 0x14) - 0x10, &D_0015E220, &D_0015F390, 0, NULL);
+    M2C_FIELD(&D_800AE8F0, u8*, 2) = 0;
+    M2C_FIELD(&D_800AE8F0, s16*, 0x1096) = 0;
+    switch (D_800733C8) {
+        case 0x8010:
+            func_80025B60(((u32) ((s32) &D_82100000 & 0x0FF00000) >> 0x14) - 0x10, &D_0017ED00, &D_00232510, 0, &D_800AE8F0);
+            break;
+        case 0x8020:
+            D_800733D4 = -1;
+            D_800AF988 = 0;
+            D_800733C8 = 0x8040;
+            break;
+        default:
+            D_800733D4 = 0;
+            D_800AF988 = 1;
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800260C4; signature not recovered. */
@@ -266,11 +284,53 @@ void func_80025F3C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80026368.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002677C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002677C.s")
-#endif
+extern M2C_UNK D_81300000;
+extern M2C_UNK D_0015FCE0;
+extern s32 D_800733CC;
+void func_8000A838(s32);
+void func_8000A8DC(void);
+void func_8000A904(void);
+void func_8000AC78(UnkInputStruct8000D738*);
+s32 func_8000ADE8(void);
+void func_8000AE1C(UnkInputStruct8000D738*);
+void func_800268E4(s32, s32);
+void func_80021C6C(s32);
+void func_80023C30(void);
+void func_80025130(s32);
+void func_8002404C(s32, s32);
+
+void State_GbTower(void) {
+    s32 sp2C;
+    UnkInputStruct8000D738 sp24;
+
+    main_pool_push_state('EMU0');
+    func_8000A838(1);
+    Display_WaitForFrames(2);
+    func_8000A8DC();
+
+    sp24.unk_04 = main_pool_alloc(sizeof(*sp24.unk_04), 0);
+
+    func_80025B60(((u32) ((s32) &D_81300000 & 0x0FF00000) >> 0x14) - 0x10, &D_0015F8F0, &D_0015FCE0, D_800733D4, (M2C_UNK*)&sp24);
+    func_8000AC78(&sp24);
+
+    sp2C = func_8000ADE8();
+
+    func_8000AE1C(&sp24);
+    Display_WaitForFrames(2);
+    func_8000A904();
+
+    if (sp2C != 0) {
+        func_800268E4(D_800733D4, sp2C);
+    }
+
+    func_80021C6C(D_800733D4);
+    func_80023C30();
+    func_80025130(sp24.unk_00);
+    func_8002404C(0x14, 0);
+    D_800733C8 = D_800733CC;
+    D_800AF988 = 1;
+    main_pool_pop_state('EMU0');
+}
 
 extern s32 D_800733C8;
 

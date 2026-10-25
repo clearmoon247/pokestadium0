@@ -291,11 +291,41 @@ s32 BattleMenu_IsSlotAlreadySelected(unk_D_848037A0* arg0, s8 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823019AC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82301A2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_82301A2C.s")
-#endif
+s32 func_823018F8(unk_D_848037A0* arg0);
+s32 func_823019AC(unk_D_848037A0* arg0);
+void func_82301A2C(unk_D_848037A0* arg0, s8 arg1) {
+    if (arg1 >= arg0->unk_0016) {
+        Audio_PlaySoundEffectById(SFX_MENU_ERROR);
+        return;
+    }
+
+    if (BattleMenu_IsSlotAlreadySelected(arg0, arg1) != 0) {
+        Audio_PlaySoundEffectById(SFX_MENU_ERROR);
+        return;
+    }
+
+    arg0->unk_000C[arg0->unk_000B] = arg1;
+    arg0->unk_000B++;
+    BattleMenu_AppendOrderSlotIcon(arg0->unk_0003, arg0->unk_0001);
+
+    if (arg0->unk_0009 != 0) {
+        arg0->unk_0006 = 2;
+    }
+
+    if (func_823018F8(arg0) != 0) {
+        Audio_PlaySoundEffectById(SFX_MENU_ERROR);
+        arg0->unk_0005 = 2;
+        arg0->unk_0006 = 2;
+        return;
+    }
+
+    Audio_PlaySoundEffectById(SFX_MENU_CONFIRM);
+    if (func_823019AC(arg0) != 0) {
+        arg0->unk_0005 = 1;
+        arg0->unk_000A = 0;
+        arg0->unk_0006 = 2;
+    }
+}
 
 M2C_UNK func_8003F6AC(M2C_UNK, s8 *);             /* extern */
 M2C_UNK func_82300B30(s8, s8 *);                  /* extern */
@@ -322,7 +352,7 @@ void func_82301B2C(s8 *arg0) {
     }
 }
 
-void func_82301A2C(unk_D_848037A0*, s32);
+void func_82301A2C(unk_D_848037A0*, s8);
 
 void BattleMenu_HandleOrderSelectPanel_PartyInput(Controller* arg0, unk_D_848037A0* arg1) {
     if (BTN_IS_PRESSED(arg0, BTN_R)) {

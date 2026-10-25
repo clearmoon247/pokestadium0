@@ -334,11 +334,21 @@ void BattleScene_SetCameraSubstate(s32 arg0, u16 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82121DAC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82121EB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82121EB0.s")
-#endif
+void BattleScene_SetDamageShakeAmplitude(ActivePokemon* arg0) {
+    BattleMon* ptr = &arg0->teamRoster->pokemonPicked[arg0->state.rosterIndex];
+
+    sBattleScene.scene->unk_68 = ((ptr->hp - M2C_FIELD(arg0, u16*, 0x7D2)) / 996.0f) * 450.0f;
+
+    if (sBattleScene.scene->unk_68 == 0.0f) {
+        sBattleScene.scene->unk_68 = 0.0f;
+    } else if (sBattleScene.scene->unk_68 <= 6.0f) {
+        sBattleScene.scene->unk_68 = 6.0f;
+    } else if (sBattleScene.scene->unk_68 >= 40.0f) {
+        sBattleScene.scene->unk_68 = 40.0f;
+    }
+
+    M2C_FIELD(sBattleScene.scene, s16*, 0x6C) = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82121F8C; signature not recovered. */
@@ -498,11 +508,29 @@ void BattleScene_CameraHelperNop(UNUSED CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821227C0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821228B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821228B0.s")
-#endif
+void func_821227C0(CameraNode*, ActivePokemon*);
+
+void func_821228B0(CameraNode* arg0, ActivePokemon* arg1) {
+    u8* ptr = (u8*)&arg1->modelTransform;
+    Vec3f sp50;
+    Vec3f sp44;
+    Vec3f sp38;
+    f32 sp34;
+    s16 sp32;
+    s16 sp30;
+    Vec3f* sp28;
+
+    func_82121908(arg1, &sp50);
+    BattleAnim_CalculateDistanceAngles(&sp50, &M2C_FIELD(arg1, Vec3f*, 0x5D0), &sp34, &sp32, &sp30);
+    sp28 = &arg0->view.targetPosition;
+    BattleAnim_Vec3fCopy(&sp38, sp28);
+    Camera_ComputeEyeFromAngles(&sp50, &sp44, M2C_FIELD(ptr, f32*, 0x38), M2C_FIELD(ptr, s16*, 0x30), M2C_FIELD(ptr, s16*, 0x32));
+    BattleAnim_CalculateDistanceAngles(&sp38, &sp44, &sp34, &sp32, &sp30);
+    if (sp34 >= 5.0) {
+        Camera_ComputeEyeFromAngles(&sp38, sp28, sp34 * 0.05f, sp32, sp30);
+    }
+    func_821227C0(arg0, arg1);
+}
 
 void func_82121908(ActivePokemon* arg0, Vec3f* arg1);
 void BattleScene_ApproachCameraTarget(CameraNode* arg0, ActivePokemon* arg1) {
@@ -583,7 +611,27 @@ void func_8212311C(CameraNode* arg0, ActivePokemon* arg1, Color_RGBA8 arg2) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82123314; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_82123314(CameraNode* arg0, ActivePokemon* arg1) {
+    u8* ptr = (u8*)&arg1->modelTransform;
+    Vec3f sp50;
+    Vec3f sp44;
+    Vec3f sp38;
+    Vec3f sp2C;
+    f32 sp28;
+    s16 sp26;
+    s16 sp24;
+
+    func_82121908(arg1, &sp50);
+    BattleAnim_Vec3fCopy(&sp38, &arg0->view.targetPosition);
+    Camera_ComputeEyeFromAngles(&sp50, &sp44, M2C_FIELD(ptr, f32*, 0x38), M2C_FIELD(ptr, s16*, 0x30), M2C_FIELD(ptr, s16*, 0x32));
+    BattleAnim_CalculateDistanceAngles(&sp38, &sp44, &sp28, &sp26, &sp24);
+    Camera_ComputeEyeFromAngles(&sp38, &sp2C, sp28 * 0.1f, sp26, sp24);
+    arg0->view.targetPosition.y = sp2C.y;
+    if (arg0->view.targetPosition.y <= 15.0f) {
+        arg0->view.targetPosition.y = 15.0f;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82123314.s")
 #endif

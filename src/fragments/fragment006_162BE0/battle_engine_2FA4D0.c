@@ -289,11 +289,25 @@ void func_88400DAC(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401970.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88401A88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401A88.s")
-#endif
+void func_800245E0(s32 arg0, s32 arg1);
+void Save_InitializeBank3(void) {
+    s32 i;
+
+    for (i = 0; i < 16; i++) {
+        func_800245E0(16, i);
+    }
+    for (i = 0; i < 4; i++) {
+        func_800245E0(17, i);
+    }
+    for (i = 0; i < 4; i++) {
+        func_800245E0(18, i);
+    }
+    func_800245E0(19, 0);
+    func_800245E0(20, 0);
+    func_800245E0(21, 0);
+    func_8003BC9C(1);
+    func_800418F0(1);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88401B40; signature not recovered. */

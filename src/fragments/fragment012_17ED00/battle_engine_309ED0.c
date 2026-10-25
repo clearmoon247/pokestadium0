@@ -22,6 +22,7 @@ extern s32 sMultihitCountdown;
 #include "math_util.h"
 
 #include "m2c_macros.h"
+void func_821254B0(void);
 
 void BattleScene_ResetAnimationStep(void);
 void func_82124EF4(void);
@@ -351,11 +352,27 @@ s32 BattleScene_HandleFaintStatusCompletion(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82125838; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82125838.s")
-#endif
+extern ActivePokemon* D_84390200;
+void func_821254B0(void);
+
+void BattleScene_CompleteActionPhase(void) {
+    if ((sBattleScene.scene->unk_34 == 0) && (M2C_FIELD(D_8219A540, u8*, 0x820) != 0xFF)) {
+        BattleAnim_ClearRockThrowingMoveFlag(sActivePokemon[sBattleScene.scene->unk_2C]);
+        Audio_FadeAndClearStoredSounds();
+        BattleScene_ResetAnimationStep();
+        func_821254B0();
+        sBattleScene.scene->unk_20 = 0;
+        sBattleScene.scene->unk_14 = 0;
+        sBattleScene.scene->unk_38 = 3;
+    } else if (BattleScene_HandleFaintStatusCompletion() == 0) {
+        BattleAnim_ClearRockThrowingMoveFlag(sActivePokemon[sBattleScene.scene->unk_2C]);
+        Audio_FadeAndClearStoredSounds();
+        BattleScene_ResetAnimationStep();
+        sBattleScene.scene->unk_20 = 0;
+        sBattleScene.scene->unk_14 = 0;
+        sBattleScene.scene->unk_38 = 4;
+    }
+}
 
 s32 BattleScene_TransitionToPhaseFull(s32 arg0) {
     BattleScene_ClearPhaseFlag();
