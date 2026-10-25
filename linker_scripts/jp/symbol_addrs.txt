@@ -3113,3 +3113,5 @@ Battle_CalcDamage = 0x8210FF40; // type:func stadium1
 BattleAnim_CallbackEndEffect56Descriptor46RisingScaleAlphaFade = 0x821471D8; // learned from func_821487F0
 BattleAnim_CallbackEndEffects54And56Descriptor3DRisingColorScaleFade = 0x821475F4; // learned from func_821487F0
 BattleAnim_CallbackSharedDescriptor19RecolorAnimatedFade = 0x8214BD78; // learned from func_8214DEDC
+Diorama_PushModelPool = 0x82183C54; // type:func stadium1
+MewtwoIntro_RenderFrame = 0x82200510; // type:func stadium1

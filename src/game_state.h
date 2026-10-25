@@ -82,9 +82,9 @@ typedef struct TeamRoster {
     /* 0x00C */ char unk00C[0xC];
     /* 0x018 */ s32 unk_018;
     /* 0x01C */ BattleMon pokemonPicked[6];
-    /* 0x214 */ ExtendedRosterInfo* rosterInfo;
-    /* 0x218 */ char unk218[0x4];
-} TeamRoster; // size = 0x21C
+    /* 0x1FC */ ExtendedRosterInfo* rosterInfo;
+    /* 0x200 */ char unk200[0x4];
+} TeamRoster; // size = 0x204 (Stadium 1: 0x21C)
 
 typedef struct BattleSessionTeams {
     /* 0x00 */ u8 uniqueStatusFlags;
