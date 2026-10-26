@@ -311,11 +311,55 @@ void BattleScene_TickRow10CleanupAndEnterState18(ActivePokemon* active_pokemon) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102398.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821024C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821024C8.s")
-#endif
+void func_82122104(ActivePokemon*);
+void func_821024C8(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    s16 species = active_pokemon->displayObject.objectType - 1;
+    BattleMonRuntime* pokemon_runtime;
+    MovePresentationCue* cue;
+
+    BattleScene_GetParticipantSideIndex(active_pokemon);
+    pokemon_runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[pokemon_runtime->usedMove - 1];
+
+    if (((pokemon_runtime->usedMove == 0x19) && (species == 0x64)) || ((pokemon_runtime->usedMove == 0x41) && (species == 0x90))) {
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+    } else if ((active_pokemon->animationTimer == (cue->animationDuration + 1)) && (BattleAnim_IsAssetLoadBusy(active_pokemon) == 0)) {
+        if (sBattleScene.scene->unk_48 == 20) {
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        } else {
+            if ((pokemon_runtime->usedMove == 0x2D) || (pokemon_runtime->usedMove == 0x2E) || (pokemon_runtime->usedMove == 0x59)) {
+                func_82122104(active_pokemon);
+            }
+            if ((pokemon_runtime->moveCache.lastMove == 0x5B) && (species == 0x32)) {
+                sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+                return;
+            }
+            if (pokemon_runtime->moveCache.lastMove == 0x6E) {
+                if ((species != 8) && (species != 0x5A)) {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, 12, 0);
+                    BattleAnim_PlayMoveEffectScript(active_pokemon, pokemon_runtime->usedMove);
+                }
+            } else {
+                if (pokemon_runtime->moveCache.lastMove == 0x45) {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, 8, 0);
+                } else if (pokemon_runtime->moveCache.lastMove == 0x39) {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, 10, 0);
+                } else if (pokemon_runtime->moveCache.lastMove == 0x60) {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, 13, 0);
+                } else if (pokemon_runtime->moveCache.lastMove == 0x7F) {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, 14, 0);
+                } else if (pokemon_runtime->moveCache.lastMove == 0x6B) {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, 9, 0);
+                } else {
+                    BattleScene_SetParticipantModelTransform(active_pokemon, cue->flags1, 0);
+                }
+                BattleAnim_PlayMoveEffectScript(active_pokemon, pokemon_runtime->usedMove);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 extern s32 D_8219A574;
 void func_8210278C(ActivePokemon* active_pokemon) {

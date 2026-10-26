@@ -790,11 +790,10 @@ void func_8213E42C(Particle* arg0) {
     M2C_FIELD(arg0, f32*, 0x54) += M2C_FIELD(arg0, f32*, 0x80);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E450; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E450.s")
-#endif
+void func_8213E450(Particle* arg0) {
+    arg0->unk_50.x += arg0->unk_7C.x;
+    arg0->unk_50.y += arg0->unk_7C.y;
+}
 
 void func_8213E474(s8 *arg0)
 {

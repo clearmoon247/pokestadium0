@@ -37,11 +37,36 @@ void func_81200190(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_8120023C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8120047C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_8120047C.s")
-#endif
+extern s32 D_81201010;
+void func_8120047C(void) {
+    u8* image = (u8*)D_81201010;
+    s32 i;
+    s32 j;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, 320, 240);
+    gDPSetCombine(gDisplayListHead++, 0x17FE2F, 0x77FCF87C);
+    gDPSetTextureConvert(gDisplayListHead++, G_TC_CONV);
+    gDPSetConvert(gDisplayListHead++, G_CV_K0, G_CV_K1, G_CV_K2, G_CV_K3, G_CV_K4, G_CV_K5);
+    gDPPipeSync(gDisplayListHead++);
+
+    for (i = 0; i < 0xF0; i += 0x10) {
+        for (j = 0; j < 0x140; j += 0x10) {
+            gDPLoadTextureBlockYuv(gDisplayListHead++, image, G_IM_FMT_YUV, G_IM_SIZ_16b, 16, 16, 0,
+                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
+            gSPTextureRectangle(gDisplayListHead++, j << 2, i << 2, (j + 0x10) << 2, (i + 0x10) << 2, G_TX_RENDERTILE,
+                                0, 0, 0x0400, 0x0400);
+            image += 0x200;
+        }
+    }
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetTextureConvert(gDisplayListHead++, G_TC_FILT);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_812007B0; signature not recovered. */

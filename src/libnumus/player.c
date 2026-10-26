@@ -838,11 +838,11 @@ void Audio_UpdateVoicePlaybackEnd(channel_t* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800395D0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039A44; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039A44.s")
-#endif
+void func_80039A44(channel_t* cp) {
+    M2C_FIELD(cp, u32*, 0xA0) = M2C_FIELD(cp, u64*, 0x20);
+    M2C_FIELD(cp, u8*, 0xEC) = 0;
+    M2C_FIELD(cp, u8*, 0xED) = M2C_FIELD(cp, s16*, 0xBC) & 0x80;
+}
 
 void Audio_AdvancePanModulation(channel_t* arg0) {
     u32 temp_v1;

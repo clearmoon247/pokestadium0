@@ -154,11 +154,59 @@ void Battle_Effect_Explosion(void) {
     sBattleUser->unk_4D &= ~0x80;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113CD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113CD0.s")
-#endif
+extern s32 D_8218C7E0;
+extern s32 D_8218C7E4;
+extern s32 D_8218C7E8;
+extern s32 D_8218C7EC;
+void func_82113CD0(void) {
+    if (sBattleTarget->unk_4D & 0x10) {
+        return;
+    }
+
+    if (sBattleTarget->unk_15 != 0) {
+        if ((sBattleTarget->unk_15 & 0x20) && (sBattleUser->moveCache.unk_03 == 0x14)) {
+            sBattleTarget->unk_15 = 0;
+            func_8211EF74(D_8219A520 + 0x88, -0x77, D_8218C7E0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+        }
+        return;
+    }
+
+    if ((sBattleTarget->roster[6] != (*sBattleUser).moveCache.unk_03) &&
+        (sBattleTarget->roster[7] != (*sBattleUser).moveCache.unk_03)) {
+        if ((sBattleUser->moveCache.unk_01 < 7) || (sBattleUser->moveCache.lastMove == BLIZZARD)) {
+            if (Battle_Random() >= 0x1A) {
+                return;
+            }
+        } else if (Battle_Random() >= 0x4D) {
+            return;
+        }
+
+        switch (sBattleUser->moveCache.unk_01) {
+            case 4:
+            case 34:
+                sBattleTarget->unk_15 = 0x10;
+                ApplyBurnAttackCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+                func_8211EF74(D_8219A520 + 0x208, -0x76, D_8218C7E4, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                break;
+
+            case 5:
+            case 35:
+                if (Battle_FreezeClauseInEffect(sActivePokemon[!sBattleScene.scene->unk_2C]) == 0) {
+                    sBattleTarget->unk_4D &= ~0x20;
+                    sBattleTarget->unk_15 = 0x20;
+                    func_8211EF74(D_8219A520 + 0x208, -0x75, D_8218C7E8, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                }
+                break;
+
+            case 6:
+            case 36:
+                sBattleTarget->unk_15 = 0x40;
+                ApplyParalysisSpeedCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+                func_8211EF74(D_8219A520 + 0x208, -0x74, D_8218C7EC, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                break;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82113FC8; signature not recovered. */
