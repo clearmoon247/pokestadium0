@@ -134,7 +134,28 @@ void func_8216E0C0(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8216E0C8; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void BattleAnim_CalcVectorAtToDm(f32* arg0, f32* arg1, f32* arg2, f32* arg3, f32* arg4, f32* arg5);
+void func_82175440(f32, f32, f32, f32, f32, f32, s16, u8, u8, u8, u8, f32, f32, f32, s16);
+void func_8216E0C8(void) {
+    f32 sp64;
+    f32 sp60;
+    f32 sp5C;
+    f32 sp58;
+    f32 sp54;
+    f32 sp50;
+    s32 r2;
+    s32 r1;
+
+    BattleAnim_CalcVectorAtToDm(&sp64, &sp60, &sp5C, &sp58, &sp54, &sp50);
+    sp58 *= 8.0f;
+    sp54 *= 4.0f;
+    sp50 = 0.0f;
+    sp54 += 6.0f;
+    r1 = guRandom();
+    r2 = guRandom();
+    func_82175440(sp64, sp60, sp5C, sp58, ((r1 % 4) * 0.01) + sp54 - 0.02, sp50 - ((r2 % 5) * 0.3) + 0.6, 3, 0x80, 0xC0, 0xFF, 0xC8, 0.1f, 2.0f, 5.0f, 0x3C);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E0C8.s")
 #endif
@@ -305,7 +326,26 @@ void BattleAnim_EndEffect33Radial20_Draw(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8216EB10; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_8216EB10(void) {
+    f32 sp64;
+    f32 sp60;
+    f32 sp5C;
+    f32 sp58;
+    f32 sp54;
+    f32 sp50;
+    s32 r2;
+    s32 r1;
+
+    BattleAnim_CalcVectorAtToDm(&sp64, &sp60, &sp5C, &sp58, &sp54, &sp50);
+    sp58 *= 8.0f;
+    sp54 *= 4.0f;
+    sp50 = 0.0f;
+    sp54 += 6.0f;
+    r1 = guRandom();
+    r2 = guRandom();
+    func_82175440(sp64, sp60, sp5C, sp58, ((r1 % 4) * 0.01) + sp54 - 0.02, sp50 - ((r2 % 5) * 0.3) + 0.6, 3, 0xFF, 0xFF, 0x40, 0xC8, 0.1f, 2.0f, 5.0f, 0x3C);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EB10.s")
 #endif

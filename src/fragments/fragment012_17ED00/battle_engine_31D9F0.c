@@ -130,11 +130,36 @@ void func_82116FF4(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     func_8001ABBC();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821170D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821170D0.s")
-#endif
+extern s8 D_8219597C;
+void func_821170D0(s16 arg0, s16 arg1, s32 arg2, s32 arg3, u16 arg4, s32 arg5) {
+    UNUSED s32 pad;
+    s16 wave;
+    s16 alpha;
+    u32 half;
+    s32 temp_v0;
+
+    wave = gCosineTable[arg4 >> 4] * 255.0f;
+    alpha = wave;
+    if (wave < 0) {
+        alpha = -wave;
+    }
+    temp_v0 = arg2 * 3;
+    func_82116CF4(arg0, arg1, 0x46, 0x11, temp_v0 + &D_8218B008, temp_v0 + &D_8218B014);
+    func_8001AB6C();
+    func_8001A384(2, 0);
+    if (arg5 != 0) {
+        func_8001AA9C(0xFF, 0x64, 0xFF, (s8)alpha);
+    } else {
+        func_8001AA9C(0xFF, 0xFF, 0xFF, (s8)alpha);
+    }
+    half = func_800566BC(arg3) >> 1;
+    if (wave > 0) {
+        func_8001A944(arg0 + 0xE, arg1 + 2, (s32)&D_8219597C);
+    } else {
+        func_8001A944((arg0 - (half * 5)) + 0x1E, arg1 + 2, arg3);
+    }
+    func_8001ABBC();
+}
 
 void BattleHud_DrawSpeciesNameLabelAuto(ActivePokemon* arg0, TeamRoster* arg1, s16 arg2, s16 arg3, s32 arg4, u16 arg5, s32 arg6) {
     ActivePokemonState* ptr = &arg0->state;

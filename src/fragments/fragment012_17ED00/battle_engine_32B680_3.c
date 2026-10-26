@@ -651,7 +651,62 @@ void func_821542BC(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82154310; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_82154310(Particle* arg0) {
+    f32 offset = 0.0f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0xF:
+            offset = -13.0f;
+            break;
+        case 0x16:
+            offset = -15.0f;
+            break;
+        case 0x19:
+            offset = -10.0f;
+            break;
+        case 0x22:
+            offset = 10.0f;
+            break;
+        case 0x3B:
+            offset = 25.0f;
+            break;
+        case 0x4C:
+            offset = -10.0f;
+            break;
+        case 0x52:
+            offset = -8.0f;
+            break;
+        case 0x5B:
+            offset = -12.0f;
+            break;
+        case 0x67:
+            offset = 5.0f;
+            Particle_Field38_AddXZFromField94Y_08ED0(arg0, 10.0f);
+            break;
+        case 0x79:
+            offset = -8.0f;
+            break;
+        case 0x7F:
+            offset = 5.0f;
+            break;
+        case 0x80:
+            offset = -12.0f;
+            break;
+        case 0x82:
+            offset = -10.0f;
+            Particle_Field1C_SetScaled_0B938(arg0, 0.15f);
+            break;
+        case 0x86:
+            offset = -5.0f;
+            Particle_Field38_AddXZFromField94YOffsetMinus90_0901C(arg0, 5.0f);
+            break;
+        case 0x87:
+            offset = -15.0f;
+            break;
+    }
+    Particle_Field38_AddYScaled_08E90(arg0, offset);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154310.s")
 #endif
@@ -799,11 +854,63 @@ void BattleAnim_AllocateReflectiveTextureDisplayList(s32 arg0, arg1_func_84344CE
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82154C9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154C9C.s")
-#endif
+void func_82154C9C(Particle* arg0) {
+    UNUSED s32 pad;
+    f32 scale = 1.2f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0x3:
+            scale = 1.5f;
+            break;
+        case 0x19:
+            scale = 0.6f;
+            break;
+        case 0x22:
+            scale = 1.5f;
+            break;
+        case 0x33:
+            scale = 1.0f;
+            break;
+        case 0x41:
+            scale = 0.9f;
+            break;
+        case 0x44:
+            scale = 1.5f;
+            break;
+        case 0x7B:
+            scale = 1.5f;
+            break;
+        case 0x82:
+            scale = 0.8f;
+            break;
+        case 0x83:
+            scale = 0.8f;
+            break;
+        case 0x84:
+            scale = 0.8f;
+            break;
+        case 0x87:
+            scale = 0.8f;
+            break;
+        case 0x8E:
+            scale = 2.5f;
+            break;
+        case 0x8F:
+            scale = 1.5f;
+            break;
+        case 0x90:
+            scale = 1.5f;
+            break;
+        case 0x91:
+            scale = 2.5f;
+            break;
+        case 0x92:
+            scale = 1.5f;
+            break;
+    }
+    Particle_Field38_AddYScaled_08E90(arg0, 0.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, scale);
+}
 
 void BattleAnim_InitEffect125Model(Particle* arg0, UNUSED s16 arg1) {
     arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);

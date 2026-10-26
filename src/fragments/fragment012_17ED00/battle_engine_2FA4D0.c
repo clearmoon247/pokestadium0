@@ -73,11 +73,45 @@ void BattleHud_DrawTranslucentShadowRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
 void Ui_DrawGradientRectangle(s32 x1, s32 y1, s32 width, s32 height, Color_RGB8* top_color,
                               Color_RGB8* bottom_color);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82116480; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82116480.s")
-#endif
+void func_82116480(s8* arg0, s16 arg1, s16 arg2) {
+    u8** temp_s4;
+    u8* var_v1;
+    s32 i;
+    s8 c;
+
+    temp_s4 = Memmap_GetSegmentVaddr(D_300B870);
+
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    for (i = 0; i < 7; i++) {
+        c = arg0[i];
+        if ((c == ' ') || (c == 0)) {
+            return;
+        }
+        switch (c) {
+            case ' ':
+                var_v1 = NULL;
+                break;
+            case 0:
+                var_v1 = NULL;
+                break;
+            case '-':
+                var_v1 = temp_s4[10];
+                break;
+            default:
+                var_v1 = temp_s4[c - '0'];
+                break;
+        }
+
+        if (var_v1 != NULL) {
+            Gfx_DrawTextureRgba16(arg1, arg2, 8, 6, var_v1, 8, 0);
+        }
+
+        arg1 += 8;
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 void BattleHud_DrawTranslucentShadowRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     DepthBuffer* temp_s1;

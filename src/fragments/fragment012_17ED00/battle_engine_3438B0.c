@@ -546,7 +546,49 @@ void func_8212F5B4(CameraNode* arg0) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8212F6E4; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_82125AC8(CameraNode* arg0);
+void func_82122A7C(CameraNode*, ActivePokemon*);
+void func_8212F6E4(CameraNode* arg0) {
+    M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 2;
+    func_821255EC(arg0);
+
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            BattleAnim_CleanupEffects(1);
+            BattleScene_ResetAnimationStep();
+            BattleScene_ResetCameraFrameCounter();
+            func_82110B44(D_8219A540);
+            func_8212F044(arg0);
+            func_8212239C(D_8219A540, arg0);
+            BattleScene_EnterStateRow((ActivePokemon*)D_8219A544, 0xB);
+            func_8211F034(D_8219A520 + 0x208, sBattleScene.scene->unk_2C);
+            sBattleScene.scene->unk_20 += 1;
+            break;
+
+        case 1:
+            func_82122DFC(arg0, D_8219A540);
+            D_8219A560 = func_8210F31C(D_8219A540);
+            D_8219A564 = func_8210F31C((ActivePokemon*)D_8219A544);
+            if (BattleScene_AdvanceCameraFrameCounter(0x6E) != 0) {
+                sBattleScene.scene->unk_20 += 1;
+                func_8211EE8C();
+                BattleScene_ResetCameraFrameCounter();
+            }
+            break;
+
+        case 2:
+            if (func_82124BF8(D_8219A540) == 0) {
+                func_82124E80();
+                D_8219A560 = func_8210F31C(D_8219A540);
+                D_8219A564 = func_8210F31C((ActivePokemon*)D_8219A544);
+                func_82122A7C(arg0, D_8219A540);
+                BattleScene_ResetAnimationStep();
+                func_82125AC8(arg0);
+            }
+            break;
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212F6E4.s")
 #endif
@@ -794,7 +836,22 @@ void BattleScene_UpdatePhase(CameraNode* arg0) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82131880; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern Vec3f D_8218B630;
+void func_80041914(u8, u8);
+void func_82131880(CameraNode* arg0) {
+    BattleScene_ResetCameraFrameCounter();
+    BattleScene_SetCameraAtFromPosition(arg0, D_8218B630, 0, 0, 0.0f, 0.0f);
+    BattleScene_SetCameraEyeAndStoreAngles(arg0, D_8218B630, 0x3C6E, M2C_FIELD(sBattleScene.scene, s16*, 0x5A) = 0, sBattleScene.scene->unk_74 = 25000.0f, 0.0f);
+    sActivePokemon[0]->displayObject.node.flags &= ~1;
+    sActivePokemon[1]->displayObject.node.flags &= ~1;
+    M2C_FIELD(sBattleScene.scene, f32*, 0x64) = 0.1f;
+    Battle_SetStageScale(M2C_FIELD(sBattleScene.scene, f32*, 0x64));
+    Audio_PlayCommand(4, 0, 0);
+    func_80041914(M2C_FIELD(sActivePokemon[0]->teamRoster, u8*, 2), M2C_FIELD(sActivePokemon[1]->teamRoster, u8*, 2));
+    BattleAnim_LoadModeResourceList(sActivePokemon[0]->sessionTeams, 3);
+    sBattleScene.scene->unk_20 += 1;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82131880.s")
 #endif

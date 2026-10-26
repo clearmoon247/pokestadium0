@@ -441,11 +441,36 @@ void func_82102C3C(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82102D10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102D10.s")
-#endif
+void func_82122104(ActivePokemon*);
+void func_82102D10(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[2];
+    BattleMonRuntime* runtime;
+    MovePresentationCue* cue;
+
+    BattleScene_GetParticipantSideIndex(active_pokemon);
+    runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[runtime->usedMove - 1];
+    if (active_pokemon->animationTimer == (cue->animationDuration + 1)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            if (sBattleScene.scene->unk_48 == 0x14) {
+                sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+                return;
+            }
+            if ((runtime->usedMove == 0x2D) || (runtime->usedMove == 0x2E) || (runtime->usedMove == 0x59)) {
+                func_82122104(active_pokemon);
+            }
+            BattleAnim_PlayMoveEffectScript(active_pokemon, runtime->usedMove);
+            if (runtime->moveCache.lastMove == 0x45) {
+                BattleScene_SetParticipantModelTransform(active_pokemon, 8, 0);
+            } else if (runtime->moveCache.lastMove == 0x39) {
+                BattleScene_SetParticipantModelTransform(active_pokemon, 0xA, 0);
+            } else {
+                BattleScene_SetParticipantModelTransform(active_pokemon, cue->flags1, 0);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 void func_82102E94(ActivePokemon* active_pokemon) {
     MovePresentationCue* cue;
@@ -1210,11 +1235,31 @@ void BattleScene_ResetBothParticipantsAnimationState(void) {
 
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105FCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105FCC.s")
-#endif
+void func_82105FCC(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    ActivePokemonState* other_state;
+    UNUSED s32 pad2;
+    BattleMonRuntime* other_runtime;
+    ActivePokemonState* state;
+
+    other_state = &sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->state;
+    other_runtime = &sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->state.runtime;
+    BattleScene_GetParticipantSideIndex(active_pokemon);
+    state = &active_pokemon->state;
+    func_821054A8((s8*)sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]);
+    if ((state->flags & 0x80) && !(other_runtime->unk_4C & 0x20)) {
+        BattleAnim_StopOwnerCategoryParticles(2, active_pokemon);
+        Battle_ClearRuntimeFlags(active_pokemon, 0x80);
+    }
+    if (other_state->flags & 4) {
+        sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->displayObject.position.y = 200.0f;
+        func_82105E38((s8*)sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0], 0x200);
+        Battle_ClearRuntimeFlags(sActivePokemon[BattleScene_GetParticipantSideIndex(active_pokemon) == 0], 4);
+    }
+    if (state->flags & 0x200) {
+        func_82105E38((s8*)active_pokemon, 0x400);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82106144; signature not recovered. */
