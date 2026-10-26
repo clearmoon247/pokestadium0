@@ -528,11 +528,40 @@ void func_821033DC(ActivePokemon* active_pokemon) {
     func_82134EBC(active_pokemon, 0x1E);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210343C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210343C.s")
-#endif
+void func_800414B0(u8, s32, s16, s32);
+void func_8210343C(ActivePokemon* active_pokemon) {
+    s32 row_index = active_pokemon->animationState;
+    s32 cue_index = sBattleSceneStateRowTable[row_index].unk_20;
+    MovePresentationCue* cue;
+    BattleMon* party_pokemon;
+    ActivePokemonState* state;
+    UNUSED s32 pad;
+
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[cue_index];
+    party_pokemon = &active_pokemon->teamRoster->pokemonPicked[M2C_FIELD(active_pokemon, s32*, 0x9D0)];
+
+    state = &active_pokemon->state;
+    if (!(M2C_FIELD(active_pokemon, u16*, 0x7C2) & ACTIVE_FREEZE)) {
+        if (!(state->flags & ACTIVE_UNDERGROUND) && !(state->flags & ACTIVE_FREEZE)) {
+            if (party_pokemon->statusCondition & STATUS_SLEEP_MASK) {
+                if ((active_pokemon->displayObject.objectType == 0x39) || (active_pokemon->displayObject.objectType == 0x67)) {
+                    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->sleepIdleCue;
+                } else {
+                    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->idleCues;
+                }
+            } else if (state->flags & 0x200) {
+                cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->flyingIdleCue;
+            }
+            ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, cue->id);
+            if (state->flags & 0x200) {
+                func_800414B0(BattleScene_GetParticipantSideIndex(active_pokemon), 0, active_pokemon->displayObject.objectType, 0x1A);
+            } else {
+                func_800414B0(BattleScene_GetParticipantSideIndex(active_pokemon), 0, active_pokemon->displayObject.objectType, 0xA);
+            }
+        }
+    }
+}
 
 void func_82134DEC(s16);
 
@@ -703,11 +732,42 @@ void BattleScene_Row13PlaySequences14And21(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104120.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82104208; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104208.s")
-#endif
+typedef struct { f32 v; f32 pad[3]; } RestHeightRow2;
+extern f32 D_FLT_82189354[];
+void func_82104208(ActivePokemon* active_pokemon) {
+    u8* cue = (u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x72D;
+    s32 first_effect_frame;
+
+    if (cue[9] == 1) {
+        first_effect_frame = cue[0xA] - 76;
+    } else {
+        first_effect_frame = cue[0xA] - 49;
+    }
+
+    if (BattleAnim_IsAssetLoadBusy(active_pokemon) == 0) {
+        if (((RestHeightRow2*)D_FLT_82189354)[M2C_FIELD(active_pokemon, s16*, 0x1A)].v != 0.0f) {
+            if ((first_effect_frame <= 0) || (first_effect_frame == M2C_FIELD(active_pokemon, s32*, 0x620))) {
+                if (cue[9] == 1) {
+                    BattleAnim_QueueEffectList3(2, active_pokemon, active_pokemon, 0xFF, 0xFF);
+                } else {
+                    BattleAnim_QueueEffectList3(12, active_pokemon, active_pokemon, 0xFF, 0xFF);
+                }
+                Audio_PlayCommand(3, 0, 0);
+                sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+            }
+        } else {
+            if ((first_effect_frame <= 0) || (first_effect_frame == M2C_FIELD(active_pokemon, s32*, 0x620))) {
+                if (cue[9] == 1) {
+                    BattleAnim_QueueEffectList3(2, active_pokemon, active_pokemon, 0xFF, 0xFF);
+                } else {
+                    BattleAnim_QueueEffectList3(12, active_pokemon, active_pokemon, 0xFF, 0xFF);
+                }
+                Audio_PlayCommand(3, 0, 0);
+                sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+            }
+        }
+    }
+}
 
 void BattleScene_TickQueueList3Selector2OrCFromB10(ActivePokemon* active_pokemon) {
     u8* cue = (u8*)sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)] + 0x79B;

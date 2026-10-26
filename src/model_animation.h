@@ -32,7 +32,7 @@ f32 ModelAnim_EvaluateTranslationCurve(unk_D_800ABCC0* arg0, s32 arg1);
 s16 ModelAnim_EvaluateRotationCurve(unk_D_800ABCC0* arg0, s32 arg1);
 f32 ModelAnim_EvaluateScaleCurve(unk_D_800ABCC0* arg0, s32 arg1);
 void ModelAnim_ResetCurveContext(void);
-void ModelAnim_BeginCurveContext(TransformAnimState* arg0, u16 arg1, s32 arg2);
+void ModelAnim_BeginCurveContext(TransformAnimState* arg0, s32 arg1);
 void ModelAnim_EndCurveContext(void);
 void ModelAnim_EvaluateJointTransform(Vec3f* arg0, Vec3s* arg1, Vec3f* arg2, s32 arg3);
 void ModelAnim_ClearTransformChannel(DisplayObject* arg0);

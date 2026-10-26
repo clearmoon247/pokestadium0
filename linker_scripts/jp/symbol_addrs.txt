@@ -3578,3 +3578,5 @@ BattleScene_PhaseAttackHit = 0x82130628; // type:func stadium1
 BattleScene_Init = 0x82101324; // type:func stadium1
 __osLeoInterrupt = 0x8004FDC0; // type:func stadium1
 Audio_AdvancePeriodicPitchModulation = 0x80039B2C; // type:func stadium1
+Battle_ResolveMonAction = 0x821132C8; // type:func stadium1
+Font_Init = 0x8001A194; // type:func stadium1

@@ -572,11 +572,35 @@ void VictoryPalace_ResetPillarGlow(UNUSED s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811068A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811068A0.s")
-#endif
+extern u16 D_811248C0[];
+extern u16 D_81124940[];
+extern u16 D_811249C0[];
+extern u16 D_81124A40[];
+extern u16 D_81124AC0[];
+extern u16 D_81124B40[];
+extern u16 D_81124BC0[];
+extern u16 D_81124C40[];
+void func_811068A0(u16* arg0) {
+    s32 i;
+    s32 j;
+
+    for (i = 1; i != 5; i++) {
+        GbEmu_BlitWithPixelOp(&arg0[i * 8], D_81124940, 0xFFFF, 8, 8);
+        GbEmu_BlitWithPixelOp(&arg0[38 * 320 + i * 8], D_81124BC0, 0xFFFF, 8, 8);
+        GbEmu_BlitWithPixelOp(&arg0[i * 8 * 320], D_81124A40, 0xFFFF, 8, 8);
+        GbEmu_BlitWithPixelOp(&arg0[i * 8 * 320 + 38], D_81124AC0, 0xFFFF, 8, 8);
+    }
+    GbEmu_BlitWithPixelOp(arg0, D_811248C0, 0, 8, 8);
+    GbEmu_BlitWithPixelOp(&arg0[38], D_811249C0, 0, 8, 8);
+    GbEmu_BlitWithPixelOp(&arg0[38 * 320], D_81124B40, 0, 8, 8);
+    GbEmu_BlitWithPixelOp(&arg0[38 * 320 + 38], D_81124C40, 0, 8, 8);
+
+    for (j = 0; j < 30; j++) {
+        for (i = 0; i < 30; i++) {
+            arg0[(j + 8) * 320 + i + 8] = 0xC14;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81106AA0; signature not recovered. */

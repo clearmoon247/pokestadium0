@@ -301,11 +301,23 @@ void Ui_Draw20x20Icon(s32 arg0, s32 arg1, s32 arg2) {
     gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001E9A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001E9A0.s")
-#endif
+extern u8 D_01003920[];
+void func_8001E9A0(s32 arg0, s32 arg1) {
+    s32 i;
+
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+    gDPSetAlphaCompare(gDisplayListHead++, G_AC_NONE);
+
+    for (i = 0; i < 22; i += 2) {
+        gDPLoadTextureBlock(gDisplayListHead++, D_01003920 + i * 0x108, G_IM_FMT_RGBA, G_IM_SIZ_16b, 132, 2, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, arg0 << 2, (arg1 + i) << 2, (arg0 + 0x83) << 2,
+                            (arg1 + 1 + i) << 2, G_TX_RENDERTILE, 0, 0, 0x1000, 0x0400);
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8001EBDC; signature not recovered. */

@@ -614,7 +614,75 @@ void func_82153FD8(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82154050; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_82154050(Particle* arg0) {
+    f32 offset = 0.0f;
+    f32 scale = 0.12f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0xF:
+            offset = 5.0f;
+            break;
+        case 0x16:
+            offset = 3.0f;
+            break;
+        case 0x1F:
+            offset = 5.0f;
+            break;
+        case 0x22:
+            offset = 3.0f;
+            break;
+        case 0x39:
+            offset = 10.0f;
+            break;
+        case 0x41:
+            offset = 8.0f;
+            break;
+        case 0x4C:
+            offset = 2.0f;
+            break;
+        case 0x5B:
+            offset = 5.0f;
+            break;
+        case 0x5E:
+            offset = 5.0f;
+            break;
+        case 0x61:
+            offset = 5.0f;
+            break;
+        case 0x73:
+            offset = 12.0f;
+            break;
+        case 0x7F:
+            offset = 3.0f;
+            break;
+        case 0x80:
+            offset = 3.0f;
+            break;
+        case 0x82:
+            scale = 0.08f;
+            Particle_Field38_AddYScaled_08E90(arg0, 5.0f);
+            break;
+        case 0x83:
+            scale = 0.08f;
+            offset = 5.0f;
+            break;
+        case 0x86:
+            offset = 3.0f;
+            break;
+        case 0x88:
+            offset = 3.0f;
+            break;
+        case 0x8E:
+            offset = 10.0f;
+            break;
+        case 0x91:
+            offset = 3.0f;
+            break;
+    }
+    Particle_Field38_AddXZFromField94Y_08ED0(arg0, offset + 5.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, scale);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154050.s")
 #endif

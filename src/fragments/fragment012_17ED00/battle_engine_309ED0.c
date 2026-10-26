@@ -241,11 +241,50 @@ void func_82124EB4(void) {
 void func_82124EF4(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124EFC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124EFC.s")
-#endif
+void func_82124EFC(void) {
+    s32 sp24;
+    ActivePokemonState* temp_s0;
+    ActivePokemonState* temp_s1;
+    BattleMonRuntime* ptr;
+
+    temp_s0 = &sActivePokemon[0]->state;
+    temp_s1 = &sActivePokemon[1]->state;
+    BattleScene_SetCameraSubstate(1, 1);
+
+    sp24 = sBattleScene.scene->unk_2C;
+    sBattleScene.scene->unk_2C = Battle_DetermineMoveOrder(sActivePokemon[0], sActivePokemon[1]);
+
+    ptr = &sActivePokemon[sBattleScene.scene->unk_2C]->state.runtime;
+    if (M2C_FIELD(ptr, u8*, 0x5A) == 0xFF) {
+        sBattleScene.scene->unk_2C = !sBattleScene.scene->unk_2C;
+    }
+
+    if (sActivePokemon[0]->teamRoster->unk_000 & 2) {
+        if (sBattleScene.scene->unk_2C == 0) {
+            BattleAI_RecordUsedMove(temp_s0->rosterIndex, temp_s1->rosterIndex, 0);
+        } else {
+            BattleAI_RecordUsedMove(temp_s0->rosterIndex, temp_s1->rosterIndex, 1);
+        }
+    } else if (sActivePokemon[1]->teamRoster->unk_000 & 2) {
+        if (sBattleScene.scene->unk_2C == 1) {
+            BattleAI_RecordUsedMove(temp_s1->rosterIndex, temp_s0->rosterIndex, 0);
+        } else {
+            BattleAI_RecordUsedMove(temp_s1->rosterIndex, temp_s0->rosterIndex, 1);
+        }
+    }
+
+    sBattleScene.scene->unk_2A = sBattleScene.scene->unk_2C;
+    sBattleScene.scene->unk_38 = 0;
+    temp_s0->unk_30 = 0;
+    temp_s1->unk_30 = 0;
+    if (sBattleScene.scene->unk_1C == 5) {
+        sBattleScene.scene->unk_44 = 6;
+    } else {
+        sBattleScene.scene->unk_44 = 2;
+    }
+    Battle_ResolveMonAction();
+    sBattleScene.scene->unk_2C = sp24;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821250D4; signature not recovered. */

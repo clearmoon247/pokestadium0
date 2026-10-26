@@ -33,6 +33,12 @@
     ".rodata": "0x811549E0",
     ".data": "0x81138B74"
   },
+  "src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c": {
+    ".data": {
+      "address": "0x88402FB4",
+      "size": "0xC"
+    }
+  },
   "src/fragments/fragment010_17BE70/pikachu_reward.c": {
     ".data": {
       "address": "0x81701BF4",
