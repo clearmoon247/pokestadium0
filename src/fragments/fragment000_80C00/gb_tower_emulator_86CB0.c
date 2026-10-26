@@ -278,11 +278,17 @@ void func_81112AF8(Particle31FlagsA* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112B34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112B34.s")
-#endif
+extern struct GbEmuListZ D_81184928;
+void func_81112EAC(s8* arg0, s8* arg1);
+void func_81112B34(s8** arg0, s32 arg1) {
+    s8* temp = arg0[arg1 + 0x14];
+
+    if (temp != NULL) {
+        func_81112EAC((s8*)&D_81184928, temp + 0x74);
+        func_81112AF8((Particle31FlagsA*)temp);
+        arg0[arg1 + 0x14] = NULL;
+    }
+}
 
 typedef struct Particle31Flags {
     u8 b80 : 1;

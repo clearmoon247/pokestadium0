@@ -877,11 +877,12 @@ void func_821047C4(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821049E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82104AB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104AB0.s")
-#endif
+extern u8 D_82189190[];
+extern s16 D_8219A4F0[];
+void func_82104AB0(s8* arg0) {
+    M2C_FIELD(arg0, u8*, 0x820) = D_82189190[D_8219A4F0[0xE]];
+    func_821368B0(M2C_FIELD(arg0, s32*, 0x85C), D_82189190[D_8219A4F0[0xE]]);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82104AFC; signature not recovered. */

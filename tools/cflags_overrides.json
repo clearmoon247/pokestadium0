@@ -1,4 +1,10 @@
 {
+  "src/5D5B0.c": {
+    "extra": [],
+    "ido": "7.1",
+    "mips": "-mips2",
+    "opt": "-O1"
+  },
   "src/hal_libc.c": {
     "extra": [
       "-signed"

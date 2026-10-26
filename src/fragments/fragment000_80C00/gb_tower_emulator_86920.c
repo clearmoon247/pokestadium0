@@ -626,11 +626,15 @@ void func_8110CEC0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110D5BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110D7B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110D7B0.s")
-#endif
+u8* func_8110D840(s32);
+s32 func_8110D7B0(s32 arg0, s32 arg1) {
+    s32* entry = (s32*)(func_8110D840(arg0) + arg1 * 16);
+
+    if (entry[5] == 0) {
+        arg1 = entry[4];
+    }
+    return arg1;
+}
 
 s32 func_8110A310(s32, M2C_UNK, s32);               /* extern */
 

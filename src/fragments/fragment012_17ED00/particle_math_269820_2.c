@@ -779,11 +779,11 @@ void func_8213E3E4(s8 *arg0) {
     M2C_FIELD(arg0, f32 *, 0x50) = (f32) M2C_FIELD(arg0, f32 *, 0x7C);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E3F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E3F8.s")
-#endif
+M2C_UNK func_8213E3F8(s32 arg0) {
+    ((Particle*)arg0)->unk_50.x += ((Particle*)arg0)->unk_7C.x;
+    ((Particle*)arg0)->unk_50.y += ((Particle*)arg0)->unk_7C.y;
+    ((Particle*)arg0)->unk_50.z += ((Particle*)arg0)->unk_7C.z;
+}
 
 void func_8213E42C(Particle* arg0) {
     M2C_FIELD(arg0, f32*, 0x4C) += M2C_FIELD(arg0, f32*, 0x78);
@@ -1087,11 +1087,11 @@ void func_8213EC80(s8 *arg0) {
     M2C_FIELD(arg0, s16 *, 0xA0) = (s16) M2C_FIELD(arg0, s16 *, 0x94);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EC9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EC9C.s")
-#endif
+void func_8213EC9C(Particle* arg0) {
+    arg0->unk_94.x += arg0->unk_9A.x;
+    arg0->unk_94.y += arg0->unk_9A.y;
+    arg0->unk_94.z += arg0->unk_9A.z;
+}
 
 void func_8213ECD0(s8 *arg0)
 {

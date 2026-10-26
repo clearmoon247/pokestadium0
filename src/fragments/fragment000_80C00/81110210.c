@@ -35,11 +35,18 @@ void func_81110E3C(Particle*, s32);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81110798.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81110C6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81110C6C.s")
-#endif
+u8* func_81110C6C(u8* arg0, s32 arg1) {
+    u8* ret;
+
+    if (arg1 < arg0[1]) {
+        ret = arg0 + 8;
+    } else if (arg0[2] >= arg1) {
+        ret = arg0 + 0x10;
+    } else {
+        ret = arg0 + 0x18;
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81110CA8; signature not recovered. */
