@@ -83,11 +83,14 @@ void DisplayTask_Submit(UnkStruct80001380* arg0, struct UnkArray4* arg1, s32 arg
     Sched_SubmitTask(arg0, arg2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80001234; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80001234.s")
-#endif
+extern u8 D_8005F664[][2];
+extern OSViMode D_80077F40[];
+M2C_UNK func_80001234(s8 arg0, s8 arg1) {
+    osViSetMode(&D_80077F40[D_8005F664[arg0][arg1]]);
+    osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON);
+    osViSetSpecialFeatures(OS_VI_GAMMA_OFF);
+    osViSetSpecialFeatures(OS_VI_DIVOT_ON);
+}
 
 extern M2C_UNK D_800870D0;
 

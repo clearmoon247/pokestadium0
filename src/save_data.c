@@ -214,11 +214,13 @@ void func_80023D3C(s32 arg0, s32 arg1) {
     func_8001FB10(arg0 + 0x40, sp24);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80023DB8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80023DB8.s")
-#endif
+void func_80023DB8(s32 arg0, s32 arg1) {
+    M2C_FIELD(arg0, u8*, 4) = M2C_FIELD(arg0, u8*, 0x24);
+    Pokemon_ToGbRecord((BattleMon*)arg0, (GbPokemonRecord*)arg1);
+    Text_TranscodeName((char*)(arg1 + 0x21), (char*)(arg0 + 0x30));
+    func_80058410(arg0 + 0x3D, arg1 + 0x27, 3);
+    func_80058410(arg0 + 0x4D, arg1 + 0x2A, 3);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80023E28; signature not recovered. */

@@ -59,11 +59,27 @@ s32 BattleScene_EndStatusAnimationsAndCommit(ActivePokemon* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110E500.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110E6B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110E6B0.s")
-#endif
+s32* func_81110CA8(s32, s32);
+s32* func_81110D6C(s32, s32);
+s32 func_8110E6B0(s32 arg0, s32 arg1) {
+    s32* p;
+    s32 v;
+
+    if (arg1 < 0x80) {
+        p = func_81110CA8(arg0, arg1);
+        if (p == NULL) {
+            return 0;
+        }
+        v = p[4];
+    } else {
+        p = func_81110D6C(arg0, arg1 - 0x80);
+        if (p == NULL) {
+            return 0;
+        }
+        v = p[1];
+    }
+    return v;
+}
 
 void func_8110E714(void) {
 }
