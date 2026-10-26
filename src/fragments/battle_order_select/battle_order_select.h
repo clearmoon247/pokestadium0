@@ -33,9 +33,7 @@ typedef struct unk_D_848037A0 {
     /* 0x0017 */ s8 unk_0017;
     /* 0x0018 */ BattleMon* unk_0018;
     /* 0x001C */ TeamRoster* unk_001C;
-    /* 0x0020 */ u16 unk_0020[1][0x640];
-    /* 0x0CA0 */ char unk0CA0[0x3E80];
-} unk_D_848037A0; // size = 0x4B20
+} unk_D_848037A0; // size = 0x20
 
 typedef struct unk_D_848035FC {
     /* 0x00 */ Color_RGB8 unk_00;

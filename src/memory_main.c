@@ -167,7 +167,7 @@ void* main_pool_alloc(u32 size, s32 side) {
 }
 
 M2C_UNK func_80002230(s32, M2C_UNK);                /* extern */
-M2C_UNK func_8000255C();                            /* extern */
+s32 func_8000255C(void);
 M2C_UNK func_8004CFB0(M2C_UNK *, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_8004D1C0(M2C_UNK *, M2C_UNK, M2C_UNK); /* extern */
 extern M2C_UNK D_800A94A4;
@@ -264,11 +264,47 @@ u32 main_pool_push_state(u32 arg) {
     return main_pool_get_available();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80002620; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80002620.s")
-#endif
+u32 main_pool_pop_state(u32 arg) {
+    MainPoolBlock* argptr;
+    MainPoolBlock* block;
+
+    osRecvMesg(&sMemPool.queue, NULL, OS_MESG_BLOCK);
+
+    do {
+        block = (MainPoolBlock*)((u8*)sMemPool.mainState - sizeof(struct MainPoolState));
+
+        argptr = sMemPool.listHeadR;
+        while ((uintptr_t)argptr < (uintptr_t)sMemPool.mainState->listHeadR) {
+            if (argptr->func != NULL) {
+                argptr->func((u8*)argptr + sizeof(MainPoolBlock), argptr->arg);
+            }
+            argptr = argptr->next;
+        }
+
+        argptr = sMemPool.listHeadL->prev;
+        while ((uintptr_t)argptr >= (uintptr_t)sMemPool.mainState->listHeadL) {
+            if (argptr->func != NULL) {
+                argptr->func((u8*)argptr + sizeof(MainPoolBlock), argptr->arg);
+            }
+            argptr = argptr->prev;
+        }
+
+        sMemPool.available = sMemPool.mainState->freeSpace;
+        sMemPool.listHeadL = sMemPool.mainState->listHeadL;
+        sMemPool.listHeadR = sMemPool.mainState->listHeadR;
+        sMemPool.mainState = sMemPool.mainState->prev;
+
+        if (arg == '\0') {
+            break;
+        }
+        if (arg == (uintptr_t)block->arg) {
+            break;
+        }
+    } while (sMemPool.mainState != NULL);
+
+    osSendMesg(&sMemPool.queue, NULL, OS_MESG_NOBLOCK);
+    return func_8000255C();
+}
 
 /*
  * Unused function. Seems at first glance to check for an address within some

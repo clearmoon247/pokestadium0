@@ -223,16 +223,14 @@ typedef struct BattleScene {
     /* 0x78 */ u8 unk_78;
     /* 0x7A */ s16 unk_7A;
     /* 0x7C */ char unk7C[0x8];
-    /* 0x84 */ f32 unk_84;
-    /* 0x88 */ char unk88[0xC];
-    /* 0x94 */ Vec3f unk_94;
-    /* 0xA0 */ Vec3f unk_A0;
-    /* 0xAC */ char unkAC[0xC];
-    /* 0xB8 */ Vec3f unk_B8;
-    /* 0xC4 */ Vec3f unk_C4;
-    /* 0xD0 */ Vec3f unk_D0;
-    /* 0xDC */ CameraNode* camera;
-} BattleScene; // size = 0xE0
+    /* 0x84 */ Vec3f unk_94;
+    /* 0x90 */ Vec3f unk_A0;
+    /* 0x9C */ char unkAC[0xC];
+    /* 0xA8 */ Vec3f unk_B8;
+    /* 0xB4 */ Vec3f unk_C4;
+    /* 0xC0 */ Vec3f unk_D0;
+    /* 0xCC */ CameraNode* camera;
+} BattleScene; // size = 0xD0 (Stadium 1: 0xE0)
 
 typedef struct unk_D_84390240 {
     /* 0x00 */ BattleScene* scene;
@@ -450,16 +448,14 @@ typedef struct Radial20 {
     /* 0x004 */ s16 unk_004;
     /* 0x006 */ s16 unk_006;
     /* 0x008 */ s16 unk_008;
-    /* 0x00A */ Color_RGBA8 unk_00A;
-    /* 0x00E */ Color_RGB8 unk_00E;
-    /* 0x014 */ f32 unk_014;
-    /* 0x018 */ f32 unk_018;
-    /* 0x01C */ Vtx* unk_01C;
-    /* 0x020 */ char unk020[0x18];
-    /* 0x038 */ s32 unk_038[3];
-    /* 0x044 */ char unk044[0x4];
-    /* 0x048 */ Radial20Node unk_048[20];
-} Radial20; // size = 0x5E8
+    /* 0x00A */ Color_RGBA8 unk_00A; // Stadium 1 follows this with a Color_RGB8
+    /* 0x010 */ f32 unk_014;
+    /* 0x014 */ f32 unk_018;
+    /* 0x018 */ Vtx* unk_01C;
+    /* 0x01C */ char unk020[0x18];
+    /* 0x034 */ s32 unk_038[3];
+    /* 0x040 */ Radial20Node unk_048[20];
+} Radial20; // size = 0x5E0 (Stadium 1: 0x5E8)
 
 typedef struct Trail40Node {
     /* 0x00 */ f32 unk_00;
@@ -1239,7 +1235,7 @@ s32 Battle_SleepClauseInEffect(ActivePokemon* active_pokemon);
 s32 BattleScene_GetCombinedTeamSize(ActivePokemon* active_pokemon);
 u8 BattleScene_GetRosterTeamSize(TeamRoster* arg0);
 s32 BattleScene_GetParticipantDisplayPlayerNumber(ActivePokemon* active_pokemon);
-void BattleScene_ReinitParticipantBodyModel(ActivePokemon* arg0, ActivePokemon* arg1, s32 arg2, s32 arg3);
+void BattleScene_ReinitParticipantBodyModel(ActivePokemon* owner, ActivePokemon* pokemon, s16 object_type);
 void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* arg0, ThumbnailState* arg1, s16 arg2);
 void BattleScene_ReinitParticipantAfterimages(ActivePokemon* arg0, s16 arg1);
 void Battle_ResetEventTrack(ActivePokemon* active_pokemon);
@@ -1554,7 +1550,7 @@ s32 BattleScene_FrameCamera(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_ApproachCameraTargetFromOwner(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_UpdateCameraVerticalFraming(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_RecenterCameraOnOwner(CameraNode* arg0, ActivePokemon* arg1);
-void BattleScene_ApproachCameraTarget(CameraNode* arg0, ActivePokemon* arg1, UNUSED s32 arg2);
+void BattleScene_ApproachCameraTarget(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_ApproachCameraZoom(CameraNode* arg0, ActivePokemon* arg1);
 s32 BattleScene_ApproachCloseCameraShot(CameraNode* arg0, ActivePokemon* arg1);
 s32 BattleScene_AnimateCameraPreset(CameraNode* arg0, ActivePokemon* arg1, s32 arg2, s32 arg3);
@@ -1574,10 +1570,10 @@ void BattleScene_SetCameraActivePokemonHeightShot(CameraNode* arg0, s32 arg1);
 s32 BattleScene_ApproachCameraActivePokemonHeightShot(CameraNode* arg0, s32 arg1);
 void BattleScene_SetCameraOwnerShot(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_SetCameraOwnerWideShot(CameraNode* arg0, ActivePokemon* arg1);
-void BattleScene_SetCameraPresetClose(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
+void BattleScene_SetCameraPresetClose(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_SetCameraPresetAngledClose(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
 void BattleScene_SetCameraPresetOffsetClose(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
-void BattleScene_SetCameraPresetLowClose(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
+void BattleScene_SetCameraPresetLowClose(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_SetCameraPresetWide(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
 void BattleScene_SetCameraPresetWideStatic(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
 void BattleScene_SetCameraPresetFromTable(CameraNode* arg0, ActivePokemon* arg1, s32 arg2, s32 arg3);
@@ -1586,7 +1582,7 @@ void BattleScene_CameraShotTargetAngled(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_CameraShotTargetHigh(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_CameraShotTargetLow(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_CameraShotTargetClose(CameraNode* arg0, ActivePokemon* arg1);
-void BattleScene_SetCameraFollowPresetNear(CameraNode* arg0, ActivePokemon* arg1, s32 arg2);
+void BattleScene_SetCameraFollowPresetNear(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_SetCameraOwnerStandardShot(CameraNode* arg0, ActivePokemon* arg1);
 void BattleScene_SelectCameraPreset(ActivePokemon* arg0, CameraNode* arg1, s32 arg2, s32 arg3);
 void BattleScene_SelectCameraFollowPreset(ActivePokemon* arg0, CameraNode* arg1, s32 arg2);
@@ -2882,7 +2878,7 @@ Gfx* Strip400_Draw(Gfx* arg0);
 void Radial20_ResetPool(void);
 void Radial20_VariantA(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6, u8 arg7, u8 arg8, u8 arg9, u8 argA, f32 argB, f32 argC, f32 argD, s16 argE);
 void Radial20_VariantB(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6, u8 arg7, u8 arg8, u8 arg9, u8 argA, f32 argB, f32 argC, f32 argD, s16 argE);
-void Radial20_VariantC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6, u8 arg7, u8 arg8, u8 arg9, u8 argA, u8 argB, u8 argC, u8 argD, f32 argE, f32 argF, f32 arg10, s16 arg11);
+void Radial20_VariantC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6, u8 arg7, u8 arg8, u8 arg9, u8 argA, f32 argB, f32 argC, f32 argD, s16 argE);
 void Radial20_VariantD(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6, u8 arg7, u8 arg8, u8 arg9, u8 argA, u8 argB, u8 argC, u8 argD, f32 argE, f32 argF, f32 arg10, s16 arg11);
 void Radial20_VariantE(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, s16 arg6, u8 arg7, u8 arg8, u8 arg9, u8 argA, f32 argB, f32 argC, f32 argD, s16 argE);
 void Radial20_RotateVertexOffset(f32 arg0, UNUSED Vec3f* arg1, Vec3f* arg2, f32 arg3, UNUSED f32 arg4, UNUSED f32 arg5, UNUSED f32 arg6);
@@ -3185,7 +3181,7 @@ s32 BattleAI_ResolveTiedActionChoice(s32 arg0);
 s32 BattleAI_MatchesLastMoveCategory(u8 arg0, u8 arg1);
 s32 BattleAI_IsDiscouragedRepeatCategory(u8 arg0, u8 arg1);
 s32 BattleAI_IsBannedRandomMove(u8 arg0);
-s32 BattleAI_IsRestrictedRandomMove(u8 arg0);
+s32 BattleAI_IsRestrictedRandomMove(s32 arg0, s8* arg1);
 s32 BattleAI_IsMoveExcludedForSpecies(BattleMonRuntime* arg0, s32 arg1, u8 arg2, u8 arg3);
 s32 BattleAI_IsMoveIneffective(BattleMonRuntime* arg0, BattleMonRuntime* arg1, u8 arg2);
 void BattleAI_SyncTeamStateFromRuntime(void);

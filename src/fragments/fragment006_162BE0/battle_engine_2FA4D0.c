@@ -86,7 +86,6 @@ M2C_UNK func_80005770(M2C_UNK *, M2C_UNK, M2C_UNK, M2C_UNK, s32); /* extern */
 M2C_UNK func_800069CC();                            /* extern */
 M2C_UNK func_8001560C(s32);                         /* extern */
 M2C_UNK func_800158C0();                            /* extern */
-M2C_UNK func_884000CC();                            /* extern */
 extern M2C_UNK D_800AA150;
 extern s32 D_88403370;
 
@@ -130,7 +129,6 @@ void Trade_DrawSaveSeqMessageBackdrop(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
 #endif
 
 M2C_UNK func_80006780();                            /* extern */
-M2C_UNK func_88400108(M2C_UNK);                     /* extern */
 M2C_UNK func_88400A1C(s16, s16, s16, s16);          /* extern */
 
 void func_88400A98(void) {
@@ -152,7 +150,6 @@ void func_88400A98(void) {
 }
 
 M2C_UNK func_80006780();                            /* extern */
-M2C_UNK func_88400108(M2C_UNK);                     /* extern */
 M2C_UNK func_88400A1C(s16, s16, s16, s16);          /* extern */
 
 void func_88400B70(void) {
@@ -203,7 +200,6 @@ M2C_UNK func_8001AB2C(M2C_UNK);                     /* extern */
 M2C_UNK func_8001AB6C();                            /* extern */
 M2C_UNK func_8001ABBC();                            /* extern */
 M2C_UNK func_8003F6AC(M2C_UNK);                     /* extern */
-M2C_UNK func_88400108(M2C_UNK);                     /* extern */
 extern s8 *D_800603C0;
 extern s32 D_88402D70;
 extern s32 D_88403364;
@@ -225,11 +221,31 @@ void func_88400CE8(s32 arg0) {
     D_88402D70 = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88400DAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88400DAC.s")
-#endif
+
+void func_88400DAC(s8* arg0) {
+    s32 i;
+    s32 x1 = 0x1E;
+    s32 x2 = 0x122;
+    s32 y1 = 0x28;
+    s32 y2 = 0x48;
+
+    for (i = 1; i < 9; i++) {
+        func_88400108(0);
+        func_88400A1C(0x1E, 0x20, 0x104, 0x34);
+
+        gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, x1, y1, x2, y2);
+
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(4, -1);
+        Font_SetLineHeight(0x14);
+        Font_Printf(0x2E, y1 - i * 4, (s8*)D_88402D70);
+        Font_Printf(0x2E, 0x50 - i * 4, arg0);
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    }
+
+    D_88402D70 = (s32)arg0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88400F4C; signature not recovered. */
@@ -267,17 +283,62 @@ void func_88400CE8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_8840173C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88401970; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401970.s")
-#endif
+void func_884014B4(s32, u8);
+void func_8840173C(s32, s32);
+s32 func_88401970(s32 arg0, s32 arg1, u8 arg2) {
+    s32 loop = 1;
+    s32 sel = 1;
+    s32 buttons;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88401A88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401A88.s")
-#endif
+    do {
+        func_88400108(0);
+        func_884014B4(arg1, arg2);
+        buttons = M2C_FIELD(D_800603C0, u16 *, 8);
+        if (buttons & 0x300) {
+            func_8003F6AC(1);
+            sel ^= 1;
+        } else if (buttons & 0x8000) {
+            loop = 0;
+        } else if (buttons & 0x4000) {
+            sel = 1;
+            loop = 0;
+        }
+        func_8840173C(arg0, sel);
+        func_80006780();
+    } while (loop);
+
+    loop = sel == 0;
+    if (loop) {
+        if (arg0 == 0) {
+            func_8003F6AC(2);
+        } else {
+            func_8003F6AC(0x1F);
+        }
+    } else {
+        func_8003F6AC(3);
+    }
+    return loop;
+}
+
+void func_800245E0(s32 arg0, s32 arg1);
+void Save_InitializeBank3(void) {
+    s32 i;
+
+    for (i = 0; i < 16; i++) {
+        func_800245E0(16, i);
+    }
+    for (i = 0; i < 4; i++) {
+        func_800245E0(17, i);
+    }
+    for (i = 0; i < 4; i++) {
+        func_800245E0(18, i);
+    }
+    func_800245E0(19, 0);
+    func_800245E0(20, 0);
+    func_800245E0(21, 0);
+    func_8003BC9C(1);
+    func_800418F0(1);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88401B40; signature not recovered. */
@@ -291,11 +352,39 @@ void func_88400CE8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401D54.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88401E24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88401E24.s")
-#endif
+void func_800273E8(s8* arg0, s32 arg1);
+s32 func_80027214(s8*, s32);
+void func_80010F8C(void*, s32);
+void func_80010F9C(void*, s32);
+void func_8000A7FC(s32);
+void func_80041374(s32, s32);
+M2C_UNK func_80006998(M2C_UNK);
+M2C_UNK func_80005B98(M2C_UNK);
+extern M2C_UNK D_88403648;
+extern s8 D_88402E24;
+extern s8 D_88402E08;
+void func_88401E24(void) {
+    s8 sp74[0x3C];
+    s8 sp38[0x3C];
+    s32 sp34;
+
+    sp34 = M2C_FIELD(D_88403370, s32 *, 0xC);
+    func_800273E8(sp74, (s32)&D_88402E24);
+    func_800273E8(sp38, (s32)&D_88402E08);
+    func_80010F8C(&D_88403648, 0xFFFF0000);
+    func_80010F9C(&D_88403648, 0x2E);
+    M2C_FIELD(&D_88403648, u8 *, 2) |= 0x20;
+    func_80006998(0xFFFF);
+    func_80005B98(0x1E);
+    func_8000A7FC(0x3C);
+    func_80041374(0x46, 0x3C);
+    func_8003F6AC(0x23);
+    while (func_80027214(sp74, sp34 + 0xA8)) {
+        func_80027214(sp38, sp34 + 0xB4);
+        func_88400108(0);
+        func_80006780();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88401F38; signature not recovered. */
@@ -351,7 +440,6 @@ M2C_UNK func_800067BC(M2C_UNK);                     /* extern */
 M2C_UNK func_80006828(M2C_UNK, M2C_UNK *);          /* extern */
 M2C_UNK func_8000D520(s32, s8 *);                 /* extern */
 M2C_UNK func_80025BE4(s32);                         /* extern */
-M2C_UNK func_884000CC();                            /* extern */
 M2C_UNK func_8840115C();                            /* extern */
 M2C_UNK func_884022AC();                            /* extern */
 extern s8 D_88402DD0;
@@ -381,11 +469,30 @@ s32 func_884023F0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_8840248C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88402538; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88402538.s")
-#endif
+typedef struct GbPortSummaryZ {
+    /* 0x00 */ u8 saveState;
+    /* 0x01 */ u8 game;
+    /* 0x02 */ u16 trainerId;
+    /* 0x04 */ char name[0xE];
+} GbPortSummaryZ; // size = 0x12
+extern GbPortSummaryZ D_88403310[4];
+typedef struct GbIdentityZ {
+    /* 0x00 */ u16 trainerId;
+    /* 0x02 */ char name[10];
+} GbIdentityZ;
+
+void func_88402538(void) {
+    s32 i;
+    GbIdentityZ identity;
+
+    for (i = 0; i < 4; i++) {
+        GbSave_CopyPlayerIdentity(i, (GbSavePlayerIdentity*)&identity);
+        Text_UntranscodeName(D_88403310[i].name, identity.name);
+        D_88403310[i].trainerId = identity.trainerId;
+        D_88403310[i].game = GbSave_GetPortGame(i);
+        D_88403310[i].saveState = GbSave_GetSaveState(i);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_884025E4; signature not recovered. */
@@ -418,8 +525,81 @@ void func_884029FC(void) {
     func_800052E8(M2C_FIELD(D_8840336C, s32 *, 0x1C), sp2C);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88402AF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88402AF0.s")
-#endif
+#include "stage_loader.h"
+extern u16 D_800AF986;
+extern u8 D_01000000[];
+extern u8 D_04000000[];
+extern u8 D_8F400000[];
+extern u8 D_8E800000[];
+extern u8 D_8E900000[];
+extern u8 D_88000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_0038A540[];
+extern u8 D_003C5200[];
+extern u8 D_003CE090[];
+extern u8 D_003D64A0[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+void func_88402538(void);
+void func_884025E4(void);
+void func_884026A4(s32);
+s32 func_88402334(void);
+s32 func_884023F0(void);
+s32 func_8840248C(void);
+
+s32 ClefairyGame_Main(s32 arg0, s32 arg1) {
+    s32 result;
+    s32 ret;
+
+    main_pool_push_state('BCMP');
+
+    D_88403368 = (s8*)StageContext_GetCurrent();
+    D_8840336C = (s8*)StageContext_Allocate(0, 1, 2, 1, 2, 0);
+    func_884029FC();
+
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+    Fragment_Load(((((u32)D_8F400000) & 0x0FF00000) >> 0x14) - 0x10, D_0038A540, D_003C5200);
+    if (D_800AF986 & 8) {
+        Fragment_Load(((((u32)D_8E800000) & 0x0FF00000) >> 0x14) - 0x10, D_003C5200, D_003CE090);
+    }
+    if (D_800AF986 & 0x10) {
+        Fragment_Load(((((u32)D_8E900000) & 0x0FF00000) >> 0x14) - 0x10, D_003CE090, D_003D64A0);
+    }
+
+    func_8001A194(0xF, 0);
+    func_88402538();
+    func_884025E4();
+    func_884026A4(arg0);
+    StageLoader_UpdateSegments();
+    StageContext_SaveAndSwitch((StageContext*)D_8840336C);
+    Audio_PlayCommand(0x46, 3, 0);
+
+    if (arg0 == 0) {
+        if (D_800AF986 == 0) {
+            result = func_88402334();
+        } else {
+            result = func_884023F0();
+        }
+    } else {
+        result = func_8840248C();
+    }
+
+    StageContext_SaveAndSwitch((StageContext*)D_88403368);
+    StageLoader_RunFrames(1);
+    StageLoader_WaitForRetrace();
+    Font_Free();
+
+    main_pool_pop_state('BCMP');
+
+    if (result == 1) {
+        Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 1, arg1);
+        ret = 0x8040;
+    } else {
+        ret = 0x8010;
+    }
+    return ret;
+}

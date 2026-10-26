@@ -209,7 +209,6 @@ s32 func_81800074(s32 arg0) {
 
 M2C_UNK func_80006780();                            /* extern */
 M2C_UNK func_8180003C();                            /* extern */
-M2C_UNK func_81800074(M2C_UNK);                     /* extern */
 M2C_UNK func_818000D0(s16, s16, s16, s16);          /* extern */
 
 void func_8180042C(void) {
@@ -257,11 +256,24 @@ void func_81800514(void) {
     func_800067BC(2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81800594; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment011_17E340/func_81800594.s")
-#endif
+extern u32 D_81800760[];
+extern u32 D_8EA1B414[];
+extern ModelNodeView* D_818008A4;
+extern s16 D_818008D0;
+void TransferPak_InitScene(void) {
+    UNUSED s32 pad;
+    MemoryBlock* sp18;
+
+    sp18 = MainPool_AllocState(main_pool_get_available(), 0);
+
+    D_818008A0 = (s32)process_geo_layout(sp18, D_81800760);
+    D_818008A4 = (ModelNodeView*)process_geo_layout(sp18, D_8EA1B414);
+    MainPool_FinalizeAllocation(sp18);
+    ModelRenderer_InitDisplayRoots();
+    ModelRenderer_AttachDisplayObject((DisplayObject*)&D_818008B0);
+    Model_InitDisplayObject((DisplayObject*)&D_818008B0, 0, 0, D_818008A4);
+    D_818008D0 = 0x4000;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81800634; signature not recovered. */

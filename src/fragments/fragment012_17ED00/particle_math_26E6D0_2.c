@@ -9,6 +9,12 @@ extern u8 gParticleRandomPaletteIndices[];
 extern u8 gParticlePalettePairs[][2];
 
 #include "m2c_macros.h"
+extern Vtx D_82191440[];
+extern Vtx D_82190D90[];
+extern Vtx D_821917C0[];
+extern Vtx D_82191040[];
+extern Vtx D_82191080[];
+extern Vtx D_82191000[];
 
 void ParticleGfx_LoadTextureCallbackI4FrameDiv2Mod8_64x64(UNUSED Particle* arg0, u8* texture);
 void ParticleGfx_LoadTextureCallbackI4WrapST_64x64(UNUSED Particle* arg0, u8* texture);
@@ -32,86 +38,86 @@ void ParticleGfx_LoadTextureCallbackIa8WrapST_64x64(UNUSED Particle* arg0, u8* t
     ParticleGfx_LoadTextureIa8WrapST(texture, 64, 64);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140F38; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140F38.s")
-#endif
+extern Vtx D_82190E50[];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140FAC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140FAC.s")
-#endif
+void ParticleGfx_DrawBillboardPrim(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimColorTextureCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E50);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141038; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141038.s")
-#endif
+void ParticleGfx_DrawBillboardPrimEnv(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190D90);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141128; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141128.s")
-#endif
+s32 ParticleGfx_DrawBillboardDoubleSided(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821411B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821411B4.s")
-#endif
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuad(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82190D90);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141220; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141220.s")
-#endif
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214127C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214127C.s")
-#endif
+void func_82141128(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E50);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141308; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141308.s")
-#endif
+extern Vtx D_82190FC0[];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214139C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214139C.s")
-#endif
+void ParticleGfx_DrawBillboardTextureAlphaRotatedQuad(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetTextureAlphaCombine(arg0->prim_a);
+    ParticleGfx_DrawModelQuadRotated(arg1, arg0->unk_2C, arg0->unk_1C, D_82190FC0, arg0->unk_94.z);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141428; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141428.s")
-#endif
+extern Vtx D_82190E90[];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821414B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821414B4.s")
-#endif
+void func_82141220(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E90);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82141540; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82141540.s")
-#endif
+void func_8216936C(u8 prim_r, u8 prim_g, u8 prim_b, u8 env_r, u8 env_g, u8 env_b, u8 prim_a);
+void func_8214127C(Particle* arg0, CameraNode* arg1) {
+    func_8216936C(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E50);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821415CC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821415CC.s")
-#endif
+void ParticleGfx_DrawBillboardPrimEnvRotatedQuad(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuadRotated(arg1, arg0->unk_2C, arg0->unk_1C, D_82190E50, arg0->unk_94.z);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821416BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821416BC.s")
-#endif
+void func_8214139C(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82191000);
+}
+
+void func_82141428(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82191080);
+}
+
+void func_821414B4(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82191040);
+}
+
+void func_82141540(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawModelQuad(arg1, arg0->unk_2C, arg0->unk_1C, D_82191440);
+}
+
+s32 func_821415CC(Particle* arg0, UNUSED CameraNode* arg1) {
+    gSPClearGeometryMode(gDisplayListHead++, G_CULL_BACK);
+
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuad(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_82191440);
+
+    gSPSetGeometryMode(gDisplayListHead++, G_CULL_BACK);
+}
+
+void ParticleGfx_DrawBillboardPrimEnvTransformedQuad(Particle* arg0, CameraNode* arg1) {
+    ParticleGfx_SetPrimEnvColorCombine(arg0->prim_r, arg0->prim_g, arg0->prim_b, arg0->env_r, arg0->env_g, arg0->env_b, arg0->prim_a);
+    ParticleGfx_DrawTransformedQuad(arg0->unk_2C, arg0->unk_94, arg0->unk_1C, D_821917C0);
+}

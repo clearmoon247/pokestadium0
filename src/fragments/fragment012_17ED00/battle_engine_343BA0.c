@@ -95,14 +95,42 @@ void func_82132AC4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132CDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132D3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132D3C.s")
-#endif
+// Zero's version takes only the particle; the header keeps Stadium 1's callback signature.
+void func_82132D3C(Particle* arg0) {
+    BattleAnim_DrawI4AtlasYScaled(arg0, D_8219A580);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132D60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132D60.s")
-#endif
+void func_82132B04(CameraNode* arg0);
+void func_82132B54(CameraNode* arg0);
+void func_82132B90(CameraNode* arg0);
+void func_82132C14(CameraNode* arg0);
+void func_82132CDC(CameraNode* arg0);
+
+void func_82132D60(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            func_821329F8((s32)arg0);
+            break;
+        case 1:
+            func_82132AC4((s32)arg0);
+            break;
+        case 2:
+            func_82132B04(arg0);
+            break;
+        case 3:
+            func_82132B54(arg0);
+            break;
+        case 4:
+            func_82132B90(arg0);
+            break;
+        case 5:
+            func_82132C14(arg0);
+            break;
+        case 6:
+            func_82132CDC(arg0);
+            break;
+        case 7:
+            func_82132D3C((Particle*)arg0);
+            break;
+    }
+}

@@ -250,11 +250,29 @@ void PikachuReward_ShowTextForFrames(char* arg0, s32 arg1) {
     D_81701B08 = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81700630; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81700630.s")
-#endif
+M2C_UNK func_81700160();
+
+void PikachuReward_ShowTextWaitForA(char* arg0, s32 arg1) {
+    D_817025C0.unk_00 = 0x10;
+
+    do {
+        func_81700160();
+        PikachuReward_RenderFrame(0);
+        PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x104, 0x30);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(2, 0);
+        Font_SetLineHeight(0x10);
+        Font_Printf(0x2E, 0x28, arg0);
+        if (arg1 != 0) {
+            PikachuReward_DrawBlinkingStarIcon(0x104, 0x38);
+        }
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    } while (!BTN_IS_PRESSED(gPlayer1Controller, BTN_A));
+
+    Audio_PlaySoundEffectById(1);
+    D_81701B08 = arg0;
+}
 
 void PikachuReward_ScrollTextIn(s8* arg0) {
     s32 i;
@@ -282,17 +300,164 @@ void PikachuReward_ScrollTextIn(s8* arg0) {
     D_81701B08 = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_817008B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817008B4.s")
-#endif
+extern char** D_83202020;
+extern char D_81701EFC[];
+extern char D_81701F04[];
+s32 PikachuReward_ConfirmYesNoPrompt(char* arg0) {
+    s32 temp_s3;
+    s32 var_a2;
+    s32 var_s1;
+    s32 var_s2;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81700A80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81700A80.s")
-#endif
+    var_s2 = 1;
+    var_s1 = 0;
+
+    do {
+        Controller_PollInputs();
+        if (BTN_IS_PRESSED(gPlayer1Controller, BTN_DUP | BTN_DDOWN)) {
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_s1 ^= 1;
+        } else if (BTN_IS_PRESSED(gPlayer1Controller, BTN_A)) {
+            var_s2 = 0;
+        } else if (BTN_IS_PRESSED(gPlayer1Controller, BTN_B)) {
+            var_s1 = 1;
+            var_s2 = 0;
+        }
+
+        temp_s3 = var_s1 == 0;
+        PikachuReward_RenderFrame(0);
+        PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x104, 0x30);
+        PikachuReward_DrawTextBoxPanel(0xD2, 0x54, 0x50, 0x2C);
+        PikachuReward_DrawSelectionCursor(0xDA, (var_s1 * 0x10) + 0x5C);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(2, 0);
+        Font_SetLineHeight(0x10);
+        Font_Printf(0x2E, 0x28, arg0);
+
+        if (temp_s3 != 0) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xF2, 0x5C, D_81701EFC);
+
+        if (var_s1 == 1) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xF2, 0x6C, D_81701F04);
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    } while (var_s2 != 0);
+
+    if (temp_s3 != 0) {
+        Audio_PlaySoundEffectById(SFX_MENU_CONFIRM);
+    } else {
+        Audio_PlaySoundEffectById(SFX_MENU_BACK);
+    }
+    return temp_s3;
+}
+
+extern unk_D_832027C8 D_832027C8;
+extern char** D_8320201C;
+typedef struct MoveNameEntryZ {
+    /* 0x00 */ char unk00[4];
+    /* 0x04 */ char* name;
+    /* 0x08 */ char unk08[4];
+} MoveNameEntryZ; // size = 0xC
+extern MoveNameEntryZ D_8006A9D4[];
+
+s32 PikachuReward_SelectMoveToForget(char* arg0) {
+    s32 var_a2;
+    s32 var_s0;
+    s32 var_s4;
+
+    var_s4 = 1;
+    var_s0 = 0;
+
+    while (var_s4 != 0) {
+        Controller_PollInputs();
+
+        if (BTN_IS_PRESSED(gPlayer1Controller, BTN_DUP)) {
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_s0--;
+            if (var_s0 < 0) {
+                var_s0 = 3;
+            }
+        }
+
+        if (BTN_IS_PRESSED(gPlayer1Controller, BTN_DDOWN)) {
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_s0++;
+            if (var_s0 >= 4) {
+                var_s0 = 0;
+            }
+        } else if (BTN_IS_PRESSED(gPlayer1Controller, BTN_A)) {
+            if ((M2C_FIELD(D_817027A8 + var_s0, u8*, 9) == 0xF) || (M2C_FIELD(D_817027A8 + var_s0, u8*, 9) == 0x13) ||
+                (M2C_FIELD(D_817027A8 + var_s0, u8*, 9) == 0x46) || (M2C_FIELD(D_817027A8 + var_s0, u8*, 9) == 0x94)) {
+                Audio_PlaySoundEffectById(SFX_MENU_ERROR);
+            } else {
+                var_s4 = 0;
+                Audio_PlaySoundEffectById(SFX_MENU_CONFIRM);
+            }
+        } else if (BTN_IS_PRESSED(gPlayer1Controller, BTN_B)) {
+            var_s4 = 0;
+            var_s0 = -1;
+            Audio_PlaySoundEffectById(SFX_MENU_BACK);
+        }
+
+        PikachuReward_RenderFrame(0);
+        PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x82, 0x30);
+        PikachuReward_DrawTextBoxPanel(0x96, 0x20, 0x8C, 0x4C);
+        PikachuReward_DrawSelectionCursor(0x9E, (var_s0 * 0x10) + 0x28);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(2, 0);
+        Font_SetLineHeight(0x10);
+        Font_Printf(0x2E, 0x28, arg0);
+
+        if (var_s0 == 0) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xB6, 0x28, D_8006A9D4[M2C_FIELD(D_817027A8, u8*, 9) - 1].name);
+
+        if (var_s0 == 1) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xB6, 0x38, D_8006A9D4[M2C_FIELD(D_817027A8, u8*, 0xA) - 1].name);
+
+        if (var_s0 == 2) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xB6, 0x48, D_8006A9D4[M2C_FIELD(D_817027A8, u8*, 0xB) - 1].name);
+
+        if (var_s0 == 3) {
+            var_a2 = 0;
+        } else {
+            var_a2 = 0xFF;
+        }
+        Gfx_SetEnvColor(0xFF, 0xFF, var_a2, 0xFF);
+        Font_Printf(0xB6, 0x58, D_8006A9D4[M2C_FIELD(D_817027A8, u8*, 0xC) - 1].name);
+
+        Font_EndTexturedTextRendering();
+        BgStage_AdvanceFrame();
+    }
+
+    return var_s0;
+}
 
 M2C_UNK func_80005B98(M2C_UNK);                     /* extern */
 M2C_UNK func_8000A7FC(M2C_UNK);                     /* extern */
@@ -409,11 +574,57 @@ loop_3:
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817010E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_817012C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817012C0.s")
-#endif
+extern char* D_81701B44;
+extern char D_81701F0C[];
+extern char D_81701F20[];
+extern char D_81701F30[];
+extern char D_81701F54[];
+extern char D_81701F74[];
+extern char D_81701F94[];
+extern char D_81701FA8[];
+extern char D_81701FC4[];
+extern char D_81701FE4[];
+void PikachuReward_ShowSaveStatusScreen(s32 arg0) {
+    PikachuReward_RenderFrame(0);
+    PikachuReward_DrawTextBoxPanel(0x1E, 0x20, 0x104, 0x30);
+
+    if (arg0 == 0) {
+        PikachuReward_DrawTextBoxPanel(0x4C, 0x64, 0xA8, 0x28);
+    } else {
+        PikachuReward_DrawTextBoxPanel(0x30, 0x54, 0xE0, 0x78);
+    }
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(2, 0);
+    Font_SetLineHeight(0x10);
+    Font_Printf(0x2E, 0x28, D_81701B44);
+
+    if (arg0 == 0) {
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(4, -1);
+        Font_Printf(0x5C, 0x70, D_81701F0C);
+        Font_EndTexturedTextRendering();
+    } else {
+        Font_Printf(0x40, 0x84, D_81701F20);
+        Font_Printf(0x40, 0x94, D_81701F30);
+        Font_Printf(0x40, 0xA4, D_81701F54);
+        Font_Printf(0x40, 0xB4, D_81701F74);
+        Gfx_SetEnvColor(0xFF, 0xFF, 0, 0xFF);
+        Font_Printf(0x94, 0x84, D_81701F94);
+        Gfx_SetEnvColor(0xFF, 0xFF, 0x64, 0xFF);
+
+        if (arg0 == 2) {
+            Font_SetActive(4, -2);
+            Font_Printf(0x4C, 0x64, D_81701FA8);
+        } else if (arg0 == 3) {
+            Font_Printf(0x40, 0x5C, D_81701FC4);
+            Font_Printf(0x40, 0x6C, D_81701FE4);
+        }
+    }
+
+    Font_EndTexturedTextRendering();
+    BgStage_AdvanceFrame();
+}
 
 s32 func_80020AFC(M2C_UNK, s32, M2C_UNK, M2C_UNK);  /* extern */
 M2C_UNK func_80020C60(s32);                         /* extern */
@@ -525,8 +736,51 @@ void PikachuReward_SetupScene(void) {
     PikachuReward_SetupFollowerModel(&D_81702020[3], 0x50, 0x17C, -0x1800);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81701984; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_81701984.s")
-#endif
+extern char** D_83202020;
+extern char** D_8320201C;
+extern unk_D_832027C8 D_832027C8;
+extern s8* D_8170201C;
+
+extern u8 D_81000000[];
+extern u8 D_8FC00000[];
+extern u8 D_01000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_0042C4A0[];
+extern u8 D_0042CC80[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+s32 func_81700064(u8);
+void func_8001A194(s32, s32);
+
+void func_81701710(void);
+
+s32 Stadium_BonusPikachuReward(UNUSED s32 arg0, s32 arg1) {
+    UNUSED s32 pad;
+    StageContext* sp20;
+
+    D_8170201C = (s8*)arg1;
+    main_pool_push_state('PIKA');
+
+    if ((M2C_FIELD(D_8170201C, u16*, 0x1096) & 0x20) && (func_81700064(M2C_FIELD(D_8170201C, u8*, 0x1094)) != 0)) {
+        Gfx_InitDisplayListBuffers(0x10000, 0);
+        sp20 = StageContext_Allocate(0, 1, 3, 1, 2, 1);
+        func_8001A194(6, 0);
+
+        Fragment_Load(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+        Fragment_Load(((((u32)D_8FC00000) & 0x0FF00000) >> 0x14) - 0x10, D_0042C4A0, D_0042CC80);
+        Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+
+        PokeIcon_OpenModelArchives();
+        D_81702018 = Model_LoadForPokemon((BattleMon*)D_817027A8);
+        PikachuReward_SetupScene();
+        StageContext_Activate(sp20);
+        func_81701710();
+        StageContext_Deactivate();
+        Font_Free();
+        Gfx_FreeDisplayListBuffers();
+    }
+
+    main_pool_pop_state('PIKA');
+    return 0;
+}

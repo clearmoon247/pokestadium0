@@ -73,11 +73,51 @@ void LabPCList_ConsumeUsedTmItem(unk_func_8830867C_04C_030_02C_000* arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109B60.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89109C6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109C6C.s")
-#endif
+typedef struct LabPCListSlotZero {
+    /* 0x00 */ char unk00[0xC];
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ char unk10[0x4];
+    /* 0x14 */ s32* unk_14;
+    /* 0x18 */ char unk18[0x4];
+    /* 0x1C */ s32 unk_1C;
+} LabPCListSlotZero; // size = 0x20
+
+typedef struct LabPCListBoxZero {
+    /* 0x00 */ char unk00[0x10];
+    /* 0x10 */ LabPCListSlotZero* unk_10;
+    /* 0x14 */ char unk14[0x4];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ char unk1C[0x8];
+} LabPCListBoxZero; // size = 0x24
+
+void LabPCList_FlattenEntries(unk_func_88200FA0_030_038* arg0, unk_func_8830867C_02C_144* arg1) {
+    s32 i;
+    s32 j;
+    s32 x;
+    s32* var_v0;
+    LabPCListSlotZero* var_v1;
+    s32* var_t0;
+    LabPCListBoxZero* var_a2;
+
+    var_v0 = (s32*)arg0->unk_00;
+    var_a2 = (LabPCListBoxZero*)arg1->unk_00;
+
+    for (i = 0; i < arg1->unk_08; i++, var_a2++) {
+        var_v1 = var_a2->unk_10;
+
+        for (j = 0; j < var_a2->unk_18; j++, var_v1++) {
+            if (var_v1->unk_0C != 0) {
+                var_t0 = var_v1->unk_14;
+
+                for (x = 0; x < var_v1->unk_1C; x++, var_t0++, var_v0++) {
+                    *var_v0 = *var_t0;
+                }
+            }
+        }
+    }
+
+    arg0->unk_08 = var_v0 - (s32*)arg0->unk_00;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89109D14; signature not recovered. */

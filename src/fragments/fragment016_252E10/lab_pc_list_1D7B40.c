@@ -33,11 +33,22 @@ typedef struct unk_func_88313894 {
 void func_891053E0(void);
 void func_89108F0C(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89104C70; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104C70.s")
-#endif
+extern Color_RGBA8 D_8910A910;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+
+void func_89104C70(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5) {
+    s32 temp_v0 = *arg5;
+
+    if (arg4 & 8) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, temp_v0 - 6, 0x16, D_8910A910);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89104D14; signature not recovered. */
@@ -69,11 +80,20 @@ void func_89104E94(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104FC0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89105144; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105144.s")
-#endif
+extern s32 D_8910A920[5];
+void BattleMoveListWidget_DisableRestrictedMoves(unk_func_8830867C_04C_078* arg0) {
+    s32 j;
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 5; j++) {
+            if (M2C_FIELD(arg0, s32*, 0x60 + i * 4) == D_8910A920[j]) {
+                M2C_FIELD(arg0, u16*, 0x70 + i * 2) |= 1;
+                break;
+            }
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_891051A4; signature not recovered. */
@@ -128,11 +148,16 @@ s32 func_891053B0(s8 *arg0) {
 void func_891053E0(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_891053E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891053E8.s")
-#endif
+void BattleInfoWidget_UpdateEntryFlags(unk_func_8830867C_034* arg0) {
+    s32 i;
+    s8** sub = &M2C_FIELD(arg0, s8**, 0x20);
+    s8* var_s2 = M2C_FIELD(*sub, s8**, 0);
+
+    for (i = 0; i < M2C_FIELD(*sub, s32*, 8); i++, var_s2 += 0x20) {
+        M2C_FIELD(arg0, u16**, 0x24)[i] = 0;
+        M2C_FIELD(arg0, u16**, 0x24)[i] |= func_891053B0(var_s2);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8910548C; signature not recovered. */
@@ -193,11 +218,12 @@ void func_891057FC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_891059FC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89105A98; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105A98.s")
-#endif
+void BattleInfoWidget_ApplyEntrySelection(unk_func_8830867C_034* arg0, s32 arg1) {
+    s8* ptr = M2C_FIELD(M2C_FIELD(arg0, s8**, 0x70), s8**, 0) + arg1 * 0x24;
+    s8* ptr2 = M2C_FIELD(ptr, s8**, 0x10);
+
+    M2C_FIELD(ptr2, s32*, 0xC) = (M2C_FIELD(arg0, u16**, 0x74)[arg1] & 8) != 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89105AD4; signature not recovered. */
@@ -229,11 +255,18 @@ void func_891057FC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106254.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89106384; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106384.s")
-#endif
+void func_89106384(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s8* arg5) {
+    s32 temp_v0 = M2C_FIELD(arg5, s32*, 8) - 0xC;
+
+    if (arg4 & 0x10) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, temp_v0 - 6, 0x16, M2C_FIELD(arg5, Color_RGBA8*, 0x18));
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89106424; signature not recovered. */

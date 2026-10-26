@@ -253,11 +253,19 @@ void func_821853F4(void);
 void func_821853FC(void);
 void JigglypuffGame_UpdateEffects(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183AF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183AF0.s")
-#endif
+extern s32 D_821CF2B0;
+extern u32 D_821CF2B4;
+u32 Audio_NextRandom(void) {
+    D_821CF2B0 = (D_821CF2B0 * 0x41C64E6D) + 0x3039;
+
+    if (D_821CF2B4 & 1) {
+        D_821CF2B4 ^= 0x11020;
+    }
+
+    D_821CF2B4 >>= 1;
+
+    return (u8)((D_821CF2B0 ^ D_821CF2B4) % 100);
+}
 
 s32 func_80053A80();                                /* extern */
 M2C_UNK func_82183AF0();                            /* extern */
@@ -289,29 +297,21 @@ s32 func_82183BB0(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C24.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C54.s")
-#endif
+s32 func_82183C54(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C78; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C78.s")
-#endif
+s32 func_82183C78(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C9C.s")
-#endif
+s32 func_82183C9C(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183CC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183CC0.s")
-#endif
+s32 func_82183CC0(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1);
+}
 
 s32 func_82183CE4(s8 *arg0)
 {
@@ -354,11 +354,10 @@ void func_82183DBC(void) {
 void func_82183DC4(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183DCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183DCC.s")
-#endif
+void func_82183DCC(s8* arg0) {
+    func_82183B60();
+    M2C_FIELD(arg0, s32*, 4) += (func_82183AF0() & 0xF) * 400;
+}
 
 void GalleryDebugger_SaveControllerPak(void) {
 }
@@ -387,11 +386,26 @@ void GalleryDebugger_SaveControllerPak(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183F6C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183FD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183FD4.s")
-#endif
+typedef struct BattleSlotZ {
+    /* 0x00 */ TeamRoster* roster;
+    /* 0x04 */ u8 pad04[0x17];
+    /* 0x1B */ u8 unk_1B;
+    /* 0x1C */ u8 pad1C[0x1A];
+    /* 0x36 */ u8 unk_36;
+    /* 0x37 */ u8 pad37[0x59];
+} BattleSlotZ; // size = 0x90
+extern BattleSlotZ* D_821CF298;
+
+s32 func_82183FD4(void) {
+    s32 i;
+
+    for (i = 0; i < D_821CF298->roster->rosterInfo->numberOfPokemonCanBePicked; i++) {
+        if ((D_821CF298[i].unk_1B == 0x80) && (D_821CF298[i].unk_36 == 0x37)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8218403C; signature not recovered. */
@@ -454,11 +468,40 @@ s32 func_82184D9C(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82184DC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82185044; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82185044.s")
-#endif
+extern u8 D_80065CF8[];
+
+s32 func_82185044(s32 species, s32 bit) {
+    s32 byteIndex;
+    s32 bits;
+
+    if (species == 0) {
+        return 0;
+    }
+
+    bits = D_80065CF8[species * 0x17 + bit / 8];
+    switch (species) {
+        case 6:
+            if (bit / 8 == 6) {
+                bits |= 8;
+            }
+            break;
+        case 0xC:
+        case 0x30:
+        case 0x31:
+            if (bit / 8 == 6) {
+                bits |= 0x40;
+            }
+            break;
+        case 0x32:
+        case 0x33:
+        case 0x8D:
+            if (bit / 8 == 6) {
+                bits |= 4;
+            }
+            break;
+    }
+    return (1 << (bit & 7)) & bits;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82185108; signature not recovered. */
@@ -534,11 +577,13 @@ s32 func_8218540C(s8 *arg0, s8 *arg1)
   return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82185450; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82185450.s")
-#endif
+extern u8 D_8438B0C4[];
+s32 BattleAI_IsRestrictedRandomMove(s32 arg0, s8* arg1) {
+    if ((M2C_FIELD(arg1, u8*, 0x58) & 0x40) && (func_8218540C(arg0, arg1) != 0)) {
+        return 1;
+    }
+    return 0;
+}
 
 extern s8 *D_821CF2A0;
 
@@ -692,11 +737,20 @@ void func_821869C4(s8 *arg0, s8 *arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82186F28.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821870D8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821870D8.s")
-#endif
+extern u8* D_821CF294;
+s32 func_82186F28(s32, s32);
+
+s32 func_821870D8(s32 arg0, s32 arg1, s32 arg2) {
+    if ((M2C_FIELD(D_821CF294, u8*, 0x368) != 0) || (arg0 != 0)) {
+        return 1;
+    }
+    if (func_82186F28(arg1, arg2) == 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+    return 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82187134; signature not recovered. */

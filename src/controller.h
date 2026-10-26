@@ -61,6 +61,6 @@ s32 Cont_AttemptWriteEeprom(u8* buffer, u32 size, s32 inaddr);
 void Cont_BlockEepromQueue(void);
 void Cont_NoBlockEepromQueue(void);
 void Cont_InitEepromQueue(void);
-u8 Cont_SetupControllers(void);
+u8 Cont_SetupControllers(u8 arg0);
 
 #endif // _CONTROLLER_H_

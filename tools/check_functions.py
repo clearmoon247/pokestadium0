@@ -167,7 +167,7 @@ def compare(text, functions, relocations, name, vram, expected, symbols, learned
             if sym == "@.text" and addend in by_offset:
                 sym, addend = by_offset[addend], 0
             if not bind(sym, target - addend):
-                return "call target %d (%s)" % (i, sym)
+                return "call target %d (%s); ROM implies 0x%08X" % (i, sym, target - addend)
         elif kind == 5:  # R_MIPS_HI16, checked through its LO16 users
             if (got ^ want) & 0xFFFF0000:
                 return "opcode %d" % i

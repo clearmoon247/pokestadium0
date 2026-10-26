@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "m2c_macros.h"
+#include "pokemon_stats.h"
 
 M2C_UNK func_80023268(s32, u8, M2C_UNK);            /* extern */
 extern s32 D_89019108;
@@ -21,11 +22,17 @@ void func_89006FC0(u8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89007038; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007038.s")
-#endif
+void LabPC_WriteBoxEntries(s32 arg0, s32 arg1, s32 arg2, u8* arg3) {
+    DeckHandle* sp1C = Deck_Open(arg0, arg1, arg2, 1);
+
+    Deck_WriteEntries(arg3, M2C_FIELD(arg3, s32*, 0x960), sp1C);
+
+    if ((arg0 == 0x10) || (arg0 == 0x11) || (arg0 == 0x12) || (arg0 == 0x13)) {
+        Deck_CloseAndFlushBox(sp1C);
+    } else {
+        Deck_CloseAndFlush(sp1C);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_890070BC; signature not recovered. */
@@ -64,17 +71,36 @@ void func_89007264(s8 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3)
   }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890072E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890072E4.s")
-#endif
+typedef struct LabPCBoxEntry {
+    /* 0x0 */ s8* box;
+    /* 0x4 */ s32 unk_04;
+} LabPCBoxEntry; // size = 0x8
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8900732C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_8900732C.s")
-#endif
+s32 func_890072E4(s8* arg0) {
+    s32 i;
+    LabPCBoxEntry* var_a0 = M2C_FIELD(arg0, LabPCBoxEntry**, 0);
+
+    for (i = 0; i < M2C_FIELD(arg0, s32*, 8); i++, var_a0++) {
+        if (M2C_FIELD(var_a0->box, s32*, 0x960) == 0) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+s32 func_8900732C(s8* arg0) {
+    s32 i;
+    LabPCBoxEntry* var_a0 = M2C_FIELD(arg0, LabPCBoxEntry**, 0);
+
+    for (i = 0; i < M2C_FIELD(arg0, s32*, 8); i++, var_a0++) {
+        if (M2C_FIELD(var_a0->box, s32*, 0x960) > 0) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89007374; signature not recovered. */
@@ -100,11 +126,27 @@ void func_89007264(s8 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007678.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89007CD8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89007CD8.s")
-#endif
+s32 Ui_HandleHorizontalSelectionInput(void* arg0);
+s32 Ui_GetSelectionDirection(void* arg0);
+
+s32 func_89007CD8(u8* arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (Ui_HandleHorizontalSelectionInput(arg0 + 0xA4) == 0) {
+        dir = Ui_GetSelectionDirection(*(void**)(arg0 + 0xA4));
+        if (dir == -1) {
+            sp1C = -1;
+        } else if (dir == 1) {
+            if (*(s32*)(arg0 + 0xA8) == 1) {
+                sp1C = -1;
+            } else {
+                sp1C = 1;
+            }
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89007D54; signature not recovered. */
@@ -175,11 +217,23 @@ void func_89008284(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89008F4C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890093AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890093AC.s")
-#endif
+s32 func_8002DCE0(void* arg0);
+
+s32 func_890093AC(void* arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (func_8002DCE0(arg0) == 0) {
+        dir = Ui_GetSelectionDirection(gPlayer1Controller);
+        if (dir == -1) {
+            Audio_PlaySoundEffectById(3);
+            sp1C = -1;
+        } else if (dir == 1) {
+            sp1C = 1;
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89009414; signature not recovered. */

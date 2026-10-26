@@ -294,7 +294,7 @@ void Trade_OpenInfoBox(unk_D_82F144D0* arg0, u8* arg1, s16 arg2, s16 arg3);
 void Trade_UpdateInfoBoxOpenIn(unk_D_82F20A10* arg0);
 void Trade_UpdateInfoBoxChoose(unk_D_82F20A10* arg0);
 void Trade_UpdateInfoBoxCloseOut(unk_D_82F20A10* arg0);
-void Trade_DrawSolidFillRect(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5, u8 arg6);
+void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 arg4);
 void Trade_DrawFilledFrame(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5, u8 arg6);
 void Trade_DrawMovingSheen(s16 arg0, s16 arg1, s32 arg2);
 void Trade_DrawNumberTwoDigits(s16 arg0, s16 arg1, s16 arg2);

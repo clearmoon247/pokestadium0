@@ -90,11 +90,19 @@ void func_81101FA0(void *arg0, s32 arg1, s32 arg2) {
     func_8005C670(M2C_FIELD(arg0, s32 *, 0x50), 1, arg1, &D_81156480, 0x20);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81101FE8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81101FE8.s")
-#endif
+s32 GbPak_InitializeCartridgeMapper(unk_D_8122B2C0* arg0) {
+  s32 ret;
+
+  if (!(ret = GbPak_WriteFilledRegisterBlock(arg0, 0, 0xA))    && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 1))
+   && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, 0)) && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 0))
+   && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, 0)) && !(ret = GbPak_WriteFilledRegisterBlock(arg0, 0x2100, 1))) {
+      *((u8*)arg0 + 0x9D) = 1;
+      *((u8*)arg0 + 0x9E) = 0;
+      *((u8*)arg0 + 0x9F) = 0;
+  }
+  
+  return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811020A8; signature not recovered. */
@@ -127,17 +135,56 @@ s32 func_81102168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811021D4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102280; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102280.s")
-#endif
+s32 GbPak_SelectRomAddress(unk_D_8122B2C0* arg0, s32 arg1) {
+    s32 temp_a2;
+    s32 var_v1;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102344; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102344.s")
-#endif
+    var_v1 = 0;
+    M2C_FIELD(arg0, u8*, 0x9E) = 0xFF;
+    if (M2C_FIELD(arg0, u8*, 0x9F) != 0) {
+        M2C_FIELD(arg0, u8*, 0x9D) = 0xFF;
+        var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 0);
+        if (var_v1 == 0) {
+            M2C_FIELD(arg0, u8*, 0x9F) = 0;
+        }
+    }
+    if (var_v1 == 0) {
+        if (arg1 != M2C_FIELD(arg0, u8*, 0x9D)) {
+            temp_a2 = arg1 / 32;
+            if (temp_a2 != ((s32)M2C_FIELD(arg0, u8*, 0x9D) / 32)) {
+                var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, temp_a2);
+            }
+            if (var_v1 == 0) {
+                var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x2100, arg1);
+                if (var_v1 == 0) {
+                    M2C_FIELD(arg0, u8*, 0x9D) = arg1;
+                }
+            }
+        }
+    }
+    return var_v1;
+}
+
+s32 GbPak_SelectRamBank(unk_D_8122B2C0* arg0, s32 arg1) {
+    s32 var_v1;
+
+    var_v1 = 0;
+    M2C_FIELD(arg0, u8*, 0x9D) = 0xFF;
+    if (M2C_FIELD(arg0, u8*, 0x9F) != 1) {
+        M2C_FIELD(arg0, u8*, 0x9E) = 0xFF;
+        var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x6000, 1);
+        if (var_v1 == 0) {
+            M2C_FIELD(arg0, u8*, 0x9F) = 1;
+        }
+    }
+    if ((var_v1 == 0) && (arg1 != M2C_FIELD(arg0, u8*, 0x9E))) {
+        var_v1 = GbPak_WriteFilledRegisterBlock(arg0, 0x4000, arg1);
+        if (var_v1 == 0) {
+            M2C_FIELD(arg0, u8*, 0x9E) = arg1;
+        }
+    }
+    return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811023DC; signature not recovered. */
@@ -151,11 +198,46 @@ s32 func_81102168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102460.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102690; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102690.s")
-#endif
+s32 func_811021D4(u8*);
+s32 func_81102344(u8*, s32);
+s32 func_811023DC(OSPfs*);
+
+s32 GbPak_TransferBankedRam(u8* arg0, s32 arg1) {
+    s32 temp_v0;
+    s32 var_s0;
+    s32 var_s1;
+    u8* var_s3;
+    s32 var_v0;
+    s32 var_v1;
+    s32 var_s2;
+
+    var_v0 = func_811021D4(arg0);
+    var_v1 = var_v0;
+    var_s3 = M2C_FIELD(arg0, u8**, 0x54);
+    var_s2 = M2C_FIELD(arg0, s32*, 0x8C);
+    var_s1 = M2C_FIELD(arg0, s32*, 0x80);
+    while ((var_v0 == 0) && (var_s1 != 0)) {
+        var_v0 = func_81102344(arg0, var_s2 / 0x2000);
+        var_v1 = var_v0;
+        if (var_v0 == 0) {
+            temp_v0 = var_s2 & 0x1FFF;
+            if ((temp_v0 + var_s1) >= 0x2001) {
+                var_s0 = 0x2000 - temp_v0;
+            } else {
+                var_s0 = var_s1;
+            }
+            var_v0 = osGbpakReadWrite(M2C_FIELD(arg0, OSPfs**, 0x50), arg1, (temp_v0 | 0xA000) & 0xFFFF, var_s3, var_s0);
+            var_v1 = var_v0;
+            var_s3 += var_s0;
+            var_s1 -= var_s0;
+            var_s2 = (var_s2 + 0x2000) & ~0x1FFF;
+        }
+    }
+    if (var_v0 == 0) {
+        var_v1 = func_811023DC(M2C_FIELD(arg0, OSPfs**, 0x50));
+    }
+    return var_v1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811027A8; signature not recovered. */
@@ -181,11 +263,33 @@ s32 func_81102168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102C20.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102EB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102EB0.s")
-#endif
+void func_80058260(u32*);
+u32 func_80053A80(void);
+M2C_UNK func_8005C0A0();
+
+void GbPak_PrepareProbeBlock(u32* arg0, s32 arg1) {
+    s32 i;
+
+    switch (arg1) {
+        case 3:
+            for (i = 0; i < 8; i++) {
+                arg0[i] = 0;
+            }
+            break;
+        case 2:
+            for (i = 0; i < 8; i++) {
+                arg0[i] = -1;
+            }
+            break;
+        case 1:
+            func_80058260(arg0);
+            arg0[3] = func_80053A80();
+            func_8005C0A0();
+            func_80058260(arg0 + 4);
+            arg0[7] = func_80053A80();
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81102F7C; signature not recovered. */
@@ -303,11 +407,19 @@ void func_8110427C(u16* dst, u8* alpha_map, s32 color, s32 width, s32 height, u3
   }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110445C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110445C.s")
-#endif
+extern u16 D_811205F8[];
+extern u16 D_811206F8[];
+extern u16 D_811207F8[];
+
+void func_8110445C(u8* arg0, s32 arg1, s32 arg2) {
+    s32 i;
+
+    for (i = 8; i < arg2 - 8; i += 8) {
+        func_81103D60((u16*)arg0 + i, D_811206F8, arg1, 8, 0x10);
+    }
+    func_81103D60((u16*)arg0, D_811205F8, arg1, 8, 0x10);
+    func_81103D60((u16*)(arg0 + arg2 * 2 - 0x10), D_811207F8, arg1, 8, 0x10);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81104540; signature not recovered. */
@@ -442,11 +554,23 @@ void func_81106820(void) {
     D_81156546 = 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81106830; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81106830.s")
-#endif
+extern s16 D_82608542;
+extern s16 D_82608544;
+extern s16 D_8260854C;
+extern s16 D_8260854E;
+extern s16 D_800AA148;
+extern s32 D_81156550;
+void func_811174D8(void);
+void osViBlack(u8);
+void VictoryPalace_ResetPillarGlow(UNUSED s32 arg0) {
+    if ((*(u8*)&D_81156546 == 0) && (D_800AA148 == 0)) {
+        func_811174D8();
+        ((u8*)D_81156550)[0xFF26] = GbMem_ReadIoRegister(0xFF26);
+    }
+    if (D_800AA148 != 0) {
+        osViBlack(1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811068A0; signature not recovered. */

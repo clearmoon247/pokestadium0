@@ -279,11 +279,29 @@ void PokeIcon_LoadMultipleModels(unk_func_80019600* arg0) {
     arg0->size = temp_s3->listHeadL + 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017700; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017700.s")
-#endif
+void PokeIcon_ThreadMain(UNUSED void* arg0) {
+    unk_func_80019600* sp34;
+
+    __osSetFpcCsr(0x01000F00);
+
+    while (true) {
+        osRecvMesg(&D_800AC7A0.unk_9D0, &sp34, 1);
+
+        switch (sp34->unk_00) {
+            case 1:
+                PokeIcon_LoadModelArchive(sp34);
+                break;
+
+            case 2:
+                PokeIcon_LoadMultipleModels(sp34);
+                break;
+        }
+
+        if (sp34->queue != NULL) {
+            osSendMesg(sp34->queue, sp34, 1);
+        }
+    }
+}
 
 void PokeIcon_StartThread(void) {
     osCreateMesgQueue(&D_800AC7A0.unk_9D0, &D_800AC7A0.unk_9B0, 8);
@@ -434,11 +452,16 @@ s32 PokeIcon_PollFrameLoad(ModelLoadContext* arg0) {
     return sp18;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017CB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017CB0.s")
-#endif
+s32 func_80017CB0(ModelLoadContext* arg0) {
+    sp18_func_800198E4* sp1C;
+    s32 sp18 = 0;
+
+    if (osRecvMesg((OSMesgQueue*)((u8*)arg0 + 0x44), &sp1C, 0) != -1) {
+        sp18 = PokeIcon_ApplyLoadResult(arg0, sp1C);
+    }
+
+    return sp18;
+}
 
 M2C_UNK func_80017BA0(s32, s32);                    /* extern */
 M2C_UNK func_8004D1C0(s32, s32 *, M2C_UNK);         /* extern */

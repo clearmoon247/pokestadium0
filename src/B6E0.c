@@ -75,8 +75,22 @@ s32 func_8000ADE8(void) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000AE1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000AE1C.s")
-#endif
+extern u8 D_800AAF48;
+void func_8000C610(u8);
+void func_80052DC0(s32);
+void func_80001A78(void);
+void func_80004EF0(s32);
+void func_8004D9B0(s32);
+void func_80002620(s32);
+
+void GbTower_Stop(UnkInputStruct8000D738* arg0) {
+    *arg0 = M2C_FIELD(D_800AAF40, UnkInputStruct8000D738*, 0x2200);
+    func_8000C610(D_800AAF48);
+    func_80052DC0(1);
+    func_80001A78();
+    func_80004EF0(D_800AAF40 + 0x21D4);
+    func_80004EF0(D_800AAF44 + 0x21B0);
+    func_8004D9B0(D_800AAF40);
+    func_8004D9B0(D_800AAF44);
+    func_80002620('GBEM');
+}

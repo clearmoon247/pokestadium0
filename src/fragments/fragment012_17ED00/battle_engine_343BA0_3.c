@@ -26,11 +26,24 @@ extern const char D_821978C8[];
 
 void func_8213436C(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134230; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134230.s")
-#endif
+extern s32 D_8219A760;
+void func_821079E8(s32);
+
+void BattleScene_FinalPresentationFrameActiveOwner(CameraNode* arg0) {
+    f32 sp3C;
+
+    func_821079E8(0x1FFE);
+    BattleScene_SetCameraClipPlanes(arg0, 20.0f, 4000.0f);
+    BattleAnim_GetOwnerDefaultAnchorPosition(sActivePokemon[D_8219A760], &sBattleScene.scene->unk_D0);
+    sp3C = BattleScene_ScaleCameraDistance(sActivePokemon[D_8219A760], 3.5f, 300.0f);
+    BattleScene_SetCameraAtFromAnchor(sActivePokemon[D_8219A760], arg0, sBattleScene.scene->unk_D0, 0, BattleScene_GetParticipantFacingAngle(sActivePokemon[D_8219A760]),
+                  0.0f, 0.0f);
+    BattleScene_SetCameraEyeFromAt(arg0, 0, BattleScene_GetParticipantFacingAngle(sActivePokemon[D_8219A760]), sp3C, 0.0f);
+
+    if (sActivePokemon[0]) {}
+    sBattleScene.scene->unk_20 += 1;
+    if (D_8219A760) {}
+}
 
 void func_8213436C(void) {
 }
@@ -41,8 +54,7 @@ void func_8213436C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134374.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821344B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821344B4.s")
-#endif
+void BattleScene_AllocateMemory(void) {
+    sBattleScene.scene = main_pool_alloc(sizeof(BattleScene), 0);
+    bzero(sBattleScene.scene, sizeof(BattleScene));
+}

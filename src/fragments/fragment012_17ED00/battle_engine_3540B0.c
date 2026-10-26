@@ -5,14 +5,41 @@
 #include "gfx_buffer.h"
 #include "m2c_macros.h"
 
+extern OwnerLinkedFourStream D_821B5E30[4];
 void OwnerAnchoredFourStream_Update(f32 arg0, Vec3f* arg1, f32 arg2);
 void OwnerAnchoredFourStream_UpdateNodeChain(OwnerAnchoredFourStream* arg0);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8217DC80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8217DC80.s")
-#endif
+typedef struct OwnerLinkedFourStreamZero {
+    /* 0x000 */ s16 unk_000;
+    /* 0x002 */ s16 unk_002;
+    /* 0x004 */ s16 unk_004;
+    /* 0x006 */ char unk006[0x16];
+    /* 0x01C */ OwnerLinkedFourStreamNode unk_01C[15];
+} OwnerLinkedFourStreamZero; // size = 0x418
+
+extern OwnerLinkedFourStreamZero D_821B6F00[4];
+
+void func_8217DC80(void) {
+    s32 i;
+    s32 j;
+    OwnerLinkedFourStreamZero* var_a2 = &D_821B6F00[0];
+    OwnerLinkedFourStreamNode* var_v0;
+
+    for (i = 0; i < 4; i++, var_a2++) {
+        var_a2->unk_000 = 0;
+        var_a2->unk_002 = 0;
+        var_a2->unk_004 = 0;
+
+        var_v0 = &var_a2->unk_01C[0];
+        for (j = 0; j < 15; j++, var_v0++) {
+            var_v0->unk_00 = 0;
+            var_v0->unk_04 = 1.0f;
+            var_v0->unk_08 = 0.0f;
+            var_v0->unk_0C.z = var_v0->unk_0C.y = var_v0->unk_0C.x = 0.0f;
+            var_v0->unk_18.z = var_v0->unk_18.y = var_v0->unk_18.x = 0.0f;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8217DDD4; signature not recovered. */
@@ -80,12 +107,11 @@ void OwnerAnchoredFourStream_UpdateNodeChain(OwnerAnchoredFourStream* arg0) {
 }
 
 M2C_UNK func_8217E0C0(M2C_UNK *);                   /* extern */
-extern s8 D_821B6F00;
 s32 func_8217E34C(void)
 {
   s8 *new_var;
   s32 var_s1;
-  new_var = &D_821B6F00;
+  new_var = (s8*)D_821B6F00;
   var_s1 = 0;
   do
   {

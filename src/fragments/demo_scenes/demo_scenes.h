@@ -194,7 +194,6 @@ s32 Diorama_UpdateStateMachine(void);
 void func_8216DA30(void);
 void Diorama_RenderFrame(void);
 void Diorama_RunLoop(void);
-void Diorama_RenderFinalFrame(void);
 void Diorama_InitScene(void);
 s32 Stage_ShowBootDiorama(void);
 

@@ -111,11 +111,22 @@ void BattleAnim_StartEffect122GlobalAndOwnerTintFade(void);
 
 void Gallery_ClearActiveScene(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8214FFD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8214FFD0.s")
-#endif
+void BattleAnim_InitStartEffect135Descriptor1CRisingScale(Particle* arg0) {
+    Vec3s sp28;
+    s16 sp26 = Particle_FieldCF_GetS16_0C058(arg0);
+    s16 sp24 = Particle_FieldAC_GetS16_0C038(arg0);
+
+    Particle_Field38_SetYScaled_08CA0(arg0, 2.5f);
+    Particle_Field1C_SetScaled_0B938(arg0, 0.065789476f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+    sp28.x = ParticleMath_RandomSigned(0x5000);
+    sp28.y = sp24 * (0x10000 / arg0->unk_AA);
+    sp28.z = 0;
+    Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp28);
+    ParticleGfx_RecolorPrim(arg0, sp26);
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 void BattleAnim_CallbackStartEffect135Descriptor1CRisingScaleFade(Particle* arg0) {
     switch (arg0->unk_B2) {
@@ -491,11 +502,14 @@ void Gallery_ResetActiveScene(void) {
     Gallery_ClearActiveScene();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82150DEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82150DEC.s")
-#endif
+extern M2C_UNK D_8218E668;
+
+void func_82150DEC(void) {
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0xB, 1, 5, BattleAnim_CallbackSharedDescriptors42And44ScaleFall, (ParticleDescriptor*)&D_8218E798, 0, 5, 0x1E, 0, 0x3B, 8);
+    BattleAnim_SetSpawnDelay(0x10);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackStartEffect141Descriptor1CGridRiseFade, (ParticleDescriptor*)&D_8218E668, 0, 0x40, 0x1E, 0, 8, 0);
+    BattleAnim_SpawnDescriptor25AlphaFadeInHold(0, 2, 0x2C, 8, 0xFF);
+}
 
 void func_82150EB0(void) {
     func_82150DEC();
@@ -515,23 +529,53 @@ void BattleAnim_StartEffect135ExpandingFlashAndRisingScaleFade(void) {
     BattleAnim_SpawnGlobalTintColorFadeDetach(0x32, 0x10, 0x8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82151054; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151054.s")
-#endif
+extern ParticleDescriptor D_8218E588[86];
+extern M2C_UNK D_8218E7A0;
+extern M2C_UNK D_8218E748;
+void BattleAnim_StartEffect134ModeOrbitAndMetadataBurst(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 8, 6);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 4, 5, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 4, 9, 0, 0x3C, 1);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 4, 5, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 4, 9, 0, 0x3C, 1);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x18, 1, 4, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x1E, 1, 8, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 3);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x1E, 1, 8, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 3);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x26, 0x8, 0, 0xFF, 4);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x2D, BattleAnim_CallbackStartEffects133And134And143Descriptor38MetadataBurstEmitter, &D_8218E748, 0x1A, 1, 2, 0, 0x3C, 0);
+    BattleAnim_SpawnOwnerModelAlphaFade(0x48, 0x40, 0, 0xFF);
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0x55, 6, 0x8);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82151270; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82151270.s")
-#endif
+extern ParticleDescriptor D_8218E588[86];
+extern M2C_UNK D_8218E7A0;
+extern M2C_UNK D_8218E748;
+void BattleAnim_StartEffect143ModeOrbitAndMetadataBurst(void) {
+    UNUSED s32 pad;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821513F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821513F4.s")
-#endif
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 8, 6);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 1, 4, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(6, 1, 8, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 3);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(6, 1, 8, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 3);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0xE, 0x8, 0, 0xFF, 4);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x14, BattleAnim_CallbackStartEffects133And134And143Descriptor38MetadataBurstEmitter, &D_8218E748, 0x1A, 1, 2, 0, 0x3C, 0);
+    BattleAnim_SpawnOwnerModelAlphaFade(0x2D, 0x40, 0, 0xFF);
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0x32, 6, 0x8);
+}
+
+extern ParticleDescriptor D_8218E588[86];
+void BattleAnim_StartEffect133ModeOrbitBurstAndEffect135Followup(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 8, 6);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 4, 5, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 4, 9, 0, 0x3C, 1);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 4, 5, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 4, 9, 0, 0x3C, 1);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x18, 1, 4, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 2);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x1E, 1, 8, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 3);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x1E, 1, 8, BattleAnim_CallbackStartEffects133And134And143Descriptor44ModeOrbitSwirl, &D_8218E7A0, 0, 8, 9, 0, 0x3C, 3);
+    BattleAnim_SpawnOwnerModelTintRampDetach(0x26, 0x8, 0, 0xFF, 8);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0x28, BattleAnim_CallbackStartEffects133And134And143Descriptor38MetadataBurstEmitter, &D_8218E748, 0x18, 1, 2, 0, 0x3C, 0);
+    BattleAnim_SpawnDescriptor25AlphaFadeInHoldOut(0x3C, 0, 0x40, 0x8, 0xFF);
+    BattleAnim_SpawnOwnerModelAlphaFade(0x40, 0xFF, 0, 0xFF);
+    BattleAnim_SetSpawnDelay(0x50);
+    BattleAnim_StartEffect135ExpandingFlashAndRisingScaleFade();
+}
 
 void BattleAnim_StartEffect122GlobalAndOwnerTintFade(void) {
     BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0xFF, 0);

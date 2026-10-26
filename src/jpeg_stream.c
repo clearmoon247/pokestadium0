@@ -8,6 +8,8 @@
 #include "dp_intro.h"
 #include "util.h"
 #include "lib/ultralib/include/PR/leo.h"
+#include "controller.h"
+s32 func_80005014(void);
 #include "m2c_macros.h"
 typedef enum {
     JPEG_MARKER_START_OF_FRAME = 0xC0,
@@ -146,14 +148,66 @@ void Jpeg_BuildDspOutput(unk_func_80003680_sp90* arg0, u8(arg1)[2][0x80], unk_fu
     arg0->unk_14 = (u32)&arg1[1] & 0x1FFFFFFF;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000342C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000342C.s")
-#endif
+void func_8000342C(void) {
+    s32 timeout = 0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800034A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800034A4.s")
-#endif
+    while ((func_80005014() != 0) || (Cont_GetControllerBits() == 0)) {
+        if (timeout < 1000000) {
+            timeout++;
+        }
+    }
+}
+
+s32 Jpeg_DecodeImage(u32 addr, s32 arg1, u8* arg2) {
+    UnkStruct80001380 sp318;
+    unk_func_80003680_sp300 sp300;
+    u8 sp200[2][0x80];
+    JpegHuffmanTable spB0[4];
+    u16* temp_s0;
+    u8* temp_s3;
+    unk_func_80003680_sp90 sp90;
+    JpegDecoder sp74;
+    JpegDecoderState sp60;
+    u32 var_s1;
+    s32 i;
+    s32 j;
+    s32 var_s4 = 0;
+    s32 var_s2 = 0;
+
+    temp_s3 = Util_Malloc(0x110);
+    temp_s0 = Util_Malloc(0x210);
+
+    Jpeg_ParseStreamMarkers(&sp300, arg2);
+    JpegUtils_ProcessQuantizationTable(sp300.quantization_table, sp200, 2);
+    JpegUtils_ProcessHuffmanTable(sp300.huffman_table, spB0, temp_s3, temp_s0, 4);
+
+    Util_Free(temp_s0);
+    Util_Free(temp_s3);
+
+    Jpeg_BuildDspInput(&sp74, &spB0, &sp300);
+    Jpeg_BuildDspOutput(&sp90, &sp200, &sp300);
+    Jpeg_InitializeDspTask(&sp318, &sp90);
+    func_8000342C();
+
+    for (i = 0; i < sp300.height; i += 16) {
+        for (j = 0; j < sp300.width; j += 16) {
+            if (arg1 < (var_s2 + 0x300)) {
+                return 0;
+            }
+
+            if (Jpeg_DecodeMcus(&sp74, addr, 1, var_s4, &sp60) != 0) {
+                return 0;
+            }
+
+            sp90.unk_00 = addr & 0x1FFFFFFF;
+            Sched_SubmitTask(&sp318, 1);
+            var_s4 = 1;
+            Sched_WaitForTaskMessage(&sp318);
+
+            addr += 0x200;
+            var_s2 += 0x200;
+        }
+    }
+
+    return var_s2;
+}

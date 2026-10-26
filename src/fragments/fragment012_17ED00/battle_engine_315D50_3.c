@@ -397,8 +397,65 @@ void BattleAnim_Initialize(void) {
     BattleAnim_Reset();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82137188; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82137188.s")
-#endif
+extern Vec3f D_84390348;
+extern s32 D_8219A82C;
+extern Vec3f D_8219A880;
+extern s32 D_8219A7E4;
+extern s16 D_8219A8C0;
+extern s16 D_8219A8BA;
+extern s16 D_8219A8BC;
+extern s16 D_8219A8BE;
+extern s16 D_8219A8C2;
+extern s16 D_8219A8C4;
+extern s16 D_8219A8C6;
+extern s16 D_8219A8CA;
+extern s16 D_8219A8CC;
+extern s16 D_8219A8CE;
+extern f32 D_8219A87C;
+extern Vec3f D_8219A898;
+extern Vec3s D_8219A8A4;
+extern Vec3s D_8219A8AC;
+extern Vec3s D_8219A88C;
+extern s32 D_8219A8E8;
+extern s32 D_8219A8EC;
+void BattleAnim_Reset(void) {
+    s32 i;
+
+    gBattleAnimCurrentOwner = NULL;
+    D_8219A7E4 = 0;
+    D_8219A82C = 0;
+    sD_84392040.unk_0C = 1.0f;
+    sD_84392040.unk_10 = 1.0f;
+    sBattleAnimEffectCallbackIndex = 0;
+
+    for (i = 0; i < 8; i++) {
+        gBattleAnimEffectUpdateFuncs[i] = NULL;
+        gBattleAnimEffectDrawFuncs[i] = NULL;
+    }
+
+    gSavedPrimColorR = 0xFF;
+    gSavedPrimColorG = 0xFF;
+    gSavedPrimColorB = 0xFF;
+    D_8219A8C0 = 0xFF;
+    D_8219A8BA = 0xFF;
+    D_8219A8BC = 0xFF;
+    D_8219A8BE = 0xFF;
+    D_8219A8C2 = 0xFF;
+    D_8219A8C4 = 0xFF;
+    D_8219A8C6 = 0x64;
+    D_8219A8CA = 0;
+    D_8219A8CC = 0;
+    D_8219A8CE = 0;
+    D_8219A87C = 1.0f;
+
+    Vec3f_SetComponentsDuplicate(&D_8219A898, 0.0f, 0.0f, 0.0f);
+    Vec3s_SetComponents(&D_8219A8A4, 0, 0, 0);
+    Vec3s_SetComponents(&D_8219A8AC, 0, 0, 0);
+    Vec3f_SetComponentsDuplicate(&D_8219A880, 0.0f, 0.0f, 0.0f);
+    Vec3s_SetComponents(&D_8219A88C, 0, 0, 0);
+    BattleAnim_ResetAssetTable();
+    BattleAnim_ResetDisplayContexts();
+    D_8219A8E8 = 0;
+    D_8219A8EC = 0;
+    BattleAnim_EnableEffectSpawning();
+}

@@ -879,7 +879,7 @@ s32 WidgetTree_UpdateScrollableGridScroll(unk_func_8821421C_038_034*);
 s32 WidgetTree_HandleScrollableGridInput(unk_func_8821421C_038_034*, Controller*);
 void WidgetTree_SetScrollableGridIndex(unk_func_8820BE14_02C_038*, s32);
 void WidgetTree_SetScrollableGridIndexPreserveScroll(unk_func_8820BE14_02C_038*, s32);
-void WidgetTree_SetPagedGridSelectionWithOffset(unk_func_8830867C_02C_034*, s32, s32);
+void WidgetTree_SetPagedGridSelectionWithOffset(s8*, s32, s32);
 void WidgetTree_SetScrollableGridEntryText(unk_func_8820BE14_02C_038*, unk_func_88205880_00D0*);
 void WidgetTree_RemoveScrollableGridEntry(unk_func_8820BE14_02C_038*);
 void WidgetTree_InitScrollableGridScrollbar(unk_func_88507D4C*, s32, s32, s32, s32, unk_func_8820BE14_02C_038*);

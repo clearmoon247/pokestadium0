@@ -319,11 +319,19 @@ void func_80004EA8(s8 *arg0)
   *((s32 *) (((s8 *) arg0) + 0x28)) = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80004EF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004EF0.s")
-#endif
+void Sched_RemoveClient(unk_D_800AA660* arg0) {
+    unk_D_800AA660** var_v0 = &D_800A9710.unk_A10;
+    unk_D_800AA660* var_v1 = D_800A9710.unk_A10;
+
+    while (var_v1 != NULL) {
+        if (var_v1 == arg0) {
+            *var_v0 = M2C_FIELD(var_v1, unk_D_800AA660**, 0x28);
+            break;
+        }
+        var_v0 = &M2C_FIELD(var_v1, unk_D_800AA660**, 0x28);
+        var_v1 = M2C_FIELD(var_v1, unk_D_800AA660**, 0x28);
+    }
+}
 
 void Sched_SubmitTask(UnkStruct80001380* arg0, s32 arg1) {
     if (arg0 != NULL) {

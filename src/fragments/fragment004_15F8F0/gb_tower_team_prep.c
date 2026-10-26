@@ -42,14 +42,37 @@ s32 GbTower_TeamPrepFrameCallback(u8 arg0) {
     return 0;
 }
 
+s32 func_80023C30(void);
 #ifdef NON_MATCHING
 /* TODO: decompile func_81300144; signature not recovered. */
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment004_15F8F0/func_81300144.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81300228; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment004_15F8F0/func_81300228.s")
-#endif
+extern ModelLoadContext* D_81300380;
+s32 GbTower_TeamPrep(s32 arg0, UnkInputStruct8000D738* arg1) {
+    StageContext* sp24;
+
+    main_pool_push_state('PREP');
+
+    Gfx_InitDisplayListBuffers(0x10000, 0);
+    sp24 = StageContext_Allocate(0, 1, 2, 0, 1, 1);
+
+    ASSET_LOAD(D_1000000, common_menu1_ui, 0);
+    FRAGMENT_LOAD(FRAGMENT_PARTICLE_DATA_LIBRARY);
+
+    D_81300380 = PokeIcon_AllocFramebuffers(1);
+    D_81300384 = PokeIcon_CreateRenderList(D_81300380, 6, 0x28, 0x28);
+    PokeIcon_OpenModelArchives();
+    GbTower_LoadPartyFromDeck(arg0);
+    func_80023C30();
+    StageContext_Activate(sp24);
+    BgStage_RunUntilCondition(8, GbTower_TeamPrepFrameCallback);
+    StageContext_Deactivate();
+    GbTower_BuildPartyResult(arg1);
+    Gfx_FreeDisplayListBuffers();
+
+    main_pool_pop_state('PREP');
+
+    return D_81300370;
+}

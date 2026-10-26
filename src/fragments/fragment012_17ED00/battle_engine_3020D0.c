@@ -114,11 +114,35 @@ void Battle_SimpleStringFormat(s8* arg0, s8* arg1, ...) {
     arg0[len] = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211EF74; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211EF74.s")
-#endif
+void func_8211EF74(s8* arg0, s8 id, s8* arg1, ...) {
+    va_list args;
+    s8* src;
+    s8* fmt;
+    s32 len;
+
+    arg0[0] = id;
+    len = 1;
+    va_start(args, arg1);
+    fmt = arg1;
+
+    while (*fmt != 0) {
+        if (*fmt != 0x25) {
+            arg0[len++] = *fmt;
+        } else {
+            fmt++;
+            if (*fmt == 0x73) {
+                src = va_arg(args, s8*);
+                while (*src != 0) {
+                    arg0[len] = *src;
+                    src++;
+                    len++;
+                }
+            }
+        }
+        fmt++;
+    }
+    arg0[len] = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211F034; signature not recovered. */
@@ -132,11 +156,17 @@ void Battle_SimpleStringFormat(s8* arg0, s8* arg1, ...) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F0DC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F1E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F1E0.s")
-#endif
+void func_8211F0DC(void);
+void Battle_DrawCompactStatusBoxesIfVisible(void) {
+    ActivePokemon* ptr1 = sActivePokemon[0];
+    ActivePokemon* ptr2 = sActivePokemon[1];
+
+    if (sBattleScene.scene->unk_30 == 0) {
+        BattleHud_DrawCompactMonStatusBox(ptr1, 0x15, 0xF, ptr1->sessionTeams->teamMember[M2C_FIELD(ptr1, s32*, 0x9D4)]->controllerPort);
+        BattleHud_DrawCompactMonStatusBox(ptr2, 0xE1, 0xF, ptr2->sessionTeams->teamMember[M2C_FIELD(ptr2, s32*, 0x9D4)]->controllerPort);
+        func_8211F0DC();
+    }
+}
 
 void func_8211F274(s8 *arg0) {
     M2C_FIELD(arg0, s32 *, 0xA04) = 0;
@@ -151,11 +181,36 @@ void func_8211F274(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F288.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F2E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F2E0.s")
-#endif
+void func_8211C43C(u8, s32, s32, s8*);
+extern ActivePokemon* sSide1ActivePokemon;
+void func_8211F2E0(ActivePokemon* arg0) {
+    TeamRoster* roster = arg0->teamRoster;
+    s8 c = arg0->captionState.unk_48[arg0->captionState.unk_04];
+
+    if (c != 0) {
+        if ((c == 0xA) || (c == 0x20)) {
+            arg0->captionState.unk_08[arg0->captionState.unk_04] = c;
+            arg0->captionState.unk_04++;
+            c = arg0->captionState.unk_48[arg0->captionState.unk_04];
+        }
+        if ((c > 0x20) && (c < 0x40)) {
+            arg0->captionState.unk_08[arg0->captionState.unk_04] = c;
+            arg0->captionState.unk_04++;
+        } else {
+            arg0->captionState.unk_08[arg0->captionState.unk_04] = c;
+            arg0->captionState.unk_08[arg0->captionState.unk_04 + 1] = arg0->captionState.unk_48[arg0->captionState.unk_04 + 1];
+            arg0->captionState.unk_04 += 2;
+        }
+    }
+    arg0->captionState.unk_08[arg0->captionState.unk_04] = 0;
+    if (arg0->captionState.unk_48[0] != 0) {
+        if (arg0 == sSide1ActivePokemon) {
+            func_8211C43C(M2C_FIELD(roster, u8*, 1), 0x5F, 0xE, arg0->captionState.unk_08);
+        } else {
+            func_8211C43C(M2C_FIELD(roster, u8*, 1), 0x17, 0xBB, arg0->captionState.unk_08);
+        }
+    }
+}
 
 void func_8211F3E4(void) {
 }
@@ -163,11 +218,12 @@ void func_8211F3E4(void) {
 void func_8211F3EC(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F3F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F3F4.s")
-#endif
+extern void* D_8219A520;
+
+void func_8211F3F4(void) {
+    D_8219A520 = main_pool_alloc(0x4C8, 0);
+    bzero(D_8219A520, 0x4C8);
+}
 
 void BattleScene_ResetMessageQueue(void) {
     gBattleMessageQueues->unk_004 = 0;

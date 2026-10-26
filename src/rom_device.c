@@ -7,11 +7,16 @@ extern OSPiHandle* D_80100188;
 
 void Rom_DmaRead(u32 dev_addr, u32 dram_addr, u32 size);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80046040; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80046040.s")
-#endif
+extern OSMesg D_8010018C;
+void func_80046040(s32 arg0) {
+    if (arg0 == 1) {
+        D_80100188 = osDriveRomInit();
+    } else {
+        D_80100188 = osCartRomInit();
+    }
+
+    osCreateMesgQueue(&D_80100170, &D_8010018C, 1);
+}
 
 void Rom_DmaRead(u32 dev_addr, u32 dram_addr, u32 size) {
     OSIoMesg msg;
@@ -42,8 +47,33 @@ void Rom_DmaRead(u32 dev_addr, u32 dram_addr, u32 size) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80046170; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80046170.s")
-#endif
+void func_800374E0(s32, s32);
+
+void func_80046170(s32 arg0, u32 arg1) {
+    s32 var_a1;
+
+    switch (arg1) {
+        case 0:
+            var_a1 = 0;
+            break;
+        case 1:
+            var_a1 = 0x3FFF;
+            break;
+        case 2:
+            var_a1 = 0x4FFF;
+            break;
+        case 3:
+            var_a1 = 0x5FFF;
+            break;
+        case 4:
+            var_a1 = 0x6FFF;
+            break;
+        case 5:
+            var_a1 = 0x7FFF;
+            break;
+        default:
+            var_a1 = 0x6FFF;
+            break;
+    }
+    func_800374E0(arg0, var_a1);
+}

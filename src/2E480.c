@@ -9,20 +9,22 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D880.s")
 #endif
 
-M2C_UNK func_8002D900();                            /* extern */
+void func_8002D900(u8* arg0);
 
 void func_8002D8D8(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0) = arg1;
     M2C_FIELD(arg0, s32 *, 4) = arg2;
     M2C_FIELD(arg0, s32 *, 8) = 0;
-    func_8002D900();
+    func_8002D900((u8*)arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D900; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D900.s")
-#endif
+void func_8002D900(u8* arg0) {
+    s32 i;
+
+    for (i = 0; i < M2C_FIELD(M2C_FIELD(arg0, u8**, 0), s32*, 4); i++) {
+        M2C_FIELD(arg0, s16**, 4)[i] = 0;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002D948; signature not recovered. */
@@ -66,20 +68,22 @@ void func_8002D8D8(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002DECC.s")
 #endif
 
-M2C_UNK func_8002DF54();                            /* extern */
+void func_8002DF54(u8* arg0);
 
 void func_8002DF2C(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0) = arg1;
     M2C_FIELD(arg0, s32 *, 4) = arg2;
     M2C_FIELD(arg0, s32 *, 8) = 0;
-    func_8002DF54();
+    func_8002DF54((u8*)arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002DF54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002DF54.s")
-#endif
+void func_8002DF54(u8* arg0) {
+    s32 i;
+
+    for (i = 0; i < M2C_FIELD(M2C_FIELD(arg0, u8**, 0), s32*, 4); i++) {
+        M2C_FIELD(arg0, s16**, 4)[i] = 0;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002DF9C; signature not recovered. */
@@ -117,7 +121,7 @@ void func_8002DF2C(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002EC24.s")
 #endif
 
-M2C_UNK func_8002D900();                            /* extern */
+void func_8002D900(u8* arg0);
 
 void func_8002ED18(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0) = arg1;
@@ -127,7 +131,7 @@ void func_8002ED18(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0x2C) = 0;
     M2C_FIELD(arg0, s32 *, 0x30) = 0;
     M2C_FIELD(arg0, s32 *, 0x40) = 0;
-    func_8002D900();
+    func_8002D900((u8*)arg0);
 }
 
 void func_8002ED50(s8 *arg0) {
@@ -210,17 +214,62 @@ void func_8002ED70(s8 *arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800306E0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80030744; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80030744.s")
-#endif
+void func_80030744(s32* arg0, s32 arg1) {
+    s32 temp_a2;
+    s32 temp_v0;
+    s32 var_a1;
+    s32 var_v0;
+    s32 var_v1;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800307D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800307D4.s")
-#endif
+    arg0[16] = 0;
+    arg0[2] = arg1;
+    temp_v0 = arg0[13] - arg0[11];
+    arg0[13] = arg0[4] * arg1;
+
+    temp_a2 = ((s32*)arg0[0])[2] - arg0[9];
+
+    var_a1 = temp_a2 = (temp_a2 > 0) ? temp_a2 : 0;
+    temp_a2 *= arg0[4];
+
+    var_v0 = (arg0[13] - temp_v0 > 0) ? arg0[13] - temp_v0 : 0;
+
+    var_v1 = (var_v0 < temp_a2) ? var_v0 : temp_a2;
+    arg0[11] = var_v1;
+    arg0[12] = var_v1;
+}
+
+void WidgetTree_SetPagedGridSelectionWithOffset(s8* arg0, s32 arg1, s32 arg2) {
+    s32 temp_a2;
+    s32 temp_a2_2;
+    s32 temp_lo;
+    s32 temp_v1;
+    s32 var_v0_2;
+    s8* temp_v0 = M2C_FIELD(arg0, s8**, 0);
+
+    if (M2C_FIELD(temp_v0, s32*, 8) != 0) {
+        M2C_FIELD(arg0, s32*, 0x40) = 0;
+        temp_v1 = M2C_FIELD(temp_v0, s32*, 8) - 1;
+        if (arg1 >= temp_v1) {
+            arg1 = temp_v1;
+        }
+        M2C_FIELD(arg0, s32*, 8) = arg1;
+        M2C_FIELD(arg0, s32*, 0x34) = M2C_FIELD(arg0, s32*, 0x10) * arg1;
+
+        temp_a2 = M2C_FIELD(temp_v0, s32*, 8) - M2C_FIELD(arg0, s32*, 0x24);
+        temp_lo = M2C_FIELD(arg0, s32*, 0x10) * ((temp_a2 > 0) ? temp_a2 : 0);
+
+        temp_a2_2 = -(arg2 * M2C_FIELD(arg0, s32*, 0x10)) + M2C_FIELD(arg0, s32*, 0x34);
+        if (temp_a2_2 > 0) {
+            var_v0_2 = temp_a2_2;
+        } else {
+            var_v0_2 = 0;
+        }
+
+        temp_v1 = (var_v0_2 < temp_lo) ? var_v0_2 : temp_lo;
+        M2C_FIELD(arg0, s32*, 0x2C) = temp_v1;
+        M2C_FIELD(arg0, s32*, 0x30) = temp_v1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80030894; signature not recovered. */
@@ -228,13 +277,13 @@ void func_8002ED70(s8 *arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80030894.s")
 #endif
 
-M2C_UNK func_8002D900();                            /* extern */
+void func_8002D900(u8* arg0);
 
 void func_800309D4(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0) = arg1;
     M2C_FIELD(arg0, s32 *, 4) = arg2;
     M2C_FIELD(arg0, s32 *, 8) = 0;
-    func_8002D900();
+    func_8002D900((u8*)arg0);
 }
 
 void func_800309FC(s8 *arg0) {

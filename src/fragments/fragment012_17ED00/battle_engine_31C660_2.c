@@ -128,11 +128,10 @@ void BattleAnim_CallbackOwnerModelTintPaletteRotateFadeDetach(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82144644; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144644.s")
-#endif
+void BattleAnim_SetupOwnerModelAlphaFade(Particle* arg0) {
+    arg0->prim_a = arg0->unk_A6;
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_80019B6C(s32, u8);                     /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
@@ -277,15 +276,14 @@ void BattleAnim_CallbackDescriptor25AlphaFadeInHold(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82144A54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82144A54.s")
-#endif
+void func_82144A54(Particle* arg0) {
+    ParticleGfx_RecolorPrim(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_SetPrimAlpha(arg0, arg0->unk_CD);
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_8213C938(s8 *);                      /* extern */
 s32 func_82140690();                                /* extern */
-M2C_UNK func_82144A54();                            /* extern */
 
 void func_82144A9C(s8 *arg0) {
     s16 temp_v0;
@@ -293,7 +291,7 @@ void func_82144A9C(s8 *arg0) {
     temp_v0 = M2C_FIELD(arg0, s16 *, 0xAE);
     switch (temp_v0) {                              /* irregular */
     case 1:
-        func_82144A54();
+        func_82144A54((Particle*)arg0);
         return;
     case 2:
         if (func_82140690() != 0) {

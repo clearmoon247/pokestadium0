@@ -44,11 +44,21 @@ void func_82132E20(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132EB4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132F88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132F88.s")
-#endif
+extern s16 D_8219A4F0[];
+extern s8* D_8219A590;
+void func_82124984(s8* arg0, CameraNode* arg1, s32 arg2);
+
+void func_82132F88(CameraNode* arg0) {
+    D_8219A4F0[0xE] = 0;
+    D_8219A4F0[0xD] = 0;
+    BattleScene_SetCameraClipPlanes(arg0, 20.0f, 4000.0f);
+    BattleScene_ResetCameraFrameCounter();
+    sBattleScene.scene->unk_2C = 0;
+    D_8219A590 = (s8*)sActivePokemon[sBattleScene.scene->unk_2C];
+    func_82124984(D_8219A590, arg0, 3);
+    Battle_SetStageScale(0.0f);
+    sBattleScene.scene->unk_20++;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82133028; signature not recovered. */

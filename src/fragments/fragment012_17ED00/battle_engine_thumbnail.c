@@ -41,11 +41,33 @@ void BattleThumbnail_SetupOwnerCameraFraming(ActivePokemon* side1_pokemon, Activ
 void BattleThumbnail_OwnerCameraLifecycleNop(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821072F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821072F8.s")
-#endif
+void BattleThumbnail_ApplyOwnerCameraFraming(ActivePokemon* active_pokemon) {
+    s32 side;
+    CameraNode* camera;
+    f32 tmp_z;
+    f32 tmp_y;
+
+    camera = active_pokemon->thumbnail.camera;
+    side = BattleScene_GetParticipantSideIndex(active_pokemon);
+
+    active_pokemon->thumbnail.rotationX = sSidePresentationTransform[side]->unk_0C;
+    if (sSidePresentationTransform[side]->unk_10 == 0xFF) {
+        active_pokemon->thumbnail.rotationY = sSidePresentationTransform[side]->unk_0E * active_pokemon->thumbnail.side;
+        tmp_z = sSidePresentationTransform[side]->coordinates.z * active_pokemon->thumbnail.side;
+    } else {
+        active_pokemon->thumbnail.rotationY = sSidePresentationTransform[side]->unk_0E;
+        tmp_z = sSidePresentationTransform[side]->coordinates.z;
+    }
+
+    active_pokemon->thumbnail.z = tmp_z;
+    active_pokemon->thumbnail.x = sSidePresentationTransform[side]->coordinates.x;
+    active_pokemon->thumbnail.idleTimer = sSidePresentationTransform[side]->idleTimer;
+    tmp_y = sSidePresentationTransform[side]->coordinates.y;
+    active_pokemon->thumbnail.y = tmp_y;
+
+    BattleScene_SetCameraAtAndEyeFromAngles(camera, active_pokemon->thumbnail.displayObject.position.x + active_pokemon->thumbnail.z, active_pokemon->thumbnail.displayObject.position.y + tmp_y,
+                  active_pokemon->thumbnail.displayObject.position.z, active_pokemon->thumbnail.x, active_pokemon->thumbnail.rotationX, active_pokemon->thumbnail.rotationY);
+}
 
 /*
     Updates the camera coordinates for the owner's thumbnail.
@@ -65,11 +87,40 @@ void func_82107428(s32 arg0, s8 *arg1, s32 arg2, s8 *arg3) {
     func_82107408(arg3);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107470; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107470.s")
-#endif
+s32 func_80032890(s32);
+void func_80032840(s32);
+
+void BattleThumbnail_TickOwnerSlideIn(ActivePokemon* active_pokemon, s32 delta) {
+    s16 var_a0; // FAKE
+    CameraNode* camera_node;
+
+    active_pokemon->thumbnail.camera->node.flags |= 1;
+    active_pokemon->thumbnail.displayObject.node.flags |= 1;
+
+    if (active_pokemon->thumbnail.side == 1) {
+        // This Substitute condition can never actually fire as switching out a pokemon destroys the substitute.
+        if ((active_pokemon->thumbnail.camera->viewport.x == -72) && !(active_pokemon->state.flags & 0x2000)) {
+            BattleThumbnail_TriggerOwnerModelAnimation(active_pokemon);
+        }
+
+        if ((func_80032890(0) != 0) && (active_pokemon->thumbnail.status == 0)) {
+            active_pokemon->thumbnail.status = 2;
+            func_80032840(0);
+        }
+        active_pokemon->thumbnail.camera->viewport.x = Math_StepToS32(active_pokemon->thumbnail.camera->viewport.x, 0x17, delta, delta);
+    } else {
+        if ((active_pokemon->thumbnail.camera->viewport.x == 351) && !(active_pokemon->state.flags & 0x2000)) {
+            BattleThumbnail_TriggerOwnerModelAnimation(active_pokemon);
+        }
+
+        active_pokemon->thumbnail.camera->viewport.x = Math_StepToS32(active_pokemon->thumbnail.camera->viewport.x, 0x103, delta, delta);
+
+        if ((func_80032890(1) != 0) && (active_pokemon->thumbnail.status == 0)) {
+            active_pokemon->thumbnail.status = 2;
+            func_80032840(1);
+        }
+    }
+}
 
 s16 func_8000F1FC(s16, M2C_UNK, M2C_UNK, M2C_UNK);  /* extern */
 
@@ -108,11 +159,10 @@ void BattleThumbnail_TickOwnerSlideAnimation(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821076D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821076D4.s")
-#endif
+void BattleThumbnail_TickBothOwnerSlideAnimations(ActivePokemon* side1_pokemon, ActivePokemon* side2_pokemon) {
+    BattleThumbnail_TickOwnerSlideAnimation(side1_pokemon);
+    BattleThumbnail_TickOwnerSlideAnimation(side2_pokemon);
+}
 
 /*
     Dispatches the thumbnail's rendering based on the current of the battle

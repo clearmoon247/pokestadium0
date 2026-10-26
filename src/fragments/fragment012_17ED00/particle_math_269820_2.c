@@ -165,35 +165,138 @@ void func_8213CBFC(s8 *arg0, s16 arg1) {
     M2C_FIELD(arg0, s8 *, 0xC3) = (s8) arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CC10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CC10.s")
-#endif
+s32 func_8213CC10(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp1C = 0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CCEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CCEC.s")
-#endif
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CD60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CD60.s")
-#endif
+            arg0->unk_C7 += arg3;
+            if (arg2 < arg0->unk_C7) {
+                if (arg0->unk_C6 > 0) {
+                    arg0->unk_C6--;
+                }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CE3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CE3C.s")
-#endif
+                if (arg0->unk_C6 == 0) {
+                    arg0->unk_C7 = arg2;
+                    sp1C = 1;
+                } else {
+                    arg0->unk_C7 = arg1;
+                }
+            }
+        }
+    }
+    return sp1C;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213CEB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213CEB0.s")
-#endif
+s32 func_8213CC10(Particle*, s16, s16, s16, s16, s16);
+
+s32 func_8213CCEC(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp24 = func_8213CC10(arg0, arg1, arg2, arg3, arg4, arg5);
+
+    if (sp24 != 0) {
+        Particle_ClearFlags(arg0, 1);
+        Particle_AdvanceLifecycle(arg0);
+    }
+
+    return sp24;
+}
+
+s32 func_8213CD60(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp1C = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+
+            arg0->unk_C7 -= arg3;
+            if (arg0->unk_C7 < arg2) {
+                if (arg0->unk_C6 > 0) {
+                    arg0->unk_C6--;
+                }
+
+                if (arg0->unk_C6 == 0) {
+                    arg0->unk_C7 = arg2;
+                    sp1C = 1;
+                } else {
+                    arg0->unk_C7 = arg1;
+                }
+            }
+        }
+    }
+
+    return sp1C;
+}
+
+s32 func_8213CD60(Particle*, s16, s16, s16, s16, s16);
+
+s32 func_8213CE3C(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp24 = func_8213CD60(arg0, arg1, arg2, arg3, arg4, arg5);
+
+    if (sp24 != 0) {
+        Particle_ClearFlags(arg0, 1);
+        Particle_AdvanceLifecycle(arg0);
+    }
+
+    return sp24;
+}
+
+s32 Particle_AnimateFramesPingPong(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp24 = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+        Particle_ClearFlags(arg0, 0x10);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+
+            if (Particle_LacksFlags(arg0, 0x10) != 0) {
+                arg0->unk_C7 += arg3;
+                if (arg0->unk_C7 >= arg2) {
+                    arg0->unk_C7 = arg2;
+                    Particle_SetFlags(arg0, 0x10);
+                }
+            } else {
+                arg0->unk_C7 -= arg3;
+                if (arg1 >= arg0->unk_C7) {
+                    arg0->unk_C7 = arg1;
+                    if (arg0->unk_C6 > 0) {
+                        arg0->unk_C6--;
+                    }
+
+                    if (arg0->unk_C6 == 0) {
+                        Particle_ClearFlags(arg0, 0x20);
+                        Particle_ClearFlags(arg0, 1);
+                        sp24 = 1;
+                    } else {
+                        Particle_ClearFlags(arg0, 0x10);
+                        Particle_SetFlags(arg0, 0x20);
+                    }
+                }
+            }
+        }
+    }
+
+    return sp24;
+}
 
 s32 Particle_AnimateFramesForwardAndAdvanceLifecycle(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
     s32 sp24 = Particle_AnimateFramesForward(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -205,11 +308,45 @@ s32 Particle_AnimateFramesForwardAndAdvanceLifecycle(Particle* arg0, s16 arg1, s
     return sp24;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D080; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D080.s")
-#endif
+s32 Particle_AnimateFramesReverseFirstPingPong(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
+    s32 sp24 = 0;
+
+    if (Particle_LacksFlags(arg0, 1) != 0) {
+        arg0->unk_B6 = arg4;
+        arg0->unk_C7 = arg1;
+        arg0->unk_C6 = arg5;
+        Particle_SetFlags(arg0, 1);
+        Particle_ClearFlags(arg0, 0x10);
+    } else {
+        arg0->unk_B6--;
+        if (arg0->unk_B6 <= 0) {
+            arg0->unk_B6 = arg4;
+            if (Particle_LacksFlags(arg0, 0x10) != 0) {
+                arg0->unk_C7 -= arg3;
+                if (arg2 >= arg0->unk_C7) {
+                    arg0->unk_C7 = arg2;
+                    Particle_SetFlags(arg0, 0x10);
+                }
+            } else {
+                arg0->unk_C7 += arg3;
+                if (arg0->unk_C7 >= arg1) {
+                    arg0->unk_C7 = arg1;
+                    if (arg0->unk_C6 > 0) {
+                        arg0->unk_C6--;
+                    }
+
+                    if (arg0->unk_C6 == 0) {
+                        Particle_ClearFlags(arg0, 1);
+                        sp24 = 1;
+                    } else {
+                        Particle_ClearFlags(arg0, 0x10);
+                    }
+                }
+            }
+        }
+    }
+    return sp24;
+}
 
 s32 Particle_AnimateFramesReverseAndAdvanceLifecycle(Particle* arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
     s32 sp24 = Particle_AnimateFramesReverse(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -250,17 +387,34 @@ s32 Particle_TickPhaseTimer(Particle* arg0, s16 arg1) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D30C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D30C.s")
-#endif
+void Particle_UpdateWorldTransform(Particle* arg0) {
+    arg0->unk_2C.x = arg0->unk_68.x + arg0->unk_38.x + arg0->unk_50.x;
+    arg0->unk_2C.y = arg0->unk_68.y + arg0->unk_38.y + arg0->unk_50.y;
+    arg0->unk_2C.z = arg0->unk_68.z + arg0->unk_38.z + arg0->unk_50.z;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D3FC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D3FC.s")
-#endif
+    if (arg0->unk_14 != NULL) {
+        arg0->unk_14->position.x = arg0->unk_2C.x;
+        arg0->unk_14->position.y = arg0->unk_2C.y;
+        arg0->unk_14->position.z = arg0->unk_2C.z;
+
+        arg0->unk_14->scale.x = arg0->unk_1C;
+        arg0->unk_14->scale.y = arg0->unk_1C;
+        arg0->unk_14->scale.z = arg0->unk_1C;
+
+        if (Particle_LacksFlags(arg0, 0x200) != 0) {
+            arg0->unk_14->rotation.x = arg0->unk_94.x;
+            arg0->unk_14->rotation.y = arg0->unk_94.y;
+            arg0->unk_14->rotation.z = arg0->unk_94.z;
+        }
+        arg0->unk_14->lodFraction = arg0->prim_a;
+    }
+}
+
+void func_8213D3FC(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x34) = arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x34 + 4) = arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x34 + 8) = arg3 * gParticleRenderContext.unk_00.y;
+}
 
 void Particle_Field38_SetVecFromVec3fScaled_08C20(Particle* arg0, Vec3f arg1) {
     arg0->unk_38.x = arg1.x * gParticleRenderContext.unk_00.y;
@@ -292,23 +446,23 @@ void func_8213D4D4(s8 *arg0, f32 arg1) {
     M2C_FIELD(arg0, f32 *, 0x3C) = (f32) (arg1 * D_FLT_8219A824);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D4EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D4EC.s")
-#endif
+void Particle_Field38_AddVecScaledFromVec3f_08D78(Particle* arg0, Vec3f arg1) {
+    arg0->unk_38.x += arg1.x * gParticleRenderContext.unk_00.y;
+    arg0->unk_38.y += arg1.y * gParticleRenderContext.unk_00.y;
+    arg0->unk_38.z += arg1.z * gParticleRenderContext.unk_00.y;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D54C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D54C.s")
-#endif
+void Particle_Field38_AddVecFromVec3f_08DD8(Particle* arg0, Vec3f arg1) {
+    arg0->unk_38.x += arg1.x;
+    arg0->unk_38.y += arg1.y;
+    arg0->unk_38.z += arg1.z;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213D58C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213D58C.s")
-#endif
+void Particle_Field38_AddVecScaled_08E18(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    arg0->unk_38.x += arg1 * gParticleRenderContext.unk_00.y;
+    arg0->unk_38.y += arg2 * gParticleRenderContext.unk_00.y;
+    arg0->unk_38.z += arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -533,11 +687,11 @@ void func_8213E0A4(s8 *arg0, f32 arg1, f32 arg2, f32 arg3) {
     M2C_FIELD(arg0, f32 *, 0x6C) = arg3;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E0C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E0C4.s")
-#endif
+void func_8213E0C4(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x4C) = arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x4C + 4) = arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x4C + 8) = arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -557,11 +711,11 @@ void Particle_SetVelocityRandomDirection(Particle* arg0, f32 arg1) {
     ParticleMath_RandomDirection(&arg0->unk_50, arg1 * gParticleRenderContext.unk_00.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E184; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E184.s")
-#endif
+void func_8213E184(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x4C) += arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x50) += arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x54) += arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -577,11 +731,11 @@ void Particle_Field50_AddYScaled_099E0(Particle* arg0, f32 arg1) {
     arg0->unk_50.z += arg1 * gParticleRenderContext.unk_00.y;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E23C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E23C.s")
-#endif
+void Particle_Field50_SubVecScaled_09A20(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    arg0->unk_50.x -= arg1 * gParticleRenderContext.unk_00.y;
+    arg0->unk_50.y -= arg2 * gParticleRenderContext.unk_00.y;
+    arg0->unk_50.z -= arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -631,11 +785,10 @@ void func_8213E3E4(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E3F8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E42C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E42C.s")
-#endif
+void func_8213E42C(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x4C) += M2C_FIELD(arg0, f32*, 0x78);
+    M2C_FIELD(arg0, f32*, 0x54) += M2C_FIELD(arg0, f32*, 0x80);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213E450; signature not recovered. */
@@ -661,7 +814,6 @@ void Particle_AddVelocityXYFromRotationZViaImpulse(Particle* arg0) {
     Particle_Field50_AddXYFromField7C_09C34(arg0);
 }
 
-M2C_UNK func_8213E42C(s32);                         /* extern */
 M2C_UNK func_8213FB14();                            /* extern */
 
 void func_8213E4D8(s32 arg0) {
@@ -683,10 +835,11 @@ void func_8213E528(s32 arg0) {
 }
 
 M2C_UNK func_8213E3F8(s32);                         /* extern */
-M2C_UNK func_8213FBCC();                            /* extern */
+
+void func_8213FBCC(Particle* arg0);
 
 void func_8213E550(s32 arg0) {
-    func_8213FBCC();
+    func_8213FBCC((Particle*)arg0);
     func_8213E3F8(arg0);
 }
 
@@ -778,11 +931,20 @@ s32 Particle_Field50_AddNegField74Y_CheckField2CYNonPositive_09F84(Particle* arg
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213E7F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213E7F4.s")
-#endif
+
+s32 Particle_Field74_AdvanceAndAddNegY_CheckField2CYNonPositive_09FD8(Particle* arg0) {
+    s32 sp1C = 0;
+
+    arg0->unk_74 += arg0->unk_78;
+    arg0->unk_7C.y = -arg0->unk_74;
+
+    func_8213E488(arg0);
+
+    if (arg0->unk_2C.y <= 0.0f) {
+        sp1C = 1;
+    }
+    return sp1C;
+}
 
 void Particle_SetVelocityTarget(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
     arg0->unk_5C.x = arg1 * gParticleRenderContext.unk_00.y;
@@ -836,11 +998,11 @@ void Particle_ApproachPosition(Particle* arg0, Vec3f arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EA68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EA68.s")
-#endif
+void Particle_Field9A_SetVecFromVec3s_0A37C(Particle* arg0, Vec3s arg1) {
+    M2C_FIELD(arg0, s16*, 0x90) = arg1.x;
+    M2C_FIELD(arg0, s16*, 0x92) = arg1.y;
+    M2C_FIELD(arg0, s16*, 0x94) = arg1.z;
+}
 
 void func_8213EA8C(s8 *arg0, s16 arg1, s16 arg2, s16 arg3) {
     M2C_FIELD(arg0, s16 *, 0x90) = arg1;
@@ -884,11 +1046,11 @@ void func_8213EB64(s8 *arg0, s16 arg1, s16 arg2, s16 arg3) {
     M2C_FIELD(arg0, s16 *, 0x9A) = arg3;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EB98; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EB98.s")
-#endif
+void func_8213EB98(Particle* arg0, Vec3s arg1) {
+    arg0->unk_9A.x = arg1.x;
+    arg0->unk_9A.y = arg1.y;
+    arg0->unk_9A.z = arg1.z;
+}
 
 void func_8213EBBC(s8 *arg0, s16 arg1, s16 arg2) {
     M2C_FIELD(arg0, s16 *, 0x96) = arg1;
@@ -948,11 +1110,11 @@ void Particle_Field94_AddXFromField9A_0A4B4(Particle* arg0) {
     arg0->unk_94.z += arg0->unk_9A.z;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213ED0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213ED0C.s")
-#endif
+void Particle_Field94_AddVecFromVec3s_0A4F0(Particle* arg0, Vec3s arg1) {
+    arg0->unk_94.x += arg1.x;
+    arg0->unk_94.y += arg1.y;
+    arg0->unk_94.z += arg1.z;
+}
 
 void func_8213ED48(s8 *arg0, s16 arg1, s16 arg2, s16 arg3) {
     M2C_FIELD(arg0, s16 *, 0x90) = (s16) (M2C_FIELD(arg0, s16 *, 0x90) + arg1);
@@ -977,11 +1139,11 @@ void func_8213EDE8(s8 *arg0, s16 arg1, s16 arg2) {
     M2C_FIELD(arg0, s16 *, 0x9E) = (s16) (M2C_FIELD(arg0, s16 *, 0x9E) + arg2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EE1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EE1C.s")
-#endif
+void Particle_Field94_SubVecFromVec3s_0A600(Particle* arg0, Vec3s arg1) {
+    arg0->unk_94.x -= arg1.x;
+    arg0->unk_94.y -= arg1.y;
+    arg0->unk_94.z -= arg1.z;
+}
 
 void func_8213EE58(s8 *arg0, s16 arg1) {
     M2C_FIELD(arg0, s16 *, 0x90) = (s16) (M2C_FIELD(arg0, s16 *, 0x90) - arg1);
@@ -1028,23 +1190,41 @@ void Particle_ApproachRotationXTo(Particle* arg0, s16 arg1, s16 arg2) {
     ParticleMath_ApproachAngle(&arg0->unk_94.x, arg1, arg2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EFC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EFC0.s")
-#endif
+void func_8213EFC0(Particle* arg0, s16 arg1, s16 arg2) {
+    ParticleMath_ApproachAngle(&arg0->unk_94.y, arg1, arg2);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213EFF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213EFF8.s")
-#endif
+s32 func_8213EFF8(Particle* arg0, s32 arg1, s32 arg2) {
+    s32 var_v1 = 0;
+    s32 var_v0 = arg0->unk_94.x;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F02C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F02C.s")
-#endif
+    if (arg1 < var_v0) {
+        var_v0 -= arg2;
+        if (arg1 >= var_v0) {
+            var_v0 = arg1;
+            var_v1 = 1;
+        }
+        arg0->unk_94.x = var_v0;
+    }
+
+    return var_v1;
+}
+
+s32 func_8213F02C(Particle* arg0, s32 arg1, s32 arg2) {
+    s32 var_v1 = 0;
+    s32 var_v0 = M2C_FIELD(arg0, s16*, 0x92);
+
+    if (arg1 < var_v0) {
+        var_v0 -= arg2;
+        if (arg1 >= var_v0) {
+            var_v0 = arg1;
+            var_v1 = 1;
+        }
+        M2C_FIELD(arg0, s16*, 0x92) = var_v0;
+    }
+
+    return var_v1;
+}
 
 s32 Particle_Field94_DecrementXTo_0A7DC(Particle* arg0, s32 arg1, s32 arg2) {
     s32 var_v1 = 0;
@@ -1085,11 +1265,16 @@ void Particle_AddRotationRandomSignedXWithFixedYQuarterTurn(Particle* arg0) {
     Particle_Field94_AddY_0A594(arg0, 0x4000);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F1E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F1E4.s")
-#endif
+extern struct ActivePokemon* D_8219A818;
+
+s16 BattleAnim_GetParticleAngleYToTertiaryOwner(Particle* arg0) {
+    Vec3f sp24;
+    s16 ret;
+
+    BattleAnim_GetOwnerDefaultAnchorPosition(D_8219A818, &sp24);
+    ret = ParticleMath_AngleYBetweenPoints(arg0->unk_68, sp24) + arg0->unk_94.y;
+    return ret;
+}
 
 void Particle_ComputeVectorFromRotationY(Particle* arg0, f32 arg1, Vec3f* arg2) {
     arg2->x = SINS(arg0->unk_94.y) * arg1;
@@ -1137,33 +1322,29 @@ void func_8213F640(s8 *arg0, f32 arg1) {
     M2C_FIELD(arg0, f32 *, 0x74) = (f32) (arg1 * D_FLT_8219A824);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F658; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F658.s")
-#endif
+s32 func_8213F658(Particle* arg0, f32 arg1, f32 arg2) {
+    return ParticleMath_ApproachFloat(&arg0->unk_74, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F69C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F69C.s")
-#endif
+s32 func_8213F69C(Particle* arg0, f32 arg1) {
+    return ParticleMath_ApproachFloat(&arg0->unk_74, arg1 * gParticleRenderContext.unk_00.y, arg0->unk_78);
+}
 
 s32 Particle_Field74_Approach_0ADBC(Particle* arg0, f32 arg1, f32 arg2) {
     return ParticleMath_ApproachFloat(&arg0->unk_78, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F720; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F720.s")
-#endif
+void func_8213F720(Particle* arg0, Vec3f arg1) {
+    M2C_FIELD(arg0, f32*, 0x78) = arg1.x * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x7C) = arg1.y * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x80) = arg1.z * gParticleRenderContext.unk_00.y;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F768; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F768.s")
-#endif
+void func_8213F768(Particle* arg0, f32 arg1, f32 arg2, f32 arg3) {
+    M2C_FIELD(arg0, f32*, 0x78) = arg1 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x78 + 4) = arg2 * gParticleRenderContext.unk_00.y;
+    M2C_FIELD(arg0, f32*, 0x78 + 8) = arg3 * gParticleRenderContext.unk_00.y;
+}
 
 extern f32 D_FLT_8219A824;
 
@@ -1225,11 +1406,19 @@ s32 Particle_Field7C_IncrementYUntilAtLeast_0AFA8(Particle* arg0, f32 arg1, f32 
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213F8EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213F8EC.s")
-#endif
+s32 func_8213F8EC(Particle* arg0, f32 arg1, f32 arg2) {
+    s32 var_v1 = 0;
+    f32 temp_fv0;
+
+    arg0->unk_7C.x -= arg2 * gParticleRenderContext.unk_00.y;
+
+    temp_fv0 = arg1 * gParticleRenderContext.unk_00.y;
+    if (arg0->unk_7C.x <= temp_fv0) {
+        arg0->unk_7C.x = temp_fv0;
+        var_v1 = 1;
+    }
+    return var_v1;
+}
 
 s32 Particle_Field7C_DecrementXUntilAtMost_0B050(Particle* arg0, f32 arg1, f32 arg2) {
     f32 temp_fv0;
@@ -1265,41 +1454,31 @@ void func_8213F9E8(s8 *arg0, f32 arg1) {
     M2C_FIELD(arg0, f32 *, 0x80) = (f32) (M2C_FIELD(arg0, f32 *, 0x80) * arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FA1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FA1C.s")
-#endif
+s32 func_8213FA1C(Particle* arg0, f32 arg1, f32 arg2) {
+    return ParticleMath_ApproachFloat(&arg0->unk_7C.y, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FA60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FA60.s")
-#endif
+void Particle_Field7C_SetXFromField74AngleY_0B1EC(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x7C) = COSS(M2C_FIELD(arg0, u16*, 0x90)) * arg0->unk_74;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FA88; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FA88.s")
-#endif
+void func_8213FA88(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x78) = M2C_FIELD(arg0, f32*, 0x70) * SINS(M2C_FIELD(arg0, u16*, 0x92));
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FAB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FAB0.s")
-#endif
+void Particle_Field7C_SetYFromField74AngleX_0B1C4(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x80) = COSS(M2C_FIELD(arg0, u16*, 0x92)) * arg0->unk_74;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FAD8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FAD8.s")
-#endif
+void func_8213FAD8(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x78) = M2C_FIELD(arg0, f32*, 0x70) * COSS(M2C_FIELD(arg0, u16*, 0x94));
+    M2C_FIELD(arg0, f32*, 0x7C) = M2C_FIELD(arg0, f32*, 0x70) * SINS(M2C_FIELD(arg0, u16*, 0x94));
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FB14; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FB14.s")
-#endif
+void Particle_Field7C_SetXYFromField74AngleZ_0B23C(Particle* arg0) {
+    M2C_FIELD(arg0, f32*, 0x78) = SINS(M2C_FIELD(arg0, u16*, 0x92)) * arg0->unk_74;
+    M2C_FIELD(arg0, f32*, 0x80) = COSS(M2C_FIELD(arg0, u16*, 0x92)) * arg0->unk_74;
+}
 
 void Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(Particle* arg0) {
     arg0->unk_7C.x = arg0->unk_74 * COSS(arg0->unk_94.x) * SINS(arg0->unk_94.y);
@@ -1307,11 +1486,11 @@ void Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(Particle* arg0) {
     arg0->unk_7C.z = arg0->unk_74 * COSS(arg0->unk_94.x) * COSS(arg0->unk_94.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FBCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FBCC.s")
-#endif
+void func_8213FBCC(Particle* arg0) {
+    arg0->unk_7C.x = arg0->unk_74 * SINS(arg0->unk_94.x) * SINS(arg0->unk_94.z);
+    arg0->unk_7C.y = -arg0->unk_74 * SINS(arg0->unk_94.x) * COSS(arg0->unk_94.z);
+    arg0->unk_7C.z = arg0->unk_74 * COSS(arg0->unk_94.x);
+}
 
 void Particle_Field7C_SetVecFromField74AnglesXYAlt_0B3AC(Particle* arg0) {
     arg0->unk_7C.x = arg0->unk_74 * SINS(arg0->unk_94.y);
@@ -1319,11 +1498,11 @@ void Particle_Field7C_SetVecFromField74AnglesXYAlt_0B3AC(Particle* arg0) {
     arg0->unk_7C.z = arg0->unk_74 * COSS(arg0->unk_94.x) * COSS(arg0->unk_94.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213FCC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213FCC8.s")
-#endif
+void Particle_Field7C_SetVecFromField74AnglesYZ_0B42C(Particle* arg0) {
+    arg0->unk_7C.x = arg0->unk_74 * SINS(arg0->unk_94.y) * COSS(arg0->unk_94.z);
+    arg0->unk_7C.y = arg0->unk_74 * SINS(arg0->unk_94.y) * SINS(arg0->unk_94.z);
+    arg0->unk_7C.z = COSS(arg0->unk_94.y);
+}
 
 void Particle_Field7C_SetVecFromField74AnglesXYZ_0B4A0(Particle* arg0) {
     arg0->unk_7C.x = arg0->unk_74 * (COSS(arg0->unk_94.x) * SINS(arg0->unk_94.y) * COSS(arg0->unk_94.z) +
@@ -1358,11 +1537,18 @@ void Particle_Field7C_SetVecFromField74AnglesYZVariant_0B700(Particle* arg0) {
     arg0->unk_7C.z = arg0->unk_74 * (COSS(arg0->unk_94.x) * COSS(arg0->unk_94.y));
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140064; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140064.s")
-#endif
+void Particle_UpdateRotatingVelocityXZ(Particle* arg0, f32 arg1, s16 arg2) {
+    f32 tmp1 = arg0->unk_50.x;
+    f32 tmp2 = arg0->unk_50.z;
+
+    arg0->unk_9A.y += arg2;
+
+    arg0->unk_50.x = arg1 * gParticleRenderContext.unk_00.y * SINS(arg0->unk_9A.y);
+    arg0->unk_50.z = arg1 * gParticleRenderContext.unk_00.y * COSS(arg0->unk_9A.y);
+
+    arg0->unk_7C.x = arg0->unk_50.x - tmp1;
+    arg0->unk_7C.z = arg0->unk_50.z - tmp2;
+}
 
 s32 Particle_Field50_AdvanceField7CWithTimer_0B854(Particle* arg0, f32 arg1, f32 arg2, f32 arg3, s16 arg4, s16 arg5) {
     s32 sp24 = 0;
@@ -1434,11 +1620,11 @@ s32 Particle_Field20_Approach_0BA84(Particle* arg0, f32 arg1, f32 arg2) {
     return ParticleMath_ApproachFloat(&arg0->unk_20, arg1 * gParticleRenderContext.unk_00.y, arg2 * gParticleRenderContext.unk_00.y);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140364; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140364.s")
-#endif
+void Particle_SetPrimColor(Particle* arg0, u8 arg1, u8 arg2, u8 arg3) {
+    arg0->prim_r = arg1;
+    arg0->prim_g = arg2;
+    arg0->prim_b = arg3;
+}
 
 M2C_UNK func_82137804(s32, s32, s32);               /* extern */
 
@@ -1478,11 +1664,11 @@ void func_82140438(s8 *arg0) {
     M2C_FIELD(arg0, s8 *, 0xBC) = (s8) D_8219A8B6;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82140460; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82140460.s")
-#endif
+void func_82140460(Particle* arg0, u8 arg1, u8 arg2, u8 arg3) {
+    M2C_FIELD(arg0, u8*, 0xBD) = arg1;
+    M2C_FIELD(arg0, u8*, 0xBE) = arg2;
+    M2C_FIELD(arg0, u8*, 0xBF) = arg3;
+}
 
 M2C_UNK func_82137804(s32, s32, s32);               /* extern */
 

@@ -21,7 +21,10 @@
     }
   },
   "src/crash_screen.c": {
-    ".rodata": "0x80079704"
+    ".rodata": {
+      "address": "0x80079704",
+      "size": "0x1AC"
+    }
   },
   "src/fragments/fragment000_80C00/81110190.c": {
     ".data": "0x81138350"
@@ -34,6 +37,12 @@
     ".data": {
       "address": "0x81701BF4",
       "size": "0xC"
+    }
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_3055E0.c": {
+    ".rodata": {
+      "address": "0x82196238",
+      "size": "0x8"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_309ED0.c": {
@@ -51,7 +60,7 @@
   "src/fragments/fragment012_17ED00/battle_engine_313D60_2.c": {
     ".rodata": {
       "address": "0x82196790",
-      "size": "0x8"
+      "size": "0x4C"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_315D50_2.c": {
@@ -61,22 +70,19 @@
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_317E70_2.c": {
+    ".rodata": "0x82196860"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_31D9F0.c": {
     ".rodata": {
-      "address": "0x821968DC",
-      "size": "0x94"
+      "address": "0x82195970",
+      "size": "0xC"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_31D9F0_2.c": {
-    ".rodata": {
-      "address": "0x82196A60",
-      "size": "0x14"
-    }
+    ".rodata": "0x821969C0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_3223B0.c": {
-    ".rodata": {
-      "address": "0x82196A90",
-      "size": "0x44"
-    }
+    ".rodata": "0x82196A90"
   },
   "src/fragments/fragment012_17ED00/battle_engine_3274D0.c": {
     ".rodata": "0x82196AF0"
@@ -87,16 +93,28 @@
   "src/fragments/fragment012_17ED00/battle_engine_32A640.c": {
     ".rodata": "0x82196BA0"
   },
+  "src/fragments/fragment012_17ED00/battle_engine_32B680.c": {
+    ".rodata": "0x82196030"
+  },
   "src/fragments/fragment012_17ED00/battle_engine_32B680_3.c": {
     ".rodata": {
-      "address": "0x821973D8",
-      "size": "0xA8"
+      "address": "0x821973C4",
+      "size": "0x15C"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_339CA0.c": {
+    ".rodata": "0x82197520"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_3438B0.c": {
+    ".rodata": "0x821965B4"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_343BA0.c": {
+    ".rodata": "0x821966E0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_343BA0_4.c": {
     ".rodata": {
-      "address": "0x82197520",
-      "size": "0x74"
+      "address": "0x82196820",
+      "size": "0x28"
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_343BA0_8.c": {
@@ -106,7 +124,7 @@
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_34A420.c": {
-    ".rodata": "0x82197AB8"
+    ".rodata": "0x82197AB0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_34E1A0.c": {
     ".rodata": "0x82197BC0"
@@ -155,14 +173,23 @@
     ".rodata": "0x82197DE0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_move_animation.c": {
-    ".rodata": "0x821948DC"
+    ".rodata": "0x821948C0"
   },
   "src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c": {
     ".data": "0x821891F0",
     ".rodata": {
       "address": "0x82194930",
-      "size": "0x1C"
+      "size": "0x2C"
     }
+  },
+  "src/fragments/fragment012_17ED00/ekans_game.c": {
+    ".rodata": {
+      "address": "0x821978E0",
+      "size": "0x28"
+    }
+  },
+  "src/fragments/fragment012_17ED00/fragment1_89010.c": {
+    ".rodata": "0x82196670"
   },
   "src/fragments/fragment012_17ED00/particle_math_269820_2.c": {
     ".rodata": "0x82196970"
@@ -190,6 +217,9 @@
       "address": "0x8A21D9EC",
       "size": "0x18"
     }
+  },
+  "src/fragments/fragment025_2B16A0/fatal_error_screen.c": {
+    ".data": "0x816008EC"
   },
   "src/gb_audio.c": {
     ".rodata": "0x8007DD40",
@@ -225,6 +255,12 @@
   "src/libleo/leoc2ecc.c": {
     ".rodata": "0x8007F3D0"
   },
+  "src/libleo/leocmdex.c": {
+    ".rodata": {
+      "address": "0x8007ED08",
+      "size": "0xA8"
+    }
+  },
   "src/libleo/leomecha.c": {
     ".rodata": "0x8007EDC0"
   },
@@ -238,7 +274,7 @@
     ".rodata": "0x8007ECC0"
   },
   "src/libnumus/player.c": {
-    ".rodata": "0x8007DC68"
+    ".rodata": "0x8007DC58"
   },
   "src/libultra/audio/drvrnew.c": {
     ".data": "0x80077C30",
@@ -310,12 +346,19 @@
   "src/matrix.c": {
     ".rodata": "0x80079A50"
   },
+  "src/pokemon_stats_2.c": {
+    ".rodata": "0x8007B6D0"
+  },
   "src/profiler.c": {
     ".data": "0x80060250",
     ".rodata": "0x800798B0"
   },
+  "src/rom_device.c": {
+    ".rodata": "0x8007EC70"
+  },
   "src/rsp.c": {
-    ".bss": "0x80087050"
+    ".bss": "0x80087050",
+    ".rodata": "0x800793A0"
   },
   "src/save_data.c": {
     ".rodata": "0x8007B748"

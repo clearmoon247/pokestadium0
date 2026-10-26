@@ -63,11 +63,38 @@ u8 leoAnalize_asic_status(void) {
     return LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80049ECC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80049ECC.s")
-#endif
+u8 leoChk_asic_ready(u32 asic_cmd) {
+    u32 sense_code = leoAnalize_asic_status();
+
+    switch (sense_code) {
+        case LEO_SENSE_MEDIUM_MAY_HAVE_CHANGED:
+            if (asic_cmd == ASIC_CLR_CHGFLG) {
+                return LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION;
+            }
+        case LEO_SENSE_POWERONRESET_DEVICERESET_OCCURED:
+            if (!(asic_cur_status & LEO_STATUS_BUSY_STATE)) {
+                if (asic_cmd == ASIC_CLR_RSTFLG) {
+                    return LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION;
+                }
+                if (leoRecv_event_mesg(0) != 0) {
+                    return 0x2B;
+                }
+                osEPiWriteIo(LEOPiInfo, LEO_CMD, ASIC_CLR_RSTFLG);
+                if (leoRecv_event_mesg(1) != 0) {
+                    return 0x2B;
+                }
+            }
+        default:
+            break;
+        case LEO_SENSE_EJECTED_ILLEGALLY_RESUME:
+            if (asic_cmd & ASIC_NEED_DISK_IN) {
+                break;
+            }
+        case LEO_SENSE_NO_SEEK_COMPLETE:
+            return LEO_SENSE_NO_ADDITIONAL_SENSE_INFOMATION;
+    }
+    return sense_code;
+}
 
 u8 leoChk_done_status(u32 asic_cmd) {
     u32 asic_data;

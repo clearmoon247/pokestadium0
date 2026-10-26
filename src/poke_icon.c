@@ -49,11 +49,33 @@ void func_80017F54(s8 *arg0, s16 arg1, s16 arg2) {
     func_80010B3C(M2C_FIELD(M2C_FIELD(arg0, s8 **, 0xC), s32 *, 0xC), 0, 0, arg1, (s32) arg2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80017FDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80017FDC.s")
-#endif
+unk_func_8001A024* PokeIcon_CreateRenderList(ModelLoadContext* arg0, s16 arg1, s16 arg2, s16 arg3) {
+    s32 var_s0;
+    DepthBuffer* temp_a1;
+    s32 i;
+    unk_func_8001A024* temp_v0 = main_pool_alloc(0x18, 0);
+
+    if (temp_v0 != NULL) {
+        temp_v0->unk_00 = 0;
+        temp_v0->unk_02 = 0;
+        temp_v0->unk_03 = -1;
+        temp_v0->unk_01 = arg1;
+        temp_v0->unk_08 = main_pool_alloc(arg1 * sizeof(unk_func_8001A024_008), 0);
+        temp_v0->unk_04 = arg0;
+        temp_v0->unk_14 = GfxImage_Allocate(0, 2, arg2, arg3, 1);
+
+        for (i = 0; i < arg1; i++) {
+            temp_v0->unk_08[i].unk_00 = 0;
+            temp_v0->unk_08[i].unk_14.raw = 0;
+            temp_v0->unk_08[i].unk_0C = GfxImage_Allocate(0, 2, arg2, arg3, 0);
+            GfxImage_AttachDepthBuffer(temp_v0->unk_08[i].unk_0C, temp_v0->unk_14);
+            bzero(temp_v0->unk_08[i].unk_0C->img_p, arg2 * arg3 * 2);
+        }
+
+        func_80017F54((s8*)temp_v0, arg2, arg3);
+    }
+    return temp_v0;
+}
 
 M2C_UNK func_80017D00(s32);                         /* extern */
 M2C_UNK func_800199E4(s32);                         /* extern */
@@ -103,11 +125,27 @@ void func_80018168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001833C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800184C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800184C0.s")
-#endif
+void PokeIcon_AdjustImageColors(u8* arg0, arg1_func_80010CA8 arg1) {
+    s32 cond;
+    u16* pixels = M2C_FIELD(arg0, u16**, 8);
+    s32 count = M2C_FIELD(arg0, u16*, 6) * M2C_FIELD(arg0, u16*, 4);
+    s32 size = count;
+
+    if (!arg0) {}
+
+    size *= 2;
+
+    osInvalDCache(pixels, size);
+
+    cond = size >= 2;
+    size -= 2;
+    // clang-format off
+    while (cond != 0) {
+        *pixels = Color_AdjustRGB5551(*pixels, arg1);        cond = size >= 2;        size -= 2;
+        pixels++;
+    }
+    // clang-format on
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80018550; signature not recovered. */

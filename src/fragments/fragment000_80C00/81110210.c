@@ -1,7 +1,9 @@
 /* Stadium Zero fragment000_80C00. */
 
 #include "global.h"
+#include "fragments/particle_math/particle_math.h"
 #include "m2c_macros.h"
+void func_81110E3C(Particle*, s32);
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81110210; signature not recovered. */
@@ -57,17 +59,13 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81110E3C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81111090; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81111090.s")
-#endif
+void func_81111090(Particle* arg0) {
+    func_81110E3C(arg0, 6);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811110B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811110B0.s")
-#endif
+void func_811110B0(Particle* arg0) {
+    func_81110E3C(arg0, 7);
+}
 
 void func_811110D0(s8 *arg0) {
     M2C_FIELD(arg0, s8 **, 0) = arg0;
@@ -155,7 +153,6 @@ s8 *func_811114E8(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81111568.s")
 #endif
 
-M2C_UNK func_811110B0(s32);                         /* extern */
 
 void func_81111688(s8 *arg0, s32 arg1) {
     func_811110B0(M2C_FIELD(arg0, s32 *, 0x44));

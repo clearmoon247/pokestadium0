@@ -921,15 +921,16 @@ typedef struct FontSet {
 	/* 0x08 */ u8* unk_08;
 } FontSet; // size = 0xC
 
+// Zero has four font sets where Stadium 1 has six.
 typedef struct FontContext {
-    /* 0x00 */ FontSet unk_00[6];
-    /* 0x48 */ void* unk_48;
-    /* 0x4C */ s32 unk_4C;
-    /* 0x50 */ u8 unk_50;
-    /* 0x51 */ s8 unk_51;
-    /* 0x52 */ u8 line_height;
-    /* 0x53 */ u8 line_break_flag;
-} FontContext; // size = 0x54
+    /* 0x00 */ FontSet unk_00[4];
+    /* 0x30 */ void* unk_48;
+    /* 0x34 */ s32 unk_4C;
+    /* 0x38 */ u8 unk_50;
+    /* 0x39 */ s8 unk_51;
+    /* 0x3A */ u8 line_height;
+    /* 0x3B */ u8 line_break_flag;
+} FontContext; // size = 0x3C
 
 extern Gfx gUiTranslucentFillDL[];
 

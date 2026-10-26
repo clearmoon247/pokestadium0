@@ -78,17 +78,65 @@ unk_func_8001B1FC* PokeIcon_CreateModelPreview(ModelLoadContext* arg0, s16 arg1,
     return temp_v0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019008; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019008.s")
-#endif
+extern unk_D_8006FF00 D_80064C5C[];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800191B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800191B0.s")
-#endif
+void PokeIcon_SetPreviewMon(unk_func_8001B1FC* arg0, BattleMon* arg1, u16 arg2) {
+    arg1_func_80010CA8 sp2C;
+    s16 tmp1 = (s16)(D_80064C5C[arg1->unk_00.unk_00 - 1].unk_14 >> 0x10) >> 5;
+    s16 tmp2 = (s16)(D_80064C5C[arg1->unk_00.unk_00 - 1].unk_14 >> 5) >> 6;
+    s16 tmp3 = (s16)(D_80064C5C[arg1->unk_00.unk_00 - 1].unk_14 << 5) >> 5;
+
+    arg0->unk_00 |= 1;
+    arg0->unk_14 = arg1;
+    arg0->unk_12 = 0x100;
+    arg0->unk_10 = 0;
+    arg0->unk_02 = arg2;
+    arg0->unk_18 = D_80064C5C[arg1->unk_00.unk_00 - 1].unk_02 / 100.0f;
+
+    arg0->unk_24->position.x = tmp1;
+    arg0->unk_24->position.y = tmp2;
+    arg0->unk_24->position.z = tmp3;
+
+    arg0->unk_24->rotation = D_8006045C;
+    Model_ComputeSizeVariant(&sp2C, arg1);
+    PokeIcon_RequestFrameLoad(arg0->unk_1C, arg1->unk_00.unk_00, sp2C);
+    PokeIcon_WaitFrameLoad(arg0->unk_1C);
+    ModelRenderer_ClearDisplayObject(arg0->unk_24);
+    Model_InitDisplayObject(arg0->unk_24, 0, arg1->unk_00.unk_00, arg0->unk_1C->loadedModel->modelRoot->unk_00[0]);
+    ModelAnim_SetAnimation(arg0->unk_24, 1);
+    arg0->unk_24->node.renderFlags &= ~0x40;
+    arg0->unk_24->node.renderFlags |= 0x80;
+}
+
+extern unk_D_8006FF00 D_80064C5C[];
+
+void PokeIcon_SetPreviewSpecies(unk_func_8001B1FC* arg0, s32 arg1, u16 arg2) {
+    arg1_func_80010CA8 sp34;
+    s16 tmp1 = (s16)(D_80064C5C[arg1 - 1].unk_14 >> 0x10) >> 5;
+    s16 tmp2 = (s16)(D_80064C5C[arg1 - 1].unk_14 >> 5) >> 6;
+    s16 tmp3 = (s16)(D_80064C5C[arg1 - 1].unk_14 << 5) >> 5;
+
+    arg0->unk_00 &= ~1;
+    arg0->unk_14 = arg1;
+    arg0->unk_12 = 0x100;
+    arg0->unk_10 = 0;
+    arg0->unk_02 = arg2;
+    arg0->unk_18 = D_80064C5C[arg1 - 1].unk_02 / 100.0f;
+
+    arg0->unk_24->position.x = tmp1;
+    arg0->unk_24->position.y = tmp2;
+    arg0->unk_24->position.z = tmp3;
+
+    arg0->unk_24->rotation = D_8006045C;
+    sp34.raw = 0;
+    PokeIcon_RequestFrameLoad(arg0->unk_1C, arg1, sp34);
+    PokeIcon_WaitFrameLoad(arg0->unk_1C);
+    ModelRenderer_ClearDisplayObject(arg0->unk_24);
+    Model_InitDisplayObject(arg0->unk_24, 0, arg1, arg0->unk_1C->loadedModel->modelRoot->unk_00[0]);
+    ModelAnim_SetAnimation(arg0->unk_24, 1);
+    arg0->unk_24->node.renderFlags &= ~0x40;
+    arg0->unk_24->node.renderFlags |= 0x80;
+}
 
 s32 PokeIcon_HandlePreviewInput(Vec3s* arg0) {
     s32 var_v1 = 0;
@@ -177,14 +225,65 @@ void PokeIcon_UpdatePreview(unk_func_8001B1FC* arg0) {
     Vec3f_SetComponentsDuplicate(&D_800AD1C0->scale, arg0->unk_18, arg0->unk_18, arg0->unk_18);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019564; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019564.s")
-#endif
+void PokeIcon_DrawPreview(unk_func_8001B1FC* arg0) {
+    s32 var_v0;
+    s32 var_s2;
+    s32 i;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800196F8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800196F8.s")
-#endif
+    if (arg0->unk_0C == 0) {
+        GfxImage_FillCurrent(&gDisplayListHead, arg0->unk_02);
+        return;
+    }
+
+    var_s2 = arg0->unk_0C;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_COPY);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_NOOP, G_RM_NOOP2);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+
+    for (i = 0; i < arg0->unk_0A; i += 8) {
+        var_v0 = arg0->unk_0A - i;
+        if (var_v0 >= 9) {
+            var_v0 = 8;
+        }
+        Gfx_DrawTextureRgba16(0, i, arg0->unk_08, var_v0, var_s2, arg0->unk_04, 0x200000);
+        var_s2 += arg0->unk_04 * 0x10;
+    }
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_PERSP);
+
+    GfxImage_ClearDepthRectangle(&gDisplayListHead, 0, 0, arg0->unk_08, arg0->unk_0A);
+}
+
+extern s32 D_800AC834;
+extern s32 D_800AD1C4;
+void func_80019564();
+extern char D_80079A60[];
+extern char D_80079A70[];
+
+u8* PokeIcon_RenderPreview(unk_func_8001B1FC* arg0) {
+    PokeIcon_UpdatePreview(arg0);
+    GfxImage_SetRenderTarget(&gDisplayListHead, arg0->unk_28);
+    func_80019564(arg0);
+    GeoRender_AdvanceFrameCounter();
+    Geo_RenderRootNode(arg0->unk_20);
+
+    if (D_800AD1C4 > 0) {
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(8, -4);
+
+        switch (D_800AD1C4) {
+            case 1:
+                Font_Printf(0, 0x64, D_80079A60, arg0->unk_18, (s32)arg0->unk_24->position.y);
+                break;
+
+            case 2:
+                Font_Printf(0, 0x64, D_80079A70, (s32)arg0->unk_24->position.x, (s32)arg0->unk_24->position.z);
+                break;
+        }
+        Font_EndTexturedTextRendering();
+    }
+    return arg0->unk_28->img_p;
+}

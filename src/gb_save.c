@@ -101,11 +101,13 @@ void GbSave_BuildPortSummary(unk_func_8002D860* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028E5C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80029028; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80029028.s")
-#endif
+void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 arg4) {
+    s32 color = RGBA5551(arg4.r, arg4.g, arg4.b, 1);
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetFillColor(gDisplayListHead++, (color << 0x10) | color);
+    gDPFillRectangle(gDisplayListHead++, arg0, arg1, (arg0 + arg2) - 1, (arg1 + arg3) - 1);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800290F0; signature not recovered. */
@@ -332,11 +334,65 @@ void Ui_AdjustSteppedScrollSelection(unk_func_8002DE78_arg0* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002B4B4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002B4B4.s")
-#endif
+s32 Ui_AdjustNumericSelection(unk_func_8830867C_044_038_030* arg0, s32 arg1) {
+    s32 var_t1;
+    s32 var_a2;
+    s32 i;
+
+    var_a2 = 1;
+
+    for (i = arg0->unk_10; i > 0; i--) {
+        var_a2 *= 10;
+    }
+
+    switch (arg1) {
+        case 0x200:
+            if (arg0->unk_10 + 1 < arg0->unk_0C) {
+                arg0->unk_10 = arg0->unk_10 + 1;
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+
+        case 0x100:
+            if (arg0->unk_10 > 0) {
+                arg0->unk_10--;
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+
+        case 0x800:
+            if (arg0->unk_00 == arg0->unk_08) {
+                arg0->unk_00 = arg0->unk_00 - ((arg0->unk_00 / var_a2) * var_a2);
+                if (arg0->unk_00 < arg0->unk_04) {
+                    arg0->unk_00 = arg0->unk_04;
+                }
+            } else {
+                arg0->unk_00 += var_a2;
+                if (arg0->unk_08 < arg0->unk_00) {
+                    arg0->unk_00 = arg0->unk_08;
+                }
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+
+        case 0x400:
+            if (arg0->unk_00 == arg0->unk_04) {
+                arg0->unk_00 = arg0->unk_08;
+            } else {
+                arg0->unk_00 -= var_a2;
+                if (arg0->unk_00 < arg0->unk_04) {
+                    arg0->unk_00 = arg0->unk_04;
+                }
+            }
+            Audio_PlaySoundEffectById(SFX_MENU_SCROLL);
+            var_t1 = 1;
+            break;
+    }
+    return var_t1;
+}
 
 s32 Ui_HandleNumericSelectionInput(unk_func_8820E99C_030_030* arg0) {
     s32 sp1C = Input_GetRepeatedDPad() & 0xFFFF;
@@ -468,11 +524,20 @@ Color_RGBA8 Color_InterpolateFromGray(Color_RGBA8 arg0, f32 arg1) {
     return sp4;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002C998; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002C998.s")
-#endif
+extern Color_RGBA8 D_800736A8;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+
+void BattleInfoWidget_DrawLabel(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4) {
+    if (arg4 & 0x18) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, 0xE6, 0x16, D_800736A8);
+    }
+
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002CA34; signature not recovered. */
@@ -516,11 +581,15 @@ Color_RGBA8 Color_InterpolateFromGray(Color_RGBA8 arg0, f32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D024.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D138; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D138.s")
-#endif
+s32 func_8002D138(UNUSED s32 arg0) {
+    s32 ret = 0;
+
+    if (gPlayer1Controller->buttonPressed & (BTN_A | BTN_B)) {
+        ret = 1;
+        Audio_PlaySoundEffectById(SFX_MENU_CONFIRM);
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002D188; signature not recovered. */
@@ -556,11 +625,22 @@ s32 func_8002D454(s32 arg0, s32 arg1) {
     return func_8002D430(arg0, arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D498; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D498.s")
-#endif
+s32 func_8001FA8C(s32);
+
+s32 func_8002D498(BattleMon* arg0, s32 arg1) {
+    s32 idx = arg0->unk_00.unk_00 - 1;
+    s32 type;
+
+    if (arg1 == 1) {
+        if (gSpeciesData[idx].type1 == gSpeciesData[idx].type2) {
+            return -1;
+        }
+        type = gSpeciesData[idx].type2;
+    } else {
+        type = gSpeciesData[idx].type1;
+    }
+    return func_8001FA8C(type);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002D520; signature not recovered. */

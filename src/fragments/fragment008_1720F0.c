@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "m2c_macros.h"
+#include "graphics_textures.h"
 
 s32 func_800246A8(M2C_UNK, s32);                    /* extern */
 
@@ -75,11 +76,22 @@ void func_88100100(s8 *arg0, M2C_UNK arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100348.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100428; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100428.s")
-#endif
+extern Color_RGBA8 D_88102D74;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+
+void func_88100428(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5) {
+    s32 temp_v0 = *arg5;
+
+    if (arg4 & 0x10) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, temp_v0 - 6, 0x1A, D_88102D74);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 8, arg1 + 4, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_881004CC; signature not recovered. */
@@ -123,11 +135,21 @@ void func_88100100(s8 *arg0, M2C_UNK arg1)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100BA4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100C24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100C24.s")
-#endif
+s32 func_8002AE6C();
+extern u8 D_800734A8[4];
+void Gallery_AlbumDrawStatusText(s8* arg0) {
+    u8* c;
+
+    if (func_8002AE6C() == 0) {
+        Font_BeginTranslucentTextRendering();
+        c = D_800734A8;
+        Gfx_SetEnvColor(c[0], c[1], c[2], c[3]);
+        Font_SetActive(8, 0);
+        Font_SetLineHeight(0x1C);
+        Font_Printf(M2C_FIELD(arg0, s32*, 0) + 0xE, M2C_FIELD(arg0, s32*, 4) + 0xE, M2C_FIELD(arg0, char**, 0x2C));
+        Font_EndTexturedTextRendering();
+    }
+}
 
 M2C_UNK func_8002BC14(s32);                         /* extern */
 extern s32 D_800603C0;
@@ -206,17 +228,19 @@ s32 func_881016B0(s32 *arg0) {
     return *arg0 == 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_881016BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_881016BC.s")
-#endif
+s32 func_881016BC(s8* arg0) {
+    if (M2C_FIELD(arg0, s32*, 0) < M2C_FIELD(arg0, s32*, 4) * M2C_FIELD(arg0, s32*, 8)) {
+        M2C_FIELD(arg0, s32*, 0) += 1;
+    }
+    return func_88101690(arg0);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88101704; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88101704.s")
-#endif
+void Audio_QueueSoundAvoidingRecent(s32* arg0) {
+    if (*arg0 > 0) {
+        *arg0 -= 1;
+    }
+    func_881016B0(arg0);
+}
 
 s32 func_88101734(s32 *arg0) {
     return *arg0;

@@ -104,11 +104,31 @@ void func_821398A0(void) {
     D_8219CA58 = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213990C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213990C.s")
-#endif
+void func_8213990C(Particle* arg0) {
+    Particle_InitLifecycle(arg0);
+    Particle_SetPosition(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetOrigin(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetVelocity(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetVelocityTarget(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_SetVelocityImpulse(arg0, 0.0f, 0.0f, 0.0f);
+    Particle_Field74_SetScaled_0AD8C(arg0, 0.0f);
+    Particle_Field78_SetScaled_0ADA4(arg0, 0.0f);
+    Particle_SetRotation(arg0, 0, 0, 0);
+    Particle_SetRotationSpeed(arg0, 0, 0, 0);
+    Particle_SetTextureFrame(arg0, 0);
+    Particle_FieldA6_SetS16_0BCA8(arg0, 0);
+    Particle_FieldA8_SetS16_0BE14(arg0, 0);
+    Particle_FieldCD_SetS16_0BF38(arg0, 0);
+    Particle_FieldCE_SetS16_0BF24(arg0, 0);
+    Particle_FieldAA_SetS16_0BF10(arg0, 0);
+    Particle_FieldAC_SetS16_0BED8(arg0, 0);
+    Particle_FieldCF_SetU8_0BEEC(arg0, 0);
+    Particle_SetPrimColor(arg0, 0xFF, 0xFF, 0xFF);
+    Particle_SetEnvColor(arg0, 0xFF, 0xFF, 0xFF);
+    Particle_SetPrimAlpha(arg0, 0xFF);
+
+    arg0->unk_1C = 1.0f;
+}
 
 Particle* Particle_Alloc(void) {
     s32 i;
@@ -247,11 +267,32 @@ void BattleAnim_InitializeParticleChain(Particle* arg0, Vec3f arg1, Vec3s arg2, 
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82139D84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82139D84.s")
-#endif
+void BattleAnim_CloneParticleState(Particle* arg0, Particle* arg1, ParticleUpdateCallback arg2, ParticleDescriptor* arg3,
+                   s32 arg4) {
+    arg0->unk_08 = arg2;
+    arg0->unk_0C = arg3;
+    arg0->unk_10 = arg1->unk_10;
+    arg0->unk_CF = arg1->unk_CF;
+    arg0->unk_CA = arg1->unk_CA;
+    arg0->unk_CC = 0x1C;
+    arg0->unk_CD = 0xFF;
+    arg0->unk_CE = arg1->unk_CE;
+    arg0->unk_CB = arg1->unk_CB;
+    arg0->unk_74 = arg1->unk_74;
+
+    Particle_FieldAC_SetS16_0BED8(arg0, arg4);
+
+    ParticleMath_CopyVec3f(&arg0->unk_38, &arg1->unk_38);
+    ParticleMath_CopyVec3f(&arg0->unk_50, &arg1->unk_50);
+    ParticleMath_CopyVec3f(&arg0->unk_68, &arg1->unk_68);
+    ParticleMath_CopyVec3f(&arg0->unk_7C, &arg1->unk_7C);
+    ParticleMath_CopyVec3s(&arg0->unk_94, &arg1->unk_94);
+    ParticleMath_CopyVec3s(&arg0->unk_9A, &arg1->unk_9A);
+
+    if (arg1->unk_CA == 4) {
+        arg0->unk_CA = 0;
+    }
+}
 
 void BattleAnim_EmitParticleBurst(Particle* arg0, ParticleUpdateCallback arg1, ParticleDescriptor* arg2, s16 arg3) {
     s16 i;
@@ -295,11 +336,94 @@ Particle* BattleAnim_CreateProceduralParticle(s16 arg0, s16 arg1, s32 arg2, f32 
     return temp_v0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213A07C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A07C.s")
-#endif
+void func_80015908(ActivePokemon*, s32, Vec3f*);
+void func_82107BFC(ActivePokemon* arg0, Vec3f* arg1);
+void BattleAnim_InitializeParticleAnchor(Particle* arg0) {
+    Vec3f sp3C;
+    Vec3f sp30;
+    Vec3s sp28;
+
+    switch (M2C_FIELD(arg0, u8*, 0xC8)) {
+        case 0:
+            BattleScene_GetParticipantModelPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 1:
+            BattleAnim_GetOwnerDefaultAnchorPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 27:
+            BattleAnim_GetOwnerDefaultAnchorPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            break;
+
+        case 9:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 10:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            break;
+
+        case 11:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            break;
+
+        case 12:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y + 0x8000);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            break;
+
+        case 13:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            func_82107BFC(arg0->unk_10, &sp30);
+            M2C_FIELD(arg0, Vec3f*, 0x64).y += sp30.y * 25.0f;
+            break;
+
+        case 14:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            func_82107BFC(arg0->unk_10, &sp30);
+            M2C_FIELD(arg0, Vec3f*, 0x64).y -= sp30.y * 25.0f;
+            if (M2C_FIELD(arg0, Vec3f*, 0x64).y <= 0.0f) {
+                M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            }
+            break;
+
+        case 15:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, 0x64, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            M2C_FIELD(arg0, Vec3f*, 0x64).y = 0.0f;
+            break;
+
+        case 17:
+            BattleAnim_GetOwnerBonePosition(arg0->unk_10, M2C_FIELD(arg0, u8*, 0xC9), &M2C_FIELD(arg0, Vec3f*, 0x64));
+            func_80015908(arg0->unk_10, M2C_FIELD(arg0, u8*, 0xC9), &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+
+        case 19:
+            func_80015908(arg0->unk_10, M2C_FIELD(arg0, u8*, 0xC9), &M2C_FIELD(arg0, Vec3f*, 0x64));
+            BattleScene_GetParticipantModelRotation(arg0->unk_10, &sp28);
+            func_82107BFC(arg0->unk_10, &sp30);
+            ParticleMath_MakeXZVectorFromAngle(&sp3C, sp30.x * 25.0f, sp28.y);
+            ParticleMath_AddVec3f(&M2C_FIELD(arg0, Vec3f*, 0x64), &sp3C);
+            break;
+
+        case 30:
+            BattleScene_GetParticipantPokeBallPosition(arg0->unk_10, &M2C_FIELD(arg0, Vec3f*, 0x64));
+            break;
+    }
+}
 
 void func_82107BFC(ActivePokemon* arg0, Vec3f* arg1);
 void BattleAnim_UpdateParticleAnchor(Particle* arg0) {
@@ -443,11 +567,27 @@ void func_8213A858(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A904.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213A9C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A9C4.s")
-#endif
+typedef void (*ParticleDrawFn2)(Particle*, s32);
+typedef void (*ParticleDrawFnCam)(Particle*, CameraNode*);
+void Particle_DispatchDraw(Particle* arg0, CameraNode* arg1) {
+    s8* desc = (s8*)arg0->unk_0C;
+    s8* sp18 = M2C_FIELD(desc, s8**, 4);
+
+    switch (M2C_FIELD(desc, s16*, 0)) {
+        case 1:
+            if (M2C_FIELD(sp18, s16*, 0) == 2) {
+                M2C_FIELD(sp18, ParticleDrawFn2*, 4)(arg0, M2C_FIELD(M2C_FIELD(sp18, s8**, 0xC), s32*, 0));
+                M2C_FIELD(sp18, ParticleDrawFnCam*, 8)(arg0, arg1);
+            } else {
+                M2C_FIELD(sp18, ParticleDrawFnCam*, 8)(arg0, arg1);
+            }
+            break;
+
+        case 3:
+            M2C_FIELD(desc, ParticleDrawFnCam*, 4)(arg0, arg1);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8213AA78; signature not recovered. */
@@ -479,11 +619,28 @@ void func_8213AB88(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213AC3C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AC3C.s")
-#endif
+void func_8213AC3C(s8* arg0) {
+    s16 step;
+    s16 count;
+    s16 i;
+    s32 temp_s4;
+    s32 temp_v0;
+
+    temp_s4 = M2C_FIELD(arg0, s32 *, 8);
+    step = M2C_FIELD(arg0, s16 *, 0x12);
+    count = M2C_FIELD(arg0, s16 *, 0x10) / step;
+    if (M2C_FIELD(M2C_FIELD(arg0, s8 **, 4), s16 *, 2) == 0) {
+        for (i = 0; i < count; i++) {
+            temp_v0 = func_82139C38();
+            M2C_FIELD(arg0, s16 *, 0x10) = step;
+            func_8213AA78(temp_v0, temp_s4, arg0, i);
+        }
+    } else {
+        temp_v0 = func_82139C58(count & 0xFF);
+        M2C_FIELD(arg0, s16 *, 0x10) = step;
+        func_8213AA78(temp_v0, temp_s4, arg0, 0);
+    }
+}
 
 void BattleAnim_SpawnSingleParticle(BattleAnimEffectSlot* arg0) {
     UNUSED s32 pad;
@@ -552,11 +709,19 @@ void BattleAnim_TickEffectSlots(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213AF50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213AF50.s")
-#endif
+s32 Particle_CountActive(void) {
+    s32 i;
+    s32 var_v1 = 0;
+    Particle* ptr = gParticlePool;
+
+    for (i = 0; i < 0x12C; i++, ptr++) {
+        if (ptr->unk_D0 != 0) {
+            var_v1++;
+        }
+    }
+
+    return var_v1;
+}
 
 s32 Particle_CountActiveAlias(void) {
     return Particle_CountActive();
@@ -677,11 +842,16 @@ void BattleAnim_CleanupEffects(s32 cleanup_mode) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213B3A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213B3A4.s")
-#endif
+void BattleAnim_StopParticlesForOwnerCategory(u8 arg0, ActivePokemon* arg1) {
+    s32 i;
+    Particle* var_s0 = gParticlePool;
+
+    for (i = 0; i < 300; i++, var_s0++) {
+        if ((var_s0->unk_D0 != 0) && (var_s0->unk_CA == 4) && (var_s0->unk_CB == arg0) && (arg1 == var_s0->unk_10)) {
+            Particle_AdvanceLifecycle(var_s0);
+        }
+    }
+}
 
 void BattleAnim_ResetSpawnDelay(void) {
     gBattleAnimSpawnDelay = 0;

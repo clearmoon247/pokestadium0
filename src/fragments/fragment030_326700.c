@@ -1,42 +1,59 @@
 /* Stadium Zero fragment030_326700. */
 
 #include "global.h"
+#include "gfx_buffer.h"
 #include "m2c_macros.h"
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F100020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment030_326700/func_8F100020.s")
-#endif
+extern s32 D_8F100250;
+extern s32 D_8F100254;
+extern s32 D_8F100258;
+extern s32 D_8F10025C;
+extern Gfx D_8F1549C0[];
+extern Gfx D_8F154A60[];
+extern Gfx D_8F155550[];
+extern Gfx D_8F1555B8[];
 
-s32 func_8000515C(M2C_UNK);                         /* extern */
-M2C_UNK func_8F100020(s32);                         /* extern */
+Gfx* func_8F100020(Gfx* gfx);
+Gfx* func_8F100154(Gfx* gfx);
 
-void func_8F100118(s32 arg0, s8 *arg1) {
-    s32 temp_v0;
+Gfx* func_8F100020(Gfx* gfx) {
+    if (++D_8F100250 >= 0x80) {
+        D_8F100250 = 0;
+    }
+    if (++D_8F100254 >= 0x80) {
+        D_8F100254 = 0;
+    }
+    gSPDisplayList(gfx++, D_8F1549C0);
+    gDPSetTileSize(gfx++, G_TX_RENDERTILE, D_8F100250, D_8F100254, D_8F100250 + 0x7C, D_8F100254 + 0x7C);
+    gDPSetTileSize(gfx++, 1, D_8F100250, 0, D_8F100250 + 0x7C, 0x7C);
+    gSPBranchList(gfx++, D_8F154A60);
+    return gfx;
+}
 
+void func_8F100118(s32 arg0, s8* arg1) {
     if (arg0 == 2) {
-        temp_v0 = func_8000515C(0x20);
-        M2C_FIELD(arg1, s32 *, 0x18) = temp_v0;
-        func_8F100020(temp_v0);
+        M2C_FIELD(arg1, Gfx**, 0x18) = Gfx_AllocDisplayList(0x20);
+        func_8F100020(M2C_FIELD(arg1, Gfx**, 0x18));
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8F100154; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment030_326700/func_8F100154.s")
-#endif
+Gfx* func_8F100154(Gfx* gfx) {
+    D_8F100258 -= 2;
+    if (D_8F100258 < 0) {
+        D_8F100258 = 0xFF;
+    }
+    if (++D_8F10025C >= 0x80) {
+        D_8F10025C = 0;
+    }
+    gSPDisplayList(gfx++, D_8F155550);
+    gDPSetTileSize(gfx++, G_TX_RENDERTILE, D_8F100258, D_8F10025C, D_8F100258 + 0x7C, D_8F10025C + 0x7C);
+    gSPBranchList(gfx++, D_8F1555B8);
+    return gfx;
+}
 
-s32 func_8000515C(M2C_UNK);                         /* extern */
-M2C_UNK func_8F100154(s32);                         /* extern */
-
-void func_8F100214(s32 arg0, s8 *arg1) {
-    s32 temp_v0;
-
+void func_8F100214(s32 arg0, s8* arg1) {
     if (arg0 == 2) {
-        temp_v0 = func_8000515C(0x18);
-        M2C_FIELD(arg1, s32 *, 0x18) = temp_v0;
-        func_8F100154(temp_v0);
+        M2C_FIELD(arg1, Gfx**, 0x18) = Gfx_AllocDisplayList(0x18);
+        func_8F100154(M2C_FIELD(arg1, Gfx**, 0x18));
     }
 }

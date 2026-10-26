@@ -27,11 +27,13 @@ void func_8110DC90(void) {
 void func_8110DC98(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110DCA0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110DCA0.s")
-#endif
+void func_8110D5BC(Particle* arg0, s32 arg1, s32* arg2);
+
+void func_8110DCA0(Particle* arg0, s32 arg1) {
+    s32 sp1C;
+
+    func_8110D5BC(arg0, arg1, &sp1C);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110DCC0; signature not recovered. */

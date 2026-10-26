@@ -264,11 +264,19 @@ void func_81218104_jp(UNUSED s32 arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811129E0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112AF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112AF8.s")
-#endif
+typedef struct Particle31FlagsA {
+    u8 b80 : 1;
+    u8 b40 : 1;
+} Particle31FlagsA;
+
+void func_81111090(Particle31FlagsA*);
+void func_81112AF8(Particle31FlagsA* arg0) {
+    if (arg0 != NULL) {
+        func_81111090(arg0);
+        arg0->b80 = 0;
+        arg0->b40 = 1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112B34; signature not recovered. */
@@ -276,11 +284,24 @@ void func_81218104_jp(UNUSED s32 arg0);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112B34.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112B84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112B84.s")
-#endif
+typedef struct Particle31Flags {
+    u8 b80 : 1;
+    u8 b40 : 1;
+} Particle31Flags;
+
+void func_811111E0(s8*);
+
+void func_81112B34();
+void Particle31_ResetAllSlots(DisplayObject* arg0) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        func_81112B34(arg0, i);
+    }
+    func_811111E0((s8*)arg0 + 0x84);
+    ((Particle31Flags*)arg0)->b80 = 0;
+    ((Particle31Flags*)arg0)->b40 = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112BF0; signature not recovered. */
@@ -333,11 +354,35 @@ s32 func_81112EEC(s8 *arg0) {
     return M2C_FIELD(temp_v1, s32 *, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112F2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112F2C.s")
-#endif
+typedef struct GbEmuListZ {
+    /* 0x00 */ void* next;
+    /* 0x04 */ void* prev;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ s32 unk_0C;
+} GbEmuListZ; // size = 0x10
+typedef struct GbEmuEntryZ {
+    /* 0x00 */ u8 pad00[0x74];
+    /* 0x74 */ void* next;
+    /* 0x78 */ void* prev;
+    /* 0x7C */ struct GbEmuEntryZ* owner;
+    /* 0x80 */ s32 unk_80;
+} GbEmuEntryZ; // size = 0x84
+extern GbEmuListZ D_81184928;
+extern GbEmuEntryZ D_811847C8[1];
+
+void func_81112F2C(void) {
+    s32 i;
+
+    D_81184928.next = &D_81184928;
+    D_81184928.prev = &D_81184928;
+    D_81184928.count = 0;
+    D_81184928.unk_0C = 0;
+    for (i = 0; i < 1; i++) {
+        D_811847C8[i].owner = &D_811847C8[i];
+        D_811847C8[i].next = NULL;
+        func_81112EAC((s8*)&D_81184928, (s8*)&D_811847C8[i].next);
+    }
+}
 
 u8 func_81112FB0(u8 **arg0)
 {
@@ -349,11 +394,12 @@ u8 func_81112FB0(u8 **arg0)
   return new_var;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112FC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112FC4.s")
-#endif
+s16 func_81112FC4(u8** arg0) {
+    s16 tmp = *(*arg0)++ << 8;
+
+    tmp = *(*arg0)++ | tmp;
+    return tmp;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112FFC; signature not recovered. */

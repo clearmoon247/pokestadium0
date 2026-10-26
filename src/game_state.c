@@ -109,11 +109,28 @@ void func_8002572C(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800257F0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025830; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025830.s")
-#endif
+typedef struct ContinueDataZ {
+    /* 0x00 */ u8 mode;
+    /* 0x01 */ u8 modeSelection;
+    /* 0x02 */ u8 round;
+    /* 0x03 */ u8 pad03;
+    /* 0x04 */ u8 opponentHistory[8];
+} ContinueDataZ; // size = 0xC
+extern M2C_UNK D_800AF974;
+extern M2C_UNK D_800AF9A8;
+void func_80025260(ContinueDataZ* arg0, void* arg1, BattleMon* arg2, s32 arg3);
+
+void func_80025830(void) {
+    ContinueDataZ sp1C;
+    ExtendedRosterInfo* info = (*(TeamRoster**)((u8*)&gSessionContext + 0x103C))->rosterInfo;
+
+    sp1C.mode = gSessionContext.mode;
+    sp1C.modeSelection = gSessionContext.modeSelection;
+    sp1C.round = gSessionContext.roundOrDemoId + 1;
+    _bcopy(&D_800AF974, sp1C.opponentHistory, 8);
+    func_80025260(&sp1C, &D_800AF9A8, info->unk_028, info->numberOfPokemonCanBePicked);
+    Save_CommitTypedRecord(0x15, 0);
+}
 
 M2C_UNK func_80058410(M2C_UNK *, M2C_UNK *, M2C_UNK, M2C_UNK *); /* extern */
 extern M2C_UNK D_800AE8F0;
@@ -184,11 +201,25 @@ void GbSave_SetActivePort(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025C0C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025D8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025D8C.s")
-#endif
+void Ui_DrawGradientPanel(s32 x1, s32 y1, s32 width, s32 height, Color_RGB8* top_color, Color_RGB8* bottom_color);
+extern Color_RGB8 D_800733E4;
+extern Color_RGB8 D_800733E8;
+extern char D_8007B8B4[];
+
+void func_80025D8C(void) {
+    Color_RGB8 sp2C = D_800733E4;
+    Color_RGB8 sp28 = D_800733E8;
+    UNUSED s32 pad[2];
+
+    BgStage_DrawFrame();
+    GfxImage_FillCurrent(&gDisplayListHead, 1);
+    Ui_DrawGradientPanel(0x90, 0x96, 0x160, 0x38, &sp2C, &sp28);
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(0x10, -2);
+    Font_Printf(0xDD, 0xA6, D_8007B8B4);
+    Font_EndTexturedTextRendering();
+    BgStage_AdvanceFrame();
+}
 
 M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
 M2C_UNK func_80002620(M2C_UNK);                     /* extern */
@@ -199,7 +230,7 @@ M2C_UNK func_8001A194(M2C_UNK, M2C_UNK);            /* extern */
 M2C_UNK func_8001A360();                            /* extern */
 s32 func_80021B30(s32);                             /* extern */
 M2C_UNK func_80025C0C(M2C_UNK);                     /* extern */
-M2C_UNK func_80025D8C();                            /* extern */
+void func_80025D8C(void);
 extern M2C_UNK D_002E0BE0;
 extern M2C_UNK D_002E2B90;
 extern M2C_UNK D_01000000;
@@ -248,11 +279,29 @@ void func_80025F3C(void) {
     D_800733C8 = 0x8010;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025FDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025FDC.s")
-#endif
+extern M2C_UNK D_81200000;
+extern M2C_UNK D_0015E220;
+extern s32 D_800AF988;
+
+void State_FastN64Logo(void) {
+    D_800733C8 = func_80025B60(((u32) ((s32) &D_81200000 & 0x0FF00000) >> 0x14) - 0x10, &D_0015E220, &D_0015F390, 0, NULL);
+    M2C_FIELD(&D_800AE8F0, u8*, 2) = 0;
+    M2C_FIELD(&D_800AE8F0, s16*, 0x1096) = 0;
+    switch (D_800733C8) {
+        case 0x8010:
+            func_80025B60(((u32) ((s32) &D_82100000 & 0x0FF00000) >> 0x14) - 0x10, &D_0017ED00, &D_00232510, 0, &D_800AE8F0);
+            break;
+        case 0x8020:
+            D_800733D4 = -1;
+            D_800AF988 = 0;
+            D_800733C8 = 0x8040;
+            break;
+        default:
+            D_800733D4 = 0;
+            D_800AF988 = 1;
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800260C4; signature not recovered. */
@@ -266,11 +315,53 @@ void func_80025F3C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80026368.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002677C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002677C.s")
-#endif
+extern M2C_UNK D_81300000;
+extern M2C_UNK D_0015FCE0;
+extern s32 D_800733CC;
+void func_8000A838(s32);
+void func_8000A8DC(void);
+void func_8000A904(void);
+void func_8000AC78(UnkInputStruct8000D738*);
+s32 func_8000ADE8(void);
+void func_8000AE1C(UnkInputStruct8000D738*);
+void func_800268E4(s32, s32);
+void func_80021C6C(s32);
+void func_80023C30(void);
+void func_80025130(s32);
+void func_8002404C(s32, s32);
+
+void State_GbTower(void) {
+    s32 sp2C;
+    UnkInputStruct8000D738 sp24;
+
+    main_pool_push_state('EMU0');
+    func_8000A838(1);
+    Display_WaitForFrames(2);
+    func_8000A8DC();
+
+    sp24.unk_04 = main_pool_alloc(sizeof(*sp24.unk_04), 0);
+
+    func_80025B60(((u32) ((s32) &D_81300000 & 0x0FF00000) >> 0x14) - 0x10, &D_0015F8F0, &D_0015FCE0, D_800733D4, (M2C_UNK*)&sp24);
+    func_8000AC78(&sp24);
+
+    sp2C = func_8000ADE8();
+
+    func_8000AE1C(&sp24);
+    Display_WaitForFrames(2);
+    func_8000A904();
+
+    if (sp2C != 0) {
+        func_800268E4(D_800733D4, sp2C);
+    }
+
+    func_80021C6C(D_800733D4);
+    func_80023C30();
+    func_80025130(sp24.unk_00);
+    func_8002404C(0x14, 0);
+    D_800733C8 = D_800733CC;
+    D_800AF988 = 1;
+    main_pool_pop_state('EMU0');
+}
 
 extern s32 D_800733C8;
 

@@ -71,11 +71,42 @@ f32 BattleAnim_EffectSecondaryOwnerModelScale(void) {
     return BattleAnim_GetSecondaryOwnerModelScale();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216DB20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216DB20.s")
-#endif
+extern char D_82197890[];
+void BattleAnim_CalcVectorAtToDm(f32* arg0, f32* arg1, f32* arg2, f32* arg3, f32* arg4, f32* arg5) {
+    Vec3f sp4C;
+    Vec3f sp40;
+    f32 sp3C;
+    f32 sp38;
+    f32 sp34;
+    UNUSED s32 pad[3];
+    f32 sp24;
+    f32 sp20;
+    f32 sp1C;
+
+    BattleAnim_EffectSecondaryOwnerAnchorPosition(&sp4C);
+    BattleAnim_EffectTertiaryOwnerBonePosition(&sp40);
+
+    sp3C = sp4C.x;
+    sp38 = sp4C.y;
+    sp34 = sp4C.z;
+
+    sp24 = sp40.x - sp4C.x;
+    sp20 = sp40.y - sp4C.y;
+    sp1C = sp40.z - sp4C.z;
+
+    if (sp24 == 0.0f && sp20 == 0.0f && sp1C == 0.0f) {
+        rmonPrintf(D_82197890);
+    }
+
+    Vec3f_NormalizeComponents(&sp24, &sp20, &sp1C);
+
+    *arg0 = sp3C;
+    *arg1 = sp38;
+    *arg2 = sp34;
+    *arg3 = sp24;
+    *arg4 = sp20;
+    *arg5 = sp1C;
+}
 
 void BattleAnim_ResetSharedEffectMatrix(void) {
     guRotateRPY(&D_8219CAC8, 0.0f, 0.0f, 0.0f);

@@ -112,11 +112,14 @@ s32 Battle_StageMaterialTintCallback(s32 event, DisplayObject* object) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82100118; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100118.s")
-#endif
+extern u8 D_8007838C[4];
+extern u8 D_82198D28[];
+
+void func_82100118(u8 arg0, u8 arg1, u8 arg2) {
+    D_82198D28[0] = arg0;
+    D_82198D28[1] = arg1;
+    D_82198D28[2] = arg2;
+}
 
 // Called at the start of battles
 // Uniform scale consumed by the stage material callbacks, not the Pokemon models.
@@ -328,11 +331,48 @@ s32 BattleScene_UpdatePausedFrame(s32 fade_mode) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100ED4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82100FD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82100FD4.s")
-#endif
+extern SessionContext* D_82198D10;
+void func_8000A7FC(s32);
+
+s32 Battle_FrameCallback(s32 fade_mode) {
+    s32 battle_result = 0;
+
+    Cont_StartReadInputs();
+    Trainer_RequestPokeIcon(&sBattleSides[0]);
+    PokeIcon_WaitFrameLoadForObject(&sBattleSides[0]);
+    Trainer_RequestPokeIcon(&sBattleSides[1]);
+    PokeIcon_WaitFrameLoadForObject(&sBattleSides[1]);
+    Cont_ReadInputs();
+    Input_ResetRepeatState();
+
+    switch (sIsPaused) {
+        case 0:
+            battle_result = BattleScene_UpdateFrame(fade_mode);
+            break;
+
+        case 1:
+            battle_result = BattleScene_UpdatePausedFrame(fade_mode);
+            break;
+    }
+
+    if ((battle_result != 0) && (sCompletionGate <= 0)) {
+        sCompletionGate = 1;
+    }
+
+    Battle_UpdateCompletionGate();
+    PokeIcon_RequestBackgroundForObject(&sBattleSides[0]);
+    PokeIcon_RequestBackgroundForObject(&sBattleSides[1]);
+
+    if ((fade_mode != 2) && (sCompletionGate == 1)) {
+        sCompletionGate = 2;
+        AudioFrameUpdate(0);
+        if (D_82198D10->mode != 4) {
+            func_8000A7FC(0x1E);
+        }
+        return 1;
+    }
+    return 0;
+}
 
 // triggers on battle start: bug boy in glc
 // Preserve the picked prefix and append missing roster indices 0..5 in order.
@@ -354,11 +394,48 @@ void Battle_CompleteRosterOrder(u8* roster_order, s32 number_of_pokemon_picked) 
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82101178; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82101178.s")
-#endif
+extern u8 D_82189170[];
+extern u8 D_82189174[];
+void func_82187738(TeamRoster*, TeamRoster*, s32, u8*, s32);
+
+void Battle_SelectComRoster(void) {
+    UNUSED s32 pad;
+    u8 order_of_picked_pokemon[8];
+    s32 difficulty;
+    TeamRoster* com_roster;
+    TeamRoster* player_roster;
+    s32 number_of_pokemon_picked;
+    s32 i;
+
+
+    player_roster = *(TeamRoster**)((u8*)D_82198D10 + 0x103C);
+    com_roster = *(TeamRoster**)((u8*)D_82198D10 + 0x1064);
+    switch (D_82198D10->mode) {
+        case 0:
+            difficulty = D_82189170[D_82198D10->ruleCategory];
+            break;
+        case 1:
+            difficulty = 0;
+            break;
+        case 2:
+            difficulty = D_82189174[D_82198D10->modeSelection];
+            break;
+    }
+
+    if (com_roster->unk_000 & 2) {
+        number_of_pokemon_picked = com_roster->rosterInfo->numberOfPokemonCanBePicked;
+        if (player_roster->numberOfPokemonBrought < number_of_pokemon_picked) {
+            number_of_pokemon_picked = player_roster->numberOfPokemonBrought;
+        }
+        func_82187738(player_roster, com_roster, difficulty, order_of_picked_pokemon, number_of_pokemon_picked);
+        Battle_CompleteRosterOrder(order_of_picked_pokemon, number_of_pokemon_picked);
+        com_roster->numberOfPokemonBrought = number_of_pokemon_picked;
+
+        for (i = 0; i < com_roster->rosterInfo->numberOfPokemonCanBePicked; i++) {
+            com_roster->pokemonPicked[i] = com_roster->rosterInfo->unk_028[order_of_picked_pokemon[i]];
+        }
+    }
+}
 
 // triggers at the start of battle: bug boy in glc
 // Seed icon/presentation state from the side's first trainer and first picked Pokemon.

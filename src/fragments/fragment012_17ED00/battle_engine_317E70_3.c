@@ -136,11 +136,13 @@ Particle* BattleAnim_SpawnSecondaryOwnerParticle(Vec3f arg0, u8 arg1) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C898; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C898.s")
-#endif
+void BattleAnim_SetParticlePosition(Particle* arg0, Vec3f arg1) {
+    if ((u32)arg0 != -1) {
+        arg0->unk_68.x = arg1.x;
+        arg0->unk_68.y = arg1.y;
+        arg0->unk_68.z = arg1.z;
+    }
+}
 
 void BattleAnim_MarkParticleInactive(Particle* arg0) {
     Particle_MarkInactive(arg0);

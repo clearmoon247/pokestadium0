@@ -94,17 +94,18 @@ void func_8110FC48(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FD6C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FD90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FD90.s")
-#endif
+void func_8110FCF0(DisplayObject* arg0, s32* arg1);
+void func_8110FD90(DisplayObject* arg0, s8 arg1) {
+    s32 sp1C = arg1 << 24;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FDC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FDC0.s")
-#endif
+    func_8110FCF0(arg0, &sp1C);
+}
+
+void func_8110FDC0(DisplayObject* arg0, s16 arg1) {
+    s32 sp1C = arg1 << 16;
+
+    func_8110FCF0(arg0, &sp1C);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110FDF0; signature not recovered. */
@@ -150,11 +151,33 @@ s32 Audio_CountCategorySounds(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FF74.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FFC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FFC8.s")
-#endif
+extern u8* D_86B0E5E8;
+extern GraphNode* D_86B0E5D0;
+void func_8110FF74(void);
+void func_8110FD6C(s32, s32);
+s32 func_8110FDF0(void);
+extern volatile u8 D_81184657;
+extern u8 D_81184658;
+s32 func_8110FFC8(s32 arg0) {
+    s32 v;
+    u32 sp18;
+
+    func_8110FF74();
+    v = D_81184657;
+    if (v != 0) {
+        func_8110FE74();
+        if (arg0 == D_81184658) {
+            return 0;
+        }
+        if (v >= 3) {
+            return 0;
+        }
+        func_8004D1C0(D_81186250, &sp18, 1);
+    }
+    func_8110FF74();
+    func_8110FD6C(0xF9000000, arg0);
+    return func_8110FDF0();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81110060; signature not recovered. */
@@ -162,11 +185,25 @@ s32 Audio_CountCategorySounds(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81110060.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8111009C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8111009C.s")
-#endif
+typedef struct unk_D_81184668 {
+    /* 0x000 */ u32 unk_000_31 : 1;
+    /* 0x000 */ u32 unk_000_0 : 31;
+    /* 0x004 */ char unk004[0x30];
+    /* 0x034 */ s8* unk_034[(0x15C - 0x34) / 4];
+} unk_D_81184668; // size = 0x15C
+
+extern unk_D_81184668 D_81184668[];
+
+s8 func_8111009C(s32 arg0, s32 arg1, s32 arg2) {
+    unk_D_81184668* ch = &D_81184668[arg0];
+    s8* p;
+
+    if (ch->unk_000_31) {
+        p = ch->unk_034[arg1];
+        return (p + arg2)[0xC4];
+    }
+    return -1;
+}
 
 extern s8 D_811847BC;
 s8 func_811100F8(s32 arg0, s32 arg1) {

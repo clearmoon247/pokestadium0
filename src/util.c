@@ -105,14 +105,17 @@ void Util_DrawRect(Gfx** dlist, s32 ulx, s32 lrx, u16 color) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80002EC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800030B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800030B0.s")
-#endif
+void Util_Memclear(u64* dest, u32 size) {
+    while (size-- > 0) {
+        *(dest++) = 0x1234567812345678;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800030EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800030EC.s")
-#endif
+s32 Util_CheckStubMemArea(u64* ptr) {
+    s32 ret = 0;
+
+    while (*(ptr++) == 0x1234567812345678) {
+        ret++;
+    }
+    return ret * sizeof(*ptr);
+}

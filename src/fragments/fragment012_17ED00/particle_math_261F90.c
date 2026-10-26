@@ -336,23 +336,96 @@ s32 ParticleMath_ApproachS16DownByPointer(s16* arg0, s16 arg1, s16* arg2) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213775C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213775C.s")
-#endif
+s32 func_8213775C(s8* arg0, s8 arg1, s8 arg2) {
+    s8 temp_v0 = *arg0;
+    s32 var_v1 = 0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82137804; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82137804.s")
-#endif
+    if (temp_v0 < arg1) {
+        if (arg2 >= 0) {
+            *arg0 = temp_v0 + arg2;
+        } else {
+            *arg0 = temp_v0 - arg2;
+        }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82137898; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82137898.s")
-#endif
+        if (*arg0 >= arg1) {
+            *arg0 = arg1;
+            var_v1 = 1;
+        }
+    } else if (arg1 < temp_v0) {
+        if (arg2 >= 0) {
+            *arg0 = temp_v0 - arg2;
+        } else {
+            *arg0 = temp_v0 + arg2;
+        }
+
+        if (arg1 >= *arg0) {
+            *arg0 = arg1;
+            var_v1 = 1;
+        }
+    } else {
+        var_v1 = 1;
+    }
+
+    return var_v1;
+}
+
+s32 ParticleMath_ApproachU8(u8* arg0, u8 arg1, u8 arg2) {
+    s32 var_v1 = 0;
+    s16 var_a3 = *arg0;
+    s16 target = arg1;
+
+    if (var_a3 < target) {
+        var_a3 += arg2;
+        if (var_a3 >= target) {
+            var_a3 = target;
+            var_v1 = 1;
+        }
+    } else if (target < var_a3) {
+        var_a3 -= arg2;
+        if (target >= var_a3) {
+            var_a3 = target;
+            var_v1 = 1;
+        }
+    } else {
+        var_v1 = 1;
+    }
+
+    *arg0 = var_a3;
+    return var_v1;
+}
+
+s32 func_82137898(s16* arg0, s16 arg1, s16 arg2) {
+    s16 temp_v0 = *arg0;
+    s32 var_v1 = 0;
+
+    if (temp_v0 < arg1) {
+        if (arg2 >= 0) {
+            *arg0 = temp_v0 + arg2;
+        } else {
+            *arg0 = temp_v0 - arg2;
+        }
+
+        if (*arg0 >= arg1) {
+            *arg0 = arg1;
+            var_v1 = 1;
+        }
+    } else if (arg1 < temp_v0) {
+        if (arg2 >= 0) {
+            *arg0 = temp_v0 - arg2;
+        } else {
+            *arg0 = temp_v0 + arg2;
+        }
+
+        if (arg1 >= *arg0) {
+            *arg0 = arg1;
+            var_v1 = 1;
+        }
+    } else {
+        var_v1 = 1;
+    }
+
+    return var_v1;
+}
 
 s32 ParticleMath_ApproachAngle(s16* arg0, s16 arg1, s16 arg2) {
     s32 a0 = *(u16*)arg0;

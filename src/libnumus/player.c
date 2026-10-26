@@ -71,11 +71,13 @@ u8* Audio_SetVoiceSampleIndex(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036698; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036698.s")
-#endif
+u8* Audio_EnableVoicePitchSlide(channel_t* cp, u8* ptr) {
+    cp->port = *ptr++;
+    if (cp->port) {
+        cp->port_base = cp->base_note;
+    }
+    return ptr;
+}
 
 s32 func_800366BC(s8 *arg0, s32 arg1) {
     M2C_FIELD(arg0, s8 *, 0xC6) = 0;
@@ -88,17 +90,35 @@ s32 func_800366BC(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800366C8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036818; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036818.s")
-#endif
+extern u32 D_800B364C;
+u8* Audio_SetVoiceSequenceTempo(channel_t* cp, u8* ptr) {
+    s32 i;
+    s32 temp_lo;
+    s32 temp2;
+    channel_t* sp;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800368E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800368E4.s")
-#endif
+    temp_lo = ((*ptr++ * 0x6000) / 120) / (s32)D_800B364C;
+    temp2 = (cp->temscale * temp_lo) >> 7;
+
+    if (cp->IsFX != 0) {
+        cp->channel_tempo = temp_lo;
+    } else {
+        for (i = 0, sp = mus_channels; i < (s32)max_channels; i++, sp++) {
+            if (sp->song_addr == cp->song_addr) {
+                sp->channel_tempo_save = temp_lo;
+                sp->channel_tempo = temp2;
+            }
+        }
+    }
+
+    return ptr;
+}
+
+u8* Audio_SetVoiceReleaseDuration(channel_t* cp, u8* ptr) {
+    cp->endit = *ptr++;
+    cp->cutoff = 0;
+    return ptr;
+}
 
 u8* Audio_SetVoiceFixedDuration(channel_t* cp, u8* ptr) {
     s16 tmp = *ptr++ << 8;
@@ -159,11 +179,17 @@ s32 func_80036A54(s8 *arg0, s32 arg1) {
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036A64; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036A64.s")
-#endif
+u8* Audio_SetVoiceFinePitch(channel_t* cp, u8* ptr) {
+    s32 value = *ptr++;
+
+    if (value & 0x80) {
+        value |= ~0xFF;
+    }
+    cp->freqoffset -= cp->distort;
+    cp->distort = (f32)value / 100.0;
+    cp->freqoffset += cp->distort;
+    return ptr;
+}
 
 u8* Audio_SetVoiceEnvelopeFromTable(channel_t* cp, u8* ptr) {
     s32 value = *ptr++;
@@ -197,17 +223,66 @@ s32 func_80036B54(s8 *arg0, s32 arg1) {
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036B60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036B60.s")
-#endif
+// Zero's channel_t keeps its for/next stack four bytes lower than Stadium 1's.
+typedef struct ChannelForStackZero {
+    /* 0x000 */ char unk_000[0xEE];
+    /* 0x0EE */ u8 for_stack_count;
+    /* 0x0F0 */ u8* for_stack[FORNEXT_DEPTH];
+    /* 0x100 */ u8* for_stackvol[FORNEXT_DEPTH];
+    /* 0x110 */ u8* for_stackpb[FORNEXT_DEPTH];
+    /* 0x120 */ u16 for_vol_count[FORNEXT_DEPTH];
+    /* 0x128 */ u16 for_pb_count[FORNEXT_DEPTH];
+    /* 0x130 */ u8 for_count[FORNEXT_DEPTH];
+    /* 0x134 */ u8 for_volume[FORNEXT_DEPTH];
+    /* 0x138 */ u8 for_pitchbend[FORNEXT_DEPTH];
+} ChannelForStackZero;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036C4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036C4C.s")
-#endif
+u8* Audio_PushVoiceLoopState(channel_t* cp, u8* ptr) {
+    u8 index = ((ChannelForStackZero*)cp)->for_stack_count;
+
+    ((ChannelForStackZero*)cp)->for_count[index] = *ptr++;
+
+    ((ChannelForStackZero*)cp)->for_stack[index] = ptr;
+    ((ChannelForStackZero*)cp)->for_stackvol[index] = cp->pvolumebase;
+    ((ChannelForStackZero*)cp)->for_stackpb[index] = cp->ppitchbendbase;
+
+    ((ChannelForStackZero*)cp)->for_volume[index] = cp->volume;
+    ((ChannelForStackZero*)cp)->for_pitchbend[index] = cp->pitchbend;
+
+    ((ChannelForStackZero*)cp)->for_vol_count[index] = cp->cont_vol_repeat_count;
+    ((ChannelForStackZero*)cp)->for_pb_count[index] = cp->cont_pb_repeat_count;
+
+    ((ChannelForStackZero*)cp)->for_stack_count++;
+    return ptr;
+}
+
+u8* Audio_PopVoiceLoopState(channel_t* cp, u8* ptr) {
+    s32 index = M2C_FIELD(cp, u8*, 0xEE) - 1;
+
+    if (((u8*)((u8*)cp + 0x130))[index] != 0xFF) {
+        ((u8*)((u8*)cp + 0x130))[index]--;
+        if (!((u8*)((u8*)cp + 0x130))[index]) {
+            M2C_FIELD(cp, u8*, 0xEE) = index;
+            index = -1;
+        }
+    }
+
+    if (index >= 0) {
+        ptr = ((u8**)((u8*)cp + 0xF0))[index];
+
+        cp->pvolumebase = ((u8**)((u8*)cp + 0x100))[index];
+        cp->ppitchbendbase = ((u8**)((u8*)cp + 0x110))[index];
+        cp->volume = ((u8*)((u8*)cp + 0x134))[index];
+
+        cp->pitchbend = ((u8*)((u8*)cp + 0x138))[index];
+        cp->cont_vol_repeat_count = ((u16*)((u8*)cp + 0x120))[index];
+        cp->cont_pb_repeat_count = ((u16*)((u8*)cp + 0x128))[index];
+        cp->bendrange = 0.03125f;
+        cp->pitchbend_calc = cp->pitchbend * cp->bendrange;
+    }
+
+    return ptr;
+}
 
 s8 *func_80036D04(s8 *arg0, s8 *arg1) {
     M2C_FIELD(arg0, u8 *, 0xEB) = (u8) M2C_FIELD(arg1, u8 *, 0);
@@ -231,11 +306,11 @@ u8* Audio_DisableVoicePeriodicPitchModulation(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036D4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036D4C.s")
-#endif
+u8* Audio_SetVoiceDefaultVelocity(channel_t* cp, u8* ptr) {
+    M2C_FIELD(cp, u8*, 0xE6) = *ptr++;
+    M2C_FIELD(cp, u8*, 0xE5) = 0;
+    return ptr;
+}
 
 s8 *func_80036D60(s8 *arg0, u8 *arg1) {
     M2C_FIELD(arg0, s8 *, 0xCB) = (s8) ((s32) *arg1 / 2);
@@ -270,11 +345,27 @@ u8* Audio_SkipVoiceCommandByte(UNUSED channel_t* cp, u8* ptr) {
     #endif
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036DCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036DCC.s")
-#endif
+u8* Audio_SetVoiceEnvelopePointers(channel_t* cp, u8* ptr) {
+    s32 tmp0;
+    s32 tmp2;
+
+    tmp0 = *ptr++ << 8;
+    tmp0 += *ptr++;
+
+    tmp2 = *ptr++ << 8;
+    tmp2 += *ptr++;
+
+    cp->pvolumebase = &cp->pvolumebase_offset[tmp2];
+    cp->cont_vol_repeat_count = 1;
+
+    tmp2 = *ptr++ << 8;
+    tmp2 += *ptr++;
+
+    cp->ppitchbendbase = &cp->ppitchbendbase_offset[tmp2];
+    cp->cont_pb_repeat_count = 1;
+
+    return &cp->pbase[tmp0];
+}
 
 s8 *func_80036E30(s8 *arg0, u8 *arg1) {
     M2C_FIELD(arg0, u8 *, 0xDE) = (u8) *arg1;
@@ -293,11 +384,11 @@ u8* Audio_SetRandomVoiceVolume(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036EE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036EE0.s")
-#endif
+u8* func_80036EE0(channel_t* cp, u8* ptr) {
+    M2C_FIELD(cp, u8*, 0xCB) = Audio_RandomScale(*ptr++);
+    M2C_FIELD(cp, u8*, 0xCB) += *ptr++;
+    return ptr;
+}
 
 s8 *func_80036F30(s8 *arg0, u8 *arg1) {
     M2C_FIELD(arg0, u8 *, 0xCA) = (u8) *arg1;
@@ -316,11 +407,13 @@ u8* Audio_SetVoiceVolumeScale(channel_t* cp, u8* ptr) {
     return ptr;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037088; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037088.s")
-#endif
+u8* Audio_SetVoicePanModulation(channel_t* cp, u8* ptr) {
+    M2C_FIELD(cp, u8*, 0xE7) = *ptr++;
+    if (!M2C_FIELD(cp, u8*, 0xE7)) {
+        M2C_FIELD(cp, u16*, 0xBC) = 0x80;
+    }
+    return ptr;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800370AC; signature not recovered. */
@@ -381,11 +474,28 @@ void func_800374E0(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037AC4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037B7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037B7C.s")
-#endif
+s32 func_80037B7C(s32 handle) {
+    channel_t* cp;
+    s32 i;
+    s32 count;
+    u32 mask;
+
+    if (handle == 0) {
+        return 0;
+    }
+
+    mask = osSetIntMask(1);
+
+    for (i = 0, count = 0, cp = mus_channels; i < (s32)max_channels; i++, cp++) {
+        if (handle == cp->handle) {
+            count++;
+        }
+    }
+
+    osSetIntMask(mask);
+
+    return count;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80037C04; signature not recovered. */
@@ -399,11 +509,29 @@ void func_800374E0(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037CA4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037D4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037D4C.s")
-#endif
+s32 func_80037D4C(s32 handle, f32 offset) {
+    channel_t* cp;
+    s32 i;
+    s32 count;
+    u32 mask;
+
+    if (handle == 0) {
+        return 0;
+    }
+
+    mask = osSetIntMask(1);
+
+    for (i = 0, count = 0, cp = mus_channels; i < (s32)max_channels; i++, cp++) {
+        if (handle == cp->handle) {
+            count++;
+            cp->freqoffset = cp->distort + offset;
+        }
+    }
+
+    osSetIntMask(mask);
+
+    return count;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80037DF4; signature not recovered. */
@@ -451,17 +579,47 @@ void func_80038014(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     D_800B3664 = D_800B3668;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003807C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003807C.s")
-#endif
+extern s32 D_800B3638;
+extern s8* D_800B3640;
+s32 Team_IsOpponentIndexUsed(s32 arg0) {
+    s32 i;
+    s8* p;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800380D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800380D0.s")
-#endif
+    if (arg0 == 0) {
+        return 0;
+    }
+    p = D_800B3640;
+    for (i = 0; i < D_800B3638; i++, p += 0x148) {
+        if (arg0 == M2C_FIELD(p, s32*, 0x5C)) {
+            return M2C_FIELD(p, s32*, 0x88);
+        }
+    }
+
+    return 0;
+}
+
+typedef struct PlayerChannelZero_1E {
+    /* 0x00 */ char unk00[0x1E];
+    /* 0x1E */ u8 unk_1E;
+    /* 0x1F */ char unk1F[0x5];
+} PlayerChannelZero_1E; // size = 0x24
+
+extern u8 D_800B368E;
+extern PlayerChannelZero_1E D_800B3694[44];
+
+s32 func_800380D0(void) {
+    s32 i;
+
+    if (D_800B368E) {
+        return 1;
+    }
+    for (i = 0; i < 44; i++) {
+        if (D_800B3694[i].unk_1E) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8003815C; signature not recovered. */
@@ -568,14 +726,29 @@ void func_80038880(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039010.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039328; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039328.s")
-#endif
+s32 Audio_ComputeVoiceVolume(channel_t* cp) {
+    u32 volume = cp->volume * cp->env_current_vol * cp->velocity * cp->volume_scale;
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+    volume >>= 0xD;
+    if (volume >= 0x8000) {
+        volume = 0x7FFF;
+    }
+
+    if (cp->IsFX == 0) {
+        volume *= mus_master_volume_songs;
+    } else {
+        volume *= mus_master_volume_effects;
+    }
+
+    volume >>= 0xF;
+
+    if (cp->duration != -1) {
+        volume = (cp->duration * volume) / cp->duration_scale;
+    }
+
+    return volume;
+}
+
 f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
     f32 temp_fv1;
     f32 var_fv1;
@@ -610,15 +783,22 @@ f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
 
     return temp_fv1;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800393F8.s")
-#endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039530; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039530.s")
-#endif
+void Audio_UpdateVoicePlaybackEnd(channel_t* arg0) {
+    if (M2C_FIELD(arg0, u16*, 0xA6) != 0x7FFF) {
+        if (M2C_FIELD(arg0, u16*, 0xBE) != 0) {
+            M2C_FIELD(arg0, s64*, 0x28) = (s32)(M2C_FIELD(arg0, u16*, 0xBE) << 8) + M2C_FIELD(arg0, s64*, 0x20);
+        } else {
+            M2C_FIELD(arg0, s64*, 0x28) = M2C_FIELD(arg0, s64*, 0x18) - (s32)(M2C_FIELD(arg0, u16*, 0xC0) << 8);
+        }
+    } else {
+        M2C_FIELD(arg0, s64*, 0x28) = 0x7FFFFFFF;
+    }
+
+    M2C_FIELD(arg0, u8*, 0xD2) = M2C_FIELD(arg0, u8*, 0xCE);
+    M2C_FIELD(arg0, u8*, 0xD3) = M2C_FIELD(arg0, u8*, 0xCD);
+    M2C_FIELD(arg0, u8*, 0xD1) = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800395D0; signature not recovered. */
@@ -632,35 +812,133 @@ f32 Audio_AdvanceVoicePitch(channel_t* arg0, f32 offset) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039A44.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039A60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039A60.s")
-#endif
+void Audio_AdvancePanModulation(channel_t* arg0) {
+    u32 temp_v1;
+    u32 var_v0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039B2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039B2C.s")
-#endif
+    do {
+        arg0->sweep_frame += 0x100;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039B7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039B7C.s")
-#endif
+        temp_v1 = (M2C_FIELD(arg0, u8*, 0xE7) * 2) + M2C_FIELD(arg0, u8*, 0xEC);
+        if (temp_v1 < 0x80) {
+            M2C_FIELD(arg0, u8*, 0xEC) = temp_v1;
+            continue;
+        }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039C10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039C10.s")
-#endif
+        M2C_FIELD(arg0, u8*, 0xEC) = temp_v1 & 0x7F;
+        temp_v1 >>= 7;
+        if (M2C_FIELD(arg0, u8*, 0xED) == 0) {
+            var_v0 = arg0->sweep_amount;
+            var_v0 += temp_v1;
+            if (var_v0 >= 0xFF) {
+                var_v0 = 0xFE;
+                M2C_FIELD(arg0, u8*, 0xED) = 1;
+            }
+            arg0->sweep_amount = var_v0;
+        } else {
+            var_v0 = arg0->sweep_amount;
+            var_v0 -= temp_v1;
+            if ((var_v0 >= 0xFF) || (var_v0 == 0)) {
+                var_v0 = 1;
+                M2C_FIELD(arg0, u8*, 0xED) = 0;
+            }
+            arg0->sweep_amount = var_v0;
+        }
+    } while (arg0->sweep_frame < M2C_FIELD(arg0, u64*, 0x0));
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80039D08; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80039D08.s")
-#endif
+    arg0->pan_current = 0xFF;
+}
+
+#define CH_U8(ch, off) (*(u8*)((u8*)(ch) + (off)))
+#define CH_S8(ch, off) (*(s8*)((u8*)(ch) + (off)))
+
+f32 Audio_AdvancePeriodicPitchModulation(channel_t* arg0) {
+    CH_U8(arg0, 0xE3)--;
+    if (!CH_U8(arg0, 0xE3)) {
+        if (CH_S8(arg0, 0xE4) == 0) {
+            CH_S8(arg0, 0xE4) = CH_S8(arg0, 0xEB);
+            CH_U8(arg0, 0xE3) = CH_U8(arg0, 0xE1);
+        } else {
+            CH_S8(arg0, 0xE4) = 0;
+            CH_U8(arg0, 0xE3) = CH_U8(arg0, 0xE2);
+        }
+    }
+
+    return CH_S8(arg0, 0xE4);
+}
+
+#undef CH_U8
+#undef CH_S8
+
+f32 Audio_ComputeSinePitchModulation(channel_t* arg0) {
+    s32 temp_v0 = M2C_FIELD(arg0, u16*, 0xB6) - M2C_FIELD(arg0, u8*, 0xC4);
+    f32 tmp;
+
+    if (temp_v0 > 0) {
+        tmp = M2C_FIELD(arg0, f32*, 0x40) * __sinf(((temp_v0 / (f32)(u32)M2C_FIELD(arg0, u8*, 0xE8)) * 2) * 3.14159260000000007);
+        M2C_FIELD(arg0, f32*, 0x78) = tmp;
+    }
+    return M2C_FIELD(arg0, f32*, 0x78);
+}
+
+void Audio_AdvancePitchEnvelope(channel_t* arg0) {
+    s32 tmp;
+
+    do {
+        M2C_FIELD(arg0, u64*, 0x8) += 0x100;
+
+        arg0->cont_vol_repeat_count--;
+        if (arg0->cont_vol_repeat_count) {
+            continue;
+        }
+
+        tmp = *arg0->pvolumebase++;
+        if (tmp >= 0x80u) {
+            arg0->volume = tmp & 0x7F;
+
+            tmp = *arg0->pvolumebase++;
+            if (tmp >= 0x80u) {
+                arg0->cont_vol_repeat_count = (tmp & 0x7F) << 8;
+                arg0->cont_vol_repeat_count += *arg0->pvolumebase++ + 2;
+            } else {
+                arg0->cont_vol_repeat_count = tmp + 2;
+            }
+        } else {
+            arg0->volume = tmp;
+            arg0->cont_vol_repeat_count = 1;
+        }
+    } while (M2C_FIELD(arg0, u64*, 0x8) < M2C_FIELD(arg0, u64*, 0x0));
+}
+
+void Audio_AdvanceVolumeEnvelope(channel_t* arg0) {
+    u8 tmp;
+
+    do {
+        M2C_FIELD(arg0, u64*, 0x10) += 0x100;
+
+        arg0->cont_pb_repeat_count--;
+        if (arg0->cont_pb_repeat_count) {
+            continue;
+        }
+
+        tmp = *arg0->ppitchbendbase++;
+        if (tmp >= 0x80) {
+            arg0->pitchbend = (f32)(tmp & 0x7F) - 64.0;
+            arg0->pitchbend_calc = arg0->pitchbend * arg0->bendrange;
+            tmp = *arg0->ppitchbendbase++;
+            if (tmp >= 0x80) {
+                arg0->cont_pb_repeat_count = (tmp & 0x7F) << 8;
+                arg0->cont_pb_repeat_count += *arg0->ppitchbendbase++ + 2;
+            } else {
+                arg0->cont_pb_repeat_count = tmp + 2;
+            }
+        } else {
+            arg0->pitchbend = (f32)(tmp)-64.0;
+            arg0->pitchbend_calc = arg0->pitchbend * arg0->bendrange;
+            arg0->cont_pb_repeat_count = 1;
+        }
+    } while (M2C_FIELD(arg0, u64*, 0x10) < M2C_FIELD(arg0, u64*, 0x0));
+}
 
 f32 Audio_ExpApproximation(f32 arg0) {
     f32 temp_fa1;

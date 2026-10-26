@@ -109,11 +109,20 @@ s32 func_8A1000C0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A10068C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A100808; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A100808.s")
-#endif
+extern Color_RGBA8 D_8A1057D4;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+
+void func_8A100808(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4) {
+    if (arg4 & 0x10) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, 0xA2, 0x1E, D_8A1057D4);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 0xC, arg1 + 6, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A1008A4; signature not recovered. */
@@ -241,11 +250,25 @@ s32 func_8A1011A4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A1014EC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A10164C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A10164C.s")
-#endif
+extern s32 D_8A12FF98;
+extern u8 D_8A130204[];
+s32 func_800196F8(s32);
+s32 func_8002AAC4(void*);
+void func_8A101020(void*, s32, s32);
+
+s32 func_8A10164C(s32 arg0, s32 arg1) {
+    UNUSED s32 pad[4];
+    s32 sp1C;
+
+    GeoRender_AdvanceFrameCounter();
+    sp1C = func_800196F8(D_8A12FF98);
+    BgStage_DrawFrame();
+    if (func_8002AAC4(D_8A130204) != 0) {
+        func_8A101118();
+    }
+    func_8A101020(D_8A130204, sp1C, arg1);
+    return 0;
+}
 
 void Pokedex_LoadIcon(u8* arg0, s32 arg1) {
     unk_func_8001A024* sp1C;
@@ -424,14 +447,65 @@ void Pokedex_InitFramebuffers(void) {
     GfxImage_AttachDepthBuffer(D_8A12FFA0->renderTargets[1], sp28);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A101E84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101E84.s")
-#endif
+void func_80027FF8(void*, s32);
+void func_8A101154(void*);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A101ED4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101ED4.s")
-#endif
+void func_8A101E84(void) {
+    D_8A130230 = func_80025BD8();
+    if (D_8A130230 != -1) {
+        func_80027FF8(&D_8A130238, D_8A130230);
+    }
+    func_8A101154(&D_8A12FFC0);
+}
+
+extern u32 D_86806CD0[];
+extern s32 D_8A12FFB4;
+extern s32 D_8A12FFB8;
+extern u8 D_81000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_01000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_04000000[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_88000000[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+void func_8A101E84(void);
+s32 func_8A101B30(u8);
+
+s32 func_8A101ED4(s32 arg0, s32 arg1) {
+    D_8A12FFB0 = GbSave_GetActivePort();
+    D_8A12FFB4 = Pokedex_GetHighestSeenSpeciesIndex() - 1;
+    D_8A12FFB8 = 0;
+
+    main_pool_push_state('BOOK');
+
+    D_8A12FF9C = StageContext_GetCurrent();
+    D_8A12FFA0 = StageContext_Allocate(0, 1, 2, 1, 2, 0);
+    Pokedex_InitFramebuffers();
+    GbSave_RebuildSeenBitfield(D_8A12FFB0);
+    func_8001A194(0x3D, 0);
+    D_8A12FFA4 = PokeIcon_AllocFramebuffers(1);
+    PokeIcon_OpenModelArchives();
+
+    Fragment_Load(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+
+    StageLoader_UpdateSegments();
+    ModelRenderer_InitDisplayRoots();
+    func_8A101E84();
+    BgStage_RunUntilCondition(8, func_8A101B30);
+    Pokedex_RunEntryFlow();
+    BgStage_RunUntilCondition(8, func_8A101B30);
+    StageLoader_WaitForRetrace();
+    Font_Free();
+
+    main_pool_pop_state('BOOK');
+
+    Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 0, 0);
+    return 0x8040;
+}

@@ -12,6 +12,9 @@
 
 #include "m2c_macros.h"
 
+void func_8210840C(ActivePokemon*, ActivePokemon*, s32);
+void func_82108648(ActivePokemon*, s32);
+
 f32 BattleScene_GetParticipantModelXOffset(ActivePokemon* active_pokemon);
 void BattleScene_SetParticipantModelScale(ActivePokemon* active_pokemon, f32 scale);
 s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon);
@@ -21,11 +24,27 @@ s32 BattleAnim_GetOwnerSpecies(ActivePokemon* active_pokemon);
 u8 BattleScene_IsParticipantModelVisible(ActivePokemon* active_pokemon);
 void BattleScene_GetParticipantModelPosition(ActivePokemon* pokemon, Vec3f* dest);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107790; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107790.s")
-#endif
+extern f32 D_FLT_82189354[][4];
+
+void BattleScene_PositionParticipantModel(ActivePokemon* active_pokemon) {
+    if (BattleScene_GetParticipantSideIndex(active_pokemon) == 0) {
+        if (active_pokemon->displayObject.objectType == GYARADOS) {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -200.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+        } else if ((active_pokemon->displayObject.objectType == VENUSAUR) || (active_pokemon->displayObject.objectType == LAPRAS)) {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -175.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+        } else if (active_pokemon->displayObject.objectType == ONIX) {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -200.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 7.5000005f);
+        } else {
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, -150.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+        }
+    } else if ((active_pokemon->displayObject.objectType == GYARADOS) || (active_pokemon->displayObject.objectType == ONIX)) {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, 200.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+    } else if ((active_pokemon->displayObject.objectType == VENUSAUR) || (active_pokemon->displayObject.objectType == LAPRAS)) {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, 175.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+    } else {
+        Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.position, 150.0f, D_FLT_82189354[active_pokemon->displayObject.objectType][0], 0.0f);
+    }
+}
 
 f32 BattleScene_GetParticipantModelXOffset(ActivePokemon* active_pokemon) {
     if (BattleScene_GetParticipantSideIndex(active_pokemon) == 0) {
@@ -80,29 +99,35 @@ s32 BattleScene_GetParticipantSideIndex(ActivePokemon* active_pokemon) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107A80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107A80.s")
-#endif
+u8 BattleScene_GetMoveCueDefaultAnchor(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    UNUSED s16 pad2;
+    s16 move_index = active_pokemon->state.runtime.usedMove - 1;
+    MovePresentationCue* move_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[move_index];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107AD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107AD0.s")
-#endif
+    return move_cue->defaultAnchor;
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107B20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107B20.s")
-#endif
+u8 BattleScene_GetMoveCueAlternateAnchor(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    UNUSED s16 pad2;
+    s16 move_index = active_pokemon->state.runtime.usedMove - 1;
+    MovePresentationCue* move_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[move_index];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107B54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107B54.s")
-#endif
+    return move_cue->alternateAnchor;
+}
+
+s16 BattleScene_GetHitCueDefaultAnchor(ActivePokemon* active_pokemon) {
+    MovePresentationCue* hit_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;
+
+    return hit_cue->defaultAnchor;
+}
+
+s16 func_82107B54(ActivePokemon* active_pokemon) {
+    MovePresentationCue* hit_cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->hitCue;
+
+    return M2C_FIELD(hit_cue, u8*, 3);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82107B88; signature not recovered. */
@@ -132,11 +157,11 @@ void BattleScene_GetParticipantModelRotation(ActivePokemon* pokemon, Vec3s* dest
     dest->z = pokemon->displayObject.rotation.z;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107CA0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107CA0.s")
-#endif
+u16 Battle_GetActiveMonHp(ActivePokemon* active_pokemon) {
+    BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
+
+    return party_pokemon->hp;
+}
 
 s16 func_82107CC4(s8 *arg0) {
     return (s16) (M2C_FIELD(arg0, s32 *, 0x60C) << 0xE);
@@ -199,11 +224,16 @@ s16 func_82107F58(s8 *arg0, M2C_UNK arg1) {
     return M2C_FIELD(M2C_FIELD(arg0, s8 **, 0x85C), s16 *, 2);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F68.s")
-#endif
+typedef struct {
+    /* 0x0 */ s32 unk_00;
+    /* 0x4 */ s32 unk_04;
+    /* 0x8 */ s32 unk_08;
+} unk_D_8006A9CC; // size = 0xC
+extern unk_D_8006A9CC D_8006A9CC[];
+
+s32 func_82107F68(u8* arg0) {
+    return D_8006A9CC[arg0[0x80A]].unk_00;
+}
 
 s32 func_82107F88(s8 *arg0)
 {
@@ -211,11 +241,28 @@ s32 func_82107F88(s8 *arg0)
   return ((*((s32 *) (((s8 *) ((*((s32 *) (((s8 *) arg0) + 0x85C))) + ((*((u8 *) (((s8 *) arg0) + 0x7B9))) * 4))) + 8))) + ((*((s32 *) (((s8 *) arg0) + 0x794))) * 0x50)) + (new_var = 0x4C);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107FB8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107FB8.s")
-#endif
+void BattleScene_InitializeParticipantOwnerModel(ActivePokemon* active_pokemon) {
+    ThumbnailState* presentation = &active_pokemon->thumbnail;
+    ModelNodeView* model_view;
+    s16 model_id;
+
+    model_view = Battle_GetLoadedModelNode(active_pokemon, 0);
+    model_id = Battle_GetDisplayModelId(active_pokemon, 0);
+    ModelRenderer_AttachDisplayObject(&presentation->displayObject);
+
+    if (active_pokemon == sActivePokemon[0]) {
+        presentation->displayObject.effectSlot = 2;
+        Model_InitDisplayObject(&presentation->displayObject, 1, model_id, model_view);
+    } else {
+        presentation->displayObject.effectSlot = 3;
+        Model_InitDisplayObject(&presentation->displayObject, 2, model_id, model_view);
+    }
+
+    ModelAnim_SetAnimation(&presentation->displayObject, 0);
+    ModelAnim_SetFrame(&presentation->displayObject, 0);
+    presentation->displayObject.node.renderFlags &= ~0x40;
+    Vec3f_SetComponentsDuplicate(&presentation->displayObject.position, 0.0f, 0.0f, 0.0f);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82108090; signature not recovered. */
@@ -223,23 +270,106 @@ s32 func_82107F88(s8 *arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108090.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821081D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821081D0.s")
-#endif
+extern f32 D_82199DF0[][4];
+void func_8000D41C(Vec3f*, f32, f32, f32);
+void func_8210213C(ActivePokemon*);
+void func_821081D0(ActivePokemon* active_pokemon) {
+    s32 side;
+    UNUSED s32 pad;
+    ModelNodeView* model_view;
+    s16 model_id;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108340; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108340.s")
-#endif
+    side = BattleScene_GetParticipantSideIndex(active_pokemon);
+    model_view = Battle_GetLoadedModelNode(active_pokemon, 0);
+    model_id = Battle_GetDisplayModelId(active_pokemon, 0);
+    ModelRenderer_AttachDisplayObject(&active_pokemon->displayObject);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210840C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210840C.s")
-#endif
+    if (active_pokemon == sActivePokemon[0]) {
+        active_pokemon->displayObject.effectSlot = 0;
+    } else {
+        active_pokemon->displayObject.effectSlot = 1;
+    }
+
+    Model_InitDisplayObject(&active_pokemon->displayObject, 0, model_id, model_view);
+    func_8210213C(active_pokemon);
+    ModelAnim_SetAnimation(&active_pokemon->displayObject, 0);
+    ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+
+    active_pokemon->sessionTeams->unk_04 = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
+    if ((active_pokemon->displayObject.objectType == DIGLETT) || (active_pokemon->displayObject.objectType == DUGTRIO)) {
+        active_pokemon->displayObject.node.renderFlags &= ~0x40;
+    } else {
+        active_pokemon->displayObject.node.renderFlags |= 0x40;
+    }
+
+    if (active_pokemon == sActivePokemon[0]) {
+        BattleScene_PositionParticipantModel(active_pokemon);
+        active_pokemon->displayObject.rotation.y = 0x4000;
+    } else {
+        BattleScene_PositionParticipantModel(active_pokemon);
+        active_pokemon->displayObject.rotation.y = -0x4000;
+    }
+    func_8000D41C(&M2C_FIELD(active_pokemon, Vec3f*, 0x5DC), M2C_FIELD(active_pokemon, s32*, 0x60C) * D_82199DF0[side][0], D_82199DF0[side][1], D_82199DF0[side][2]);
+}
+
+void BattleScene_InitializeParticipantAuxiliaryModel(ActivePokemon* active_pokemon) {
+    DisplayObject* auxiliary_model = &active_pokemon->pokeBall;
+    ModelNodeView* model_view = active_pokemon->sessionTeams->unk_18;
+
+    ModelRenderer_AttachDisplayObject(auxiliary_model);
+    auxiliary_model->effectSlot = 2;
+    Model_InitDisplayObject(auxiliary_model, 0, 153, model_view);
+    ModelAnim_SetAnimation(auxiliary_model, 0);
+
+    auxiliary_model->node.renderFlags &= ~0x20;
+    auxiliary_model->node.flags &= ~1;
+
+    if (active_pokemon == sActivePokemon[0]) {
+        Vec3f_SetComponentsDuplicate(&auxiliary_model->position, -50.0f, 2.0f, 0.0f);
+        M2C_FIELD(auxiliary_model, s16*, 0x20) = 0x4000;
+    } else {
+        Vec3f_SetComponentsDuplicate(&auxiliary_model->position, 50.0f, 2.0f, 0.0f);
+        M2C_FIELD(auxiliary_model, s16*, 0x20) = -0x4000;
+    }
+}
+
+void BattleScene_ReinitParticipantBodyModel(ActivePokemon* owner, ActivePokemon* pokemon, s16 object_type) {
+    UNUSED s32 pad;
+    ModelNodeView* model_node = Battle_GetLoadedModelNode(owner, 0);
+    s32 side = BattleScene_GetParticipantSideIndex(owner);
+    UNUSED s32 pad2;
+
+    ModelRenderer_ClearDisplayObject(&pokemon->displayObject);
+
+    if (owner == sActivePokemon[0]) {
+        pokemon->displayObject.effectSlot = 0;
+    } else {
+        pokemon->displayObject.effectSlot = 1;
+    }
+
+    Model_InitDisplayObject(&pokemon->displayObject, 0, object_type, model_node);
+    func_8210213C(owner);
+    ModelAnim_SetFrame(&pokemon->displayObject, 0);
+    ModelAnim_SetAnimation(&pokemon->displayObject, 0);
+
+    owner->sessionTeams->unk_04 = &owner->teamRoster->pokemonPicked[owner->state.rosterIndex];
+    if ((pokemon->displayObject.objectType == DIGLETT) || (pokemon->displayObject.objectType == DUGTRIO)) {
+        pokemon->displayObject.node.renderFlags &= 0xFFBF;
+    } else {
+        pokemon->displayObject.node.renderFlags |= 0x40;
+    }
+
+    if (!(owner->state.flags & ACTIVE_AIRBORNE)) {
+        if (owner == sActivePokemon[0]) {
+            BattleScene_PositionParticipantModel(owner);
+            pokemon->displayObject.rotation.y = 0x4000;
+        } else {
+            BattleScene_PositionParticipantModel(owner);
+            pokemon->displayObject.rotation.y = -0x4000;
+        }
+    }
+    func_8000D41C(&M2C_FIELD(owner, Vec3f*, 0x5DC), M2C_FIELD(owner, s32*, 0x60C) * D_82199DF0[side][0], D_82199DF0[side][1], D_82199DF0[side][2]);
+}
 
 void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, ThumbnailState* thumbnail, s16 object_type) {
     ModelNodeView* model_node;
@@ -264,11 +394,40 @@ void BattleScene_ReinitParticipantThumbnailModel(ActivePokemon* pokemon, Thumbna
     thumbnail->displayObject.node.renderFlags &= ~0x40;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108648; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108648.s")
-#endif
+void BattleScene_ReinitParticipantAfterimages(ActivePokemon* pokemon, s16 object_type) {
+    s32 i;
+    ModelNodeView* model_node;
+    PokemonAfterimage* afterimage;
+
+    model_node = Battle_GetLoadedModelNode(pokemon, 0);
+
+    for (i = 0; i < 3; i++) {
+        afterimage = &pokemon->afterimages[i];
+
+        ModelRenderer_ClearDisplayObject(&afterimage->displayObject);
+        if (pokemon == sActivePokemon[0]) {
+            afterimage->displayObject.effectSlot = 2;
+        } else {
+            afterimage->displayObject.effectSlot = 3;
+        }
+
+        Model_InitDisplayObject(&afterimage->displayObject, 0, object_type, model_node);
+        ModelAnim_SetFrame(&afterimage->displayObject, 0);
+        ModelAnim_SetAnimation(&afterimage->displayObject, 0);
+
+        afterimage->displayObject.node.renderFlags &= ~0x40;
+
+        if (pokemon == sActivePokemon[0]) {
+            Vec3f_SetComponentsDuplicate(&afterimage->displayObject.position, -150.0f, 0.0f, 0.0f);
+            afterimage->displayObject.rotation.y = 0x4000;
+        } else {
+            Vec3f_SetComponentsDuplicate(&afterimage->displayObject.position, 150.0f, 0.0f, 0.0f);
+            afterimage->displayObject.rotation.y = -0x4000;
+        }
+
+        afterimage->displayObject.node.flags &= ~1;
+    }
+}
 
 void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
     if (active_pokemon->state.flags & ACTIVE_SLEEP) {
@@ -280,35 +439,62 @@ void Battle_ResetEventTrack(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210881C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210881C.s")
-#endif
+void Battle_LoadOwnerModelForSpecies(ActivePokemon* active_pokemon) {
+    ActivePokemonState* state = &active_pokemon->state;
+    UNUSED s32 pad[3];
+    s16 object_type;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821088BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821088BC.s")
-#endif
+    Battle_GetLoadedModelNode(active_pokemon, 0);
+    object_type = Battle_GetDisplayModelId(active_pokemon, 0);
+    func_8210840C(active_pokemon, active_pokemon, object_type);
+    BattleScene_ReinitParticipantThumbnailModel(active_pokemon, &active_pokemon->thumbnail, object_type);
+    func_82108648(active_pokemon, object_type);
+    Battle_ResetEventTrack(active_pokemon);
+    state->flags &= 0x3800;
+    Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108960; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108960.s")
-#endif
+void func_821088BC(ActivePokemon* active_pokemon) {
+    ActivePokemonState* state = &active_pokemon->state;
+    UNUSED s32 pad[3];
+    s16 object_type;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821089D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821089D0.s")
-#endif
+    Battle_GetLoadedModelNode(active_pokemon, 0);
+    object_type = Battle_GetDisplayModelId(active_pokemon, 0);
+    func_8210840C(active_pokemon, active_pokemon, object_type);
+    BattleScene_ReinitParticipantThumbnailModel(active_pokemon, &active_pokemon->thumbnail, object_type);
+    func_82108648(active_pokemon, object_type);
+    Battle_ResetEventTrack(active_pokemon);
+    M2C_FIELD(state, u8*, 0x2E) = 0;
+    state->flags &= 0x3800;
+    Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108A0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108A0C.s")
-#endif
+void Battle_ResetOwnerModelToSubstituteDoll(ActivePokemon* active_pokemon) {
+    Model_SetMaterialColor(&active_pokemon->displayObject, 0xFF, 0xFF, 0xFF, active_pokemon->state.alpha = 0xFF);
+    active_pokemon->state.model = active_pokemon->displayObject.objectType;
+    func_8210840C(active_pokemon, active_pokemon, SUBSTITUTE_DOLL);
+    func_82108648(active_pokemon, SUBSTITUTE_DOLL);
+    Battle_ResetEventTrack(active_pokemon);
+}
+
+void Battle_ReloadSubstituteDoll(ActivePokemon* active_pokemon) {
+    func_8210840C(active_pokemon, active_pokemon, SUBSTITUTE_DOLL);
+    func_82108648(active_pokemon, SUBSTITUTE_DOLL);
+    Battle_ResetEventTrack(active_pokemon);
+}
+
+void Battle_ReloadDisplayModel(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[3];
+    ActivePokemonState* state = &active_pokemon->state;
+    s16 object_type = Battle_GetDisplayModelId(active_pokemon, 0);
+
+    state->alpha = 0xFF;
+    Model_SetMaterialColor(&active_pokemon->displayObject, 0xFF, 0xFF, 0xFF, state->alpha);
+    func_8210840C(active_pokemon, active_pokemon, object_type);
+    func_82108648(active_pokemon, object_type);
+    Battle_ResetEventTrack(active_pokemon);
+}
 
 void func_82108A88(s8 *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0x610) = arg1;
@@ -321,11 +507,34 @@ void func_82108A88(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108A94.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108C0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108C0C.s")
-#endif
+void Battle_ResetModelToIdleAnim(ActivePokemon* active_pokemon) {
+    s32 idx;
+    ActivePokemonState* state;
+    u8* idle_cue;
+    u8* flying_idle_cue;
+    u8* sleep_idle_cue;
+
+    state = &active_pokemon->state;
+    idx = BattleScene_GetParticipantSideIndex(active_pokemon);
+    idle_cue = (u8*)sSideBattleCues[idx] + 0x717;
+    idx = BattleScene_GetParticipantSideIndex(active_pokemon);
+    flying_idle_cue = (u8*)sSideBattleCues[idx] + 0x790;
+    idx = BattleScene_GetParticipantSideIndex(active_pokemon);
+    sleep_idle_cue = (u8*)sSideBattleCues[idx] + 0x785;
+
+    if (!(state->flags & 0x4002) && (BattleAnim_IsSessionBusy(active_pokemon) == 0) && (active_pokemon->displayObject.transformAnim.animationId != -1)) {
+        if (state->flags & 0x200) {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, *flying_idle_cue);
+        } else if ((state->flags & 1) && ((active_pokemon->displayObject.objectType == 0x39) || (active_pokemon->displayObject.objectType == 0x67))) {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, *sleep_idle_cue);
+        } else if (active_pokemon->displayObject.objectType == 0x84) {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, BattleAnim_RandomRange(5) + 13);
+        } else {
+            ModelAnim_SetAnimation(&active_pokemon->displayObject, *idle_cue);
+        }
+        ModelAnim_SetFrame(&active_pokemon->displayObject, 0);
+    }
+}
 
 void Battle_SetModelToHitAnim(ActivePokemon* active_pokemon) {
     extern PokemonBattleCues* D_82189180[];
@@ -353,11 +562,14 @@ void func_82108DF0(void *arg0, s32 arg1) {
     M2C_FIELD(arg0, s8 *, 0x7B9) = arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82108DF8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82108DF8.s")
-#endif
+void BattleScene_RebindParticipantTeamMember(ActivePokemon* pokemon, s32 team_member_index) {
+    ActivePokemonState* state = &pokemon->state;
+
+    BattleScene_BindParticipantTeamRoster(pokemon, team_member_index);
+    BattleScene_SetParticipantTeamMember(pokemon, team_member_index);
+    M2C_FIELD(pokemon, s32*, 0x9D0) = M2C_FIELD(state, s32*, 0x8);
+    M2C_FIELD(pokemon, s32*, 0x9D4) = M2C_FIELD(state, u8*, 0x2B);
+}
 
 s32 Battle_FreezeClauseInEffect(ActivePokemon* active_pokemon) {
     s32 i;

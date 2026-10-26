@@ -63,11 +63,20 @@ void func_88000FE0(void);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment014_235D70/func_88000020.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8800023C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment014_235D70/func_8800023C.s")
-#endif
+extern Color_RGBA8 D_88001FD0;
+void func_8002A0AC(s32, s32, s32, s32, Color_RGBA8);
+void func_80027F20(s32);
+
+void func_8800023C(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4) {
+    if (arg4 & 8) {
+        func_8002A0AC(arg0 + 3, arg1 + 3, 0x162, 0x1E, D_88001FD0);
+    }
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg4);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 0xC, arg1 + 6, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_880002D8; signature not recovered. */
@@ -175,11 +184,18 @@ void func_88000FE0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment014_235D70/func_880012FC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88001368; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment014_235D70/func_88001368.s")
-#endif
+s32 func_8002AE6C();
+extern u8 D_800734A8[4];
+void func_88001368(s8* arg0) {
+    if (func_8002AE6C() == 0) {
+        Font_BeginTranslucentTextRendering();
+        Gfx_SetEnvColor(D_800734A8[0], D_800734A8[1], D_800734A8[2], D_800734A8[3]);
+        Font_SetActive(8, 0);
+        Font_SetLineHeight(0x1C);
+        Font_Printf(M2C_FIELD(arg0, s32*, 0) + 0xA, M2C_FIELD(arg0, s32*, 4) + 0xA, M2C_FIELD(arg0, char**, 0x30));
+        Font_EndTexturedTextRendering();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_880013EC; signature not recovered. */
@@ -192,7 +208,6 @@ M2C_UNK func_8002C064(M2C_UNK, M2C_UNK, u8, u8, s32); /* extern */
 M2C_UNK func_880003D4(s8 *);                      /* extern */
 M2C_UNK func_88000EAC(s8 *, M2C_UNK);             /* extern */
 M2C_UNK func_88001128(s8 *);                      /* extern */
-M2C_UNK func_88001368(s8 *);                      /* extern */
 extern M2C_UNK D_88002254;
 
 void func_8800149C(s8 *arg0) {

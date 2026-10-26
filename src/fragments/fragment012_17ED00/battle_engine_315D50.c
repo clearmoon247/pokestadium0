@@ -424,17 +424,42 @@ void func_82134DC8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134DEC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134E18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134E18.s")
-#endif
+extern f32 D_FLT_82189360[][4];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134EBC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134EBC.s")
-#endif
+void func_82134E18(ActivePokemon* active_pokemon) {
+    s16 idx = active_pokemon->displayObject.objectType - 1;
+    f32 height = D_FLT_82189360[idx][0];
+
+    if (height >= 25.0f) {
+        Audio_PlayCommand(6, 0, 0);
+    } else if (height >= 12.5f) {
+        Audio_PlayCommand(7, 0, 0);
+    } else {
+        Audio_PlayCommand(8, 0, 0);
+    }
+}
+
+void BattleAnim_PlayBattleSequenceById(ActivePokemon* active_pokemon, s32 sequence_id) {
+    s16 species = active_pokemon->displayObject.objectType;
+
+    if (sequence_id == 0x14) {
+        Audio_PlayCommand(0x14, 0, 0);
+    } else if (sequence_id == 0x12) {
+        Audio_PlayCommand(0x12, 0, 0);
+    } else if (sequence_id == 0x32) {
+        Audio_PlayCommand(0x32, species, 0);
+    } else if (sequence_id == 0x21) {
+        Audio_PlayCommand(0x21, 0, 0);
+    } else if (sequence_id == 0x13) {
+        Audio_PlayCommand(0x13, 0, 0);
+    } else if (sequence_id == 0x1E) {
+        Audio_PlayCommand(0x1E, 0, 0);
+    } else if (sequence_id == 0x1F) {
+        Audio_PlayCommand(0x1F, 0, 0);
+    } else if (sequence_id == 0x20) {
+        Audio_PlayCommand(0x20, 0, 0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82134FD0; signature not recovered. */

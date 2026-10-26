@@ -168,11 +168,77 @@ void crash_screen_print_fpcsr(u32 fpcsr) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80007AE4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80007AE4.s")
-#endif
+void crash_screen_draw(OSThread* faultedThread) {
+    s16 causeIndex;
+    __OSThreadContext* ctx;
+    u32 ret;
+
+    ctx = &faultedThread->context;
+    causeIndex = ((faultedThread->context.cause >> 2) & 0x1F);
+
+    if (causeIndex == 23) {
+        causeIndex = 16;
+    }
+
+    if (causeIndex == 31) {
+        causeIndex = 17;
+    }
+
+    osWritebackDCacheAll();
+
+    crash_screen_draw_rect(25, 20, 270, 25);
+    crash_screen_printf(30, 25, "THREAD:%d  (%s)", faultedThread->id, gFaultCauses[causeIndex]);
+    crash_screen_printf(30, 35, "PC:%08XH   SR:%08XH   VA:%08XH", ctx->pc, ctx->sr, ctx->badvaddr);
+
+    crash_screen_sleep(2000);
+
+    osViBlack(0);
+    osViRepeatLine(0);
+    osViSwapBuffer(gCrashScreen.frameBuf);
+
+    crash_screen_draw_rect(25, 45, 270, 185);
+
+    crash_screen_printf(30, 50, "AT:%08XH   V0:%08XH   V1:%08XH", (u32)ctx->at, (u32)ctx->v0, (u32)ctx->v1);
+    crash_screen_printf(30, 60, "A0:%08XH   A1:%08XH   A2:%08XH", (u32)ctx->a0, (u32)ctx->a1, (u32)ctx->a2);
+    crash_screen_printf(30, 70, "A3:%08XH   T0:%08XH   T1:%08XH", (u32)ctx->a3, (u32)ctx->t0, (u32)ctx->t1);
+    crash_screen_printf(30, 80, "T2:%08XH   T3:%08XH   T4:%08XH", (u32)ctx->t2, (u32)ctx->t3, (u32)ctx->t4);
+    crash_screen_printf(30, 90, "T5:%08XH   T6:%08XH   T7:%08XH", (u32)ctx->t5, (u32)ctx->t6, (u32)ctx->t7);
+    crash_screen_printf(30, 100, "S0:%08XH   S1:%08XH   S2:%08XH", (u32)ctx->s0, (u32)ctx->s1, (u32)ctx->s2);
+    crash_screen_printf(30, 110, "S3:%08XH   S4:%08XH   S5:%08XH", (u32)ctx->s3, (u32)ctx->s4, (u32)ctx->s5);
+    crash_screen_printf(30, 120, "S6:%08XH   S7:%08XH   T8:%08XH", (u32)ctx->s6, (u32)ctx->s7, (u32)ctx->t8);
+    crash_screen_printf(30, 130, "T9:%08XH   GP:%08XH   SP:%08XH", (u32)ctx->t9, (u32)ctx->gp, (u32)ctx->sp);
+    crash_screen_printf(30, 140, "S8:%08XH   RA:%08XH", (u32)ctx->s8, (u32)ctx->ra);
+
+    crash_screen_print_fpcsr(ctx->fpcsr);
+
+    crash_screen_print_fpr(30, 170, 0, &ctx->fp0.f.f_even);
+    crash_screen_print_fpr(120, 170, 2, &ctx->fp2.f.f_even);
+    crash_screen_print_fpr(210, 170, 4, &ctx->fp4.f.f_even);
+    crash_screen_print_fpr(30, 180, 6, &ctx->fp6.f.f_even);
+    crash_screen_print_fpr(120, 180, 8, &ctx->fp8.f.f_even);
+    crash_screen_print_fpr(210, 180, 10, &ctx->fp10.f.f_even);
+    crash_screen_print_fpr(30, 190, 12, &ctx->fp12.f.f_even);
+    crash_screen_print_fpr(120, 190, 14, &ctx->fp14.f.f_even);
+    crash_screen_print_fpr(210, 190, 16, &ctx->fp16.f.f_even);
+    crash_screen_print_fpr(30, 200, 18, &ctx->fp18.f.f_even);
+    crash_screen_print_fpr(120, 200, 20, &ctx->fp20.f.f_even);
+    crash_screen_print_fpr(210, 200, 22, &ctx->fp22.f.f_even);
+    crash_screen_print_fpr(30, 210, 24, &ctx->fp24.f.f_even);
+    crash_screen_print_fpr(120, 210, 26, &ctx->fp26.f.f_even);
+    crash_screen_print_fpr(210, 210, 28, &ctx->fp28.f.f_even);
+    crash_screen_print_fpr(30, 220, 30, &ctx->fp30.f.f_even);
+
+    ret = Memmap_GetLoadedFragmentVaddr(ctx->pc);
+    if (ret != 0) {
+        crash_screen_printf(120, 220, "F-PC:%08XH", ret - 0x20);
+    }
+
+    ret = Memmap_GetLoadedFragmentVaddr((u32)ctx->ra);
+    if (ret != 0) {
+        crash_screen_printf(210, 220, "F-RA:%08XH", ret - 0x20);
+    }
+
+}
 
 OSThread* crash_screen_get_faulted_thread(void) {
     OSThread* thread = __osGetActiveQueue();
