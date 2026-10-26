@@ -84,11 +84,43 @@ s32 func_800366BC(s8 *arg0, s32 arg1) {
     return arg1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800366C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800366C8.s")
-#endif
+u8* func_800366C8(channel_t* cp, u8* ptr) {
+    u8 value;
+
+    value = *ptr++;
+    if (value == 0) {
+        value = 1;
+    }
+    cp->env_speed = value;
+    cp->env_speed_calc = 0x400 / value;
+    cp->env_init_vol = 0;
+
+    ptr++;
+
+    value = *ptr++;
+    if (value == 0) {
+        value = 1;
+    }
+    cp->env_attack_speed = value;
+    cp->env_max_vol = *ptr++;
+    cp->env_attack_calc = (1.0 / (f32)value) * (f32)(cp->env_max_vol - cp->env_init_vol);
+
+    value = *ptr++;
+    if (value == 0) {
+        value = 1;
+    }
+    cp->env_decay_speed = value;
+    cp->env_sustain_vol = *ptr++;
+    cp->env_decay_calc = (1.0 / (f32)value) * (f32)(cp->env_sustain_vol - cp->env_max_vol);
+
+    value = *ptr++;
+    if (value == 0) {
+        value = 1;
+    }
+    cp->env_release_speed = value;
+
+    return ptr;
+}
 
 extern u32 D_800B364C;
 u8* Audio_SetVoiceSequenceTempo(channel_t* cp, u8* ptr) {

@@ -4183,11 +4183,13 @@ void func_8215E2C4(void) {
     func_8213B644(8, 4, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215E3E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215E3E0.s")
-#endif
+void func_8215E3E0(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, 6);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimMode2Update, &gDefaultParticleDescriptor, 0x80, 1, 0xC, 0xA, 0x1A, 4);
+    BattleAnim_SpawnOwnerModelTintPulseDetach(0, 1, 0xA, 0, 0xC8, 3);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x3C, 4, 0xE, BattleAnim_CallbackSharedAnimatedVerticalFade, &gBattleAnimParticleDescriptors[0x3D], 0, 1, 0x11, 7, 0x33, 7);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x3D, 8, 7, BattleAnim_CallbackSharedAnimatedVerticalFade, &gBattleAnimParticleDescriptors[0x3D], 0, 1, 0x11, 7, 0x33, 7);
+}
 
 void BattleAnim_EndEffect85TintAndDescriptorMode2Sequence(void) {
     BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x20, 6);

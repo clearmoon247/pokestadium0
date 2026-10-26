@@ -298,11 +298,38 @@ void func_821159D0(void) {
     func_8211EF74(D_8219A520 + 0x88, -0x3C, D_8218C8CC);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82115A14; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82115A14.s")
-#endif
+typedef struct {
+    /* 0x0 */ s32 unk_00;
+    /* 0x4 */ s32 unk_04;
+    /* 0x8 */ s32 unk_08;
+} unk_D_8006A9CC; // size = 0xC
+extern unk_D_8006A9CC D_8006A9CC[];
+extern s32 D_8218C8D0;
+extern s32 D_8218C8D4;
+void func_82115A14(void) {
+    s32 slot;
+    s32 turns;
+    s32 name;
+
+    HandleMoveEffectFlags();
+    if (sBattleMoveFailed == 0) {
+        sBattleScene.scene->unk_48 = 0x20;
+        if (sBattleTarget->unk_52 == 0) {
+            do {
+                slot = Battle_Random() & 3;
+            } while (sBattleTarget->moves[slot] == 0);
+            turns = Battle_Random() & 7;
+            sBattleTarget->unk_52 = (slot << 4) + turns + 1;
+            sBattleTarget->unk_57 = sBattleTarget->moves[slot];
+            name = D_8006A9CC[sBattleTarget->unk_57].unk_00;
+            func_8211EF74(D_8219A520 + 0x88, -0x3B, D_8218C8D0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]), name);
+            return;
+        }
+    }
+
+    sBattleScene.scene->unk_48 = 8;
+    func_8211EF74(D_8219A520 + 0x88, -0x3A, D_8218C8D4);
+}
 
 s32 func_8211EF74(s32, s32, s32, ...);
 extern s32 D_8218C8D8;

@@ -128,17 +128,37 @@ void BattleScene_InitializeBattlePresentation(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821202AC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82120418; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82120418.s")
-#endif
+void func_82120418(CameraNode* arg0) {
+    ActivePokemon* ap;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212054C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212054C.s")
-#endif
+    BattleScene_ClearCameraOffsetVectors();
+    ap = sActivePokemon[sBattleScene.scene->unk_2C];
+    if (BattleScene_SkipIntroIfFainted(ap, arg0) == 0) {
+        BattleScene_EnterStateRow(ap, 0x10);
+        BattleAnim_GetOwnerDefaultAnchorPosition(ap, &sBattleScene.scene->unk_D0);
+        sBattleScene.scene->unk_74 = BattleScene_ScaleCameraDistance(ap, 8.0f, 300.0f);
+        BattleScene_SetCameraAtFromAnchor(ap, arg0, sBattleScene.scene->unk_D0, 0, BattleScene_GetParticipantFacingAngle(ap), 0.0f, 0);
+        BattleScene_SetCameraEyeFromPosition(arg0, sBattleScene.scene->unk_D0, 0, BattleScene_GetParticipantFacingAngle(ap), sBattleScene.scene->unk_74, 0.0f);
+        sBattleScene.scene->unk_20 += 1;
+    }
+}
+
+void func_8212239C(ActivePokemon*, CameraNode*);
+void func_8212054C(CameraNode* arg0) {
+    ActivePokemon* ap;
+
+    BattleScene_ClearCameraOffsetVectors();
+    ap = sActivePokemon[sBattleScene.scene->unk_2C];
+    if (BattleScene_SkipIntroIfFainted(ap, arg0) == 0) {
+        BattleScene_EnterStateRow(ap, 0x10);
+        BattleAnim_GetOwnerDefaultAnchorPosition(ap, &sBattleScene.scene->unk_D0);
+        sBattleScene.scene->unk_74 = BattleScene_ScaleCameraDistance(ap, 3.5f, 300.0f);
+        BattleScene_SetCameraAtFromAnchor(ap, arg0, sBattleScene.scene->unk_D0, 0, BattleScene_GetParticipantFacingAngle(ap), 0.0f, 0);
+        BattleScene_SetCameraEyeFromPosition(arg0, sBattleScene.scene->unk_D0, 0, BattleScene_GetParticipantFacingAngle(ap), sBattleScene.scene->unk_74, 0.0f);
+        func_8212239C(ap, arg0);
+        sBattleScene.scene->unk_20 += 1;
+    }
+}
 
 void func_8212054C(CameraNode*);
 s32 func_8212068C(UNUSED s32 arg0, CameraNode* arg1) {

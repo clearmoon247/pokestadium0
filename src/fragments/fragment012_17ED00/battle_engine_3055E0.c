@@ -795,11 +795,18 @@ void func_82124194(CameraNode* arg0, ActivePokemon* arg1) {
     BattleScene_SetCameraEyeFromPosition(arg0, sBattleScene.scene->unk_D0, 0, BattleScene_GetParticipantFacingAngle(arg1), gCameraDistTarget, 0.0f);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124284; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124284.s")
-#endif
+extern f32 D_8219A530;
+extern f32 D_8219A534;
+void func_82124284(CameraNode* arg0, ActivePokemon* arg1, f32 arg2) {
+    BattleAnim_GetOwnerDefaultAnchorPosition(arg1, &sBattleScene.scene->unk_D0);
+    D_8219A530 = BattleScene_ScaleCameraDistance(arg1, 3.5f, 200.0f);
+    D_8219A534 = BattleScene_ScaleCameraDistance(arg1, 5.0f, 400.0f);
+    BattleScene_SetCameraAtFromAnchor(arg1, arg0, sBattleScene.scene->unk_D0, 0, arg1->facingDirection << 14, sBattleScene.scene->unk_74 = D_8219A530, 0.0f);
+    BattleScene_SetCameraEyeFromPosition(arg0, sBattleScene.scene->unk_D0, 0, arg1->facingDirection * 0x1555, D_8219A534, arg2);
+    if (M2C_FIELD(arg0, f32*, 0xAC) <= 15.0f) {
+        M2C_FIELD(arg0, f32*, 0xAC) = 15.0f;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821243DC; signature not recovered. */

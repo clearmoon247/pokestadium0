@@ -617,8 +617,32 @@ void func_81107128(u16* arg0, u16* arg1, s16* arg2, s32 arg3, s32 arg4) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110724C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110724C.s")
-#endif
+extern u32 D_811565DC;
+extern u32 D_811565D8;
+extern u8 D_811565E0;
+extern s32 D_811565C4;
+extern u32 D_811565C8;
+extern u32 D_811565CC;
+extern s32 D_811565C0;
+extern u16* D_811565D4;
+extern u16* D_811565D0;
+void func_81106AA0(s32, u8);
+void func_8110724C(void) {
+    if ((osGetCount() - D_811565DC) > D_811565D8) {
+        D_811565DC = osGetCount();
+        D_811565E0 = (D_811565E0 + 1) & 7;
+        func_81106AA0(D_811565C4 + 0x87BA, D_811565E0);
+        if (D_811565D8 > 0x80000) {
+            D_811565D8 -= D_811565D8 >> 8;
+        }
+    }
+    if ((osGetCount() - D_811565C8) >= 0x200000) {
+        D_811565C8 = osGetCount();
+        D_811565CC++;
+        if (D_811565CC >= 0x140) {
+            D_811565CC = 0;
+        }
+        func_81107128(D_811565D4, D_811565D0, (s16*)(D_811565C0 + 0x20A80), 0xF, D_811565CC);
+        func_8005C0A0();
+    }
+}

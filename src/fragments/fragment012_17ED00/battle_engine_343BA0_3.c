@@ -48,11 +48,53 @@ void BattleScene_FinalPresentationFrameActiveOwner(CameraNode* arg0) {
 void func_8213436C(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134374; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134374.s")
-#endif
+void BattleScene_SelectNextIntroCameraShot(CameraNode* arg0);
+void func_82121434(CameraNode* arg0);
+void func_8212601C(s32 arg0);
+void BattleScene_SetPhase(CameraNode* arg0, s32 arg1);
+void func_821324D8(CameraNode* arg0);
+void func_82131880(CameraNode* arg0);
+void func_821329F8(s32 arg0);
+void func_82132F88(CameraNode* arg0);
+void func_82134374(CameraNode* arg0, UNUSED s32 arg1, UNUSED s32 arg2) {
+    sBattleScene.scene->unk_40 = 0;
+    sBattleScene.scene->unk_60 = 30.0f;
+    switch (sBattleScene.scene->unk_1C) {
+        case 0:
+            BattleScene_FinalPresentationFrameActiveOwner(arg0);
+            break;
+        case 1:
+        case 5:
+            BattleScene_SelectNextIntroCameraShot(arg0);
+            break;
+        case 9:
+            func_82121434(arg0);
+            break;
+        case 2:
+        case 6:
+        case 10:
+            func_8212601C((s32)arg0);
+            BattleScene_SetPhase(arg0, 1);
+            break;
+        case 3:
+            func_8212601C((s32)arg0);
+            BattleScene_SetPhase(arg0, 5);
+            break;
+        case 8:
+            func_821324D8(arg0);
+            break;
+        case 4:
+            func_82131880(arg0);
+            break;
+        case 7:
+            func_821329F8((s32)arg0);
+            break;
+        case 11:
+            func_82132F88(arg0);
+            break;
+    }
+    sBattleScene.scene->camera = arg0;
+}
 
 void BattleScene_AllocateMemory(void) {
     sBattleScene.scene = main_pool_alloc(sizeof(BattleScene), 0);
