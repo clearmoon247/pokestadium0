@@ -1,0 +1,71 @@
+name: ROM Gate
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch or SHA to validate
+        required: false
+        default: master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rom-gate-${{ github.event.pull_request.number || inputs.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Validate ROM against master
+    # Same-repository PRs only (the repository is private); drafts are skipped
+    # and run once marked ready (ready_for_review).
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.pull_request.draft == false &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      )
+    runs-on: [self-hosted, macOS, ARM64, pokestadium0-decomp]
+    timeout-minutes: 60
+    env:
+      # The retail ROM stays on the runner; it is never committed or uploaded.
+      # Optional repository variable overriding the default ~/pokestadium0-baseroms/jp/baserom.z64.
+      BASEROM_SOURCE: ${{ vars.POKESTADIUM0_BASEROM }}
+      BASEROM_SHA256: ed9f7cd7da795467c1e2b08ed1f878ff5aed906eae9ffe252074aef7a6703d8b
+    steps:
+      - name: Mask self-hosted runner paths
+        shell: bash
+        run: |
+          echo "::add-mask::${HOME}"
+          echo "::add-mask::${GITHUB_WORKSPACE}"
+          echo "::add-mask::${RUNNER_TEMP}"
+
+      - name: Check out the PR merge ref or selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
+          persist-credentials: false
+
+      - name: Provide the retail ROM
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="${BASEROM_SOURCE:-$HOME/pokestadium0-baseroms/jp/baserom.z64}"
+          [ -f "$src" ] || { echo "::error::The retail ROM is missing on the runner."; exit 1; }
+          mkdir -p baseroms/jp
+          cp "$src" baseroms/jp/baserom.z64
+          echo "$BASEROM_SHA256  baseroms/jp/baserom.z64" | shasum -a 256 -c -
+
+      - name: Install tools and extract
+        run: make init
+
+      - name: Build and compare the ROM
+        run: make rom
+
+      - name: Repository tests
+        run: make test
