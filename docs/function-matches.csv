@@ -2196,7 +2196,7 @@ func_8212E634,0x8212E634,src/fragments/fragment012_17ED00/battle_engine_3438B0.c
 func_8212E7B0,0x8212E7B0,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212E9C8,0x8212E9C8,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212EA84,0x8212EA84,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,BattleScene_PhaseFaint,hand,,asm
-func_8212ECC8,0x8212ECC8,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
+func_8212ECC8,0x8212ECC8,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212ECC8,hand,,c
 func_8212EEC0,0x8212EEC0,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212EEC0,hand,,c
 func_8212EF74,0x8212EF74,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212F044,0x8212F044,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212F044,hand,,c

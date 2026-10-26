@@ -68,7 +68,7 @@ void func_8212BF28(CameraNode* arg0, void* arg1) {
 #endif
 
 s32 func_8210C020(M2C_UNK, s32);                    /* extern */
-M2C_UNK func_82124984(s32, s32, M2C_UNK);           /* extern */
+void func_82124984(s32, s32, s32);
 extern s32 D_8219A544;
 extern s32 D_8219A568;
 void func_8212C398(s32 arg0)
@@ -96,7 +96,7 @@ void func_8212C398(s32 arg0)
 }
 
 s32 func_8210C020(M2C_UNK, s32);                    /* extern */
-M2C_UNK func_82124984(s32, s32, M2C_UNK);           /* extern */
+void func_82124984(s32, s32, s32);
 extern s32 D_8219A544;
 extern s32 D_8219A568;
 void func_8212C454(s32 arg0)
@@ -137,7 +137,7 @@ void func_8212C454(s32 arg0)
 }
 
 s32 func_8210C020(M2C_UNK, s32);                    /* extern */
-M2C_UNK func_82124984(s32, s32, M2C_UNK);           /* extern */
+void func_82124984(s32, s32, s32);
 extern s32 D_8219A544;
 extern s32 D_8219A568;
 void func_8212C530(s32 arg0)
@@ -501,11 +501,47 @@ void BattleScene_PhaseFaint(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212EA84.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212ECC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212ECC8.s")
-#endif
+void func_821255B4(CameraNode*);
+void func_82125C80(CameraNode*);
+void func_8212ECC8(CameraNode* arg0) {
+    sBattleScene.scene->unk_50 = 4;
+
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            func_821255B4(arg0);
+            func_8211F034(D_8219A520 + 0xC8, sBattleScene.scene->unk_2C);
+            func_8212E9C8((ActivePokemon*)D_8219A544);
+            func_82124984(D_8219A544, arg0, 3);
+            sBattleScene.scene->unk_20 += 1;
+            break;
+
+        case 1:
+            func_82124984(D_8219A544, arg0, 3);
+            if (BattleScene_AdvanceCameraFrameCounter(0x14) != 0) {
+                func_8211F034(D_8219A520 + 0x88, sBattleScene.scene->unk_2C);
+                func_82110B44((ActivePokemon*)D_8219A544);
+                BattleScene_EnterStateRow((ActivePokemon*)D_8219A544, 9);
+                sBattleScene.scene->unk_20 += 1;
+                func_82110B44((ActivePokemon*)D_8219A544);
+            }
+            break;
+
+        case 2:
+            D_8219A560 = func_8210F31C(sActivePokemon[sBattleScene.scene->unk_2C]);
+            D_8219A564 = func_8210F31C(sActivePokemon[!sBattleScene.scene->unk_2C]);
+            if (BattleScene_AdvanceCameraFrameCounter(0x3C) != 0) {
+                sBattleScene.scene->unk_20 += 1;
+            }
+            break;
+
+        case 3:
+            D_8219A560 = func_8210F31C(sActivePokemon[sBattleScene.scene->unk_2C]);
+            D_8219A564 = func_8210F31C(sActivePokemon[!sBattleScene.scene->unk_2C]);
+            BattleScene_ResetAnimationStep();
+            func_82125C80(arg0);
+            break;
+    }
+}
 
 extern s32 D_8219A568;
 void func_821247F0(void*, void*);
@@ -796,7 +832,7 @@ void func_82130D48(ActivePokemon* active_pokemon) {
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
 Vec3f* Vec3f_SetComponentsDuplicate(Vec3f* dest, f32 x, f32 y, f32 z);
-M2C_UNK func_82124984(s32, s32, M2C_UNK);
+void func_82124984(s32, s32, s32);
 void func_8212239C(ActivePokemon* arg0, CameraNode* arg1);
 void func_82122A7C(CameraNode* arg0, ActivePokemon* arg1);
 void func_80040738(void);
