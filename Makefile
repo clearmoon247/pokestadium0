@@ -31,7 +31,7 @@ setup: venv
 
 extract:
 	$(PYTHON) -m splat split yamls/jp/mapping.yaml
-	$(PYTHON) tools/generate_pragmas.py baseroms/jp/baserom.z64
+	$(PYTHON) tools/generate_pragmas.py baseroms/jp/baserom.z64 --asm-only
 	$(PYTHON) tools/production.py extract
 
 init: setup extract
