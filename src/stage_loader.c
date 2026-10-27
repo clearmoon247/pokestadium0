@@ -64,11 +64,56 @@ s32 StageFade_Start(s32 arg0);
 void StageLoader_SetupFrame(void);
 void BgStage_DrawFrame(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80005980; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80005980.s")
-#endif
+extern Gfx D_8005F728[];
+void func_80005980(void) {
+    u8 a;
+    u8 b;
+    u8 g;
+    u8 r;
+    StageContext* v0 = stage;
+
+    if (stage->fadeMode == 0) {
+        return;
+    }
+
+    r = RGBA16_GET_R(stage->clearColor);
+    g = RGBA16_GET_G(stage->clearColor);
+    b = RGBA16_GET_B(stage->clearColor);
+
+    r = (r << 3) | (r >> 2);
+    g = (g << 3) | (g >> 2);
+    b = (b << 3) | (b >> 2);
+
+    switch (stage->fadeMode) {
+        case 1:
+            a = 255;
+            break;
+
+        case 2:
+            a = (255 - ((stage->fadeFrame * 255) / stage->fadeDuration));
+            break;
+
+        case 3:
+            a = ((stage->fadeFrame * 255) / stage->fadeDuration);
+            break;
+    }
+
+    gDPSetEnvColor(gDisplayListHead++, r, g, b, a);
+    gSPDisplayList(gDisplayListHead++, D_8005F728);
+
+    if (stage->fadeMode == 1) {
+        return;
+    }
+
+    stage->fadeFrame++;
+    if (stage->fadeFrame == stage->fadeDuration) {
+        if (stage->fadeMode == 2) {
+            stage->fadeMode = 0;
+        } else {
+            stage->fadeMode = 1;
+        }
+    }
+}
 
 extern s8 *D_800AA184;
 s32 func_80005B98(s32 arg0) {

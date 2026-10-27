@@ -165,11 +165,15 @@ void BattleInfoWidget_UpdateEntryFlags(unk_func_8830867C_034* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_8910548C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89105504; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89105504.s")
-#endif
+void func_89105504(s32 arg0) {
+    s32 i;
+    s32* entry = *M2C_FIELD(arg0, s32**, 0x20);
+
+    for (i = 0; i < M2C_FIELD(arg0, s32**, 0x20)[2]; i++) {
+        entry[3] = (M2C_FIELD(arg0, u16**, 0x24)[i] & 8) != 0;
+        entry += 8;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89105560; signature not recovered. */

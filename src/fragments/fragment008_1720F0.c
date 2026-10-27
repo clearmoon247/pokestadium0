@@ -123,11 +123,27 @@ void func_88100428(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_881009A0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100B2C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100B2C.s")
-#endif
+s32 func_8002B390(void*);
+M2C_UNK func_8002BC14(s32);
+extern s32 D_800603C0;
+s32 func_88100B2C(s32 arg0) {
+    s32 sp1C = 0;
+
+    if (func_8002B390((u8*)arg0 + 0xA4) == 0) {
+        sp1C = func_8002BC14(D_800603C0);
+        if (sp1C == 1) {
+            switch (M2C_FIELD(arg0, s32*, 0xA8)) {
+                case 0:
+                    sp1C = 1;
+                    break;
+                case 1:
+                    sp1C = -1;
+                    break;
+            }
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88100BA4; signature not recovered. */

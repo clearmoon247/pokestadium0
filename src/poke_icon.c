@@ -119,11 +119,29 @@ void func_80018168(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80018234.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001833C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001833C.s")
-#endif
+void func_80019BDC(arg1_func_80010CA8*);
+void func_8001833C(unk_func_8001A024* arg0, s32 arg1, BattleMon* arg2, u16 arg3) {
+    DepthBuffer* buf;
+    UNUSED s32 pad;
+
+    if (arg1 < arg0->unk_01) {
+        buf = arg0->unk_08[arg1].unk_0C;
+        func_8004FD20((s32)buf->img_p, buf->width * buf->height * 2, buf->width, buf->height);
+        if ((arg2->unk_00.unk_00 > 0) && (arg2->unk_00.unk_00 < 0x98)) {
+            arg0->unk_08[arg1].unk_00 = 3;
+            arg0->unk_08[arg1].unk_14.ptr = (u8*)arg2;
+            arg0->unk_08[arg1].unk_02 = arg3 & 0xFFFE;
+            arg0->unk_08[arg1].unk_08 = *(s16*)&gSpeciesDataById[arg2->unk_00.unk_00 - 1][0x1A] / 100.0f;
+            func_80019BDC(&arg0->unk_08[arg1].unk_10);
+        } else {
+            arg0->unk_08[arg1].unk_00 = 1;
+            arg0->unk_08[arg1].unk_02 = arg3 & 0xFFFE;
+            arg0->unk_08[arg1].unk_14.raw = 0x98;
+            arg0->unk_08[arg1].unk_08 = *(s16*)&gSpeciesDataById[0x97][0x1A] / 100.0f;
+            arg0->unk_08[arg1].unk_10.raw = 0;
+        }
+    }
+}
 
 void PokeIcon_AdjustImageColors(u8* arg0, arg1_func_80010CA8 arg1) {
     s32 cond;

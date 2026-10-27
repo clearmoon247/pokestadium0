@@ -47,11 +47,25 @@ void BattleScene_SelectActiveController(ActivePokemon* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C778.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210C82C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C82C.s")
-#endif
+void func_8210C82C(ActivePokemon* arg0) {
+    BattleMonRuntime* temp_v1 = &arg0->state.runtime;
+    ActivePokemonState* temp_v0 = &arg0->state;
+
+    if (arg0->state.unk_14 != 4) {
+        temp_v0->unk_0C = temp_v0->unk_14;
+        if (temp_v0->unk_2A == 0) {
+            temp_v1->usedMove = temp_v1->moves[temp_v0->unk_0C];
+        }
+    } else {
+        if (temp_v1->unk_4C & 0x20) {
+            temp_v0->unk_0C = temp_v0->unk_14;
+        } else {
+            temp_v0->unk_14 = 0;
+            temp_v0->unk_0C = 0;
+            temp_v1->usedMove = 0xA5;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210C8A0; signature not recovered. */

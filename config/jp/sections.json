@@ -33,6 +33,12 @@
     ".rodata": "0x811549E0",
     ".data": "0x81138B74"
   },
+  "src/fragments/fragment006_162BE0/battle_engine_2FA4D0.c": {
+    ".data": {
+      "address": "0x88402FB4",
+      "size": "0xC"
+    }
+  },
   "src/fragments/fragment010_17BE70/pikachu_reward.c": {
     ".data": {
       "address": "0x81701BF4",
@@ -97,10 +103,7 @@
     ".rodata": "0x82196030"
   },
   "src/fragments/fragment012_17ED00/battle_engine_32B680_3.c": {
-    ".rodata": {
-      "address": "0x821973C4",
-      "size": "0x15C"
-    }
+    ".rodata": "0x82197240"
   },
   "src/fragments/fragment012_17ED00/battle_engine_339CA0.c": {
     ".rodata": "0x82197520"
@@ -110,6 +113,9 @@
   },
   "src/fragments/fragment012_17ED00/battle_engine_343BA0.c": {
     ".rodata": "0x821966E0"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_343BA0_3.c": {
+    ".rodata": "0x82196760"
   },
   "src/fragments/fragment012_17ED00/battle_engine_343BA0_4.c": {
     ".rodata": {

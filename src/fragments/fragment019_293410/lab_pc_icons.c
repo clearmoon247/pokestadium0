@@ -150,11 +150,30 @@ void func_8A2008F4(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A2018E0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A201C08; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A201C08.s")
-#endif
+u8* func_800196F8(s32);
+void func_800069CC(void);
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
+extern s32 D_8A21DA4C;
+void func_8A201C08(s32 arg0, s32 arg1, s32 arg2) {
+    u8* tex;
+    s32 i;
+    s32 n;
+
+    tex = func_800196F8(D_8A21DA4C);
+    func_800069CC();
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+    gDPSetAlphaCompare(gDisplayListHead++, G_AC_NONE);
+    for (i = 0; i < 0xD2; i += n) {
+        if ((0xD2 - i) < 8) {
+            n = 0xD2 - i;
+        } else {
+            n = 8;
+        }
+        func_8001B884(arg0, arg1 + i, 0xF4, n, tex, 0x100, 0x200000);
+        tex += n << 9;
+    }
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A201D3C; signature not recovered. */
@@ -172,7 +191,7 @@ M2C_UNK func_8A200DE0(s32, s32, s32);               /* extern */
 M2C_UNK func_8A2010C8(s32, s32, s32, s32);          /* extern */
 M2C_UNK func_8A201394(s32, s32, s32);               /* extern */
 M2C_UNK func_8A2018E0(s32, s32, s32, s32);          /* extern */
-M2C_UNK func_8A201C08(M2C_UNK, M2C_UNK, s32);       /* extern */
+void func_8A201C08(s32, s32, s32);
 extern s8 D_8007356C;
 extern s32 D_8A21DA4C;
 void func_8A201EAC(s8 *arg0, s32 arg1)
@@ -384,8 +403,58 @@ void func_8A203070(s32 arg0) {
     func_8A20291C(&D_8A21DA80);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A2030C0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A2030C0.s")
-#endif
+extern u8 D_81000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_01000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_04000000[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_88000000[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+extern u8 D_003DCB60[];
+extern u8 D_003F53C0[];
+extern u8 D_8A203438[];
+extern ModelLoadContext* D_8A21DA48;
+extern s32 D_8A21DA4C;
+extern s8* D_8A21DA50;
+extern BinArchive* D_8A21DA54;
+extern void* D_8A21DA58;
+extern void* D_8A21DA60[4];
+void func_8A202EF4(void);
+s32 func_8A202F50(u8);
+void func_8A203070(s32 arg0);
+s32 func_8A2030C0(UNUSED s32 arg0, UNUSED s32 arg1, UNUSED s32 arg2) {
+    s32 i;
+
+    main_pool_push_state('VIEW');
+    Font_Init(0x1C, 0);
+    D_8A21DA54 = BinArchive_Open(D_003DCB60, D_003F53C0, 1, 1);
+    D_8A21DA48 = (ModelLoadContext*)PokeIcon_AllocFramebuffers(1);
+    D_8A21DA4C = (s32)PokeIcon_CreateModelPreview(D_8A21DA48, 0x100, 0xD2, 0, 0, 0xF4, 0xD2, D_8A203438);
+    D_8A21DA50 = (s8*)PokeIcon_CreateRenderList(D_8A21DA48, 6, 0x28, 0x28);
+    PokeIcon_OpenModelArchives();
+
+    Fragment_Load(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+
+    D_8A21DA58 = main_pool_alloc(0x3000, 0);
+    for (i = 0; i < 4; i++) {
+        D_8A21DA60[i] = main_pool_alloc(0x14800, 0);
+    }
+
+    func_8A202EF4();
+    StageLoader_UpdateSegments();
+    BgStage_RunUntilCondition(8, func_8A202F50);
+    BgStage_RunUntilCondition(0, (s32 (*)(u8))func_8A203070);
+    BgStage_RunUntilCondition(8, func_8A202F50);
+    StageLoader_WaitForRetrace();
+    Font_Free();
+    main_pool_pop_state('VIEW');
+    Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 0, 0);
+    return 0x8040;
+}

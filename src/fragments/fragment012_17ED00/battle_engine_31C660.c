@@ -20,11 +20,47 @@ void Battle_Effect_Explosion(void);
 void func_82113660(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113668; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113668.s")
-#endif
+extern s32 D_8218C7BC;
+extern s32 D_8218C7C0;
+extern s32 D_8218C7C4;
+void func_82113668(void) {
+    s32 sp24;
+    s32 var_v1;
+
+    sBattleScene.scene->unk_48 = 0x16;
+    sp24 = sBattleTarget->unk_4D & 0x20;
+    sBattleTarget->unk_4D &= ~0x20;
+
+    if (sp24 == 0) {
+        if (sBattleTarget->unk_15 & 7) {
+            sConfused = 0;
+            func_8211EF74(D_8219A520 + 0x88, -0x80, D_8218C7BC, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+            return;
+        }
+
+        if (sBattleTarget->unk_15 == 0) {
+            HandleMoveEffectFlags();
+            if ((sBattleMoveFailed == 0) && (Battle_SleepClauseInEffect(sActivePokemon[!sBattleScene.scene->unk_2C]) == 0)) {
+                goto block_9;
+            }
+        }
+        sConfused = 0;
+        func_8211EF74(D_8219A520 + 0x88, -0x7F, D_8218C7C0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+        return;
+    }
+
+block_9:
+    if (Battle_SleepClauseInEffect(sActivePokemon[!sBattleScene.scene->unk_2C]) != 0) {
+        sConfused = 0;
+        func_8211EF74(D_8219A520 + 0x88, -0x7F, D_8218C7C0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+    } else {
+        do {
+            var_v1 = Battle_Random() & 3;
+        } while (var_v1 == 0);
+        sBattleTarget->unk_15 = var_v1;
+        func_8211EF74(D_8219A520 + 0x88, -0x7E, D_8218C7C4, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+    }
+}
 
 extern s32 D_8218C7C8;
 extern s32 D_8218C7CC;
@@ -118,11 +154,59 @@ void Battle_Effect_Explosion(void) {
     sBattleUser->unk_4D &= ~0x80;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82113CD0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82113CD0.s")
-#endif
+extern s32 D_8218C7E0;
+extern s32 D_8218C7E4;
+extern s32 D_8218C7E8;
+extern s32 D_8218C7EC;
+void func_82113CD0(void) {
+    if (sBattleTarget->unk_4D & 0x10) {
+        return;
+    }
+
+    if (sBattleTarget->unk_15 != 0) {
+        if ((sBattleTarget->unk_15 & 0x20) && (sBattleUser->moveCache.unk_03 == 0x14)) {
+            sBattleTarget->unk_15 = 0;
+            func_8211EF74(D_8219A520 + 0x88, -0x77, D_8218C7E0, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+        }
+        return;
+    }
+
+    if ((sBattleTarget->roster[6] != (*sBattleUser).moveCache.unk_03) &&
+        (sBattleTarget->roster[7] != (*sBattleUser).moveCache.unk_03)) {
+        if ((sBattleUser->moveCache.unk_01 < 7) || (sBattleUser->moveCache.lastMove == BLIZZARD)) {
+            if (Battle_Random() >= 0x1A) {
+                return;
+            }
+        } else if (Battle_Random() >= 0x4D) {
+            return;
+        }
+
+        switch (sBattleUser->moveCache.unk_01) {
+            case 4:
+            case 34:
+                sBattleTarget->unk_15 = 0x10;
+                ApplyBurnAttackCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+                func_8211EF74(D_8219A520 + 0x208, -0x76, D_8218C7E4, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                break;
+
+            case 5:
+            case 35:
+                if (Battle_FreezeClauseInEffect(sActivePokemon[!sBattleScene.scene->unk_2C]) == 0) {
+                    sBattleTarget->unk_4D &= ~0x20;
+                    sBattleTarget->unk_15 = 0x20;
+                    func_8211EF74(D_8219A520 + 0x208, -0x75, D_8218C7E8, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                }
+                break;
+
+            case 6:
+            case 36:
+                sBattleTarget->unk_15 = 0x40;
+                ApplyParalysisSpeedCut(sActivePokemon[!sBattleScene.scene->unk_2C]);
+                func_8211EF74(D_8219A520 + 0x208, -0x74, D_8218C7EC, func_82107F88(sActivePokemon[!sBattleScene.scene->unk_2C]));
+                break;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82113FC8; signature not recovered. */

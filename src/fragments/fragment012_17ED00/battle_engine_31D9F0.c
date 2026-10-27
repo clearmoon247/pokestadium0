@@ -130,11 +130,36 @@ void func_82116FF4(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     func_8001ABBC();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821170D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821170D0.s")
-#endif
+extern s8 D_8219597C;
+void func_821170D0(s16 arg0, s16 arg1, s32 arg2, s32 arg3, u16 arg4, s32 arg5) {
+    UNUSED s32 pad;
+    s16 wave;
+    s16 alpha;
+    u32 half;
+    s32 temp_v0;
+
+    wave = gCosineTable[arg4 >> 4] * 255.0f;
+    alpha = wave;
+    if (wave < 0) {
+        alpha = -wave;
+    }
+    temp_v0 = arg2 * 3;
+    func_82116CF4(arg0, arg1, 0x46, 0x11, temp_v0 + &D_8218B008, temp_v0 + &D_8218B014);
+    func_8001AB6C();
+    func_8001A384(2, 0);
+    if (arg5 != 0) {
+        func_8001AA9C(0xFF, 0x64, 0xFF, (s8)alpha);
+    } else {
+        func_8001AA9C(0xFF, 0xFF, 0xFF, (s8)alpha);
+    }
+    half = func_800566BC(arg3) >> 1;
+    if (wave > 0) {
+        func_8001A944(arg0 + 0xE, arg1 + 2, (s32)&D_8219597C);
+    } else {
+        func_8001A944((arg0 - (half * 5)) + 0x1E, arg1 + 2, arg3);
+    }
+    func_8001ABBC();
+}
 
 void BattleHud_DrawSpeciesNameLabelAuto(ActivePokemon* arg0, TeamRoster* arg1, s16 arg2, s16 arg3, s32 arg4, u16 arg5, s32 arg6) {
     ActivePokemonState* ptr = &arg0->state;
@@ -623,11 +648,68 @@ void BattleHud_DrawPlainText(s16 arg0, s16 arg1, char* arg2) {
     Font_EndTexturedTextRendering();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211AEA4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211AEA4.s")
-#endif
+extern u8 D_030078C0[];
+extern u8 D_03007A80[];
+extern u8 D_030077E0[];
+extern u8 D_0300A080[];
+extern u8 D_0300A200[];
+extern u8 D_030070E0[];
+extern u8 D_030072A0[];
+extern u8 D_03007380[];
+extern u8 D_03007540[];
+extern u8 D_03009E40[];
+extern u8 D_03009FC0[];
+extern Gfx D_80060308[];
+extern u8* D_8218AFDC[];
+void Widget_DrawMeterBar(s32, s32, s32, s32);
+s32 LabPC_StatusToIconIndex(s32);
+void func_8211AEA4(TeamRoster* arg0, BattleMon* arg1, s32 arg2, s32 arg3, s32 arg4) {
+    s32 var_t0;
+
+    BattleHud_DrawLevelNumber(arg2 + 3, arg3 + 4, arg1->unk_24);
+    Widget_DrawMeterBar(arg2 + 0x1E, arg3 + 0xE, arg1->hp, arg1->unk_26);
+    BattleHud_DrawHpFractionText(arg2 + 0x26, arg3 + 0x14, arg1->hp, arg1->unk_26);
+
+    gSPDisplayList(gDisplayListHead++, D_80060308);
+
+    if (arg4 == 0) {
+        Gfx_DrawTextureRgba16Ia8(arg2 + 8, arg3 + 0xD, 0x10, 0xE, D_030078C0, D_03007A80, 0x10, 0x100000);
+    }
+    if (arg4 == 1) {
+        Gfx_DrawTextureRgba16Ia8(arg2 + 8, arg3 + 0xD, 0x10, 0xE, D_3007620, D_030077E0, 0x10, 0x100000);
+    }
+    if (arg4 == 2) {
+        Gfx_DrawTextureRgba16Ia8(arg2 + 8, arg3 + 0xD, 0x10, 0xC, D_0300A080, D_0300A200, 0x10, 0x100000);
+    }
+    if (arg4 == 3) {
+        Gfx_DrawTextureRgba16Ia8(arg2 + 8, arg3 + 0xD, 0x10, 0xE, D_030070E0, D_030072A0, 0x10, 0x100000);
+    }
+    if (arg4 == 4) {
+        Gfx_DrawTextureRgba16Ia8(arg2 + 8, arg3 + 0xD, 0x10, 0xE, D_03007380, D_03007540, 0x10, 0x100000);
+    }
+    if (arg4 == 5) {
+        Gfx_DrawTextureRgba16Ia8(arg2 + 8, arg3 + 0xD, 0x10, 0xC, D_03009E40, D_03009FC0, 0x10, 0x100000);
+    }
+
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(1, 0);
+    Font_Printf(arg2 + 0x18, arg3 + 2, arg1->unk_30);
+    Font_EndTexturedTextRendering();
+
+    if (arg0->pokemonPicked[arg4].hp == 0) {
+        var_t0 = 1;
+    } else {
+        var_t0 = LabPC_StatusToIconIndex(arg0->pokemonPicked[arg4].statusCondition);
+    }
+
+    if (var_t0 != 0) {
+        gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+        Gfx_DrawTextureRgba16(arg2 + 0x49, arg3 + 2, 0x18, 0xB, D_8218AFDC[var_t0], 0x18, 0);
+        gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211B208; signature not recovered. */

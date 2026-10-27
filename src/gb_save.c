@@ -603,11 +603,16 @@ s32 func_8002D138(UNUSED s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D2BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D3D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D3D0.s")
-#endif
+s32 func_8002D3D0(u8* arg0) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (arg0[i + 9] == 0) {
+            return i;
+        }
+    }
+    return 4;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002D430; signature not recovered. */
@@ -615,11 +620,11 @@ s32 func_8002D138(UNUSED s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D430.s")
 #endif
 
-s32 func_8002D3D0();                                /* extern */
+s32 func_8002D3D0(u8*);
 s32 func_8002D430(s32, s32);                        /* extern */
 
 s32 func_8002D454(s32 arg0, s32 arg1) {
-    if (arg1 >= func_8002D3D0()) {
+    if (arg1 >= func_8002D3D0((u8*)arg0)) {
         return -1;
     }
     return func_8002D430(arg0, arg1);

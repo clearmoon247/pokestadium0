@@ -635,11 +635,16 @@ void MtxF_ToFixed(MtxF* dest, MtxF* src) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000ED9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000ED9C.s")
-#endif
+void func_8000E41C(MtxF* dest, MtxF* basis, MtxF* transform, Vec3f* local_position);
+void func_8000ED9C(MtxF* dest, Vec3f* local_position, Vec3s* rotate, Vec3f* scale, MtxF* basis, MtxF* transform) {
+    MtxF sp58;
+    MtxF sp18;
+
+    func_8000E41C(&sp58, basis, transform, local_position);
+    MtxF_SetRotationTranslationF(&sp18, &D_80060450, rotate);
+    MtxF_Multiply(&sp18, &sp18, &sp58);
+    MtxF_ScaleRows(dest, &sp18, scale);
+}
 
 void Vec3f_CalculateDistanceAngles(Vec3f* to, Vec3f* from, f32* euclidean, s16* angle_x, s16* angle_y) {
     f32 x_dist = from->x - to->x;

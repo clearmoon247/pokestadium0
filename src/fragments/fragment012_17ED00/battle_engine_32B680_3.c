@@ -614,7 +614,75 @@ void func_82153FD8(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82154050; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_82154050(Particle* arg0) {
+    f32 offset = 0.0f;
+    f32 scale = 0.12f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0xF:
+            offset = 5.0f;
+            break;
+        case 0x16:
+            offset = 3.0f;
+            break;
+        case 0x1F:
+            offset = 5.0f;
+            break;
+        case 0x22:
+            offset = 3.0f;
+            break;
+        case 0x39:
+            offset = 10.0f;
+            break;
+        case 0x41:
+            offset = 8.0f;
+            break;
+        case 0x4C:
+            offset = 2.0f;
+            break;
+        case 0x5B:
+            offset = 5.0f;
+            break;
+        case 0x5E:
+            offset = 5.0f;
+            break;
+        case 0x61:
+            offset = 5.0f;
+            break;
+        case 0x73:
+            offset = 12.0f;
+            break;
+        case 0x7F:
+            offset = 3.0f;
+            break;
+        case 0x80:
+            offset = 3.0f;
+            break;
+        case 0x82:
+            scale = 0.08f;
+            Particle_Field38_AddYScaled_08E90(arg0, 5.0f);
+            break;
+        case 0x83:
+            scale = 0.08f;
+            offset = 5.0f;
+            break;
+        case 0x86:
+            offset = 3.0f;
+            break;
+        case 0x88:
+            offset = 3.0f;
+            break;
+        case 0x8E:
+            offset = 10.0f;
+            break;
+        case 0x91:
+            offset = 3.0f;
+            break;
+    }
+    Particle_Field38_AddXZFromField94Y_08ED0(arg0, offset + 5.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, scale);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154050.s")
 #endif
@@ -651,7 +719,62 @@ void func_821542BC(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82154310; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+void func_82154310(Particle* arg0) {
+    f32 offset = 0.0f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0xF:
+            offset = -13.0f;
+            break;
+        case 0x16:
+            offset = -15.0f;
+            break;
+        case 0x19:
+            offset = -10.0f;
+            break;
+        case 0x22:
+            offset = 10.0f;
+            break;
+        case 0x3B:
+            offset = 25.0f;
+            break;
+        case 0x4C:
+            offset = -10.0f;
+            break;
+        case 0x52:
+            offset = -8.0f;
+            break;
+        case 0x5B:
+            offset = -12.0f;
+            break;
+        case 0x67:
+            offset = 5.0f;
+            Particle_Field38_AddXZFromField94Y_08ED0(arg0, 10.0f);
+            break;
+        case 0x79:
+            offset = -8.0f;
+            break;
+        case 0x7F:
+            offset = 5.0f;
+            break;
+        case 0x80:
+            offset = -12.0f;
+            break;
+        case 0x82:
+            offset = -10.0f;
+            Particle_Field1C_SetScaled_0B938(arg0, 0.15f);
+            break;
+        case 0x86:
+            offset = -5.0f;
+            Particle_Field38_AddXZFromField94YOffsetMinus90_0901C(arg0, 5.0f);
+            break;
+        case 0x87:
+            offset = -15.0f;
+            break;
+    }
+    Particle_Field38_AddYScaled_08E90(arg0, offset);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154310.s")
 #endif
@@ -799,11 +922,63 @@ void BattleAnim_AllocateReflectiveTextureDisplayList(s32 arg0, arg1_func_84344CE
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82154C9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82154C9C.s")
-#endif
+void func_82154C9C(Particle* arg0) {
+    UNUSED s32 pad;
+    f32 scale = 1.2f;
+
+    switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
+        case 0x3:
+            scale = 1.5f;
+            break;
+        case 0x19:
+            scale = 0.6f;
+            break;
+        case 0x22:
+            scale = 1.5f;
+            break;
+        case 0x33:
+            scale = 1.0f;
+            break;
+        case 0x41:
+            scale = 0.9f;
+            break;
+        case 0x44:
+            scale = 1.5f;
+            break;
+        case 0x7B:
+            scale = 1.5f;
+            break;
+        case 0x82:
+            scale = 0.8f;
+            break;
+        case 0x83:
+            scale = 0.8f;
+            break;
+        case 0x84:
+            scale = 0.8f;
+            break;
+        case 0x87:
+            scale = 0.8f;
+            break;
+        case 0x8E:
+            scale = 2.5f;
+            break;
+        case 0x8F:
+            scale = 1.5f;
+            break;
+        case 0x90:
+            scale = 1.5f;
+            break;
+        case 0x91:
+            scale = 2.5f;
+            break;
+        case 0x92:
+            scale = 1.5f;
+            break;
+    }
+    Particle_Field38_AddYScaled_08E90(arg0, 0.0f);
+    Particle_Field1C_SetScaled_0B938(arg0, scale);
+}
 
 void BattleAnim_InitEffect125Model(Particle* arg0, UNUSED s16 arg1) {
     arg0->unk_14 = BattleAnim_AllocOwnerDisplayContext(arg0);
@@ -4183,11 +4358,13 @@ void func_8215E2C4(void) {
     func_8213B644(8, 4, 8);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8215E3E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8215E3E0.s")
-#endif
+void func_8215E3E0(void) {
+    BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x10, 6);
+    BattleAnim_CreateEffectSlotForCurrentOwner(0, BattleAnim_CallbackInitModelAnimMode2Update, &gDefaultParticleDescriptor, 0x80, 1, 0xC, 0xA, 0x1A, 4);
+    BattleAnim_SpawnOwnerModelTintPulseDetach(0, 1, 0xA, 0, 0xC8, 3);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x3C, 4, 0xE, BattleAnim_CallbackSharedAnimatedVerticalFade, &gBattleAnimParticleDescriptors[0x3D], 0, 1, 0x11, 7, 0x33, 7);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0x3D, 8, 7, BattleAnim_CallbackSharedAnimatedVerticalFade, &gBattleAnimParticleDescriptors[0x3D], 0, 1, 0x11, 7, 0x33, 7);
+}
 
 void BattleAnim_EndEffect85TintAndDescriptorMode2Sequence(void) {
     BattleAnim_SpawnGlobalTintColorFadeDetach(0, 0x20, 6);

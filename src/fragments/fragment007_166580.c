@@ -428,11 +428,98 @@ void func_8200597C(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_820059EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820059EC.s")
-#endif
+void func_8001A194(s32, s32);
+s32 func_80017860(s32);
+u16* func_80018F2C(s32, s32, s32, s32, s32, s32, s32, s32);
+s32 func_80017FDC(s32, s32, s32, s32);
+s32 func_80004154(u8*, u8*, s32, s32);
+void func_80017934(void);
+void func_800040B4(s32, u8*, u8*);
+void func_80003EB8(s32, u8*, u8*, s32);
+s32 func_80001B10(u8*);
+void func_8200569C(s32);
+void func_80005B98(s32);
+void func_80006828(s32, void*);
+void func_8000A7B0(s32);
+void func_80006998(s32);
+void func_8000A7FC(s32);
+void func_80006724(void);
+void func_8000675C(void);
+s32 func_8200579C(s32);
+extern u8 D_81000000[];
+extern u8 D_0015B1A0[];
+extern u8 D_0015E220[];
+extern u8 D_01000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_0A000000[];
+extern u8 D_0A000C80[];
+extern u8 D_0A0016D0[];
+extern u8 D_003FFD60[];
+extern u8 D_00400F70[];
+extern u8 D_04000000[];
+extern u8 D_004076E0[];
+extern u8 D_05000000[];
+extern u8 D_004199E0[];
+extern u8 D_0042C4A0[];
+extern u8 D_002F5940[];
+extern u8 D_003139C0[];
+extern s32 D_8200AC44;
+extern u16* D_8200AC48;
+extern s32 D_8200AC4C;
+extern s32 D_8200AC50;
+extern s32 D_8200ACFC;
+extern s32 D_8200AD00;
+extern s32 D_8200AD04;
+extern s32 D_8200AD28;
+extern s8 D_800AE8F0;
+extern s32 D_82008F84;
+M2C_UNK func_820059EC(void) {
+    func_8001A194(0x3C, 0);
+    D_8200AC44 = func_80017860(1);
+    D_8200AC48 = func_80018F2C(D_8200AC44, 0x80, 0x78, 0, 0, 0x78, 0x78, 0);
+    *D_8200AC48 &= ~2;
+    *D_8200AC48 &= ~4;
+    D_8200AC4C = 0;
+    D_8200AC50 = func_80017FDC(D_8200AC44, 0x28, 0x28, 0x28);
+    D_8200AC40 = func_80004154(D_002F5940, D_003139C0, 1, 1);
+    func_80017934();
+
+    func_800040B4(((((u32)D_81000000) & 0x0FF00000) >> 0x14) - 0x10, D_0015B1A0, D_0015E220);
+    func_80003EB8(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    func_80003EB8(((u32)D_0A000000 & 0x0F000000) >> 0x18, D_003FFD60, D_00400F70, 0);
+    func_80003EB8(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+    func_80003EB8(((u32)D_05000000 & 0x0F000000) >> 0x18, D_004199E0, D_0042C4A0, 0);
+
+    D_8200ACFC = func_80001B10(D_0A000000);
+    D_8200AD00 = func_80001B10(D_0A000C80);
+    D_8200AD04 = func_80001B10(D_0A0016D0);
+    func_8200597C();
+    func_8200573C();
+    func_8000675C();
+
+    if (M2C_FIELD(&D_800AE8F0, u16*, 0x1096) & 0x100) {
+        M2C_FIELD(&D_800AE8F0, u16*, 0x1096) &= ~0x100;
+        func_8200569C(D_8200AD28);
+        func_80005B98(0xF);
+        func_80006828(0x11, func_820058FC);
+        func_8000A7B0(9);
+    } else {
+        func_80006828(8, func_8200579C);
+    }
+    func_80006828(0, func_820058BC);
+
+    if (D_82008F84 == 0x8050) {
+        func_80006998(0xFFFF);
+        func_80005B98(0xF);
+        func_80006828(0x11, func_820058FC);
+        func_8000A7FC(0xF);
+    } else {
+        func_80006828(8, func_8200579C);
+    }
+    func_80006724();
+    func_82005958();
+}
 
 M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
 M2C_UNK func_80002620(M2C_UNK);                     /* extern */
@@ -538,11 +625,25 @@ void func_82006348(s8 *arg0, s32 arg1)
   }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8200639C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_8200639C.s")
-#endif
+s32 func_8002DC04(void*);
+s32 func_8002BC14(s32);
+M2C_UNK func_8003F6AC(M2C_UNK);
+extern s32 D_800603C0;
+s32 func_8200639C(s32 arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (func_8002DC04((u8*)arg0 + 0x2C) == 0) {
+        dir = func_8002BC14(D_800603C0);
+        if (dir == -1) {
+            func_8003F6AC(3);
+            sp1C = -1;
+        } else if (dir == 1) {
+            sp1C = M2C_FIELD(arg0, s32*, 0x34) + 1;
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82006410; signature not recovered. */

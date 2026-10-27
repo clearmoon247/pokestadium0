@@ -40,11 +40,15 @@ void LabPC_WriteBoxEntries(s32 arg0, s32 arg1, s32 arg2, u8* arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890070BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8900721C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_8900721C.s")
-#endif
+s32 func_8900721C(s32 arg0, s32 arg1, s32 arg2, s8* arg3, s32 arg4) {
+    s32 sp1C;
+    DeckHandle* sp18;
+
+    sp18 = Deck_Open(arg0, arg1, arg2, 0);
+    sp1C = Deck_ReadEntries((u8*)arg3, arg4, sp18);
+    Deck_CloseAndFlush(sp18);
+    return sp1C;
+}
 
 s32 func_8900721C(M2C_UNK, M2C_UNK, s32, s8 *, s32); /* extern */
 void func_89007264(s8 *arg0, M2C_UNK arg1, M2C_UNK arg2, s32 arg3)
@@ -175,11 +179,25 @@ void func_89008284(s8 *arg0, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890082FC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890082FC.s")
-#endif
+s32 func_8002E3F0(void*);
+s32 func_8002BC14(s32);
+M2C_UNK func_8003F6AC(M2C_UNK);
+extern s32 D_800603C0;
+s32 func_890082FC(s32 arg0) {
+    s32 sp1C = 0;
+    s32 dir;
+
+    if (func_8002E3F0((u8*)arg0 + 0x2C) == 0) {
+        dir = func_8002BC14(D_800603C0);
+        if (dir == -1) {
+            func_8003F6AC(3);
+            sp1C = -1;
+        } else if (dir == 1) {
+            sp1C = M2C_FIELD(arg0, s32*, 0x34) + 1;
+        }
+    }
+    return sp1C;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89008370; signature not recovered. */
@@ -241,11 +259,20 @@ s32 func_890093AC(void* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89009414.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89009464; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89009464.s")
-#endif
+typedef struct Entry89009464 {
+    s32 unk_00;
+    s32 unk_04;
+} Entry89009464;
+void func_89009464(s32 arg0) {
+    Entry89009464* a = (Entry89009464*)(M2C_FIELD(arg0, s32*, 0x218) * 8 + **M2C_FIELD(arg0, s32***, 0x1D8));
+    Entry89009464* b = (Entry89009464*)(M2C_FIELD(arg0, s32**, 0x1D8)[2] * 8 + **M2C_FIELD(arg0, s32***, 0x1D8));
+    s32 temp = b->unk_00;
+
+    b->unk_00 = a->unk_00;
+    a->unk_04 = 1;
+    a->unk_00 = temp;
+    b->unk_04 = 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_890094A8; signature not recovered. */

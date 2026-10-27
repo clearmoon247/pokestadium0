@@ -277,11 +277,60 @@ void func_88400DAC(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_884014B4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8840173C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_8840173C.s")
-#endif
+extern u8 D_8F4B2EB0[];
+extern char D_884032A8[];
+extern char D_884032CC[];
+extern char D_884032E0[];
+extern char D_884032FC[];
+extern char D_88403304[];
+void func_8840173C(s32 arg0, s32 arg1) {
+    Color_RGB8 sp4C = { 0x00, 0x00, 0x32 };
+    Color_RGB8 sp48 = { 0x00, 0x00, 0xC8 };
+    UNUSED s32 pad;
+    s16 pos[2];
+    s32 temp;
+
+    if (arg1 == 0) {
+        temp = 0x28;
+    } else {
+        temp = 0x6E;
+    }
+    pos[1] = temp + 0x28;
+    Ui_DrawGradientPanel(0x28, 0x82, 0xF0, 0x5A, &sp4C, &sp48);
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+    Gfx_DrawTextureRgba16(pos[1], 0xC5, 0x18, 0xE, (u8*)Util_ConvertAddrToVirtAddr((uintptr_t)D_8F4B2EB0), 0x18, 0x200000);
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+
+    Font_BeginTranslucentTextRendering();
+    Font_EnableTwoCycleTexturing();
+    Font_SetActive(4, -2);
+    Gfx_SetPrimColor(100, 255, 150, 255);
+    Font_Printf(0x30, 0x8A, D_884032A8);
+    Font_DisableTwoCycleTexturing();
+    Font_SetActive(8, -2);
+    Gfx_SetEnvColor(255, 255, 100, 255);
+    if (arg0 == 0) {
+        Font_Printf(0x5A, 0xA2, D_884032CC);
+    } else {
+        Font_Printf(0x32, 0xA2, D_884032E0);
+    }
+    Font_SetActive(4, -1);
+    if (arg1 == 0) {
+        temp = 0;
+    } else {
+        temp = 0xFF;
+    }
+    Gfx_SetEnvColor(255, 255, temp, 255);
+    Font_Printf(100, 0xC4, D_884032FC);
+    if (arg1 == 1) {
+        temp = 0;
+    } else {
+        temp = 0xFF;
+    }
+    Gfx_SetEnvColor(255, 255, temp, 255);
+    Font_Printf(0xAA, 0xC4, D_88403304);
+    Font_EndTexturedTextRendering();
+}
 
 void func_884014B4(s32, u8);
 void func_8840173C(s32, s32);

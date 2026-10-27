@@ -532,11 +532,23 @@ void func_8110CB70(s8 *arg0, s32 arg1, unsigned short arg2)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CBD0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CC94; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CC94.s")
-#endif
+extern u16 D_811858AC;
+s32 func_8110D7B0(M2C_UNK, s32);
+void func_8110CBD0(s32, void*);
+void func_8110D3D4(s32);
+void func_8110CC94(s32 arg0, s32 arg1) {
+    s32 sp18[2];
+
+    if (arg0 < D_811858AC) {
+        arg0 = func_8110D7B0(0, arg0);
+        if (arg1 & 2) {
+            func_8110CBD0(arg0, sp18);
+        }
+        if (arg1 & 1) {
+            func_8110D3D4(arg0);
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110CD0C; signature not recovered. */
@@ -590,11 +602,19 @@ void func_8110CEC0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110D1B8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110D214; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110D214.s")
-#endif
+typedef struct Slot8110D214 {
+    /* 0x000 */ s32 unk_000;
+    /* 0x004 */ char unk004[0x158];
+} Slot8110D214; // size = 0x15C
+extern Slot8110D214 D_81184740[];
+s32 func_8110D278(s32, s32, s32);
+s32 func_8110D214(s32 arg0, s32 arg1, s32 arg2) {
+    if (D_811859D4 != 0) {
+        return 0;
+    }
+    D_81184740[arg0].unk_000 = arg2;
+    return func_8110D278(arg0, arg1, 0);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110D278; signature not recovered. */
@@ -626,11 +646,15 @@ void func_8110CEC0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110D5BC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110D7B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110D7B0.s")
-#endif
+u8* func_8110D840(s32);
+s32 func_8110D7B0(s32 arg0, s32 arg1) {
+    s32* entry = (s32*)(func_8110D840(arg0) + arg1 * 16);
+
+    if (entry[5] == 0) {
+        arg1 = entry[4];
+    }
+    return arg1;
+}
 
 s32 func_8110A310(s32, M2C_UNK, s32);               /* extern */
 

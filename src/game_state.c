@@ -195,11 +195,44 @@ void GbSave_SetActivePort(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025C0C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025C0C.s")
-#endif
+void Ui_DrawGradientPanel(s32 x1, s32 y1, s32 width, s32 height, Color_RGB8* top_color, Color_RGB8* bottom_color);
+extern Color_RGB8 D_800733DC;
+extern Color_RGB8 D_800733E0;
+extern char D_8007B7D0[];
+extern char D_8007B7E0[];
+extern char D_8007B804[];
+extern char D_8007B824[];
+extern char D_8007B844[];
+extern char D_8007B858[];
+extern char D_8007B874[];
+extern char D_8007B894[];
+
+void func_80025C0C(s32 arg0) {
+    Color_RGB8 sp2C = D_800733DC;
+    Color_RGB8 sp28 = D_800733E0;
+    UNUSED s32 pad[2];
+
+    BgStage_DrawFrame();
+    GfxImage_FillCurrent(&gDisplayListHead, 1);
+    Ui_DrawGradientPanel(0x90, 0x64, 0x160, 0xC8, &sp2C, &sp28);
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(8, -2);
+    Font_Printf(0xB0, 0xB4, D_8007B7D0);
+    Font_Printf(0xB0, 0xD0, D_8007B7E0);
+    Font_Printf(0xB0, 0xEC, D_8007B804);
+    Font_Printf(0xB0, 0x108, D_8007B824);
+    Gfx_SetEnvColor(0xFF, 0xFF, 0, 0xFF);
+    Font_Printf(0x12E, 0xB4, D_8007B844);
+    if (arg0 == 2) {
+        Font_SetActive(0x10, -2);
+        Font_Printf(0xBC, 0x84, D_8007B858);
+    } else if (arg0 == 3) {
+        Font_Printf(0xB0, 0x74, D_8007B874);
+        Font_Printf(0xB0, 0x90, D_8007B894);
+    }
+    Font_EndTexturedTextRendering();
+    BgStage_AdvanceFrame();
+}
 
 void Ui_DrawGradientPanel(s32 x1, s32 y1, s32 width, s32 height, Color_RGB8* top_color, Color_RGB8* bottom_color);
 extern Color_RGB8 D_800733E4;
@@ -229,7 +262,7 @@ M2C_UNK func_8000675C();                            /* extern */
 M2C_UNK func_8001A194(M2C_UNK, M2C_UNK);            /* extern */
 M2C_UNK func_8001A360();                            /* extern */
 s32 func_80021B30(s32);                             /* extern */
-M2C_UNK func_80025C0C(M2C_UNK);                     /* extern */
+void func_80025C0C(s32);
 void func_80025D8C(void);
 extern M2C_UNK D_002E0BE0;
 extern M2C_UNK D_002E2B90;

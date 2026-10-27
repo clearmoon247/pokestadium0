@@ -448,11 +448,85 @@ Gfx* func_8A1033CC(Gfx* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, 
     return arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A104290; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A104290.s")
-#endif
+extern unk_func_80011B94 D_8A130290;
+extern s16 D_8A130430;
+extern Gfx D_8A12EBB8[];
+extern Gfx D_8A12EBF0[];
+extern Gfx D_8A12F128[];
+extern Gfx D_8A12F150[];
+void func_8A104290(void) {
+    s16 sp46;
+    s16 sp44;
+    s16 sp42;
+    s16 sp40;
+    s16 sp3E;
+    s16 sp3C;
+    UNUSED s32 pad;
+    s32 temp_v0_2;
+    Gfx* temp_v0;
+    s32 sp2C;
+
+    temp_v0 = Gfx_AllocDisplayList(sizeof(Gfx) * 450);
+    D_8A130290.gfx = temp_v0;
+
+    gSPDisplayList(temp_v0++, D_8A12EBB8);
+
+    temp_v0 = func_8A1033CC(temp_v0, 0x1E, 0x14, 0x64, 0x10, 0, 1);
+
+    if (D_8A1302DC == 1) {
+        if (D_8A130430 > 0) {
+            sp46 = 0xA0 - (D_8A130430 / 2);
+            sp44 = D_8A130430;
+            temp_v0 = func_8A1033CC(temp_v0, sp46, 0x78, D_8A130430, 0x14, 0, 1);
+        }
+    } else {
+        if (D_8A1302D4 == 0) {
+            sp2C = D_8A12FAD8[D_8A1302D6] - 1;
+            temp_v0 = func_8A1033CC(temp_v0, 0xB9, 0xD2, 0x73, 0x10, 0, 1);
+            if ((D_8A1302DA == 1) && (sp2C >= 0) && (D_8A130308 == 0) && (D_8A130430 > 0) && (D_8A130450 != 0)) {
+                temp_v0_2 = (D_8A130458[sp2C].unk_02 * 0xA) - 0xA;
+                sp42 = 0x8C - (D_8A130430 / 2);
+                sp40 = 0xB4 - temp_v0_2;
+                sp3E = D_8A130430 + 0x28;
+                sp3C = temp_v0_2 + 0x14;
+                temp_v0 = func_8A1033CC(temp_v0, sp42, sp40, sp3E, sp3C, 2, 1);
+            }
+        } else {
+            temp_v0 = func_8A1033CC(func_8A1033CC(temp_v0, 0x4F, 0x2F, 0x97, 0x86, 0, 0), 0x4F, 0xB5, 0x97, 0x10, 2, 1);
+        }
+        temp_v0 = func_8A1033CC(temp_v0, 0x1E, 0xD2, 0x78, 0x10, 0, 1);
+    }
+
+    gSPDisplayList(temp_v0++, D_8A12EBF0);
+
+    if ((D_8A1302DC == 0) && (D_8A1302D4 == 0)) {
+        temp_v0 = Pokedex_DrawMapPinIcon(temp_v0, 0xBC, 0xD5);
+    }
+    if (D_8A1302D4 == 1) {
+        temp_v0 = Pokedex_DrawMapPinIcon(temp_v0, 0x56, 0xB7);
+    }
+
+    gSPDisplayList(temp_v0++, D_8A12F128);
+
+    if ((D_8A1302DC == 1) && (D_8A130430 > 0)) {
+        gDPFillRectangle(temp_v0++, sp46 - 1, 119, sp46 + sp44 + 1, 141);
+    }
+
+    gDPFillRectangle(temp_v0++, 29, 19, 131, 37);
+    gDPFillRectangle(temp_v0++, 184, 209, 301, 227);
+    gDPFillRectangle(temp_v0++, 29, 209, 151, 227);
+
+    if (D_8A1302D4 == 1) {
+        gDPFillRectangle(temp_v0++, 79, 47, 232, 199);
+    }
+
+    if ((D_8A1302DA == 1) && (D_8A130308 == 0) && (D_8A130430 > 0)) {
+        gDPFillRectangle(temp_v0++, sp42 - 1, sp40 - 1, sp42 + sp3E + 1, sp40 + sp3C + 1);
+    }
+
+    gSPDisplayList(temp_v0++, D_8A12F150);
+    gSPEndDisplayList(temp_v0++);
+}
 
 void Pokedex_ResetCameraEase(void) {
     D_8A13044C = 8.0f;

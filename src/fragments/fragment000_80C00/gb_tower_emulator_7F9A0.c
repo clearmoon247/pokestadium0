@@ -572,11 +572,35 @@ void VictoryPalace_ResetPillarGlow(UNUSED s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811068A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811068A0.s")
-#endif
+extern u16 D_811248C0[];
+extern u16 D_81124940[];
+extern u16 D_811249C0[];
+extern u16 D_81124A40[];
+extern u16 D_81124AC0[];
+extern u16 D_81124B40[];
+extern u16 D_81124BC0[];
+extern u16 D_81124C40[];
+void func_811068A0(u16* arg0) {
+    s32 i;
+    s32 j;
+
+    for (i = 1; i != 5; i++) {
+        GbEmu_BlitWithPixelOp(&arg0[i * 8], D_81124940, 0xFFFF, 8, 8);
+        GbEmu_BlitWithPixelOp(&arg0[38 * 320 + i * 8], D_81124BC0, 0xFFFF, 8, 8);
+        GbEmu_BlitWithPixelOp(&arg0[i * 8 * 320], D_81124A40, 0xFFFF, 8, 8);
+        GbEmu_BlitWithPixelOp(&arg0[i * 8 * 320 + 38], D_81124AC0, 0xFFFF, 8, 8);
+    }
+    GbEmu_BlitWithPixelOp(arg0, D_811248C0, 0, 8, 8);
+    GbEmu_BlitWithPixelOp(&arg0[38], D_811249C0, 0, 8, 8);
+    GbEmu_BlitWithPixelOp(&arg0[38 * 320], D_81124B40, 0, 8, 8);
+    GbEmu_BlitWithPixelOp(&arg0[38 * 320 + 38], D_81124C40, 0, 8, 8);
+
+    for (j = 0; j < 30; j++) {
+        for (i = 0; i < 30; i++) {
+            arg0[(j + 8) * 320 + i + 8] = 0xC14;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81106AA0; signature not recovered. */
@@ -617,8 +641,32 @@ void func_81107128(u16* arg0, u16* arg1, s16* arg2, s32 arg3, s32 arg4) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110724C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110724C.s")
-#endif
+extern u32 D_811565DC;
+extern u32 D_811565D8;
+extern u8 D_811565E0;
+extern s32 D_811565C4;
+extern u32 D_811565C8;
+extern u32 D_811565CC;
+extern s32 D_811565C0;
+extern u16* D_811565D4;
+extern u16* D_811565D0;
+void func_81106AA0(s32, u8);
+void func_8110724C(void) {
+    if ((osGetCount() - D_811565DC) > D_811565D8) {
+        D_811565DC = osGetCount();
+        D_811565E0 = (D_811565E0 + 1) & 7;
+        func_81106AA0(D_811565C4 + 0x87BA, D_811565E0);
+        if (D_811565D8 > 0x80000) {
+            D_811565D8 -= D_811565D8 >> 8;
+        }
+    }
+    if ((osGetCount() - D_811565C8) >= 0x200000) {
+        D_811565C8 = osGetCount();
+        D_811565CC++;
+        if (D_811565CC >= 0x140) {
+            D_811565CC = 0;
+        }
+        func_81107128(D_811565D4, D_811565D0, (s16*)(D_811565C0 + 0x20A80), 0xF, D_811565CC);
+        func_8005C0A0();
+    }
+}

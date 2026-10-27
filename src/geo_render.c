@@ -944,11 +944,60 @@ void Geo_NodeTranslate(GraphNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014BF0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80014C4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014C4C.s")
-#endif
+void func_80011838(EventTrackState*, s32);
+void func_8000E41C(MtxF*, MtxF*, MtxF*, Vec3f*);
+extern s32 D_800AB44C;
+void func_80014C4C(GraphNode* arg0) {
+    MtxF sp28;
+    DisplayObject* arg = (DisplayObject*)arg0;
+
+    if (D_80060490->unk_18 == arg->rootId) {
+        arg->anchorCount = 0;
+        if (arg->transformAnim.data != NULL) {
+            ModelAnim_BeginCurveContext(&arg->transformAnim, arg->node.renderFlags & 0x20);
+        }
+        if (arg->eventTrack.data != NULL) {
+            func_80011838(&arg->eventTrack, arg->node.renderFlags & 0x20);
+        }
+
+        if (arg->node.renderFlags & 0x10) {
+            MtxF_Multiply(&sp28, &arg->matrix, &D_800AB460.unk_0000[D_800AB460.unk_10A0]);
+        } else if (arg->node.renderFlags & 8) {
+            func_8000E41C(&sp28, &D_80060488->view.floatMatrix, &D_800AB460.unk_0000[D_800AB460.unk_10A0], &arg->position);
+        } else if (arg->node.renderFlags & 0x80) {
+            MtxF_SetRotationAndTransformTranslation(&sp28, &arg->position, &arg->rotation);
+            MtxF_Multiply(&sp28, &sp28, &D_800AB460.unk_0000[D_800AB460.unk_10A0]);
+        } else {
+            MtxF_SetRotationTranslationF(&sp28, &arg->position, &arg->rotation);
+            MtxF_Multiply(&sp28, &sp28, &D_800AB460.unk_0000[D_800AB460.unk_10A0]);
+        }
+
+        MtxF_ScaleRows(&D_800AB460.unk_0000[D_800AB460.unk_10A0 + 1], &sp28, &arg->scale);
+
+        if (!(arg->node.renderFlags & 4)) {
+            D_800AB460.unk_10A0++;
+
+            GeoRender_CommitMatrix();
+            D_8006049C = arg;
+            D_800AB44C = arg->fogColor.rgba;
+
+            if ((D_8006048C->unk_18 < 0) && (arg->objectType > 0)) {
+                ModelAnim_UpdateDisplayObjectAnimation(arg->effectSlot, arg->objectType);
+                Geo_ProcessNodeChildren(arg0);
+                ModelAnim_FinalizeDisplayObjectAnimation(arg->effectSlot, arg->objectType);
+            } else {
+                Geo_ProcessNodeChildren(arg0);
+            }
+
+            D_800AB44C = 0xFFFFFF00;
+            D_8006049C = NULL;
+        }
+
+        D_800AC690 = 0;
+        D_800AC6A8 = 0;
+        D_800AB460.unk_10A0 -= 1;
+    }
+}
 
 M2C_UNK func_80011294(s32);                         /* extern */
 M2C_UNK func_800135FC(u8, s32, M2C_UNK, s32);       /* extern */

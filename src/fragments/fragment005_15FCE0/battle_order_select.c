@@ -57,11 +57,51 @@ void BattleMenu_DrawBottomActionButtons(void) {
     Font_EndTexturedTextRendering();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8230016C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_8230016C.s")
-#endif
+extern Color_RGB8 D_823028C4;
+extern Color_RGB8 D_823028C8;
+extern SessionContext* D_82302BD0;
+extern s16* D_82302808[];
+extern s16 D_82302B42;
+void func_8230016C(void) {
+    s32 i;
+    s32 var_s2;
+    s32 var_s4;
+    s32 idx;
+    DepthBuffer* sp4C;
+    Color_RGB8 sp48;
+    Color_RGB8 sp44;
+
+    idx = D_82302BD0->ruleCategory == 0;
+    var_s4 = 0x30 - (D_82302B42 % 24);
+    var_s2 = D_82302B42 / 24;
+    sp4C = StageContext_GetCurrentImage();
+    sp48 = D_823028C4;
+    sp44 = D_823028C8;
+    Ui_DrawGradientPanel(0x228, 0x20, 0x2E, 0x186, &sp48, &sp44);
+
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 563, 48, 587, 408);
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(0x10, 0);
+    Gfx_SetEnvColor(0xA5, 0xDE, 0x8C, 0xFF);
+
+    for (i = 0; i < 16; i++) {
+        Font_DrawCharAt(0x233, var_s4, D_82302808[idx][var_s2]);
+        var_s2 += 1;
+        if (var_s2 >= 0x35) {
+            var_s2 = 0;
+        }
+        var_s4 += 0x18;
+    }
+    Font_EndTexturedTextRendering();
+
+    gDPSetScissorFrac(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, sp4C->width * 4.0f, sp4C->height * 4.0f);
+
+    D_82302B42 += 1;
+    if (D_82302B42 >= 0x4F8) {
+        D_82302B42 = 0;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_823003B8; signature not recovered. */
@@ -241,11 +281,45 @@ void BattleMenu_DrawBorderedPanel(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 ar
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823010E8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_823012D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment005_15FCE0/func_823012D0.s")
-#endif
+extern char D_82302A8C[];
+extern char D_82302AA0[];
+extern char D_82302AB8[];
+extern char D_82302ACC[];
+void func_82300BD0(s8*);
+void func_8001AC7C(s32, s32, s32, s32, s32, s32, s32, s32);
+void func_823012D0(s8* arg0) {
+    s32 x;
+    s32 y;
+
+    if (arg0[2] == -1) {
+        if (arg0[3] == 0) {
+            x = 0xC8;
+            y = 0x81;
+        } else {
+            x = 0x50;
+            y = 0xF0;
+        }
+        BattleMenu_DrawBorderedPanel(x, y, 0x15F, 0x53, arg0[1]);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(0x10, 0);
+        Gfx_SetEnvColor(0xFF, 0x63, 0x63, 0xFF);
+        Font_Printf(x + 0x10, y + 0xB, D_82302A8C);
+        Font_Printf(x + 0x10, y + 0x30, D_82302AA0);
+        Font_EndTexturedTextRendering();
+        arg0[7] = 2;
+    } else {
+        x = M2C_FIELD(arg0, s16*, 0x12);
+        y = M2C_FIELD(arg0, s16*, 0x14);
+        func_82300BD0(arg0);
+        func_8001AC7C(x + 5, y + 5, 0x1CD, 0x54, 0, 0, 0, 0x80);
+        Font_BeginTranslucentTextRendering();
+        Font_SetActive(0x10, 0);
+        Gfx_SetEnvColor(0xFF, 0x63, 0x63, 0xFF);
+        Font_Printf(x + 0x50, y + 0x14, D_82302AB8);
+        Font_Printf(x + 0x50, y + 0x3C, D_82302ACC);
+        Font_EndTexturedTextRendering();
+    }
+}
 
 extern char** D_84803790;
 #ifdef NON_MATCHING

@@ -431,11 +431,17 @@ s32 func_82183FD4(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8218419C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82184AA8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82184AA8.s")
-#endif
+u8* func_82184AA8(u8* arg0, s32 arg1, s32 arg2, s32 arg3) {
+    u8* p;
+
+    for (p = arg0; arg2 != 0; p += arg1) {
+        arg2 -= arg1;
+        if (arg3 == *p) {
+            return p;
+        }
+    }
+    return NULL;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82184ADC; signature not recovered. */

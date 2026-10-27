@@ -210,11 +210,10 @@ void func_82107EA0(s8 *arg0, s8 *arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107EC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107F18; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107F18.s")
-#endif
+extern f32 D_FLT_8218934C[][4];
+f32 func_82107F18(ActivePokemon* active_pokemon) {
+    return D_FLT_8218934C[active_pokemon->displayObject.objectType][0] * active_pokemon->displayObject.scale.y;
+}
 
 ModelNodeView* Battle_GetLoadedModelNode(ActivePokemon* active_pokemon, s32 node_index) {
     return active_pokemon->sessionTeams->loadedModel->unk_00[2]->unk_00[node_index];
