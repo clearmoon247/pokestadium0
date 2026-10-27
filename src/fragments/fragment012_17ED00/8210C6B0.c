@@ -464,11 +464,22 @@ void func_8210E36C(void)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E3C0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E484; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E484.s")
-#endif
+void func_8210E3C0(ActivePokemon*, ActivePokemon*);
+void func_8210E484(ActivePokemon* arg0, ActivePokemon* arg1) {
+    BattleMonRuntime* temp_v0 = &arg0->state.runtime;
+    BattleMonRuntime* temp_v1 = &arg1->state.runtime;
+
+    func_8210E3C0(arg0, arg1);
+    if (!(temp_v0->unk_4D & 0x60)) {
+        temp_v0->unk_4C &= ~8;
+        temp_v1->unk_4C &= ~8;
+        if (temp_v0->unk_4C & 0x12) {
+            arg0->state.unk_2A = 1;
+        }
+    } else {
+        arg0->state.unk_2A = 1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210E504; signature not recovered. */

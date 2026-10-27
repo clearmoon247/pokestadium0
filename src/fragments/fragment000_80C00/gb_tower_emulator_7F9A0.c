@@ -186,11 +186,20 @@ s32 GbPak_SelectRamBank(unk_D_8122B2C0* arg0, s32 arg1) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811023DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811023DC.s")
-#endif
+typedef struct GbpakChannel811023DC {
+    /* 0x00 */ char unk00[0x9B];
+    /* 0x9B */ u8 status;
+    /* 0x9C */ char unk9C[0x8];
+} GbpakChannel811023DC; // size = 0xA4
+extern GbpakChannel811023DC D_811561C8[];
+s32 func_811023DC(OSPfs* arg0) {
+    s32 ret = osGbpakGetStatus(arg0, &D_811561C8[arg0->channel].status);
+
+    if (ret == 0) {
+        ret = (D_811561C8[arg0->channel].status & 0xC0) ^ 0x80;
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81102460; signature not recovered. */

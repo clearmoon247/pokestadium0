@@ -774,11 +774,24 @@ void func_82007AF4(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82008044.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_820080B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820080B8.s")
-#endif
+typedef struct Str4_820080B8 {
+    char c[4];
+} Str4_820080B8;
+void func_8002A8C4(s8* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+extern Str4_820080B8 D_8200920C;
+extern Str4_820080B8 D_82009210;
+extern u8 D_8200A0A0[];
+void func_820080B8(s8* arg0, s32 arg1, s32 arg2, s32 arg3) {
+    func_8002A8C4(arg0, arg1, arg2, 0x148, 0x68);
+    M2C_FIELD(arg0, s32*, 0x24) = 0;
+    M2C_FIELD(arg0, s32*, 0x20) = 0;
+    M2C_FIELD(arg0, s32*, 0x28) = 0;
+    M2C_FIELD(arg0, s32*, 0x14) = 0x2806;
+    M2C_FIELD(arg0, Str4_820080B8*, 0x18) = D_8200920C;
+    M2C_FIELD(arg0, Str4_820080B8*, 0x1C) = D_82009210;
+    M2C_FIELD(arg0, u8**, 0x20) = D_8200A0A0;
+    M2C_FIELD(arg0, s32*, 0x4C) = arg3;
+}
 
 void func_8001AB6C(void);
 void func_8001AA9C(u8, u8, u8, u8);
