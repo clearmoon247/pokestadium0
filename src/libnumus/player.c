@@ -427,11 +427,35 @@ s8 *func_80036F30(s8 *arg0, u8 *arg1) {
     return arg1 + 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036F40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036F40.s")
-#endif
+M2C_UNK func_80037828(s32, s32, s32, s32, s32);
+extern s32 D_800B3638;
+extern s8* D_800B3640;
+u8* func_80036F40(s8* cp, u8* ptr) {
+    s32 id = *ptr++;
+    s32 ret;
+    s32 i;
+    s8* p;
+
+    if (id >= 0x80) {
+        id = ((id & 0x7F) << 8) + *ptr++;
+    }
+    ret = func_80037828(id, M2C_FIELD(cp, u8*, 0xCA), M2C_FIELD(cp, s16*, 0xBC), 0, M2C_FIELD(cp, s32*, 0x60)++);
+    M2C_FIELD(cp, s32*, 0x60)--;
+    if (ret == 0) {
+        return ptr;
+    }
+    p = D_800B3640;
+    for (i = 0; i < D_800B3638; i++, p += 0x148) {
+        if (ret == M2C_FIELD(p, s32*, 0x5C)) {
+            M2C_FIELD(p, s32*, 0x5C) = M2C_FIELD(cp, s32*, 0x5C);
+            M2C_FIELD(p, s32*, 0x88) = M2C_FIELD(cp, s32*, 0x88);
+            M2C_FIELD(p, s16*, 0xAA) = M2C_FIELD(cp, s16*, 0xAA);
+            M2C_FIELD(p, s32*, 0x38) = M2C_FIELD(cp, s32*, 0x38);
+            M2C_FIELD(p, s32*, 0x3C) = M2C_FIELD(cp, s32*, 0x3C);
+        }
+    }
+    return ptr;
+}
 
 u8* Audio_SetVoiceVolumeScale(channel_t* cp, u8* ptr) {
     cp->bendrange = (f32)*ptr++ * 0.015625;

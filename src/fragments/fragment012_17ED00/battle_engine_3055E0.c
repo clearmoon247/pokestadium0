@@ -834,11 +834,20 @@ void func_82124544(CameraNode* arg0, ActivePokemon* arg1, f32 arg2, f32 arg3, f3
     BattleScene_SetCameraEyeFromAt(arg0, arg6, BattleScene_GetParticipantFacingAngle(arg1), M2C_FIELD(sBattleScene.scene, f32*, 0x74), 0.0f);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82124664; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124664.s")
-#endif
+extern f32 D_FLT_82196274;
+f32 func_8000F23C(f32, f32, f32, f32);
+void func_8210C1A8(f32*, f32, f32);
+s32 func_82107CC4(s32);
+void func_8212254C(s32, s32, Vec3f, s32, s32, f32, f32);
+void func_82122684(s32, s16, s16, f32, f32);
+void func_82124664(s32 arg0, s32 arg1, s16 arg2) {
+    f32 temp = D_FLT_82196274;
+
+    M2C_FIELD(sBattleScene.scene, f32*, 0x8C) = func_8000F23C(M2C_FIELD(sBattleScene.scene, f32*, 0x98), 2.5f, temp, temp);
+    func_8210C1A8(&sBattleScene.scene->unk_74, sBattleScene.scene->unk_5C, M2C_FIELD(sBattleScene.scene, f32*, 0x8C));
+    func_8212254C(arg1, arg0, sBattleScene.scene->unk_D0, 0, func_82107CC4(arg1), 0.0f, 0.0f);
+    func_82122684(arg0, arg2, func_82107CC4(arg1), sBattleScene.scene->unk_74, 0.0f);
+}
 
 void BattleAnim_GetOwnerModelBoundsScaled(ActivePokemon* arg0, Vec3f* arg1) {
     BattleScene_GetParticipantModelBoundsScaled(arg0, arg1);

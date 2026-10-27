@@ -227,11 +227,31 @@ void func_80004AE0(void) {
     func_80026980();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80004B10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004B10.s")
-#endif
+void func_80004B10(void) {
+    D_800A9710.time = osGetTime();
+    D_800A9710.unk_A34++;
+
+    if ((D_800A9710.unk_A38 > 0) && (D_800A9710.unk_A38 < 0x1E)) {
+        D_800A9710.unk_A38++;
+        if (D_800A9710.unk_A38 == 0x1A) {
+            osAfterPreNMI();
+        }
+    }
+
+    Sched_PromotePendingTasks();
+
+    if (D_800A9710.unk_A18 != NULL) {
+        if (D_800A9710.unk_A14 == NULL) {
+            D_800A9710.unk_A14 = Sched_TryStartTask(D_800A9710.unk_A18);
+        } else {
+            Sched_TryYieldActiveTask();
+        }
+    } else if ((D_800A9710.unk_A1C != NULL) && (D_800A9710.unk_A14 == NULL)) {
+        D_800A9710.unk_A14 = Sched_TryStartTask(D_800A9710.unk_A1C);
+    }
+
+    func_800049E8('VTRE');
+}
 
 void Sched_HandleRspEvent(void) {
     UnkStruct80001380* sp24 = D_800A9710.unk_A14;

@@ -146,11 +146,42 @@ s32 Battle_Effect_Counter(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82111CD4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82111CD4.s")
-#endif
+extern u8 D_82199F32;
+extern u8 D_80065CED[];
+extern u8 D_8218ADEC[];
+s32 func_8210FA2C(s32, u8*, s32);
+s32 func_8210F3F0(void);
+s32 func_82111CD4(void) {
+    UNUSED s32 pad;
+    s32 v;
+
+    D_82199F32 = 0;
+    v = D_80065CED[M2C_FIELD(D_8219A3C0, u8*, 0xB) * 23] >> 1;
+    if (M2C_FIELD(D_8219A3C0, u8*, 0x46) == 0) {
+        return 0;
+    }
+    if (M2C_FIELD(D_8219A3C0, u8*, 0x4D) & 4) {
+        v >>= 1;
+    } else {
+        v <<= 1;
+        if (v >= 0x100) {
+            v = 0xFF;
+        }
+    }
+    if (func_8210FA2C(M2C_FIELD(D_8219A3C0, u8*, 0x44), D_8218ADEC, 4) != 0) {
+        v <<= 2;
+        if (v >= 0x100) {
+            v = 0xFF;
+        }
+    } else {
+        v >>= 1;
+    }
+    if (func_8210F3F0() >= v) {
+        return 0;
+    }
+    D_82199F32 = 1;
+    return 1;
+}
 
 s32 func_82111DC4(void) {
     return 1;

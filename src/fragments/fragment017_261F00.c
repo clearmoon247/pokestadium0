@@ -96,11 +96,37 @@ void func_8A000278(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A000418; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment017_261F00/func_8A000418.s")
-#endif
+extern s32 D_800603C0;
+void func_8000B1FC(void);
+void func_8000B220(void);
+void func_8001B5F0(void);
+void func_80005B98(s32);
+void func_8003F6AC(s32);
+void func_8A0001F0(void);
+s32 func_8A000418(s32 arg0) {
+    s32 ret = 0;
+
+    func_8000B1FC();
+    func_8000B220();
+    func_8001B5F0();
+    if (arg0 == 1) {
+        func_80005B98(8);
+    } else if (arg0 == 0) {
+        if (M2C_FIELD(D_800603C0, u16*, 8) & 0x8000) {
+            func_8003F6AC(2);
+            func_8A000278();
+            ret = 0x8000;
+        } else if (M2C_FIELD(D_800603C0, u16*, 8) & 0x4000) {
+            func_8003F6AC(3);
+            func_80025BA0(((u32) ((s32) &D_88000000 & 0x0FF00000) >> 0x14) - 0x10, &D_00235D70, &D_00238BD0, 0, 0);
+            ret = 0x8000;
+        } else {
+            func_8A0001F0();
+        }
+    }
+    func_8A00009C(arg0);
+    return ret;
+}
 
 M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
 M2C_UNK func_80002620(M2C_UNK);                     /* extern */
@@ -119,7 +145,7 @@ extern M2C_UNK D_002F3BD0;
 extern M2C_UNK D_01000000;
 extern M2C_UNK D_02000000;
 extern s32 D_800603C0;
-extern M2C_UNK func_8A000418;
+s32 func_8A000418(s32);
 
 s32 func_8A000514(s32 arg0, M2C_UNK arg1) {
     func_8000256C(0x424D4E55);

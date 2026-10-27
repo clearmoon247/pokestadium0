@@ -490,7 +490,7 @@ void BattleScene_ResolveDisplayedHpCompletion(CameraNode* arg0) {
 }
 
 M2C_UNK func_82125570();
-M2C_UNK func_8212188C();
+void func_8212188C(void);
 M2C_UNK func_82106220();
 void func_82125594(CameraNode* arg0, s32 arg1);
 M2C_UNK func_821259E8();
@@ -954,11 +954,33 @@ void func_821272C0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82128CDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82128E34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82128E34.s")
-#endif
+M2C_UNK func_82125570();
+void func_8212188C(void);
+M2C_UNK func_82125580();
+void func_8211F034(s32, s32);
+s32 func_82105724(ActivePokemon*, s32);
+extern s32 D_8219A520;
+void func_82104C68(ActivePokemon*, s32);
+void func_82128E34(s32 arg0) {
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            func_82125580();
+            break;
+        case 1:
+            if (func_82105724((ActivePokemon*)D_8219A544, 0x14) != 0) {
+                func_8211F034(D_8219A520 + 0xC8, sBattleScene.scene->unk_2C);
+                func_8212188C();
+                if (sBattleScene.scene->unk_48 == 0x14) {
+                    func_82104C68(sActivePokemon[sBattleScene.scene->unk_2C], 0x16);
+                } else {
+                    func_82104C68(sActivePokemon[sBattleScene.scene->unk_2C], 3);
+                }
+                sBattleScene.scene->unk_20++;
+                func_82125570();
+            }
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82128F2C; signature not recovered. */
@@ -1276,7 +1298,7 @@ void func_82129D10(CameraNode* arg0) {
 
 M2C_UNK func_82106374(s32);                         /* extern */
 f32 func_82107EC8(s32);                             /* extern */
-M2C_UNK func_8212188C();                            /* extern */
+void func_8212188C(void);
 M2C_UNK func_821224F4();                            /* extern */
 M2C_UNK func_82124284(s32, s32, f32);               /* extern */
 M2C_UNK func_821243DC(s32, s32, f32);               /* extern */
@@ -1320,7 +1342,7 @@ void func_82129E30(s32 arg0) {
 #endif
 
 M2C_UNK func_82106374(s32);                         /* extern */
-M2C_UNK func_8212188C();                            /* extern */
+void func_8212188C(void);
 M2C_UNK func_821224F4();                            /* extern */
 M2C_UNK func_82124544(s32, s32, M2C_UNK, M2C_UNK, f32, f32, s32); /* extern */
 M2C_UNK func_82124664(s32, s32, M2C_UNK);           /* extern */
@@ -1483,7 +1505,7 @@ void func_8212A4A4(s8 *arg0) {
 M2C_UNK func_82108C0C(s32);                         /* extern */
 M2C_UNK func_8211EE8C();                            /* extern */
 s32 func_82121820(M2C_UNK);                         /* extern */
-M2C_UNK func_8212188C();                            /* extern */
+void func_8212188C(void);
 M2C_UNK func_8212189C();                            /* extern */
 M2C_UNK func_82124A40();                            /* extern */
 M2C_UNK func_82125570();                            /* extern */

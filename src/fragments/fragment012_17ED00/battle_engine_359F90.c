@@ -195,11 +195,30 @@ void Battle_DecrementPP(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110890; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110890.s")
-#endif
+extern s8 *D_8219A3C0;
+extern s8 *D_8219A3C4;
+extern u8 D_8218AC34[][2];
+void func_82110890(void) {
+
+    s32 idx = ((u8*)D_8219A3C0)[0x60];
+    s32 i;
+    s32 v;
+
+    i = ((u8*)D_8219A3C4)[0x61];
+    i = 14 - i;
+    v = ((u8*)D_8219A3C0)[0x48] * D_8218AC34[idx - 1][0] / D_8218AC34[idx - 1][1];
+    if (v == 0) {
+        v = 1;
+    }
+    v = v * D_8218AC34[i - 1][0] / D_8218AC34[i - 1][1];
+    if (v == 0) {
+        v = 1;
+    }
+    if (v >= 0x100) {
+        v = 0xFF;
+    }
+    ((u8*)D_8219A3C0)[0x48] = v;
+}
 
 extern s8 D_82199F31;
 extern s16 D_82199F50;

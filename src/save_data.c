@@ -389,11 +389,31 @@ s32 func_800246C8(s32 arg0, s32 arg1) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002479C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002479C.s")
-#endif
+s32 func_800246A8(s32, s32);
+s32 func_8002479C(s32 arg0, s32 arg1, u8* arg2) {
+    s32 ret = 0;
+    s32 src;
+
+    *arg2 = 0;
+    if (func_800246A8(arg0, arg1) != 0) {
+        src = 0;
+        switch (arg0) {
+            case 16:
+                src = (*(s32*)&D_800AE8E0) + (arg1 * 0x250) + 2;
+                break;
+            case 17:
+                src = (*(s32*)&D_800AE8E0) + (arg1 * 0xAC0) + 0x2502;
+                break;
+            case 18:
+                src = (*(s32*)&D_800AE8E0) + (arg1 * 0x1C0) + 0x5002;
+                break;
+        }
+        if (src != 0) {
+            ret = func_8001FB10((s32)arg2, src);
+        }
+    }
+    return ret;
+}
 
 s32 func_800246A8(s32, s32);
 s32 func_8002488C(s32 arg0, s32 arg1, u8* arg2) {
