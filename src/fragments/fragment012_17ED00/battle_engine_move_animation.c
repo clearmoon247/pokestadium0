@@ -1005,11 +1005,23 @@ void func_82105140(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821051B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821051B0.s")
-#endif
+void func_82101C24(ActivePokemon*, s32);
+void func_821051B0(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad[2];
+    s32 side;
+
+    if (active_pokemon == sActivePokemon[0]) {
+        side = 0;
+    } else {
+        side = 1;
+    }
+    if (D_8219A74C == M2C_FIELD(active_pokemon, s32*, 0x620)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            func_82101C24(sActivePokemon[side], M2C_FIELD(active_pokemon, u8*, 0x820));
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210524C; signature not recovered. */

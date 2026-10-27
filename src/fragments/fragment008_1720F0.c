@@ -202,11 +202,16 @@ void func_88100CA8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100D30.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100D9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100D9C.s")
-#endif
+typedef struct Color88100D9C {
+    u8 c[4];
+} Color88100D9C;
+extern Gfx D_80060270[];
+void func_80029028(s32, s32, s32, s32, Color88100D9C);
+void func_88100D9C(s32 arg0, s32 arg1, Color88100D9C arg2) {
+    gSPDisplayList(gDisplayListHead++, D_80060270);
+    func_80029028(arg0, arg1, 0x214, 1, arg2);
+    func_80029028(arg0, arg1 + 0x63, 0x214, 1, arg2);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88100E34; signature not recovered. */

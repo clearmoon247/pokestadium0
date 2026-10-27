@@ -321,11 +321,33 @@ void Particle31_ResetAllSlots(DisplayObject* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112CE8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81112D68; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81112D68.s")
-#endif
+typedef struct Particle2D68 {
+    u8 b80 : 1;
+    u8 b40 : 1;
+    char pad01[0x1E - 1];
+    s16 unk_1E;
+    char pad20[0x50 - 0x20];
+    s8* unk_50[4];
+    s32 unk_60;
+    char pad64[0x78 - 0x64];
+    u8 unk_78;
+} Particle2D68;
+
+void func_81112D68(Particle2D68** arg0, u8 arg1, s32 arg2) {
+    Particle2D68* p = arg0[arg1 + 13];
+    s32 i;
+
+    p->unk_78 = 0;
+    p->unk_60 = arg2;
+    p->b80 = 1;
+    p->b40 = 0;
+    p->unk_1E = 0;
+    for (i = 0; i < 4; i++) {
+        if (p->unk_50[i] != NULL) {
+            func_81112B34((s8**)p, i);
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81112E00; signature not recovered. */

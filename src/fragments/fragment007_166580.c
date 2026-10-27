@@ -75,11 +75,34 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82000AC4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82000BC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82000BC4.s")
-#endif
+typedef struct Color82000BC4 {
+    u8 r, g, b, a;
+} Color82000BC4;
+typedef struct Entry80066AD8 {
+    const char* str;
+    Color82000BC4 color;
+} Entry80066AD8;
+extern Entry80066AD8 D_80066AD8[];
+s32 func_8002D498(s32, s32);
+void func_8001AB6C(void);
+void func_8001A384(s32, s32);
+void func_8001ABBC(void);
+void func_8001AA9C(u8, u8, u8, u8);
+void func_8001A944(s32, s32, const char*, ...);
+
+void func_82000BC4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    Color82000BC4 c;
+    s32 idx = func_8002D498(arg2, arg3);
+
+    if (idx != -1) {
+        c = D_80066AD8[idx].color;
+        func_8001AB6C();
+        func_8001A384(8, 0);
+        func_8001AA9C(c.r, c.g, c.b, c.a);
+        func_8001A944(arg0, arg1, D_80066AD8[idx].str);
+        func_8001ABBC();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82000C5C; signature not recovered. */
@@ -163,11 +186,16 @@ s32 func_820012B4(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82001C60.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82001CCC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82001CCC.s")
-#endif
+typedef struct Color82001CCC {
+    u8 c[4];
+} Color82001CCC;
+extern Gfx D_80060270[];
+void func_80029028(s32, s32, s32, s32, Color82001CCC);
+void func_82001CCC(s32 arg0, s32 arg1, Color82001CCC arg2) {
+    gSPDisplayList(gDisplayListHead++, D_80060270);
+    func_80029028(arg0, arg1, 0x214, 1, arg2);
+    func_80029028(arg0, arg1 + 0x63, 0x214, 1, arg2);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82001D64; signature not recovered. */
@@ -847,11 +875,33 @@ void func_8200813C(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820082EC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82008488; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82008488.s")
-#endif
+s32 func_8002B390(s32);
+s32 func_8002BC14(s32);
+M2C_UNK func_8003F6AC(M2C_UNK);
+
+s32 func_82008488(s8* arg0) {
+    s32 ret = 0;
+    s32 temp_v0;
+
+    if (func_8002B390(arg0 + 0xA4) == 0) {
+        temp_v0 = func_8002BC14(M2C_FIELD(arg0, s32*, 0xB4));
+        if (temp_v0 == -1) {
+            func_8003F6AC(3);
+            ret = -1;
+        } else if (temp_v0 == 1) {
+            switch (M2C_FIELD(arg0, s32*, 0xA8)) {
+                case 0:
+                    ret = 1;
+                    break;
+                case 1:
+                    func_8003F6AC(3);
+                    ret = -1;
+                    break;
+            }
+        }
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82008524; signature not recovered. */
@@ -865,11 +915,33 @@ void func_8200813C(s8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82008640.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_820087D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820087D4.s")
-#endif
+s32 func_8002B390(s32);
+s32 func_8002BC14(s32);
+M2C_UNK func_8003F6AC(M2C_UNK);
+
+s32 func_820087D4(s8* arg0) {
+    s32 ret = 0;
+    s32 temp_v0;
+
+    if (func_8002B390(arg0 + 0xA4) == 0) {
+        temp_v0 = func_8002BC14(M2C_FIELD(arg0, s32*, 0xB0));
+        if (temp_v0 == -1) {
+            func_8003F6AC(3);
+            ret = -1;
+        } else if (temp_v0 == 1) {
+            switch (M2C_FIELD(arg0, s32*, 0xA8)) {
+                case 0:
+                    ret = 1;
+                    break;
+                case 1:
+                    func_8003F6AC(3);
+                    ret = -1;
+                    break;
+            }
+        }
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82008870; signature not recovered. */
