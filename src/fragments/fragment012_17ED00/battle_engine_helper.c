@@ -192,11 +192,22 @@ void BattleScene_GetParticipantModelPosition(ActivePokemon* pokemon, Vec3f* dest
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107D24.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107DDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107DDC.s")
-#endif
+f32 func_8210791C(ActivePokemon*);
+f32 func_82107EC8(ActivePokemon*);
+void func_82107DDC(ActivePokemon* active_pokemon, Vec3f* out) {
+    if (D_FLT_82189354[active_pokemon->displayObject.objectType][0] != 0.0f) {
+        out->x = func_8210791C(active_pokemon);
+        out->y = active_pokemon->displayObject.position.y;
+        out->z = 0.0f;
+    } else {
+        out->x = func_8210791C(active_pokemon);
+        out->y = func_82107EC8(active_pokemon) + active_pokemon->displayObject.position.y;
+        out->z = 0.0f;
+    }
+    if (out->y < 0.0f) {
+        out->y = func_82107EC8(active_pokemon);
+    }
+}
 
 void func_82107EA0(s8 *arg0, s8 *arg1) {
     M2C_FIELD(arg1, f32 *, 0) = (f32) M2C_FIELD(arg0, f32 *, 0x648);

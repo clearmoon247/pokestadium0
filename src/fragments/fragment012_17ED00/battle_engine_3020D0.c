@@ -144,11 +144,26 @@ void func_8211EF74(s8* arg0, s8 id, s8* arg1, ...) {
     arg0[len] = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F034; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F034.s")
-#endif
+void func_8211EE8C(void);
+void func_8211EEC0(void*, s8*);
+void func_80042A6C(s32);
+void func_80042FF8(s32);
+extern void* D_8219A520;
+
+void func_8211F034(s8* arg0, s32 side) {
+    ActivePokemon* ap;
+
+    func_8211EE8C();
+    ap = sActivePokemon[side];
+    *(u8*)D_8219A520 = (*(u8***)((u8*)ap + 0x85C))[*(s32*)((u8*)ap + 0x9D4) + 2][1];
+    func_8211EEC0((u8*)D_8219A520 + 0x48, arg0 + 1);
+    if (!(arg0[0] & 0x80)) {
+        func_80042A6C(arg0[0] & 0x7F);
+    } else {
+        func_80042FF8(arg0[0] & 0x7F);
+    }
+    arg0[0] = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211F0DC; signature not recovered. */

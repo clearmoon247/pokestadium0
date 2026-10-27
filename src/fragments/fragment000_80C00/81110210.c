@@ -17,11 +17,47 @@ void func_81110E3C(Particle*, s32);
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811105DC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81110694; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81110694.s")
-#endif
+typedef struct Copy18 {
+    s32 w[6];
+} Copy18;
+typedef struct Inner0694 {
+    char pad00[0x80];
+    s32 unk_80;
+} Inner0694;
+typedef struct Def0694 {
+    char pad00[0x18];
+    u8 unk_18;
+    s32 unk_1C;
+    char pad20[0x54 - 0x20];
+    Inner0694* unk_54;
+} Def0694;
+typedef struct Obj0694 {
+    char pad00[0x34];
+    u8 unk_34;
+    char pad35;
+    char unk_36[0x44 - 0x36];
+    Def0694* unk_44;
+    char pad48[0x5C - 0x48];
+    u8 unk_5C;
+    u8 unk_5D;
+    char pad5E[0xB4 - 0x5E];
+    Copy18 unk_B4;
+} Obj0694;
+extern Copy18 D_811369C0;
+void func_8111235C(u8*, s32, char*);
+
+void func_81110694(Obj0694* arg0) {
+    Def0694* def = arg0->unk_44;
+
+    if (def->unk_18 == 0) {
+        func_8111235C(&arg0->unk_5C, def->unk_54->unk_80, arg0->unk_36);
+    } else {
+        func_8111235C(&arg0->unk_5C, def->unk_1C, arg0->unk_36);
+    }
+    arg0->unk_34 = 0;
+    arg0->unk_5D = 1;
+    arg0->unk_B4 = D_811369C0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8111073C; signature not recovered. */

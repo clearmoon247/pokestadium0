@@ -1140,11 +1140,24 @@ void func_8210568C(ActivePokemon* active_pokemon, s32 cue_index, s32 event_state
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105724; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105724.s")
-#endif
+s32 func_821217DC(s32);
+s32 func_8001101C(ActivePokemon*, s32);
+s32 func_82105724(ActivePokemon* arg0, s32 arg1) {
+    u8* p = (u8*)(*(s32*)((u8*)arg0 + 0x9D0) * 0x50 + *(s32*)((u8*)arg0 + 0x860)) + 0x1C;
+
+    if ((*(volatile u16*)((u8*)arg0 + 0x7C2) & 2) || (p[5] & 7) ||
+        ((*(u16*)((u8*)arg0 + 0x7C2) & 0x200) && !(*(u16*)((u8*)arg0 + 0x7C2) & 0x400)) ||
+        (*(u16*)((u8*)arg0 + 0x7C2) & 0x4000)) {
+        if (func_821217DC(arg1) != 0) {
+            return 1;
+        }
+        return 0;
+    }
+    if (*(s16*)((u8*)arg0 + 0x40) == -1) {
+        return 1;
+    }
+    return func_8001101C(arg0, arg1);
+}
 
 s32 BattleScene_IsRowWaitCompleteWithEventCount(ActivePokemon* active_pokemon, s32 frame_limit) {
     UNUSED u8 unused_value;

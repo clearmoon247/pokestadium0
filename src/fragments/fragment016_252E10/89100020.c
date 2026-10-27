@@ -83,11 +83,34 @@ void func_891000BC(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89100914.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89100F1C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89100F1C.s")
-#endif
+typedef struct Color82000BC4 {
+    u8 r, g, b, a;
+} Color82000BC4;
+typedef struct Entry80066AD8 {
+    const char* str;
+    Color82000BC4 color;
+} Entry80066AD8;
+extern Entry80066AD8 D_80066AD8[];
+s32 func_8002D498(u8*, s32);
+M2C_UNK func_8001A384(M2C_UNK, M2C_UNK);
+M2C_UNK func_8001A944(s32, s32, M2C_UNK *);
+M2C_UNK func_8001AA9C(u8, u8, u8, u8);
+M2C_UNK func_8001AB6C();
+M2C_UNK func_8001ABBC();
+
+void func_89100F1C(s32 arg0, s32 arg1, u8* arg2, s32 arg3) {
+    Color82000BC4 c;
+    s32 idx;
+
+    if ((*arg2 > 0) && (*arg2 < 0x98) && ((idx = func_8002D498(arg2, arg3)) != -1)) {
+        c = D_80066AD8[idx].color;
+        func_8001AB6C();
+        func_8001A384(4, 0);
+        func_8001AA9C(c.r, c.g, c.b, c.a);
+        func_8001A944(arg0, arg1, (M2C_UNK*)D_80066AD8[idx].str);
+        func_8001ABBC();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89100FC4; signature not recovered. */
@@ -326,11 +349,31 @@ void func_89102A04(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89102EC8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89102FBC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89102FBC.s")
-#endif
+s32 func_89107614(s8*);
+void func_89107850(s8*, s8*);
+s32 func_89102FBC(s8* arg0) {
+    s8* sp24 = arg0 + 0x9920;
+    s32 ret = func_89107614(sp24);
+
+    if (ret == -1) {
+        M2C_FIELD(arg0, s32*, 0x88) = 0;
+    } else if (ret == 1) {
+        func_89107850(sp24, arg0 + 0x9918);
+        if (M2C_FIELD(arg0, s32*, 0x9918) == 0) {
+            func_89101D64(arg0, 2);
+        } else {
+            func_89101D54(arg0, 2);
+        }
+        func_89101D94(arg0);
+        M2C_FIELD(arg0, s32*, 0x88) = 0;
+    } else if (ret == 2) {
+        M2C_FIELD(arg0, s32*, 0x9918) = 0;
+        func_89101D64(arg0, 2);
+        func_89101D94(arg0);
+        M2C_FIELD(arg0, s32*, 0x88) = 0;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89103080; signature not recovered. */

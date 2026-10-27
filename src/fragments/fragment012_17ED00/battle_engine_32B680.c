@@ -29,11 +29,17 @@ void BattleScene_SelectNextIntroCameraShot(CameraNode* arg0);
 void func_8211F580(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F588; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F588.s")
-#endif
+extern f32 D_FLT_8218935C[][4];
+s32 func_8211F588(void) {
+    if ((D_FLT_8218935C[M2C_FIELD(sActivePokemon[0], s16*, 0x1A) - 1][1] + D_FLT_8218935C[M2C_FIELD(sActivePokemon[1], s16*, 0x1A) - 1][1] <= 85.0f) &&
+        (D_FLT_8218935C[M2C_FIELD(sActivePokemon[0], s16*, 0x1A) - 1][2] == 0.0f) &&
+        (D_FLT_8218935C[M2C_FIELD(sActivePokemon[1], s16*, 0x1A) - 1][2] == 0.0f) &&
+        (M2C_FIELD(sActivePokemon[0], f32*, 0x28) == 0.0f) &&
+        (M2C_FIELD(sActivePokemon[1], f32*, 0x28) == 0.0f)) {
+        return 1;
+    }
+    return 0;
+}
 
 s32 BattleScene_SkipIntroIfFainted(UNUSED ActivePokemon* arg0, CameraNode* arg1) {
     ActivePokemonState* ptr = &sActivePokemon[sBattleScene.scene->unk_2C]->state;

@@ -173,11 +173,11 @@ void ParticleGfx_SetEnvColor(u8 r, u8 g, u8 b, u8 a) {
     gDPSetEnvColor(gDisplayListHead++, r, g, b, a);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82169200; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82169200.s")
-#endif
+void func_82169200(u8 arg0, u8 arg1, u8 arg2, u8 arg3, u8 arg4, u8 arg5, u8 arg6) {
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, arg0, arg1, arg2, arg6);
+    gDPSetEnvColor(gDisplayListHead++, arg3, arg4, arg5, 0);
+}
 
 void ParticleGfx_SetPrimEnvColorCombine(u8 prim_r, u8 prim_g, u8 prim_b, u8 env_r, u8 env_g, u8 env_b, u8 prim_a) {
     gDPPipeSync(gDisplayListHead++);
