@@ -1496,11 +1496,18 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821065B4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82106AC0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106AC0.s")
-#endif
+void func_82106AC0(ActivePokemon* arg0) {
+    u8* p = (u8*)(*(s32*)((u8*)arg0 + 0x9D0) * 0x50 + *(s32*)((u8*)arg0 + 0x860)) + 0x1C;
+
+    if (p[5] & 0x20) {
+        ((u8*)arg0)[2] &= ~0x20;
+    }
+    if (p[5] & 0x20) {
+        func_821366B0(1, arg0);
+        ((u8*)arg0)[2] &= ~0x20;
+        func_82105E38((s8*)arg0, 2);
+    }
+}
 
 void func_821366B0(u8 category, ActivePokemon* owner);
 

@@ -856,11 +856,19 @@ void func_82126E34(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82126EE0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126EE0.s")
-#endif
+s32 func_821217DC(s32);
+void func_8000EEBC(s8*, s8*, f32, s32, s32);
+void func_82126EE0(CameraNode* arg0) {
+    func_821255B4((s8*)arg0);
+    func_82124A40();
+    func_8211EE8C();
+    func_821224F4();
+    M2C_FIELD(D_8219A5A0, f32*, 0x74) = 0.0f;
+    if (func_821217DC(0xA) != 0) {
+        M2C_FIELD(D_8219A5A0, s32*, 0x20)++;
+    }
+    func_8000EEBC((s8*)arg0 + 0xB4, (s8*)arg0 + 0xA8, M2C_FIELD(D_8219A5A0, f32*, 0x5C), M2C_FIELD(D_8219A5A0, s16*, 0x58), M2C_FIELD(D_8219A5A0, s16*, 0x5A));
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82126F70; signature not recovered. */

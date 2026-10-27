@@ -32,11 +32,27 @@ void func_821336E4(UNUSED s32 arg0);
 void func_82132E20(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132E28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132E28.s")
-#endif
+void func_821247F0(s32, s32);
+void func_82124810(s32, s32);
+void func_82124830(s32, s32);
+void func_82124874(s32, s32);
+
+void func_82132E28(s32 arg0, s32 arg1, s32 arg2) {
+    switch (arg2) {
+        case 0:
+            func_821247F0(arg1, arg0);
+            break;
+        case 1:
+            func_82124810(arg1, arg0);
+            break;
+        case 2:
+            func_82124830(arg1, arg0);
+            break;
+        case 3:
+            func_82124874(arg1, arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82132EB4; signature not recovered. */

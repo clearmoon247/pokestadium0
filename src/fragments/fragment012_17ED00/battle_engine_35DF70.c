@@ -101,11 +101,22 @@ void Battle_Effect_OHKO(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82114D10.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82114F9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82114F9C.s")
-#endif
+extern u8* D_8219A3C0;
+extern u8* D_8219A3C4;
+s32 func_8210F3F0(void);
+void func_82114F9C(void) {
+    s32 v;
+
+    if (!(D_8219A3C0[0x4C] & 0x20)) {
+        D_8219A3C4[0x4D] &= ~0x20;
+        D_8219A3C0[0x4C] |= 0x20;
+        v = func_8210F3F0() & 3;
+        if (v >= 2) {
+            v = func_8210F3F0() & 3;
+        }
+        D_8219A3C0[0x4F] = v + 1;
+    }
+}
 
 extern s32 D_8218C890;
 extern s32 D_8218C894;

@@ -86,17 +86,35 @@ void BattleScene_InitializeBattlePresentation(CameraNode* arg0) {
     sBattleScene.scene->unk_20++;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211FA34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211FA34.s")
-#endif
+s32 func_8211F644(ActivePokemon*, CameraNode*);
+void func_82104C68(ActivePokemon*, s32);
+void func_8211FA34(CameraNode* arg0) {
+    ActivePokemon* pokemon;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211FAC4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211FAC4.s")
-#endif
+    func_821224F4(arg0);
+    func_82121D78(arg0, 20.0f, 4000.0f);
+    func_8212187C(0);
+    pokemon = sActivePokemon[sBattleScene.scene->unk_2C];
+    if (func_8211F644(pokemon, arg0) == 0) {
+        func_821351F8(arg0, pokemon);
+        func_82104C68(pokemon, 0x10);
+        sBattleScene.scene->unk_20++;
+    }
+}
+
+void func_8211FAC4(CameraNode* arg0) {
+    ActivePokemon* pokemon;
+
+    func_821224F4(arg0);
+    func_82121D78(arg0, 20.0f, 4000.0f);
+    func_8212187C(1);
+    pokemon = sActivePokemon[sBattleScene.scene->unk_2C];
+    if (func_8211F644(pokemon, arg0) == 0) {
+        func_821351F8(arg0, pokemon);
+        func_82104C68(pokemon, 0x10);
+        sBattleScene.scene->unk_20++;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211FB54; signature not recovered. */
