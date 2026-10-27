@@ -9,11 +9,38 @@
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82000020.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82000058; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82000058.s")
-#endif
+typedef struct Entry82000058 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x50];
+} Entry82000058; // size = 0x54
+s32 func_80020AFC(s32, s32, s32, s32);
+s32 func_80020CE4(void*, s32, s32);
+void func_80020C60(s32);
+void func_800207F8(u8*);
+extern u8 D_80065D00[];
+
+s32 func_82000058(s32 arg0, s32 arg1, s32 arg2, Entry82000058* entry) {
+    s32 handle = func_80020AFC(arg0, arg1, arg2, 0);
+    s32 i;
+    u8* row;
+    s32 idx;
+
+    for (i = 0; i < 6; i++, entry++) {
+        if (func_80020CE4(entry->unk_04, 1, handle) == 0) {
+            break;
+        }
+        if ((entry->unk_04[0] > 0) && (entry->unk_04[0] < 0x98)) {
+            func_800207F8(entry->unk_04);
+            idx = entry->unk_04[0] - 1;
+            row = &D_80065D00[idx * 0x17];
+            entry->unk_04[6] = row[6];
+            entry->unk_04[7] = row[7];
+            entry->unk_00 = 0;
+        }
+    }
+    func_80020C60(handle);
+    return i;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82000140; signature not recovered. */

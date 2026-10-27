@@ -239,11 +239,22 @@ void BattleScene_IntroCameraRollStepNoFov(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82120C44.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82120D94; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82120D94.s")
-#endif
+void func_821206F4(CameraNode*);
+s32 func_82135734(CameraNode*, ActivePokemon*);
+s32 func_821217DC(M2C_UNK);
+void func_82120D94(CameraNode* arg0) {
+    ActivePokemonState* st = &sActivePokemon[sBattleScene.scene->unk_2C]->state;
+
+    if ((st->unk_2D == 0x10) || (st->flags & 0x4000)) {
+        func_821206F4(arg0);
+    } else if (sBattleScene.scene->unk_1C == 9) {
+        if (func_82135734(arg0, sActivePokemon[sBattleScene.scene->unk_2C]) != 0) {
+            func_821206F4(arg0);
+        }
+    } else if ((func_821217DC(0x5A) != 0) || (func_82135734(arg0, sActivePokemon[sBattleScene.scene->unk_2C]) != 0)) {
+        func_821206F4(arg0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82120E70; signature not recovered. */
@@ -263,7 +274,7 @@ void BattleScene_IntroCameraRollStepNoFov(CameraNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821210E4.s")
 #endif
 
-void func_82135734(CameraNode*, ActivePokemon*);
+s32 func_82135734(CameraNode*, ActivePokemon*);
 void func_8212188C(void);
 void func_8212116C(CameraNode* arg0) {
     func_82135734(arg0, sActivePokemon[sBattleScene.scene->unk_2C]);

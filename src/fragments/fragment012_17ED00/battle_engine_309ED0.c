@@ -1120,17 +1120,59 @@ void func_8212954C(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212960C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212960C.s")
-#endif
+void func_821292FC(CameraNode*);
+void func_8212960C(CameraNode* arg0) {
+    if (sBattleScene.scene->unk_3C == 0) {
+        D_8219A568 = BattleAnim_RandomRange(4);
+        if (D_8219A568 >= 5) {
+            D_8219A568 = 0;
+        }
+    }
+    switch (D_8219A568) {
+        case 0:
+            func_82128FBC(arg0);
+            break;
+        case 1:
+            func_821290CC(arg0);
+            break;
+        case 2:
+            func_821291E4(arg0);
+            break;
+        case 3:
+            func_821292FC(arg0);
+            break;
+        default:
+            func_82128FBC(arg0);
+            break;
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821296E4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821296E4.s")
-#endif
+void func_82129414(CameraNode*);
+void func_821296E4(CameraNode* arg0) {
+    if (sBattleScene.scene->unk_3C == 0) {
+        D_8219A568 = BattleAnim_RandomRange(4);
+        if (D_8219A568 >= 5) {
+            D_8219A568 = 0;
+        }
+    }
+    switch (D_8219A568) {
+        case 0:
+            func_82128FBC(arg0);
+            break;
+        case 1:
+            func_821290CC(arg0);
+            break;
+        case 2:
+            func_821291E4(arg0);
+            break;
+        case 3:
+            func_82129414(arg0);
+            break;
+        default:
+            func_82128FBC(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821297BC; signature not recovered. */
@@ -1341,11 +1383,32 @@ void func_8212A190(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212A250; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212A250.s")
-#endif
+void func_82129F5C(CameraNode*);
+void func_8212A250(CameraNode* arg0) {
+    if (sBattleScene.scene->unk_3C == 0) {
+        D_8219A568 = BattleAnim_RandomRange(4);
+        if (D_8219A568 >= 5) {
+            D_8219A568 = 0;
+        }
+    }
+    switch (D_8219A568) {
+        case 0:
+            func_82129C1C(arg0);
+            break;
+        case 1:
+            func_82129D10(arg0);
+            break;
+        case 2:
+            func_82129E30((s32)arg0);
+            break;
+        case 3:
+            func_82129F5C(arg0);
+            break;
+        default:
+            func_82129C1C(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.

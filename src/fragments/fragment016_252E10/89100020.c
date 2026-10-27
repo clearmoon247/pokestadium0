@@ -375,11 +375,31 @@ s32 func_89102FBC(s8* arg0) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89103080; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89103080.s")
-#endif
+s32 func_89107EC4(s8*);
+void func_89108108(s8*, s8*);
+s32 func_89103080(s8* arg0) {
+    s8* sp24 = arg0 + 0x9B08;
+    s32 ret = func_89107EC4(sp24);
+
+    if (ret == -1) {
+        M2C_FIELD(arg0, s32*, 0x88) = 0;
+    } else if (ret == 1) {
+        func_89108108(sp24, arg0 + 0x9B00);
+        if (M2C_FIELD(arg0, s32*, 0x9B04) == 0) {
+            func_89101D64(arg0, 4);
+        } else {
+            func_89101D54(arg0, 4);
+        }
+        func_89101D94(arg0);
+        M2C_FIELD(arg0, s32*, 0x88) = 0;
+    } else if (ret == 2) {
+        M2C_FIELD(arg0, s32*, 0x9B04) = 0;
+        func_89101D64(arg0, 4);
+        func_89101D94(arg0);
+        M2C_FIELD(arg0, s32*, 0x88) = 0;
+    }
+    return 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89103144; signature not recovered. */

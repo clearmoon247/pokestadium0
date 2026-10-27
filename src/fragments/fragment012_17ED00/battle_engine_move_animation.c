@@ -770,11 +770,28 @@ void BattleScene_Row13PlaySequences14And21(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104038.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82104120; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104120.s")
-#endif
+typedef struct Cue8218A7D8 {
+    s32 unk_00;
+    char pad04[0x28];
+} Cue8218A7D8;
+extern f32 D_FLT_82189354[];
+extern s32 D_8219A74C;
+extern Cue8218A7D8 D_8218A7D8[];
+void func_82101B18(ActivePokemon*, s32);
+void func_82104120(ActivePokemon* active_pokemon) {
+    if ((((f32(*)[4])D_FLT_82189354)[M2C_FIELD(active_pokemon, u16*, 0x1A)][0] != 0.0f) && (M2C_FIELD(active_pokemon, u16*, 0x1A) != 0x16) && (M2C_FIELD(active_pokemon, u16*, 0x1A) != 0x52) && (M2C_FIELD(active_pokemon, u16*, 0x1A) != 0x8E)) {
+        sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        return;
+    }
+    if (D_8219A74C == M2C_FIELD(active_pokemon, s32*, 0x620)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            s32 idx = M2C_FIELD(active_pokemon, s32*, 0x61C);
+
+            func_82101B18(active_pokemon, D_8218A7D8[idx].unk_00);
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 typedef struct { f32 v; f32 pad[3]; } RestHeightRow2;
 extern f32 D_FLT_82189354[];

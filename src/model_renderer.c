@@ -124,11 +124,44 @@ ModelAnimationBank* ModelAnim_GetAnimationRecord(DisplayObject* arg0, s32 arg1) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019BDC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80019D08; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80019D08.s")
-#endif
+typedef struct IconLoader19D08 {
+    u8 flags;
+    char pad01[0x17];
+    s32 loadedModel;
+} IconLoader19D08;
+typedef struct Obj80019D08 {
+    u8 flags;
+    u16 unk_02;
+    BattleMon* unk_04;
+    char pad08[8];
+    IconLoader19D08* unk_10;
+    s32 unk_14;
+} Obj80019D08;
+s32 func_80005014(void);
+void func_8001799C(IconLoader19D08*, u16, arg1_func_80010CA8);
+void func_80017D00(IconLoader19D08*);
+
+void func_80019D08(Obj80019D08* arg0) {
+    arg1_func_80010CA8 sp24;
+
+    sp24.raw = 0;
+    if (!(arg0->flags & 0x40) && (arg0->flags & 0x80)) {
+        if (arg0->unk_04 != NULL) {
+            Model_ComputeSizeVariant(&sp24, arg0->unk_04);
+        }
+        if (!(arg0->unk_10->flags & 4)) {
+            while (func_80005014() != 0) {}
+        }
+        func_8001799C(arg0->unk_10, arg0->unk_02, sp24);
+        arg0->flags |= 0x40;
+        arg0->flags &= ~0x10;
+        if (arg0->flags & 0x20) {
+            func_80017D00(arg0->unk_10);
+            arg0->unk_14 = arg0->unk_10->loadedModel;
+            arg0->flags &= ~0xE0;
+        }
+    }
+}
 
 void PokeIcon_PollFrameLoadForObject(unk_func_8001C248* arg0) {
     if (PokeIcon_PollFrameLoad(arg0->node.callback)) {

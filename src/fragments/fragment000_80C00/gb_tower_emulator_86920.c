@@ -572,11 +572,19 @@ void func_8110CEC0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CF24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CF24.s")
-#endif
+extern u8* D_811858A8;
+void func_8110CF24(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    s32 off;
+    s32 count;
+
+    off = ((u16*)D_811858A8)[func_8110D7B0(0, arg0)];
+    count = *(off + D_811858A8);
+    off++;
+    while (count > 0) {
+        func_8110DCC0(1, func_8110D7B0(1, D_811858A8[off++]), arg1, arg2, arg3);
+        count--;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110CFEC; signature not recovered. */
