@@ -27,7 +27,7 @@ func_8002EDA8,0x8002EDA8,src/2E480.c,,asm,,asm
 func_8002F030,0x8002F030,src/2E480.c,,asm,,asm
 func_8002F32C,0x8002F32C,src/2E480.c,,asm,,asm
 func_8002F3C4,0x8002F3C4,src/2E480.c,,asm,,asm
-func_8002F6C4,0x8002F6C4,src/2E480.c,,asm,,asm
+func_8002F6C4,0x8002F6C4,src/2E480.c,func_8002F6C4,hand,,c
 func_8002F9D8,0x8002F9D8,src/2E480.c,,asm,,asm
 func_8002FD8C,0x8002FD8C,src/2E480.c,,asm,,asm
 func_80030230,0x80030230,src/2E480.c,,asm,,asm
@@ -2184,8 +2184,8 @@ func_8212C78C,0x8212C78C,src/fragments/fragment012_17ED00/battle_engine_3438B0.c
 func_8212C874,0x8212C874,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212C874,hand,,c
 func_8212CB58,0x8212CB58,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212CF90,0x8212CF90,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212CF90,hand,,c
-func_8212D194,0x8212D194,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
-func_8212D504,0x8212D504,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
+func_8212D194,0x8212D194,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212D194,hand,,asm
+func_8212D504,0x8212D504,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212D504,hand,,asm
 func_8212D820,0x8212D820,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212D820,hand,,c
 func_8212DB28,0x8212DB28,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212DD14,0x8212DD14,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
@@ -4282,7 +4282,7 @@ func_8002A0AC,0x8002A0AC,src/gb_save.c,,asm,,asm
 func_8002A32C,0x8002A32C,src/gb_save.c,,asm,,asm
 func_8002A354,0x8002A354,src/gb_save.c,func_8002A354,hand,,c
 func_8002A3F8,0x8002A3F8,src/gb_save.c,,asm,,asm
-func_8002A550,0x8002A550,src/gb_save.c,,asm,,asm
+func_8002A550,0x8002A550,src/gb_save.c,func_8002A550,hand,,c
 func_8002A8C4,0x8002A8C4,src/gb_save.c,func_8002A8C4,m2c,m2c+permuter,c
 func_8002A8E0,0x8002A8E0,src/gb_save.c,,asm,,asm
 func_8002AAC4,0x8002AAC4,src/gb_save.c,,asm,,asm
@@ -4568,10 +4568,10 @@ func_8001C058,0x8001C058,src/input.c,Gfx_DrawTextureI4,hand,,c
 func_8001C22C,0x8001C22C,src/input.c,Gfx_DrawTextureI8,hand,,c
 func_8001C400,0x8001C400,src/input.c,Gfx_DrawTextureI16,hand,,c
 func_8001C5D0,0x8001C5D0,src/input.c,Gfx_DrawTextureRgba16Ia8,hand,,c
-func_8001C97C,0x8001C97C,src/input.c,,asm,,asm
-func_8001CC90,0x8001CC90,src/input.c,,asm,,asm
-func_8001CE20,0x8001CE20,src/input.c,,asm,,asm
-func_8001D148,0x8001D148,src/input.c,,asm,,asm
+func_8001C97C,0x8001C97C,src/input.c,func_8001C97C,hand,,c
+func_8001CC90,0x8001CC90,src/input.c,func_8001CC90,hand,,c
+func_8001CE20,0x8001CE20,src/input.c,func_8001CE20,hand,,c
+func_8001D148,0x8001D148,src/input.c,func_8001D148,hand,,c
 func_80009E60,0x80009E60,src/jpeg_decoder.c,Jpeg_DecodeMcus,s1,stadium1:src/jpeg_decoder.c,c
 func_8000A088,0x8000A088,src/jpeg_decoder.c,Jpeg_DecodeBlock,s1,stadium1:src/jpeg_decoder.c,c
 func_8000A224,0x8000A224,src/jpeg_decoder.c,Jpeg_DecodeHuffmanSymbol,s1,stadium1:src/jpeg_decoder.c,c

@@ -178,11 +178,26 @@ void func_8002A354(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color8002A354 arg4) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A3F8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002A550; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A550.s")
-#endif
+extern u8 D_04000008[];
+void func_8002A550(s32 x, s32 y, s32 w, s32 h, Color_RGBA8 prim, Color_RGBA8 env) {
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    if (prim.a == 255) {
+        gDPSetRenderMode(gDisplayListHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    } else {
+        gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    }
+    gDPSetCombineLERP(gDisplayListHead++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, PRIMITIVE,
+                      ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetTextureFilter(gDisplayListHead++, G_TF_BILERP);
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, prim.r, prim.g, prim.b, prim.a);
+    gDPSetEnvColor(gDisplayListHead++, env.r, env.g, env.b, env.a);
+    gDPLoadTextureBlock(gDisplayListHead++, D_04000008, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSPTextureRectangle(gDisplayListHead++, x << 2, y << 2, (x + w) << 2, (y + h) << 2, G_TX_RENDERTILE, 0, 0,
+                        (64 << 10) / w, (64 << 10) / h);
+}
 
 void func_8002A8C4(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {

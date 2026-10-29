@@ -100,26 +100,96 @@ void Gfx_DrawTextureRgba16Ia8(s32 x1, s32 y1, s32 draw_width, s32 height, u8* te
     func_8001B5F8(x1, y1, draw_width, height, texture_x_spread_mode);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001C97C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001C97C.s")
-#endif
+extern u8 D_02000000[];
+void func_8001C97C(s32 y) {
+    s32 x;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001CC90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001CC90.s")
-#endif
+    gDPLoadTextureBlock(gDisplayListHead++, D_02000000 + (y % 128) * 128, G_IM_FMT_I, G_IM_SIZ_8b, 128, 16, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+    for (x = 0; x < 640; x += 128) {
+        gSPTextureRectangle(gDisplayListHead++, x << 2, y << 2, (x + 128) << 2, (y + 16) << 2, G_TX_RENDERTILE, 0, 0,
+                            0x400, 0x400);
+    }
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001CE20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001CE20.s")
-#endif
+void func_8001CC90(s32 start, s32 end, s32 r, s32 g, s32 b) {
+    s32 y;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001D148; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001D148.s")
-#endif
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCombineLERP(gDisplayListHead++, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT, 0,
+                      TEXEL0, 0, ENVIRONMENT, 0);
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, 640, 480);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetEnvColor(gDisplayListHead++, r, g, b, 255);
+    start &= ~1;
+    end = (end + 1) & ~1;
+    for (y = start; y < end; y += 16) {
+        func_8001C97C(y);
+    }
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_PERSP);
+}
+
+void func_8001CE20(s32 x, s32 y, s32 width, s32 height) {
+    s32 n;
+
+    gDPLoadTextureBlock(gDisplayListHead++, D_02000000 + (y % 128) * 128, G_IM_FMT_I, G_IM_SIZ_8b, 128, 16, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+    if (x % 128 != 0) {
+        UNUSED s32 pad;
+        n = 128 - x % 128;
+        gSPTextureRectangle(gDisplayListHead++, x << 2, y << 2, (x + n) << 2, (y + height) << 2, G_TX_RENDERTILE,
+                            (x % 128) << 5, 0, 0x400, 0x400);
+        width -= n;
+        x += n;
+    }
+    while (width >= 128) {
+        gSPTextureRectangle(gDisplayListHead++, x << 2, y << 2, (x + 128) << 2, (y + height) << 2, G_TX_RENDERTILE, 0,
+                            0, 0x400, 0x400);
+        width -= 128;
+        x += 128;
+    }
+    if (width != 0) {
+        gSPTextureRectangle(gDisplayListHead++, x << 2, y << 2, (x + width) << 2, (y + height) << 2, G_TX_RENDERTILE,
+                            0, 0, 0x400, 0x400);
+    }
+}
+
+void func_8001D148(s32 x, s32 y, s32 width, s32 height, s32 r, s32 g, s32 b) {
+    UNUSED s32 pad[7];
+    s32 s;
+    s32 n;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gDisplayListHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCombineLERP(gDisplayListHead++, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT, 0,
+                      TEXEL0, 0, ENVIRONMENT, 0);
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, 640, 480);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetEnvColor(gDisplayListHead++, r, g, b, 255);
+    s = y % 16;
+    if (s != 0) {
+        n = 16 - s;
+        if (height < n) {
+            n = height;
+        }
+        func_8001CE20(x, y, width, n);
+        y += n;
+        height -= n;
+    }
+    while (height >= 16) {
+        func_8001CE20(x, y, width, 16);
+        height -= 16;
+        y += 16;
+    }
+    if (height != 0) {
+        func_8001CE20(x, y, width, height);
+    }
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_PERSP);
+}
