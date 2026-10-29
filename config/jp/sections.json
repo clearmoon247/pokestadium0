@@ -61,10 +61,7 @@
     }
   },
   "src/fragments/fragment012_17ED00/battle_engine_313D60_2.c": {
-    ".rodata": {
-      "address": "0x82196790",
-      "size": "0x4C"
-    }
+    ".rodata": "0x82196790"
   },
   "src/fragments/fragment012_17ED00/battle_engine_315D50_2.c": {
     ".rodata": {

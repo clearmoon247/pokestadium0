@@ -490,11 +490,22 @@ s32 GbSave_GameToCategoryIndex(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002BC58.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002BE24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002BE24.s")
-#endif
+extern u8 D_04009FB0[];
+void func_8002BE24(s32 start, s32 end) {
+    s32 row;
+    s32 n;
+
+    while (start < end) {
+        row = start % 128;
+        n = (128 - row > 32) ? 32 : 128 - row;
+        if (n >= end - start) {
+            n = end - start;
+        }
+        gDPLoadTextureBlock(gDisplayListHead++, D_04009FB0 + row * 128, G_IM_FMT_I, G_IM_SIZ_8b, 128, n, 0, G_TX_WRAP, G_TX_WRAP, 7, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, 0, start << 2, 640 << 2, (start + n) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        start += n;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002C064; signature not recovered. */

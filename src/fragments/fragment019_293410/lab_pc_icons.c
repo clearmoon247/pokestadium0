@@ -185,7 +185,36 @@ void func_8A200D44(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8A201394; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern Gfx D_80060270[];
+void func_80029028(s32, s32, s32, s32, Color_RGBA8);
+void func_8001ABE8(void);
+void func_8001AAE4(s32, s32, s32, s32);
+void func_8001AC3C(void);
+void func_8A201394(s32 arg0, s32 arg1, BattleMon* arg2) {
+    gSPDisplayList(gDisplayListHead++, D_80060270);
+    func_80029028(arg0, arg1, 0x122, 0x4E, D_8A203304);
+    func_8001AB6C();
+    func_8001AA9C(0xFF, 0xFF, 0xFF, 0xFF);
+    func_8001ABE8();
+    func_8001A384(0x10, 0);
+    func_8001AAE4(0x5A, 0x6B, 0xFF, 0xFF);
+    func_8001A944(arg0 + 0x25, arg1 + 0x1E, *(char**)D_80064C44[arg2->unk_00.unk_00]);
+    func_8001AC3C();
+    func_8001A384(8, 0);
+    func_8001AA9C(((Color_RGBA8*)&D_800734A8)->r, ((Color_RGBA8*)&D_800734A8)->g, ((Color_RGBA8*)&D_800734A8)->b, ((Color_RGBA8*)&D_800734A8)->a);
+    func_8001A944(arg0 + 9, arg1 + 6, "No.%03d", arg2->unk_00.unk_00);
+    func_8001A944(arg0 + 0xC9, arg1 + 0x21, "L%d", arg2->unk_24);
+    func_8001A384(4, 0);
+    func_8001A944(arg0 + 9, arg1 + 0x3C, "タイプ");
+    func_8001A944(arg0 + 0x4F, arg1 + 0x3C, "1/");
+    if (func_8002D498((s32)arg2, 1) != -1) {
+        func_8001A944(arg0 + 0xB9, arg1 + 0x3C, "2/");
+    }
+    func_8A200D44(arg0 + 0x6F, arg1 + 0x3C, 4, (s32)arg2, 0);
+    func_8A200D44(arg0 + 0xD9, arg1 + 0x3C, 4, (s32)arg2, 1);
+    func_8001ABBC();
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A201394.s")
 #endif
@@ -241,7 +270,7 @@ M2C_UNK func_8A2009CC(s32, s32, s32);               /* extern */
 M2C_UNK func_8A200B78(s32, s32, s32);               /* extern */
 M2C_UNK func_8A200DE0(s32, s32, s32);               /* extern */
 M2C_UNK func_8A2010C8(s32, s32, s32, s32);          /* extern */
-M2C_UNK func_8A201394(s32, s32, s32);               /* extern */
+void func_8A201394();
 M2C_UNK func_8A2018E0(s32, s32, s32, s32);          /* extern */
 void func_8A201C08(s32, s32, s32);
 extern s8 D_8007356C;

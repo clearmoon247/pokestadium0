@@ -143,8 +143,47 @@ void ModelRenderer_UpdateSlotVertices(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032C74.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80032D90; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80032D90.s")
-#endif
+Gfx* func_80032C74(Gfx*);
+void func_80032A6C(void);
+extern Gfx D_80074410[];
+extern Gfx D_800744C0[];
+Gfx* func_80032D90(Gfx* gfx) {
+    u8 mode;
+    void* vtx;
+
+    mode = ModelRenderer_GetActiveMode();
+    if (mode >= 4) {
+        return gfx;
+    }
+    if (mode >= 2) {
+        mode &= 1;
+        if (D_800AFB30[mode] >= 2) {
+            Gfx_AllocDisplayList(0xA0);
+            gfx = func_80032C74(gfx);
+            {
+                ModelSegment* segment = (ModelSegment*)(&D_800B0338[mode][D_800AFB28].model.unkSegment);
+                {    Gfx *_gfx = (Gfx *)(gfx++);    _gfx->words.w0 = 0xDB060038;    _gfx->words.w1 = (s32) segment->vertexSegment;    }
+                {    Gfx *_gfx = (Gfx *)(gfx++);    _gfx->words.w0 = 0xDE000000;    _gfx->words.w1 = (s32) segment->displayList;    }
+                {    Gfx *_gfx = (Gfx *)(gfx++);    _gfx->words.w0 = 0xDE000000;    _gfx->words.w1 = (s32) D_800744C0;    }
+            }
+            D_800AFB28++;
+        }
+        return gfx;
+    }
+    switch (D_800AFB30[mode]) {
+        case 1:
+            func_80032A6C();
+            break;
+        case 2:
+        case 3:
+            vtx = Gfx_AllocDisplayList(0xA0);
+            {    Gfx *_gfx = (Gfx *)(gfx++);    _gfx->words.w0 = 0xDA380002;    _gfx->words.w1 = (s32) D_80074410;    }
+            gfx = func_80032C74(gfx);
+            gfx = Model_Draw(gfx, &D_800B0338[mode][D_800AFB28].model, vtx);
+            {    Gfx *_gfx = (Gfx *)(gfx++);    _gfx->words.w0 = 0xD8380002;    _gfx->words.w1 = 0x40;    }
+            {    Gfx *_gfx = (Gfx *)(gfx++);    _gfx->words.w0 = 0xDE000000;    _gfx->words.w1 = (s32) D_800744C0;    }
+            break;
+    }
+    D_800AFB28++;
+    return gfx;
+}

@@ -199,11 +199,76 @@ void BattleScene_TickCameraSubstate(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134ABC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134ABC.s")
-#endif
+void func_82121DAC(void);
+void func_821328DC(CameraNode*);
+void func_82121604(CameraNode*);
+void func_82132D60(CameraNode*);
+void func_821336EC(CameraNode*);
+void func_82121C3C(CameraNode*);
+void func_82133B6C(void);
+void func_821065B4(ActivePokemon*);
+void func_82122458(CameraNode*);
+void func_82122374(CameraNode*);
+extern ActivePokemon* sSide1ActivePokemon;
+extern ActivePokemon* sSide2ActivePokemon;
+void BattleScene_Update(CameraNode* arg0) {
+    BattleScene_TickCameraSubstate(arg0);
+    func_82121DAC();
+
+    switch (sBattleScene.scene->unk_1C) {
+        case 0:
+            BattleScene_UpdateCameraDefaultModeNoop(arg0);
+            break;
+        case 1:
+            BattleScene_UpdateIntroCameraSequence(arg0);
+            break;
+        case 2:
+            BattleScene_UpdatePhase(arg0);
+            break;
+        case 3:
+            BattleScene_UpdateCameraOwner0FramingModeNoop(arg0);
+            break;
+        case 4:
+            BattleScene_UpdateIntroSequence(arg0);
+            break;
+        case 8:
+            func_821328DC(arg0);
+            break;
+        case 5:
+            BattleScene_UpdateIntroCameraSequence(arg0);
+            break;
+        case 6:
+            BattleScene_UpdatePhase(arg0);
+            break;
+        case 9:
+            func_82121604(arg0);
+            break;
+        case 10:
+            BattleScene_UpdatePhase(arg0);
+            break;
+        case 7:
+            func_82132D60(arg0);
+            break;
+        case 11:
+            func_821336EC(arg0);
+            break;
+    }
+
+    if ((sBattleScene.scene->unk_1C != 4) && (sBattleScene.scene->unk_1C != 8)) {
+        func_82121C3C(arg0);
+    }
+    if ((sBattleScene.scene->unk_1C == 9) || (sBattleScene.scene->unk_1C == 10)) {
+        func_82133B6C();
+    }
+    BattleScene_TickStateCallbacks();
+    func_821065B4(sSide1ActivePokemon);
+    func_821065B4(sSide2ActivePokemon);
+    func_82122458(arg0);
+    BattleScene_ApplyCameraShake(arg0);
+    func_82122374(arg0);
+    BattleScene_CameraHelperNop(arg0);
+    BattleScene_AvoidDegenerateCameraLookAt(arg0);
+}
 
 s32 BattleScene_Dispatch(s32 arg0, CameraNode* arg1) {
     switch (arg0) {

@@ -424,11 +424,46 @@ extern s32 D_84390224;
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212E634.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212E7B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212E7B0.s")
-#endif
+void func_82104C68(ActivePokemon*, s32);
+void func_82124A40(void);
+void func_8212E7B0(CameraNode* arg0) {
+    sBattleScene.scene->unk_50 = 4;
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            if (BattleScene_AdvanceCameraFrameCounter(0x14) != 0) {
+                func_821255B4(arg0);
+                func_8211F034(D_8219A520 + 0xC8, sBattleScene.scene->unk_2C);
+                func_8212C78C((s32)arg0);
+                func_8211F034(D_8219A520 + 0x88, sBattleScene.scene->unk_2C);
+                func_82110B44((ActivePokemon*)D_8219A544);
+                func_82104C68((ActivePokemon*)D_8219A544, 9);
+                sBattleScene.scene->unk_20++;
+                func_82110B44((ActivePokemon*)D_8219A544);
+            }
+            break;
+
+        case 1:
+            if (M2C_FIELD(sBattleScene.scene, s32*, 0x54) == 1) {
+                BattleAnim_ApproachF(&M2C_FIELD(arg0, f32*, 0x2C), 60.0f, 0.03f);
+            }
+            D_8219A560 = func_8210F31C(sActivePokemon[sBattleScene.scene->unk_2C]);
+            D_8219A564 = func_8210F31C(sActivePokemon[!sBattleScene.scene->unk_2C]);
+            if (BattleScene_AdvanceCameraFrameCounter(0x3C) != 0) {
+                sBattleScene.scene->unk_20++;
+            }
+            break;
+
+        case 2:
+            if (M2C_FIELD(sBattleScene.scene, s32*, 0x54) == 1) {
+                BattleAnim_ApproachF(&M2C_FIELD(arg0, f32*, 0x2C), 60.0f, 0.03f);
+            }
+            D_8219A560 = func_8210F31C(sActivePokemon[sBattleScene.scene->unk_2C]);
+            D_8219A564 = func_8210F31C(sActivePokemon[!sBattleScene.scene->unk_2C]);
+            func_82124A40();
+            func_82125C80(arg0);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212E9C8; signature not recovered. */

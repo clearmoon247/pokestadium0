@@ -201,11 +201,65 @@ s32 func_811023DC(OSPfs* arg0) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102460; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102460.s")
-#endif
+s32 func_811021D4(u8*);
+s32 func_81102280(u8*, s32);
+s32 func_811023DC(OSPfs*);
+s32 func_81102460(u8* arg0) {
+    s32 ret;
+    u8* buf;
+    s32 addr;
+    s32 remaining;
+    s32 size;
+    s32 sum;
+    s32 off;
+
+    ret = func_811021D4(arg0);
+    buf = M2C_FIELD(arg0, u8**, 0x54);
+    addr = M2C_FIELD(arg0, s32*, 0x8C);
+    remaining = M2C_FIELD(arg0, s32*, 0x80);
+    if ((ret == 0) && (addr < 0x4000)) {
+        if ((addr + remaining) >= 0x4001) {
+            size = 0x4000 - addr;
+        } else {
+            size = remaining;
+        }
+        ret = osGbpakReadWrite(M2C_FIELD(arg0, OSPfs**, 0x50), 0, addr, buf, size);
+        if (ret == 0) {
+            sum = 0;
+            for (ret = size; ret != 0; ret--) {
+                sum += *buf++;
+            }
+            M2C_FIELD(arg0, s32*, 0x84) += sum;
+            remaining -= size;
+            addr = 0x4000;
+        }
+    }
+    while ((ret == 0) && (remaining != 0)) {
+        ret = func_81102280(arg0, addr / 0x4000);
+        if (ret == 0) {
+            off = addr & 0x3FFF;
+            if ((off + remaining) >= 0x4001) {
+                size = 0x4000 - off;
+            } else {
+                size = remaining;
+            }
+            ret = osGbpakReadWrite(M2C_FIELD(arg0, OSPfs**, 0x50), 0, (off | 0x4000) & 0xFFFF, buf, size);
+            if (ret == 0) {
+                sum = 0;
+                for (ret = size; ret != 0; ret--) {
+                    sum += *buf++;
+                }
+                M2C_FIELD(arg0, s32*, 0x84) += sum;
+                remaining -= size;
+                addr = (addr + 0x4000) & ~0x3FFF;
+            }
+        }
+    }
+    if (ret == 0) {
+        ret = func_811023DC(M2C_FIELD(arg0, OSPfs**, 0x50));
+    }
+    return ret;
+}
 
 s32 func_811021D4(u8*);
 s32 func_81102344(u8*, s32);
