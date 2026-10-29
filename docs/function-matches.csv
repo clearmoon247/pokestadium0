@@ -1012,8 +1012,8 @@ func_82116480,0x82116480,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c
 func_821165E8,0x821165E8,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,BattleHud_DrawTranslucentShadowRect,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
 func_8211694C,0x8211694C,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,Ui_DrawGradientRectangle,s1,stadium1:src/ui_graphics.c,c
 func_82116CF4,0x82116CF4,src/fragments/fragment012_17ED00/battle_engine_2FA4D0.c,Battle_DrawGradientRectWrapper,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
-func_8211E890,0x8211E890,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,,asm,,asm
-func_8211EB10,0x8211EB10,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,,asm,,asm
+func_8211E890,0x8211E890,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,func_8211E890,hand,,c
+func_8211EB10,0x8211EB10,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,func_8211EB10,hand,,c
 func_8211ED90,0x8211ED90,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,Battle_ClearAllMessageQueues,s1,stadium1:src/fragments/battle_engine/battle_engine_3020D0.c,c
 func_8211EE8C,0x8211EE8C,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,Battle_ClearMessageCursor,s1,stadium1:src/fragments/battle_engine/battle_engine_3020D0.c,c
 func_8211EEC0,0x8211EEC0,src/fragments/fragment012_17ED00/battle_engine_3020D0.c,Battle_SimpleStringFormat,s1,stadium1:src/fragments/battle_engine/battle_engine_3020D0.c,c
@@ -2190,7 +2190,7 @@ func_8212D820,0x8212D820,src/fragments/fragment012_17ED00/battle_engine_3438B0.c
 func_8212DB28,0x8212DB28,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212DD14,0x8212DD14,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212DE30,0x8212DE30,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
-func_8212E0B0,0x8212E0B0,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
+func_8212E0B0,0x8212E0B0,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212E0B0,hand,,c
 func_8212E350,0x8212E350,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212E634,0x8212E634,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_8212E7B0,0x8212E7B0,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212E7B0,hand,,c
@@ -2206,7 +2206,7 @@ func_8212F440,0x8212F440,src/fragments/fragment012_17ED00/battle_engine_3438B0.c
 func_8212F5B4,0x8212F5B4,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212F5B4,hand,,c
 func_8212F6E4,0x8212F6E4,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212F6E4,hand,,c
 func_8212F894,0x8212F894,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212F894,hand,,c
-func_8212F9FC,0x8212F9FC,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
+func_8212F9FC,0x8212F9FC,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,func_8212F9FC,hand,,c
 func_8212FC98,0x8212FC98,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_821301EC,0x821301EC,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,,asm,,asm
 func_82130494,0x82130494,src/fragments/fragment012_17ED00/battle_engine_3438B0.c,BattleScene_Phase10,hand,,c
@@ -4558,10 +4558,10 @@ func_8000A490,0x8000A490,src/hal_libc.c,HAL_Strcpy2,s1,stadium1:src/hal_libc.c,c
 func_8000A4E8,0x8000A4E8,src/hal_libc.c,HAL_Strcmp,s1,stadium1:src/hal_libc.c,c
 func_8000A52C,0x8000A52C,src/hal_libc.c,HAL_Memset,s1,stadium1:src/hal_libc.c,c
 func_8001B5F0,0x8001B5F0,src/input.c,Input_ResetRepeatState,s1,stadium1:src/input.c,c
-func_8001B5F8,0x8001B5F8,src/input.c,,asm,,asm
+func_8001B5F8,0x8001B5F8,src/input.c,func_8001B5F8,hand,,c
 func_8001B6B4,0x8001B6B4,src/input.c,Gfx_DrawTextureRgba32,hand,,c
 func_8001B884,0x8001B884,src/input.c,Gfx_DrawTextureRgba16,hand,,c
-func_8001BA54,0x8001BA54,src/input.c,,asm,,asm
+func_8001BA54,0x8001BA54,src/input.c,func_8001BA54,hand,,c
 func_8001BCB4,0x8001BCB4,src/input.c,Gfx_DrawTextureIa8,hand,,c
 func_8001BE88,0x8001BE88,src/input.c,Gfx_DrawTextureIa16,hand,,c
 func_8001C058,0x8001C058,src/input.c,Gfx_DrawTextureI4,hand,,c
