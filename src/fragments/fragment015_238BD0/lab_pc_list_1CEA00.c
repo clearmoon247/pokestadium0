@@ -682,11 +682,67 @@ void func_890030C8(s32 arg0, s32 arg1, s8* arg2, s32 arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_8900379C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89003880; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003880.s")
-#endif
+extern s32 D_89019108;
+extern s32 D_89019118;
+extern u8 D_8901911C[];
+void func_80022118(s32);
+void func_80022188(s32);
+s32 func_8002207C(s32);
+void func_8002D7D4(s32);
+void func_800243B8(void);
+void func_800245E0(s32, s32);
+void func_89000494(s32, s32, s32, s8*, s32, void*, s32);
+M2C_UNK func_8900379C(M2C_UNK*);
+typedef struct Slot89003880 {
+    /* 0x00 */ s32 active;
+    /* 0x04 */ char unk04[0x10];
+} Slot89003880; // size = 0x14
+typedef struct Ctx89003880 {
+    /* 0x000 */ char unk000[0xA20];
+    /* 0xA20 */ Slot89003880 slots[1];
+} Ctx89003880;
+void func_89003880(s8* arg0) {
+    s32 locked = 0;
+    s32 flush = 0;
+
+    if ((M2C_FIELD(arg0, s32*, 0xA10) != 0) || (M2C_FIELD(arg0, s32*, 0xA14) != 0)) {
+        locked = 1;
+    }
+    if (locked) {
+        func_80022118(D_89019108);
+    }
+    if (M2C_FIELD(arg0, s32*, 0xA10) != 0) {
+        func_89000494(0x23, D_89019108, 0, arg0 + 0x9E0, 0, NULL, -1);
+    }
+    if (M2C_FIELD(arg0, s32*, 0xA14) != 0) {
+        func_89000494(0x22, D_89019108, 0, arg0 + 0x9F0, 0, NULL, -1);
+    }
+    if (M2C_FIELD(arg0, s32*, 0xA1C) != -1) {
+        if (((Ctx89003880*)arg0)->slots[M2C_FIELD(arg0, s32*, 0xA1C)].active != 0) {
+            if (M2C_FIELD(arg0, s32*, 0xA18) != 0) {
+                flush = 1;
+                if (M2C_FIELD(arg0, s32*, 0xA08) == 0) {
+                    func_800245E0(0x12, M2C_FIELD(arg0, s32*, 0xA1C));
+                } else {
+                    func_89000494(0x12, 0, M2C_FIELD(arg0, s32*, 0xA1C), arg0 + 0xA00, 0, NULL, -1);
+                }
+            }
+        } else if (M2C_FIELD(arg0, s32*, 0xA08) > 0) {
+            flush = 1;
+            func_89000494(0x12, 0, M2C_FIELD(arg0, s32*, 0xA1C), arg0 + 0xA00, 0, D_8901911C, D_89019118);
+        }
+    }
+    if (locked) {
+        if (func_8002207C(D_89019108) == 0) {
+            func_8002D7D4(D_89019108);
+            func_8900379C((M2C_UNK*)arg0);
+        }
+        func_80022188(D_89019108);
+    }
+    if (flush) {
+        func_800243B8();
+    }
+}
 
 s32 func_89003A50(s32* arg0) {
     s32 i;

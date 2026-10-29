@@ -89,17 +89,13 @@ void GbSave_BuildPortSummary(unk_func_8002D860* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028060.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80028C80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028C80.s")
-#endif
+void func_80028C80(s32 width, s32 height, void* texture, s32 fmt) {
+    gDPLoadTextureBlock(gDisplayListHead++, texture, fmt, G_IM_SIZ_8b, width, height, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80028E5C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028E5C.s")
-#endif
+void func_80028E5C(s32 width, s32 height, void* texture, s32 fmt) {
+    gDPLoadTextureBlock(gDisplayListHead++, texture, fmt, G_IM_SIZ_16b, width, height, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+}
 
 void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 arg4) {
     s32 color = RGBA5551(arg4.r, arg4.g, arg4.b, 1);

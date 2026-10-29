@@ -494,11 +494,59 @@ void func_800374E0(s32 arg0, s32 arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80037508; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80037508.s")
-#endif
+s32 func_8004D300(s32);
+extern s32 D_800B3CC8;
+extern s32 D_800B365C;
+extern s32 D_800B366C;
+void func_8003A598(void*, void*, s32);
+void func_8003A2B8(s8*);
+u32 func_8003A4A8();
+s32 func_80037508(s32* song) {
+    UNUSED s32 pad;
+    s32 handle;
+    s32 mask;
+    s32 count;
+    s32 i;
+    s8* cp;
+    s32 index;
+
+    mask = func_8004D300(1);
+    D_800B3CC8 = 1;
+    func_8004D300(mask);
+    count = song[0];
+    if ((u32)song[1] < 0x400) {
+        func_8003A598(&song[1], song, 5);
+        func_8003A598(song[1], song, count);
+        func_8003A598(song[2], song, count);
+        func_8003A598(song[3], song, count);
+    }
+    mask = func_8004D300(1);
+    handle = D_800B365C++;
+    func_8004D300(mask);
+    for (i = 0; i < count; i++) {
+        if (((s32*)song[1])[i] == 0) {
+            continue;
+        }
+        index = func_8003A4A8(song, i);
+        if (index == -1) {
+            continue;
+        }
+        cp = D_800B3640 + index * 0x148;
+        func_8003A2B8(cp);
+        mask = func_8004D300(1);
+        M2C_FIELD(cp, s32*, 0x88) = D_800B366C;
+        M2C_FIELD(cp, s32*, 0x84) = (s32)song;
+        M2C_FIELD(cp, s32*, 0x58) = M2C_FIELD(cp, s32*, 0x98) = ((s32*)song[2])[i];
+        M2C_FIELD(cp, s32*, 0x54) = M2C_FIELD(cp, s32*, 0x94) = ((s32*)song[3])[i];
+        M2C_FIELD(cp, s32*, 0x30) = M2C_FIELD(cp, s32*, 0x8C) = ((s32*)song[1])[i];
+        M2C_FIELD(cp, s32*, 0x5C) = handle;
+        func_8004D300(mask);
+    }
+    mask = func_8004D300(1);
+    D_800B3CC8 = 0;
+    func_8004D300(mask);
+    return handle;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800376E8; signature not recovered. */
@@ -1098,11 +1146,67 @@ s32 Audio_RandomScale(s32 arg0) {
     return arg0 * tmpf;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003A2B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003A2B8.s")
-#endif
+void func_8003A2B8(s8* cp) {
+    u8* ptr;
+    s32 i;
+    s32 tempo;
+
+    M2C_FIELD(cp, s32*, 0x34) = 0;
+    M2C_FIELD(cp, s32*, 0x144) = 0;
+    M2C_FIELD(cp, s64*, 0x0) = 0;
+    M2C_FIELD(cp, s64*, 0x8) = 0;
+    M2C_FIELD(cp, s64*, 0x10) = 0;
+    M2C_FIELD(cp, s64*, 0x18) = 0;
+    M2C_FIELD(cp, s64*, 0x20) = 0;
+    M2C_FIELD(cp, s64*, 0x28) = 0;
+
+    ptr = (u8*)cp + 0x34;
+    for (i = 0x34; i < 0x148; i++) {
+        *ptr++ = 0;
+    }
+
+    M2C_FIELD(cp, u16*, 0xAC) = 0xFFFF;
+    M2C_FIELD(cp, u8*, 0xE0) = 0xFF;
+    M2C_FIELD(cp, u8*, 0xCC) = 0xFF;
+    M2C_FIELD(cp, f32*, 0x48) = 99.9f;
+    tempo = 0x6000 / (s32)D_800B364C;
+    M2C_FIELD(cp, s16*, 0xB4) = tempo;
+    M2C_FIELD(cp, s16*, 0xA8) = tempo;
+    M2C_FIELD(cp, s64*, 0x18) = M2C_FIELD(cp, s64*, 0x0) = 0;
+    M2C_FIELD(cp, s16*, 0xA6) = 1;
+    M2C_FIELD(cp, u8*, 0xE5) = 0;
+    M2C_FIELD(cp, u8*, 0xE6) = 0x7F;
+    M2C_FIELD(cp, s16*, 0xB8) = 0;
+    M2C_FIELD(cp, u8*, 0xC5) = 0;
+    M2C_FIELD(cp, u8*, 0xCA) = 0x7F;
+    M2C_FIELD(cp, u8*, 0xCB) = 0x40;
+    M2C_FIELD(cp, s16*, 0xAE) = 1;
+    M2C_FIELD(cp, s16*, 0xB0) = 1;
+    M2C_FIELD(cp, s32*, 0x38) = -1;
+    M2C_FIELD(cp, u8*, 0xE7) = 0;
+    M2C_FIELD(cp, f32*, 0x7C) = 0.03125f;
+    func_80036640(cp, 0);
+    M2C_FIELD(cp, s16*, 0xAA) = 0x80;
+    M2C_FIELD(cp, s16*, 0xBC) = 0x80;
+    M2C_FIELD(cp, s16*, 0xA4) = 0x80;
+    M2C_FIELD(cp, u8*, 0xCD) = 1;
+    M2C_FIELD(cp, u8*, 0xD4) = 1;
+    M2C_FIELD(cp, u8*, 0xCF) = 0x7F;
+    M2C_FIELD(cp, u8*, 0xD5) = 0xFF;
+    M2C_FIELD(cp, f32*, 0x6C) = 1.0f;
+    M2C_FIELD(cp, f32*, 0x70) = 0.003921568859f;
+    M2C_FIELD(cp, f32*, 0x44) = 0.0f;
+    M2C_FIELD(cp, f32*, 0x50) = 0.0f;
+    M2C_FIELD(cp, f32*, 0x68) = 0.0f;
+    M2C_FIELD(cp, f32*, 0x9C) = 0.0f;
+    M2C_FIELD(cp, u8*, 0xD0) = 0x7F;
+    M2C_FIELD(cp, u8*, 0xDC) = 0xF;
+    M2C_FIELD(cp, u32*, 0xD8) = 1;
+    M2C_FIELD(cp, u8*, 0xE8) = 0;
+    M2C_FIELD(cp, u8*, 0xE1) = 0;
+    M2C_FIELD(cp, s16*, 0xB2) = 0;
+    M2C_FIELD(cp, u8*, 0xDD) = 0;
+}
 
 s32 func_8004D300(s32);                             /* extern */
 extern s8 *D_800B3640;

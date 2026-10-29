@@ -97,11 +97,44 @@ void func_8002DF54(u8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002E078.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002E230; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002E230.s")
-#endif
+typedef struct MenuDef8002E230 {
+    /* 0x00 */ u8* items;
+    /* 0x04 */ s32 count;
+    /* 0x08 */ s32 itemCount;
+    /* 0x0C */ s32 itemSize;
+} MenuDef8002E230;
+typedef void (*MenuDrawFunc8002E230)(s32, s32, u8*, s32, s32, s32);
+typedef struct Menu8002E230 {
+    /* 0x00 */ MenuDef8002E230* def;
+    /* 0x04 */ u16* flags;
+    /* 0x08 */ s32 cursor;
+    /* 0x0C */ s32 colSpacing;
+    /* 0x10 */ s32 rowSpacing;
+    /* 0x14 */ MenuDrawFunc8002E230 draw;
+    /* 0x18 */ char unk18[0x8];
+    /* 0x20 */ s32 options;
+    /* 0x24 */ s32 columns;
+} Menu8002E230;
+void func_8002DF9C(Menu8002E230*, s32, s32);
+void func_8002E230(Menu8002E230* menu, s32 x, s32 y, s32 mask, s32 arg4) {
+    MenuDef8002E230* def = menu->def;
+    s32 i;
+    u8* items = def->items;
+    u8* item;
+    s32 f;
+
+    for (i = 0; i < def->count; i++) {
+        item = (i < def->itemCount) ? items + def->itemSize * i : NULL;
+        f = menu->flags[i];
+        if (i == menu->cursor) {
+            f |= 0x12;
+        }
+        menu->draw(x + (i % menu->columns) * menu->colSpacing, y + (i / menu->columns) * menu->rowSpacing, item, i, f & mask, arg4);
+    }
+    if ((menu->def->itemCount > 0) && (mask & 2) && (menu->options & 0x10000)) {
+        func_8002DF9C(menu, x, y);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002E3F0; signature not recovered. */

@@ -801,11 +801,54 @@ void BattleScene_FinishSendOutCameraClose(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212684C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212684C.s")
-#endif
+s32 func_821217DC(s32);
+void func_80041940(s32, s32, s32, s32);
+void func_80043A10(void);
+void func_8212684C(UNUSED CameraNode* arg0) {
+    ActivePokemonState* other;
+    ActivePokemonState* self;
+    s32 side;
+    BattleMon* mon;
+
+    side = sBattleScene.scene->unk_2C == 0;
+    other = &sActivePokemon[side]->state;
+    self = &sActivePokemon[sBattleScene.scene->unk_2C]->state;
+    mon = &sActivePokemon[side]->teamRoster->pokemonPicked[sActivePokemon[side]->state.rosterIndex];
+
+    if (func_821217DC(2) != 0) {
+        side = sBattleScene.scene->unk_2C;
+        func_80041940(side == 0, 0, mon->unk_26, side);
+        func_8212188C();
+        func_82125570();
+        func_8211EE8C();
+        sBattleScene.scene->unk_20++;
+        if (other->unk_2D == 0x10) {
+            sBattleScene.scene->unk_14 = 0;
+            sBattleScene.scene->unk_20 = 0;
+            if (self->unk_2D == 0x11) {
+                sBattleScene.scene->unk_38 = 5;
+                side = sBattleScene.scene->unk_2C == 0;
+                sBattleScene.scene->unk_2C = side;
+            } else if (self->unk_2D == 0x12) {
+                sBattleScene.scene->unk_38 = 5;
+                side = sBattleScene.scene->unk_2C == 0;
+                sBattleScene.scene->unk_2C = side;
+            } else {
+                sBattleScene.scene->unk_38 = 4;
+            }
+        } else if (self->unk_2D == 0x12) {
+            sBattleScene.scene->unk_14 = 0;
+            sBattleScene.scene->unk_20 = 0;
+            sBattleScene.scene->unk_38 = 5;
+            side = sBattleScene.scene->unk_2C == 0;
+            sBattleScene.scene->unk_2C = side;
+        } else {
+            sBattleScene.scene->unk_40 = sBattleScene.scene->unk_2C + 1;
+            func_80043A10();
+        }
+        func_80040738();
+    }
+}
 
 void func_82126A1C(UNUSED CameraNode* arg0) {
 }
