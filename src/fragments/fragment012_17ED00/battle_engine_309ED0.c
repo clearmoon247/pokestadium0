@@ -467,7 +467,7 @@ s32 BattleScene_TransitionToPhase(s32 arg0) {
 
 extern s32 D_84390220;
 extern s32 D_84390224;
-s32 func_8211EE8C();
+void func_8211EE8C(void);
 
 extern s32 D_8219A560;
 extern s32 D_8219A564;
@@ -735,7 +735,7 @@ void func_82126380(CameraNode* arg0) {
 #endif
 
 void func_821229AC(CameraNode* arg0, ActivePokemon* arg1);
-s32 func_8211EE8C();
+void func_8211EE8C(void);
 void func_80040738(void);
 
 void BattleScene_AdvanceSendOutCameraClose(CameraNode* arg0) {
@@ -817,11 +817,37 @@ void BattleScene_PhaseSendOutAfterFaint(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82126D20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126D20.s")
-#endif
+s32 func_821217DC(s32);
+void func_80041940(s32, s32, s32, s32);
+void func_80043A10(void);
+void func_82126D20(UNUSED CameraNode* arg0) {
+    ActivePokemonState* state;
+    UNUSED s32 pad[2];
+    BattleMon* mon;
+    s32 side;
+
+    side = sBattleScene.scene->unk_2C == 0;
+    state = &sActivePokemon[side]->state;
+    mon = &sActivePokemon[side]->teamRoster->pokemonPicked[sActivePokemon[side]->state.rosterIndex];
+
+    if (func_821217DC(2) != 0) {
+        side = sBattleScene.scene->unk_2C;
+        func_80041940(side == 0, 0, mon->unk_26, side);
+        func_8212188C();
+        func_82125570();
+        func_8211EE8C();
+        sBattleScene.scene->unk_20++;
+        if (state->unk_2D == 0x10) {
+            sBattleScene.scene->unk_14 = 0;
+            sBattleScene.scene->unk_20 = 0;
+            sBattleScene.scene->unk_38 = 4;
+        } else {
+            sBattleScene.scene->unk_40 = sBattleScene.scene->unk_2C + 1;
+            func_80043A10();
+        }
+        func_80040738();
+    }
+}
 
 void func_82126D20(UNUSED CameraNode* arg0);
 void func_82126E34(CameraNode* arg0) {
@@ -1503,7 +1529,7 @@ void func_8212A4A4(s8 *arg0) {
 }
 
 M2C_UNK func_82108C0C(s32);                         /* extern */
-M2C_UNK func_8211EE8C();                            /* extern */
+void func_8211EE8C(void);
 s32 func_82121820(M2C_UNK);                         /* extern */
 void func_8212188C(void);
 M2C_UNK func_8212189C();                            /* extern */

@@ -27,17 +27,46 @@ typedef struct unk_D_88605B00 {
 
 s32 LabPC_ComputeExpForLevel(s32 arg0, s32 arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A200020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A200020.s")
-#endif
+typedef struct Entry80066AA0 {
+    /* 0x00 */ const char* str;
+    /* 0x04 */ u8 r, g, b, a;
+} Entry80066AA0;
+extern Entry80066AA0 D_80066AA0[];
+extern Entry80066AA0 D_80066AA8;
+s32 func_8001FA30(u8);
+void func_8A200020(s32 arg0, s32 arg1, BattleMon* arg2) {
+    Entry80066AA0* e;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A20009C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A20009C.s")
-#endif
+    if (arg2->hp == 0) {
+        e = &D_80066AA8;
+    } else {
+        e = &D_80066AA0[func_8001FA30(arg2->statusCondition)];
+    }
+    Gfx_SetEnvColor(e->r, e->g, e->b, 0xFF);
+    Font_Printf(arg0, arg1, e->str);
+}
+
+extern M2C_UNK D_800734A8;
+extern char D_8A21D850[];
+extern char D_8A21D854[];
+extern char D_8A21D858[];
+void func_80027F20(s32);
+void func_8A200020(s32, s32, BattleMon*);
+void func_8A20009C(s32 arg0, s32 arg1, BattleMon* arg2, s32 arg3) {
+    BattleHud_DrawHpBarTexture(arg0 + 0x16D, arg1 + 9, 0x94, arg2->hp, arg2->unk_26);
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg3);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 0x4C, arg1 + 0xD, arg2->unk_30);
+    Gfx_SetEnvColor(((u8*)&D_800734A8)[0], ((u8*)&D_800734A8)[1], ((u8*)&D_800734A8)[2], ((u8*)&D_800734A8)[3]);
+    Font_SetActive(4, 0);
+    Font_Printf(arg0 + 0x13B, arg1 + 6, D_8A21D850);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 0x11B, arg1 + 0x19, D_8A21D854, arg2->unk_24);
+    Font_Printf(arg0 + 0x175, arg1 + 0x19, D_8A21D858, arg2->hp, arg2->unk_26);
+    func_8A200020(arg0 + 0xD4, arg1 + 0x19, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 extern s8* D_8A21DA50;
 void UI_DrawTextureRgba16(s32 arg0, s32 arg1, s32 arg2) {

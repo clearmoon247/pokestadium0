@@ -1174,11 +1174,25 @@ void func_8213201C(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132088; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132088.s")
-#endif
+s32 func_82107F88(ActivePokemon*);
+s32 func_8211EF74(s32, s32, s32, ...);
+void func_82104C68(ActivePokemon*, s32);
+extern char D_82196650[];
+void func_82132088(CameraNode* arg0) {
+    sActivePokemon[0]->displayObject.node.flags &= ~1;
+    sActivePokemon[1]->displayObject.node.flags &= ~1;
+    func_821365B0(3, (s8*)sActivePokemon[0], (s8*)sActivePokemon[0], 0xFF, 0xFF);
+    func_8211EF74(D_8219A520 + 0x448, 0, (s32)D_82196650, func_82107F88(sActivePokemon[0]));
+    func_8211EE8C();
+    func_8211F034(D_8219A520 + 0x448, 0);
+    sActivePokemon[0]->displayObject.node.flags |= 1;
+    sActivePokemon[0]->pokeBall.node.flags &= ~1;
+    func_82124984((s32)sActivePokemon[0], (s32)arg0, 3);
+    func_8212239C(sActivePokemon[0], arg0);
+    func_82104C68(sActivePokemon[0], 0x10);
+    sBattleScene.scene->unk_10 = 0;
+    sBattleScene.scene->unk_20++;
+}
 
 s32 func_821057D4(ActivePokemon*, s32);
 void func_821321A4(CameraNode* arg0) {

@@ -784,11 +784,15 @@ void Geo_NodeClearDepth(UNUSED GraphNode* arg0) {
 void Geo_NodeType9Empty(UNUSED GraphNode* arg0) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80014164; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014164.s")
-#endif
+void func_80014164(GraphNode* arg0) {
+    unk_D_86002F34_alt3* arg = (unk_D_86002F34_alt3*)arg0;
+
+    D_80060490->unk_1D = 1;
+
+    gSPFogPosition(gDisplayListHead++, arg->unk_18, arg->unk_1A);
+    gSPSetGeometryMode(gDisplayListHead++, G_FOG);
+    gDPSetColor(gDisplayListHead++, G_SETFOGCOLOR, arg->unk_1C);
+}
 
 void func_8001426C(GraphNode* arg0) {
     unk_D_86002F34_alt4* arg = (unk_D_86002F34_alt4*)arg0;

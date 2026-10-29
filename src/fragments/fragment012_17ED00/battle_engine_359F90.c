@@ -243,11 +243,41 @@ void func_82110984(void) {
     M2C_FIELD(D_8219A3C0, u8 *, 0x4C) = (u8) (M2C_FIELD(D_8219A3C0, u8 *, 0x4C) & 0xFFDF);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110A10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110A10.s")
-#endif
+void func_82110984(void);
+s32 func_8210F3F0(void);
+void func_82110A10(void) {
+    s8* p = D_8219A3C0;
+    u8 effect = M2C_FIELD(p, u8*, 0x45);
+
+    if ((effect == 8) && !(M2C_FIELD(D_8219A3C4, u8*, 0x15) & 7)) {
+        func_82110984();
+        return;
+    }
+    if (M2C_FIELD(D_8219A3C4, u8*, 0x4D) & 0x10) {
+        if (effect == 0x11) {
+            return;
+        }
+        if ((effect == 3) || (effect == 8)) {
+            func_82110984();
+            return;
+        }
+    }
+    if (M2C_FIELD(D_8219A3C4, u8*, 0x4C) & 0x40) {
+        func_82110984();
+        return;
+    }
+    if ((((effect >= 0x12) && (effect < 0x1A)) || ((effect >= 0x3A) && (effect < 0x42))) && (M2C_FIELD(D_8219A3C4, u8*, 0x4D) & 2)) {
+        func_82110984();
+        return;
+    }
+    if (M2C_FIELD(p, u8*, 0x4D) & 1) {
+        return;
+    }
+    func_82110890();
+    if (func_8210F3F0() >= M2C_FIELD(D_8219A3C0, u8*, 0x48)) {
+        func_82110984();
+    }
+}
 
 void func_82110B44(ActivePokemon* arg0) {
     BattleMon* ptr = &arg0->teamRoster->pokemonPicked[arg0->state.rosterIndex];

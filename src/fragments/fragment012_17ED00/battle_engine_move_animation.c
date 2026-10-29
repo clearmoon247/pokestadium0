@@ -556,11 +556,26 @@ void func_82102E94(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103178.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821032B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821032B0.s")
-#endif
+extern u8 D_82199FCC;
+void func_821032B0(ActivePokemon* active_pokemon) {
+    BattleMonRuntime* runtime;
+    MovePresentationCue* cue;
+    s32 other;
+
+    runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->moveCues[runtime->usedMove - 1];
+    other = BattleScene_GetParticipantSideIndex(active_pokemon) == 0;
+    if (cue->endFrame + 1 == sActivePokemon[other]->animationTimer) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            if (D_82199FCC == 1) {
+                func_8003FE58(runtime->usedMove, sActivePokemon[other]->displayObject.objectType, 1);
+            } else {
+                func_8003FE58(runtime->usedMove, sActivePokemon[other]->displayObject.objectType, 5);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 void func_82134EBC(ActivePokemon*, s32);
 void func_821033DC(ActivePokemon* active_pokemon) {
@@ -882,11 +897,26 @@ void func_821047C4(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821048BC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821048BC.s")
-#endif
+extern u8 D_82199FCC;
+void func_821048BC(ActivePokemon* active_pokemon) {
+    BattleMonRuntime* runtime;
+    MovePresentationCue* cue;
+    s32 other;
+
+    runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->moveCues[runtime->usedMove - 1];
+    other = BattleScene_GetParticipantSideIndex(active_pokemon) == 0;
+    if (cue->endFrame + 1 == sActivePokemon[other]->animationTimer) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            if (D_82199FCC == 1) {
+                func_8003FE58(runtime->usedMove, sActivePokemon[other]->displayObject.objectType, 1);
+            } else {
+                func_8003FE58(runtime->usedMove, sActivePokemon[other]->displayObject.objectType, 5);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821049E8; signature not recovered. */
@@ -1040,11 +1070,31 @@ void func_821051B0(ActivePokemon* active_pokemon) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210524C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210524C.s")
-#endif
+void func_82101BBC(ActivePokemon*, s32);
+void func_82101B54(ActivePokemon*, s32);
+extern s32 D_8219A75C;
+void func_82108A88(ActivePokemon*, s32, s32);
+void func_8210524C(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    BattleMonRuntime* runtime;
+    MovePresentationCue* cue;
+    UNUSED s32 pad2;
+
+    runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon)]->moveCues[runtime->usedMove - 1];
+    if (D_8219A74C == M2C_FIELD(active_pokemon, s32*, 0x620)) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            if (D_8219A75C == 1) {
+                func_82101BBC(active_pokemon, runtime->usedMove);
+            } else {
+                func_82101B54(active_pokemon, runtime->usedMove);
+            }
+            func_821054C4(active_pokemon, runtime->usedMove - 1);
+            func_82108A88(active_pokemon, cue->flags1, 0);
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82105344; signature not recovered. */
