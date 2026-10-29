@@ -229,11 +229,54 @@ s32 DoubleTextureTrail_UpdateAll(void) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82180AF4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82180AF4.s")
-#endif
+Gfx* func_82180AF4(Gfx* arg0, DoubleTextureTrail* arg1, s16 arg2, s16 arg3) {
+    s32 i;
+    s32 j;
+    Vtx* sp44;
+    UNUSED s32 k;
+    unk_D_84389CE0* temp_v0;
+    unk_D_84389CE0* temp_v1;
+    u8 a1;
+    u8 a2;
+    s16 tmp;
+
+    temp_v1 = &arg1->unk_07C;
+    temp_v0 = &arg1->unk_081;
+
+    if (arg3 == 0) {
+        if (arg1->unk_094 < arg1->unk_002) {
+            tmp = arg1->unk_002 - arg1->unk_094;
+
+            arg1->unk_08C = 1.0f - tmp * 0.1f;
+            arg1->unk_090 = 1.0f - tmp * 0.1f;
+
+            if (tmp * 0.1f > 1.0f) {
+                arg1->unk_08C = 0.0f;
+            }
+
+            if (arg1->unk_090 < 0.0f) {
+                arg1->unk_090 = 0.0f;
+            }
+        }
+    }
+
+    a1 = temp_v1->unk_00.a * arg1->unk_08C;
+    a2 = temp_v0->unk_00.a * arg1->unk_090;
+
+    gDPSetPrimColor(arg0++, 0, temp_v1->unk_04, temp_v1->unk_00.r, temp_v1->unk_00.g, temp_v1->unk_00.b, a1);
+    gDPSetEnvColor(arg0++, temp_v0->unk_00.r, temp_v0->unk_00.g, temp_v0->unk_00.b, a2);
+
+    sp44 = arg1->unk_018;
+    for (i = 0; i < 9; i++) {
+        gSPVertex(arg0++, sp44, 18, 0);
+        for (j = 0; j < 8; j++) {
+            gSP2Triangles(arg0++, j, j + 9, j + 1, 0, j + 9, j + 10, j + 1, 0);
+        }
+        sp44 += 9;
+    }
+
+    return arg0;
+}
 
 Gfx* DoubleTextureTrail_LoadTextures(Gfx* arg0, DoubleTextureTrail* arg1) {
     unk_D_843C2C00_064* ptr;
@@ -251,8 +294,6 @@ Gfx* DoubleTextureTrail_LoadTextures(Gfx* arg0, DoubleTextureTrail* arg1) {
     return arg0;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 Gfx* DoubleTextureTrail_DrawAll(Gfx* arg0) {
     s32 i;
     s32 j;
@@ -343,6 +384,3 @@ Gfx* DoubleTextureTrail_DrawAll(Gfx* arg0) {
 
     return arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82181250.s")
-#endif
