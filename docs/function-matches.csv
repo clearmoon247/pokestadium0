@@ -160,7 +160,7 @@ func_8005AB30,0x8005AB30,src/5B730.c,func_8005AB30,hand,,c
 func_8005BD10,0x8005BD10,src/5C910.c,,asm,,asm
 func_8005BD60,0x8005BD60,src/5C960.c,func_8005BD60,m2c,m2c,c
 func_8005BD70,0x8005BD70,src/5C970.c,func_8005BD70,m2c,m2c,c
-func_8005BD80,0x8005BD80,src/5C980.c,,asm,,asm
+func_8005BD80,0x8005BD80,src/5C980.c,func_8005BD80,hand,,c
 func_8005BF00,0x8005BF00,src/5C980.c,,asm,,asm
 func_8005C0A0,0x8005C0A0,src/5CCA0.c,,asm,,asm
 func_8005C670,0x8005C670,src/5D270.c,,asm,,asm
@@ -252,7 +252,7 @@ func_8003260C,0x8003260C,src/battle_hud.c,ModelAnim_UpdateDisplayObjectAnimation
 func_800326B4,0x800326B4,src/battle_hud.c,ModelAnim_FinalizeDisplayObjectAnimation,hand,,c
 func_8003273C,0x8003273C,src/battle_hud.c,Gfx_SetCombineMode,s1,stadium1:src/battle_hud.c,c
 func_8000AEB0,0x8000AEB0,src/controller.c,Cont_AdjustAnalogStick,s1,stadium1:src/controller.c,c
-func_8000AFE4,0x8000AFE4,src/controller.c,,asm,,asm
+func_8000AFE4,0x8000AFE4,src/controller.c,Cont_InitControllers,hand,,c
 func_8000B170,0x8000B170,src/controller.c,Cont_SetupControllers,hand,,c
 func_8000B1FC,0x8000B1FC,src/controller.c,func_8000B1FC,m2c,m2c,c
 func_8000B220,0x8000B220,src/controller.c,,asm,,asm
@@ -1188,7 +1188,7 @@ func_8212A768,0x8212A768,src/fragments/fragment012_17ED00/battle_engine_309ED0.c
 func_8212A850,0x8212A850,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,func_8212A850,hand,,asm
 func_8212AD10,0x8212AD10,src/fragments/fragment012_17ED00/battle_engine_309ED0.c,func_8212AD10,hand,,asm
 func_8210F4E0,0x8210F4E0,src/fragments/fragment012_17ED00/battle_engine_313D60.c,func_8210F4E0,s1,stadium1:src/fragments/battle_engine/battle_engine_313D60.c,c
-func_8210F4E8,0x8210F4E8,src/fragments/fragment012_17ED00/battle_engine_313D60.c,,asm,,asm
+func_8210F4E8,0x8210F4E8,src/fragments/fragment012_17ED00/battle_engine_313D60.c,func_8210F4E8,hand,,c
 func_8210F688,0x8210F688,src/fragments/fragment012_17ED00/battle_engine_313D60.c,Battle_ResetTransientRuntimeState,s1,stadium1:src/fragments/battle_engine/battle_engine_359F90.c,c
 func_8210F730,0x8210F730,src/fragments/fragment012_17ED00/battle_engine_313D60.c,Battle_ResetEntityState,hand,,c
 func_8210F8E8,0x8210F8E8,src/fragments/fragment012_17ED00/battle_engine_313D60.c,func_8210F8E8,m2c,m2c,c
@@ -1422,8 +1422,8 @@ func_8211724C,0x8211724C,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c
 func_821172F0,0x821172F0,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,,asm,,asm
 func_821174AC,0x821174AC,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,BattleHud_DrawBorderTile,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,c
 func_82117608,0x82117608,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,ParticleEffect_InitNoop,s1,stadium1:src/fragments/battle_engine/battle_engine_31D9F0.c,c
-func_82117610,0x82117610,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,,asm,,asm
-func_8211778C,0x8211778C,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,,asm,,asm
+func_82117610,0x82117610,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,func_82117610,hand,,asm
+func_8211778C,0x8211778C,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,func_8211778C,hand,,asm
 func_82117908,0x82117908,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,BattleHud_DrawPartyBallRow,s1,stadium1:src/fragments/battle_engine/battle_engine_2FA4D0.c,asm
 func_82117DD0,0x82117DD0,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,BattleHud_DrawMonStatusBoxPlayer,hand,,c
 func_82118738,0x82118738,src/fragments/fragment012_17ED00/battle_engine_31D9F0.c,BattleHud_DrawMonStatusBoxOpponent,hand,,c
@@ -2781,7 +2781,7 @@ func_8210942C,0x8210942C,src/fragments/fragment012_17ED00/battle_engine_move_mod
 func_821094C0,0x821094C0,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
 func_821095B4,0x821095B4,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleScene_UpdateSecondaryModelOrbit,hand,,asm
 func_82109764,0x82109764,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleScene_ShowSecondaryModelsAtMainPose,hand,,c
-func_82109824,0x82109824,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,,asm,,asm
+func_82109824,0x82109824,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,func_82109824,hand,,asm
 func_821099CC,0x821099CC,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleScene_ShowSecondaryModelsStaggeredFrame,s1,stadium1:src/fragments/battle_engine/battle_engine_move_model_transforms.c,c
 func_82109AF4,0x82109AF4,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleScene_UpdateSecondaryModelTrailPosition,s1,stadium1:src/fragments/battle_engine/battle_engine_move_model_transforms.c,asm
 func_82109C88,0x82109C88,src/fragments/fragment012_17ED00/battle_engine_move_model_transforms.c,BattleScene_ResetParticipantModelFlags,s1,stadium1:src/fragments/battle_engine/battle_engine_move_model_transforms.c,c
@@ -3611,7 +3611,7 @@ func_89002C10,0x89002C10,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,
 func_89002D14,0x89002D14,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_89002DE4,0x89002DE4,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,func_89002DE4,hand,,c
 func_89002E58,0x89002E58,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
-func_890030C8,0x890030C8,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
+func_890030C8,0x890030C8,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,func_890030C8,hand,,c
 func_8900323C,0x8900323C,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_890032E4,0x890032E4,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
 func_8900352C,0x8900352C,src/fragments/fragment015_238BD0/lab_pc_list_1CEA00.c,,asm,,asm
@@ -4930,7 +4930,7 @@ func_800594F0,0x800594F0,src/libultra/io/epiwrite.c,,ultralib,libultra:src/io/ep
 func_80053680,0x80053680,src/libultra/io/pfsisplug.c,,ultralib,libultra:src/io/pfsisplug.c,c
 func_80053820,0x80053820,src/libultra/io/pfsisplug.c,,ultralib,libultra:src/io/pfsisplug.c,c
 func_800538F0,0x800538F0,src/libultra/io/pfsisplug.c,,ultralib,libultra:src/io/pfsisplug.c,c
-func_80054AB0,0x80054AB0,src/556B0.c,,asm,,asm
+func_80054AB0,0x80054AB0,src/556B0.c,func_80054AB0,hand,,c
 func_80054C2C,0x80054C2C,src/556B0.c,,asm,,asm
 func_80054CA0,0x80054CA0,src/libultra/io/piacs.c,,ultralib,libultra:src/io/piacs.c,c
 func_80054CF0,0x80054CF0,src/libultra/io/piacs.c,,ultralib,libultra:src/io/piacs.c,c

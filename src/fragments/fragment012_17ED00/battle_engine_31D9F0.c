@@ -210,13 +210,50 @@ void ParticleEffect_InitNoop(void) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82117610; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern f32 D_FLT_82199EB0;
+void func_82116480(s8* arg0, s16 arg1, s16 arg2);
+void func_82117610(s16 x, s16 y) {
+    UNUSED s32 pad;
+    s8 buf[12];
+    f32 time = D_FLT_82199EB0 / 30.0f;
+    UNUSED s32 pad2[3];
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(1, 0);
+    Font_Printf(x + 3, y + 3, "TIME");
+    Font_EndTexturedTextRendering();
+    sprintf(buf, "%02d", (s32)(time / 60.0f));
+    func_82116480(buf, x + 0x32, y + 5);
+    sprintf(buf, "%02d", (s32)time % 60);
+    func_82116480(buf, x + 0x46, y + 5);
+    sprintf(buf, "%02d", (s32)(time * 100.0) % 100);
+    func_82116480(buf, x + 0x5A, y + 5);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82117610.s")
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8211778C; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern f32 D_FLT_82199EB4;
+void func_8211778C(s16 x, s16 y) {
+    UNUSED s32 pad;
+    s8 buf[12];
+    f32 time = D_FLT_82199EB4 / 30.0f;
+    UNUSED s32 pad2[3];
+
+    Font_BeginTranslucentTextRendering();
+    Font_SetActive(1, 0);
+    Font_Printf(x + 3, y + 3, "TOTAL TIME");
+    Font_EndTexturedTextRendering();
+    sprintf(buf, "%02d", (s32)(time / 60.0f));
+    func_82116480(buf, x + 0x6E, y + 5);
+    sprintf(buf, "%02d", (s32)time % 60);
+    func_82116480(buf, x + 0x82, y + 5);
+    sprintf(buf, "%02d", (s32)(time * 100.0) % 100);
+    func_82116480(buf, x + 0x96, y + 5);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211778C.s")
 #endif

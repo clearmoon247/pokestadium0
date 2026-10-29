@@ -616,11 +616,41 @@ s32 func_89002DE4(unk_func_8820E99C_030* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89002E58.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890030C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890030C8.s")
-#endif
+typedef struct Rgba8900A6BC {
+    /* 0x0 */ u8 r, g, b, a;
+} Rgba8900A6BC; // size = 0x4
+typedef struct Color8900A6BC {
+    /* 0x0 */ Rgba8900A6BC c[2];
+} Color8900A6BC; // size = 0x8
+extern Color8900A6BC D_8900A6BC;
+extern Color8900A6BC D_8900A6C4;
+extern Gfx D_80073408[];
+extern Gfx D_80073438[];
+extern u8 D_89017A98[];
+extern char D_890186C0[];
+extern char D_890186CC[];
+void func_8002A550(s32, s32, s32, s32, Rgba8900A6BC, Rgba8900A6BC);
+void func_80027F20(s32);
+void func_890030C8(s32 arg0, s32 arg1, s8* arg2, s32 arg3) {
+    Color8900A6BC* color;
+
+    if (arg3 & 2) {
+        color = &D_8900A6BC;
+    } else {
+        color = &D_8900A6C4;
+    }
+    func_8002A550(arg0, arg1, 0xEC, 0x2A, color->c[0], color->c[1]);
+    gSPDisplayList(gDisplayListHead++, D_80073408);
+    Gfx_DrawTextureRgba16(arg0 + 6, arg1 + 8, 0x2E, 0x1A, D_89017A98, 0x30, 0x200000);
+    gSPDisplayList(gDisplayListHead++, D_80073438);
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg3);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 0x34, arg1 + 2, D_890186C0, arg2 + 8);
+    Font_SetActive(4, 0);
+    Font_Printf(arg0 + 0x38, arg1 + 0x18, D_890186CC, M2C_FIELD(arg2, s32*, 4));
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8900323C; signature not recovered. */

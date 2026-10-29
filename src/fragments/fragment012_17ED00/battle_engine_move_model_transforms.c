@@ -181,7 +181,35 @@ void BattleScene_ShowSecondaryModelsAtMainPose(ActivePokemon* active_pokemon) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_82109824; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern Vec3f D_821891CC;
+s32 func_82109824(ActivePokemon* arg0) {
+    s32 i;
+    s32 count;
+    Vec3f speeds = D_821891CC;
+
+    count = 0;
+    for (i = 0; i < 2; i++) {
+        BattleAnim_Vec3fCopy(&arg0->afterimages[i].displayObject.position, &arg0->displayObject.position);
+        BattleAnim_ApproachF(&arg0->afterimages[i].displayObject.scale.x, 0.65f, (&speeds.x)[i]);
+        BattleAnim_ApproachF(&arg0->afterimages[i].displayObject.scale.y, 0.65f, (&speeds.x)[i]);
+        BattleAnim_ApproachF(&arg0->afterimages[i].displayObject.scale.z, 0.65f, (&speeds.x)[i]);
+        ModelAnim_SetFrame(&arg0->afterimages[i].displayObject, arg0->displayObject.transformAnim.frameFixed >> 16);
+        ModelAnim_SetAnimation(&arg0->afterimages[i].displayObject, arg0->displayObject.transformAnim.animationId);
+        if (arg0->afterimages[i].displayObject.scale.y < 0.68f) {
+            arg0->afterimages[i].minimized = 1;
+        }
+    }
+    for (i = 0; i < 2; i++) {
+        if (arg0->afterimages[i].minimized == 1) {
+            count++;
+        }
+    }
+    if (count == 2) {
+        return 1;
+    }
+    return 0;
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109824.s")
 #endif
@@ -741,7 +769,7 @@ void func_8210B00C(s8 *arg0, s8 *arg1) {
 }
 
 M2C_UNK func_8210942C(s32);                         /* extern */
-s32 func_82109824(s32);                             /* extern */
+s32 func_82109824(ActivePokemon*);
 M2C_UNK func_8210C1A8(s32, M2C_UNK, M2C_UNK);       /* extern */
 
 void func_8210B06C(s32 arg0, s32 arg1) {
