@@ -79,11 +79,33 @@ void func_8210C82C(ActivePokemon* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210CA24.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210CACC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210CACC.s")
-#endif
+void func_82134D60(void);
+void func_8210CA24(s8*);
+void func_8210CACC(s8* arg0) {
+    s32 buttons;
+    s8* ctrl;
+
+    ctrl = M2C_FIELD(arg0, s8**, 0x858);
+    buttons = M2C_FIELD(ctrl, u16*, 8);
+
+    if ((buttons & 8) && (M2C_FIELD(arg0, u8*, 0x7E5) != 0) && (M2C_FIELD(arg0, u8*, 0x7E5) < 0xA6)) {
+        func_82134D60();
+        M2C_FIELD(arg0, s32*, 0x7A0) = 0;
+        func_8210CA24(arg0);
+    } else if ((buttons & 1) && (M2C_FIELD(arg0, u8*, 0x7E6) != 0) && (M2C_FIELD(arg0, u8*, 0x7E6) < 0xA6)) {
+        func_82134D60();
+        M2C_FIELD(arg0, s32*, 0x7A0) = 1;
+        func_8210CA24(arg0);
+    } else if ((buttons & 4) && (M2C_FIELD(arg0, u8*, 0x7E7) != 0) && (M2C_FIELD(arg0, u8*, 0x7E7) < 0xA6)) {
+        func_82134D60();
+        M2C_FIELD(arg0, s32*, 0x7A0) = 2;
+        func_8210CA24(arg0);
+    } else if ((buttons & 2) && (M2C_FIELD(arg0, u8*, 0x7E8) != 0) && (M2C_FIELD(arg0, u8*, 0x7E8) < 0xA6)) {
+        func_82134D60();
+        M2C_FIELD(arg0, s32*, 0x7A0) = 3;
+        func_8210CA24(arg0);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210CBD4; signature not recovered. */
@@ -464,11 +486,22 @@ void func_8210E36C(void)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E3C0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E484; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E484.s")
-#endif
+void func_8210E3C0(ActivePokemon*, ActivePokemon*);
+void func_8210E484(ActivePokemon* arg0, ActivePokemon* arg1) {
+    BattleMonRuntime* temp_v0 = &arg0->state.runtime;
+    BattleMonRuntime* temp_v1 = &arg1->state.runtime;
+
+    func_8210E3C0(arg0, arg1);
+    if (!(temp_v0->unk_4D & 0x60)) {
+        temp_v0->unk_4C &= ~8;
+        temp_v1->unk_4C &= ~8;
+        if (temp_v0->unk_4C & 0x12) {
+            arg0->state.unk_2A = 1;
+        }
+    } else {
+        arg0->state.unk_2A = 1;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210E504; signature not recovered. */

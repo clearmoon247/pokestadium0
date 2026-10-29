@@ -503,11 +503,27 @@ void BattleAnim_UpdateOrDestroyParticle(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213A68C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213A68C.s")
-#endif
+void func_8213A68C(void) {
+    s32 i;
+    Particle* var_s0 = gParticlePool;
+
+    for (i = 0; i < 300; i++, var_s0++) {
+        if (var_s0->unk_D0 != 0) {
+            BattleAnim_UpdateParticleAnchor(var_s0);
+            if ((var_s0->unk_10 == NULL) || (Particle_HasFlags(var_s0, 0x108) != 0)) {
+                gParticleRenderContext.unk_00.x = 1.0f;
+                gParticleRenderContext.unk_00.y = 1.0f;
+                gParticleRenderContext.unk_00.z = 1.0f;
+            } else if (Particle_LacksFlags(var_s0, 0x800) != 0) {
+                gParticleRenderContext.unk_00.x = BattleAnim_GetSpeciesBaseScale(var_s0->unk_10);
+                gParticleRenderContext.unk_00.y = BattleAnim_GetSpeciesBaseScale(var_s0->unk_10);
+                gParticleRenderContext.unk_00.z = BattleAnim_GetSpeciesBaseScale(var_s0->unk_10);
+            }
+            var_s0->unk_08(var_s0);
+            BattleAnim_UpdateOrDestroyParticle(var_s0);
+        }
+    }
+}
 
 M2C_UNK func_8213A904(s8 *);                      /* extern */
 M2C_UNK func_8213A9C4(s8 *, s32);                 /* extern */

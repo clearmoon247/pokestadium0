@@ -27,17 +27,46 @@ typedef struct unk_D_88605B00 {
 
 s32 LabPC_ComputeExpForLevel(s32 arg0, s32 arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A200020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A200020.s")
-#endif
+typedef struct Entry80066AA0 {
+    /* 0x00 */ const char* str;
+    /* 0x04 */ u8 r, g, b, a;
+} Entry80066AA0;
+extern Entry80066AA0 D_80066AA0[];
+extern Entry80066AA0 D_80066AA8;
+s32 func_8001FA30(u8);
+void func_8A200020(s32 arg0, s32 arg1, BattleMon* arg2) {
+    Entry80066AA0* e;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A20009C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A20009C.s")
-#endif
+    if (arg2->hp == 0) {
+        e = &D_80066AA8;
+    } else {
+        e = &D_80066AA0[func_8001FA30(arg2->statusCondition)];
+    }
+    Gfx_SetEnvColor(e->r, e->g, e->b, 0xFF);
+    Font_Printf(arg0, arg1, e->str);
+}
+
+extern M2C_UNK D_800734A8;
+extern char D_8A21D850[];
+extern char D_8A21D854[];
+extern char D_8A21D858[];
+void func_80027F20(s32);
+void func_8A200020(s32, s32, BattleMon*);
+void func_8A20009C(s32 arg0, s32 arg1, BattleMon* arg2, s32 arg3) {
+    BattleHud_DrawHpBarTexture(arg0 + 0x16D, arg1 + 9, 0x94, arg2->hp, arg2->unk_26);
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg3);
+    Font_SetActive(0x10, 0);
+    Font_Printf(arg0 + 0x4C, arg1 + 0xD, arg2->unk_30);
+    Gfx_SetEnvColor(((u8*)&D_800734A8)[0], ((u8*)&D_800734A8)[1], ((u8*)&D_800734A8)[2], ((u8*)&D_800734A8)[3]);
+    Font_SetActive(4, 0);
+    Font_Printf(arg0 + 0x13B, arg1 + 6, D_8A21D850);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 0x11B, arg1 + 0x19, D_8A21D854, arg2->unk_24);
+    Font_Printf(arg0 + 0x175, arg1 + 0x19, D_8A21D858, arg2->hp, arg2->unk_26);
+    func_8A200020(arg0 + 0xD4, arg1 + 0x19, arg2);
+    Font_EndTexturedTextRendering();
+}
 
 extern s8* D_8A21DA50;
 void UI_DrawTextureRgba16(s32 arg0, s32 arg1, s32 arg2) {
@@ -114,11 +143,34 @@ void func_8A2008F4(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A200B78.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A200D44; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A200D44.s")
-#endif
+typedef struct Color82000BC4 {
+    u8 r, g, b, a;
+} Color82000BC4;
+typedef struct Entry80066AD8 {
+    const char* str;
+    Color82000BC4 color;
+} Entry80066AD8;
+extern Entry80066AD8 D_80066AD8[];
+s32 func_8002D498(s32, s32);
+void func_8001AB6C(void);
+void func_8001A384(s32, s32);
+void func_8001ABBC(void);
+void func_8001AA9C(u8, u8, u8, u8);
+void func_8001A944(s32, s32, const char*, ...);
+
+void func_8A200D44(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    Color82000BC4 c;
+    s32 idx = func_8002D498(arg3, arg4);
+
+    if (idx != -1) {
+        c = D_80066AD8[idx].color;
+        func_8001AB6C();
+        func_8001A384(arg2, 0);
+        func_8001AA9C(c.r, c.g, c.b, c.a);
+        func_8001A944(arg0, arg1, D_80066AD8[idx].str);
+        func_8001ABBC();
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A200DE0; signature not recovered. */
@@ -133,7 +185,36 @@ void func_8A2008F4(s8 *arg0) {
 #endif
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_8A201394; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern Gfx D_80060270[];
+void func_80029028(s32, s32, s32, s32, Color_RGBA8);
+void func_8001ABE8(void);
+void func_8001AAE4(s32, s32, s32, s32);
+void func_8001AC3C(void);
+void func_8A201394(s32 arg0, s32 arg1, BattleMon* arg2) {
+    gSPDisplayList(gDisplayListHead++, D_80060270);
+    func_80029028(arg0, arg1, 0x122, 0x4E, D_8A203304);
+    func_8001AB6C();
+    func_8001AA9C(0xFF, 0xFF, 0xFF, 0xFF);
+    func_8001ABE8();
+    func_8001A384(0x10, 0);
+    func_8001AAE4(0x5A, 0x6B, 0xFF, 0xFF);
+    func_8001A944(arg0 + 0x25, arg1 + 0x1E, *(char**)D_80064C44[arg2->unk_00.unk_00]);
+    func_8001AC3C();
+    func_8001A384(8, 0);
+    func_8001AA9C(((Color_RGBA8*)&D_800734A8)->r, ((Color_RGBA8*)&D_800734A8)->g, ((Color_RGBA8*)&D_800734A8)->b, ((Color_RGBA8*)&D_800734A8)->a);
+    func_8001A944(arg0 + 9, arg1 + 6, "No.%03d", arg2->unk_00.unk_00);
+    func_8001A944(arg0 + 0xC9, arg1 + 0x21, "L%d", arg2->unk_24);
+    func_8001A384(4, 0);
+    func_8001A944(arg0 + 9, arg1 + 0x3C, "タイプ");
+    func_8001A944(arg0 + 0x4F, arg1 + 0x3C, "1/");
+    if (func_8002D498((s32)arg2, 1) != -1) {
+        func_8001A944(arg0 + 0xB9, arg1 + 0x3C, "2/");
+    }
+    func_8A200D44(arg0 + 0x6F, arg1 + 0x3C, 4, (s32)arg2, 0);
+    func_8A200D44(arg0 + 0xD9, arg1 + 0x3C, 4, (s32)arg2, 1);
+    func_8001ABBC();
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A201394.s")
 #endif
@@ -189,7 +270,7 @@ M2C_UNK func_8A2009CC(s32, s32, s32);               /* extern */
 M2C_UNK func_8A200B78(s32, s32, s32);               /* extern */
 M2C_UNK func_8A200DE0(s32, s32, s32);               /* extern */
 M2C_UNK func_8A2010C8(s32, s32, s32, s32);          /* extern */
-M2C_UNK func_8A201394(s32, s32, s32);               /* extern */
+void func_8A201394();
 M2C_UNK func_8A2018E0(s32, s32, s32, s32);          /* extern */
 void func_8A201C08(s32, s32, s32);
 extern s8 D_8007356C;

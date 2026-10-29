@@ -54,11 +54,16 @@ s32 Pokedex_PlayCry(void);
 s32 Pokedex_RedrawAreaMapTransition(u8 arg0);
 s32 Pokedex_ShowAreaMapScreen(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A100020; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A100020.s")
-#endif
+extern Gfx D_80060290[];
+extern Gfx D_80060398[];
+extern u8 D_04002BA8[];
+extern u8 D_04002ED0[];
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
+void func_8A100020(s32 arg0, s32 arg1, s32 arg2) {
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+    func_8001B884(arg0, arg1, 0x14, 0x14, arg2 ? D_04002BA8 : D_04002ED0, 0x14, 0x200000);
+    gSPDisplayList(gDisplayListHead++, D_80060398);
+}
 
 s32 func_800209A4(s32, s8 *);                     /* extern */
 

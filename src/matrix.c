@@ -512,11 +512,38 @@ void MtxF_SetRotationAndScaledTranslation(MtxF* dest, Vec3f* translate, Vec3s* r
     dest->mf[3][3] = 1.0f;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000E41C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000E41C.s")
-#endif
+void func_8000E41C(MtxF* dest, MtxF* basis, MtxF* transform, Vec3f* local_position) {
+    f32 x_norm;
+    f32 y_norm;
+    f32 z_norm;
+
+    x_norm = sqrtf(SQ(transform->mf[0][0]) + SQ(transform->mf[0][1]) + SQ(transform->mf[0][2]));
+    y_norm = sqrtf(SQ(transform->mf[1][0]) + SQ(transform->mf[1][1]) + SQ(transform->mf[1][2]));
+    z_norm = sqrtf(SQ(transform->mf[2][0]) + SQ(transform->mf[2][1]) + SQ(transform->mf[2][2]));
+
+    dest->mf[0][0] = basis->mf[0][0] * x_norm;
+    dest->mf[0][1] = basis->mf[1][0] * x_norm;
+    dest->mf[0][2] = basis->mf[2][0] * x_norm;
+    dest->mf[0][3] = 0.0f;
+
+    dest->mf[1][0] = basis->mf[0][1] * y_norm;
+    dest->mf[1][1] = basis->mf[1][1] * y_norm;
+    dest->mf[1][2] = basis->mf[2][1] * y_norm;
+    dest->mf[1][3] = 0.0f;
+
+    dest->mf[2][0] = basis->mf[0][2] * z_norm;
+    dest->mf[2][1] = basis->mf[1][2] * z_norm;
+    dest->mf[2][2] = basis->mf[2][2] * z_norm;
+    dest->mf[2][3] = 0.0f;
+
+    dest->mf[3][0] =
+        ((transform->mf[0][0] * local_position->x) + (transform->mf[1][0] * local_position->y) + (transform->mf[2][0] * local_position->z)) + transform->mf[3][0];
+    dest->mf[3][1] =
+        ((transform->mf[0][1] * local_position->x) + (transform->mf[1][1] * local_position->y) + (transform->mf[2][1] * local_position->z)) + transform->mf[3][1];
+    dest->mf[3][2] =
+        ((transform->mf[0][2] * local_position->x) + (transform->mf[1][2] * local_position->y) + (transform->mf[2][2] * local_position->z)) + transform->mf[3][2];
+    dest->mf[3][3] = 1.0f;
+}
 
 void MtxF_SetOrthonormalBasis(MtxF* dest, Vec3f* up_direction, Vec3f* pos, s16 yaw) {
     Vec3f lateral_direction;

@@ -354,11 +354,39 @@ void Cry_PlayFromPokedex(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003BDB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003BDB0.s")
-#endif
+void func_8003BDB0(void) {
+    switch (D_80075E10[0]) {
+        case 1:
+            func_8003C110(D_80075E14);
+            D_80075E10[0]++;
+            D_80075E18 = 0;
+            break;
+        case 2:
+            if (++D_80075E18 >= 2) {
+                D_80075E18 = 0;
+                D_80075E10[0]++;
+                D_800B3CE0 = 1;
+            }
+            break;
+        case 3:
+            if (func_8003E058() == 0) {
+                D_80075E10[0]++;
+                D_80075E18 = 0;
+            }
+            break;
+        case 4:
+            if (D_80075E18 >= 0x1F) {
+                D_80075E10[0]++;
+            }
+            D_80075E18++;
+            break;
+        case 5:
+            D_80075E10[0] = 0;
+            D_80075E04[0] = 0;
+            D_800B3CE0 = 0;
+            break;
+    }
+}
 
 s32 Cry_IsPlaying(void) {
     return D_80075E04[0];

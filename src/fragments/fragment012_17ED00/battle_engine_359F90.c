@@ -195,11 +195,30 @@ void Battle_DecrementPP(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110890; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110890.s")
-#endif
+extern s8 *D_8219A3C0;
+extern s8 *D_8219A3C4;
+extern u8 D_8218AC34[][2];
+void func_82110890(void) {
+
+    s32 idx = ((u8*)D_8219A3C0)[0x60];
+    s32 i;
+    s32 v;
+
+    i = ((u8*)D_8219A3C4)[0x61];
+    i = 14 - i;
+    v = ((u8*)D_8219A3C0)[0x48] * D_8218AC34[idx - 1][0] / D_8218AC34[idx - 1][1];
+    if (v == 0) {
+        v = 1;
+    }
+    v = v * D_8218AC34[i - 1][0] / D_8218AC34[i - 1][1];
+    if (v == 0) {
+        v = 1;
+    }
+    if (v >= 0x100) {
+        v = 0xFF;
+    }
+    ((u8*)D_8219A3C0)[0x48] = v;
+}
 
 extern s8 D_82199F31;
 extern s16 D_82199F50;
@@ -224,11 +243,41 @@ void func_82110984(void) {
     M2C_FIELD(D_8219A3C0, u8 *, 0x4C) = (u8) (M2C_FIELD(D_8219A3C0, u8 *, 0x4C) & 0xFFDF);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82110A10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82110A10.s")
-#endif
+void func_82110984(void);
+s32 func_8210F3F0(void);
+void func_82110A10(void) {
+    s8* p = D_8219A3C0;
+    u8 effect = M2C_FIELD(p, u8*, 0x45);
+
+    if ((effect == 8) && !(M2C_FIELD(D_8219A3C4, u8*, 0x15) & 7)) {
+        func_82110984();
+        return;
+    }
+    if (M2C_FIELD(D_8219A3C4, u8*, 0x4D) & 0x10) {
+        if (effect == 0x11) {
+            return;
+        }
+        if ((effect == 3) || (effect == 8)) {
+            func_82110984();
+            return;
+        }
+    }
+    if (M2C_FIELD(D_8219A3C4, u8*, 0x4C) & 0x40) {
+        func_82110984();
+        return;
+    }
+    if ((((effect >= 0x12) && (effect < 0x1A)) || ((effect >= 0x3A) && (effect < 0x42))) && (M2C_FIELD(D_8219A3C4, u8*, 0x4D) & 2)) {
+        func_82110984();
+        return;
+    }
+    if (M2C_FIELD(p, u8*, 0x4D) & 1) {
+        return;
+    }
+    func_82110890();
+    if (func_8210F3F0() >= M2C_FIELD(D_8219A3C0, u8*, 0x48)) {
+        func_82110984();
+    }
+}
 
 void func_82110B44(ActivePokemon* arg0) {
     BattleMon* ptr = &arg0->teamRoster->pokemonPicked[arg0->state.rosterIndex];

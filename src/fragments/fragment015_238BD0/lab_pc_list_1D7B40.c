@@ -81,11 +81,40 @@ void func_890048EC(s8 *arg0, s32 arg1) {
     *temp_v0 |= 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89004908; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89004908.s")
-#endif
+typedef struct Rgba89004908 {
+    /* 0x0 */ u8 r, g, b, a;
+} Rgba89004908; // size = 0x4
+void func_8002A0AC(s32, s32, s32, s32, Rgba89004908);
+M2C_UNK func_8001AA9C(u8, u8, u8, u8);
+extern Rgba89004908 D_8900A5BC;
+extern Rgba89004908 D_8900A730[];
+extern Rgba89004908 D_800734B0[];
+extern M2C_UNK D_800734A8;
+void func_89004908(s32 x, s32 y, char* str, UNUSED s32 index, s32 flags) {
+    Rgba89004908 color;
+    UNUSED s32 pad[4];
+
+    if (flags & 0x10) {
+        func_8002A0AC(x + 3, y + 3, 0xD2, 0x16, D_8900A5BC);
+    }
+    Font_BeginTranslucentTextRendering();
+    if (flags & 1) {
+        color = ((Rgba89004908*)&D_800734A8)[1];
+        color.a = 0x4C;
+    } else if (flags & 0x100) {
+        color = D_8900A730[(flags & 2) ? 0 : 1];
+    } else if (flags & 0x200) {
+        color = D_8900A730[(flags & 2) ? 0 : 1];
+    } else if (flags & 0x400) {
+        color = D_800734B0[(flags & 2) ? 0 : 1];
+    } else {
+        color = ((Rgba89004908*)&D_800734A8)[(flags & 2) ? 0 : 1];
+    }
+    func_8001AA9C(color.r, color.g, color.b, color.a);
+    Font_SetActive(8, 0);
+    Font_Printf(x + 8, y + 4, str);
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89004AD4; signature not recovered. */

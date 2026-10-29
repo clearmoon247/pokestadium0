@@ -21,11 +21,27 @@ loop_1:
     goto loop_1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100078; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100078.s")
-#endif
+typedef struct Entry88100078 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ u8 unk_04[0x50];
+} Entry88100078; // size = 0x54
+s32 func_80020AFC(s32, s32, s32, s32);
+s32 func_80020CE4(void*, s32, s32);
+M2C_UNK func_80020C60(s32);
+void func_88100078(s32 arg0, s32 arg1, s32 arg2, s32* arg3) {
+    Entry88100078* entry = (Entry88100078*)arg3[0];
+    s32 handle = func_80020AFC(arg0, arg1, arg2, 0);
+    s32 i;
+
+    for (i = 0; i < 6; i++, entry++) {
+        if (func_80020CE4(entry->unk_04, 1, handle) == 0) {
+            break;
+        }
+        entry->unk_00 = 0;
+    }
+    func_80020C60(handle);
+    arg3[2] = i;
+}
 
 s32 func_80020B94(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s8 *, s32); /* extern */
 M2C_UNK func_80020C60(s32);                         /* extern */
@@ -186,11 +202,16 @@ void func_88100CA8(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100D30.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88100D9C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88100D9C.s")
-#endif
+typedef struct Color88100D9C {
+    u8 c[4];
+} Color88100D9C;
+extern Gfx D_80060270[];
+void func_80029028(s32, s32, s32, s32, Color88100D9C);
+void func_88100D9C(s32 arg0, s32 arg1, Color88100D9C arg2) {
+    gSPDisplayList(gDisplayListHead++, D_80060270);
+    func_80029028(arg0, arg1, 0x214, 1, arg2);
+    func_80029028(arg0, arg1 + 0x63, 0x214, 1, arg2);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88100E34; signature not recovered. */
@@ -349,11 +370,24 @@ void func_88101DB4(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88102794.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88102834; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment008_1720F0/func_88102834.s")
-#endif
+void func_800069CC(void);
+void func_8002C064(s32, s32, s32, s32, s32);
+extern u8 D_88102D70[];
+void func_881005E4(s32*, s32);
+void func_88101F1C(s32*);
+M2C_UNK func_88102834(s32 a) {
+    s32* arg0 = (s32*)a;
+    func_800069CC();
+    func_8002C064(0x38, 0x1E0, D_88102D70[0], D_88102D70[1], D_88102D70[2]);
+    switch (arg0[0]) {
+        case 0:
+            func_881005E4(arg0 + 1, 2);
+            break;
+        case 1:
+            func_88101F1C(arg0 + 0x22);
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_881028B8; signature not recovered. */

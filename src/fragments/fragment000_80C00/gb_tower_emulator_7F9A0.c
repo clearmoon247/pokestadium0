@@ -186,17 +186,80 @@ s32 GbPak_SelectRamBank(unk_D_8122B2C0* arg0, s32 arg1) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811023DC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811023DC.s")
-#endif
+typedef struct GbpakChannel811023DC {
+    /* 0x00 */ char unk00[0x9B];
+    /* 0x9B */ u8 status;
+    /* 0x9C */ char unk9C[0x8];
+} GbpakChannel811023DC; // size = 0xA4
+extern GbpakChannel811023DC D_811561C8[];
+s32 func_811023DC(OSPfs* arg0) {
+    s32 ret = osGbpakGetStatus(arg0, &D_811561C8[arg0->channel].status);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81102460; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81102460.s")
-#endif
+    if (ret == 0) {
+        ret = (D_811561C8[arg0->channel].status & 0xC0) ^ 0x80;
+    }
+    return ret;
+}
+
+s32 func_811021D4(u8*);
+s32 func_81102280(u8*, s32);
+s32 func_811023DC(OSPfs*);
+s32 func_81102460(u8* arg0) {
+    s32 ret;
+    u8* buf;
+    s32 addr;
+    s32 remaining;
+    s32 size;
+    s32 sum;
+    s32 off;
+
+    ret = func_811021D4(arg0);
+    buf = M2C_FIELD(arg0, u8**, 0x54);
+    addr = M2C_FIELD(arg0, s32*, 0x8C);
+    remaining = M2C_FIELD(arg0, s32*, 0x80);
+    if ((ret == 0) && (addr < 0x4000)) {
+        if ((addr + remaining) >= 0x4001) {
+            size = 0x4000 - addr;
+        } else {
+            size = remaining;
+        }
+        ret = osGbpakReadWrite(M2C_FIELD(arg0, OSPfs**, 0x50), 0, addr, buf, size);
+        if (ret == 0) {
+            sum = 0;
+            for (ret = size; ret != 0; ret--) {
+                sum += *buf++;
+            }
+            M2C_FIELD(arg0, s32*, 0x84) += sum;
+            remaining -= size;
+            addr = 0x4000;
+        }
+    }
+    while ((ret == 0) && (remaining != 0)) {
+        ret = func_81102280(arg0, addr / 0x4000);
+        if (ret == 0) {
+            off = addr & 0x3FFF;
+            if ((off + remaining) >= 0x4001) {
+                size = 0x4000 - off;
+            } else {
+                size = remaining;
+            }
+            ret = osGbpakReadWrite(M2C_FIELD(arg0, OSPfs**, 0x50), 0, (off | 0x4000) & 0xFFFF, buf, size);
+            if (ret == 0) {
+                sum = 0;
+                for (ret = size; ret != 0; ret--) {
+                    sum += *buf++;
+                }
+                M2C_FIELD(arg0, s32*, 0x84) += sum;
+                remaining -= size;
+                addr = (addr + 0x4000) & ~0x3FFF;
+            }
+        }
+    }
+    if (ret == 0) {
+        ret = func_811023DC(M2C_FIELD(arg0, OSPfs**, 0x50));
+    }
+    return ret;
+}
 
 s32 func_811021D4(u8*);
 s32 func_81102344(u8*, s32);

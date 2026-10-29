@@ -261,11 +261,35 @@ void func_8900054C(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000694.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89000828; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000828.s")
-#endif
+s32 func_8002B390(s8*);
+s32 func_8002BC14(s32);
+extern s32 D_800603C0;
+
+s32 func_89000828(s8* arg0) {
+    s32 ret = 0;
+
+    switch (M2C_FIELD(arg0, s32*, 0x28)) {
+        case 1:
+        case 2:
+            break;
+        default:
+            return 0;
+    }
+    if (func_8002B390(arg0 + 0xAC) == 0) {
+        ret = func_8002BC14(D_800603C0);
+        if (ret == 1) {
+            switch (M2C_FIELD(arg0, s32*, 0xB0)) {
+                case 0:
+                    ret = 1;
+                    break;
+                case 1:
+                    ret = -1;
+                    break;
+            }
+        }
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_890008C8; signature not recovered. */
@@ -592,11 +616,41 @@ s32 func_89002DE4(unk_func_8820E99C_030* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89002E58.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_890030C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_890030C8.s")
-#endif
+typedef struct Rgba8900A6BC {
+    /* 0x0 */ u8 r, g, b, a;
+} Rgba8900A6BC; // size = 0x4
+typedef struct Color8900A6BC {
+    /* 0x0 */ Rgba8900A6BC c[2];
+} Color8900A6BC; // size = 0x8
+extern Color8900A6BC D_8900A6BC;
+extern Color8900A6BC D_8900A6C4;
+extern Gfx D_80073408[];
+extern Gfx D_80073438[];
+extern u8 D_89017A98[];
+extern char D_890186C0[];
+extern char D_890186CC[];
+void func_8002A550(s32, s32, s32, s32, Rgba8900A6BC, Rgba8900A6BC);
+void func_80027F20(s32);
+void func_890030C8(s32 arg0, s32 arg1, s8* arg2, s32 arg3) {
+    Color8900A6BC* color;
+
+    if (arg3 & 2) {
+        color = &D_8900A6BC;
+    } else {
+        color = &D_8900A6C4;
+    }
+    func_8002A550(arg0, arg1, 0xEC, 0x2A, color->c[0], color->c[1]);
+    gSPDisplayList(gDisplayListHead++, D_80073408);
+    Gfx_DrawTextureRgba16(arg0 + 6, arg1 + 8, 0x2E, 0x1A, D_89017A98, 0x30, 0x200000);
+    gSPDisplayList(gDisplayListHead++, D_80073438);
+    Font_BeginTranslucentTextRendering();
+    func_80027F20(arg3);
+    Font_SetActive(8, 0);
+    Font_Printf(arg0 + 0x34, arg1 + 2, D_890186C0, arg2 + 8);
+    Font_SetActive(4, 0);
+    Font_Printf(arg0 + 0x38, arg1 + 0x18, D_890186CC, M2C_FIELD(arg2, s32*, 4));
+    Font_EndTexturedTextRendering();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8900323C; signature not recovered. */
@@ -628,11 +682,67 @@ s32 func_89002DE4(unk_func_8820E99C_030* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_8900379C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89003880; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003880.s")
-#endif
+extern s32 D_89019108;
+extern s32 D_89019118;
+extern u8 D_8901911C[];
+void func_80022118(s32);
+void func_80022188(s32);
+s32 func_8002207C(s32);
+void func_8002D7D4(s32);
+void func_800243B8(void);
+void func_800245E0(s32, s32);
+void func_89000494(s32, s32, s32, s8*, s32, void*, s32);
+M2C_UNK func_8900379C(M2C_UNK*);
+typedef struct Slot89003880 {
+    /* 0x00 */ s32 active;
+    /* 0x04 */ char unk04[0x10];
+} Slot89003880; // size = 0x14
+typedef struct Ctx89003880 {
+    /* 0x000 */ char unk000[0xA20];
+    /* 0xA20 */ Slot89003880 slots[1];
+} Ctx89003880;
+void func_89003880(s8* arg0) {
+    s32 locked = 0;
+    s32 flush = 0;
+
+    if ((M2C_FIELD(arg0, s32*, 0xA10) != 0) || (M2C_FIELD(arg0, s32*, 0xA14) != 0)) {
+        locked = 1;
+    }
+    if (locked) {
+        func_80022118(D_89019108);
+    }
+    if (M2C_FIELD(arg0, s32*, 0xA10) != 0) {
+        func_89000494(0x23, D_89019108, 0, arg0 + 0x9E0, 0, NULL, -1);
+    }
+    if (M2C_FIELD(arg0, s32*, 0xA14) != 0) {
+        func_89000494(0x22, D_89019108, 0, arg0 + 0x9F0, 0, NULL, -1);
+    }
+    if (M2C_FIELD(arg0, s32*, 0xA1C) != -1) {
+        if (((Ctx89003880*)arg0)->slots[M2C_FIELD(arg0, s32*, 0xA1C)].active != 0) {
+            if (M2C_FIELD(arg0, s32*, 0xA18) != 0) {
+                flush = 1;
+                if (M2C_FIELD(arg0, s32*, 0xA08) == 0) {
+                    func_800245E0(0x12, M2C_FIELD(arg0, s32*, 0xA1C));
+                } else {
+                    func_89000494(0x12, 0, M2C_FIELD(arg0, s32*, 0xA1C), arg0 + 0xA00, 0, NULL, -1);
+                }
+            }
+        } else if (M2C_FIELD(arg0, s32*, 0xA08) > 0) {
+            flush = 1;
+            func_89000494(0x12, 0, M2C_FIELD(arg0, s32*, 0xA1C), arg0 + 0xA00, 0, D_8901911C, D_89019118);
+        }
+    }
+    if (locked) {
+        if (func_8002207C(D_89019108) == 0) {
+            func_8002D7D4(D_89019108);
+            func_8900379C((M2C_UNK*)arg0);
+        }
+        func_80022188(D_89019108);
+    }
+    if (flush) {
+        func_800243B8();
+    }
+}
 
 s32 func_89003A50(s32* arg0) {
     s32 i;
@@ -684,11 +794,27 @@ void func_89003D40(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 arg4, s32* arg5
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89003ECC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8900408C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_8900408C.s")
-#endif
+s32 func_8900408C(s8* arg0) {
+    s32 ret = 0;
+    s32 temp_v0;
+
+    switch (M2C_FIELD(arg0, s32*, 0x28)) {
+        case 1:
+        case 2:
+            break;
+        default:
+            return 0;
+    }
+    if (func_8002DC04(arg0 + 0x2C) == 0) {
+        temp_v0 = func_8002BC14(D_800603C0);
+        if (temp_v0 == -1) {
+            ret = -1;
+        } else if (temp_v0 == 1) {
+            ret = M2C_FIELD(arg0, s32*, 0x34) + 1;
+        }
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_89004120; signature not recovered. */

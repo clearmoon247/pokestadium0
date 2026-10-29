@@ -32,17 +32,36 @@ void func_821336E4(UNUSED s32 arg0);
 void func_82132E20(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132E28; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132E28.s")
-#endif
+void func_821247F0(s32, s32);
+void func_82124810(s32, s32);
+void func_82124830(s32, s32);
+void func_82124874(s32, s32);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132EB4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132EB4.s")
-#endif
+void func_82132E28(s32 arg0, s32 arg1, s32 arg2) {
+    switch (arg2) {
+        case 0:
+            func_821247F0(arg1, arg0);
+            break;
+        case 1:
+            func_82124810(arg1, arg0);
+            break;
+        case 2:
+            func_82124830(arg1, arg0);
+            break;
+        case 3:
+            func_82124874(arg1, arg0);
+            break;
+    }
+}
+
+void func_82107D24(s32, Vec3f*);
+void func_8212254C(s32, s32, Vec3f, s32, s32, f32, f32);
+void func_82122628(s32, Vec3f, s32, s32, f32, f32);
+void func_82132EB4(s32 arg0, s32 arg1, f32 arg2, f32 arg3, s16 arg4, s16 arg5) {
+    func_82107D24(arg1, &sBattleScene.scene->unk_D0);
+    func_8212254C(arg1, arg0, sBattleScene.scene->unk_D0, 0, 0x4000, arg3, 0.0f);
+    func_82122628(arg0, sBattleScene.scene->unk_D0, arg4, arg5, arg2, 0.0f);
+}
 
 extern s16 D_8219A4F0[];
 extern s8* D_8219A590;

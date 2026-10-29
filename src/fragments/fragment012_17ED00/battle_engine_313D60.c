@@ -77,11 +77,35 @@ void ComputePokemonStat(s32 arg0, BattleMon* arg1);
 void func_8210F4E0(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210F4E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210F4E8.s")
-#endif
+extern s32 D_8219A520;
+s32 func_8211EF74(s32, s32, s32, ...);
+s32 func_82107F88(ActivePokemon*);
+extern s32 D_8218C788;
+extern s32 D_8218C78C;
+extern s32 D_8218C790;
+extern s32 D_8218C794;
+void func_8210F4E8(s32 attacker, s32 defender) {
+    ActivePokemon** atk = &sActivePokemon[attacker];
+    ActivePokemonState* state = &(*atk)->state;
+    BattleMonRuntime* runtime = &sActivePokemon[defender]->state.runtime;
+    s32 pct;
+
+    if (runtime->unk_0C == 0) {
+        func_8211EF74(D_8219A520 + 0x88, 0x21, D_8218C788, func_82107F88(*atk));
+        return;
+    }
+    state->unk_28 = runtime->unk_0C;
+    pct = (runtime->unk_0C * 0x19) / (runtime->unk_28 >> 2);
+    if (pct >= 0x46) {
+        func_8211EF74(D_8219A520 + 0x88, 0x21, D_8218C788, func_82107F88(*atk));
+    } else if (pct >= 0x28) {
+        func_8211EF74(D_8219A520 + 0x88, 0x22, D_8218C78C, func_82107F88(*atk));
+    } else if (pct >= 0xA) {
+        func_8211EF74(D_8219A520 + 0x88, 0x23, D_8218C790, func_82107F88(*atk));
+    } else {
+        func_8211EF74(D_8219A520 + 0x88, 0x24, D_8218C794, func_82107F88(*atk));
+    }
+}
 
 extern u8 D_82199F3F;
 extern u8 D_82199F30;

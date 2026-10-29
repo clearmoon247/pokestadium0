@@ -32,17 +32,101 @@ void func_8211F3E4(void);
 void func_8211F3EC(void);
 void BattleScene_ResetMessageQueue(void);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211E890; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211E890.s")
-#endif
+void func_8211B484(TeamRoster*, s32, s32, s32);
+void func_8211B900(ActivePokemon*, s32, s32, s32);
+void func_821196A4(ActivePokemon*, s32, s32, s32);
+void func_82119364(ActivePokemon*, s32, s32, s32);
+void func_82119CAC(ActivePokemon*, s32, s32, s32);
+void func_8211C6C0(ActivePokemon*, s32, s32, s32);
+void func_82118FD8(ActivePokemon*, s32, s32, s32);
+void func_8211E890(ActivePokemon* arg0, ActivePokemonState* arg1) {
+    TeamRoster* sp2C = arg0->sessionTeams->teamMember[M2C_FIELD(arg0, s32*, 0x9D4)];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211EB10; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211EB10.s")
-#endif
+    if (arg1->unk_10 == 3) {
+        BattleHud_DrawMonStatusBoxPlayer(arg0, arg0->thumbnail.camera->viewport.x - 2, arg0->thumbnail.camera->viewport.y - 0x3A, arg1->unk_1E, 1);
+    } else {
+        BattleHud_DrawMonStatusBoxPlayer(arg0, arg0->thumbnail.camera->viewport.x - 2, arg0->thumbnail.camera->viewport.y - 0x3A, arg1->unk_1E, 0);
+    }
+
+    if ((arg1->unk_10 != 3) && (arg0->thumbnail.camera->viewport.x == 0x17)) {
+        switch (arg1->unk_10) {
+            case 2:
+                if (arg1->unk_1C == 1) {
+                    if ((arg0->sessionTeams->tagTeamSize == 2) && (arg0->teamRoster->numberOfPokemonBrought == 3)) {
+                        func_8211B484(arg0->sessionTeams->teamMember[0], 0x60, 0xF, arg0->sessionTeams->teamMember[0]->controllerPort);
+                        func_8211B484(arg0->sessionTeams->teamMember[1], 0xC6, 0xF, arg0->sessionTeams->teamMember[1]->controllerPort);
+                    } else if (arg0->teamRoster->numberOfPokemonBrought == 3) {
+                        func_8211B484(arg0->sessionTeams->teamMember[0], 0x60, 0xF, sp2C->controllerPort);
+                    } else {
+                        func_8211B900(arg0, 0x60, 0xF, sp2C->controllerPort);
+                    }
+                } else if (M2C_FIELD(arg1, u8*, 0x2E) == 0x10) {
+                    func_821196A4(arg0, 0x60, 0xF, sp2C->controllerPort);
+                } else {
+                    func_82119364(arg0, 0x60, 0xF, sp2C->controllerPort);
+                }
+                break;
+            case 1:
+                if (arg1->unk_1C == 1) {
+                    func_82119CAC(arg0, 0x60, 0xF, sp2C->controllerPort);
+                } else {
+                    func_82119364(arg0, 0x60, 0xF, sp2C->controllerPort);
+                }
+                break;
+            case 4:
+                func_8211C6C0(arg0, 0x5F, 0xE, sp2C->controllerPort);
+                break;
+            default:
+                func_82118FD8(arg0, 0x60, 0xF, sp2C->controllerPort);
+                break;
+        }
+    }
+}
+
+void func_82118738(ActivePokemon*, s16, s16, u16, s32);
+void func_8211EB10(ActivePokemon* arg0, ActivePokemonState* arg1) {
+    TeamRoster* sp2C = arg0->sessionTeams->teamMember[M2C_FIELD(arg0, s32*, 0x9D4)];
+
+    if (arg1->unk_10 == 3) {
+        func_82118738(arg0, arg0->thumbnail.camera->viewport.x - 0x20, arg0->thumbnail.camera->viewport.y - 2, arg1->unk_1E, 1);
+    } else {
+        func_82118738(arg0, arg0->thumbnail.camera->viewport.x - 0x20, arg0->thumbnail.camera->viewport.y - 2, arg1->unk_1E, 0);
+    }
+
+    if ((arg1->unk_10 != 3) && (arg0->thumbnail.camera->viewport.x == 0x103)) {
+        switch (arg1->unk_10) {
+            case 2:
+                if (arg1->unk_1C == 1) {
+                    if ((arg0->sessionTeams->tagTeamSize == 2) && (arg0->teamRoster->numberOfPokemonBrought == 3)) {
+                        func_8211B484(arg0->sessionTeams->teamMember[0], 0x16, 0x79, arg0->sessionTeams->teamMember[0]->controllerPort);
+                        func_8211B484(arg0->sessionTeams->teamMember[1], 0x7C, 0x79, arg0->sessionTeams->teamMember[1]->controllerPort);
+                    } else if (arg0->teamRoster->numberOfPokemonBrought == 3) {
+                        func_8211B484(arg0->sessionTeams->teamMember[0], 0x7C, 0x79, sp2C->controllerPort);
+                    } else {
+                        func_8211B900(arg0, 0x18, 0x79, sp2C->controllerPort);
+                    }
+                } else if (M2C_FIELD(arg1, u8*, 0x2E) == 0x10) {
+                    func_821196A4(arg0, 0x9A, 0xCE, sp2C->controllerPort);
+                } else {
+                    func_82119364(arg0, 0x62, 0xCE, sp2C->controllerPort);
+                }
+                break;
+            case 1:
+                if (arg1->unk_1C == 1) {
+                    func_82119CAC(arg0, 0x19, 0xA6, sp2C->controllerPort);
+                } else {
+                    func_82119364(arg0, 0x62, 0xCE, sp2C->controllerPort);
+                }
+                break;
+            case 4:
+                func_8211C6C0(arg0, 0x17, 0xBB, sp2C->controllerPort);
+                break;
+            default:
+                func_82118FD8(arg0, 0x18, 0xCE, sp2C->controllerPort);
+                break;
+        }
+    }
+}
 
 void Battle_ClearAllMessageQueues(void) {
     gBattleMessageQueues->unk_088[0] = 0;
@@ -144,11 +228,26 @@ void func_8211EF74(s8* arg0, s8 id, s8* arg1, ...) {
     arg0[len] = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211F034; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211F034.s")
-#endif
+void func_8211EE8C(void);
+void func_8211EEC0(void*, s8*);
+void func_80042A6C(s32);
+void func_80042FF8(s32);
+extern void* D_8219A520;
+
+void func_8211F034(s8* arg0, s32 side) {
+    ActivePokemon* ap;
+
+    func_8211EE8C();
+    ap = sActivePokemon[side];
+    *(u8*)D_8219A520 = (*(u8***)((u8*)ap + 0x85C))[*(s32*)((u8*)ap + 0x9D4) + 2][1];
+    func_8211EEC0((u8*)D_8219A520 + 0x48, arg0 + 1);
+    if (!(arg0[0] & 0x80)) {
+        func_80042A6C(arg0[0] & 0x7F);
+    } else {
+        func_80042FF8(arg0[0] & 0x7F);
+    }
+    arg0[0] = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211F0DC; signature not recovered. */

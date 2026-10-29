@@ -263,11 +263,29 @@ void func_81109B50(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110A924.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110AA50; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110AA50.s")
-#endif
+typedef struct Voice8110AA50 {
+    /* 0x000 */ char unk000[0xC];
+    /* 0x00C */ u16 unk_0C;
+    /* 0x00E */ char unk00E[0x14A];
+} Voice8110AA50; // size = 0x158
+extern Voice8110AA50 D_81184110[];
+extern s8 D_8118427B;
+void func_8110AA50(void) {
+    s32 n;
+    s32 i;
+    s32 j;
+
+    if (*(s16*)&D_811858B8 == 2) {
+        n = 2;
+    } else {
+        n = 1;
+    }
+    for (i = 0; i < D_8118427B; i++) {
+        for (j = 0; j < n; j++) {
+            D_81184110[i].unk_0C -= D_81184110[i].unk_0C / 3;
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110AC14; signature not recovered. */
@@ -572,11 +590,19 @@ void func_8110CEC0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110CF24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110CF24.s")
-#endif
+extern u8* D_811858A8;
+void func_8110CF24(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    s32 off;
+    s32 count;
+
+    off = ((u16*)D_811858A8)[func_8110D7B0(0, arg0)];
+    count = *(off + D_811858A8);
+    off++;
+    while (count > 0) {
+        func_8110DCC0(1, func_8110D7B0(1, D_811858A8[off++]), arg1, arg2, arg3);
+        count--;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110CFEC; signature not recovered. */

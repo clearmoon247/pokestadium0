@@ -395,11 +395,33 @@ s32 func_89106C98(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106E34.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89106E64; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106E64.s")
-#endif
+typedef struct Tex89106E64 {
+    /* 0x00 */ s32 width;
+    /* 0x04 */ s32 height;
+    /* 0x08 */ u8* img08;
+    /* 0x0C */ u8* img0C;
+    /* 0x10 */ u8* img10;
+    /* 0x14 */ u8* img14;
+} Tex89106E64;
+typedef struct Win89106E64 {
+    /* 0x00 */ s32 x;
+    /* 0x04 */ s32 y;
+    /* 0x08 */ s32 width;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 flags;
+    /* 0x14 */ Tex89106E64* tex;
+} Win89106E64;
+extern Gfx D_80073408[];
+extern Gfx D_80073438[];
+void func_8001B884(s32, s32, s32, s32, u8*, s32, s32);
+void func_89106E64(Win89106E64* arg0) {
+    gSPDisplayList(gDisplayListHead++, D_80073408);
+    func_8001B884(arg0->x, arg0->y, arg0->tex->width, arg0->tex->height,
+                  (arg0->flags & 8) ? arg0->tex->img08 : arg0->tex->img0C, arg0->tex->width, 0x200000);
+    func_8001B884(arg0->x + arg0->width - arg0->tex->width, arg0->y, arg0->tex->width, arg0->tex->height,
+                  (arg0->flags & 8) ? arg0->tex->img14 : arg0->tex->img10, arg0->tex->width, 0x200000);
+    gSPDisplayList(gDisplayListHead++, D_80073438);
+}
 
 s32 func_89106F74(s8 *arg0)
 {

@@ -3210,6 +3210,7 @@ max_channels = 0x800B3638; // learned from func_80037B7C
 mus_channels = 0x800B3640; // learned from func_80037B7C
 Cont_InitControllers = 0x8000AFE4; // learned from func_8000B170
 gControllerStatuses = 0x800AB000; // learned from func_8000B170
+gControllerPads = 0x800AB010; // type:data
 gSIEventMesgBuf = 0x800AB028; // learned from func_8000B170
 GbSave_CommitMainData = 0x80021FF4; // learned from func_8002207C
 GbSave_WriteBoxBanks = 0x80021F50; // learned from func_8002207C

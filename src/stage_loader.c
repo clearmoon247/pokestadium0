@@ -440,11 +440,13 @@ void StageContext_SetClearColor(u16 color) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800069CC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800069CC.s")
-#endif
+void func_800069CC(void) {
+    if (stage != NULL) {
+        GfxImage_SetRenderTarget(&gDisplayListHead, stage->renderTargets[stage->renderTargetIndex]);
+        gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, stage->clearLeft, stage->clearTop, stage->clearRight + 1, stage->clearBottom + 1);
+        gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    }
+}
 
 DepthBuffer* StageContext_GetCurrentImage(void) {
     DepthBuffer* ret = NULL;

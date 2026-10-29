@@ -97,11 +97,44 @@ void func_8002DF54(u8* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002E078.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002E230; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002E230.s")
-#endif
+typedef struct MenuDef8002E230 {
+    /* 0x00 */ u8* items;
+    /* 0x04 */ s32 count;
+    /* 0x08 */ s32 itemCount;
+    /* 0x0C */ s32 itemSize;
+} MenuDef8002E230;
+typedef void (*MenuDrawFunc8002E230)(s32, s32, u8*, s32, s32, s32);
+typedef struct Menu8002E230 {
+    /* 0x00 */ MenuDef8002E230* def;
+    /* 0x04 */ u16* flags;
+    /* 0x08 */ s32 cursor;
+    /* 0x0C */ s32 colSpacing;
+    /* 0x10 */ s32 rowSpacing;
+    /* 0x14 */ MenuDrawFunc8002E230 draw;
+    /* 0x18 */ char unk18[0x8];
+    /* 0x20 */ s32 options;
+    /* 0x24 */ s32 columns;
+} Menu8002E230;
+void func_8002DF9C(Menu8002E230*, s32, s32);
+void func_8002E230(Menu8002E230* menu, s32 x, s32 y, s32 mask, s32 arg4) {
+    MenuDef8002E230* def = menu->def;
+    s32 i;
+    u8* items = def->items;
+    u8* item;
+    s32 f;
+
+    for (i = 0; i < def->count; i++) {
+        item = (i < def->itemCount) ? items + def->itemSize * i : NULL;
+        f = menu->flags[i];
+        if (i == menu->cursor) {
+            f |= 0x12;
+        }
+        menu->draw(x + (i % menu->columns) * menu->colSpacing, y + (i / menu->columns) * menu->rowSpacing, item, i, f & mask, arg4);
+    }
+    if ((menu->def->itemCount > 0) && (mask & 2) && (menu->options & 0x10000)) {
+        func_8002DF9C(menu, x, y);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002E3F0; signature not recovered. */
@@ -184,11 +217,60 @@ void func_8002ED70(s8 *arg0)
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002F3C4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002F6C4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002F6C4.s")
-#endif
+typedef struct ScrollMenu8002F6C4 {
+    /* 0x00 */ MenuDef8002E230* def;
+    /* 0x04 */ u16* flags;
+    /* 0x08 */ s32 cursor;
+    /* 0x0C */ s32 width;
+    /* 0x10 */ s32 rowSpacing;
+    /* 0x14 */ MenuDrawFunc8002E230 draw;
+    /* 0x18 */ char unk18[0x8];
+    /* 0x20 */ s32 options;
+    /* 0x24 */ s32 rows;
+    /* 0x28 */ s32 unk28;
+    /* 0x2C */ s32 scroll;
+} ScrollMenu8002F6C4;
+void func_8002EDA8(ScrollMenu8002F6C4*);
+void func_8002F030(ScrollMenu8002F6C4*, s32, s32, s32, s32);
+void func_8002F32C(ScrollMenu8002F6C4*, s32, s32);
+void func_8002F6C4(ScrollMenu8002F6C4* menu, s32 x, s32 y, s32 mask, s32 arg4) {
+    MenuDef8002E230* def = menu->def;
+    u8* items = def->items;
+    s32 height = menu->rowSpacing * menu->rows;
+    s32 i;
+    s32 rowY;
+    s32 end;
+    u8* item;
+    s32 f;
+
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, x, y, menu->width + x, y + height);
+    func_8002EDA8(menu);
+    rowY = y - menu->scroll % menu->rowSpacing;
+    i = menu->scroll / menu->rowSpacing;
+    end = (menu->scroll + height - 1) / menu->rowSpacing + 1;
+    for (; i < end; i++) {
+        item = NULL;
+        f = 0;
+        if (i < menu->def->itemCount) {
+            item = items + def->itemSize * i;
+            f = menu->flags[i];
+            if (i == menu->cursor) {
+                f |= 0x12;
+            }
+        }
+        menu->draw(x, rowY, item, i, f & mask, arg4);
+        rowY += menu->rowSpacing;
+    }
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, 0, 640, 480);
+    if (menu->options & 0x100000) {
+        func_8002F030(menu, x, y - 16, y + menu->rowSpacing * menu->rows, menu->width);
+    }
+    if ((menu->def->itemCount > 0) && (mask & 2) && (menu->options & 0x10000)) {
+        func_8002F32C(menu, x, y);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002F9D8; signature not recovered. */

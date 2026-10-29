@@ -89,17 +89,13 @@ void GbSave_BuildPortSummary(unk_func_8002D860* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028060.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80028C80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028C80.s")
-#endif
+void func_80028C80(s32 width, s32 height, void* texture, s32 fmt) {
+    gDPLoadTextureBlock(gDisplayListHead++, texture, fmt, G_IM_SIZ_8b, width, height, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80028E5C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80028E5C.s")
-#endif
+void func_80028E5C(s32 width, s32 height, void* texture, s32 fmt) {
+    gDPLoadTextureBlock(gDisplayListHead++, texture, fmt, G_IM_SIZ_16b, width, height, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+}
 
 void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 arg4) {
     s32 color = RGBA5551(arg4.r, arg4.g, arg4.b, 1);
@@ -163,11 +159,18 @@ void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A32C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002A354; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A354.s")
-#endif
+typedef struct Color8002A354 {
+    u8 c[4];
+} Color8002A354;
+extern Gfx D_80060270[];
+extern u8 D_8007353C[];
+void func_80029028(s32, s32, s32, s32, Color8002A354);
+void func_800295E8(s32, s32, s32, s32, u8*);
+void func_8002A354(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color8002A354 arg4) {
+    gSPDisplayList(gDisplayListHead++, D_80060270);
+    func_80029028(arg0 + 1, arg1 + 1, arg2 - 2, arg3 - 2, arg4);
+    func_800295E8(arg0, arg1, arg2, arg3, D_8007353C);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002A3F8; signature not recovered. */
@@ -175,11 +178,26 @@ void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A3F8.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002A550; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A550.s")
-#endif
+extern u8 D_04000008[];
+void func_8002A550(s32 x, s32 y, s32 w, s32 h, Color_RGBA8 prim, Color_RGBA8 env) {
+    gDPPipeSync(gDisplayListHead++);
+    gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+    if (prim.a == 255) {
+        gDPSetRenderMode(gDisplayListHead++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    } else {
+        gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    }
+    gDPSetCombineLERP(gDisplayListHead++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, PRIMITIVE,
+                      ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE);
+    gDPSetTexturePersp(gDisplayListHead++, G_TP_NONE);
+    gDPSetTextureFilter(gDisplayListHead++, G_TF_BILERP);
+    gDPSetPrimColor(gDisplayListHead++, 0, 0, prim.r, prim.g, prim.b, prim.a);
+    gDPSetEnvColor(gDisplayListHead++, env.r, env.g, env.b, env.a);
+    gDPLoadTextureBlock(gDisplayListHead++, D_04000008, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSPTextureRectangle(gDisplayListHead++, x << 2, y << 2, (x + w) << 2, (y + h) << 2, G_TX_RENDERTILE, 0, 0,
+                        (64 << 10) / w, (64 << 10) / h);
+}
 
 void func_8002A8C4(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
@@ -487,11 +505,22 @@ s32 GbSave_GameToCategoryIndex(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002BC58.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002BE24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002BE24.s")
-#endif
+extern u8 D_04009FB0[];
+void func_8002BE24(s32 start, s32 end) {
+    s32 row;
+    s32 n;
+
+    while (start < end) {
+        row = start % 128;
+        n = (128 - row > 32) ? 32 : 128 - row;
+        if (n >= end - start) {
+            n = end - start;
+        }
+        gDPLoadTextureBlock(gDisplayListHead++, D_04009FB0 + row * 128, G_IM_FMT_I, G_IM_SIZ_8b, 128, n, 0, G_TX_WRAP, G_TX_WRAP, 7, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, 0, start << 2, 640 << 2, (start + n) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        start += n;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002C064; signature not recovered. */

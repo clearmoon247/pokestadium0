@@ -74,11 +74,35 @@ void Cont_AdjustAnalogStick(Controller* controller) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000AFE4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000AFE4.s")
-#endif
+extern u8 D_800AAFFA;
+extern u8 D_800AAFF8;
+void Cont_InitControllers(void) {
+    s16 port;
+    s16 cont;
+
+    for (port = 0; port < 4; port++) {
+        bzero(&gControllers[port], sizeof(Controller));
+    }
+    cont = 0;
+    port = 0;
+    if (D_800AAFFA == 0) {
+        for (port = 0; port < 4; port++) {
+            if (D_800AAFF8 & (1 << port)) {
+                gControllers[port].contId = port + 1;
+                gControllers[port].statusData = &gControllerStatuses[port];
+                gControllers[port].controllerData = &gControllerPads[port];
+            }
+        }
+    } else {
+        for (port = 0; port < 4 && cont < 4; port++) {
+            if (D_800AAFF8 & (1 << port)) {
+                gControllers[cont].contId = port + 1;
+                gControllers[cont].statusData = &gControllerStatuses[port];
+                gControllers[cont++].controllerData = &gControllerPads[port];
+            }
+        }
+    }
+}
 
 extern u8 D_800AAFFA;
 extern u8 D_800AAFF8;

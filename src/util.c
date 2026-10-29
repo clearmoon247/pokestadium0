@@ -99,11 +99,37 @@ void Util_DrawRect(Gfx** dlist, s32 ulx, s32 lrx, u16 color) {
     *dlist = gfx;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80002EC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80002EC8.s")
-#endif
+void func_80002EC8(Gfx** dlist) {
+    MainPool* pool = main_pool_get_pool();
+    UNUSED s32 pad;
+    s32 available = func_8000255C();
+
+    if (available >= 0) {
+        s32 baseX = 30;
+        s32 startX = ((u32)(K0_TO_PHYS(pool->start)) >> 15) + baseX;
+        s32 headLX = ((u32)(K0_TO_PHYS(pool->listHeadL)) >> 15) + baseX;
+        s32 headRX = ((u32)(K0_TO_PHYS(pool->listHeadR)) >> 15) + baseX;
+        s32 endX = ((u32)(K0_TO_PHYS(pool->end)) >> 15) + baseX;
+
+        Util_DrawRect(dlist, baseX, startX, GPACK_RGBA5551(248, 120, 40, 1));
+        Util_DrawRect(dlist, startX, headLX, GPACK_RGBA5551(248, 248, 40, 1));
+        Util_DrawRect(dlist, headLX, headRX, GPACK_RGBA5551(40, 80, 248, 1));
+        Util_DrawRect(dlist, headRX, endX, GPACK_RGBA5551(248, 248, 40, 1));
+        HAL_Printf(baseX, 20, "MEM: +%XH (+%dK)", available, available / 1024);
+    } else {
+        s32 baseX = 30;
+        s32 startX = ((u32)(K0_TO_PHYS(pool->start)) >> 15) + baseX;
+        s32 headLX = ((u32)(K0_TO_PHYS(pool->listHeadL)) >> 15) + baseX;
+        s32 headRX = ((u32)(K0_TO_PHYS(pool->listHeadR)) >> 15) + baseX;
+        s32 endX = ((u32)(K0_TO_PHYS(pool->end)) >> 15) + baseX;
+
+        Util_DrawRect(dlist, baseX, startX, GPACK_RGBA5551(248, 120, 40, 1));
+        Util_DrawRect(dlist, startX, headRX, GPACK_RGBA5551(248, 248, 40, 1));
+        Util_DrawRect(dlist, headRX, headLX, GPACK_RGBA5551(248, 40, 40, 1));
+        Util_DrawRect(dlist, headLX, endX, GPACK_RGBA5551(248, 248, 40, 1));
+        HAL_Printf(baseX, 20, "MEM: -%XH (-%dK)", -available, -available / 1024);
+    }
+}
 
 void Util_Memclear(u64* dest, u32 size) {
     while (size-- > 0) {

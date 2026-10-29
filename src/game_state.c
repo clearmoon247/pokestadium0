@@ -462,11 +462,44 @@ volatile long long func_80027140(s32 arg0, s8 *arg1)
   }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80027168; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027168.s")
-#endif
+typedef struct Key80027168 {
+    s16 n;
+    Vec3s a;
+    Vec3s b;
+} Key80027168;
+typedef struct Obj80027168 {
+    s32 unk_00;
+    Key80027168* keys;
+    Vec3f unk_08;
+    Vec3f unk_14;
+    Vec3f unk_20;
+    Vec3f unk_2C;
+    s16 unk_38;
+    s16 unk_3A;
+} Obj80027168;
+Vec3f* Vec3f_FromVec3s(Vec3f* float_vector, Vec3s* int_vector);
+Vec3s* Vec3s_Add(Vec3s* dest, Vec3s* a, Vec3s* b);
+Vec3s* Vec3s_Subtract(Vec3s* dest, Vec3s* a, Vec3s* subtrahend);
+
+M2C_UNK func_80027168(arg0)
+    Obj80027168* arg0;
+{
+    Vec3s sp30;
+    Vec3s sp28;
+
+    if ((arg0->unk_3A = arg0->keys->n) == 0) {
+        return 0;
+    }
+    arg0->unk_38 = 0;
+    Vec3s_Add(&sp30, &arg0->keys->a, &arg0->keys->b);
+    Vec3s_Subtract(&sp28, &arg0->keys[1].a, &arg0->keys[1].b);
+    Vec3f_FromVec3s(&arg0->unk_08, &arg0->keys->a);
+    Vec3f_FromVec3s(&arg0->unk_14, &sp30);
+    Vec3f_FromVec3s(&arg0->unk_20, &sp28);
+    Vec3f_FromVec3s(&arg0->unk_2C, &arg0->keys[1].a);
+    arg0->keys++;
+    return 1;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80027214; signature not recovered. */
