@@ -3,10 +3,7 @@
     ".rodata": "0x8007DC00"
   },
   "src/3D140.c": {
-    ".rodata": {
-      "address": "0x8007DD20",
-      "size": "0x4"
-    }
+    ".rodata": "0x8007DD20"
   },
   "src/DDC0_2.c": {
     ".rodata": {
@@ -202,6 +199,12 @@
   },
   "src/fragments/fragment012_17ED00/particle_math_26E6D0_3.c": {
     ".rodata": "0x82196990"
+  },
+  "src/fragments/fragment016_252E10/89100020.c": {
+    ".rodata": {
+      "address": "0x8910DFC8",
+      "size": "0x38"
+    }
   },
   "src/fragments/fragment016_252E10/lab_pc_list_1E46B0_2.c": {
     ".data": "0x8910D9E0"

@@ -550,11 +550,29 @@ void func_82102E94(ActivePokemon* active_pokemon) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82102FF4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82103178; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82103178.s")
-#endif
+void func_82101C24(ActivePokemon*, s32);
+void func_82108A88(ActivePokemon*, s32, s32);
+M2C_UNK func_8213B31C(M2C_UNK);
+void func_82103178(ActivePokemon* active_pokemon) {
+    BattleMonRuntime* runtime;
+    MovePresentationCue* cue;
+    s32 side;
+
+    runtime = &active_pokemon->state.runtime;
+    cue = &sSideBattleCues[BattleScene_GetParticipantSideIndex(active_pokemon) == 0]->moveCues[runtime->usedMove - 1];
+    side = BattleScene_GetParticipantSideIndex(active_pokemon);
+    if (cue->endFrame + 1 == sActivePokemon[side == 0]->animationTimer) {
+        if (func_82101F84((s8*)active_pokemon) == 0) {
+            func_8213B31C(1);
+            func_82101C24(sActivePokemon[side == 0], runtime->usedMove);
+            if ((runtime->moveCache.lastMove == 0x14) || (runtime->moveCache.lastMove == 0x23) ||
+                (runtime->moveCache.lastMove == 0x51) || (runtime->moveCache.lastMove == 0x84)) {
+                func_82108A88(sActivePokemon[side == 0], 0x10, 0);
+            }
+            sBattleSceneStateTickSlots[sBattleSceneStateTickSlotIndex].callback = sBattleSceneStateTickSentinel;
+        }
+    }
+}
 
 extern u8 D_82199FCC;
 void func_821032B0(ActivePokemon* active_pokemon) {

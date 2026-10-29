@@ -737,11 +737,36 @@ void func_8212F6E4(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212F894; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212F894.s")
-#endif
+s16 func_82107B54(ActivePokemon*);
+void func_8212F894(CameraNode* arg0) {
+    BattleMonRuntime* runtime = &((ActivePokemon*)D_8219A544)->state.runtime;
+
+    M2C_FIELD(sBattleScene.scene, s32*, 0x50) = 2;
+    func_821255EC(arg0);
+
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            BattleAnim_CleanupEffects(1);
+            func_8212C6E8(D_8219A540, arg0, D_8219A568 = BattleAnim_RandomRange(4));
+            func_8211F034(D_8219A520 + 0x88, sBattleScene.scene->unk_2C);
+            BattleScene_ResetCameraFrameCounter();
+            BattleAnim_QueueMoveEffectEnd(runtime->usedMove, (ActivePokemon*)D_8219A544, D_8219A540, BattleScene_GetHitCueDefaultAnchor(D_8219A540), func_82107B54(D_8219A540));
+            BattleScene_SetParticipantModelTransform(D_8219A540, 0x10, 0);
+            sBattleScene.scene->unk_20 += 1;
+            break;
+
+        case 1:
+            func_82124E80();
+            if (func_821217DC(0x50) != 0) {
+                BattleScene_ClearPhaseFlag();
+                BattleScene_ResetCameraFrameCounter();
+                func_8211EE8C();
+                BattleScene_ResetAnimationStep();
+                func_82125C34(arg0);
+            }
+            break;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8212F9FC; signature not recovered. */

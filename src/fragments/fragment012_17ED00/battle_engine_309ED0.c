@@ -489,7 +489,7 @@ void BattleScene_ResolveDisplayedHpCompletion(CameraNode* arg0) {
     }
 }
 
-M2C_UNK func_82125570();
+void func_82125570(void);
 void func_8212188C(void);
 M2C_UNK func_82106220();
 void func_82125594(CameraNode* arg0, s32 arg1);
@@ -646,7 +646,7 @@ M2C_UNK func_821218AC(s32, s32, f32, s32, f32, s32, s32); /* extern */
 M2C_UNK func_82121D78(s32, M2C_UNK, M2C_UNK);       /* extern */
 M2C_UNK func_821224F4();                            /* extern */
 M2C_UNK func_82124A40();                            /* extern */
-M2C_UNK func_82125570();                            /* extern */
+void func_82125570(void);
 extern M2C_UNK D_8218B630;
 extern s32 D_82199DE0;
 extern s32 D_82199DE4;
@@ -701,11 +701,42 @@ void func_821261A0(void* arg0, void* arg1, s32 arg2) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82126220; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82126220.s")
-#endif
+extern f32 D_FLT_82189354[][4];
+void func_82136708(s32, ActivePokemon*);
+void func_8210568C(ActivePokemon*, s32, s32);
+M2C_UNK func_80019B28(s32, u8, u8, u8, s32);
+s32 func_82126220(ActivePokemon* active_pokemon) {
+    UNUSED s32 pad;
+    BattleMon* party_pokemon = &active_pokemon->teamRoster->pokemonPicked[active_pokemon->state.rosterIndex];
+    ActivePokemonState* state = &active_pokemon->state;
+
+    if (state->flags & 0x200) {
+        func_82105E4C(active_pokemon, 0x60C);
+        return 1;
+    }
+    if (state->flags & 0x80) {
+        func_82136708(2, active_pokemon);
+        func_82105E4C(active_pokemon, 0x80);
+    }
+    if (state->flags & 0x4008) {
+        active_pokemon->displayObject.lodFraction = 0xFF;
+        func_82136708(4, active_pokemon);
+        active_pokemon->displayObject.position.y = D_FLT_82189354[active_pokemon->displayObject.objectType][0];
+        active_pokemon->displayObject.node.renderFlags &= ~2;
+        active_pokemon->displayObject.node.renderFlags |= 0x20;
+        active_pokemon->displayObject.node.flags |= 1;
+        func_82105E4C(active_pokemon, 0x4608);
+    }
+    if (party_pokemon->statusCondition & 7) {
+        party_pokemon->statusCondition = 0;
+        func_8210568C(active_pokemon, 0xB8, 1);
+        func_82136708(3, active_pokemon);
+        func_82105E4C(active_pokemon, 1);
+    }
+    state->alpha = 0xFF;
+    func_80019B28((s32)active_pokemon, 0xFF, 0xFF, 0xFF, state->alpha);
+    return 0;
+}
 
 void func_8212239C(ActivePokemon* arg0, CameraNode* arg1);
 s32 func_82126220(ActivePokemon*);
@@ -980,7 +1011,7 @@ void func_821272C0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82128CDC.s")
 #endif
 
-M2C_UNK func_82125570();
+void func_82125570(void);
 void func_8212188C(void);
 M2C_UNK func_82125580();
 void func_8211F034(s32, s32);
@@ -1134,11 +1165,42 @@ void func_821292FC(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82129414; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82129414.s")
-#endif
+void func_82124984(ActivePokemon* arg0, CameraNode* arg1, s32 arg2);
+M2C_UNK func_8212189C();
+void func_821228B0(CameraNode* arg0, ActivePokemon* arg1);
+s32 func_82121798(s32);
+s32 func_821058E8(ActivePokemon* arg0, s32 arg1);
+void func_8210C1A8(f32*, f32, f32);
+void func_82129414(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_3C) {
+        case 0:
+            sBattleScene.scene->unk_50 = 4;
+            if (func_821217DC(0x14) != 0) {
+                func_821255B4((s8*)arg0);
+                func_82125580();
+                func_82124984((ActivePokemon*)D_8219A544, arg0, 4);
+                func_8212239C((ActivePokemon*)D_8219A544, arg0);
+                func_8211EE8C();
+                func_8212189C();
+            }
+            break;
+        case 1:
+            sBattleScene.scene->unk_50 = 4;
+            func_821228B0(arg0, (ActivePokemon*)D_8219A544);
+            if (func_82121798(0xF) != 0) {
+                func_8211EE8C();
+            }
+            if (func_821058E8((ActivePokemon*)D_8219A544, 0x32) != 0) {
+                func_8211EE8C();
+                func_8212188C();
+                func_82125570();
+                sBattleScene.scene->unk_50 = 0;
+                sBattleScene.scene->unk_20++;
+            }
+            func_8210C1A8(&M2C_FIELD(arg0, f32*, 0x2C), 60.0f, 0.03f);
+            break;
+    }
+}
 
 extern s32 D_8219A568;
 void func_82128FBC(CameraNode*);
@@ -1328,7 +1390,7 @@ void func_8212188C(void);
 M2C_UNK func_821224F4();                            /* extern */
 M2C_UNK func_82124284(s32, s32, f32);               /* extern */
 M2C_UNK func_821243DC(s32, s32, f32);               /* extern */
-M2C_UNK func_82125570();                            /* extern */
+void func_82125570(void);
 M2C_UNK func_82125580();                            /* extern */
 M2C_UNK func_8213B31C(M2C_UNK);                     /* extern */
 extern s32 D_8219A540;
@@ -1372,7 +1434,7 @@ void func_8212188C(void);
 M2C_UNK func_821224F4();                            /* extern */
 M2C_UNK func_82124544(s32, s32, M2C_UNK, M2C_UNK, f32, f32, s32); /* extern */
 M2C_UNK func_82124664(s32, s32, M2C_UNK);           /* extern */
-M2C_UNK func_82125570();                            /* extern */
+void func_82125570(void);
 M2C_UNK func_82125580();                            /* extern */
 M2C_UNK func_8213B31C(M2C_UNK);                     /* extern */
 extern s32 D_8219A540;
@@ -1534,7 +1596,7 @@ s32 func_82121820(M2C_UNK);                         /* extern */
 void func_8212188C(void);
 M2C_UNK func_8212189C();                            /* extern */
 M2C_UNK func_82124A40();                            /* extern */
-M2C_UNK func_82125570();                            /* extern */
+void func_82125570(void);
 M2C_UNK func_82125AC8(s32);                         /* extern */
 extern s32 D_8219A544;
 extern s8 *D_8219A5A0;

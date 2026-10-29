@@ -670,11 +670,28 @@ loop_3:
     func_80022188(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_817015B0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment010_17BE70/func_817015B0.s")
-#endif
+void func_8003F96C(s32, s32);
+M2C_UNK func_81700588(s32, M2C_UNK);
+M2C_UNK func_8170070C(s32);
+M2C_UNK func_81700630(s32, M2C_UNK);
+extern u8 D_8006B2E5;
+extern s8* D_8170201C;
+M2C_UNK func_817015B0(s32 arg0) {
+    s32 i;
+
+    func_8003F96C(0x19, 0);
+    func_8170070C((s32)D_81701B44);
+    func_81700588((s32)D_81701B44, 1);
+    for (i = func_81700130(); i < 4; i++) {
+        M2C_FIELD(D_817027A8 + i, u8*, 9) = 0;
+        M2C_FIELD(D_817027A8 + i, u8*, 0x20) = 0;
+    }
+    M2C_FIELD(D_817027A8 + arg0, u8*, 9) = 0x39;
+    M2C_FIELD(D_817027A8 + arg0, u8*, 0x20) = D_8006B2E5;
+    func_817014A4(M2C_FIELD(D_8170201C, u8*, 0x1094));
+    func_81700630((s32)D_81701B44, 1);
+    func_81700E04();
+}
 
 M2C_UNK func_80005B98(M2C_UNK);                     /* extern */
 M2C_UNK func_800067BC(M2C_UNK);                     /* extern */

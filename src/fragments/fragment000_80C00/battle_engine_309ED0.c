@@ -176,8 +176,56 @@ void func_8110EE28(s32 arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110F6A4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FAF4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FAF4.s")
-#endif
+typedef struct Entry81184450 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ char unk4[0x4];
+    /* 0x8 */ s16 unk_8;
+    /* 0xA */ s16 unk_A;
+} Entry81184450; // size = 0xC
+typedef struct Table81184440 {
+    /* 0x00 */ char unk00[0xC];
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ Entry81184450 unk_10[1];
+} Table81184440;
+extern Table81184440 D_81184440;
+extern s32 D_8118444C;
+typedef struct Entry811858B0 {
+    /* 0x00 */ u8 unk_00[2];
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
+    /* 0x04 */ char unk04[8];
+} Entry811858B0; // size = 0xC
+extern Entry811858B0* D_811858B0;
+typedef struct Entry8110D840 {
+    /* 0x00 */ char unk00[8];
+    /* 0x08 */ s8 unk_08;
+    /* 0x09 */ char unk09[7];
+} Entry8110D840; // size = 0x10
+typedef struct Table8110D840 {
+    /* 0x00 */ char unk00[0x10];
+    /* 0x10 */ Entry8110D840 entries[1];
+} Table8110D840;
+Table8110D840* func_8110D840(s32);
+s32 func_8110D7B0(s32, s32);
+void func_8110F6A4(s32, s32, s32*);
+void func_8110FAF4(void) {
+    Table8110D840* base = func_8110D840(2);
+    s32 i;
+    s32 idx;
+    s32 buf[8];
+    s32 id;
+
+    for (i = 0; i < D_8118444C; i++) {
+        if (D_81184440.unk_10[i].unk_8 == 1) {
+            id = func_8110D7B0(1, D_81184440.unk_10[i].unk_A);
+            buf[0] = D_811858B0[id].unk_02;
+            buf[0] = func_8110D7B0(2, buf[0]);
+            buf[1] = D_811858B0[id].unk_03;
+            buf[1] = func_8110D7B0(2, buf[1]);
+            buf[4] = base->entries[buf[0]].unk_08;
+            idx = buf[1];
+            buf[5] = base->entries[idx].unk_08;
+            func_8110F6A4(id, 0, buf);
+        }
+    }
+}

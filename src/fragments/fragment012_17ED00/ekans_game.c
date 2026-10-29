@@ -208,11 +208,29 @@ void BattleAnim_EndEffect9Radial20_Draw(void) {
     gDisplayListHead = Strip400_Draw(gDisplayListHead);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216E428; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E428.s")
-#endif
+extern f32 D_FLT_821978DC;
+void func_8216E428(void) {
+    Vec3f pos;
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 angle;
+    UNUSED s32 pad[2];
+    f32 scale = BattleAnim_EffectSecondaryOwnerModelScale();
+
+    BattleAnim_EffectSecondaryOwnerAnchorPosition(&pos);
+    x = pos.x;
+    y = pos.y;
+    z = pos.z;
+    angle = 15.0f;
+    if (x > 0.0) {
+        angle = -angle;
+    }
+    x += scale * (30.0f - ((s32)guRandom() % 60));
+    y += scale * (30.0f - ((s32)guRandom() % 60));
+    z += scale * (30.0f - ((s32)guRandom() % 60));
+    TexturedRibbonSheet_Start(x, y, z, angle, 0.0f, 0.0f, 0xFF, 0xFF, 0, 0x3C, D_FLT_821978DC, 0x1E);
+}
 
 void BattleAnim_StartEffect7TexturedRibbonSheet_Init(void) {
     D_8219CB10 = 0;
