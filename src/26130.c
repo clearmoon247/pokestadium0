@@ -2,8 +2,16 @@
 
 #include "global.h"
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025530; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025530.s")
-#endif
+/*
+ * func_80025530
+ *
+ * Absolute value of a float.  The whole function is one `abs.s` followed by
+ * the return, i.e. the compiler's built-in fabsf; the pragma below makes IDO
+ * emit that instruction instead of a call.
+ */
+f32 fabsf(f32 x);
+#pragma intrinsic(fabsf)
+
+f32 func_80025530(f32 arg0) {
+    return fabsf(arg0);
+}

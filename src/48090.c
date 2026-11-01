@@ -3,17 +3,35 @@
 #include "global.h"
 #include "m2c_macros.h"
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80047490; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80047490.s")
-#endif
+/*
+ * func_80047490
+ *
+ * Calls func_80037AC4(arg0, arg1) with arg1 replaced by 1 when it is 0.
+ * (The sibling func_800474B8 does the same for func_8003798C.)  What the
+ * second argument means is not known; only the "0 becomes 1" rule is
+ * confirmed by the assembly.
+ */
+void func_80037AC4(s32 arg0, s32 arg1);
+void func_80047490(s32 arg0, s32 arg1) {
+    if (arg1 == 0) {
+        arg1 = 1;
+    }
+    func_80037AC4(arg0, arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800474B8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800474B8.s")
-#endif
+/*
+ * func_800474B8
+ *
+ * Calls func_8003798C(arg0, arg1) with arg1 replaced by 1 when it is 0.
+ * Same pattern as func_80047490, which targets func_80037AC4 instead.
+ */
+void func_8003798C(s32 arg0, s32 arg1);
+void func_800474B8(s32 arg0, s32 arg1) {
+    if (arg1 == 0) {
+        arg1 = 1;
+    }
+    func_8003798C(arg0, arg1);
+}
 
 M2C_UNK func_800387BC(s32);                         /* extern */
 extern s8 D_8007753C;

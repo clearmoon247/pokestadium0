@@ -1146,17 +1146,30 @@ void func_82105428(s32 arg0) {
     func_82104C68(arg0, 6);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105460; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105460.s")
-#endif
+/*
+ * func_82105460
+ *
+ * Writes arg1 into the byte at offset 0x820 of the ActivePokemon (this is
+ * inside the embedded state block; func_821054A8 tests the same byte against
+ * 0x6A), then moves the scene to state row 3 with BattleScene_EnterStateRow.
+ * func_82105484 is identical apart from entering row 4.
+ */
+void func_82105460(ActivePokemon* arg0, s32 arg1) {
+    ((u8*)arg0)[0x820] = arg1;
+    BattleScene_EnterStateRow(arg0, 3);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82105484; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82105484.s")
-#endif
+/*
+ * func_82105484
+ *
+ * Same as func_82105460 but enters state row 4 instead of row 3: stores
+ * arg1 in the byte at offset 0x820 of the ActivePokemon, then calls
+ * BattleScene_EnterStateRow(arg0, 4).
+ */
+void func_82105484(ActivePokemon* arg0, s32 arg1) {
+    ((u8*)arg0)[0x820] = arg1;
+    BattleScene_EnterStateRow(arg0, 4);
+}
 
 void func_821054A8(s8 *arg0) {
     if (M2C_FIELD(arg0, u8 *, 0x820) == 0x6A) {
@@ -1536,8 +1549,6 @@ void func_82106354(void) {
 }
 
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
     switch (active_pokemon->modelTransformId) {
         case 14:
@@ -1552,7 +1563,7 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
             if (active_pokemon->state.runtime.scaleResize == 0) {
                 Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
             } else {
-                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.8f, 0.8f, 0.8f);
+                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.65f, 0.65f, 0.65f);
             }
             break;
 
@@ -1561,7 +1572,7 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
             if (active_pokemon->state.runtime.scaleResize == 0) {
                 Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 1.0f, 1.0f, 1.0f);
             } else {
-                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.8f, 0.8f, 0.8f);
+                Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.65f, 0.65f, 0.65f);
             }
             break;
 
@@ -1573,7 +1584,7 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
 
         case 9:
             BattleScene_SetParticipantModelTransform(active_pokemon, 0, 0);
-            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.8f, 0.8f, 0.8f);
+            Vec3f_SetComponentsDuplicate(&active_pokemon->displayObject.scale, 0.65f, 0.65f, 0.65f);
             BattleScene_HideParticipantSecondaryModels(active_pokemon);
             break;
 
@@ -1596,9 +1607,6 @@ void BattleScene_CleanupParticipantEffectMode(ActivePokemon* active_pokemon) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82106374.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_821065B4; signature not recovered. */

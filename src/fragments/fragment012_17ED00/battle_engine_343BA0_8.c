@@ -250,11 +250,73 @@ void BattleAnim_StartEffect45FourStreamTrail_Init(void) {
     FourStreamTrail_Init();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8216F3A0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216F3A0.s")
-#endif
+/*
+ * func_8216F3A0
+ *
+ * Per-frame update of the "four stream trail" part of effect 45: counts
+ * frames in D_8219CAC0 (returns -1, which ends the effect, from frame 0x32
+ * on).  During the first four frames (counter < 4) it starts one trail at the
+ * secondary owner's bone position: the trail leaves in a direction in the
+ * Y/Z plane given by an angle of (counter % 3) * pi / 3 + pi/6 (the sine and
+ * cosine of that angle, normalised together with a 1.0 X component and
+ * then scaled by 20), at X speed +-10 (negative when the start X is
+ * negative), with colour 0xC0FFFF, alpha 0x80, a random +-0.3 drift and
+ * fixed shape parameters 2.0, 13.0 and 0x28.  From frame 2 on it returns
+ * whether the trail has completed (FourStreamTrail_IsComplete), else 0.
+ *
+ * Same code as BattleAnim_StartEffect45FourStreamTrail_Update in the Stadium
+ * 1 decomp.  pi (D_FLT_82197934), pi/6 as a double (D_DBL_82197938) and 0.3
+ * (D_DBL_82197940) are read from the retail rodata because this file's own
+ * rodata is not placed; the names of the values are inferred from their use
+ * and the donor source's M_PI_F, 0.5235987901687622 and 0.3.
+ */
+extern f32 D_FLT_82197934;
+extern f64 D_DBL_82197938;
+extern f64 D_DBL_82197940;
+
+s32 func_8216F3A0(void) {
+    s32 var_v1;
+    Vec3f sp68;
+    f32 sp64;
+    f32 sp60;
+    f32 sp5C;
+    f32 sp58;
+    f32 sp54;
+    f32 sp50;
+    f32 sp4C;
+
+    D_8219CAC0++;
+    if (D_8219CAC0 >= 0x32) {
+        return -1;
+    }
+
+    if (D_8219CAC0 < 4) {
+        BattleAnim_EffectSecondaryOwnerBonePosition(&sp68);
+        sp64 = sp68.x;
+        sp60 = sp68.y;
+        sp5C = sp68.z;
+        sp58 = 1.0f;
+        sp4C = (((D_8219CAC0 % 3) * D_FLT_82197934) / 3.0) + D_DBL_82197938;
+        sp54 = (f64)__sinf(sp4C);
+        sp50 = (f64)__cosf(sp4C);
+        Vec3f_NormalizeComponents(&sp58, &sp54, &sp50);
+        sp54 *= 20.0;
+        sp50 *= 20.0;
+        sp58 = 10.0f;
+        if (sp64 < 0.0) {
+            sp58 = -sp58;
+        }
+        FourStreamTrail_Start(sp64, sp60, sp5C, sp58, sp54, sp50, 0xC0, 0xFF, 0xFF, 0x80, (((guRandom() % 2) * 2) - 1) * D_DBL_82197940,
+                              2.0f, 13.0f, 0x28);
+    }
+
+    if (D_8219CAC0 >= 2) {
+        var_v1 = FourStreamTrail_IsComplete();
+    } else {
+        var_v1 = 0;
+    }
+    return var_v1;
+}
 
 void BattleAnim_StartEffect45FourStreamTrail_Draw(void) {
     if (D_8219CAC0 >= 2) {

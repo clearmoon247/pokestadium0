@@ -116,11 +116,27 @@ void func_811110D0(s8 *arg0) {
     M2C_FIELD(arg0, s32 *, 8) = 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811110E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811110E0.s")
-#endif
+/*
+ * func_811110E0
+ *
+ * Calls func_811110D0 on four 16-byte blocks at arg0 + 0x00, 0x10, 0x20 and
+ * 0x30.  func_811110D0 stores the block's own address in its first two words
+ * and clears the third, giving an empty circular list head {next, prev,
+ * count, owner}: func_8111147C and func_81112EAC, which insert into such a
+ * list, link through the first two words, increment the third and copy the
+ * fourth into the inserted node.  Afterwards arg0 itself is stored in the
+ * fourth word (offset 0xC) of each block.
+ */
+void func_811110E0(s8 *arg0) {
+    func_811110D0(arg0);
+    func_811110D0(arg0 + 0x10);
+    func_811110D0(arg0 + 0x20);
+    func_811110D0(arg0 + 0x30);
+    M2C_FIELD(arg0, s8 **, 0xC) = arg0;
+    M2C_FIELD(arg0, s8 **, 0x1C) = arg0;
+    M2C_FIELD(arg0, s8 **, 0x2C) = arg0;
+    M2C_FIELD(arg0, s8 **, 0x3C) = arg0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81111130; signature not recovered. */
@@ -211,17 +227,61 @@ void func_811116BC(s8 *arg0, s8 *arg1)
   *((u8 *) (((s8 *) arg0) + 0x5C)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x5C))) | 0x10);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811116E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811116E8.s")
-#endif
+/*
+ * func_811116E8
+ *
+ * Moves one entry from the list headed at arg0 to the list headed at
+ * arg0 + 0x30.  The list heads are 16-byte blocks laid out as
+ * {next, prev, count, owner}, as set up by func_811110D0 and func_811110E0.
+ *
+ *   1. func_81112EEC(arg0) unlinks the first node of the list at arg0 and
+ *      returns the word stored at offset 8 of that node (0 if the list is
+ *      empty).  That value is the entry used below and the return value.
+ *   2. If it is not 0, func_81111568(entry, arg1) is called on it, and
+ *      func_8111147C then appends the entry to the list at arg0 + 0x30
+ *      (it does nothing if the entry's first word is already non-zero).
+ *
+ * Returns the entry, or 0 if there was none.  What func_81111568 does with
+ * arg1 is not established (it is still assembly).
+ */
+s32 func_81112EEC(s8 *);
+M2C_UNK func_81111568(s32, s32);                    /* extern */
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81111734; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81111734.s")
-#endif
+s32 func_811116E8(s8 *arg0, s32 arg1) {
+    s32 ret;
+
+    ret = func_81112EEC(arg0);
+    if (ret != 0) {
+        func_81111568(ret, arg1);
+        func_8111147C((M2C_UNK *) (arg0 + 0x30), (M2C_UNK *) ret);
+    }
+    return ret;
+}
+
+/*
+ * func_81111734
+ *
+ * Like func_811116E8, but it takes the entry from the list headed at
+ * arg0 + 0x10, initialises it with func_811116BC(entry, arg1), and inserts
+ * it at the front of the list headed at arg0 + 0x20 with func_81112EAC.
+ * List heads are {next, prev, count, owner} blocks (see func_811110D0).
+ *
+ * func_81112EEC unlinks the first node of the list at arg0 + 0x10 and
+ * returns the word at offset 8 of that node, or 0 if the list is empty.
+ * Returns that entry, or 0 if there was none; nothing else happens then.
+ */
+s32 func_81112EEC(s8 *);
+
+s32 func_81111734(s8 *arg0, s8 *arg1) {
+    s32 ret;
+
+    ret = func_81112EEC(arg0 + 0x10);
+    if (ret != 0) {
+        func_811116BC((s8 *) ret, arg1);
+        func_81112EAC(arg0 + 0x20, (s8 *) ret);
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81111784; signature not recovered. */

@@ -189,11 +189,20 @@ s32 func_81800074(s32 arg0) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_818000D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment011_17E340/func_818000D0.s")
-#endif
+/*
+ * func_818000D0
+ *
+ * Draws a rectangular vertical-gradient panel.  The four arguments are the
+ * panel's x, y, width and height (as s16), passed straight on to
+ * Ui_DrawGradientPanel.  The top colour is dark blue (R0 G0 B50) and the
+ * bottom colour is a brighter blue (R0 G0 B200).
+ */
+void func_818000D0(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
+    Color_RGB8 sp24 = { 0x00, 0x00, 0x32 }; /* top colour    */
+    Color_RGB8 sp20 = { 0x00, 0x00, 0xC8 }; /* bottom colour */
+
+    Ui_DrawGradientPanel(arg0, arg1, arg2, arg3, &sp24, &sp20);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8180014C; signature not recovered. */
@@ -209,7 +218,6 @@ s32 func_81800074(s32 arg0) {
 
 M2C_UNK func_80006780();                            /* extern */
 M2C_UNK func_8180003C();                            /* extern */
-M2C_UNK func_818000D0(s16, s16, s16, s16);          /* extern */
 
 void func_8180042C(void) {
     s16 var_s0;

@@ -78,11 +78,33 @@ s32 func_82000058(s32 arg0, s32 arg1, s32 arg2, Entry82000058* entry) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_82000594.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_820008C8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment007_166580/func_820008C8.s")
-#endif
+/*
+ * func_820008C8
+ *
+ * Builds a table of pointers into a block of equally sized records.
+ * arg1 holds the address of the first record at +0x00 and the record count
+ * at +0x08.  arg0 holds the address of the pointer table at +0x00; entry i
+ * is set to (first record + i * 0x214), so each record is 0x214 bytes.
+ * The count is then copied to arg0 + 0x08.  What the records are is not
+ * known from the code alone.
+ *
+ * func_881025C8 is the same routine with a record size of 0x220.
+ */
+void func_820008C8(s32* arg0, s32* arg1) {
+    s32 value = arg1[0];
+    s32* out = (s32*)arg0[0];
+    s32 i = 0;
+
+    if (arg1[2] > 0) {
+        do {
+            *out = value;
+            i += 1;
+            value += 0x214;
+            out += 1;
+        } while (i < arg1[2]);
+    }
+    arg0[2] = arg1[2];
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82000900; signature not recovered. */

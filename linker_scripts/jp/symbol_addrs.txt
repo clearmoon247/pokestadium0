@@ -634,6 +634,7 @@ Deck_GetSaveEntryCount = 0x80024ADC; // type:func
 Deck_SetSaveEntryCount = 0x80024B90; // type:func
 Deck_ReadSaveEntry = 0x80024D88; // type:func
 Save_WriteTypedRecord = 0x80024F14; // type:func
+fabsf = 0x80025530; // type:func
 Fragment_LoadAndCall = 0x80025B60; // type:func
 Fragment_QueueCall = 0x80025BA0; // type:func
 Trainer_GetSlots = 0x80025BCC; // type:func

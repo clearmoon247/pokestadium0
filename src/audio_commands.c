@@ -153,17 +153,35 @@ void func_80041834(s32 arg0) {
     func_8003834C(D_800B418C, D_800B41A8, arg0, 0x80, 0x80, 0, -1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8004187C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8004187C.s")
-#endif
+/*
+ * func_8004187C
+ *
+ * Bounds-checked lookup into the array of two words at D_800FD698.
+ * Returns the entry for index 0 or 1, and -1 for any other index
+ * (the index is treated as unsigned, so negative values also give -1).
+ * What the table entries mean is not known.
+ */
+extern s32 D_800FD698[];
+s32 func_8004187C(u32 arg0) {
+    if (arg0 >= 2U) {
+        return -1;
+    }
+    return D_800FD698[arg0];
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800418A4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800418A4.s")
-#endif
+/*
+ * func_800418A4
+ *
+ * Same shape as func_8004187C but reading the array of two words at
+ * D_800FD6A8: index 0 or 1 returns the entry, anything else returns -1.
+ */
+extern s32 D_800FD6A8[];
+s32 func_800418A4(u32 arg0) {
+    if (arg0 >= 2U) {
+        return -1;
+    }
+    return D_800FD6A8[arg0];
+}
 
 extern M2C_UNK D_800FD6B4;
 

@@ -319,14 +319,170 @@ void func_8001E9A0(s32 arg0, s32 arg1) {
     gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001EBDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001EBDC.s")
-#endif
+/*
+ * func_8001EBDC  (src/ui_graphics.c)  -- 465 words
+ *
+ * Draws a horizontal bar built from 8x12-texel pieces at screen
+ * position (arg0, arg1).
+ *   arg2 = total bar width in pixels (the usable part is arg2 - 4),
+ *   arg3 = current value, arg4 = maximum value.
+ * `temp_lo` is the empty part's width and `sp1C` the filled part's width.
+ * The fill texture depends on the ratio arg3/arg4:
+ *   below 10/48 -> texture 0x01006B90, below 27/48 -> 0x01006AD0,
+ *   otherwise   -> 0x01006A10  (colour names unknown; check in game).
+ * Pieces drawn: a left piece, a right piece, the filled part, the empty part.
+ *
+ * Origin: Stadium 1 BattleHud_DrawHpBarTexture (so the bar is probably an
+ * HP-style gauge, inferred from that name only).  Zero compares with
+ * `arg3 < (arg4 * 0xA) / 48` where Stadium 1 wrote `arg3 * 0x30 < arg4 * 0xA`.
+ *
+ * Verified: compiles with IDO 7.1 -O2 -mips2 (repo flags and headers) to the same words as the retail ROM, relocations compared by address.
+ */
+extern Gfx D_80060290[];            /* display list that sets up texture-rectangle drawing */
+extern Gfx gUiRestoreTextureDL[];
+/* segment-1 texture addresses; rename once the textures are identified */
+extern u8 D_01006B90[];
+extern u8 D_01006AD0[];
+extern u8 D_01006A10[];
+extern u8 D_010067D0[];
+extern u8 D_01006890[];
+extern u8 D_01006950[];
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001F320; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001F320.s")
-#endif
+void func_8001EBDC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    u8* spDC;                 /* chosen fill texture */
+    s32 spD8 = arg2 - 4;      /* usable width of the bar */
+    /* empty part width = (max - current) / max * usable width */
+    s32 temp_lo = ((arg4 - arg3) * (arg2 - 4)) / arg4;
+    s32 sp1C =  /* filled part width, written as (arg2 - empty) - 4 to match retail */
+        (arg2 - temp_lo) - 4;
+
+    /* choose the fill texture from the fill ratio */
+    if (arg3 < ((arg4 * 0xA) / 48)) {
+        spDC = D_01006B90;
+    } else if (arg3 < ((arg4 * 0x1B) / 48)) {
+        spDC = D_01006AD0;
+    } else {
+        spDC = D_01006A10;
+    }
+
+    gSPDisplayList(gDisplayListHead++, D_80060290);
+
+    /* left piece (1 pixel wide, 11 tall) */
+
+    gDPLoadTextureBlock(gDisplayListHead++, D_010067D0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 12, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+    gSPTextureRectangle(gDisplayListHead++, arg0 << 2, arg1 << 2, (arg0 + 1) << 2, (arg1 + 0xB) << 2, G_TX_RENDERTILE,
+                        0, 0, 0x1000, 0x0400);
+
+    /* right piece, placed after the usable width */
+    gDPLoadTextureBlock(gDisplayListHead++, D_01006890, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 12, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+    gSPTextureRectangle(gDisplayListHead++, ((arg0 + spD8) + 2) << 2, arg1 << 2, ((arg0 + spD8) + 3) << 2,
+                        (arg1 + 0xB) << 2, G_TX_RENDERTILE, 0, 0, 0x1000, 0x0400);
+
+    /* filled part */
+    if (sp1C > 0) {
+        gDPLoadTextureBlock(gDisplayListHead++, spDC, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 12, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, (arg0 + 2) << 2, arg1 << 2, (arg0 + sp1C + 1) << 2, (arg1 + 0xB) << 2,
+                            G_TX_RENDERTILE, 0, 0, 0, 0x0400);
+    }
+
+    /* empty part */
+    if (temp_lo > 0) {
+        gDPLoadTextureBlock(gDisplayListHead++, D_01006950, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 12, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, ((arg0 + sp1C) + 2) << 2, arg1 << 2, ((arg0 + sp1C) + temp_lo + 1) << 2,
+                            (arg1 + 0xB) << 2, G_TX_RENDERTILE, 0, 0, 0, 0x0400);
+    }
+
+    /* restore the previous render state */
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}
+
+/*
+ * func_8001F320  (src/ui_graphics.c)  -- 451 words
+ *
+ * Draws a meter bar, 0x41 pixels wide and 5 tall, at screen position
+ * (arg0, arg1) using 16-bit RGBA textures.
+ *   arg2 = current value, arg3 = maximum value.
+ * The bar is 48 pixels long: `temp_lo` pixels are drawn as the "empty" part and
+ * `sp14` pixels as the "filled" part (sp14 = 48 - empty).  The fill colour
+ * depends on how full the bar is:
+ *   below 10/48 of max -> texture 0x01006D90 (low),
+ *   below 27/48 of max -> texture 0x01006D68 (medium),
+ *   otherwise          -> texture 0x01006D40 (high).
+ * (The colour names are a guess from the thresholds - check them in game.)
+ *
+ * Origin: this is the Stadium 1 function Widget_DrawMeterBar (so the bar is
+ * probably a HP-style gauge, but that is inferred from the name only).  Stadium 1 used a
+ * single symbol for the first two colours; Zero has three distinct textures.
+ *
+ * Verified: compiles with IDO 7.1 -O2 -mips2 (repo flags and headers) to the same words as the retail ROM, relocations compared by address.
+ */
+extern Gfx gUiEnvTintTextureDL[];
+extern Gfx gUiRestoreTextureDL[];
+/* segment-1 texture addresses; rename once the textures are identified */
+extern u8 D_01006D90[];
+extern u8 D_01006D68[];
+extern u8 D_01006D40[];
+extern u8 D_01006C50[];
+extern u8 D_01006CF0[];
+extern u8 D_01006D18[];
+
+void func_8001F320(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    u8* spCC;  /* chosen fill texture */
+    /* length of the empty part in pixels (0..48); arg3 is the maximum */
+    s32 temp_lo = ((arg3 - arg2) * 0x30) / arg3;
+    s32 sp14 = 0x30 - temp_lo;  /* length of the filled part, 0..48 pixels */
+
+    /* pick the fill colour from the fill ratio (integer maths, as in retail) */
+    if (arg2 < ((arg3 * 0xA) / 48)) {
+        spCC = D_01006D90;
+    } else if (arg2 < ((arg3 * 0x1B) / 48)) {
+        spCC = D_01006D68;
+    } else {
+        spCC = D_01006D40;
+    }
+
+    /* set up the texture-rectangle render state */
+    gSPDisplayList(gDisplayListHead++, gUiEnvTintTextureDL);
+
+    /* 1) a 16x5-texel piece at the left, x .. x+0x10 */
+
+    gDPLoadTextureBlock(gDisplayListHead++, D_01006C50, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 5, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+    gSPTextureRectangle(gDisplayListHead++, arg0 << 2, arg1 << 2, (arg0 + 0x10) << 2, (arg1 + 5) << 2, G_TX_RENDERTILE,
+                        0, 0, 0x0400, 0x0400);
+
+    /* 2) a 4x5-texel piece drawn 1 pixel wide at x+0x40, just past the 48-pixel bar area x+0x10 .. x+0x40 */
+    gDPLoadTextureBlock(gDisplayListHead++, D_01006CF0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 5, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+    gSPTextureRectangle(gDisplayListHead++, (arg0 + 0x40) << 2, arg1 << 2, (arg0 + 0x41) << 2, (arg1 + 5) << 2,
+                        G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+
+    /* 3) filled part of the bar, starting at x + 0x10 */
+    if (sp14 > 0) {
+        gDPLoadTextureBlock(gDisplayListHead++, spCC, G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 5, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, (arg0 + 0x10) << 2, arg1 << 2, (arg0 + sp14 + 0x10) << 2,
+                            (arg1 + 5) << 2, G_TX_RENDERTILE, 0, 0, 0, 0x0400);
+    }
+
+    /* 4) empty part of the bar, right after the filled part */
+    if (temp_lo > 0) {
+        gDPLoadTextureBlock(gDisplayListHead++, D_01006D18, G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 5, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(gDisplayListHead++, ((arg0 + sp14) + 0x10) << 2, arg1 << 2,
+                            ((arg0 + sp14) + temp_lo + 0x10) << 2, (arg1 + 5) << 2, G_TX_RENDERTILE, 0, 0, 0, 0x0400);
+    }
+
+    /* put the render state back */
+    gSPDisplayList(gDisplayListHead++, gUiRestoreTextureDL);
+}

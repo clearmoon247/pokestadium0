@@ -291,11 +291,16 @@ s32 func_82183BB0(s32 arg0, s32 arg1, s32 arg2) {
     return ((s32) ((((s32) func_80055340((f32) arg1) / 4) + (arg0 * 2)) * arg2) / 100) + 5;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82183C24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82183C24.s")
-#endif
+/*
+ * func_82183C24
+ *
+ * Returns func_82183BB0(arg0, 0xFFFF, arg1) + arg1 + 5.  The four functions
+ * that follow (func_82183C54 .. func_82183CC0) make the same call to
+ * func_82183BB0 without the extra "+ arg1 + 5".
+ */
+s32 func_82183C24(s32 arg0, s32 arg1) {
+    return func_82183BB0(arg0, 0xFFFF, arg1) + arg1 + 5;
+}
 
 s32 func_82183C54(s32 arg0, s32 arg1) {
     return func_82183BB0(arg0, 0xFFFF, arg1);

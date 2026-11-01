@@ -103,11 +103,24 @@ void func_8002572C(s8 *arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025758.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800257F0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800257F0.s")
-#endif
+/*
+ * func_800257F0
+ *
+ * If arg0 is a valid controller-port index (0 to 3), copies that port's
+ * save snapshot into the buffer at D_800AF9A8 with GbSave_CopyPortSnapshot
+ * (its return value is ignored).  Otherwise the first byte of the buffer is
+ * cleared.  The buffer is the destination that func_80025830 later passes on
+ * as its second argument to func_80025260.
+ */
+extern GbSavePortSnapshot D_800AF9A8;
+
+void func_800257F0(s32 arg0) {
+    if ((arg0 >= 0) && (arg0 < 4)) {
+        GbSave_CopyPortSnapshot(arg0, &D_800AF9A8);
+        return;
+    }
+    D_800AF9A8.unk_000 = 0;
+}
 
 typedef struct ContinueDataZ {
     /* 0x00 */ u8 mode;
@@ -117,7 +130,6 @@ typedef struct ContinueDataZ {
     /* 0x04 */ u8 opponentHistory[8];
 } ContinueDataZ; // size = 0xC
 extern M2C_UNK D_800AF974;
-extern M2C_UNK D_800AF9A8;
 void func_80025260(ContinueDataZ* arg0, void* arg1, BattleMon* arg2, s32 arg3);
 
 void func_80025830(void) {

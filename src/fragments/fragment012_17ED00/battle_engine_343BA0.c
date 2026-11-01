@@ -65,17 +65,42 @@ void func_82132AC4(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132B04; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132B04.s")
-#endif
+/*
+ * func_82132B04
+ *
+ * Clears the byte at D_8219A4F1, calls func_821351F8(arg0, D_8219A580) and
+ * func_82104C68(D_8219A580, 1), then adds 1 to the word at offset 0x20 of the
+ * structure that D_8219A5A0 points to.  That word is advanced by neighbouring
+ * functions in this file in the same way (see func_82132AC4), so it looks
+ * like a step counter, but this is not established from the code alone.
+ */
+extern s8 D_8219A4F1;
+void func_821351F8(CameraNode* arg0, s8* arg1);
+void func_82104C68(s8* arg0, s32 arg1);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82132B54; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82132B54.s")
-#endif
+void func_82132B04(CameraNode* arg0) {
+    D_8219A4F1 = 0;
+    func_821351F8(arg0, D_8219A580);
+    func_82104C68(D_8219A580, 1);
+    M2C_FIELD(D_8219A5A0, s32 *, 0x20) = (s32) (M2C_FIELD(D_8219A5A0, s32 *, 0x20) + 1);
+}
+
+/*
+ * func_82132B54
+ *
+ * Calls func_82135894(arg0, D_8219A580).  If that returns non-zero, adds 1
+ * to the word at offset 0x20 of the structure that D_8219A5A0 points to.
+ * func_82132AC4, just above, is the same pattern with func_82101FD4 and a
+ * single argument.  What the counter at +0x20 counts is not established
+ * from the code alone.
+ */
+s32 func_82135894(CameraNode* arg0, s8* arg1);
+
+void func_82132B54(CameraNode* arg0) {
+    if (func_82135894(arg0, D_8219A580) != 0) {
+        M2C_FIELD(D_8219A5A0, s32 *, 0x20) = (s32) (M2C_FIELD(D_8219A5A0, s32 *, 0x20) + 1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82132B90; signature not recovered. */

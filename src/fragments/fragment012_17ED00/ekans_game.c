@@ -133,8 +133,6 @@ s32 BattleAnim_EndEffect16_CompleteImmediately(void) {
 void func_8216E0C0(void) {
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_CalcVectorAtToDm(f32* arg0, f32* arg1, f32* arg2, f32* arg3, f32* arg4, f32* arg5);
 void func_82175440(f32, f32, f32, f32, f32, f32, s16, u8, u8, u8, u8, f32, f32, f32, s16);
 void func_8216E0C8(void) {
@@ -156,9 +154,6 @@ void func_8216E0C8(void) {
     r2 = guRandom();
     func_82175440(sp64, sp60, sp5C, sp58, ((r1 % 4) * 0.01) + sp54 - 0.02, sp50 - ((r2 % 5) * 0.3) + 0.6, 3, 0x80, 0xC0, 0xFF, 0xC8, 0.1f, 2.0f, 5.0f, 0x3C);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216E0C8.s")
-#endif
 
 void BattleAnim_StartEffect19Radial20_Init(void) {
     D_8219CB0E = 0;
@@ -208,7 +203,6 @@ void BattleAnim_EndEffect9Radial20_Draw(void) {
     gDisplayListHead = Strip400_Draw(gDisplayListHead);
 }
 
-extern f32 D_FLT_821978DC;
 void func_8216E428(void) {
     Vec3f pos;
     f32 x;
@@ -229,7 +223,7 @@ void func_8216E428(void) {
     x += scale * (30.0f - ((s32)guRandom() % 60));
     y += scale * (30.0f - ((s32)guRandom() % 60));
     z += scale * (30.0f - ((s32)guRandom() % 60));
-    TexturedRibbonSheet_Start(x, y, z, angle, 0.0f, 0.0f, 0xFF, 0xFF, 0, 0x3C, D_FLT_821978DC, 0x1E);
+    TexturedRibbonSheet_Start(x, y, z, angle, 0.0f, 0.0f, 0xFF, 0xFF, 0, 0x3C, 0.3f, 0x1E);
 }
 
 void BattleAnim_StartEffect7TexturedRibbonSheet_Init(void) {
@@ -343,8 +337,6 @@ void BattleAnim_EndEffect33Radial20_Draw(void) {
     gDisplayListHead = Strip400_Draw(gDisplayListHead);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void func_8216EB10(void) {
     f32 sp64;
     f32 sp60;
@@ -364,6 +356,3 @@ void func_8216EB10(void) {
     r2 = guRandom();
     func_82175440(sp64, sp60, sp5C, sp58, ((r1 % 4) * 0.01) + sp54 - 0.02, sp50 - ((r2 % 5) * 0.3) + 0.6, 3, 0xFF, 0xFF, 0x40, 0xC8, 0.1f, 2.0f, 5.0f, 0x3C);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216EB10.s")
-#endif

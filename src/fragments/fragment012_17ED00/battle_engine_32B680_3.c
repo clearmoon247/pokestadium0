@@ -1094,11 +1094,25 @@ void BattleAnim_CallbackStartEffect65Descriptors31And32FadeIn(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82155238; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82155238.s")
-#endif
+/*
+ * func_82155238
+ *
+ * Starts the three particle effect slots of effect 65 for the current
+ * battle-animation owner: two one-shot slots (type 8) that fade in using
+ * BattleAnim_CallbackStartEffect65Descriptors31And32FadeIn with particle
+ * descriptors 0x32 and 0x31, and one repeating slot (0, 3, 0x14) driven by
+ * the animated-scale-motion callback with descriptor 0x46.
+ *
+ * Same three calls as ParticleEffect_RegisterParticleNodes in the Stadium 1
+ * decomp.  The third descriptor is index 0x47 there; here the retail
+ * address (D_8218E7B8) is index 0x46 of gBattleAnimParticleDescriptors
+ * (8-byte stride from 0x8218E588), so the table differs by one entry.
+ */
+void func_82155238(void) {
+    BattleAnim_CreateEffectSlotForCurrentOwner(8, BattleAnim_CallbackStartEffect65Descriptors31And32FadeIn, &gBattleAnimParticleDescriptors[0x32], 0, 1, 0x18, 0, 0, 0);
+    BattleAnim_CreateEffectSlotForCurrentOwner(8, BattleAnim_CallbackStartEffect65Descriptors31And32FadeIn, &gBattleAnimParticleDescriptors[0x31], 0, 1, 0x18, 0, 0, 0);
+    BattleAnim_CreateRepeatingEffectSlotForCurrentOwner(0, 3, 0x14, BattleAnim_CallbackStartEffects28And53And65And76Descriptor47AnimatedScaleMotion, &gBattleAnimParticleDescriptors[0x46], 0, 1, 0x10, 0x64, 0, 0);
+}
 
 void BattleAnim_InitEffect28Overlay(Particle* arg0) {
     s16 sp26 = Particle_FieldCF_GetS16_0C058(arg0);

@@ -134,7 +134,40 @@ void BattleScene_HideParticipantSecondaryModels(ActivePokemon* active_pokemon) {
 }
 
 #ifdef NON_MATCHING
-/* TODO: decompile func_821094C0; signature not recovered. */
+/*
+ * func_821094C0
+ *
+ * Resets the three trailing afterimage models of a Pokemon so that they show
+ * at the main model's transform: for afterimages 0..2 it clears the field at
+ * +0x16C of the entry and the byte at +0x185 (lodFraction), sets bit 0 of the
+ * node flags, stores a per-afterimage value in the halfword at +0x16A (0, 0xE38
+ * and 0xF1C8 for the three), and copies the main display object's position
+ * (+0x24), rotation (+0x1E) and scale (+0x30) into the afterimage.
+ *
+ * Matches the retail words (strict check) but is held: the local array
+ * initialiser is in-file data (the 6 bytes at D_821891A8) and this file's
+ * data cannot be placed yet (place_sections: ".data references disagree:
+ * 0x821891A8, 0x821891E8", the second being the data of
+ * BattleScene_UpdateSecondaryModelOrbit below).
+ *
+ * Same code as BattleScene_ShowSecondaryModelsAtMainTransform in the Stadium
+ * 1 decomp, except that Zero loops over three afterimages where the donor
+ * loops over two.
+ */
+void func_821094C0(ActivePokemon* pokemon) {
+    s32 i;
+    s16 sp64[] = { 0x0, 0xE38, 0xF1C8 }; // D_821891A8
+
+    for (i = 0; i < 3; i++) {
+        pokemon->afterimages[i].unk_16C = 0;
+        pokemon->afterimages[i].unk_16A = sp64[i];
+        pokemon->afterimages[i].displayObject.lodFraction = 0;
+        pokemon->afterimages[i].displayObject.node.flags |= 1;
+        BattleAnim_Vec3fCopy(&pokemon->afterimages[i].displayObject.position, &pokemon->displayObject.position);
+        BattleAnim_Vec3sCopy(&pokemon->afterimages[i].displayObject.rotation, &pokemon->displayObject.rotation);
+        BattleAnim_Vec3fCopy(&pokemon->afterimages[i].displayObject.scale, &pokemon->displayObject.scale);
+    }
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821094C0.s")
 #endif
@@ -655,7 +688,7 @@ void func_8210ABC4(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
 
 M2C_UNK func_8000D700(s32, M2C_UNK, s16, M2C_UNK);  /* extern */
 M2C_UNK func_82107790(s8 *);                      /* extern */
-M2C_UNK func_821094C0(s8 *);                      /* extern */
+void func_821094C0(ActivePokemon*);
 
 void func_8210AC30(s32 arg0, s8 *arg1) {
     func_821094C0(arg1);

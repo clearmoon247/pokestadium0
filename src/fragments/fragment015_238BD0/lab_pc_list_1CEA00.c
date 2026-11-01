@@ -72,11 +72,52 @@ void func_89000020(unk_func_8830867C_02C_0CC* arg0, s32 (*arg1)(s32, s32)) {
     func_800274E0(arg0->unk_00, arg1, arg0->unk_08);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89000048; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89000048.s")
-#endif
+typedef struct LabItemGrid {
+    /* 0x00 */ u8* unk_00;
+    /* 0x04 */ char unk04[0x8];
+    /* 0x0C */ s32 unk_0C;
+} LabItemGrid;
+
+typedef struct LabItemCursor {
+    /* 0x00 */ LabItemGrid* unk_00;
+    /* 0x04 */ char unk04[0x4];
+    /* 0x08 */ s32 unk_08;
+} LabItemCursor;
+
+void func_800275E4(s32, s32);
+void func_80030744(s32*, s32);
+
+/*
+ * func_89000048
+ *
+ * Removes one row from the grid referenced by the cursor arg0 and fixes up
+ * the cursor.  arg0->unk_00 is the grid and arg0->unk_08 the current index.
+ *
+ *   1. func_800275E4(grid, index) is called.  This is ByteMatrix_RemoveRow
+ *      (name from symbol_addrs.txt; its code was read and agrees): it
+ *      removes row `index` from a byte matrix whose row count is the word at
+ *      offset 8 and whose row size is the word at offset 0xC, decrements
+ *      the count, and returns 1 if the index was out of range.  The return
+ *      value is not used here.
+ *   2. If the index is now at or past the (already decremented) count, i.e.
+ *      the removed row was the last one, it is decremented.
+ *   3. func_80030744(arg0, index) is called
+ *      (WidgetTree_SetScrollableGridIndexPreserveScroll in symbol_addrs.txt).
+ *
+ * symbol_addrs.txt names this function WidgetTree_RemoveScrollableGridEntry,
+ * a Stadium 1 name.  The Stadium 1 function of that name is NOT the same
+ * code: it removes from a pointer list and, when the index is past the end
+ * and positive, sets the index to count - 1.  Zero's version operates on a
+ * byte matrix and the retail code simply subtracts 1 from the index, so the
+ * name is a rough match at best.
+ */
+void func_89000048(LabItemCursor* arg0) {
+    func_800275E4((s32)arg0->unk_00, arg0->unk_08);
+    if (arg0->unk_08 >= M2C_FIELD(arg0->unk_00, s32*, 8)) {
+        arg0->unk_08 -= 1;
+    }
+    func_80030744((s32*)arg0, arg0->unk_08);
+}
 
 void func_800275E4(s32, s32);
 int func_800274E0();
@@ -127,20 +168,6 @@ void func_890000A4(s32* arg0, s32 arg1, s32 arg2) {
 
     func_80030744(arg0, arg0[2]);
 }
-
-typedef struct LabItemGrid {
-    /* 0x00 */ u8* unk_00;
-    /* 0x04 */ char unk04[0x8];
-    /* 0x0C */ s32 unk_0C;
-} LabItemGrid;
-
-typedef struct LabItemCursor {
-    /* 0x00 */ LabItemGrid* unk_00;
-    /* 0x04 */ char unk04[0x4];
-    /* 0x08 */ s32 unk_08;
-} LabItemCursor;
-
-void func_89000048(LabItemCursor* arg0);
 
 void func_890001B4(LabItemCursor* arg0, s32 arg1) {
     u8* temp_v1 = &arg0->unk_00->unk_00[arg0->unk_00->unk_0C * arg0->unk_08];
@@ -935,8 +962,55 @@ s32 func_890043BC(s32 arg0) {
 }
 
 extern FontContext* D_86A06200;
-#ifdef NON_MATCHING
-/* TODO: decompile func_89004560; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment015_238BD0/func_89004560.s")
-#endif
+extern u8 D_01000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_04000000[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_88000000[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+void func_89004244(void);
+s32 func_8900429C(s32);
+
+/*
+ * func_89004560
+ *
+ * Fragment entry point.  It follows the same template as the Pokedex entry
+ * function func_8A101ED4, and neither argument is used.  The steps are:
+ *
+ *   1. main_pool_push_state('TERM') saves the main pool state under that tag;
+ *      the matching main_pool_pop_state('TERM') is near the end.
+ *   2. func_8001A194(0x3C, 0) is called (Font_Init in symbol_addrs.txt).
+ *   3. Two assets are loaded with Asset_LoadToSegment: the ROM range
+ *      D_002E0BE0..D_002E2B90 into segment 1 and D_00400F70..D_004076E0 into
+ *      segment 4.  The segment number is bits 24-27 of the address of
+ *      D_01000000 / D_04000000.
+ *   4. func_89004244() and StageLoader_UpdateSegments() are called.
+ *   5. BgStage_RunUntilCondition is run three times, with timer values 8, 0
+ *      and 8: the first and third with callback func_8900429C, the second
+ *      with func_890043BC.  What those callbacks do is not established
+ *      (func_8900429C is still assembly).
+ *   6. StageLoader_WaitForRetrace() and main_pool_pop_state('TERM').
+ *   7. Fragment_QueueCall queues a call to the fragment whose id comes from
+ *      the address D_88000000 (bits 20-27, minus 0x10), with the ROM range
+ *      D_00235D70..D_00238BD0.
+ *
+ * Returns 0x8040.
+ */
+s32 func_89004560(s32 arg0, s32 arg1) {
+    main_pool_push_state('TERM');
+    func_8001A194(0x3C, 0);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+    func_89004244();
+    StageLoader_UpdateSegments();
+    BgStage_RunUntilCondition(8, func_8900429C);
+    BgStage_RunUntilCondition(0, func_890043BC);
+    BgStage_RunUntilCondition(8, func_8900429C);
+    StageLoader_WaitForRetrace();
+    main_pool_pop_state('TERM');
+    Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 0, 0);
+    return 0x8040;
+}

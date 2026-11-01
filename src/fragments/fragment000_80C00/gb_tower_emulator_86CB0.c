@@ -512,11 +512,18 @@ void func_81113140(Particle3140* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81113EF4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81113F84; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81113F84.s")
-#endif
+/*
+ * func_81113F84
+ *
+ * Stores (float)arg1 / 127.0f into the float at offset 0x2C of the object
+ * arg0 points to.  arg1 is an unsigned byte (the generated code masks it
+ * with 0xFF), so the stored value runs from 0.0 to 255/127 (about 2.0);
+ * the stored value is 1.0 when arg1 is 127.  What the field at +0x2C
+ * represents is not known.
+ */
+void func_81113F84(u8* arg0, u8 arg1) {
+    *(f32*)(arg0 + 0x2C) = (f32)(s32)arg1 / 127.0f;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_81113FA8; signature not recovered. */

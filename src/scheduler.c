@@ -294,11 +294,61 @@ void Sched_HandleRdpEvent(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80004D14; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80004D14.s")
-#endif
+/*
+ * Sched_ThreadEntry  (owner func_80004D14)
+ *
+ * Main loop of the graphics scheduler thread.  Start-up:
+ *   - set the FPU control/status register to 0x01000F00 (the underflow,
+ *     overflow, divide-by-zero and invalid-operation exceptions enabled;
+ *     the flush-to-zero bit set),
+ *   - create the scheduler's 16-entry message queue,
+ *   - register the queue for the video retrace message (0x66) and for the
+ *     RSP-done (0x64), RDP-done (0x65) and pre-NMI (0x68) OS events.
+ * Then it blocks on the queue forever and dispatches on the message:
+ *   0x66 video retrace    -> func_80004B10
+ *   0x64 RSP finished     -> Sched_HandleRspEvent
+ *   0x65 RDP finished     -> Sched_HandleRdpEvent
+ *   0x67 start next task  -> Sched_StartPendingTask (sent by other
+ *                            scheduler code with osSendMesg)
+ *   0x68 pre-NMI          -> func_80004AE0
+ * Unknown messages are ignored.  `arg0` is the thread argument and is unused.
+ */
+void Sched_ThreadEntry(void* arg0) {
+    s32 sp24;
+
+    __osSetFpcCsr(0x01000F00);
+    osCreateMesgQueue(&D_800A9710.queue, D_800A9710.stack, 0x10);
+    osViSetEvent(&D_800A9710.queue, 0x66, 1);
+    osSetEventMesg(4, &D_800A9710.queue, 0x64);   /* OS_EVENT_SP */
+    osSetEventMesg(9, &D_800A9710.queue, 0x65);   /* OS_EVENT_DP */
+    osSetEventMesg(0xE, &D_800A9710.queue, 0x68); /* OS_EVENT_PRENMI */
+
+    while (true) {
+        osRecvMesg(&D_800A9710.queue, &sp24, 1);
+
+        switch (sp24) {
+            case 0x66:
+                func_80004B10();
+                break;
+
+            case 0x64:
+                Sched_HandleRspEvent();
+                break;
+
+            case 0x65:
+                Sched_HandleRdpEvent();
+                break;
+
+            case 0x67:
+                Sched_StartPendingTask();
+                break;
+
+            case 0x68:
+                func_80004AE0();
+                break;
+        }
+    }
+}
 
 void Sched_Init(void) {
     D_800A9710.unk_A10 = NULL;

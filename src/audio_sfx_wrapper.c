@@ -10,8 +10,24 @@ void Audio_PlaySoundEffectByIdWrapper(s32 arg0) {
     Audio_PlaySoundEffectById(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80036630; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80036630.s")
-#endif
+/*
+ * func_80036630
+ *
+ * Returns the word 0x3C bytes above this function's own stack pointer, i.e.
+ * a value the caller left in its outgoing-argument area (the 16th word
+ * counting from the argument save area).  It touches no globals and writes
+ * nothing, so it ignores whatever it is given: in this build it behaves as
+ * a stub.  The C below is just the shape that produces
+ * `lw $v0, 0x3C($sp)`.  Its purpose is unknown.
+ *
+ * NOTE: linker_scripts/jp/symbol_addrs.txt calls this address
+ * Audio_QueueSequenceId, and Audio_QueueSequenceIdWrapper (func_80031D00)
+ * calls it with one argument.  A function that really queued a sequence id
+ * would have to store something, so that name does not fit this code and
+ * should be double-checked.  The address-style name is used here.
+ */
+s32 func_80036630(void) {
+    s32 arr[1];
+
+    return arr[16];
+}

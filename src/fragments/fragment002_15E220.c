@@ -110,11 +110,93 @@ s32 func_812009C4(s32 arg0) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81200A20; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment002_15E220/func_81200A20.s")
-#endif
+/*
+ * func_81200A20
+ *
+ * Called by func_81200B80, which passes its address to func_800068DC
+ * (what that does with it is not established, and neither is the meaning of
+ * the screen).  Judging by its body it runs once per frame.  Returns 0, or a
+ * result code: 0xF000, 0x8020 or 0x8010.
+ *
+ * Each call it runs the frame helpers (func_8000B1FC, func_8000B220) and
+ * increments the frame counter D_81201018.  When `arg0` is 0 it reads the
+ * input word func_8000D0DC(D_81201014); the upper halfword of that word is
+ * the value tested and passed on below:
+ *   - upper halfword == 0xA: func_800387BC(0x10), result 0xF000;
+ *   - otherwise, if bit 0x1000 or 0x8000 is set in the halfword at offset 8
+ *     of the structure D_800603C0 points to (read here as controller
+ *     buttons, not confirmed) and func_81200970(upper halfword) != 0:
+ *     func_8003F6AC(0xF), result 0x8020;
+ *   - otherwise, if the button test above failed and
+ *     func_812009C4(upper halfword) != 0: func_81200190(), result 0x8010.
+ * It then calls func_800069CC, func_8120047C and, when the low bit of
+ * func_8000B2E8() is set, func_812007B0(0x74, 0xC0); then func_81200020
+ * and func_8120023C(lower halfword of the input word).  A non-zero result
+ * is reported with func_80006998 (0xFFFF for 0x8020, otherwise 1).
+ *
+ * Note for matching: the empty `if (!sp1C) {}` after func_8000B220 does
+ * nothing at run time; decomp-permuter found that it changes the register
+ * allocation to the ROM's.  It is not evidence of what the original source
+ * looked like.
+ */
+void func_8000B1FC(void);
+M2C_UNK func_8000B220();
+s32 func_8000B2E8();
+M2C_UNK func_800069CC();
+M2C_UNK func_80006998(M2C_UNK);
+s32 func_8000D0DC(s32);
+M2C_UNK func_800387BC(M2C_UNK);
+M2C_UNK func_8003F6AC(M2C_UNK);
+M2C_UNK func_81200020();
+M2C_UNK func_8120023C(s32);
+M2C_UNK func_812007B0(M2C_UNK, M2C_UNK);
+extern void *D_800603C0;
+extern s32 D_81201014;
+
+s32 func_81200A20(s32 arg0) {
+    s32 sp1C;
+    s32 sp18;
+    s32 temp_v0;
+
+    sp1C = 0;
+    sp18 = 0;
+    func_8000B1FC();
+    func_8000B220();
+    if (!sp1C) {
+    }
+    D_81201018 += 1;
+    if (arg0 == 0) {
+        temp_v0 = func_8000D0DC(D_81201014);
+        sp18 = temp_v0;
+        if (((temp_v0 >> 0x10) & 0xFFFF) == 0xA) {
+            func_800387BC(0x10);
+            sp1C = 0xF000;
+        } else if (M2C_FIELD(D_800603C0, u16 *, 8) & 0x9000) {
+            if (func_81200970((sp18 >> 0x10) & 0xFFFF) != 0) {
+                func_8003F6AC(0xF);
+                sp1C = 0x8020;
+            }
+        } else if (func_812009C4((sp18 >> 0x10) & 0xFFFF) != 0) {
+            func_81200190();
+            sp1C = 0x8010;
+        }
+    }
+    func_800069CC();
+    func_8120047C();
+    if (func_8000B2E8() & 1) {
+        func_812007B0(0x74, 0xC0);
+    }
+    func_81200020();
+    func_8120023C(sp18 & 0xFFFF);
+    if (sp1C != 0) {
+        if (sp1C == 0x8020) {
+            func_80006998(0xFFFF);
+        } else {
+            func_80006998(1);
+        }
+    }
+    return sp1C;
+}
 
 s32 func_800023C4(M2C_UNK, M2C_UNK);                /* extern */
 M2C_UNK func_8000256C(M2C_UNK);                     /* extern */
@@ -143,7 +225,7 @@ extern s32 D_81201014;
 extern s32 D_81201018;
 extern s32 D_8120101C;
 extern s32 D_81201020;
-extern M2C_UNK func_81200A20;
+s32 func_81200A20(s32);
 
 s32 func_81200B80(s32 arg0, M2C_UNK arg1) {
     s32 sp24;

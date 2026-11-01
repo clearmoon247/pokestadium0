@@ -99,11 +99,52 @@ void func_82133318(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213334C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213346C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213346C.s")
-#endif
+/*
+ * func_8213346C
+ *
+ * Entry 3 of the 7-way dispatch in func_821336EC (see its comment).  Its
+ * argument is typed CameraNode* in this file.  Sets D_8219A594 (a byte) to
+ * 0xFF, then:
+ *   - if D_8219A50C == 5: calls func_82135E80(arg0, D_8219A590); if the
+ *     upper halfword of the word at offset 0x48 of the object
+ *     D_8219A590 points to is 0x26, calls func_8003FE58(0x38, 9, 0); and if
+ *     func_821217DC(0x37) returns non-zero, sets the word at offset 0x40
+ *     of the object D_8219A5A0 points to to 3, calls func_80006998(0xFFFF),
+ *     func_80005C4C(4) and func_80040738(), and sets the word at offset
+ *     0x20 of that object to 6;
+ *   - otherwise adds 1 to that word at offset 0x20.
+ *
+ * The second argument of func_82135E80 is D_8219A590; the first is
+ * `arg0` passed straight through (the retail code loads it into $a1 and
+ * leaves $a0 untouched).  What these values mean is not established.
+ */
+M2C_UNK func_80005C4C(M2C_UNK);
+M2C_UNK func_80006998(M2C_UNK);
+M2C_UNK func_8003FE58(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK func_80040738();
+s32 func_821217DC(M2C_UNK);
+M2C_UNK func_82135E80(CameraNode*, s8*);
+extern s16 D_8219A50C;
+extern u8 D_8219A594;
+
+void func_8213346C(CameraNode* arg0) {
+    D_8219A594 = 0xFF;
+    if (D_8219A50C == 5) {
+        func_82135E80(arg0, D_8219A590);
+        if (((s32) M2C_FIELD(D_8219A590, s32 *, 0x48) >> 0x10) == 0x26) {
+            func_8003FE58(0x38, 9, 0);
+        }
+        if (func_821217DC(0x37) != 0) {
+            M2C_FIELD(D_8219A5A0, s32 *, 0x40) = 3;
+            func_80006998(0xFFFF);
+            func_80005C4C(4);
+            func_80040738();
+            M2C_FIELD(D_8219A5A0, s32 *, 0x20) = 6;
+        }
+    } else {
+        M2C_FIELD(D_8219A5A0, s32 *, 0x20) = (s32) (M2C_FIELD(D_8219A5A0, s32 *, 0x20) + 1);
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82133534; signature not recovered. */
@@ -116,7 +157,7 @@ M2C_UNK func_821088BC(s8 *);                      /* extern */
 M2C_UNK func_82133028(s32);                         /* extern */
 M2C_UNK func_8213B31C(M2C_UNK);                     /* extern */
 extern s8 *D_8219A590;
-extern s8 D_8219A594;
+extern u8 D_8219A594;
 extern s8 *D_8219A5A0;
 
 void func_82133640(s32 arg0) {
@@ -137,8 +178,52 @@ void func_82133640(s32 arg0) {
 void func_821336E4(UNUSED s32 arg0) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821336EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821336EC.s")
-#endif
+/*
+ * func_821336EC
+ *
+ * Dispatches one tick of the "faint after residual damage" phase of a
+ * battle scene by the scene's step counter (sBattleScene.scene->unk_20, 0..6):
+ *   0 func_82132F88   1 func_82133318   2 func_8213334C   3 func_8213346C
+ *   4 func_82133534   5 func_82133640   6 func_821336E4
+ * Any other step does nothing.  The camera node arg0 is passed through to
+ * the step functions in the register a0 untouched.
+ *
+ * Same switch as BattleScene_PhaseFaintAfterResidualDamage in the Stadium 1
+ * decomp (steps begin, animate, advance/finish camera close, complete,
+ * no-op, alternate animation).
+ */
+void func_8213334C(CameraNode* arg0);
+void func_8213346C(CameraNode* arg0);
+void func_82133534(CameraNode* arg0);
+
+void func_821336EC(CameraNode* arg0) {
+    switch (sBattleScene.scene->unk_20) {
+        case 0:
+            func_82132F88(arg0);
+            break;
+
+        case 1:
+            func_82133318();
+            break;
+
+        case 2:
+            func_8213334C(arg0);
+            break;
+
+        case 3:
+            func_8213346C(arg0);
+            break;
+
+        case 4:
+            func_82133534(arg0);
+            break;
+
+        case 5:
+            func_82133640((s32)arg0);
+            break;
+
+        case 6:
+            func_821336E4((s32)arg0);
+            break;
+    }
+}

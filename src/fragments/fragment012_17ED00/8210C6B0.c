@@ -509,17 +509,57 @@ void func_8210E484(ActivePokemon* arg0, ActivePokemon* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E504.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E6D0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E6D0.s")
-#endif
+/*
+ * func_8210E6D0
+ *
+ * Calls Battle_InitPokemonRuntimeState(arg0).  The two extra arguments are
+ * accepted but not used; the retail code stores them to the stack, which is
+ * why the signature declares them.
+ */
+void func_8210E6D0(ActivePokemon* arg0, s32 arg1, s32 arg2) {
+    Battle_InitPokemonRuntimeState(arg0);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210E6F4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210E6F4.s")
-#endif
+/*
+ * func_8210E6F4
+ *
+ * Resets the battle-scene state for both sides:
+ *   - runs func_8210E6D0 on the active-Pokemon pointers stored at D_82199DE0
+ *     and D_82199DE4, passing (0, 1) for the first and (1, 0) for the second
+ *     (func_8210E6D0 ignores those two arguments);
+ *   - calls func_8210F688(0, 1) and func_8210F688(1, 0);
+ *   - clears the first two words of D_82199F10 and of D_82199F18;
+ *   - clears bytes +0 and +4 of D_8219A4F0, sets byte +3 to 0xFF, and clears
+ *     the halfwords at +0x1A, +0x1C, +0x1E and +0x20.
+ * The meaning of func_8210F688's arguments and of the cleared fields is not
+ * established from this function alone.
+ *
+ * D_82199DE0 is declared as s8 elsewhere in this file, so the pointer it holds
+ * is read through a cast.
+ */
+extern ActivePokemon* D_82199DE4;
+extern s32 D_82199F10[];
+extern s32 D_82199F18[];
+extern s16 D_8219A4F0[];
+void func_8210F688(s32 arg0, s32 arg1);
+
+void func_8210E6F4(void) {
+    func_8210E6D0(*(ActivePokemon**)&D_82199DE0, 0, 1);
+    func_8210E6D0(D_82199DE4, 1, 0);
+    func_8210F688(0, 1);
+    func_8210F688(1, 0);
+    D_82199F10[0] = 0;
+    D_82199F18[0] = 0;
+    D_82199F10[1] = 0;
+    D_82199F18[1] = 0;
+    ((u8*)D_8219A4F0)[0] = 0;
+    ((u8*)D_8219A4F0)[4] = 0;
+    ((u8*)D_8219A4F0)[3] = 0xFF;
+    D_8219A4F0[0xE] = 0;
+    D_8219A4F0[0xD] = 0;
+    D_8219A4F0[0xF] = 0;
+    D_8219A4F0[0x10] = 0;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8210E790; signature not recovered. */

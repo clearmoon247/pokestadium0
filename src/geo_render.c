@@ -942,11 +942,34 @@ void Geo_NodeTranslate(GraphNode* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800148AC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80014BF0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014BF0.s")
-#endif
+/*
+ * func_80014BF0
+ *
+ * If the word at +0x18 of arg0 is not 0, calls
+ * func_800135FC(byte at +3, that word, D_800AB248[halfword at +0x1C],
+ * byte at +2 & 4), and then in every case calls func_8001380C(arg0)
+ * (Geo_ProcessNodeChildren in symbol_addrs.txt).  D_800AB248 is read as an
+ * array of words indexed by a signed halfword of arg0.  What func_800135FC
+ * does with these values is not established (it is still assembly).
+ *
+ * Context from the Stadium 1 decomp (not proof for this ROM): there, the
+ * first 0x18 bytes of a geometry-graph node (GraphNode) hold the type at +0,
+ * flags at +1, renderFlags at +2 and renderLayer at +3, with node-specific
+ * fields after them, and handlers of this shape end by calling
+ * Geo_ProcessNodeChildren.  So arg0 here is probably such a node, the byte at
+ * +3 its render layer and bit 4 of the byte at +2 its display-list flag.
+ */
+extern s32 D_800AB248[];
+
+void func_80014BF0(void *arg0) {
+    s32 temp_a1;
+
+    temp_a1 = M2C_FIELD(arg0, s32 *, 0x18);
+    if (temp_a1 != 0) {
+        func_800135FC(M2C_FIELD(arg0, u8 *, 3), temp_a1, D_800AB248[M2C_FIELD(arg0, s16 *, 0x1C)], M2C_FIELD(arg0, u8 *, 2) & 4);
+    }
+    func_8001380C(arg0);
+}
 
 void func_80011838(EventTrackState*, s32);
 void func_8000E41C(MtxF*, MtxF*, MtxF*, Vec3f*);

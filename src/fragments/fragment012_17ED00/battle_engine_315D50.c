@@ -406,11 +406,17 @@ void BattleAnim_PlaySoundEffect3(void) {
     Audio_PlaySoundEffectById(SFX_MENU_BACK);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134DA0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134DA0.s")
-#endif
+/*
+ * func_82134DA0
+ *
+ * Calls Audio_PlayCommand(5, arg1, arg1).  The first argument (a 16-bit
+ * value) is accepted but never used; the second argument is passed both as
+ * the command parameter and in the third (unused) slot.  The meaning of
+ * command 5 is not determined here.
+ */
+void func_82134DA0(s16 arg0, s32 arg1) {
+    Audio_PlayCommand(5, arg1, arg1);
+}
 
 M2C_UNK func_80041374(M2C_UNK, s32);                /* extern */
 
@@ -418,11 +424,18 @@ void func_82134DC8(s32 arg0) {
     func_80041374(5, arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82134DEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82134DEC.s")
-#endif
+/*
+ * func_82134DEC
+ *
+ * Calls func_8003F96C(arg0, 2) with arg0 taken as a signed 16-bit value
+ * (sign-extended before the call).  The `* 1` is there on purpose: it makes
+ * IDO emit the separate shift pair (sll 16 / sra 16) the retail code has
+ * instead of folding it into the argument register.
+ */
+void func_8003F96C(s32, s32);
+void func_82134DEC(s16 arg0) {
+    func_8003F96C(arg0 * 1, 2);
+}
 
 extern f32 D_FLT_82189360[][4];
 

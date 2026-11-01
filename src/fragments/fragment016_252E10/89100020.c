@@ -1,6 +1,10 @@
 /* Stadium Zero fragment016_252E10. */
 
 #include "global.h"
+#include "game_state.h"
+#include "jpeg_stream.h"
+#include "memory.h"
+#include "stage_loader.h"
 #include "m2c_macros.h"
 
 M2C_UNK func_89109E5C(s32, s32, s32, s32);          /* extern */
@@ -702,8 +706,55 @@ void func_89104B08(s32 arg0) {
     func_8910452C(&D_8910E3D0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89104B48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89104B48.s")
-#endif
+extern u8 D_01000000[];
+extern u8 D_002E0BE0[];
+extern u8 D_002E2B90[];
+extern u8 D_04000000[];
+extern u8 D_00400F70[];
+extern u8 D_004076E0[];
+extern u8 D_88000000[];
+extern u8 D_00235D70[];
+extern u8 D_00238BD0[];
+s32 func_891049E8(s32);
+
+/*
+ * func_89104B48
+ *
+ * Fragment entry point.  It has the same steps as func_89004560 (and the Pokedex
+ * entry function func_8A101ED4), differing only in the functions it calls in
+ * steps 4 and 5.  Neither argument is used.  The steps are:
+ *
+ *   1. main_pool_push_state('TERM') saves the main pool state under that tag;
+ *      the matching main_pool_pop_state('TERM') is near the end.
+ *   2. func_8001A194(0x3C, 0) is called (Font_Init in symbol_addrs.txt).
+ *   3. Two assets are loaded with Asset_LoadToSegment: the ROM range
+ *      D_002E0BE0..D_002E2B90 into segment 1 and D_00400F70..D_004076E0 into
+ *      segment 4.  The segment number is bits 24-27 of the address of
+ *      D_01000000 / D_04000000.
+ *   4. func_89104998() and StageLoader_UpdateSegments() are called.
+ *   5. BgStage_RunUntilCondition is run three times, with timer values 8, 0
+ *      and 8: the first and third with callback func_891049E8, the second
+ *      with func_89104B08.  What those callbacks do is not established
+ *      (func_891049E8 is still assembly).
+ *   6. StageLoader_WaitForRetrace() and main_pool_pop_state('TERM').
+ *   7. Fragment_QueueCall queues a call to the fragment whose id comes from
+ *      the address D_88000000 (bits 20-27, minus 0x10), with the ROM range
+ *      D_00235D70..D_00238BD0.
+ *
+ * Returns 0x8040.
+ */
+s32 func_89104B48(s32 arg0, s32 arg1) {
+    main_pool_push_state('TERM');
+    func_8001A194(0x3C, 0);
+    Asset_LoadToSegment(((u32)D_01000000 & 0x0F000000) >> 0x18, D_002E0BE0, D_002E2B90, 0);
+    Asset_LoadToSegment(((u32)D_04000000 & 0x0F000000) >> 0x18, D_00400F70, D_004076E0, 0);
+    func_89104998();
+    StageLoader_UpdateSegments();
+    BgStage_RunUntilCondition(8, func_891049E8);
+    BgStage_RunUntilCondition(0, func_89104B08);
+    BgStage_RunUntilCondition(8, func_891049E8);
+    StageLoader_WaitForRetrace();
+    main_pool_pop_state('TERM');
+    Fragment_QueueCall(((((u32)D_88000000) & 0x0FF00000) >> 0x14) - 0x10, D_00235D70, D_00238BD0, 0, 0);
+    return 0x8040;
+}
