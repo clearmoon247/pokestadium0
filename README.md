@@ -1,13 +1,15 @@
+# AI Disclosure
+
+This repo is almost entirely vibe-coded. The reasons we think this is acceptable is:
+- The AI assisted repo at [team-hippodrome/pokestadium](https://github.com/team-hippodrome/pokestadium0) serves as a great base line for Stadium 0 as almost all functionality in zero is also in stadium 1
+- Stadium 0 is a small game (only 16 mg)
+- The md5 hash of the rom serves as a fail-safe
+
 # Pokémon Stadium Zero (JP)
 
-A WIP decompilation of the Japanese-only original Pokémon Stadium
-(ポケモンスタジアム), by **Team Hippodrome**. The project follows pret's layout
-conventions; pret is not involved.
+A WIP decompilation of the Japanese-only original Pokémon Stadium (ポケモンスタジアム), by **Team Hippodrome**. The project follows pret's layout conventions; pret is not involved.
 
-`make rom` builds the complete 16 MiB ROM byte-for-byte from `src/`. Every
-source file is compiled whole with IDO through asm-processor; its C functions
-and its `GLOBAL_ASM` owners link at their original addresses in the resident
-image and all 259 fragments, and the fragments' original storage is rebuilt.
+`make rom` builds the complete 16 MiB ROM byte-for-byte from `src/`. Every source file is compiled whole with IDO through asm-processor; its C functions and its `GLOBAL_ASM` owners link at their original addresses in the resident image and all 259 fragments, and the fragments' original storage is rebuilt.
 
 - **2,919 of 5,444 code owners are built from C** (Stadium 1 ports, m2c
   output, and 151 libultra functions from unmodified `lib/ultralib` sources), listed per owner in [docs/function-matches.csv](docs/function-matches.csv).
@@ -72,5 +74,7 @@ Do not commit ROMs or extracted retail assets.
 - [Review-only library candidates](candidates/libraries/batch1/README.md):
   four byte-identical donor translation units for those nine verified functions.
 
-The inventory is a first-pass assembly-owner scaffold, not recovered original
-function or translation-unit boundaries. Runtime capture work remains paused.
+# Contacts
+Join the [Team Hippodrome](https://discord.gg/8EvuQxbxu8) discord server.
+
+Part of the [R.A.I.D. (Retro AI Development)](https://discord.gg/eCvnsvrjnY) community. 
