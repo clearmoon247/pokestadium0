@@ -312,11 +312,26 @@ void func_821211D4(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8212120C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8212120C.s")
-#endif
+/*
+ * func_8212120C
+ *
+ * Sets the camera's clip planes to 20.0f (near) and 4000.0f (far), the same
+ * call that BattleScene_InitializeBattlePresentation makes.  Then, if any of
+ * the bits in 0xE03F is set in the halfword at offset 8 of the structure that
+ * D_800603C0 points to, calls func_800387BC(1) and stores 3 at offset 0x40 of
+ * the structure that D_8219A5A0 points to.  What those two structures are is
+ * not established from this function alone.
+ */
+extern u8* D_800603C0;
+void func_800387BC(s32 arg0);
+
+void func_8212120C(CameraNode* arg0) {
+    func_82121D78(arg0, 20.0f, 4000.0f);
+    if (*(u16*)(D_800603C0 + 8) & 0xE03F) {
+        func_800387BC(1);
+        M2C_FIELD(D_8219A5A0, s32 *, 0x40) = 3;
+    }
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_82121260; signature not recovered. */

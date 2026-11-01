@@ -59,11 +59,62 @@ loop_1:
     goto loop_1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8000AC78; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8000AC78.s")
-#endif
+/*
+ * func_8000AC78
+ *
+ * Starts the Game Boy Tower emulator (the counterpart of GbTower_Stop below;
+ * the donor decomp calls this function GbTower_Start and the symbol table
+ * keeps that name).  Steps, in the order the code does them:
+ *   1. push a memory-pool state tagged 'GBEM' and allocate two blocks:
+ *      D_800AAF40 (0x2208 bytes, the emulator thread's data) and D_800AAF44
+ *      (0x21E0 bytes, the audio thread's data);
+ *   2. load the emulator fragment (ROM 0x80C00..0xDA9B0, linked at
+ *      0x81100000) and open the font archive at ROM 0x2B2C80..0x2E0BE0,
+ *      storing its files 0 and 1 at offsets 0x21CC and 0x21D0 of D_800AAF40;
+ *   3. save the 8-byte input state *arg0 at offset 0x2200 of D_800AAF40
+ *      (GbTower_Stop copies it back);
+ *   4. create a one-slot message queue at D_800AAF40 + 0x21B4 with its
+ *      buffer at +0x21B0, then create the audio thread (id 9, priority 0x11,
+ *      func_8000AAE0) and the emulator thread (id 8, priority 0xF,
+ *      func_8000AB98), each with its stack top at its block + 0x21B0;
+ *   5. record the previous GbTower_SetPollMask(0) value in D_800AAF48 and
+ *      start the emulator thread.
+ *
+ * Same sequence as GbTower_Start in the Stadium 1 decomp; Zero's block
+ * sizes and layout differ (0x2208 here, 0x2210 there).
+ */
+extern u8 D_81100000[];
+extern u8 D_00080C00[];
+extern u8 D_000DA9B0[];
+extern u8 D_002B2C80[];
+extern u8 D_002E0BE0[];
+extern u8 D_800AAF48;
+void main_pool_push_state(u32 tag);
+void* main_pool_alloc(u32 size, s32 side);
+M2C_UNK Fragment_Load(s32 id, u8* romStart, u8* romEnd);
+void* BinArchive_Open(u8* romStart, u8* romEnd, s32 arg2, s32 arg3);
+void* BinArchive_GetFile(void* archive, s32 index);
+M2C_UNK func_800567E0(s32, s32, M2C_UNK);
+M2C_UNK func_80051B20(s32, s32, void (*)(s32), s32, s32, s32);
+u8 func_8000C610(u8);
+
+void func_8000AC78(UnkInputStruct8000D738* arg0) {
+    void* temp_v0;
+
+    main_pool_push_state('GBEM');
+    D_800AAF40 = (s32)main_pool_alloc(0x2208, 0);
+    D_800AAF44 = (s32)main_pool_alloc(0x21E0, 0);
+    Fragment_Load(((((u32)D_81100000) & 0x0FF00000) >> 0x14) - 0x10, D_00080C00, D_000DA9B0);
+    temp_v0 = BinArchive_Open(D_002B2C80, D_002E0BE0, 1, 1);
+    M2C_FIELD(D_800AAF40, void**, 0x21CC) = BinArchive_GetFile(temp_v0, 0);
+    M2C_FIELD(D_800AAF40, void**, 0x21D0) = BinArchive_GetFile(temp_v0, 1);
+    M2C_FIELD(D_800AAF40, UnkInputStruct8000D738*, 0x2200) = *arg0;
+    func_800567E0(D_800AAF40 + 0x21B4, D_800AAF40 + 0x21B0, 1);
+    func_80051B20(D_800AAF44, 9, func_8000AAE0, 0, D_800AAF44 + 0x21B0, 0x11);
+    func_80051B20(D_800AAF40, 8, func_8000AB98, 0, D_800AAF40 + 0x21B0, 0xF);
+    D_800AAF48 = func_8000C610(0);
+    func_8005C130(D_800AAF40);
+}
 
 M2C_UNK func_8004D1C0(s32, s32 *, M2C_UNK);         /* extern */
 extern s32 D_800AAF40;
@@ -76,7 +127,6 @@ s32 func_8000ADE8(void) {
 }
 
 extern u8 D_800AAF48;
-void func_8000C610(u8);
 void func_80052DC0(s32);
 void func_80001A78(void);
 void func_80004EF0(s32);

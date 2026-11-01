@@ -389,11 +389,16 @@ s32 func_89106C98(s8 *arg0) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89106E34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89106E34.s")
-#endif
+/*
+ * func_89106E34
+ *
+ * Calls func_8002A8C4(arg0, arg1, arg2, arg3, 0), which fills the first five
+ * words of the object (arg1, arg2, arg3, 0, 0), then stores arg4 at +0x14.
+ */
+void func_89106E34(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    func_8002A8C4(arg0, arg1, arg2, arg3, 0);
+    M2C_FIELD(arg0, s32 *, 0x14) = arg4;
+}
 
 typedef struct Tex89106E64 {
     /* 0x00 */ s32 width;

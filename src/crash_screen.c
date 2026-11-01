@@ -254,11 +254,38 @@ OSThread* crash_screen_get_faulted_thread(void) {
     return NULL;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80007F74; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80007F74.s")
-#endif
+/*
+ * crash_screen_thread_entry  (owner func_80007F74)
+ *
+ * Entry point of the crash-handler thread.  It asks the OS to deliver CPU
+ * breakpoint events (as message 1) and CPU fault events (as message 2) to
+ * the crash screen's message queue, then sleeps on that queue.  Each time a
+ * message arrives it looks for a thread that has faulted; once one is
+ * found it stops that thread, waits until player 1 has entered the
+ * 10-press unlock button sequence (crash_screen_wait_for_button_combo),
+ * draws the crash screen (crash_screen_draw), and then spins forever.
+ */
+void crash_screen_thread_entry(UNUSED void* unused) {
+    OSMesg mesg;
+    OSThread* faultedThread;
+
+    osSetEventMesg(OS_EVENT_CPU_BREAK, &gCrashScreen.queue, (OSMesg)1);
+    osSetEventMesg(OS_EVENT_FAULT, &gCrashScreen.queue, (OSMesg)2);
+
+    do {
+        /* Block until the OS reports a break or a fault... */
+        osRecvMesg(&gCrashScreen.queue, &mesg, 1);
+        /* ...then see whether some thread really has faulted. */
+        faultedThread = crash_screen_get_faulted_thread();
+    } while (faultedThread == NULL);
+
+    osStopThread(faultedThread);
+    crash_screen_wait_for_button_combo();
+    crash_screen_draw(faultedThread);
+
+    /* Nothing more to do; keep this thread alive on the crash screen. */
+    while (TRUE) {}
+}
 
 void crash_screen_set_draw_info(u16* frameBufPtr, u16 width, u16 height) {
     gCrashScreen.frameBuf = (u16*)((uintptr_t)frameBufPtr | 0xA0000000);

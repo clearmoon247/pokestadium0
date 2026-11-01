@@ -84,11 +84,42 @@ s32 func_8A1000C0(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A100104.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A100318; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A100318.s")
-#endif
+/*
+ * func_8A100318
+ *
+ * Initialises a record in the same way as func_8A1009E0, func_8A20034C and
+ * func_8002CA34: func_8002A8C4 fills the first five words with
+ * (arg1, arg2, 0x110, 0x16E, 0), the words at +0x24 and +0x28 are cleared,
+ * +0x14 is set to 0x801 and +0x20 to the address of D_8A12FC38.  It then
+ * sets up two sub-objects:
+ *
+ *   - func_80027410 (TableView_Initialize in symbol_addrs.txt) is called on
+ *     the area at arg0 + 0x70 with D_80064C5C, 0x1C, 0x97 and 0x97;
+ *   - func_8002EC24 is called on the object at arg0 + 0x2C with that area,
+ *     arg0 + 0x80, 8, the callback func_8A100104 and the constants 0x104
+ *     and 0x24.
+ *
+ * Finally the word at +0x1B0 is cleared and bit 0x10000 is set in the word at
+ * +0x4C.  What func_80027410 and func_8002EC24 do is not established yet,
+ * so the roles of those arguments are not named.
+ */
+M2C_UNK func_80027410(s8 *, M2C_UNK *, M2C_UNK, M2C_UNK, s32); /* extern */
+M2C_UNK func_8002EC24(s8 *, s8 *, s8 *, M2C_UNK, M2C_UNK *, s32, s32); /* extern */
+extern M2C_UNK D_80064C5C;
+extern M2C_UNK D_8A12FC38;
+extern M2C_UNK func_8A100104;
+
+void func_8A100318(void* arg0, s32 arg1, s32 arg2) {
+    func_8002A8C4((s8 *)arg0, arg1, arg2, 0x110, 0x16E);
+    M2C_FIELD(arg0, s32 *, 0x24) = 0;
+    M2C_FIELD(arg0, s32 *, 0x28) = 0;
+    M2C_FIELD(arg0, s32 *, 0x14) = 0x801;
+    M2C_FIELD(arg0, M2C_UNK **, 0x20) = &D_8A12FC38;
+    func_80027410((s8 *)arg0 + 0x70, &D_80064C5C, 0x1C, 0x97, 0x97);
+    func_8002EC24((s8 *)arg0 + 0x2C, (s8 *)arg0 + 0x70, (s8 *)arg0 + 0x80, 8, &func_8A100104, 0x104, 0x24);
+    M2C_FIELD(arg0, s32 *, 0x1B0) = 0;
+    M2C_FIELD(arg0, s32 *, 0x4C) = (s32) (M2C_FIELD(arg0, s32 *, 0x4C) | 0x10000);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A1003D0; signature not recovered. */
@@ -160,11 +191,22 @@ s32 func_8A1009A4(s32 arg0) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A1009E0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A1009E0.s")
-#endif
+/*
+ * func_8A1009E0
+ *
+ * Initialises a record in the same way as func_8A20034C and func_8002CA34:
+ * func_8002A8C4 fills the first five words with (arg1, arg2, 0x228, 0x15C, 0)
+ * (the last two constants look like a width and a height, not confirmed),
+ * the words at +0x20, +0x24 and +0x28 are cleared, and +0x14 is set to
+ * 0x1001.
+ */
+void func_8A1009E0(s8 *arg0, s32 arg1, s32 arg2) {
+    func_8002A8C4(arg0, arg1, arg2, 0x228, 0x15C);
+    M2C_FIELD(arg0, s32 *, 0x24) = 0;
+    M2C_FIELD(arg0, s32 *, 0x20) = 0;
+    M2C_FIELD(arg0, s32 *, 0x28) = 0;
+    M2C_FIELD(arg0, s32 *, 0x14) = 0x1001;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A100A24; signature not recovered. */
@@ -203,11 +245,26 @@ void func_8A101118(void) {
     func_8002C064(0x38, 0x1E0, M2C_FIELD(&D_8A1057D0, u8 *, 0), M2C_FIELD(&D_8A1057D0, u8 *, 1), (s32) M2C_FIELD(&D_8A1057D0, u8 *, 2));
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A101154; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A101154.s")
-#endif
+/*
+ * func_8A101154
+ *
+ * Makes three calls on the object arg0 points to:
+ *   func_8A100318(arg0, 0x36, 0x55)
+ *   func_8A100620(arg0 + 0x1B4, 0x156, 0x72)
+ *   func_8A1008A4(arg0 + 0x1E0, 0x186, 0x106)
+ * The second and third calls address sub-objects at fixed offsets inside
+ * arg0.  The constant pairs look like screen positions, but what the
+ * callees do with them has not been established.
+ */
+void func_8A100318(void* arg0, s32 arg1, s32 arg2);
+void func_8A100620(void* arg0, s32 arg1, s32 arg2);
+void func_8A1008A4(void* arg0, s32 arg1, s32 arg2);
+
+void func_8A101154(void* arg0) {
+    func_8A100318(arg0, 0x36, 0x55);
+    func_8A100620((u8*)arg0 + 0x1B4, 0x156, 0x72);
+    func_8A1008A4((u8*)arg0 + 0x1E0, 0x186, 0x106);
+}
 
 M2C_UNK func_800069CC();                            /* extern */
 M2C_UNK func_80028060(M2C_UNK, M2C_UNK *, M2C_UNK *, s32); /* extern */
@@ -249,11 +306,77 @@ s32 func_8A1011A4(s32 arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A1013C0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A1014EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A1014EC.s")
-#endif
+/*
+ * func_8A1014EC
+ *
+ * Frame loop of a screen in this file (the meaning of the screen is not
+ * established).  Starts with func_8000B2F4(D_800603C0) and a result `var_s3`
+ * of 2, then repeats until the result is no longer 2.  Each iteration:
+ *
+ *   - runs the frame helpers func_8000B1FC, func_8000B220, func_8001B5F0;
+ *   - while the state word at D_8A12FFC0 + 0x208 is 1 or 2, takes
+ *     func_8A1009A4(&D_8A1301A0); if that is non-zero it is passed to
+ *     func_8A1013C0(value, &sp50).  A return of 1 sets the result to the
+ *     value func_8A1013C0 stored in sp50; a return of 2 sets the words at
+ *     D_8A12FFC0 + 0x24, + 0x1D8 and + 0x204 to 7;
+ *   - runs func_800158C0, func_800069CC, func_8A101118, func_8A1003D0
+ *     (D_8A12FFC0, 0x10), func_8A10068C(&D_8A130174), func_8A100954
+ *     (&D_8A1301A0, 2) and func_80006780;
+ *   - if the word at D_8A12FFC0 + 0x28 is 4, the result becomes sp50.
+ *
+ * Returns the result.  What the values mean is not established.
+ *
+ * Note for matching: the unused leading `pad` local moves sp50 down 4 bytes
+ * to the ROM's stack offset (0x50); func_8001B5F0 must be declared void.
+ */
+void func_8000B1FC(void);
+M2C_UNK func_8000B220();
+M2C_UNK func_8000B2F4(s32);
+M2C_UNK func_800158C0();
+void func_8001B5F0(void);
+M2C_UNK func_80006780();
+s32 func_8A1013C0(s32, s32 *);
+
+s32 func_8A1014EC(void) {
+    UNUSED s32 pad;
+    s32 sp50;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 var_s3;
+
+    var_s3 = 2;
+    sp50 = 0;
+    func_8000B2F4(D_800603C0);
+    do {
+        func_8000B1FC();
+        func_8000B220();
+        func_8001B5F0();
+        if ((M2C_FIELD(&D_8A12FFC0, s32 *, 0x208) == 1) || (M2C_FIELD(&D_8A12FFC0, s32 *, 0x208) == 2)) {
+            temp_v0 = func_8A1009A4((s32) &D_8A1301A0);
+            if (temp_v0 != 0) {
+                temp_v0_2 = func_8A1013C0(temp_v0, &sp50);
+                if (temp_v0_2 == 1) {
+                    var_s3 = sp50;
+                } else if (temp_v0_2 == 2) {
+                    M2C_FIELD(&D_8A12FFC0, s32 *, 0x24) = 7;
+                    M2C_FIELD(&D_8A12FFC0, s32 *, 0x1D8) = 7;
+                    M2C_FIELD(&D_8A12FFC0, s32 *, 0x204) = 7;
+                }
+            }
+        }
+        func_800158C0();
+        func_800069CC();
+        func_8A101118();
+        func_8A1003D0(&D_8A12FFC0, 0x10);
+        func_8A10068C(&D_8A130174);
+        func_8A100954(&D_8A1301A0, 2);
+        func_80006780();
+        if (M2C_FIELD(&D_8A12FFC0, s32 *, 0x28) == 4) {
+            var_s3 = sp50;
+        }
+    } while (var_s3 == 2);
+    return var_s3;
+}
 
 extern s32 D_8A12FF98;
 extern u8 D_8A130204[];
@@ -305,11 +428,56 @@ void func_8A1017DC(void) {
     func_80002620(0x50494354);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A10180C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A10180C.s")
-#endif
+/*
+ * func_8A10180C
+ *
+ * Frame loop of a screen in this file (the meaning of the screen is not
+ * established).  Calls func_8A101760(D_8A12FFA4, D_8A12FFB8 + 1) once, then
+ * keeps the result of func_800231C8(D_8A12FFB0, D_8A12FFB8 + 1) and runs
+ * one frame per iteration (func_8000B1FC, func_8000B220, func_8001B5F0,
+ * func_8A10164C(0, that result), func_80006780) until the state word at
+ * D_8A12FFC0 + 0x26C becomes 4.
+ *
+ * While that state is 1 or 2 and bit 0xC000 is set in the halfword at
+ * offset 8 of the structure D_800603C0 points to (read here as a controller
+ * button field; not confirmed), and func_8003BECC() returns 0, the state
+ * at D_8A12FFC0 + 0x268 is set to 7 and func_8003F6AC(3) is called.
+ *
+ * After the loop, func_8A1017DC() is called and the words at offsets 0x24,
+ * 0x1D8 and 0x204 of D_8A12FFC0 are cleared.  Always returns 1.
+ */
+void func_8000B1FC(void);
+M2C_UNK func_8000B220();
+void func_8001B5F0(void);
+M2C_UNK func_80006780();
+s32 func_8003BECC();
+M2C_UNK func_8003F6AC(M2C_UNK);
+M2C_UNK func_8A101760(s32, s32);
+s32 func_800231C8(s32, s32);
+extern s32 D_8A12FFB8;
+
+s32 func_8A10180C(void) {
+    s32 temp_s1;
+
+    func_8A101760((s32)D_8A12FFA4, D_8A12FFB8 + 1);
+    temp_s1 = func_800231C8(D_8A12FFB0, D_8A12FFB8 + 1);
+    do {
+        func_8000B1FC();
+        func_8000B220();
+        func_8001B5F0();
+        if (((M2C_FIELD(&D_8A12FFC0, s32 *, 0x26C) == 1) || (M2C_FIELD(&D_8A12FFC0, s32 *, 0x26C) == 2)) && (M2C_FIELD((void *)D_800603C0, u16 *, 8) & 0xC000) && (func_8003BECC() == 0)) {
+            M2C_FIELD(&D_8A12FFC0, s32 *, 0x268) = 7;
+            func_8003F6AC(3);
+        }
+        func_8A10164C(0, temp_s1);
+        func_80006780();
+    } while (M2C_FIELD(&D_8A12FFC0, s32 *, 0x26C) != 4);
+    func_8A1017DC();
+    M2C_FIELD(&D_8A12FFC0, s32 *, 0x24) = 0;
+    M2C_FIELD(&D_8A12FFC0, s32 *, 0x1D8) = 0;
+    M2C_FIELD(&D_8A12FFC0, s32 *, 0x204) = 0;
+    return 1;
+}
 
 M2C_UNK func_80006780();                            /* extern */
 M2C_UNK func_800069CC();                            /* extern */

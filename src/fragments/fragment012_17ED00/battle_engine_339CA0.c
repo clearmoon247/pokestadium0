@@ -802,11 +802,60 @@ void BattleAnim_CallbackSharedDescriptors3EAnd3FAnimatedRiseFade_InitParticle(Pa
     Particle_AdvanceLifecycle(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82161074; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82161074.s")
-#endif
+/*
+ * func_82161074
+ *
+ * Per-frame callback of the "animated rise and fade" particle used by
+ * descriptors 0x3E and 0x3F.  It switches on the particle's lifecycle state
+ * (the halfword at offset 0xAE; the donor calls it `lifecycle`):
+ *   1  initialise (the _InitParticle function, func_82160FA0)
+ *   2  animate frames 0..7 forward, ease the scale (field at 0x1C) toward 0.8
+ *      by 0.1, ease the second float (func_8213F658) toward 1.0 by 1.0, and
+ *      once the countdown at offset 0xA6 has reached zero move the Y motion
+ *      step toward 0.5 by 0.4 and add it to the offset
+ *   3  add the Y motion step to the offset and fade the primitive alpha to 0
+ *      by 0x20
+ *   4  mark the particle inactive
+ * Afterwards, if the particle is still running, it is pushed along its
+ * facing direction.
+ *
+ * Same structure as BattleAnim_CallbackSharedDescriptors3EAnd3FAnimatedRiseFade
+ * in the Stadium 1 decomp (the donor spells the callees differently, and
+ * Zero's address 0x8213F658 has no name in the symbol table).  The first
+ * float argument of that call is written as the double 1.0, as in the donor:
+ * with 1.0f twice the compiler reuses one register and emits three extra
+ * instructions.
+ */
+void func_82161074(Particle* arg0) {
+    switch (arg0->unk_B2) {
+        case 1:
+            BattleAnim_CallbackSharedDescriptors3EAnd3FAnimatedRiseFade_InitParticle(arg0);
+            break;
+
+        case 2:
+            func_8213CCEC((s8*)arg0, 0, 7, 1, 2, 0);
+            Particle_Field1C_Approach_0B98C(arg0, 0.8f, 0.1f);
+            func_8213F658((s8*)arg0, 1.0, 1.0f);
+            if (Particle_FieldA6_DecrementToZeroStep1_0BDAC(arg0) != 0) {
+                Particle_Field7C_ApproachY_0B180(arg0, 0.5f, 0.4f);
+                Particle_Field50_AddXFromField7C_09C58(arg0);
+            }
+            break;
+
+        case 3:
+            Particle_Field50_AddXFromField7C_09C58(arg0);
+            Particle_PrimAlpha_ApproachAndStepState_0BC5C(arg0, 0, 0x20);
+            break;
+
+        case 4:
+            Particle_MarkInactive(arg0);
+            break;
+    }
+
+    if (Particle_IsRunning(arg0) != 0) {
+        Particle_AddVelocityXZFromRotationYViaImpulse(arg0);
+    }
+}
 
 void BattleAnim_CallbackEndEffect67Descriptor3DAnimatedGravityFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -2060,11 +2109,31 @@ void func_82163D7C(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82163E60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82163E60.s")
-#endif
+/*
+ * func_82163E60
+ *
+ * Particle initialiser: sets the particle's scale to 0.2, recolours its
+ * primitive/environment colours from its descriptor's palette pair, sets
+ * the primitive alpha to 0xC8, stores 0x18 with Particle_FieldA6_SetS16_0BCA8,
+ * sets the float at offset 0x70 (the donor calls it stepMagnitude; the
+ * value, 0.02 in the donor, is the rodata float D_FLT_82197730 here) and
+ * advances the particle's lifecycle.
+ *
+ * Same sequence as
+ * BattleAnim_CallbackEndEffect27Descriptor4BGrowColorShiftFade_InitParticle
+ * in the Stadium 1 decomp.  The 0xC8 alpha is passed as -0x38 in the retail
+ * code (the same byte).
+ */
+extern f32 D_FLT_82197730;
+
+void func_82163E60(Particle* arg0) {
+    Particle_Field1C_SetScaled_0B938(arg0, 0.2f);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+    Particle_SetPrimAlpha(arg0, 0xC8);
+    Particle_FieldA6_SetS16_0BCA8(arg0, 0x18);
+    arg0->unk_74 = D_FLT_82197730;
+    Particle_AdvanceLifecycle(arg0);
+}
 
 M2C_UNK func_82137AB4(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_8213C930(s8 *);                      /* extern */
@@ -2072,7 +2141,6 @@ M2C_UNK func_82140228(s8 *, M2C_UNK, s32);        /* extern */
 M2C_UNK func_821404DC(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_82140548(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821406B4(s8 *);                      /* extern */
-M2C_UNK func_82163E60(s8 *);                      /* extern */
 
 void func_82163ED0(s8 *arg0) {
     s16 temp_v0;
@@ -2152,8 +2220,190 @@ void BattleAnim_CallbackStartEffect81Descriptor3DRisingAnimFade(Particle* arg0) 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821640A0.s")
 #endif
 
+void func_82164198(Particle* arg0);
 #ifdef NON_MATCHING
-/* TODO: decompile func_82164198; signature not recovered. */
+// Matches the ROM, but uses rodata data that is not placed in this file yet.
+/*
+ * func_82164198  (src/fragments/fragment012_17ED00/battle_engine_339CA0.c)  -- 589 words
+ *
+ * Init callback for a battle-animation particle of the shared "vertical fade"
+ * effect: it reads three values stored on the particle, then, per variant
+ * (switch on sp2C), sets its scale, a random position offset, step size, alpha and
+ * a couple of misc fields.  Cases 9-11 additionally build a random rotation
+ * vector (sp30) and apply it to the particle.
+ *
+ * Origin: Stadium 1 BattleAnim_InitSharedVerticalFadeParticle.  Where Zero
+ * differs, this code follows the retail ROM; the one structural difference
+ * I found is case 8 (see the comment there).  The names
+ * used for the helper calls are the ones already in this repo's symbol list,
+ * so they look different from Stadium 1's names (for example
+ * Particle_Field1C_SetScaled_0B938 is Stadium 1's Particle_Scale_SetScaled).
+ *
+ * Verified: compiles with IDO 7.1 -O2 -mips2 (repo flags and headers) to the same words as the retail ROM, relocations compared by address.
+ * Constants: the float literals this function reads (0.0, 0.02, 0.04, 0.05,
+ * 0.07, 0.15, 0.2, 0.3) and the 13-entry jump table of its switch were
+ * compared with the bytes in the retail ROM and are identical.  The function
+ * is kept behind NON_MATCHING only because those literals live in this
+ * file's .rodata, which is not placed yet (see the note above the function).
+ */
+
+/* Initialises one particle of the shared "vertical fade" battle effect. */
+void func_82164198(Particle* arg0) {
+    Vec3s sp30;  /* scratch rotation vector used by the later cases */
+    /* values the effect descriptor stored on the particle */
+    s16 sp2E = Particle_FieldAC_GetS16_0C038(arg0);
+    u16 sp2C = Particle_FieldCE_GetS32_0C040(arg0);
+
+    /* common setup shared by every variant */
+    Particle_FieldB0_SetS16_0BFEC(arg0, 2);
+    Particle_FieldA6_SetS16_0BCA8(arg0, sp2E * 2);
+    ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
+
+    /* sp2C selects which variant of the effect this particle belongs to (0..12) */
+    switch (sp2C) {
+        case 0:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0xA, 0xA);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x32) * 0.02f) + 0.5f);
+            Particle_SetPrimAlpha(arg0, 0x64);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 4);
+            break;
+
+        case 1:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0xF, 0x3C);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x32) * 0.04f) + 1.0f);
+            Particle_SetPrimAlpha(arg0, 0x64);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 4);
+            break;
+
+        case 2:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.5f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xF, 0x14, 0x19);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x32) * 0.07f) + 4.0f);
+            Particle_SetPrimAlpha(arg0, 0xA0);
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 0xA);
+            break;
+
+        case 3:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 0x19);
+            Particle_Field38_AddXZFromField94Y_08ED0(arg0, 10.0f);
+            Particle_Field38_AddYScaled_08E90(arg0, 5.0f);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0xA) * 0.05f) + 0.2f);
+            Particle_SetPrimAlpha(arg0, 0xFF);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 2);
+            Particle_FieldB0_SetS16_0BFEC(arg0, 2);
+            break;
+
+        case 8:
+            /* Stadium 1 calls a separate helper here that also adjusts the offset
+               for particular species.  The Zero code has only that helper's
+               default path (no species adjustment) written out inline: the
+               random offset, the XZ offset of 10.0 and the Y offset of 5.0. */
+            Particle_Field1C_SetScaled_0B938(arg0, 1.2f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 0x23);
+            Particle_Field38_AddXZFromField94Y_08ED0(arg0, 10.0f);
+            Particle_Field38_AddYScaled_08E90(arg0, 5.0f);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0xA) * 0.05f) + 0.2f);
+            Particle_SetPrimAlpha(arg0, 0xFF);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 2);
+            Particle_FieldB0_SetS16_0BFEC(arg0, 2);
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E);
+            break;
+
+        case 12:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.2f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 0x28);
+            Particle_Field38_AddXZFromField94Y_08ED0(arg0, 10.0f);
+            Particle_Field38_AddYScaled_08E90(arg0, 5.0f);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0xA) * 0.05f) + 0.2f);
+            Particle_SetPrimAlpha(arg0, 0xFF);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 2);
+            Particle_FieldB0_SetS16_0BFEC(arg0, 2);
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E);
+            break;
+
+        case 4:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 0x14);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0xA) * 0.05f) + 0.5f);
+            Particle_SetPrimAlpha(arg0, 0xFF);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 2);
+            Particle_FieldB0_SetS16_0BFEC(arg0, 2);
+            break;
+
+        case 5:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xF, 0xF, 0xF);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x32) * 0.02f) + 1.0f);
+            Particle_SetPrimAlpha(arg0, 0x80);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 4);
+            break;
+
+        case 6:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+            Particle_SetRandomVelocityXYZ(arg0, 5, 5, 5);
+            Particle_Field74_SetScaled_0AD8C(arg0, 0.5f);
+            Particle_SetPrimAlpha(arg0, 0xC8);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 4);
+            break;
+
+        case 7:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.5f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 5);
+            Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x14) * 0.02f) + 0.5f);
+            Particle_SetPrimAlpha(arg0, 0xC8);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 4);
+            break;
+
+        case 9:
+            Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 0xA);
+            sp30.x = ParticleMath_RandomSigned(0x1800) - 0x4000;
+            sp30.y = ParticleMath_RandomRange(0x10000);
+            sp30.z = 0;
+            Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x14) * 0.15f) + 3.0f);
+            Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(arg0);
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 0xA);
+            break;
+
+        case 10:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.8f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xF, 0, 0xF);
+            sp30.x = ParticleMath_RandomSigned(0x1000) - 0x4000;
+            sp30.y = ParticleMath_RandomRange(0x10000);
+            sp30.z = 0;
+            Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x14) * 0.15f) + 4.0f);
+            Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(arg0);
+            Particle_FieldA6_SetS16_0BCA8(arg0, 0);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 0xA);
+            break;
+
+        case 11:
+            Particle_Field1C_SetScaled_0B938(arg0, 0.05f);
+            Particle_SetRandomVelocityXYZ(arg0, 0xA, 0, 0xA);
+            sp30.x = ParticleMath_RandomSigned(0x1000) - 0x4000;
+            sp30.y = ParticleMath_RandomRange(0x10000);
+            sp30.z = 0;
+            Particle_Field94_AddVecFromVec3s_0A4F0(arg0, sp30);
+            Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x14) * 0.3f) + 6.0f);
+            Particle_Field7C_SetVecFromField74AnglesXY_0B2B4(arg0);
+            Particle_SetPrimAlpha(arg0, 0xFF);
+            Particle_FieldA6_SetS16_0BCA8(arg0, sp2E);
+            Particle_FieldAE_SetS16_0BF4C(arg0, 0xA);
+            break;
+    }
+
+    /* the particle starts hidden and its lifecycle is advanced once */
+    Particle_DisableRendering(arg0);
+    Particle_AdvanceLifecycle(arg0);
+}
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82164198.s")
 #endif
@@ -2163,7 +2413,6 @@ M2C_UNK func_8213CB3C(s8 *);                      /* extern */
 M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E77C(s8 *);                      /* extern */
 s32 func_821406B4(s8 *);                          /* extern */
-M2C_UNK func_82164198(s8 *);                      /* extern */
 
 void func_82164AD0(s8 *arg0) {
     s16 temp_v0;
@@ -2247,7 +2496,6 @@ M2C_UNK func_8213F6DC(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_82140594(s8 *, M2C_UNK);             /* extern */
 s32 func_821406B4(s8 *);                          /* extern */
-M2C_UNK func_82164198(s8 *);                      /* extern */
 M2C_UNK func_82164B9C(s8 *);                      /* extern */
 
 void func_82164CA4(s8 *arg0) {
@@ -2301,7 +2549,6 @@ M2C_UNK func_8213CCEC(s8 *, M2C_UNK, M2C_UNK, M2C_UNK, s32, s32); /* extern */
 M2C_UNK func_8213E3F8(s8 *);                      /* extern */
 M2C_UNK func_8213F940(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_821406B4(s8 *);                          /* extern */
-M2C_UNK func_82164198(s8 *);                      /* extern */
 
 void func_82164E18(s8 *arg0) {
     s16 temp_v0;
@@ -2336,7 +2583,6 @@ M2C_UNK func_8213CB3C(s8 *);                      /* extern */
 M2C_UNK func_8213E3F8(s8 *);                      /* extern */
 M2C_UNK func_8213F940(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_821406B4(s8 *);                          /* extern */
-M2C_UNK func_82164198(s8 *);                      /* extern */
 
 void func_82164F04(s8 *arg0) {
     s16 temp_v0;
@@ -2500,7 +2746,6 @@ M2C_UNK func_8213F940(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK func_821402B8(s8 *);                      /* extern */
 M2C_UNK func_82140518(s8 *, M2C_UNK, M2C_UNK);    /* extern */
 s32 func_82140690(s8 *);                          /* extern */
-M2C_UNK func_82164198(s8 *);                      /* extern */
 
 void func_8216547C(s8 *arg0) {
     s16 temp_v0;
@@ -2946,11 +3191,45 @@ void func_82166DC4(void) {
     func_8213B5D8(0, 4, 2, &func_821608FC, &D_8218E7D0, 0, 4, 0x11, (s32) D_8219A80A, 0x11, 0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82166E7C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82166E7C.s")
-#endif
+/*
+ * func_82166E7C
+ *
+ * Starts the effect slots of one battle animation.  If func_82107CF0
+ * (applied to the word at D_8219A814) returns 0x7B, the animation is
+ * replaced by a single call to func_8216713C() (it takes no argument) and
+ * nothing else happens.
+ * Otherwise it creates three slots running func_8215FAA4 on descriptor
+ * D_8218E6D0 (start delays 0, 4 and 0xA; the last argument 0, 1, 2 is the
+ * only value that differs), one slot running func_821600E0 on descriptor
+ * D_8218E6C8 with start delay 0x1E, and then calls func_8213B720 with
+ * (0x23, 0, 0x10, 0x12).
+ *
+ * What the arguments of func_8213B560 / func_8213B720 mean is not
+ * established here (both are still unnamed); the values are copied from the
+ * retail code.  The retail code keeps func_8215FAA4 in a stack local (sp+0x30)
+ * that is reused by the three calls, hence the sp30 variable.
+ */
+s32 func_82107CF0(s32);
+void func_8216713C(void);
+M2C_UNK func_8213B720(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK);
+extern M2C_UNK D_8218E6C8;
+extern M2C_UNK D_8218E6D0;
+extern s32 D_8219A814;
+
+void func_82166E7C(void) {
+    void (*sp30)(s8*);
+
+    if (func_82107CF0(D_8219A814) == 0x7B) {
+        func_8216713C();
+        return;
+    }
+    sp30 = func_8215FAA4;
+    func_8213B560(0, (M2C_UNK*)sp30, &D_8218E6D0, 0, 3, 0x10, (s32) D_8219A80A, 0xB, 0);
+    func_8213B560(4, (M2C_UNK*)sp30, &D_8218E6D0, 0, 3, 0x10, (s32) D_8219A80A, 0xB, 1);
+    func_8213B560(0xA, (M2C_UNK*)sp30, &D_8218E6D0, 0, 3, 0x10, (s32) D_8219A80A, 0xB, 2);
+    func_8213B560(0x1E, &func_821600E0, &D_8218E6C8, 0, 1, 0x18, 0, 0xF, 0);
+    func_8213B720(0x23, 0, 0x10, 0x12);
+}
 
 void func_82167274(void);
 void ParticleEffect_DynamicCollisionSetup(void) {

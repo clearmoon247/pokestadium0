@@ -66,11 +66,38 @@ void func_80027F20(s32 arg0)
   func_8001AA9C(*((u8 *) (new_var + 0)), *((u8 *) (new_var + 1)), *((u8 *) (new_var + 2)), *((u8 *) (((s8 *) new_var) + 3)));
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80027F8C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80027F8C.s")
-#endif
+/*
+ * func_80027F8C
+ *
+ * Picks one 4-byte entry and passes its four bytes to func_8001AA9C as four
+ * byte-sized arguments.  The entry comes from one of three tables chosen by
+ * the flags in arg0:
+ *   - if any of bits 0x18 is set, from D_800734B8;
+ *   - otherwise, if bit 0x01 is set, from D_800734C0;
+ *   - otherwise from D_800734A8.
+ * If bit 0x02 is clear the entry that follows (4 bytes further on) is used
+ * instead.
+ *
+ * This is the same selection as func_80027F20 just above, except that bit
+ * 0x01 selects D_800734C0 here and D_800734B0 there.  What the four bytes
+ * mean is not established from the code (they look like colour components).
+ */
+extern s8 D_800734C0;
+void func_80027F8C(s32 arg0) {
+    u8* entry;
+
+    if (arg0 & 0x18) {
+        entry = (u8*)&D_800734B8;
+    } else if (arg0 & 1) {
+        entry = (u8*)&D_800734C0;
+    } else {
+        entry = (u8*)&D_800734A8;
+    }
+    if (!(arg0 & 2)) {
+        entry += 4;
+    }
+    func_8001AA9C(entry[0], entry[1], entry[2], entry[3]);
+}
 
 void GbSave_BuildPortSummary(unk_func_8002D860* arg0, s32 arg1) {
     if (GbSave_GetSaveState(arg1) != 0) {
@@ -153,11 +180,20 @@ void Trade_DrawSolidFillRect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, Color_RGB8 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A0AC.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002A32C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002A32C.s")
-#endif
+/*
+ * func_8002A32C
+ *
+ * Forwards its four arguments unchanged to func_800295E8 and adds a fifth
+ * argument: the address of the data at D_80073524 (typed as a byte array).
+ * func_8002A354 calls func_800295E8 the same way with D_8007353C as the
+ * fifth argument.  What this data is, and what func_800295E8 does with it,
+ * has not been determined, so the names are left as addresses.
+ */
+extern u8 D_80073524[];
+void func_800295E8(s32, s32, s32, s32, u8*);
+void func_8002A32C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    func_800295E8(arg0, arg1, arg2, arg3, D_80073524);
+}
 
 typedef struct Color8002A354 {
     u8 c[4];
@@ -245,11 +281,18 @@ void Particle_SetVelocityXZFromRotationY(Particle* arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002AF04.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002B018; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002B018.s")
-#endif
+/*
+ * func_8002B018
+ *
+ * Calls func_8002A8C4(arg0, arg1, arg2, arg3, arg4), which fills the first
+ * five words of the object (arg1, arg2, arg3, arg4, 0), then stores arg5 at
+ * +0x24 and arg6 at +0x28.
+ */
+void func_8002B018(s8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    func_8002A8C4(arg0, arg1, arg2, arg3, arg4);
+    M2C_FIELD(arg0, s32 *, 0x28) = arg6;
+    M2C_FIELD(arg0, s32 *, 0x24) = arg5;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002B054; signature not recovered. */
@@ -488,16 +531,20 @@ s32 Ui_GetSelectionDirection(unk_func_8002EBD8_arg0* arg0) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+/*
+ * GbSave_GameToCategoryIndex  (owner func_8002BC44)
+ *
+ * Returns entry arg0 of a 12-word lookup table at D_80073644.  The retail
+ * ROM holds { 0, 0, 1, 2, 0, 0, 0, 3, 0, 0, 0, 0 } there (checked against the
+ * ROM bytes), the same table the Stadium 1 version of this function keeps as
+ * a file-static array.  The table is referenced by its ROM address instead of
+ * being defined here because this file's .data cannot be placed yet.
+ * arg0 is not range-checked.
+ */
+extern s32 D_80073644[];
 s32 GbSave_GameToCategoryIndex(s32 arg0) {
-    static s32 D_80075910[] = { 0, 0, 1, 2, 0, 0, 0, 3, 0, 0, 0, 0 };
-
-    return D_80075910[arg0];
+    return D_80073644[arg0];
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002BC44.s")
-#endif
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002BC58; signature not recovered. */
@@ -568,11 +615,39 @@ void BattleInfoWidget_DrawLabel(s32 arg0, s32 arg1, char* arg2, s32 arg3, s32 ar
     Font_EndTexturedTextRendering();
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002CA34; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002CA34.s")
-#endif
+/*
+ * func_8002CA34
+ *
+ * Initialises a record like func_8A1009E0 does, with the first five words
+ * set by func_8002A8C4 to (arg1, arg2, 0xF8, 0xAE, 0), the words at +0x20,
+ * +0x24 and +0x28 cleared and +0x14 set to 0x1001.  It then sets up two
+ * sub-objects: func_80027804 is called on the area at arg0 + 0x50 with
+ * D_800736AC, 3 and 3, and func_8002D880 on the object at arg0 + 0x2C with
+ * that area, arg0 + 0x5C, the callback func_8002C998 and the constants 0xEC
+ * and 0x1C.  Finally bit 0x10000 is set in the word at +0x4C.
+ * What func_80027804 and func_8002D880 do is not established yet, so the
+ * roles of those arguments are not named.
+ */
+M2C_UNK func_80027804(s8 *, M2C_UNK *, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK func_8002D880(s8 *, s8 *, s8 *, M2C_UNK *, s32, s32); /* extern */
+extern M2C_UNK D_800736AC;
+extern M2C_UNK func_8002C998;
+
+void func_8002CA34(s8 *arg0, s32 arg1, s32 arg2) {
+    s8 *sp2C;
+    s8 *temp_a0;
+
+    func_8002A8C4(arg0, arg1, arg2, 0xF8, 0xAE);
+    M2C_FIELD(arg0, s32 *, 0x24) = 0;
+    M2C_FIELD(arg0, s32 *, 0x20) = 0;
+    M2C_FIELD(arg0, s32 *, 0x28) = 0;
+    M2C_FIELD(arg0, s32 *, 0x14) = 0x1001;
+    temp_a0 = arg0 + 0x50;
+    sp2C = temp_a0;
+    func_80027804(temp_a0, &D_800736AC, 3, 3);
+    func_8002D880(arg0 + 0x2C, sp2C, arg0 + 0x5C, &func_8002C998, 0xEC, 0x1C);
+    M2C_FIELD(arg0, s32 *, 0x4C) = (s32) (M2C_FIELD(arg0, s32 *, 0x4C) | 0x10000);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8002CAD0; signature not recovered. */
@@ -643,11 +718,29 @@ s32 func_8002D3D0(u8* arg0) {
     return 4;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D430; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D430.s")
-#endif
+/*
+ * func_8002D430
+ *
+ * Reads the byte at offset 9 of the record at (arg0 + arg1) and turns it
+ * into a zero-based index:
+ *    byte 0         -> -1
+ *    byte 1..165    -> byte - 1      (0..164)
+ *    byte >= 166    -> -2
+ * i.e. the byte is a 1-based id with 165 valid values.  What the id
+ * identifies has not been determined.
+ */
+s32 func_8002D430(s32 arg0, s32 arg1) {
+    u8* p = (u8*)(arg0 + arg1);
+    s32 id = p[9];
+    s32 r;
+
+    if (id >= 166) {
+        r = -2;
+    } else {
+        r = id - 1;
+    }
+    return r;
+}
 
 s32 func_8002D3D0(u8*);
 s32 func_8002D430(s32, s32);                        /* extern */
@@ -682,8 +775,54 @@ s32 func_8002D498(BattleMon* arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D520.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002D7D4; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002D7D4.s")
-#endif
+/*
+ * func_8002D7D4
+ *
+ * Polling loop on arg0.  First func_80006780 (BgStage_AdvanceFrame, per
+ * symbol_addrs.txt) is called once.  Then, repeatedly:
+ *
+ *   - state starts at 2.  func_8002D520(state) is called and
+ *     func_80021B30(arg0) (GbSave_PollCartRemoval, per symbol_addrs.txt) is
+ *     polled; if the poll returns 1 or 3, state becomes 1 or 3 for the next
+ *     round.  This repeats until the poll returns 2.
+ *   - func_8002D520(0) is called twice.
+ *   - The whole sequence is repeated while func_8002207C(arg0)
+ *     (GbSave_RebuildAndWriteSave) returns 0.
+ *
+ * What func_8002D520 does with its argument is not established, so the
+ * values 1, 2 and 3 are not given names in the code.
+ *
+ * Context from the Stadium 1 decomp (not proof for this ROM): the same
+ * loop exists there as LabUI_ShowSavingPrompt, where the polled function
+ * GbSave_PollCartRemoval returns 0 when it has nothing to report yet, 1
+ * while it waits for the cart to be put back, 2 once the pak is verified as
+ * the same one, and 3 if a pak was reinitialised but is not the expected one; the loop
+ * shows a saving-status message for the latest value.  Zero's loop differs in
+ * detail (it never maps 2 to 0, and it calls func_8002D520(0) twice after the
+ * inner loop instead of sending two null messages inside it).
+ */
+M2C_UNK func_80006780();                            /* extern */
+s32 func_80021B30(s32);                             /* extern */
+s32 func_8002207C(s32);                             /* extern */
+M2C_UNK func_8002D520(M2C_UNK);                     /* extern */
+
+void func_8002D7D4(s32 arg0) {
+    s32 state;
+    s32 result;
+
+    func_80006780();
+    do {
+        state = 2;
+        do {
+            func_8002D520(state);
+            result = func_80021B30(arg0);
+            if (result == 1) {
+                state = 1;
+            } else if (result == 3) {
+                state = 3;
+            }
+        } while (result != 2);
+        func_8002D520(0);
+        func_8002D520(0);
+    } while (func_8002207C(arg0) == 0);
+}

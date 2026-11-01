@@ -133,11 +133,29 @@ void func_811098E8(s8 *arg0) {
     M2C_FIELD(arg0, s32 *, 8) = (s32) M2C_FIELD(arg0, s32 *, 4);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_811098FC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_811098FC.s")
-#endif
+/*
+ * func_811098FC
+ *
+ * Resets a small record: the words at +0x00 and +0x10 are cleared, the words
+ * at +0x08 and +0x14 are set to the value at +0x04, the word at +0x20 is set
+ * to (+0x0C) + (+0x04), and the halfwords at +0x1E and +0x2A are set to -1.
+ * It reads like the set-up of a cursor over a buffer (start at +0x04, length
+ * at +0x0C, end stored at +0x20), but the role of the record is not
+ * established from the code alone, so the fields are left unnamed.
+ *
+ * The sum is written with the fields in this order, and read from memory
+ * rather than through a local, because IDO orders the two operands of the
+ * addu differently otherwise.
+ */
+void func_811098FC(s32* arg0) {
+    arg0[4] = 0;
+    arg0[0] = 0;
+    arg0[8] = arg0[3] + arg0[1];
+    ((s16*)arg0)[0xF] = -1;
+    ((s16*)arg0)[0x15] = -1;
+    arg0[2] = arg0[1];
+    arg0[5] = arg0[1];
+}
 
 void func_8110992C(s8 *arg0) {
     M2C_FIELD(arg0, s32 *, 0xC) = 0;
@@ -196,7 +214,6 @@ void func_81109A94(s8 *arg0) {
 
 s32 func_81109868(M2C_UNK *, s32);                  /* extern */
 M2C_UNK func_811098C0(M2C_UNK *, s32, s32);         /* extern */
-M2C_UNK func_811098FC(M2C_UNK *);                   /* extern */
 extern M2C_UNK D_81184310;
 extern M2C_UNK D_81184340;
 extern M2C_UNK D_81184344;
@@ -221,11 +238,27 @@ void func_81109B50(s8 *arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81109C0C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110A310; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110A310.s")
-#endif
+/*
+ * func_8110A310
+ *
+ * Calls func_8110B880(arg0, arg2) and returns its result if that is
+ * non-zero.  Otherwise returns 0 if arg1 is 3, and
+ * func_8110A368(arg0, arg1, arg2) for any other arg1.
+ */
+s32 func_8110A368(s32 arg0, s32 arg1, s32 arg2);
+s32 func_8110B880(s32 arg0, s32 arg1);
+
+s32 func_8110A310(s32 arg0, s32 arg1, s32 arg2) {
+    s32 result = func_8110B880(arg0, arg2);
+
+    if (result != 0) {
+        return result;
+    }
+    if (arg1 == 3) {
+        return 0;
+    }
+    return func_8110A368(arg0, arg1, arg2);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8110A368; signature not recovered. */

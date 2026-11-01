@@ -838,11 +838,32 @@ void BattleScene_DrawStripWipeIfActive(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211D5F4.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8211D874; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8211D874.s")
-#endif
+/*
+ * func_8211D874
+ *
+ * Calls func_8001AC7C(arg0, arg1, 0x6E, 0x1E, 0, 0, 0, 0x3C), then
+ * func_8001AB6C() and func_8001A384(1, 0), then func_8001A944 twice: with
+ * (arg0 + 3, arg1 + 4, &D_82195BE4) and with (arg0 + 0x23, arg1 + 0x10,
+ * D_8218B15C[D_8219A5A4]), and finally func_8001ABBC().  D_8219A5A4 selects
+ * an entry of the word-sized table D_8218B15C, which is passed on as the
+ * third argument.  The calls look like a begin / draw / end sequence
+ * positioned relative to (arg0, arg1), but that is an inference.
+ *
+ * The roles of the func_8001A... helpers are not established here.
+ */
+M2C_UNK func_8001AC7C(s16, s16, M2C_UNK, M2C_UNK, s32, s32, s32, s32);
+extern M2C_UNK D_82195BE4;
+extern s32 D_8218B15C[];
+extern s32 D_8219A5A4;
+
+void func_8211D874(s16 arg0, s16 arg1) {
+    func_8001AC7C(arg0, arg1, 0x6E, 0x1E, 0, 0, 0, 0x3C);
+    func_8001AB6C();
+    func_8001A384(1, 0);
+    func_8001A944(arg0 + 3, arg1 + 4, (s32)&D_82195BE4);
+    func_8001A944(arg0 + 0x23, arg1 + 0x10, D_8218B15C[D_8219A5A4]);
+    func_8001ABBC();
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8211D920; signature not recovered. */

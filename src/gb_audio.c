@@ -16,32 +16,33 @@ typedef struct unk_D_800FCD98 {
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ u8 unk_0C;
 } unk_D_800FCD98;
-extern u8 D_800B3FD8[8];
-extern u8 D_800B3FE0[8];
-extern u8 D_800B3FE8[8];
-extern u8 D_800B3FF0[8];
-extern u8 D_800B3FF8;
-extern unk_D_800FCD70 D_800B4000[8];
-extern unk_D_800FCD98 D_800B4028[8];
-extern u8 D_800B40A8[8];
-extern u8 D_800B40B0[8];
-extern u8 D_800B40B8[8];
-extern u8 D_800B40C0[8];
-extern u8 D_800B40C8[8];
-extern u8 D_800B40D0[8];
-extern u8* D_800B40D8[8];
-extern s32 D_800B40F8[8];
-extern s32 D_800B4118[8];
-extern u8 D_800B4138[8];
-extern u16 D_800B4140;
-extern u16 D_800B4142;
-extern u8 D_800B4144;
-extern u8 D_800B4146[2];
-extern u8* D_800B4148[2];
-extern u8 D_800B4150[8];
-extern u32 D_800B4158;
-extern u8 D_800B415C;
-extern u8 D_800B415D;
+static u8 D_800B3FD0[8]; // unreferenced; present because the file's .bss is 16-byte aligned (the donor's D_800FCD40)
+static u8 D_800B3FD8[8];
+static u8 D_800B3FE0[8];
+static u8 D_800B3FE8[8];
+static u8 D_800B3FF0[8];
+static u8 D_800B3FF8;
+static unk_D_800FCD70 D_800B4000[8];
+static unk_D_800FCD98 D_800B4028[8];
+static u8 D_800B40A8[8];
+static u8 D_800B40B0[8];
+static u8 D_800B40B8[8];
+static u8 D_800B40C0[8];
+static u8 D_800B40C8[8];
+static u8 D_800B40D0[8];
+static u8* D_800B40D8[8];
+static s32 D_800B40F8[8];
+static s32 D_800B4118[8];
+static u8 D_800B4138[8];
+static u16 D_800B4140;
+static u16 D_800B4142;
+static u8 D_800B4144;
+static u8 D_800B4146[2];
+static u8* D_800B4148[2];
+static u8 D_800B4150[8];
+static u32 D_800B4158;
+static u8 D_800B415C;
+static u8 D_800B415D;
 extern u8 D_80075FA8[];
 extern u8 D_80075FB0[];
 extern u8 D_80075FB8;
@@ -798,11 +799,74 @@ u16 GbMusic_GetNoteFrequency(u8 arg0, u8 arg1) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003D8D8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003D8D8.s")
-#endif
+/*
+ * func_8003D8D8
+ *
+ * Resets the Game Boy sound-chip emulation state and starts music sequence
+ * arg0: clears the per-channel arrays for the four channels (and the two
+ * 8-entry pointer/word tables), sets the halfword D_800B4140 to 0x100 (its
+ * meaning is not established here), programs the
+ * master registers 0xFF24/0xFF10/0xFF25/0xFF1A through the register-write
+ * queue (GbAudio_QueueRegisterWrite) and finally binds the sequence tracks
+ * (GbMusic_BindSequenceTracks).
+ *
+ * Same code as GbMusic_StartMusic in the Stadium 1 decomp; Zero's state
+ * arrays are the donor's at a constant address offset of -0x48D70.
+ *
+ * NOTE: this function only matches when the state arrays are file-local
+ * (static) data of this translation unit, as in the donor: with `extern`
+ * declarations the compiler emits 204 words instead of the retail 188 (observed:
+ * it then repeats the `lui` for every store instead of sharing it; why is
+ * not investigated).  That is why the arrays below are static and why
+ * config/jp/sections.json places this file's .bss at 0x800B3FD0.
+ */
+void func_8003D8D8(u8 arg0) {
+    s32 i;
+
+    D_800B3FF8 = 0;
+    D_800B4140 = 0x100;
+    D_800B4146[0] = 0;
+    D_800B4146[1] = 0;
+
+    for (i = 0; i < 8; i++) {
+        D_800B40F8[i] = 0;
+        D_800B40D8[i] = 0;
+    }
+
+    for (i = 0; i < 4; i++) {
+        D_800B3FD8[i] = 0;
+        D_800B3FE8[i] = 0;
+        D_800B40B0[i] = 0;
+        D_800B40A8[i] = 0;
+
+        D_800B4000[i].unk_03 = 0;
+        D_800B4000[i].unk_00 = 0;
+        D_800B4000[i].unk_01 = 0;
+        D_800B4000[i].unk_02 = 0;
+        D_800B4000[i].unk_04 = 0;
+
+        D_800B3FF0[i] = 0;
+
+        D_800B4028[i].unk_0C = 0;
+        D_800B4028[i].unk_00 = 0;
+        D_800B4028[i].unk_04 = 0;
+        D_800B4028[i].unk_08 = 0;
+
+        D_800B40C0[i] = 1;
+        D_800B3FE0[i] = 1;
+        D_800B4138[i] = 1;
+    }
+
+    D_800B40D0[1] = 0xFF;
+    GbAudio_QueueRegisterWrite(0xFF24, 0, 0);
+    GbAudio_QueueRegisterWrite(0xFF10, 8, 0);
+    GbAudio_QueueRegisterWrite(0xFF25, 0, 0);
+    GbAudio_QueueRegisterWrite(0xFF1A, 0, 0);
+    GbAudio_QueueRegisterWrite(0xFF1A, 0x80, 0);
+    GbAudio_QueueRegisterWrite(0xFF24, 0x77, 0);
+    GbMusic_BindSequenceTracks(arg0);
+}
+
 
 void GbMusic_StartSfx(u8 arg0) {
     u8 i;

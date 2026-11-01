@@ -36,8 +36,33 @@ void func_80056A48(M2C_UNK *arg0)
   *new_var = arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80056A60; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80056A60.s")
-#endif
+/*
+ * func_80056A60
+ *
+ * Takes one parameter-update node off the synthesizer's free list and
+ * returns it (NULL if the list is empty).  D_80077BE0 points at the
+ * synthesizer driver, whose word at offset 0x2C heads the singly linked free
+ * list; the node's first word is its next pointer, cleared before it is
+ * returned.  func_80056A48, just above, is the matching "push a node back".
+ * This is the libultra audio __n_allocParam (the symbol table keeps that
+ * name; this function is not renamed).
+ */
+typedef struct SynthParamNode {
+    struct SynthParamNode* next;
+} SynthParamNode;
+
+typedef struct SynthParamHead {
+    /* 0x00 */ char pad00[0x2C];
+    /* 0x2C */ SynthParamNode* paramList;
+} SynthParamHead;
+
+SynthParamNode* func_80056A60(void) {
+    SynthParamNode* update = NULL;
+
+    if (((SynthParamHead*)D_80077BE0)->paramList) {
+        update = ((SynthParamHead*)D_80077BE0)->paramList;
+        ((SynthParamHead*)D_80077BE0)->paramList = ((SynthParamHead*)D_80077BE0)->paramList->next;
+        update->next = NULL;
+    }
+    return update;
+}

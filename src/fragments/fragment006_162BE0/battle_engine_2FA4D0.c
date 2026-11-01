@@ -62,11 +62,37 @@ void func_88400020(s32 arg0, s8 *arg1) {
 void BattleHud_Noop(void) {
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88400064; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88400064.s")
-#endif
+/*
+ * func_88400064
+ *
+ * Light-node callback (the stage light's "angle" callback A, declared in
+ * battle_engine.h as Battle_StageLightAngleCallbackA).  When called with
+ * event 2 it takes the direction from the current camera's eye position to
+ * its target position (Vec3f_CalculateDistanceAngles) and stores the two
+ * resulting angles, each offset by +0x2000, in the light's halfwords at
+ * offsets 0x1C and 0x1E.  Always returns 0.
+ *
+ * Structure follows Intro_LightAngleCallbackA / Completion_LightAngleCallbackA
+ * in the Stadium 1 decomp, but Zero adds +0x2000 to both angles where those
+ * subtract 0x2000 from the second one (the constants come from the retail
+ * code).  The locals sit 4 bytes below where a plain declaration would put
+ * them, which the unused leading `pad` reproduces.
+ */
+extern CameraNode* D_80060488;
+
+s32 func_88400064(s32 arg0, unk_D_86002F34_alt18* arg1) {
+    UNUSED s32 pad; // keeps the retail stack layout: the three locals below sit 4 bytes lower
+    f32 sp28;
+    s16 sp26;
+    s16 sp24;
+
+    if (arg0 == 2) {
+        Vec3f_CalculateDistanceAngles(&D_80060488->view.targetPosition, &D_80060488->view.eyePosition, &sp28, &sp26, &sp24);
+        arg1->unk_1C = sp26 + 0x2000;
+        arg1->unk_1E = sp24 + 0x2000;
+    }
+    return 0;
+}
 
 M2C_UNK func_8000B1FC();                            /* extern */
 M2C_UNK func_8000B220();                            /* extern */
@@ -247,11 +273,58 @@ void func_88400DAC(s8* arg0) {
     D_88402D70 = (s32)arg0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_88400F4C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment006_162BE0/func_88400F4C.s")
-#endif
+/*
+ * func_88400F4C
+ *
+ * Scene setup that brackets some work between two runs of the same
+ * callback.  Names in brackets are the ones symbol_addrs.txt gives the
+ * called addresses; the meaning of the data and of most of the file-local
+ * callees is not established.
+ *
+ *   1. func_8000A7B0(0xC) (Audio_PlayMusicIfChanged) is called.
+ *   2. Bit 0 of byte 1 of D_884034E0 is set.
+ *   3. func_80006828(0x73, func_88400108) (BgStage_RunUntilCondition) is
+ *      run, i.e. timer value 0x73 with func_88400108 as the callback.
+ *   4. Bit 5 (0x20) of byte 2 of D_884034E0 is cleared, func_88400A98() is
+ *      called and func_800407B0(0x51, 0, 0) (Audio_PlayCommand) is called.
+ *   5. Depending on bit 3 (value 8) of D_800AF986, the pair
+ *      (D_88402D88, D_88402D8C) or the pair (D_88402D90, D_88402D94) is
+ *      used: func_88400CE8 is called with the first value, func_88400DAC
+ *      with the second, and func_88400CE8 again with the second value
+ *      read as an integer.
+ *   6. func_88400B70() is called, bit 5 of byte 2 of D_884034E0 is set
+ *      again, and func_80006828(0x2D, func_88400108) is run.
+ */
+M2C_UNK func_80006828(M2C_UNK, M2C_UNK *);          /* extern */
+M2C_UNK func_8000A7B0(M2C_UNK);                     /* extern */
+M2C_UNK func_800407B0(M2C_UNK, M2C_UNK, M2C_UNK);   /* extern */
+extern u16 D_800AF986;
+extern s32 D_88402D88;
+extern s8 *D_88402D8C;
+extern s32 D_88402D90;
+extern s8 *D_88402D94;
+extern M2C_UNK D_884034E0;
+
+void func_88400F4C(void) {
+    func_8000A7B0(0xC);
+    M2C_FIELD(&D_884034E0, u8 *, 1) = (u8) (M2C_FIELD(&D_884034E0, u8 *, 1) | 1);
+    func_80006828(0x73, &func_88400108);
+    M2C_FIELD(&D_884034E0, u8 *, 2) = (u8) (M2C_FIELD(&D_884034E0, u8 *, 2) & 0xFFDF);
+    func_88400A98();
+    func_800407B0(0x51, 0, 0);
+    if (D_800AF986 & 8) {
+        func_88400CE8(D_88402D88);
+        func_88400DAC(D_88402D8C);
+        func_88400CE8((s32) D_88402D8C);
+    } else {
+        func_88400CE8(D_88402D90);
+        func_88400DAC(D_88402D94);
+        func_88400CE8((s32) D_88402D94);
+    }
+    func_88400B70();
+    M2C_FIELD(&D_884034E0, u8 *, 2) = (u8) (M2C_FIELD(&D_884034E0, u8 *, 2) | 0x20);
+    func_80006828(0x2D, &func_88400108);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_88401040; signature not recovered. */

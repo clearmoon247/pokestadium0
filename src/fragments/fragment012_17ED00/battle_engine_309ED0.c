@@ -1466,16 +1466,71 @@ void func_82129E30(s32 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82129F5C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82129F5C.s")
-#endif
+/*
+ * func_82129F5C
+ *
+ * A two-state step function with the same shape as func_82129E30 and
+ * func_8212A074, which sit next to it.  arg0 is the camera node; the state
+ * is the word at +0x3C of the scene object D_8219A5A0, and +0x50 of that
+ * object is set to 2 on every call.
+ *
+ *   state 0: func_8213B31C(1), func_821224F4() and func_82125580() are
+ *            called, then func_82124544(arg0, D_8219A540, 8.0, 6.0, 2.5,
+ *            6.0, 0) is called.  Judging by its definition in
+ *            battle_engine_3055E0.c, that sets the camera's at and eye
+ *            positions from the ActivePokemon held in D_8219A540.  The
+ *            retail code loads 6.0 once and reuses it for both the fourth
+ *            and the sixth argument.
+ *   state 1: func_82124664(arg0, D_8219A540, 0) is called.  Once the float
+ *            at +0x74 of the scene object is below the float at +0x5C plus
+ *            D_FLT_821963A8, func_82106374(D_8219A544) is called, the
+ *            counter at +0x20 is incremented and func_82125570() and
+ *            func_8212188C() are called.
+ *   other states: nothing further happens.
+ *
+ * What the scene fields and the called helpers mean is not established here.
+ */
+M2C_UNK func_82106374(s32);                         /* extern */
+void func_8212188C(void);
+M2C_UNK func_821224F4();                            /* extern */
+M2C_UNK func_82124544(s32, s32, f32, f32, f32, f32, s32); /* extern */
+M2C_UNK func_82124664(s32, s32, M2C_UNK);           /* extern */
+void func_82125570(void);
+M2C_UNK func_82125580();                            /* extern */
+M2C_UNK func_8213B31C(M2C_UNK);                     /* extern */
+extern s32 D_8219A540;
+extern s32 D_8219A544;
+extern s8 *D_8219A5A0;
+extern f32 D_FLT_821963A8;
+
+void func_82129F5C(CameraNode* arg0) {
+    s32 temp_v0;
+
+    M2C_FIELD(D_8219A5A0, s32 *, 0x50) = 2;
+    temp_v0 = M2C_FIELD(D_8219A5A0, s32 *, 0x3C);
+    switch (temp_v0) {                              /* irregular */
+    case 0:
+        func_8213B31C(1);
+        func_821224F4();
+        func_82125580();
+        func_82124544((s32)arg0, D_8219A540, 8.0f, 6.0f, 2.5f, 6.0f, 0);
+        return;
+    case 1:
+        func_82124664((s32)arg0, D_8219A540, 0);
+        if (M2C_FIELD(D_8219A5A0, f32 *, 0x74) < (M2C_FIELD(D_8219A5A0, f32 *, 0x5C) + D_FLT_821963A8)) {
+            func_82106374(D_8219A544);
+            M2C_FIELD(D_8219A5A0, s32 *, 0x20) = (s32) (M2C_FIELD(D_8219A5A0, s32 *, 0x20) + 1);
+            func_82125570();
+            func_8212188C();
+        }
+        return;
+    }
+}
 
 M2C_UNK func_82106374(s32);                         /* extern */
 void func_8212188C(void);
 M2C_UNK func_821224F4();                            /* extern */
-M2C_UNK func_82124544(s32, s32, M2C_UNK, M2C_UNK, f32, f32, s32); /* extern */
+M2C_UNK func_82124544(s32, s32, f32, f32, f32, f32, s32); /* extern */
 M2C_UNK func_82124664(s32, s32, M2C_UNK);           /* extern */
 void func_82125570(void);
 M2C_UNK func_82125580();                            /* extern */
@@ -1494,7 +1549,7 @@ void func_8212A074(s32 arg0) {
         func_8213B31C(1);
         func_821224F4();
         func_82125580();
-        func_82124544(arg0, D_8219A540, 0x41200000, 0x41400000, 3.5f, 6.0f, 0x11C6);
+        func_82124544(arg0, D_8219A540, 10.0f, 12.0f, 3.5f, 6.0f, 0x11C6);
         return;
     case 1:
         func_82124664(arg0, D_8219A540, 0x11C6);

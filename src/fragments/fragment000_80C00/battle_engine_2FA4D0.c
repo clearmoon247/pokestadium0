@@ -82,17 +82,46 @@ void func_8110FC48(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FCF0.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FD48; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FD48.s")
-#endif
+/*
+ * func_8110FD48
+ *
+ * Calls func_8110FCF0(arg0, &value) where `value` is a local copy of the
+ * second argument, so the callee receives it by pointer.  Siblings
+ * func_8110FD90 / func_8110FDC0 do the same after shifting an s8 / s16
+ * left by 24 / 16 bits; this one passes the word through unchanged.
+ *
+ * arg0 is declared s32 because the one known caller of the twin function
+ * func_8110FD6C passes the constant 0xF9000000 there, so it is a plain
+ * word and not necessarily an object pointer.  The cast below only
+ * satisfies the DisplayObject* prototype of func_8110FCF0 used by the
+ * siblings and produces no code.
+ *
+ * func_8110FD6C compiles to identical machine code (the original source
+ * probably differed in a type that cannot be recovered from the assembly).
+ */
+void func_8110FCF0(DisplayObject* arg0, s32* arg1);
+void func_8110FD48(s32 arg0, s32 arg1) {
+    func_8110FCF0((DisplayObject*)arg0, &arg1);
+}
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8110FD6C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110FD6C.s")
-#endif
+/*
+ * func_8110FD6C
+ *
+ * Passes arg0 and the address of a stack copy of arg1 on to func_8110FCF0.
+ * This is the function the project's symbol list also knows as
+ * func_8121036C_jp(s32 cmd, s32 arg1); callers pass a 32-bit command word
+ * such as 0xF9000000 or 0xF1000000 as the first argument, which is why arg0
+ * is an s32 here.  The cast only satisfies the DisplayObject* prototype of
+ * func_8110FCF0 used by the sibling functions and produces no code.
+ *
+ * It is a machine-code twin of func_8110FD48; the two cannot be told apart
+ * from the assembly.  The address-style name is kept because the other C
+ * functions in this file (e.g. func_8110FD90) also use address names.
+ */
+void func_8110FCF0(DisplayObject* arg0, s32* arg1);
+void func_8110FD6C(s32 arg0, s32 arg1) {
+    func_8110FCF0((DisplayObject*)arg0, &arg1);
+}
 
 void func_8110FCF0(DisplayObject* arg0, s32* arg1);
 void func_8110FD90(DisplayObject* arg0, s8 arg1) {

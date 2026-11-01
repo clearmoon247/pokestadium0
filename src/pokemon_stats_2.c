@@ -25,6 +25,49 @@ typedef struct GbSavePortZero {
 } GbSavePortZero; // size = 0x48
 extern s8 D_800AD210;
 #define sGbSavePorts ((GbSavePortZero*)&D_800AD210)
+
+// Zero's (Japanese) layout of the party block at offset 0x955 of the main save
+// data.  The offsets and strides come from the retail code (GbSave_SaveMainPokemon
+// style accesses); array lengths are not established, so they are left at 1.
+typedef struct GbSavePartyZero {
+    /* 0x000 */ u8 unk_000;
+    /* 0x001 */ u8 unk_001[1];
+    /* 0x002 */ char unk002[6];
+    /* 0x008 */ GbPokemonRecordExt unk_008[1]; // stride 0x2C
+    /* 0x034 */ char unk034[0x110 - 0x34];
+    /* 0x110 */ char unk_110[1][6];            // stride 6
+    /* 0x116 */ char unk116[0x134 - 0x116];
+    /* 0x134 */ char unk_134[1][6];            // stride 6
+} GbSavePartyZero;
+
+// Zero's layout of one Game Boy box as returned by GbSave_GetBoxEntry.
+typedef struct GbSaveBoxZero {
+    /* 0x000 */ u8 unk_000;
+    /* 0x001 */ u8 unk_001[1];
+    /* 0x002 */ char unk002[0x1E];
+    /* 0x020 */ GbPokemonRecord unk_020[1];    // stride 0x21
+    /* 0x041 */ char unk041[0x3FE - 0x41];
+    /* 0x3FE */ char unk_3FE[1][6];            // stride 6
+    /* 0x404 */ char unk404[0x4B2 - 0x404];
+    /* 0x4B2 */ char unk_4B2[1][6];            // stride 6
+} GbSaveBoxZero;
+extern u8 D_8006BB9C[];
+
+// The parts of Zero's main save data touched by the Deck_* functions.  Three
+// lists share one shape: a count byte followed by 2-byte BattleMonSpecies
+// entries ended by 0xFF (offsets 0x44, 0x25C) or a byte list in the party
+// block (0x955).  Offsets and strides come from the retail code; array
+// lengths are not established.
+typedef struct GbSaveMainZero {
+    /* 0x000 */ char pad000[0x44];
+    /* 0x044 */ u8 unk_044;
+    /* 0x045 */ BattleMonSpecies unk_045[1];
+    /* 0x047 */ char pad047[0x25C - 0x47];
+    /* 0x25C */ u8 unk_25C;
+    /* 0x25D */ BattleMonSpecies unk_25D[1];
+    /* 0x25F */ char pad25F[0x955 - 0x25F];
+    /* 0x955 */ GbSavePartyZero unk_955;
+} GbSaveMainZero;
 extern u8 D_8006B8C4[];
 typedef struct unk_func_800228F0_sp24 {
     /* 0x00 */ u8 unk_00;
@@ -206,11 +249,35 @@ loop_1:
     goto loop_1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021410; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021410.s")
-#endif
+/*
+ * func_80021410
+ *
+ * Recomputes the checksum of the main save data of Game Boy port arg0 and
+ * writes it back to the cartridge.  The checksum over bytes 0x18.. is stored
+ * at offset 0x1014 and then inverted (^ 0xFF); the 0x20-byte block at offset
+ * 0x1000 is written to cartridge address 0x3580, read back into D_800AD338
+ * and verified, retrying up to four times.  Returns 1 on success, 0 if all
+ * four attempts fail.
+ *
+ * Same structure as GbSave_InvalidateMainDataChecksum in the Stadium 1
+ * decomp (its VERSION_JP branch uses the same 0x1000/0x1014/0x3580 values).
+ */
+s32 func_80021410(s32 arg0) {
+    u8* temp_s3 = sGbSavePorts[arg0].unk_40;
+    s32 i;
+
+    GbSave_ComputeChecksum(temp_s3 + 0x18, temp_s3 + 0x1014);
+    temp_s3[0x1014] ^= 0xFF;
+
+    for (i = 0; i < 4; i++) {
+        if ((GbPak_MbcWrite(arg0, temp_s3 + 0x1000, 0x3580, 0x20) == 0) &&
+            (GbPak_MbcRead(arg0, &D_800AD338, 0x3580, 0x20) == 0) &&
+            (GbSave_VerifyWriteback(temp_s3 + 0x1000, 0x20) != 0)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 extern GbSavePort D_800AC910[4];
 s32 GbSave_ReadBoxBank(s32 arg0, s32 arg1) {
@@ -220,11 +287,39 @@ s32 GbSave_ReadBoxBank(s32 arg0, s32 arg1) {
     return GbPak_MbcRead(arg0, sp1C, (arg1 == 0) ? 0x4000 : 0x6000, 0x15A0) == 0;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021570; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021570.s")
-#endif
+/*
+ * func_80021570
+ *
+ * Writes box bank arg1 (0 or 1) of Game Boy port arg0 from the in-memory
+ * box data to the cartridge and verifies it by reading it back into
+ * D_800AD338, retrying up to four times.  Bank 0 lives at cartridge address
+ * 0x4000 and bank 1 at 0x6000; each bank is 0x15A0 bytes in Zero's (Japanese)
+ * layout.  Returns 1 on success, 0 if all four attempts fail.
+ *
+ * Same structure as GbSave_WriteBoxBank in the Stadium 1 decomp (its
+ * VERSION_JP branch also uses 0x15A0).
+ */
+s32 func_80021570(s32 arg0, s32 arg1) {
+    s32 var_v0;
+    u8* temp_s2 = sGbSavePorts[arg0].unk_44 + arg1 * 0x15A0;
+    s32 i;
+
+    if (arg1 == 0) {
+        var_v0 = 0x4000;
+    } else {
+        var_v0 = 0x6000;
+    }
+
+    var_v0 &= 0xFFFF;
+
+    for (i = 0; i < 4; i++) {
+        if ((GbPak_MbcWrite(arg0, temp_s2, var_v0, 0x15A0) == 0) &&
+            (GbPak_MbcRead(arg0, &D_800AD338, var_v0, 0x15A0) == 0) && (GbSave_VerifyWriteback(temp_s2, 0x15A0) != 0)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 extern s8 D_800AD210;
 void func_80021678(s32 arg0, u32 arg1) {
@@ -335,11 +430,60 @@ s32 func_80021910(s32 arg0) {
 #endif
 
 extern GbSavePort D_800AC910[4];
-#ifdef NON_MATCHING
-/* TODO: decompile func_80021B30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80021B30.s")
-#endif
+/*
+ * func_80021B30
+ *
+ * Per-port state machine that waits for a Game Boy cartridge to be pulled
+ * out and put back, then checks it is the same one.  D_8006BB9C[arg0] is
+ * the state:
+ *   0  start the removal check (GbTower_CheckPakRemoved), fall into 1
+ *   1  wait until the cartridge is off (GbPak_IsCartOff)
+ *   2  wait until it is back on (GbPak_IsCartOn); returns 1 meanwhile
+ *   3  re-initialise the pak (GbTower_ReinitPak); if that worked, return 3,
+ *      or 2 if the cartridge also identifies as the same game as before
+ *      (GbCart_IdentifyGame == port byte 2) and
+ *      GbTower_VerifyPakStillInserted accepts the port's data at offset
+ *      0x18.  The state returns to 0.
+ * Returns 0 when there is nothing to report yet.
+ *
+ * Same structure as GbSave_PollCartRemoval in the Stadium 1 decomp.
+ */
+s32 func_80021B30(s32 arg0) {
+    s32 sp24 = 0;
+
+    switch (D_8006BB9C[arg0]) {
+        case 0:
+            GbTower_CheckPakRemoved(arg0, 0);
+            D_8006BB9C[arg0] += 1;
+            // fallthrough
+
+        case 1:
+            if (GbPak_IsCartOff(arg0) != 0) {
+                D_8006BB9C[arg0] += 1;
+            }
+            break;
+
+        case 2:
+            if (GbPak_IsCartOn(arg0) != 0) {
+                D_8006BB9C[arg0] += 1;
+            }
+            sp24 = 1;
+            break;
+
+        case 3:
+            if (GbTower_ReinitPak(arg0) != 0) {
+                sp24 = 3;
+                if (GbCart_IdentifyGame(arg0) == sGbSavePorts[arg0].unk_02) {
+                    if (GbTower_VerifyPakStillInserted(arg0, sGbSavePorts[arg0].unk_18) != 0) {
+                        sp24 = 2;
+                    }
+                }
+            }
+            D_8006BB9C[arg0] = 0;
+            break;
+    }
+    return sp24;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80021C6C; signature not recovered. */
@@ -445,11 +589,27 @@ GbSaveBoxEntry* GbSave_GetBoxEntry(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022284.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002234C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002234C.s")
-#endif
+/*
+ * func_8002234C
+ *
+ * Stores battle Pokemon slot arg2 of arg0 into slot arg2 of the party block
+ * (offset 0x955 of the main save data) of Game Boy port arg1: the record
+ * itself (Pokemon_ToGbRecordExt), the transcoded name at offset 0x30 of the
+ * Pokemon, two 3-byte fields (offsets 0x3D and 0x4D of the Pokemon; their
+ * meaning is not established here) and the species byte in the party's
+ * species list.
+ *
+ * Same structure as GbSave_SaveMainPokemon in the Stadium 1 decomp.
+ */
+void func_8002234C(unk_func_88205880_00D0* arg0, s32 arg1, s32 arg2) {
+    GbSavePartyZero* sp24 = (GbSavePartyZero*)(sGbSavePorts[arg1].unk_40 + 0x955);
+
+    Pokemon_ToGbRecordExt(arg0, &sp24->unk_008[arg2]);
+    Text_TranscodeName(sp24->unk_134[arg2], (char*)arg0->unk_000[0].unk_30);
+    _bcopy((u8*)&arg0->unk_000[0] + 0x3D, sp24->unk_110[arg2], 3);
+    _bcopy((u8*)&arg0->unk_000[0] + 0x4D, sp24->unk_110[arg2] + 3, 3);
+    sp24->unk_001[arg2] = sp24->unk_008[arg2].unk_00.unk_00;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80022424; signature not recovered. */
@@ -457,11 +617,31 @@ GbSaveBoxEntry* GbSave_GetBoxEntry(s32 arg0, s32 arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022424.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800224E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800224E8.s")
-#endif
+/*
+ * func_800224E8
+ *
+ * Stores battle Pokemon arg0 into slot arg3 of box arg2 of Game Boy port
+ * arg1, if that box exists (GbSave_GetBoxEntry returns non-NULL): the
+ * record (Pokemon_ToGbRecord), the transcoded name at offset 0x30, two
+ * 3-byte fields (offsets 0x3D and 0x4D of the Pokemon; their meaning is not
+ * established here) and the species byte in the box's species list.
+ * Before the conversion the Pokemon's byte at +0x04 is set from its byte at
+ * +0x24.
+ *
+ * Same structure as GbSave_SaveBoxPokemon in the Stadium 1 decomp.
+ */
+void func_800224E8(BattleMon* arg0, s32 arg1, s32 arg2, s32 arg3) {
+    GbSaveBoxZero* sp2C = (GbSaveBoxZero*)GbSave_GetBoxEntry(arg1, arg2);
+
+    if (sp2C != NULL) {
+        arg0->unk_04 = arg0->unk_24;
+        Pokemon_ToGbRecord(arg0, &sp2C->unk_020[arg3]);
+        Text_TranscodeName(sp2C->unk_4B2[arg3], (char*)arg0->unk_30);
+        _bcopy((u8*)arg0 + 0x3D, sp2C->unk_3FE[arg3], 3);
+        _bcopy((u8*)arg0 + 0x4D, sp2C->unk_3FE[arg3] + 3, 3);
+        sp2C->unk_001[arg3] = sp2C->unk_020[arg3].unk_00;
+    }
+}
 
 s32 GbSave_GetBoxEntryCount(s32 arg0, s32 arg1) {
     s32 sp1C = 0;
@@ -550,29 +730,179 @@ s32 Deck_GetCount(s32 arg0, s32 arg1, s32 arg2) {
     return var_v1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002274C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002274C.s")
-#endif
+/*
+ * func_8002274C
+ *
+ * Truncates the deck arg0 (32 = party, 33 = box, 34 and 35 = the two
+ * BattleMonSpecies lists of the main save data) of Game Boy port arg1 to
+ * arg3 entries, if it currently holds more than that: the count byte is set
+ * to arg3 and the list is terminated with 0xFF at entry arg3.  For box
+ * decks (33) the count is set through GbSave_SetBoxEntryCount using box
+ * arg2.  Nothing happens if arg3 is not below the current count
+ * (Deck_GetCount).
+ *
+ * Same structure as Deck_DeleteEntry in the Stadium 1 decomp, using its
+ * VERSION_JP offsets.
+ */
+void func_8002274C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    GbSaveMainZero* sp1C = (GbSaveMainZero*)sGbSavePorts[arg1].unk_40;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022828; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022828.s")
-#endif
+    if (arg3 < Deck_GetCount(arg0, arg1, arg2)) {
+        switch (arg0) {
+            case 32:
+                sp1C->unk_955.unk_000 = arg3;
+                sp1C->unk_955.unk_001[arg3] = 0xFF;
+                break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8002290C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8002290C.s")
-#endif
+            case 33:
+                GbSave_SetBoxEntryCount(arg1, arg2, arg3);
+                break;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022A00; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022A00.s")
-#endif
+            case 34:
+                sp1C->unk_25C = arg3;
+                sp1C->unk_25D[arg3].unk_00 = 0xFF;
+                break;
+
+            case 35:
+                sp1C->unk_044 = arg3;
+                sp1C->unk_045[arg3].unk_00 = 0xFF;
+                break;
+        }
+    }
+}
+
+/*
+ * func_80022828
+ *
+ * Appends one entry to deck arg0 of Game Boy port arg1 (box arg2 for box
+ * decks), if the deck is below its capacity (Deck_GetCapacity): the count
+ * becomes count + 1 and the list is re-terminated with 0xFF at the new
+ * count.  The entry's contents are written separately (see Deck_WriteEntry).
+ * Deck numbers are as in func_8002274C.
+ *
+ * Same structure as Deck_AppendEntry in the Stadium 1 decomp, using its
+ * VERSION_JP offsets.
+ */
+void func_80022828(s32 arg0, s32 arg1, s32 arg2) {
+    GbSaveMainZero* sp1C = (GbSaveMainZero*)sGbSavePorts[arg1].unk_40;
+    s32 sp18 = Deck_GetCount(arg0, arg1, arg2);
+
+    if (sp18 < Deck_GetCapacity(arg0)) {
+        sp18++;
+
+        switch (arg0) {
+            case 32:
+                sp1C->unk_955.unk_000 = sp18;
+                sp1C->unk_955.unk_001[sp18] = 0xFF;
+                break;
+
+            case 33:
+                GbSave_SetBoxEntryCount(arg1, arg2, sp18);
+                break;
+
+            case 34:
+                sp1C->unk_25C = sp18;
+                sp1C->unk_25D[sp18].unk_00 = 0xFF;
+                break;
+
+            case 35:
+                sp1C->unk_044 = sp18;
+                sp1C->unk_045[sp18].unk_00 = 0xFF;
+                break;
+        }
+    }
+}
+
+/*
+ * func_8002290C
+ *
+ * Reads entry arg3 of deck arg0 (port arg1, box arg2 for box decks) into
+ * the BattleMon arg4.  Decks 32 and 33 load a full Pokemon
+ * (GbSave_LoadMainPokemon / GbSave_LoadBoxPokemon); decks 34 and 35 copy
+ * the 2-byte BattleMonSpecies list entry into the start of arg4.  Returns 1
+ * if arg3 is below the deck's count (Deck_GetCount), else 0 and arg4 is
+ * untouched.
+ *
+ * Same structure as Deck_ReadEntry in the Stadium 1 decomp, using its
+ * VERSION_JP offsets.
+ */
+s32 func_8002290C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, BattleMon* arg4) {
+    s32 sp1C = 0;
+
+    if (arg3 < Deck_GetCount(arg0, arg1, arg2)) {
+        GbSaveMainZero* temp_v0 = (GbSaveMainZero*)sGbSavePorts[arg1].unk_40;
+
+        switch (arg0) {
+            case 32:
+                GbSave_LoadMainPokemon(arg4, arg1, arg3);
+                break;
+
+            case 33:
+                GbSave_LoadBoxPokemon(arg4, arg1, arg2, arg3);
+                break;
+
+            case 35:
+                arg4->unk_00 = temp_v0->unk_045[arg3];
+                break;
+
+            case 34:
+                arg4->unk_00 = temp_v0->unk_25D[arg3];
+                break;
+        }
+        sp1C = 1;
+    }
+    return sp1C;
+}
+
+/*
+ * func_80022A00
+ *
+ * Writes the Pokemon in arg4 to entry arg3 of deck arg0 (port arg1, box
+ * arg2 for box decks).  Allowed when arg3 is an existing entry, or the
+ * entry just past the end while the deck is below its capacity; returns 1
+ * in those cases, else 0 and nothing is written.  Decks 32 and 33 store a
+ * full Pokemon (GbSave_SaveMainPokemon / GbSave_SaveBoxPokemon); decks 34
+ * and 35 store the 2-byte BattleMonSpecies at the start of arg4's first
+ * Pokemon.  When writing at the end, the deck is then extended with
+ * func_80022828.
+ *
+ * Same structure as Deck_WriteEntry in the Stadium 1 decomp, using its
+ * VERSION_JP offsets.
+ */
+s32 func_80022A00(s32 arg0, s32 arg1, s32 arg2, s32 arg3, unk_func_88205880_00D0* arg4) {
+    s32 sp2C = 0;
+    s32 sp28 = Deck_GetCapacity(arg0);
+    s32 sp24 = Deck_GetCount(arg0, arg1, arg2);
+
+    if ((arg3 < sp24) || ((arg3 == sp24) && (arg3 < sp28))) {
+        GbSaveMainZero* ptr = (GbSaveMainZero*)sGbSavePorts[arg1].unk_40;
+
+        switch (arg0) {
+            case 32:
+                GbSave_SaveMainPokemon(arg4, arg1, arg3);
+                break;
+
+            case 33:
+                GbSave_SaveBoxPokemon(arg4, arg1, arg2, arg3);
+                break;
+
+            case 35:
+                ptr->unk_045[arg3] = arg4->unk_000[0].unk_00;
+                break;
+
+            case 34:
+                ptr->unk_25D[arg3] = arg4->unk_000[0].unk_00;
+                break;
+        }
+
+        if (arg3 == sp24) {
+            Deck_AppendEntry(arg0, arg1, arg2);
+        }
+
+        sp2C = 1;
+    }
+    return sp2C;
+}
 
 s32 GbSave_GetPresentPortMask(void) {
     return D_800AD330;
@@ -602,19 +932,53 @@ u8 func_80022BAC(s32 arg0) {
     return *(&D_800AD212 + (arg0 * 0x48));
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022BC8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022BC8.s")
-#endif
+/*
+ * func_80022BC8
+ *
+ * Refreshes the cached player identity of Game Boy port arg0 from that
+ * port's loaded save image.  Returns 0 if the port's "present" bit
+ * (bit 0 of the port's first halfword) is clear; otherwise stores the
+ * big-endian halfword at offset 0x7B of the save image into the port's
+ * unk_38, copies the 6-byte name at image offset 0x18 to the port's
+ * unk_3A, and returns 1.
+ *
+ * Same structure as GbSave_RefreshPlayerIdentity in the Stadium 1 decomp
+ * (found by comparing the compiled donor function against Zero's
+ * instruction shape); Zero's port stride is 0x48 rather than 0x58.
+ * func_8001FAB0 reads a big-endian halfword (the donor calls the
+ * equivalent GbData_ReadU16BE) and the copy is _bcopy(src, dst, size).
+ * The index expression is repeated rather than cached in a local: caching
+ * it moves the compiler's spill of the port pointer from sp+0x1C to
+ * sp+0x18 and no longer matches.
+ */
+s32 func_8001FAB0(u8*);
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022C40; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022C40.s")
-#endif
+s32 func_80022BC8(s32 arg0) {
+    if (!(sGbSavePorts[arg0].unk_00 & 1)) {
+        return 0;
+    }
+    sGbSavePorts[arg0].unk_38 = func_8001FAB0(sGbSavePorts[arg0].unk_40 + 0x7B);
+    _bcopy(sGbSavePorts[arg0].unk_40 + 0x18, sGbSavePorts[arg0].unk_3A, 6);
+    return 1;
+}
 
-s32 func_8001FAB0(s32);                             /* extern */
+/*
+ * func_80022C40
+ *
+ * Copies the 8-byte cached player identity of Game Boy port arg0 (the
+ * halfword at port offset 0x38 followed by the 6-byte name at 0x3A, the
+ * pair that func_80022BC8 refreshes) to arg1.  Zero's equivalent of
+ * GbSave_CopyPlayerIdentity in the Stadium 1 decomp, which copies a
+ * 0x10-byte record with the same 64-bit load/store; Zero's record is
+ * only 8 bytes and its port stride is 0x48.
+ */
+void func_80022C40(s32 arg0, void* arg1) {
+    u64* ptr = (u64*)&sGbSavePorts[arg0].unk_38;
+    u64* ptr2 = arg1;
+
+    *ptr2++ = *ptr++;
+}
+
 extern s8 D_800AD210;
 s32 func_80022C70(s32 arg0) {
     s8 *temp_v0;
@@ -623,7 +987,7 @@ s32 func_80022C70(s32 arg0) {
     if (!(M2C_FIELD(temp_v0, u16 *, 0) & 1)) {
         return -1;
     }
-    return func_8001FAB0(M2C_FIELD(temp_v0, s32 *, 0x40) + 0x7B);
+    return func_8001FAB0((u8*)M2C_FIELD(temp_v0, s32 *, 0x40) + 0x7B);
 }
 
 void GbSave_SetTrainerId(s32 arg0, u16 arg1) {
@@ -697,11 +1061,18 @@ s32 func_80022E88(s32 arg0) {
     return func_8001FBE4(M2C_FIELD(temp_v0, s32 *, 0x40) + 0x71);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80022EDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80022EDC.s")
-#endif
+/*
+ * GbSave_SavedAtPokemonCenter (owner func_80022EDC)
+ *
+ * Returns 1 if the Game Boy save on port `arg0` was last saved at a
+ * Pokemon Center, otherwise 0.  The flag is bit 0x4000 of the first
+ * halfword of that port's record (each record is 0x48 bytes).  The name
+ * comes from the Stadium 1 decomp, where the same test is written against
+ * the 0x58-byte Stadium 1 record.
+ */
+s32 GbSave_SavedAtPokemonCenter(s32 arg0) {
+    return (sGbSavePorts[arg0].unk_00 & 0x4000) != 0;
+}
 
 extern s8 D_800AD210;
 s32 func_80022F00(s32 arg0) {
@@ -828,17 +1199,49 @@ void func_80023268(s32 arg0, s32 arg1, s32 arg2) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800233AC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800233AC.s")
-#endif
+/*
+ * func_800233AC
+ *
+ * Counts the set bits among the first 0x97 (151) bits of the bit array at
+ * offset 0x31 of the main save data of Game Boy port arg0 (bit i is bit
+ * i % 8 of byte i / 8).  Which Pokedex flag set that array is (seen or
+ * owned) is not established here; see func_800234EC for the other array,
+ * at offset 0x1E.
+ *
+ * Same structure as GbSave_CountSpeciesProgressField036 in the Stadium 1
+ * decomp (its VERSION_JP offset is also 0x31).
+ */
+s32 func_800233AC(s32 arg0) {
+    s32 i;
+    s32 temp_v1 = 0;
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_800234EC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_800234EC.s")
-#endif
+    for (i = 0; i < 0x97; i++) {
+        temp_v1 += (sGbSavePorts[arg0].unk_40[0x31 + i / 8] >> (i % 8)) & 1;
+    }
+
+    return temp_v1;
+}
+
+/*
+ * func_800234EC
+ *
+ * Same as func_800233AC but over the bit array at offset 0x1E of the main
+ * save data: counts the set bits among the first 0x97 (151) bits, where
+ * bit i is bit i % 8 of byte i / 8.
+ *
+ * Same structure as GbSave_CountSpeciesProgressField023 in the Stadium 1
+ * decomp (its VERSION_JP offset is also 0x1E).
+ */
+s32 func_800234EC(s32 arg0) {
+    s32 i;
+    s32 temp_v1 = 0;
+
+    for (i = 0; i < 0x97; i++) {
+        temp_v1 += (sGbSavePorts[arg0].unk_40[0x1E + i / 8] >> (i % 8)) & 1;
+    }
+
+    return temp_v1;
+}
 
 s32 func_8002362C(s32 arg0) {
     s32 i;

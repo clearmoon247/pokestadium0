@@ -83,11 +83,28 @@ void UI_DrawTextureRgba16(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A200274.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A20034C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment019_293410/func_8A20034C.s")
-#endif
+/*
+ * func_8A20034C
+ *
+ * Initialises a record like func_8A1009E0 does: func_8002A8C4 fills the first
+ * five words with (arg1, arg2, 0x221, 0x168, 0), the words at +0x20, +0x24
+ * and +0x28 are cleared and +0x14 is set to 0x1001.  It then calls
+ * func_8002D880 on the sub-object at arg0 + 0x2C with arg3, the area at
+ * arg0 + 0x50, the callback func_8A200274 and the constants 0x215 and 0x33.
+ * What func_8002D880 does is not established yet, so the roles of those
+ * arguments are not named.
+ */
+M2C_UNK func_8002D880(s8 *, s32, s8 *, M2C_UNK *, s32, s32); /* extern */
+extern M2C_UNK func_8A200274;
+
+void func_8A20034C(s8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+    func_8002A8C4(arg0, arg1, arg2, 0x221, 0x168);
+    M2C_FIELD(arg0, s32 *, 0x24) = 0;
+    M2C_FIELD(arg0, s32 *, 0x20) = 0;
+    M2C_FIELD(arg0, s32 *, 0x28) = 0;
+    M2C_FIELD(arg0, s32 *, 0x14) = 0x1001;
+    func_8002D880(arg0 + 0x2C, arg3, arg0 + 0x50, &func_8A200274, 0x215, 0x33);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A2003C0; signature not recovered. */

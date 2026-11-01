@@ -737,11 +737,32 @@ s32 func_800380D0(void) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003821C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8003834C; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8003834C.s")
-#endif
+/*
+ * func_8003834C
+ *
+ * Calls func_8003821C with all seven of its own arguments and returns the
+ * result, with a flag word around the call: D_800B3CCC is set to 1 before
+ * the call and back to 0 after it.  Each write to the flag is made with
+ * interrupts masked: osSetIntMask (func_8004D300, per symbol_addrs.txt) is
+ * called with 1 (OS_IM_NONE), the flag is written, and the previous mask it
+ * returned is restored.  What the flag is used for is not established.
+ */
+extern s32 D_800B3CCC;
+s32 func_8003821C(s32, s32, s32, s32, s32, s32, s32); /* extern */
+
+s32 func_8003834C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    s32 ret;
+    s32 mask;
+
+    mask = func_8004D300(1);
+    D_800B3CCC = 1;
+    func_8004D300(mask);
+    ret = func_8003821C(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    mask = func_8004D300(1);
+    D_800B3CCC = 0;
+    func_8004D300(mask);
+    return ret;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_800383DC; signature not recovered. */

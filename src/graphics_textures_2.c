@@ -56,11 +56,59 @@ s32 Font_GetSetIndexFromMask(s32 mask) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001A118.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8001A194; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8001A194.s")
-#endif
+/*
+ * func_8001A194 (Font_Init in symbol_addrs.txt)
+ *
+ * Creates the font context.  Allocates a 0x3C-byte block from the main pool
+ * on heap `side` (the second argument is passed straight through to
+ * main_pool_alloc_with_func), tagged 'PRNT', with Font_ResetContext as the
+ * free callback; opens the font archive (ROM range D_002B2C80..D_002E0BE0)
+ * into font_context->unk_48 and clears the two bytes at +0x38 / +0x39.
+ * Then, for every bit set in `load_size`, loads one font set with
+ * func_8001A118 (mask, three size values, file number in the archive):
+ *
+ *   bit 0x20: file 5   bit 0x10: file 4   bit 0x08: file 3
+ *   bit 0x04: file 2   bit 0x02: file 1   bit 0x01: file 0
+ *
+ * Always returns 1.
+ *
+ * The Stadium 1 version (Font_Init + Font_LoadSizes) is structured the same
+ * way but zeroes the block with bzero, returns the context and calls a
+ * three-argument Font_LoadSet; this Zero version is the older shape.  The
+ * meaning of the three size values passed to func_8001A118 is not
+ * established here (func_8001A118 is still assembly); the values are copied
+ * from the retail code.
+ */
+extern u8 D_002B2C80[];
+extern u8 D_002E0BE0[];
+void func_8001A118(s32 mask, s32 arg1, s32 arg2, s32 arg3, void* file);
+
+s32 func_8001A194(s32 load_size, s32 side) {
+    font_context = main_pool_alloc_with_func(sizeof(*font_context), side, 'PRNT', (AllocateFunc)Font_ResetContext);
+    font_context->unk_48 = BinArchive_Open(D_002B2C80, D_002E0BE0, 1, 1);
+    font_context->unk_50 = 0;
+    font_context->unk_51 = 0;
+
+    if (load_size & 0x20) {
+        func_8001A118(0x20, 0x20, 0x20, 0x20, BinArchive_GetFile(font_context->unk_48, 5));
+    }
+    if (load_size & 0x10) {
+        func_8001A118(0x10, 0x18, 0x18, 0x18, BinArchive_GetFile(font_context->unk_48, 4));
+    }
+    if (load_size & 0x8) {
+        func_8001A118(0x8, 0x14, 0x14, 0x18, BinArchive_GetFile(font_context->unk_48, 3));
+    }
+    if (load_size & 0x4) {
+        func_8001A118(0x4, 0x10, 0x10, 0x10, BinArchive_GetFile(font_context->unk_48, 2));
+    }
+    if (load_size & 0x2) {
+        func_8001A118(0x2, 0xC, 0xC, 0x10, BinArchive_GetFile(font_context->unk_48, 1));
+    }
+    if (load_size & 0x1) {
+        func_8001A118(0x1, 0xA, 0xA, 0x10, BinArchive_GetFile(font_context->unk_48, 0));
+    }
+    return 1;
+}
 
 void Font_Free(void) {
     main_pool_try_free(font_context);
