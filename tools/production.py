@@ -359,6 +359,18 @@ def object_sections(obj):
     return {strings[s[0]:].split(b'\0', 1)[0].decode(): (s[5], s[1]) for s in sections}
 
 
+def bss_output_section(output, address, obj, section, base, image_size):
+    """Bind runtime BSS without reserving its overlapping stored-image bytes.
+
+    Some fragments reuse their relocation storage as scratch after loading.
+    An INFO section keeps the BSS symbol addresses but emits no image bytes
+    or load segment; the stored bytes retain their independently checked owner.
+    """
+    inside = base <= address < base + image_size
+    kind, segment = ('INFO', 'NONE') if inside else ('NOLOAD', 'body')
+    return f'{output} 0x{address:X} ({kind}) : SUBALIGN(4) {{ "{obj}"({section}) }} :{segment}'
+
+
 def build_group(group, selected, cc, prefix, compare, files=None, compilers=None, symbols=None,
                 directory=None, placements=None):
     name = group['name']
@@ -479,7 +491,8 @@ def build_group(group, selected, cc, prefix, compare, files=None, compilers=None
         linker.append(f'ASSERT(SIZEOF({output}) == {size}, "size differs: {name} {section}")')
     for index, (address, size, obj, section) in enumerate(nobits):
         output = f'.nobits_{index}'
-        linker.append(f'{output} 0x{address:X} (NOLOAD) : {{ "{directory / obj}"({section}) }} :body')
+        linker.append(bss_output_section(output, address, directory / obj, section,
+                                         group['base'], group['size']))
         linker.append(f'ASSERT(SIZEOF({output}) == {size}, "size differs: {name} {obj} {section}")')
     linker.append('/DISCARD/ : { *(*) }\n}')
     for symbol in sorted(undefined):

@@ -67,7 +67,11 @@ all 5,444 owners from assembly as an independent baseline.
   only when `config/jp/sections.json` gives its address; otherwise it is
   discarded and a reference to it fails the link. A placed `.rodata`/`.data`
   replaces the extracted asset bytes at that address (the image comparison
-  checks them), and `.bss` is placed as `NOLOAD`. Functions whose data cannot be
+  checks them). Runtime `.bss` outside the stored image is `NOLOAD`. BSS
+  addresses inside the stored image use non-allocating `INFO` sections: some
+  fragments reuse relocation storage as scratch, so their original stored bytes
+  must remain present while C references resolve to the runtime addresses. Both
+  section sizes and the complete image bytes are still checked. Functions whose data cannot be
   placed yet are kept behind `#ifdef NON_MATCHING`.
 * `tools/place_sections.py [--unwrap] src/file.c` solves those addresses: it
   compiles the file as the build does and solves every `.text` relocation into
