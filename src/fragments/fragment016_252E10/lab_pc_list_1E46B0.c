@@ -383,8 +383,7 @@ s32 LabPCList_FilterByExactTypePair(unk_func_8830867C_02C_0CC* arg0, unk_func_88
     return 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_89109960; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment016_252E10/func_89109960.s")
-#endif
+extern u8 D_80064C4C[];
+s32 func_89109960(u8* arg0, s32 arg1) {
+    return (D_80064C4C[arg0[8] * 0x1C] & 1) != 0;
+}

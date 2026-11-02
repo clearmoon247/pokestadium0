@@ -1006,11 +1006,18 @@ void BattleScene_TickStateCallbacks(void) {
     }
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82104DB0; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82104DB0.s")
-#endif
+s32 func_82101F84(s8 *arg0);
+s32 func_82101F84(s8 *arg0);
+M2C_UNK func_82134E18(s8 *);                        /* extern */
+extern M2C_UNK D_82199E14;
+extern s32 D_8219A754;
+
+void func_82104DB0(s8 *arg0) {
+    if ((D_8219A754 == M2C_FIELD(arg0, s32 *, 0x620)) && (func_82101F84(arg0) == 0)) {
+        func_82134E18(arg0);
+        *((M2C_UNK*)((u8*)&D_82199E14 + (sBattleSceneStateTickSlotIndex * 8))) = sBattleSceneStateTickSentinel;
+    }
+}
 
 extern s32 D_8219A750;
 

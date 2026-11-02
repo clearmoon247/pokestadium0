@@ -221,18 +221,14 @@ s32 func_8212068C(UNUSED s32 arg0, CameraNode* arg1) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821206F4.s")
 #endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f64 D_DBL_821960A0;
 void BattleScene_IntroCameraRollStep(CameraNode* arg0) {
     if (BattleScene_ApproachCameraRoll(arg0, 0xB6, 0x78DC) != 0) {
         BattleScene_SelectNextIntroCameraShot(arg0);
     } else {
-        arg0->view.eyePosition.z *= 0.6;
+        arg0->view.eyePosition.z *= D_DBL_821960A0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82120A34.s")
-#endif
 
 void BattleScene_IntroCameraRollStepNoFov(CameraNode* arg0) {
     if (BattleScene_ApproachCameraRoll(arg0, 0xB6, 0x78DC) != 0) {

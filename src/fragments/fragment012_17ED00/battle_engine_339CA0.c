@@ -2167,23 +2167,19 @@ void func_82163ED0(s8 *arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82197734;
 void BattleAnim_CallbackStartEffect81Descriptor3DRisingAnimFade_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
     Particle_Field1C_SetScaled_0B938(arg0, 1.0f);
     Particle_SetRandomVelocityXYZ(arg0, 0xF, 0xF, 0xF);
-    Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x32) * 0.02f) + 0.5f);
+    Particle_Field74_SetScaled_0AD8C(arg0, (ParticleMath_RandomRange(0x32) * D_FLT_82197734) + 0.5f);
     ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, Particle_FieldCF_GetS16_0C058(arg0));
     Particle_SetPrimAlpha(arg0, 0x64);
     Particle_FieldA6_SetS16_0BCA8(arg0, sp26 * 4);
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82163FC0.s")
-#endif
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.
@@ -2799,8 +2795,7 @@ void BattleAnim_CallbackSharedDescriptor3CExpandingFadeIn(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82197850;
 void BattleAnim_CallbackStartEffects29And60And104And110Descriptor44BurstChild_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
     s16 sp24 = Particle_FieldCF_GetS16_0C058(arg0);
@@ -2810,15 +2805,12 @@ void BattleAnim_CallbackStartEffects29And60And104And110Descriptor44BurstChild_In
     Particle_Field5C_SetYScaled_0A094(arg0, 2.0f);
     Particle_Field9A_SetY_0A3D8(arg0, 0x400);
     ParticleGfx_RecolorPrimEnvFromPalettePair(arg0, sp24);
-    Particle_Field1C_SetScaled_0B938(arg0, 0.5f - (sp26 * 0.04f));
+    Particle_Field1C_SetScaled_0B938(arg0, 0.5f - (sp26 * D_FLT_82197850));
     Particle_SetPrimAlpha(arg0, (0xFF - (sp26 * 0x10)) & 0xFF);
     Particle_FieldA6_SetS16_0BCA8(arg0, sp26 + 1);
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82165644.s")
-#endif
 
 s32 func_8213E334(Particle* arg0, f32 arg1);
 void func_8213E4B0(Particle* arg0);
@@ -2879,14 +2871,13 @@ void func_821658DC(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82197854;
 void BattleAnim_CallbackDescriptor26BurstChild_InitParticle(Particle* arg0) {
     s16 sp26 = Particle_FieldAC_GetS16_0C038(arg0);
 
     Particle_SetPrimColor(arg0, 0xDC, 0xFF, 0xFF);
     ParticleGfx_RecolorEnv(arg0, 0x33);
-    arg0->unk_1C = (sp26 * 0.05f) + 0.5f;
+    arg0->unk_1C = (sp26 * D_FLT_82197854) + 0.5f;
     Particle_Field74_SetScaled_0AD8C(arg0, 2.0f);
     Particle_SetPrimAlpha(arg0, (0xFF - (sp26 << 5)) & 0xFF);
     Particle_FieldA6_SetS16_0BCA8(arg0, sp26 + 1);
@@ -2894,9 +2885,6 @@ void BattleAnim_CallbackDescriptor26BurstChild_InitParticle(Particle* arg0) {
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8216592C.s")
-#endif
 
 extern Vec3f D_8219A880;
 
@@ -2985,8 +2973,7 @@ void BattleAnim_CallbackDescriptor26BurstEmitter(Particle* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_8219786C;
 void BattleAnim_SetupUnusedGrowingSparkVariant(Particle* arg0) {
     f32 sp24;
     s16 sp22 = Particle_FieldAC_GetS16_0C038(arg0);
@@ -2998,7 +2985,7 @@ void BattleAnim_SetupUnusedGrowingSparkVariant(Particle* arg0) {
 
     Particle_Field1C_SetScaled_0B938(arg0, sp24);
     Particle_SetScaleSpeed(arg0, 8.0f * sp24);
-    Particle_SetScaleTarget(arg0, 0.35f * sp24);
+    Particle_SetScaleTarget(arg0, D_FLT_8219786C * sp24);
     Particle_Field38_AddYScaled_08E90(arg0, 10.0f);
     Particle_SetTextureFrame(arg0, 0xF);
     ParticleGfx_RecolorPrim(arg0, 0x8);
@@ -3008,9 +2995,6 @@ void BattleAnim_SetupUnusedGrowingSparkVariant(Particle* arg0) {
     Particle_DisableRendering(arg0);
     Particle_AdvanceLifecycle(arg0);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82165D14.s")
-#endif
 
 #ifdef NON_MATCHING
 // Matches the ROM, but uses rodata data that is not placed in this file yet.

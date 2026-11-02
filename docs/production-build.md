@@ -2,10 +2,10 @@
 
 `make rom` builds a byte-identical Stadium Zero JP ROM from `src/`, extracted
 opaque assets, and retained storage metadata. Every file listed in
-`config/jp/sources.json` (all 543 files in `src/`) is compiled whole through
+`config/jp/sources.json` is compiled whole through
 asm-processor, so its C functions and its `GLOBAL_ASM` owners come out of one
-object. 2,919 of the 5,444 code owners are C; the other 2,525 are assembled
-from the extracted listings. The build links the resident image and all 259
+object. 4,366 of the 5,444 code owners are C; the remaining 1,078 are assembled
+from the extracted listings. Current verified counts are in [COVERAGE.md](../COVERAGE.md). The build links the resident image and all 259
 fragment images independently, preserving the fragments that share link
 addresses. The verified output is 16,777,216 bytes:
 
@@ -67,7 +67,11 @@ all 5,444 owners from assembly as an independent baseline.
   only when `config/jp/sections.json` gives its address; otherwise it is
   discarded and a reference to it fails the link. A placed `.rodata`/`.data`
   replaces the extracted asset bytes at that address (the image comparison
-  checks them), and `.bss` is placed as `NOLOAD`. Functions whose data cannot be
+  checks them). Runtime `.bss` outside the stored image is `NOLOAD`. BSS
+  addresses inside the stored image use non-allocating `INFO` sections: some
+  fragments reuse relocation storage as scratch, so their original stored bytes
+  must remain present while C references resolve to the runtime addresses. Both
+  section sizes and the complete image bytes are still checked. Functions whose data cannot be
   placed yet are kept behind `#ifdef NON_MATCHING`.
 * `tools/place_sections.py [--unwrap] src/file.c` solves those addresses: it
   compiles the file as the build does and solves every `.text` relocation into

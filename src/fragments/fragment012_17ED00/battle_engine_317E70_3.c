@@ -55,11 +55,29 @@ s32 BattleAnim_IsCurrentOwnerSpecies(s32 arg0) {
     return sp1C;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8213C510; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8213C510.s")
-#endif
+void BattleAnim_GetOwnerBonePosition(ActivePokemon* arg0, s16 arg1, Vec3f* arg2);
+void BattleAnim_GetOwnerBonePosition(ActivePokemon* arg0, s16 arg1, Vec3f* arg2);
+void BattleAnim_GetOwnerBonePosition(ActivePokemon *arg0, s16 arg1, Vec3f *arg2) {
+    s16 sp1E;
+
+    sp1E = BattleAnim_GetOwnerSpecies(arg0);
+    if ((GeoRender_FindAnchorPosition(&arg0->displayObject, arg1, arg2) == NULL) && ((arg0 == NULL) || (GeoRender_FindAnchorPosition(&arg0->displayObject, 0x64, arg2) == NULL))) {
+        arg2->x = 0.0f;
+        arg2->y = 0.0f;
+        arg2->z = 0.0f;
+    }
+    if ((sp1E == 0x5F) && (arg1 == 0x64)) {
+        GeoRender_FindAnchorPosition(&arg0->displayObject, 9, arg2);
+        return;
+    }
+    if ((sp1E == 0x52) && ((arg1 == 0x64) || (arg1 == 9))) {
+        GeoRender_FindAnchorPosition(&arg0->displayObject, 9, arg2);
+        return;
+    }
+    if ((sp1E == 0x73) && (arg1 == 0x64)) {
+        GeoRender_FindAnchorPosition(&arg0->displayObject, 9, arg2);
+    }
+}
 
 void BattleAnim_GetCurrentOwnerBonePosition(Vec3f* arg0) {
     BattleAnim_GetOwnerBonePosition(gBattleAnimCurrentOwner, 0x64, arg0);

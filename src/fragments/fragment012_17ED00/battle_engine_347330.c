@@ -258,8 +258,14 @@ void RibbonMesh_UpdateEnvAlpha(RibbonMesh* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f64 D_DBL_821979B8;
+extern const f32 D_FLT_821979C0;
+extern const f64 D_DBL_821979C8;
+extern const f64 D_DBL_821979D0;
+extern const f64 D_DBL_821979D8;
+extern const f64 D_DBL_821979E0;
+extern const f64 D_DBL_821979E8;
+extern const f64 D_DBL_821979F0;
 s32 RibbonMesh_Update(RibbonMesh* arg0) {
     RibbonMeshVertexState* temp_s0;
     RibbonMeshVertexState* temp_s1;
@@ -313,8 +319,8 @@ s32 RibbonMesh_Update(RibbonMesh* arg0) {
             sp8C = 0.0f;
             sp88 = 0.0f;
         }
-        temp_s0->unk_18 += 0.4;
-        temp_s0->unk_14 -= 0.06f;
+        temp_s0->unk_18 += D_DBL_821979B8;
+        temp_s0->unk_14 -= D_FLT_821979C0;
 
         if (temp_s6 != -1) {
             if (temp_s6 == 1) {
@@ -363,8 +369,8 @@ s32 RibbonMesh_Update(RibbonMesh* arg0) {
             }
         }
 
-        temp_s1->unk_18 += 0.3;
-        temp_s1->unk_14 += 0.08;
+        temp_s1->unk_18 += D_DBL_821979C8;
+        temp_s1->unk_14 += D_DBL_821979D0;
 
         var_s2->v.ob[0] = temp_s0->unk_00;
         var_s2->v.ob[1] = temp_s0->unk_04;
@@ -388,10 +394,10 @@ s32 RibbonMesh_Update(RibbonMesh* arg0) {
         var_s2->v.cn[3] = temp_s1->unk_10.a;
         var_s2++;
 
-        sp94 += 2.4;
-        sp90 += 1.8;
-        sp8C += 1.6;
-        sp88 += 1.2;
+        sp94 += D_DBL_821979D8;
+        sp90 += D_DBL_821979E0;
+        sp8C += D_DBL_821979E8;
+        sp88 += D_DBL_821979F0;
     }
 
     if (temp_s6 == 1) {
@@ -411,9 +417,6 @@ s32 RibbonMesh_Update(RibbonMesh* arg0) {
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821717EC.s")
-#endif
 
 s32 RibbonMesh_UpdatePool(void) {
     s32 i;
@@ -781,8 +784,12 @@ f32 TerrainGrid_SampleHeightAndSlope(f32 x, f32 z, f32* rotation_x) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821726F8.s")
 #endif
 
+extern const f64 D_DBL_82197A28;
+extern const f64 D_DBL_82197A30;
+extern const f64 D_DBL_82197A38;
+extern const f32 D_FLT_82197A40;
 #ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+// Matches the ROM, but uses rodata/data data that is not placed in this file yet.
 s32 TerrainGrid_UpdateWaves(void) {
     s32 i;
     s32 j;
@@ -802,7 +809,7 @@ s32 TerrainGrid_UpdateWaves(void) {
             ptr->unk_04 += (30.0 * __sinf((((sWaterHeightMap.unk_0000 + j) % 15) * TWO_PI_F) / 15.0f)) + 10.0;
             ptr++;
         }
-        sWaterHeightMap.unk_0004 += 0.001;
+        sWaterHeightMap.unk_0004 += D_DBL_82197A28;
     } else {
         if (((sWaterHeightMap.unk_0000 - 0x3C) % 90) < 0x46) {
             ptr = &sWaterHeightMap.grid[0][2];
@@ -824,9 +831,9 @@ s32 TerrainGrid_UpdateWaves(void) {
             }
         }
 
-        sWaterHeightMap.unk_0004 += 0.04;
-        if (sWaterHeightMap.unk_0004 > 0.3) {
-            sWaterHeightMap.unk_0004 = 0.3f;
+        sWaterHeightMap.unk_0004 += D_DBL_82197A30;
+        if (sWaterHeightMap.unk_0004 > D_DBL_82197A38) {
+            sWaterHeightMap.unk_0004 = D_FLT_82197A40;
         }
     }
 

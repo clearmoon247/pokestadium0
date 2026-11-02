@@ -69,11 +69,12 @@ f32 BattleScene_GetParticipantModelXOffset(ActivePokemon* active_pokemon) {
     return 150.0f;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_821079E8; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821079E8.s")
-#endif
+void func_821079E8(s16 value) {
+    ActivePokemonState* side1 = &sActivePokemon[0]->state;
+    ActivePokemonState* side2 = &sActivePokemon[1]->state;
+    M2C_FIELD(side1, s16*, 0x34) = value;
+    M2C_FIELD(side2, s16*, 0x34) = value;
+}
 
 void BattleScene_SetParticipantModelScale(ActivePokemon* active_pokemon, f32 scale) {
     active_pokemon->displayObject.scale.x = scale;
@@ -186,11 +187,21 @@ void BattleScene_GetParticipantModelPosition(ActivePokemon* pokemon, Vec3f* dest
     dest->z = pokemon->displayObject.position.z;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82107D24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82107D24.s")
-#endif
+f32 func_82107EC8(ActivePokemon*);
+void func_82107D24(ActivePokemon *arg0, u8 *arg1) {
+    if (*D_FLT_82189354[arg0->displayObject.objectType] != 0.0f) {
+        M2C_FIELD(arg1, f32 *, 0) = (f32) arg0->displayObject.position.x;
+        M2C_FIELD(arg1, f32 *, 4) = (f32) arg0->displayObject.position.y;
+        M2C_FIELD(arg1, f32 *, 8) = (f32) arg0->displayObject.position.z;
+    } else {
+        M2C_FIELD(arg1, f32 *, 0) = (f32) arg0->displayObject.position.x;
+        M2C_FIELD(arg1, f32 *, 4) = (f32) (func_82107EC8(arg0) + arg0->displayObject.position.y);
+        M2C_FIELD(arg1, f32 *, 8) = (f32) arg0->displayObject.position.z;
+    }
+    if (M2C_FIELD(arg1, f32 *, 4) < 0.0f) {
+        M2C_FIELD(arg1, f32 *, 4) = func_82107EC8(arg0);
+    }
+}
 
 f32 func_8210791C(ActivePokemon*);
 f32 func_82107EC8(ActivePokemon*);

@@ -599,11 +599,38 @@ void GbEmu_Delay(OSTime arg0) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_8110665C.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_81106700; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment000_80C00/func_81106700.s")
-#endif
+extern M2C_UNK D_8115623C;
+extern u8 D_811565A1;
+
+s32 func_81106700(void) {
+    s32 var_v0;
+    u8 *var_v1;
+
+    var_v0 = 0;
+    if (D_811565A1 != 0) {
+        return 1;
+    }
+    var_v1 = *((M2C_UNK*)((u8*)&D_8115623C + (D_811565A0 * 0xA4)));
+loop_3:
+    var_v0 += 4;
+    if (M2C_FIELD(var_v1, u8 *, 0) == 0) {
+        return 1;
+    }
+    if (M2C_FIELD(var_v1, u8 *, 1) == 0) {
+        return 1;
+    }
+    if (M2C_FIELD(var_v1, u8 *, 2) == 0) {
+        return 1;
+    }
+    if (M2C_FIELD(var_v1, u8 *, 3) == 0) {
+        return 1;
+    }
+    var_v1 += 4;
+    if (var_v0 == 0x80) {
+        return 0;
+    }
+    goto loop_3;
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_811067B0; signature not recovered. */

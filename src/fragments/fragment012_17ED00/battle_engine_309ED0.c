@@ -534,11 +534,13 @@ void func_82125C34(s32 arg0) {
     func_82125AC8(arg0);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_82125C80; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82125C80.s")
-#endif
+M2C_UNK func_82125AC8(s32);
+void func_82125C80(s32 arg0) {
+    if ((D_8219A560 == 1) && (D_8219A564 == 1)) {
+        M2C_FIELD(D_8219A5A0, s32 *, 0x50) = 1;
+        func_82125AC8(arg0);
+    }
+}
 
 s32 func_82125930(M2C_UNK);                         /* extern */
 extern s8 *D_8219A5A0;

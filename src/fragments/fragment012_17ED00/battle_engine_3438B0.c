@@ -2390,26 +2390,23 @@ void BattleScene_UpdatePhase(CameraNode* arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82196668;
+extern const f32 D_FLT_8219666C;
 extern Vec3f D_8218B630;
 void func_80041914(u8, u8);
 void func_82131880(CameraNode* arg0) {
     BattleScene_ResetCameraFrameCounter();
     BattleScene_SetCameraAtFromPosition(arg0, D_8218B630, 0, 0, 0.0f, 0.0f);
-    BattleScene_SetCameraEyeAndStoreAngles(arg0, D_8218B630, 0x3C6E, M2C_FIELD(sBattleScene.scene, s16*, 0x5A) = 0, sBattleScene.scene->unk_74 = 25000.0f, 0.0f);
+    BattleScene_SetCameraEyeAndStoreAngles(arg0, D_8218B630, 0x3C6E, M2C_FIELD(sBattleScene.scene, s16*, 0x5A) = 0, sBattleScene.scene->unk_74 = D_FLT_82196668, 0.0f);
     sActivePokemon[0]->displayObject.node.flags &= ~1;
     sActivePokemon[1]->displayObject.node.flags &= ~1;
-    M2C_FIELD(sBattleScene.scene, f32*, 0x64) = 0.1f;
+    M2C_FIELD(sBattleScene.scene, f32*, 0x64) = D_FLT_8219666C;
     Battle_SetStageScale(M2C_FIELD(sBattleScene.scene, f32*, 0x64));
     Audio_PlayCommand(4, 0, 0);
     func_80041914(M2C_FIELD(sActivePokemon[0]->teamRoster, u8*, 2), M2C_FIELD(sActivePokemon[1]->teamRoster, u8*, 2));
     BattleAnim_LoadModeResourceList(sActivePokemon[0]->sessionTeams, 3);
     sBattleScene.scene->unk_20 += 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82131880.s")
-#endif
 
 s32 func_82101FD4(s32);                             /* extern */
 extern s32 D_82199DE0;

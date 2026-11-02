@@ -26,20 +26,16 @@ s32 BattleAnim_ApproachAngleAndCheckThreshold(ActivePokemon* pokemon, s16 phase,
 void BattleAnim_WithdrawContinue(ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon);
 void BattleAnim_DrawParticleNoop(UNUSED Particle* arg0, UNUSED CameraNode* arg1);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82194900;
 void BattleAnim_InitSwayOffset(ActivePokemon* pokemon, f32 y, s16 theta) {
     pokemon->y = y;
     pokemon->modelTransform.rotation.z = COSS(theta) * y;
     pokemon->modelTransform.rotation.y = SINS(theta) * y;
-    pokemon->rotationZ = 0.01f;
+    pokemon->rotationZ = D_FLT_82194900;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109130.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82194904;
+extern const f32 D_FLT_82194908;
 void BattleAnim_UpdateTransform(ActivePokemon* owner, ActivePokemon* animated_pokemon, f32 height, f32 delta_y, s32 delta_theta) {
     f32 temp_attacker_rotation_z;
     f32 temp_attacker_y1;
@@ -68,8 +64,8 @@ void BattleAnim_UpdateTransform(ActivePokemon* owner, ActivePokemon* animated_po
     z_rotation_factor = -temp_attacker_rotation_z * ((temp_attacker_y1 * animated_pokemon->modelTransform.rotation.z) + rotation.z);
     y_rotation_factor = -base_y_rotation - (temp_attacker_rotation_z * ((temp_attacker_y1 * animated_pokemon->modelTransform.rotation.y) + rotation.y));
 
-    animated_pokemon->modelTransform.rotation.z = (animated_pokemon->modelTransform.rotation.z + rotation.z + (z_rotation_factor * 0.05f));
-    animated_pokemon->modelTransform.rotation.y = (animated_pokemon->modelTransform.rotation.y + rotation.y + (y_rotation_factor * 0.05f));
+    animated_pokemon->modelTransform.rotation.z = (animated_pokemon->modelTransform.rotation.z + rotation.z + (z_rotation_factor * D_FLT_82194904));
+    animated_pokemon->modelTransform.rotation.y = (animated_pokemon->modelTransform.rotation.y + rotation.y + (y_rotation_factor * D_FLT_82194908));
 
     rotation.y = animated_pokemon->modelTransform.rotation.y;
     animated_pokemon->modelTransform.rotation.x = 0.0f;
@@ -77,12 +73,9 @@ void BattleAnim_UpdateTransform(ActivePokemon* owner, ActivePokemon* animated_po
     BattleAnim_Vec3fSetPolarXZ(&rotation, animated_pokemon->modelTransform.rotation.z, owner->displayObject.rotation.y + NINETY_DEGREES);
     Vec3f_AddInPlace(&owner->displayObject.position, &rotation);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82109188.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_8219490C;
+extern const f32 D_FLT_82194910;
 void BattleAnim_UpdateSwayPhysicsToTarget(UNUSED ActivePokemon* owner, ActivePokemon* animated_object, f32 target, f32 delta, s32 theta0, s32 theta1) {
     f32 object_z;
     f32 object_y;
@@ -111,17 +104,14 @@ void BattleAnim_UpdateSwayPhysicsToTarget(UNUSED ActivePokemon* owner, ActivePok
     adjusted_z_rotation = -object_z * ((object_y * animated_object->modelTransform.rotation.z) + rotation.z);
     adjusted_y_rotation = -adjustment - (object_z * ((object_y * animated_object->modelTransform.rotation.y) + rotation.y));
 
-    animated_object->modelTransform.rotation.z = (animated_object->modelTransform.rotation.z + rotation.z + (adjusted_z_rotation * 0.05f));
-    animated_object->modelTransform.rotation.y = (animated_object->modelTransform.rotation.y + rotation.y + (adjusted_y_rotation * 0.05f));
+    animated_object->modelTransform.rotation.z = (animated_object->modelTransform.rotation.z + rotation.z + (adjusted_z_rotation * D_FLT_8219490C));
+    animated_object->modelTransform.rotation.y = (animated_object->modelTransform.rotation.y + rotation.y + (adjusted_y_rotation * D_FLT_82194910));
     rotation.y = animated_object->modelTransform.rotation.y;
     animated_object->modelTransform.rotation.x = 0.0f;
 
     BattleAnim_Vec3fSetPolarXZ(&rotation, animated_object->modelTransform.rotation.z, theta1);
     Vec3f_AddInPlace(&animated_object->pokeBall.position, &rotation);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_821092E4.s")
-#endif
 
 void BattleScene_HideParticipantSecondaryModels(ActivePokemon* active_pokemon) {
     s32 i;
@@ -522,8 +512,7 @@ void func_8210A4F0(s32 arg0, s8 *arg1) {
     }
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f64 D_DBL_82194920;
 void BattleAnim_SubmissionEnd(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
     f32 angle_offset = NINETY_DEGREES - owner->displayObject.rotation.y;
     f32 angle_offset_fractional;
@@ -535,7 +524,7 @@ void BattleAnim_SubmissionEnd(ActivePokemon* owner, ActivePokemon* animated_poke
         angle_offset_fractional -= 1.0f;
     }
     
-    new_phase = (animated_pokemon->oscillationPhase * angle_offset_fractional) * 0.8;
+    new_phase = (animated_pokemon->oscillationPhase * angle_offset_fractional) * D_DBL_82194920;
     if (new_phase < 3640) {
         new_phase = 3640;
     }
@@ -548,9 +537,6 @@ void BattleAnim_SubmissionEnd(ActivePokemon* owner, ActivePokemon* animated_poke
         BattleScene_HideParticipantSecondaryModels(animated_pokemon);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210A584.s")
-#endif
 
 void func_8210A584(UNUSED ActivePokemon* owner, UNUSED ActivePokemon* animated_pokemon);
 void func_8210A694(ActivePokemon* owner, ActivePokemon* animated_pokemon) {
