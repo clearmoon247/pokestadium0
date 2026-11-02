@@ -327,11 +327,25 @@
   "src/libultra/gu/cosf.c": {
     ".rodata": "0x8007F800"
   },
+  "src/libultra/gu/perspective.c": {
+    ".rodata": "0x8007F6A0"
+  },
   "src/libultra/gu/random.c": {
     ".data": "0x80079100"
   },
+  "src/libultra/gu/rotate.c": {
+    ".rodata": "0x8007F7F0",
+    ".bss": "0x80103F30"
+  },
+  "src/libultra/gu/rotaterpy.c": {
+    ".rodata": "0x8007F7E0",
+    ".bss": "0x80103F20"
+  },
   "src/libultra/gu/sinf.c": {
     ".rodata": "0x8007F510"
+  },
+  "src/libultra/io/aisetnextbuf.c": {
+    ".data": "0x80079390"
   },
   "src/libultra/io/cartrominit.c": {
     ".bss": "0x80103F80"
@@ -342,6 +356,9 @@
   },
   "src/libultra/io/driverominit.c": {
     ".bss": "0x80102880"
+  },
+  "src/libultra/io/gbpakreadid.c": {
+    ".data": "0x800792D0"
   },
   "src/libultra/io/pfsisplug.c": {
     ".bss": "0x80102B80"
@@ -354,8 +371,17 @@
     ".bss": "0x80102860",
     ".data": "0x80077F10"
   },
+  "src/libultra/io/sptask.c": {
+    ".bss": "0x80101790"
+  },
+  "src/libultra/io/vi.c": {
+    ".data": "0x80079170"
+  },
   "src/libultra/libc/llcvt.c": {
     ".rodata": "0x8007F8C0"
+  },
+  "src/libultra/libc/xldtob.c": {
+    ".rodata": "0x8007F860"
   },
   "src/libultra/libc/xlitob.c": {
     ".data": "0x80079340"

@@ -347,11 +347,29 @@
     "opt": "-O3",
     "profile": "ultralib"
   },
+  "src/libultra/gu/perspective.c": {
+    "ido": "5.3",
+    "opt": "-O3",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/gu/random.c": {
     "extra": [],
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O3",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/rotate.c": {
+    "ido": "5.3",
+    "opt": "-O3",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/gu/rotaterpy.c": {
+    "ido": "5.3",
+    "opt": "-O3",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/gu/scale.c": {
@@ -375,6 +393,12 @@
     "opt": "-O3",
     "profile": "ultralib"
   },
+  "src/libultra/io/aisetnextbuf.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/cartrominit.c": {
     "extra": [],
     "ido": "5.3",
@@ -396,11 +420,23 @@
     "opt": "-O1",
     "profile": "ultralib"
   },
+  "src/libultra/io/contreaddata.c": {
+    "ido": "5.3",
+    "opt": "-O2",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/controller.c": {
     "extra": [],
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/dpctr.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/io/driverominit.c": {
@@ -438,6 +474,30 @@
     "opt": "-O1",
     "profile": "ultralib"
   },
+  "src/libultra/io/gbpakpower.c": {
+    "ido": "5.3",
+    "opt": "-O2",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/gbpakreadid.c": {
+    "ido": "5.3",
+    "opt": "-O2",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/gbpakreadwrite.c": {
+    "ido": "5.3",
+    "opt": "-O2",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/gbpaksetbank.c": {
+    "ido": "5.3",
+    "opt": "-O2",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/pfsisplug.c": {
     "extra": [],
     "ido": "5.3",
@@ -459,11 +519,53 @@
     "opt": "-O1",
     "profile": "ultralib"
   },
+  "src/libultra/io/pirawread.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/si.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/siacs.c": {
     "extra": [],
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sirawread.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sirawwrite.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sp.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/spsetpc.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sptask.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/io/sptaskyield.c": {
@@ -478,6 +580,12 @@
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/vi.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/io/viblack.c": {
@@ -575,6 +683,12 @@
     "opt": "-O2",
     "profile": "ultralib"
   },
+  "src/libultra/libc/xldtob.c": {
+    "ido": "5.3",
+    "opt": "-O3",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/libc/xlitob.c": {
     "extra": [],
     "ido": "5.3",
@@ -622,6 +736,12 @@
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/os/getmemsize.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/os/getthreadpri.c": {

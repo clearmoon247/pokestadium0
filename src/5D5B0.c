@@ -23,9 +23,3 @@ s32 func_8005C9B0(void) {
 #else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8005CBA4.s")
 #endif
-
-#ifdef NON_MATCHING
-/* TODO: decompile func_8005CC30; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_8005CC30.s")
-#endif
