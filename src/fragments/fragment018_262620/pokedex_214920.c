@@ -214,11 +214,12 @@ void func_8A1009E0(s8 *arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A100A24.s")
 #endif
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8A100BEC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment018_262620/func_8A100BEC.s")
-#endif
+extern s8 D_8A12FCDC;
+
+void func_8A100BEC(s32 arg0, s32 arg1, s32 arg2) {
+    Font_Printf(arg0, arg1, &D_8A12FCDC, arg2 / 10);
+    Font_DrawCharAt(arg0 + 0x54, arg1, (arg2 % 10) + 0x30);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_8A100C50; signature not recovered. */

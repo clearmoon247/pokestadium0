@@ -1042,11 +1042,26 @@ void func_80014E78(s8 *arg0) {
     M2C_FIELD(&D_800AB460, s32 *, 0x10A0) = (s32) (M2C_FIELD(&D_800AB460, s32 *, 0x10A0) - 1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80014EDC; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80014EDC.s")
-#endif
+M2C_UNK func_800135FC(u8, s32, M2C_UNK, s32);
+M2C_UNK func_8001380C();
+void func_8000E41C(MtxF*, MtxF*, MtxF*, Vec3f*);
+M2C_UNK func_8001380C(s8 *);
+M2C_UNK func_80011210(MtxF *);                      /* extern */
+
+void func_80014EDC(s8 *arg0) {
+    MtxF sp28;
+    s32 temp_a1;
+
+    func_8000E41C(&sp28, &D_80060488->view.floatMatrix, &D_800AB460.unk_0000[D_800AB460.unk_10A0], arg0 + 0x1C);
+    D_800AB460.unk_10A0 += 1;
+    func_80011210(&sp28);
+    temp_a1 = M2C_FIELD(arg0, s32 *, 0x18);
+    if (temp_a1 != 0) {
+        func_800135FC(M2C_FIELD(arg0, u8 *, 3), temp_a1, 0, M2C_FIELD(arg0, u8 *, 2) & 4);
+    }
+    func_8001380C(arg0);
+    D_800AB460.unk_10A0 -= 1;
+}
 
 M2C_UNK func_800135FC(u8, s32, M2C_UNK, s32);       /* extern */
 M2C_UNK func_8001380C(s8 *);                      /* extern */

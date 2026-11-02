@@ -78,14 +78,16 @@ s16 BattleAnim_Atan2sFromPoints(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     return MathUtil_Atan2s(arg2 - arg0, arg3 - arg1);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_8210BF24; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210BF24.s")
-#endif
+f32 func_8210BF24(Vec3f a, Vec3f b) {
+    static f32 x2;
+    static f32 y2;
+    static f32 z2;
+    x2 = SQ(b.x - a.x);
+    y2 = SQ(b.y - a.y);
+    z2 = SQ(b.z - a.z);
+    return sqrtf(x2 + y2 + z2);
+}
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss data that is not placed in this file yet.
 f32 BattleAnim_Distance2D(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     static f32 D_843900D0;
     static f32 D_843900D4;
@@ -99,20 +101,12 @@ f32 BattleAnim_Distance2D(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
 
     return sqrtf(D_843900D0 + D_843900D4);
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210BFA4.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 u16 BattleAnim_RandomRange(s32 range) {
     f32 random_value = (u32)MathUtil_Random16();
 
     return (random_value / 65535.0) * range;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C020.s")
-#endif
 
 s32 BattleAnim_StepToS16(s16* dest, s16 finish, s16 rate) {
     s16 delta_to_finish = finish - *dest;
@@ -144,17 +138,12 @@ s32 BattleAnim_StepToS16(s16* dest, s16 finish, s16 rate) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
 void BattleAnim_ApproachF(f32* dest, f32 value, f32 speed) {
     *dest = *dest + ((value - *dest) * speed);
     if ((*dest < 0.001) && (*dest > -0.001)) {
         *dest = 0.0f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C1A8.s")
-#endif
 
 void BattleAnim_ApproachS16(s16* dest, s16 value, s16 speed) {
     *dest = *dest + ((value - *dest) * speed);
@@ -164,8 +153,6 @@ void BattleAnim_ApproachU16(u16* dest, u16 value, s16 speed) {
     *dest = *dest + ((value - *dest) * speed);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss/rodata data that is not placed in this file yet.
 void Battle_ComputeSplineWeightsVariantA(f32* arg0, f32 arg1) {
     static f32 D_843900D8;
     static f32 D_843900DC;
@@ -180,12 +167,7 @@ void Battle_ComputeSplineWeightsVariantA(f32* arg0, f32 arg1) {
     arg0[2] = (-0.5f * D_843900D8) + (0.5f * D_843900DC) + (0.5f * arg1) + 0.16666667f;
     arg0[3] = D_843900D8 / 6.0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C274.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss data that is not placed in this file yet.
 void Battle_ComputeSplineWeightsVariantB(f32* arg0, f32 arg1) {
     static f32 D_843900E4;
     static f32 D_843900E8;
@@ -200,12 +182,7 @@ void Battle_ComputeSplineWeightsVariantB(f32* arg0, f32 arg1) {
     arg0[2] = ((-11.0f * D_843900E4) / 12.0f) + (3.0f * D_843900E8 * 0.5f);
     arg0[3] = D_843900E4 / 6.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C330.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss/rodata data that is not placed in this file yet.
 void Battle_ComputeSplineWeightsVariantC(f32* arg0, f32 arg1) {
     static f32 D_843900F0;
     static f32 D_843900F4;
@@ -220,12 +197,7 @@ void Battle_ComputeSplineWeightsVariantC(f32* arg0, f32 arg1) {
     arg0[2] = (-0.5f * D_843900F0) + (0.5f * D_843900F4) + (0.5f * arg1) + 0.16666667f;
     arg0[3] = D_843900F0 / 6.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C40C.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss/rodata data that is not placed in this file yet.
 void Battle_ComputeSplineWeightsVariantD(f32* arg0, f32 arg1) {
     static f32 D_843900FC;
     static f32 D_84390100;
@@ -242,12 +214,7 @@ void Battle_ComputeSplineWeightsVariantD(f32* arg0, f32 arg1) {
     arg0[2] = (((7.0f * D_84390108) / 12.0f) - (5.0f * D_84390104 * 0.25f)) + (D_84390100 * 0.25f) + 0.5833333f;
     arg0[3] = D_843900FC * 0.25f;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C4DC.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses bss data that is not placed in this file yet.
 void Battle_ComputeSplineWeightsVariantE(f32* arg0, f32 arg1) {
     static f32 D_8439010C;
     static f32 D_84390110;
@@ -264,6 +231,3 @@ void Battle_ComputeSplineWeightsVariantE(f32* arg0, f32 arg1) {
     arg0[2] = (((21.0f * D_84390118) / 12.0f) - (9.0f * D_84390114 * 0.5f)) + (3.0f * D_84390110);
     arg0[3] = D_8439010C;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_8210C5CC.s")
-#endif

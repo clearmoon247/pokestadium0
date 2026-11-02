@@ -530,11 +530,13 @@ s32 func_80025130(s32 arg0) {
     return 1;
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025168; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025168.s")
-#endif
+M2C_UNK func_80023F38(s32, s32, M2C_UNK);
+M2C_UNK func_80023F38(M2C_UNK, M2C_UNK, M2C_UNK);
+s32 func_80025168(s8 arg0) {
+    M2C_FIELD(D_800AE8E0, s8 *, 0x7A42) = arg0;
+    func_80023F38(0x14, 0, 2);
+    return 1;
+}
 
 s32 func_800251A8(void)
 {
@@ -551,11 +553,12 @@ u8 func_80025214(void) {
     return M2C_FIELD(D_800AE8E0, u8 *, 0x7A43);
 }
 
-#ifdef NON_MATCHING
-/* TODO: decompile func_80025224; signature not recovered. */
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80025224.s")
-#endif
+M2C_UNK func_80023F38(s32, s32, M2C_UNK);
+M2C_UNK func_80023F38(M2C_UNK, M2C_UNK, M2C_UNK);
+void func_80025224(s8 arg0) {
+    M2C_FIELD(D_800AE8E0, s8 *, 0x7A43) = arg0;
+    func_80023F38(0x14, 0, 2);
+}
 
 #ifdef NON_MATCHING
 /* TODO: decompile func_80025260; signature not recovered. */

@@ -11,8 +11,6 @@ char* func_8002E160_jp(s32 item_id, char* dest);
 s32 LabItem_IsQuantitylessItem(s32 arg0);
 s32 LabItem_IsQuantitylessItemForOperation(s32 arg0);
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data/rodata data that is not placed in this file yet.
 // Copies the Japanese description of Generation I item `item_id` into `dest`, or an empty string
 // when the id is outside 0-255 or has no description. Returns `dest`.
 char* func_8002E160_jp(s32 item_id, char* dest) {
@@ -75,14 +73,14 @@ char* func_8002E160_jp(s32 item_id, char* dest) {
         "ひんしのポケモンのＨＰを　さいだいち\nの　はんぶん　かいふくする。　",
         "ひんしじょうたいの　ポケモンのＨＰを\nまんたんに　してくれる。",
         "そのたたかいの　あいだだけ　あいての\nとくしゅこうげきを　ふせいでくれる。",
-        "ポケモンが　ちかよらなくなる。\nむしよけスプレーより　ながくきく。",
-        "ポケモンが　ちかよらなくなる。\nシルバースプレーより　ながくきく。",
+        "ポケモンが　ちかよらなくなる。\nむしよけスプレーより　ながく　きく。",
+        "ポケモンが　ちかよらなくなる。\nシルバースプレーより　ながく　きく。",
         "そのたたかいの　あいだだけ　こうげき\nが　きゅうしょに　あたりやすくなる。",
         "",
         "つかうと　ポケモンの\nＨＰを　５０かいふくしてくれる。",
         "つかうと　ポケモンの\nＨＰを　６０かいふくしてくれる。",
         "つかうと　ポケモンの\nＨＰを　８０かいふくしてくれる。",
-        "ごうかきゃくせんサント・アンヌごうに\nのることが　できる。",
+        "ごうかきゃくせん　サント・アンヌごう\nに　のることが　できる。",
         "サファリゾーンの　えんちょうが\nなくして　こまっているらしい。",
         "そのたたかいの　あいだだけ　こうげき\nりょくを　あげてくれる。",
         "そのたたかいの　あいだだけ　ぼうぎょ\nりょくを　あげてくれる。",
@@ -255,7 +253,7 @@ char* func_8002E160_jp(s32 item_id, char* dest) {
         "リフレクター　　エスパー　ＰＰ／２０\nいりょく／−−　　めいちゅう／１００",
         "がまん　　　　　ノーマル　ＰＰ／１０\nいりょく／−−　　めいちゅう／１００",
         "ゆびをふる　　　ノーマル　ＰＰ／１０\nいりょく／−−　　めいちゅう／１００",
-        "じばく　　　　　ノーマル　ＰＰ／５\nいりょく／２００　めいちゅう／１００",
+        "じばく　　　　　ノーマル　ＰＰ／５\nいりょく／１３０　めいちゅう／１００",
         "タマゴばくだん　ノーマル　ＰＰ／１０\nいりょく／１００　めいちゅう／７５",
         "だいもんじ　　　ほのお　　ＰＰ／５\nいりょく／１２０　めいちゅう／８５",
         "スピードスター　ノーマル　ＰＰ／２０\nいりょく／６０　　めいちゅう／１００",
@@ -266,7 +264,7 @@ char* func_8002E160_jp(s32 item_id, char* dest) {
         "ねむる　　　　　エスパー　ＰＰ／１０\nいりょく／−−　　めいちゅう／１００",
         "でんじは　　　　でんき　　ＰＰ／２０\nいりょく／−−　　めいちゅう／１００",
         "サイコウェーブ　エスパー　ＰＰ／１５\nいりょく／−−　　めいちゅう／８０",
-        "だいばくはつ　　ノーマル　ＰＰ／５\nいりょく／２５０　めいちゅう／１００",
+        "だいばくはつ　　ノーマル　ＰＰ／５\nいりょく／１７０　めいちゅう／１００",
         "いわなだれ　　　いわ　　　ＰＰ／１０\nいりょく／７５　　めいちゅう／９０",
         "トライアタック　ノーマル　ＰＰ／１０\nいりょく／８０　　めいちゅう／１００",
         "みがわり　　　　ノーマル　ＰＰ／１０\nいりょく／−−　　めいちゅう／１００",
@@ -286,12 +284,7 @@ char* func_8002E160_jp(s32 item_id, char* dest) {
     }
     return dest;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80031BC0.s")
-#endif
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses data data that is not placed in this file yet.
 s32 LabItem_IsQuantitylessItem(s32 arg0) {
     static u8 D_80075950[] = {
         5,    6,    8,    9,    0x1F, 0x29, 0x2A, 0x2B, 0x2D, 0x30, 0x3F, 0x40, 0x45,
@@ -308,9 +301,6 @@ s32 LabItem_IsQuantitylessItem(s32 arg0) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/1060/func_80031C24.s")
-#endif
 
 s32 LabItem_IsQuantitylessItemForOperation(s32 arg0) {
     s32 sp1C = 0;

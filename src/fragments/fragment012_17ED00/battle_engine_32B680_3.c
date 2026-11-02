@@ -613,11 +613,14 @@ void func_82153FD8(void) {
     func_8213B5D8(0, 0xC, 0xA, &func_82153C50, &D_8218E6A8, 0x14, 1, 4, (s32) D_8219A80A, 0, 0);
 }
 
+extern const f32 D_FLT_82196CB8;
+extern const f32 D_FLT_82196EC8;
+extern const f32 D_FLT_82196ECC;
 #ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+// Matches the ROM, but uses rodata/data data that is not placed in this file yet.
 void func_82154050(Particle* arg0) {
     f32 offset = 0.0f;
-    f32 scale = 0.12f;
+    f32 scale = D_FLT_82196CB8;
 
     switch (BattleAnim_GetOwnerSpecies(arg0->unk_10)) {
         case 0xF:
@@ -660,11 +663,11 @@ void func_82154050(Particle* arg0) {
             offset = 3.0f;
             break;
         case 0x82:
-            scale = 0.08f;
+            scale = D_FLT_82196EC8;
             Particle_Field38_AddYScaled_08E90(arg0, 5.0f);
             break;
         case 0x83:
-            scale = 0.08f;
+            scale = D_FLT_82196ECC;
             offset = 5.0f;
             break;
         case 0x86:

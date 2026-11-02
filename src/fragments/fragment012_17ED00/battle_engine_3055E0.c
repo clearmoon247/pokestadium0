@@ -625,8 +625,7 @@ void func_8212311C(CameraNode* arg0, ActivePokemon* arg1, Color_RGBA8 arg2) {
     BattleScene_SetCameraEyeFromAt(arg0, sp4E, sp52, gCameraDistTarget, 0.0f);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82196258;
 void func_82123314(CameraNode* arg0, ActivePokemon* arg1) {
     u8* ptr = (u8*)&arg1->modelTransform;
     Vec3f sp50;
@@ -641,15 +640,12 @@ void func_82123314(CameraNode* arg0, ActivePokemon* arg1) {
     BattleAnim_Vec3fCopy(&sp38, &arg0->view.targetPosition);
     Camera_ComputeEyeFromAngles(&sp50, &sp44, M2C_FIELD(ptr, f32*, 0x38), M2C_FIELD(ptr, s16*, 0x30), M2C_FIELD(ptr, s16*, 0x32));
     BattleAnim_CalculateDistanceAngles(&sp38, &sp44, &sp28, &sp26, &sp24);
-    Camera_ComputeEyeFromAngles(&sp38, &sp2C, sp28 * 0.1f, sp26, sp24);
+    Camera_ComputeEyeFromAngles(&sp38, &sp2C, sp28 * D_FLT_82196258, sp26, sp24);
     arg0->view.targetPosition.y = sp2C.y;
     if (arg0->view.targetPosition.y <= 15.0f) {
         arg0->view.targetPosition.y = 15.0f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82123314.s")
-#endif
 
 void BattleScene_RecenterCameraOnOwner(CameraNode* arg0, ActivePokemon* arg1) {
     Vec3f sp74;
@@ -724,8 +720,7 @@ void BattleScene_SetCameraFollowPresetNear(CameraNode* arg0, ActivePokemon* arg1
     BattleScene_SetCameraEyeFromPosition(arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, sp3E - (arg1->facingDirection * 0x1555), D_8219A534, func_82107EC8(arg1) * 2.0f);
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f64 D_DBL_82196260;
 void BattleScene_SetCameraPresetLowClose(CameraNode* arg0, ActivePokemon* arg1) {
     s16 sp3E;
 
@@ -735,14 +730,11 @@ void BattleScene_SetCameraPresetLowClose(CameraNode* arg0, ActivePokemon* arg1) 
     BattleScene_SetCameraAtFromAnchor(arg1, arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, BattleScene_GetParticipantFacingAngle(arg1), gCameraDistTarget, 0.0f);
     sp3E = BattleScene_GetParticipantFacingAngle(arg1);
     BattleScene_SetCameraEyeFromPosition(arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, sp3E - (arg1->facingDirection * 0x1555), D_8219A534,
-                  -func_82107EC8(arg1) * 0.8);
+                  -func_82107EC8(arg1) * D_DBL_82196260);
     if (M2C_FIELD(arg0, f32*, 0xAC) <= 15.0f) {
         M2C_FIELD(arg0, f32*, 0xAC) = 15.0f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82123AEC.s")
-#endif
 
 void BattleScene_CameraShotTargetClose(CameraNode* arg0, ActivePokemon* arg1) {
     BattleAnim_GetOwnerDefaultAnchorPosition(arg1, &sBattleScene.scene->unk_D0);
@@ -773,20 +765,16 @@ void func_82123F44(CameraNode* arg0, ActivePokemon* arg1) {
     BattleScene_SetCameraEyeFromPosition(arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, arg1->facingDirection * 0xE38, gCameraDistTarget, 2.0f * func_82107EC8(arg1));
 }
 
-#ifdef NON_MATCHING
-// Matches the ROM, but uses rodata data that is not placed in this file yet.
+extern const f32 D_FLT_82196268;
 void func_82124054(CameraNode* arg0, ActivePokemon* arg1) {
     BattleAnim_GetOwnerDefaultAnchorPosition(arg1, &M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0));
     gCameraDistTarget = BattleScene_ScaleCameraDistance(arg1, 5.0f, 400.0f);
     BattleScene_SetCameraAtFromAnchor(arg1, arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, arg1->facingDirection << 0xE, 0.0f, 0.0f);
-    BattleScene_SetCameraEyeFromPosition(arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, arg1->facingDirection * 0xE38, gCameraDistTarget, -func_82107EC8(arg1) * 0.8f);
+    BattleScene_SetCameraEyeFromPosition(arg0, M2C_FIELD(sBattleScene.scene, Vec3f*, 0xC0), 0, arg1->facingDirection * 0xE38, gCameraDistTarget, -func_82107EC8(arg1) * D_FLT_82196268);
     if (M2C_FIELD(arg0, f32*, 0xAC) <= 15.0f) {
         M2C_FIELD(arg0, f32*, 0xAC) = 15.0f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/fragments/fragment012_17ED00/func_82124054.s")
-#endif
 
 void func_82124194(CameraNode* arg0, ActivePokemon* arg1) {
     BattleAnim_GetOwnerDefaultAnchorPosition(arg1, &sBattleScene.scene->unk_D0);

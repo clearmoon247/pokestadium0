@@ -45,6 +45,10 @@
   "src/fragments/fragment011_17E340/area_select.c": {
     ".data": "0x818007CC"
   },
+  "src/fragments/fragment012_17ED00/battle_engine_2F6930.c": {
+    ".bss": "0x82199E50",
+    ".rodata": "0x82195410"
+  },
   "src/fragments/fragment012_17ED00/battle_engine_3055E0.c": {
     ".rodata": {
       "address": "0x82196238",
@@ -126,6 +130,13 @@
   "src/fragments/fragment012_17ED00/battle_engine_343BA0_8.c": {
     ".rodata": {
       "address": "0x8219792C",
+      "size": "0x8"
+    },
+    ".data": "0x82191A10"
+  },
+  "src/fragments/fragment012_17ED00/battle_engine_347330.c": {
+    ".rodata": {
+      "address": "0x821979F8",
       "size": "0x8"
     }
   },
@@ -262,6 +273,10 @@
   "src/jpeg_stream.c": {
     ".rodata": "0x80079400"
   },
+  "src/lab_item.c": {
+    ".data": "0x80073710",
+    ".rodata": "0x8007BA60"
+  },
   "src/leo.c": {
     ".rodata": "0x800798D0"
   },
@@ -361,6 +376,9 @@
   },
   "src/matrix.c": {
     ".rodata": "0x80079A50"
+  },
+  "src/poke_icon_2.c": {
+    ".data": "0x800607C0"
   },
   "src/pokemon_stats_2.c": {
     ".rodata": "0x8007B6D0"
