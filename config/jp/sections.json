@@ -324,6 +324,9 @@
   "src/libultra/audio/sl.c": {
     ".data": "0x80077BE0"
   },
+  "src/libultra/audio/synthesizer.c": {
+    ".rodata": "0x8007F7D0"
+  },
   "src/libultra/gu/cosf.c": {
     ".rodata": "0x8007F800"
   },
@@ -353,6 +356,9 @@
   "src/libultra/io/controller.c": {
     ".bss": "0x801027D0",
     ".data": "0x80077F00"
+  },
+  "src/libultra/io/devmgr.c": {
+    ".rodata": "0x8007F6B0"
   },
   "src/libultra/io/driverominit.c": {
     ".bss": "0x80102880"

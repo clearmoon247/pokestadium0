@@ -1,5 +1,9 @@
 # First matching pass
 
+This page records the historical first pass. Current verified totals are in
+[COVERAGE.md](../COVERAGE.md); the latest continuation is recorded in
+[matching-2026-11-01.md](matching-2026-11-01.md).
+
 This pass put C into the tree for every function that matched without hand
 work, from two sources:
 

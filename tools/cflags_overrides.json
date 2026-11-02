@@ -298,6 +298,12 @@
     "opt": "-O3",
     "profile": "ultralib"
   },
+  "src/libultra/audio/synthesizer.c": {
+    "ido": "5.3",
+    "opt": "-O3",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/gu/cosf.c": {
     "extra": [],
     "ido": "5.3",
@@ -393,6 +399,12 @@
     "opt": "-O3",
     "profile": "ultralib"
   },
+  "src/libultra/io/aisetfreq.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/aisetnextbuf.c": {
     "ido": "5.3",
     "opt": "-O1",
@@ -420,6 +432,12 @@
     "opt": "-O1",
     "profile": "ultralib"
   },
+  "src/libultra/io/conteepprobe.c": {
+    "ido": "5.3",
+    "opt": "-O2",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/contreaddata.c": {
     "ido": "5.3",
     "opt": "-O2",
@@ -431,6 +449,12 @@
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/devmgr.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/io/dpctr.c": {
@@ -458,6 +482,24 @@
     "ido": "5.3",
     "mips": "-mips2",
     "opt": "-O1",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epirawdma.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epirawread.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/epirawwrite.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
     "profile": "ultralib"
   },
   "src/libultra/io/epiread.c": {
@@ -519,6 +561,12 @@
     "opt": "-O1",
     "profile": "ultralib"
   },
+  "src/libultra/io/pirawdma.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
   "src/libultra/io/pirawread.c": {
     "ido": "5.3",
     "opt": "-O1",
@@ -551,6 +599,12 @@
     "profile": "ultralib"
   },
   "src/libultra/io/sp.c": {
+    "ido": "5.3",
+    "opt": "-O1",
+    "mips": "-mips2",
+    "profile": "ultralib"
+  },
+  "src/libultra/io/sprawdma.c": {
     "ido": "5.3",
     "opt": "-O1",
     "mips": "-mips2",
